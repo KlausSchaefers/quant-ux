@@ -3,6 +3,7 @@ var vommonLoggingQueue = []
 var vommonLoggingQueuePos = 0
 var vommonLoggingQueueMax = 50
 var vommonLoggingDebugLevel = 0
+var vommonLoggingErrorListener = null
 
 
 export default class Logger {
@@ -18,6 +19,10 @@ export default class Logger {
 		this.className = className;
 	}
 
+	static setErrorCallback(callback) {
+		vommonLoggingErrorListener = callback
+	}
+
 	setUser (){
 	}
 
@@ -29,7 +34,7 @@ export default class Logger {
 			});
 			for(var i=0; i < vommonLoggingQueue.length - 1; i++){
 				if(vommonLoggingQueue[i]){
-					q+=new Date(vommonLoggingQueue[i].t).toISOString() + " - "  + vommonLoggingQueue[i].m +"\n";
+					q+= vommonLoggingQueue[i].m +"\n";
 				}
 			}
 		} catch (e){
@@ -40,7 +45,11 @@ export default class Logger {
 
 
 	sendError (e){
-		console.error('Error', e)
+		if (vommonLoggingErrorListener) {
+			vommonLoggingErrorListener(e, this.writeQueue())
+		} else {
+			console.error('sendError() >> ', e)
+		}
 	}
 
 	error (meth, message, error) {
@@ -50,10 +59,12 @@ export default class Logger {
 			console.error(error.message);
 			console.error(error.stack);
 		}
+		this.saveLog('ERROR', meth, message)
 	}
 
 	warn (method, message, obj){
 		this.warning(0, method, message, obj);
+		this.saveLog('WARN', method, message)
 	}
 
 	info (method, message, data1){
@@ -104,16 +115,17 @@ export default class Logger {
 				}
 			}
 		}
+		this.saveLog('LOG', method, message)
+	}
 
-		if(this.serverDebugLevel > level){
-			var entry = {
-				t: new Date().getTime(),
-				m : m+ " >> " + message
-			}
-			vommonLoggingQueue[vommonLoggingQueuePos] = entry;
-			vommonLoggingQueuePos = (vommonLoggingQueuePos+1) % vommonLoggingQueueMax;
+	saveLog(level, method, message) {
+		var m = level + ':: ' + this.className + "." + method + " >> " + message;
+		const entry = {
+			t: new Date().getTime(),
+			l: level,
+			m : m+ " >> " + message
 		}
-
-
+		vommonLoggingQueue[vommonLoggingQueuePos] = entry;
+		vommonLoggingQueuePos = (vommonLoggingQueuePos+1) % vommonLoggingQueueMax;
 	}
 }

@@ -5,7 +5,6 @@ class Logger {
   }
 
   setLogLevel (l) {
-      console.debug('SetLogLevel', l)
       this.logLevel = l
   }
 

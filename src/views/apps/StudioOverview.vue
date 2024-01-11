@@ -16,7 +16,7 @@
                 v-if="app.id && user.id && appLoaded" 
                 :appID="app.id" 
                 :userID="user.id" 
-                :team="team"/>
+                :qteam="team"/>
                 
               <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab === 'analyze'"
                   :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`" id="overviewHeaderRunTest">

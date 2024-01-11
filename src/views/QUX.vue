@@ -5,6 +5,7 @@
       <QHeader :user="user" @login="onLogin" @logout="onLogout" v-if="hasHeader"/>
       <router-view ></router-view>
     </div>
+    <ErrorDialog ref="errorDialog"></ErrorDialog>
   </div>
 </template>
 <style lang="scss">
@@ -19,6 +20,7 @@ import LoginPage from 'views/LoginPage'
 import Header from 'views/Header'
 import Services from 'services/Services'
 import Logger from 'common/Logger'
+import ErrorDialog from 'common/ErrorDialog'
 import win from 'dojo/win'
 import css from 'dojo/css'
 
@@ -43,6 +45,7 @@ export default {
   },
   components: {
     'QHeader': Header,
+    'ErrorDialog': ErrorDialog,
     'LoginPage': LoginPage
   },
   computed: {
@@ -72,6 +75,9 @@ export default {
 			} else {
         this.hasHeader = false
 			}
+    },
+    showErrorDetails (e, trace) {
+      this.$refs.errorDialog.show(e, trace)
     }
   },
   watch :{
@@ -81,12 +87,14 @@ export default {
   },
   async mounted() {
     this.logger = new Logger('QUX')
+    Logger.setErrorCallback((e,trace) => this.showErrorDetails(e, trace))
     this.initRoute()
     this.user = await Services.getUserService().load()
     this.logger.log(-1, 'mounted', "locale: " + navigator.language)
     this.$root.$on('MatcLogout', (user) => {
         this.onLogout(user)
     })
+    this.logger.sendError(new Error("Boots"))
   }
 };
 </script>

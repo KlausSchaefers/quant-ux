@@ -37,9 +37,10 @@ import Services from "services/Services";
 export default {
   name: "Team",
   mixins: [Util, Plan, _Tooltip, DojoWidget],
-  props: ["appID", "userID", "team"],
+  props: ["appID", "userID", "qteam"],
   data: function () {
     return {
+      team:[],
       isSaving: false,
       //team: []
     };
@@ -58,19 +59,13 @@ export default {
       this.logger.log(4,"postCreate", "enter >" + this.appID + " > " + this.userID + " > " + this.reference);
       this.db = new DomBuilder();
       if (this.appID && this.userID) {
-        this.load();
+        //this.load();
       }
     },
 
     async load() {
-      // if (this.qteam) {
-      //   this.setTeamLoaded(this.qteam);
-      // } else {
-      //   // let team = await Services.getModelService().findTeam(this.appID);
-      //   // this.setTeamLoaded(team);
-      // }
-
-
+        let team = await Services.getModelService().findTeam(this.appID);
+        this.setTeamLoaded(team);
     },
 
     setTeamLoaded (team) {
@@ -293,6 +288,16 @@ export default {
       //this.cntr.innerHTML = "";
     },
   },
-  mounted() {},
+  watch: {
+    qteam(t) {
+      this.setTeamLoaded(t)
+    }
+  },
+  mounted() {
+    console.debug(this.qteam)
+    if (this.qteam) {
+      this.setTeamLoaded(this.qteam)
+    }
+  },
 };
 </script>
