@@ -12,7 +12,7 @@
 
 .MatcLoginPageDialog {
 	position: fixed;
-    transform: translateY(-50%) translateX(-200px);
+  transform: translateY(-50%) translateX(-200px);
 	top:50%;
 	left:50%;
 }
@@ -43,7 +43,18 @@
 
 
   .MatcLoginPageForm{
-    height: 180px;
+
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+
+    .form-group {
+      margin-bottom: 0px;
+    }
+
+    .MatcErrorLabel {
+      margin-bottom: 16px;
+    }
   }
 
   .MatcErrorLabel {
@@ -81,11 +92,7 @@
   }
 
   .MatcLoginCallToAction {
-
     padding: 0;
-    
-
-
   }
 
 

@@ -21,8 +21,11 @@
                                         <label class="">Password</label>
                                         <input class=" form-control" placeholder="Your password" type="password" v-model="password" @keyup.enter="login">
                                     </div>
+                                    
+                                    <span class="MatcErrorLabel" v-show="errorMessage">{{errorMessage}}</span>
+
                                 </div>
-                                <span class="MatcErrorLabel" v-show="errorMessage">{{errorMessage}}</span>
+                          
                                 <div class="MatcButtonBar">
                                     <a class="MatcButton MatcButtonPrimary" @click="login">Login</a>
                                     <a class="MatcLinkButton" @click="requestPasswordReset" v-if="hasLoginError">Reset Password</a>
@@ -50,10 +53,12 @@
                                         <span @click="tos=true">I accept the <a href="#/tos.html" target="_blank">terms of service</a></span>
                                         </div>
                                     </div>
+                                    <span class="MatcErrorLabel">{{errorMessage}}</span>
                                 </div>
-                                <span class="MatcErrorLabel">{{errorMessage}}</span>
+                                
                                 <div class="MatcButtonBar">
                                     <a class="MatcButton MatcButtonPrimary" @click="signup">SignUp</a> 
+                          
                                 </div>
                             </div>
                         </div> <!-- new -->

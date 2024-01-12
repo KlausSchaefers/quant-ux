@@ -20,7 +20,7 @@
 
                     <div class="MatcStudioNavRow MatcMarginTop MatcCollapseViewMinVisible" @click="showNewDialog">
                         <a class="MatcLink">
-                            <QIcon icon="Plus" :tooltip="$t('app.create')"></QIcon>
+                            <QIcon icon="Plus" :tooltip="$t('app.create')" ></QIcon>
                         </a>
                     </div>
 

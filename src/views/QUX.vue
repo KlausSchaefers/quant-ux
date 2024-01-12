@@ -3,7 +3,7 @@
     <LoginPage v-if="isGuest" :user="user" @login="onLogin"/>
     <div class="MatcContainer" v-else>
       <QHeader :user="user" @login="onLogin" @logout="onLogout" v-if="hasHeader"/>
-      <router-view ></router-view>
+      <router-view  @logout="onLogout"></router-view>
     </div>
     <ErrorDialog ref="errorDialog"></ErrorDialog>
   </div>
@@ -59,8 +59,9 @@ export default {
       this.logger.info('onLogin', 'exit >> ' + this.user.email)
     },
     onLogout (guest) {
+      console.debug('onLogout', 'enter')
       this.user = guest
-      this.logger.info('onLogin', 'exit >> ' + this.user.email)
+      this.logger.info('onLogout', 'exit >> ' + this.user.email)
     },
     scrollTop () {
       window.scrollTo(0,0)
@@ -91,6 +92,10 @@ export default {
     this.initRoute()
     this.user = await Services.getUserService().load()
     this.logger.log(-1, 'mounted', "locale: " + navigator.language)
+    window.onerror = (message, source, lineno, colno, error) => {
+      this.showErrorDetails(error, source)
+      return true;
+    };
     this.$root.$on('MatcLogout', (user) => {
         this.onLogout(user)
     })
