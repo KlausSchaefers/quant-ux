@@ -47,7 +47,7 @@ export default class YAMLImporter extends HTMLImporter {
         }
   
         const tree = this.parseNode(nodes, root)
-        this.layoutTree(tree, width - this.containerPadding * 2, this.containerPadding)
+        this.layoutTree(tree, width - this.containerPadding * 2, this.containerPadding, this.containerPadding)
         const app = this.flattenTree(tree, width, height, options)     
         const scalledApp = this.scalledApp(app)
         const layedOutApp = this.layoutApp(scalledApp)
@@ -297,6 +297,14 @@ export default class YAMLImporter extends HTMLImporter {
             color: "@label-color",
             textShadow: null
         }
+
+        if (type === 'CONTAINER') {
+            result.borderColor = "@form-color"
+            result.borderWidth = "@border-width"
+            result.borderStyle = "solid"
+            result.padding = 0
+        }
+
 
         if (type === 'BUTTON') {
             result.background = "@button-primary-background"

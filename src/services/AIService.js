@@ -50,7 +50,6 @@ export default class AIService extends AbstractService {
 
         try {
             const res = await this._post('/ai/openai.json', data)
-            console.debug(res)
             if (res.choices && res.choices.length > 0) {
                 const choice = res.choices[0]
                 const content = choice?.text
@@ -439,13 +438,13 @@ export default class AIService extends AbstractService {
     }
 
     extractYAML (content) {
-        console.debug('extractYAML', content)
         try {
             content = content.split('\n').slice(1, -1).join('\n')
             return {
                 yaml: content
             }
         } catch (e) {
+            console.debug('extractYAML', content)
             console.error(e)
         }
         return {
