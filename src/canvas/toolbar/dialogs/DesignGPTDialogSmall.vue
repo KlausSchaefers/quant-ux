@@ -284,6 +284,8 @@ export default {
                 return
             }
 
+            localStorage.setItem('quxOpenAILastPrompt', this.prompt)
+
             this.promptHistory.push(this.prompt)
             this.tab = 'waiting'
             this.isRunningAI = true
@@ -320,8 +322,8 @@ export default {
             }
             if (this.gptVersion === 'gpt4-turbo-yaml') {
 
-                return aiService.runFakeYaml3()
-                //return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
+                //return aiService.runFakeYamlBug()
+                return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
 
             return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
@@ -346,7 +348,7 @@ export default {
         
         getWaitingMessages () {
             const waitingMessages = []
-            for (let i = 1; i <= 4; i++) {
+            for (let i = 1; i <= 5; i++) {
                 waitingMessages.push({
                     hint: this.getNLS('design-gpt.hint-' + i),
                     prompt: this.getNLS('design-gpt.hint-' + i + '-prompt'),
@@ -539,9 +541,15 @@ export default {
         if (!this.openAIKey) {
             this.tab = 'settings'
         }
-        if (location.href.indexOf('localhost') > 0) {
-            this.prompt = 'Create a signup page with a funny message'
+        let lastPrompt =  localStorage.getItem('quxOpenAILastPrompt')
+        if (lastPrompt) {
+            this.prompt = lastPrompt
         }
+        // if (location.href.indexOf('localhost') > 0) {
+        //     this.prompt = `
+
+        //     `
+        // }
     }
 }
 </script>

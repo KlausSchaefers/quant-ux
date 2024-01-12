@@ -66,124 +66,35 @@ export default class AIService extends AbstractService {
         }
     }
 
-    runFakeYaml (ms = 200) {
-        return new Promise(resolve => {
-            setTimeout(() => {
-            resolve({
-                yaml:`
-                CONTAINER:
-                    FLEX-DIRECTION: COLUMN
-                    CHILDREN:
-                        - IMAGE:
-                            CONTENT: "Join the Party!"
-                        - LABEL:
-                            TYPE: Paragraph
-                            COLOR: 'red'
-                            BACKGROUND: 'blue'
-                            CONTENT: "Come on in! The more the merrier. But first, we need some details"
-                        - INPUT:
-                            TYPE: Text
-                            PLACEHOLDER: "Username"
-                        - INPUT:
-                            TYPE: Password
-                            PLACEHOLDER: "Password"
-                        - INPUT:
-                            TYPE: Text
-                            PLACEHOLDER: "Email"
-                        - INPUT:
-                            TYPE: Checkbox
-                            PLACEHOLDER: "I agree to terms and conditions"
-                        - CONTAINER:
-                            FLEX-DIRECTION: ROW
-                            CHILDREN:
-                            - BUTTON:
-                                CONTENT: "Sign Up"
-                            - BUTTON:
-                                CONTENT: "Login"
-                        - INPUT:
-                            TYPE: Checkbox
-                            PLACEHOLDER: "I agree to terms and conditions"
-            ` })
-        }, ms)
-        })
-    }
-
-    runFakeYaml2 (ms = 200) {
+    runFakeYamlBug (ms = 200) {
 
         return new Promise(resolve => {
             setTimeout(() => {
             resolve({
                 yaml:`
-                CONTAINER:
-                    FLEX-DIRECTION: COLUMN
-                    CHILDREN:
-                        - TABLE:
-                            COLUMNS: ["ID", "Username", "Email", "Role"]
-                            DATA:
-                            - ["1", "johndoe", "john@example.com", "Member"]
-                            - ["2", "janedoe", "jane@example.com", "Admin"]
-                            - ["3", "stevesmith", "steve@example.com", "Member"]
-                            - ["4", "maryjohnson", "mary@example.com", "Moderator"]
-                            COLOR: "#000000"
-                            BACKGROUND: "#FAFAFA"
-                            BORDER_COLOR: "#E0E0E0"
-                        - CONTAINER:
-                            FLEX-DIRECTION: COLUMN
-                            CHILDREN:
+                    CONTAINER:
+                        FLEX-DIRECTION: COLUMN
+                        CHILDREN:
                             - LABEL:
-                                TYPE: Headline
-                                CONTENT: "Welcome to Our Startup"
-                                COLOR: 'red'
-                                BACKGROUND: 'blue'
-                                BORDER_COLOR: 'yellow'
-                            - BUTTON:
-                                CONTENT: "MORE."
-                                BORDER_COLOR: 'yellow'
-
-                        - CONTAINER:
-                            FLEX-DIRECTION: ROW
-                            CHILDREN:
-                            - BUTTON:
-                                CONTENT: "Learn More"
-                            - BUTTON:
-                                CONTENT: "Contact Us"
-
-                        - CONTAINER:
-                            FLEX-DIRECTION: COLUMN
-                            CHILDREN:
-                            - LABEL:
-                                TYPE: Headline
-                                CONTENT: "Sign Up Now"
-                            - LABEL:
-                                TYPE: Label
-                                CONTENT: "Full Name"
+                                CONTENT: "Sign Up for Our Newsletter"
+                                TYPE: "Headline"
+                                COLOR: "#333333"
                             - INPUT:
-                                TYPE: Text
                                 PLACEHOLDER: "Enter your name"
-
-                            - LABEL:
-                                TYPE: Label
-                                CONTENT: "Email"
-                            - INPUT:
-                                TYPE: Text
-                                PLACEHOLDER: "Enter your email"
-
-                            - LABEL:
-                                TYPE: Label
-                                CONTENT: "Password"
-                            - INPUT:
-                                TYPE: Password
-                                PLACEHOLDER: "Enter a secure password"
-
-                            - LABEL:
-                                TYPE: Label
-                                CONTENT: "Confirm Password"
-                            - INPUT:
-                                TYPE: Password
-                                PLACEHOLDER: "Re-enter your password"
-                            
+                                TYPE: "Text"
+                                BORDER_COLOR: "#CCCCCC"
+                            - RADIO_GROUP:
+                                OPTIONS: ["Male", "Female", "Other"]
+                            - CHECKBOX_GROUP:
+                                OPTIONS: ["Sports", "School", "Music", "Cars"]
+                            - DATE_PICKER:
+                            - DROPDOWN:
+                                OPTIONS: ["Classic", "Rock", "Blues", "Techno", "Trance", "House", "Rap", "Soul", "K-Pop"]
                             - BUTTON:
-                                CONTENT: "Register Now"
+                                CONTENT: "Submit"
+                                BACKGROUND: "#1A73E8"
+                                COLOR: "#FFFFFF"
+      
         ` })
             }, ms)
         })
@@ -206,31 +117,31 @@ export default class AIService extends AbstractService {
                                         CONTENT: "Join the Fun!"
                                         COLOR: "#333333"
                             - CONTAINER:
-                                FLEX-DIRECTION: ROW
-                                CHILDREN:
-                                    - LABEL:
-                                        TYPE: "Paragraph"
-                                        CONTENT: "Did you hear about the mathematician who's afraid of negative numbers? He'll stop at nothing to avoid them!"
-                                        COLOR: "#555555"
-                            - CONTAINER:
                                 FLEX-DIRECTION: COLUMN
                                 CHILDREN:
+                                - DROPDOWN:
+                                    CONTENT: "Select"
+                                    OPTIONS: ["f", "e"]
+                                    TYPE: "Text"
+                                    BORDER_COLOR: "#CCCCCC"
                                 - INPUT:
                                     PLACEHOLDER: "Username"
                                     TYPE: "Text"
                                     BORDER_COLOR: "#CCCCCC"
-                                - INPUT:
-                                    PLACEHOLDER: "Email"
+                                - RADIO_GROUP:
+                                    OPTIONS: ["B", "C"]
                                     TYPE: "Text"
-                                    BORDER_COLOR: "#CCCCCC"
-                                - INPUT:
-                                    PLACEHOLDER: "Password"
-                                    TYPE: "Password"
                                     BORDER_COLOR: "#CCCCCC"
                                 - INPUT:
                                     PLACEHOLDER: "Confirm Password"
                                     TYPE: "Password"
                                     BORDER_COLOR: "#CCCCCC"
+                                - CHECKBOX_GROUP:
+                                    OPTIONS: ["A", "B"]
+                                    TYPE: "Password"
+                                    BORDER_COLOR: "#CCCCCC"
+                                - DATE_PICKER:
+                                    BORDER_COLOR: "#CCCCCC"    
                             - CONTAINER:
                                 FLEX-DIRECTION: ROW
                                 CHILDREN:
@@ -371,7 +282,21 @@ export default class AIService extends AbstractService {
             TABLE: An element to present a table. It has a COLUMNS element which is a list of column names. 
             It also has a DATA element which is an ARRAY of ARRAY of string values.
 
+            RADIO_GROUP: An element where the user can select one of several options. The ELEMENT has an OPTIONS child element, which is ARRAY of strings and 
+            describes the different options the user can choose from. RADIO_GROUP elements are only used when the number of choices is less then 5. 
+
+            CHECKBOX_GROUP: An element where the user can select one or more of several options. The ELEMENT has an OPTIONS child element, which is ARRAY of strings and 
+            describes the different options the user can choose from. RADIO_GROUP elements are only used when the number of choices is less then 5. 
+
+            DROPDOWN: An element which will render a dropdown menu where the user can select on of a large number of options. The ELEMENT has an OPTIONS 
+            child element, which is ARRAY of strings and describes the different options the user can choose from. DROPDOWN elements are only used when 
+            the number of choices is more than 5.
+            
+            DATE_PICKER: An element that allows the user to pick a date. It will open a calendar view. The DATE_PICKER has a content element.
+
             Each element can have a COLOR, BACKGROUND and BORDER_COLOR element to describe the visual appearance. The values are hex color codes.
+
+            INPUT, DROPDOWN and DATE_PICKER elements can have an label above them to help the user understand what data the need to input.
 
             Please generate :
 

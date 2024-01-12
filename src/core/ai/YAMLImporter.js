@@ -48,9 +48,7 @@ export default class YAMLImporter extends HTMLImporter {
   
         const tree = this.parseNode(nodes, root)
         this.layoutTree(tree, width - this.containerPadding * 2, this.containerPadding)
-
-        const app = this.flattenTree(tree, width, height, options)
-     
+        const app = this.flattenTree(tree, width, height, options)     
         const scalledApp = this.scalledApp(app)
         const layedOutApp = this.layoutApp(scalledApp)
         const cleanedApp = this.cleanUpModel(layedOutApp)
@@ -141,16 +139,18 @@ export default class YAMLImporter extends HTMLImporter {
         if (Object.keys(node).length === 1) {
             for (let key in node) {
                 const value = node[key]
-                const widget = this.createWidget(key, value)
-                if (parent) {
-                    parent.children.push(widget)
-                }
-                if (value.CHILDREN) {
-                    const children = value.CHILDREN
-                    children.forEach(child => {
-                        this.parseNode(child, widget)
-                    })
-                }
+                if (value) {
+                    const widget = this.createWidget(key, value)
+                    if (parent) {
+                        parent.children.push(widget)
+                    }
+                    if (value.CHILDREN) {
+                        const children = value.CHILDREN
+                        children.forEach(child => {
+                            this.parseNode(child, widget)
+                        })
+                    }
+                }             
             }
         } else {
             Logger.error('YAMLImporter.parseNode() > wrong yaml node', node)
@@ -200,7 +200,7 @@ export default class YAMLImporter extends HTMLImporter {
         return widget
     }
 
-    getHeight(type) {
+    getHeight(type, node) {
         if (type === "CONTAINER")  {
             return 0
         }
@@ -210,6 +210,14 @@ export default class YAMLImporter extends HTMLImporter {
         if (type === "TABLE")  {
             return "@box-height-l"
         }
+
+        if (type === "RADIO_GROUP" || type === 'CHECKBOX_GROUP')  {
+            if (node.OPTIONS) {
+                return node.OPTIONS.length * 40
+            }
+            return "@box-height-l"
+        }
+
         return  "@form-height"
 
     }
@@ -299,6 +307,73 @@ export default class YAMLImporter extends HTMLImporter {
             result.color = "@button-primary-color"	
             result.textAlign = "center"
             result.verticalAlign = "middle"
+        }
+
+        if (type === 'DATE_PICKER') {
+            result.background = "@form-background"
+            result.color = "@form-color"
+            result.borderColor = "@button-primary-border-color"
+            result.borderWidth = "@border-width"
+            result.borderStyle = "solid"       
+            result.borderRadius = "@border-radius"
+            result.paddingBottom = "@form-padding-vertical"
+			result.paddingTop = "@form-padding-vertical"
+			result.paddingLeft = "@form-padding-horizontal"
+			result.paddingRight = "@form-padding-horizontal"
+            result.boxShadow = "@box-shadow-m"
+            result.headerColor = "@form-color"
+            result.headerBackground = "@form-background"
+            result.selectedColor = "@form-background"
+            result.selectedInRangeBackground = "@background-passive"
+            result.selectedInRangeColor = "@color-passive"
+            result.tableHeaderColor = "@form-color"
+            result.tableHeaderBackground = "transparent"
+            result.popupBorderColor = "@form-popup-border-color"
+            result.popupBorderWidth = "@form-popup-border-width"
+            result.popupColor = "@form-popup-color"
+            result.popupBackground = "@form-popup-background"
+            result.itemBorderRadius = "@calendar-item-radius"
+
+        }
+
+        if (type === 'DROPDOWN') {
+            result.background = "@form-background"
+            result.color = "@form-color"
+            result.borderColor = "@button-primary-border-color"
+            result.borderWidth = "@border-width"
+            result.borderStyle = "solid"       
+            result.borderRadius = "@border-radius"
+            result.paddingBottom = "@form-padding-vertical"
+			result.paddingTop = "@form-padding-vertical"
+			result.paddingLeft = "@form-padding-horizontal"
+			result.paddingRight = "@form-padding-horizontal"
+            result.boxShadow = "@box-shadow-m"
+  
+            result.popupBorderColor = "@form-popup-border-color"
+            result.popupBorderWidth = "@form-popup-border-width"
+            result.popupColor = "@form-popup-color"
+            result.popupBackground = "@form-popup-background"
+            result.selectedOptionColor = "@form-popup-color:hover"
+            result.selectedOptionBackground = "@form-popup-background:hover"
+
+        }
+
+        if (type === 'RADIO_GROUP' || type === 'CHECKBOX_GROUP') {
+            result.background = "@form-background"
+            result.borderColor = "@button-primary-border-color"
+            result.borderWidth = "@border-width"
+            result.borderStyle = "solid"
+            result.color = "@form-color"
+            result.borderRadius = "@border-radius"
+
+            result.boxHeight = "@form-height"
+            result.boxMarginRight = "@spacing-s"
+            result.colorButton = "@background-active"
+
+
+            if (type === 'RadioGroup') {
+                result.borderRadius = "@border-radius-round"
+            }
         }
 
         if (type === 'TABLE') {
@@ -399,7 +474,6 @@ export default class YAMLImporter extends HTMLImporter {
         }            
 
         if (type === 'TABLE') {
-            console.debug(node)
             if (node.COLUMNS) {
                 result.columns = node.COLUMNS.map(c => {
                     return {      
@@ -413,6 +487,12 @@ export default class YAMLImporter extends HTMLImporter {
             }
             if (node.DATA) { 
                 result.data = node.DATA
+            }
+        }
+
+        if (type === 'RADIO_GROUP' || type === 'CHECKBOX_GROUP' || type === 'DROPDOWN') {
+            if (node.OPTIONS) {
+                result.options = node.OPTIONS
             }
         }
 
@@ -436,7 +516,8 @@ export default class YAMLImporter extends HTMLImporter {
             return {
                 "label": true,
                 "padding": true,
-                "advancedText": true
+                "advancedText": true,
+                "data" : true	
             }
         }
 
@@ -444,7 +525,18 @@ export default class YAMLImporter extends HTMLImporter {
             return {
                 "onclick" : true,
                 "backgroundImage" : true,
-                "borderRadius" : true
+                "borderRadius" : true,
+                "data" : true	
+            }
+        }
+
+        if (type === 'RadioGroup' || type === 'CheckBoxGroup' || type === 'DateDropDown') {
+            return {
+                "backgroundColor" : true,
+                "onclick" : true,
+                "border" : true,
+                "label" : true,
+                "data" : true	
             }
         }
         
@@ -467,6 +559,14 @@ export default class YAMLImporter extends HTMLImporter {
             return 'Table'
         }
 
+        if (type === 'CHECKBOX_GROUP') {
+            return 'CheckBoxGroup'
+        }
+
+        if (type === 'RADIO_GROUP') {
+            return 'RadioGroup'
+        }
+
         if (type === 'LABEL') {
             return 'Label'
         }
@@ -477,6 +577,14 @@ export default class YAMLImporter extends HTMLImporter {
 
         if (type === 'IMAGE') {
             return 'Image'
+        }
+
+        if (type === 'DROPDOWN'){
+            return 'DropDown'
+        }
+
+        if (type === 'DATE_PICKER') {
+            return 'DateDropDown'
         }
                
         if (type === 'INPUT') {
