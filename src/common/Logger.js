@@ -102,16 +102,16 @@ export default class Logger {
 			if(this.prefix){
 				if(m.indexOf(this.prefix) == 0){
 					if (obj){
-						console.debug(m + " >> " + message, obj);
+						console.info(m + " >> " + message, obj);
 					} else {
-						console.debug(m + " >> " + message);
+						console.info(m + " >> " + message);
 					}
 				}
 			}else{
 				if (obj !== undefined){
-					console.debug(m + " >> " + message, obj);
+					console.info(m + " >> " + message, obj);
 				} else {
-					console.debug(m + " >> " + message);
+					console.info(m + " >> " + message);
 				}
 			}
 		}
