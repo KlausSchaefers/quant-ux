@@ -294,7 +294,6 @@ export default {
     }
   },
   mounted() {
-    console.debug(this.qteam)
     if (this.qteam) {
       this.setTeamLoaded(this.qteam)
     }

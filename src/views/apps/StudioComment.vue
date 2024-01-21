@@ -9,25 +9,21 @@
             @change="onChange"
             @status="onStatus"/>
        
-      
+        <div v-for="child in children" :key="child.id" class="StudioCommentResponse ">    
+            <UserComment 
+                v-if="!isNew"
+                :comment="child" 
+                :user="user"
+                @delete = "onDelete"
+                @change="onChange"
+                @status="onStatus"/>
+        </div>
 
         <div v-if="isNew" class="StudioCommentElement MatcMarginTop" >
             <textarea v-model="message"></textarea>
             <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onCreate">Save</button> 
         </div>
 
-        <div v-for="child in children" :key="child.id" class="StudioCommentResponse ">
-      
-     
-            <UserComment 
-            v-if="!isNew"
-            :comment="child" 
-            :user="user"
-            @delete = "onDelete"
-            @change="onChange"
-            @status="onStatus"/>
-
-        </div>
       
         <div class="StudioCommentReplyCntr" v-if="!isNew">
             <a class="StudioCommentReply" v-if="!hasReply" @click="showReply">Reply...</a>
@@ -102,6 +98,7 @@ export default {
         onReply () {
             this.$emit("reply", this.replyMessage, this.comment.id);
             this.hasReply = false
+            this.replyMessage = ''
         },
         showReply () {
             this.hasReply = true

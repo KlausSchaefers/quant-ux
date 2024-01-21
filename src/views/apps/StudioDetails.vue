@@ -136,7 +136,6 @@ export default {
             this.hasNew = true
         },
         async onCreateComment(m, parentId) {
-            console.debug("create", m, parentId)
             const comment = {
                 message: m,
 				reference: '',
@@ -211,7 +210,13 @@ export default {
             if (!this.pub) {
                 await Services.getCommentService().delete(this.app.id, comment)
                 this.showSuccess("Comment deleted");
-            }       
+            }
+            const children = this.comments.filter(c => c.parentId == comment.id)
+            this.logger.log(1, "onDeleteComment", "Children " + children.length);
+            children.forEach(child => {
+                Services.getCommentService().delete(this.app.id, child)
+                this.comments = this.comments.filter(c => c.id !== child.id)    
+            })
         },
         getBackgroundColor (v, low, high) {    
             if (isNaN(v)) {
@@ -239,9 +244,11 @@ export default {
             this.comments = await Services.getCommentService().findAll(
                 this.app.id
             );
+            this.logger.log(-1, "loadComments", "exit", this.comments.length);
+            console.debug(JSON.stringify(this.comments, null, 2))
         },
         setSummary() {
-            this.logger.log(-1, "setSummary", "ener");
+            this.logger.log(1, "setSummary", "enter");
             if (!this.app || !this.isLoaded) {
                 return
             }
