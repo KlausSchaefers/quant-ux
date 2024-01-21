@@ -11,8 +11,6 @@
 
 ## Labeled CheckBox and radio
 
-# Nice to have
- -Make scrolling smooth snapp to 100
 ## Analytic Cnavas
  - Make Task drop off chart?
 
