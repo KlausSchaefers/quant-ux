@@ -66,8 +66,8 @@
       if (this.right) {
         this.pos = this.right
       }
-      ScrollUtil.addScrollCSSIfNeeded(this.$refs.leftChild, false)
-      ScrollUtil.addScrollCSSIfNeeded(this.$refs.rightChild, false)
+      ScrollUtil.addScrollCSSIfNeeded(this.$refs.leftChild, true)
+      ScrollUtil.addScrollCSSIfNeeded(this.$refs.rightChild, true)
       const old = localStorage.getItem('quxSplitContainer' + this.qid)
       if (old) {
         this.pos = old * 1

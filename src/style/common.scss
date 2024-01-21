@@ -1,5 +1,3 @@
-
-
 textarea {
 	resize: none;
 }
@@ -106,7 +104,7 @@ a:FOCUS {
 	margin-top: 16px;
 }
 
-.MatcMarginTopXL{
+.MatcMarginTopXL {
 	margin-top: 32px;
 }
 
@@ -269,7 +267,8 @@ a:FOCUS {
 	cursor: pointer;
 	vertical-align: middle;
 
-	.MatcQIcon, svg {
+	.MatcQIcon,
+	svg {
 		height: 24px;
 		width: 24px;
 	}
@@ -286,7 +285,7 @@ a:FOCUS {
 .box.MatcWarningBox,
 .MatcWarningBox {
 	background: #f9ed8371;
-    border: 1px solid #d0c45b;
+	border: 1px solid #d0c45b;
 }
 
 /****************************************************
@@ -376,26 +375,27 @@ a:FOCUS {
 .MatcScrollContainer {
 	scrollbar-gutter: stable;
 	overflow: auto;
-	scroll-margin: 20px;
+
 	&::-webkit-scrollbar {
-		width: 4px;
-	  }
-	  
-	  /* Track */
-	 &::-webkit-scrollbar-track {
+		width: 6px;
+	}
+
+	/* Track */
+	&::-webkit-scrollbar-track {
 		border-radius: 8px;
-	  }
-	  
-	  /* Handle */
-	 &::-webkit-scrollbar-thumb {
-		background: $gray_2;
+	}
+
+	/* Handle */
+	&::-webkit-scrollbar-thumb {
+		background: rgba(0, 0, 0, 0.0);
+		transition: all 0.2s;
 		border-radius: 8px;
-		display: none;
-	  }
+	}
 
 	&:hover {
-		&::-webkit-scrollbar-thumb {	
-			display: block;
-		  }
+		&::-webkit-scrollbar-thumb {
+			background: rgba(0, 0, 0, 0.25);
+
+		}
 	}
 }
