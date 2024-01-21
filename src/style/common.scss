@@ -373,23 +373,29 @@ a:FOCUS {
 	right: 5px;
 }
 
-.MatcActionBoxRemove {
-	position: absolute;
-	right: -10px;
-	top: -10px;
-	height: 20px;
-	width: 30px;
-	cursor: pointer;
-	font-size: 24px;
-	display: none;
-	border: 1px orange;
-	text-align: right;
-}
+.MatcScrollContainer {
+	scrollbar-gutter: stable;
+	overflow: auto;
+	scroll-margin: 20px;
+	&::-webkit-scrollbar {
+		width: 4px;
+	  }
+	  
+	  /* Track */
+	 &::-webkit-scrollbar-track {
+		border-radius: 8px;
+	  }
+	  
+	  /* Handle */
+	 &::-webkit-scrollbar-thumb {
+		background: $gray_2;
+		border-radius: 8px;
+		display: none;
+	  }
 
-.MatcActionBoxRemove:hover {
-	color: red;
-}
-
-.MatcActionBox:hover .MatcActionBoxRemove {
-	display: inline-block;
+	&:hover {
+		&::-webkit-scrollbar-thumb {	
+			display: block;
+		  }
+	}
 }

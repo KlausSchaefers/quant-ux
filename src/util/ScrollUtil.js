@@ -10,3 +10,11 @@ export function addScrollIfNeeded(node, force = false) {
     }
     return false
 }
+
+export function addScrollCSSIfNeeded(node, force = true) {
+    if (navigator.platform.indexOf('Win') > -1 || force) {
+        node.classList.add("MatcScrollContainer");
+        return true
+    }
+    return false
+}

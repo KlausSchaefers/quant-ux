@@ -71,10 +71,9 @@
         this.pos = this.right
         this.max = this.right
       }
-      ScrollUtil.addScrollIfNeeded(this.$refs.leftChild, false)
-      ScrollUtil.addScrollIfNeeded(this.$refs.rightChild, false)
+      ScrollUtil.addScrollCSSIfNeeded(this.$refs.leftChild, false)
+      ScrollUtil.addScrollCSSIfNeeded(this.$refs.rightChild, false)
       let old = localStorage.getItem('quxCollapseContainer'+this.qid)
-      console.debug(old)
       if (old === 'true') {
         this.setCollapsed(true)
       }

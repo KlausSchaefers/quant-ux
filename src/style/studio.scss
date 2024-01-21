@@ -54,7 +54,6 @@
         gap: 8px;
         font-size: 14px;
 
-
         .vommondToolTip {
             left: -8px;
         }
@@ -107,7 +106,7 @@
             flex-direction: column;
             gap: 12px;
             flex-grow: 1;
-            overflow: scroll;
+            overflow: auto;
 
             padding-left: 8px;//20px;
 
