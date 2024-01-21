@@ -44,11 +44,13 @@
                         @create="onCreateComment"
                         />
                     <StudioComment 
-                        v-for="c in filteredComments" :key="c.id"
+                        v-for="c in filteredCommentsTree" :key="c.id"
                         @delete="onDeleteComment"
+                        @reply="onCreateComment"
                         @change="onChangeCommentMessage"
                         @status="onChangeCommentStatus"
                         :user="user" 
+                        :comments="comments"
                         :comment="c"/>
                 </div>
             </div>
@@ -71,6 +73,7 @@ import DataFrame from "common/DataFrame";
 import Analytics from "dash/Analytics";
 import Services from "services/Services";
 import StudioComment from './StudioComment'
+import lang from 'dojo/_base/lang'
 
 export default {
     name: "StudioDetails",
@@ -91,22 +94,29 @@ export default {
         pub() {
             return this.$route.meta && this.$route.meta.isPublic === true;
         },
-        filteredComments () {
+        filteredCommentsTree () {
             const tab = this.$route.params.tab
             const session = this.$route.params.session
-            let comments = this.comments
+            let parentLookup = lang.listGroupBy(this.comments, 'parentId')
+            let comments = this.comments.map(c => {
+                const result = lang.clone(c)
+                if (parentLookup[c.id]) {
+                    result.children = parentLookup[c.id]
+                }
+                return result
+            })
             if (this.hasCommentFilter) {
                 if (tab === 'test') {
-                    comments = this.comments.filter(c => c.type === 'overview_test' && !c.reference)
+                    comments = comments.filter(c => c.type === 'overview_test' && !c.reference)
                 }
                 if (tab === 'analyze') {
-                    comments = this.comments.filter(c => c.type === 'overview_dash')
+                    comments = comments.filter(c => c.type === 'overview_dash')
                 }
                 if (!tab || tab === 'design') {
-                    comments = this.comments.filter(c => c.type === 'ScreenComment' || c.type === 'overview_edit')
+                    comments = comments.filter(c => c.type === 'ScreenComment' || c.type === 'overview_edit')
                 }
                 if (session) {
-                    comments = this.comments.filter(c => c.type === 'overview_test' && c.reference === session)
+                    comments = comments.filter(c => c.type === 'overview_test' && c.reference === session)
                 }
             }
             if (tab === 'comments') {
@@ -114,7 +124,7 @@ export default {
             }  
             return comments.toSorted((a,b) => {
                 return b.created - a.created
-            })
+            }).filter(c => !c.parentId)
         }
     },
     methods: {
@@ -125,7 +135,8 @@ export default {
         addComment () {
             this.hasNew = true
         },
-        async onCreateComment(m) {
+        async onCreateComment(m, parentId) {
+            console.debug("create", m, parentId)
             const comment = {
                 message: m,
 				reference: '',
@@ -140,6 +151,9 @@ export default {
 				},
 				userID: this.user.id,
 				created: new Date().getTime()
+            }
+            if (parentId) {
+                comment.parentId = parentId
             }
 
             const tab = this.$route.params.tab
@@ -158,9 +172,14 @@ export default {
                 comment.reference = session
             }
        
-            await Services.getCommentService().create(this.app.id, comment)
-            this.showSuccess("Comment created");
-            this.comments.unshift(comment)
+            let response = await Services.getCommentService().create(this.app.id, comment)
+            if (response.id) {
+                comment.id = response.id
+                this.showSuccess("Comment created");
+                this.comments.unshift(comment)
+            } else {
+                this.showError("Soemthing went wrong");
+            }  
             this.hasNew = false
         },
         async onChangeCommentStatus(id, status) {

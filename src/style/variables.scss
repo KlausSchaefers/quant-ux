@@ -43,6 +43,8 @@ $text_line_height: 1.5;
 $comment_background: #FFF7D0;
 $comment_border: #FFE34F;
 $comment-shadow: $page_drop_shadow_soft;
+$comment_input_background: rgba($color: #000000, $alpha: 0.1);
+$comment_input_border: rgba($color: #000000, $alpha: 0.2);
 
 $toolbar_height: 48px;
 $toolbar_background: #25292F;

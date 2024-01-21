@@ -1,0 +1,59 @@
+@import '../variables.scss';
+
+.UserComment{
+    padding-top: 0px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+
+    &.Done {
+        .UserCommentMessage, .UserCommentFooter, .UserCommentUser {
+            text-decoration: line-through;
+        }
+    }
+
+    textarea {
+        background: $comment_input_background;
+        padding: 4px;
+        width: 100%;
+        height: 168px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+
+        &:hover {
+            border: 1px solid $comment_input_border;
+            outline: none;
+        }
+
+        &:focus {
+            border: 1px solid $comment_input_border;
+            outline: none;
+        }
+    }
+
+    .MatcButton {
+        font-size: 14px;
+        height: auto;
+        padding: 4px 8px;
+    }
+
+    .UserCommentHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        min-height: 16px;
+    }
+    .UserCommentMessage {
+        white-space: pre-wrap;
+        margin-top: 8px;
+    }
+    .UserCommentUser {
+
+        font-weight: 600;
+    }
+    .UserCommentFooter {
+        font-size: 12px;
+        font-weight: 400;
+    }
+}
+

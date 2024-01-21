@@ -120,7 +120,7 @@
 </template>
 <style lang="scss">
   @import "../../style/matc.scss";
-@import "../../style/studio.scss";
+    @import "../../style/studio.scss";
 </style>
 <script>
 import Logger from "common/Logger";

@@ -386,44 +386,49 @@
     display: flex;
     flex-direction: column;
 
-    &.Done {
-        text-decoration: line-through;
+    .StudioCommentResponse {
+        margin-top: 16px;
     }
 
     textarea {
-        border: 1px dashed $comment_border;
+        background: $comment_input_background;
         padding: 4px;
         width: 100%;
         height: 168px;
-        background: none;
+        border: 1px solid transparent;
+        border-radius: 8px;
+
+        &:hover {
+            border: 1px solid $comment_input_border;
+            outline: none;
+        }
 
         &:focus {
-            border: 1px dashed $comment_border;
+            border: 1px solid $comment_input_border;
             outline: none;
         }
     }
 
-    .MatcButton {
-        font-size: 14px;
-        height: auto;
-        padding: 4px 8px;
+ 
+    .StudioCommentReplyCntr {
+        margin-top: 16px;
     }
 
-    .StudioCommentHeader {
-        display: flex;
-        justify-content: flex-end;
-        min-height: 16px;
-    }
-    .StudioCommentMessage {
-        white-space: pre;
-    }
-    .StudioCommentUser {
-        margin-top: 16px;
-        font-weight: 600;
-    }
-    .StudioCommentFooter {
+    .StudioCommentReply {
+        display: block;
+        color:transparent;
+        text-align: left;
         font-size: 12px;
-        font-weight: 400;
+
+        &:hover {
+            color:$gray_3;
+        }
+    }
+
+    &:hover {
+        .StudioCommentReply {
+            color:$gray_2;
+        }
     }
 }
 

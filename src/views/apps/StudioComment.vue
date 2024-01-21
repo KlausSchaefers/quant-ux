@@ -1,48 +1,76 @@
 <template>
     <div :class="'StudioComment ' + status">
-        <div class="StudioCommentHeader">
-            <QIconDropDown icon="Dots" :options="dotOptions" v-if="!isNew"/>
-        </div>
-        <div class="StudioCommentMessage" v-if="mode === 'view'">{{message}}</div>
-        <textarea v-model="message" v-else @blur="onBlur"></textarea>
+
+        <UserComment 
+            v-if="!isNew"
+            :comment="comment" 
+            :user="user"
+            @delete = "onDelete"
+            @change="onChange"
+            @status="onStatus"/>
+       
       
 
-        <div v-if="isNew">
-            <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onSave">Save</button> 
+        <div v-if="isNew" class="StudioCommentElement MatcMarginTop" >
+            <textarea v-model="message"></textarea>
+            <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onCreate">Save</button> 
         </div>
-        <template v-else>
-            <div class="StudioCommentUser">
-                {{getUserName(comment.user)}}
-            </div> 
-            <div class="StudioCommentFooter">
-                {{formatDate(comment.created)}} <span v-if="comment.edited">(edited)</span>
-            </div>
-        </template>
+
+        <div v-for="child in children" :key="child.id" class="StudioCommentResponse ">
+      
+     
+            <UserComment 
+            v-if="!isNew"
+            :comment="child" 
+            :user="user"
+            @delete = "onDelete"
+            @change="onChange"
+            @status="onStatus"/>
+
+        </div>
+      
+        <div class="StudioCommentReplyCntr" v-if="!isNew">
+            <a class="StudioCommentReply" v-if="!hasReply" @click="showReply">Reply...</a>
+            <template v-else>
+                <textarea v-model="replyMessage" ref="replyInput"></textarea>
+                <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onReply">Save</button> 
+            </template>
+        </div>
+
+
         
     </div>
 </template>
 
 <script>
-import * as UIUtil from '../../util/UIUtil'
-import QIconDropDown from 'page/QIconDropDown'
+import UserComment from 'page/UserComment'
 import Logger from "common/Logger";
 export default {
-    name: "StudioDetails",
+    name: "StudioComment",
     mixins: [],
-    props: ["app", "user", "comment", "isNew"],
+    props: ["user", "comment", "isNew"],
     data: function () {
         return {
             status: '',
+            hasReply: false,
             isAuthor: false,
             mode: 'view',
             message: '',
-           
+            replyMessage: ''
         };
     },
     components: {
-        'QIconDropDown': QIconDropDown
+        'UserComment': UserComment
     },
     computed: {
+        children () {
+            if (this.comment.children) {
+                return this.comment.children.toSorted((a,b) => {
+                    return a.created - b.created
+                })
+            }
+            return []
+        },
         dotOptions () {
             const isDoneLabel = this.status === 'Done' ? 'Set Active' : 'Set Done'
             if (this.isAuthor) {
@@ -59,31 +87,27 @@ export default {
         }
     },
     methods: {
-        toggleDone () {
-            const status = this.status === 'Done' ? '' : 'Done'
-            this.status = status
-            this.$emit("status",this.comment.id, status);
+        onStatus (commentId, status) {
+            this.$emit("status",commentId, status);
         },
-        onSave () {
+        onChange (commentId, message) {
+            this.$emit("change", commentId, message);            
+        },
+        onDelete(comment) {
+            this.$emit("delete", comment);
+        },
+        onCreate () {
             this.$emit("create",this.message);
         },
-        onEdit () {
-            this.mode = 'edit'
+        onReply () {
+            this.$emit("reply", this.replyMessage, this.comment.id);
+            this.hasReply = false
         },
-        onBlur () {
-            if (!this.isNew) {
-                this.mode = 'view'
-                this.$emit("change", this.comment.id, this.message);
-            }
-        },
-        onDelete() {
-            this.$emit("delete", this.comment);
-        },
-        formatDate(ts) {
-            return UIUtil.formatDate(ts)
-        },
-        getUserName(user) {
-            return UIUtil.getUserName(user)
+        showReply () {
+            this.hasReply = true
+            setTimeout(() => {
+                this.$refs.replyInput.focus()
+            }, 200)
         }
     },
     watch: {

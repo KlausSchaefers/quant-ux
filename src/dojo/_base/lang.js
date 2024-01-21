@@ -1,5 +1,17 @@
 class lang {
 
+    listGroupBy (list, key) {
+        const result = {}
+        list.forEach(element => {
+            const value = element[key]
+            if (!result[value]) {
+                result[value] = []
+            }
+            result[value].push(element)
+        });
+        return result
+    }
+
     stopEvent(e) {        
         if (e && e.stopPropagation) {
             e.stopPropagation();
