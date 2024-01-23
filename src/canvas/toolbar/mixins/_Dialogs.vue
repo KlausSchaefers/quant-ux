@@ -894,10 +894,10 @@ export default {
 
 		_showDesktopSimulator(model, pos, maxHeight) {
 
-			var dialog = document.createElement("div");
+			const dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
 
-			var container = document.createElement("div");
+			const container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 			dialog.appendChild(container);
 
@@ -910,17 +910,17 @@ export default {
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
 
-			var s = this.$new(Simulator, { mode: "debug", logData: false });
+			const s = this.$new(Simulator, { mode: "debug", logData: false });
 			s.scrollListenTarget = "parent";
 			s.isDesktopTest = true
 			s.setHash(this.hash)
 
-			var scroller = this.$new(ScrollContainer, { canDestroy: true });
+			const scroller = this.$new(ScrollContainer, { canDestroy: true });
 			scroller.placeAt(container);
 			s.setScrollContainer(scroller);
 
 
-			var d = new Dialog();
+			const d = new Dialog();
 			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);
 
@@ -935,7 +935,7 @@ export default {
 			 * Isn#t the model passed
 			 */
 			model = this.model;
-			var screen = this._getSimulatorScreen();
+			const screen = this._getSimulatorScreen();
 			s.setStartScreen(screen);
 			setTimeout(function () {
 				scroller.wrap(s.domNode);

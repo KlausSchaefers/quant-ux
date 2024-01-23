@@ -403,7 +403,7 @@ export default {
 			const s = this.$new(Simulator, { mode: "debug", logData: false, hash: this.hash });
 			s.scrollListenTarget = "parent";
 
-			const scroller = this.$new(ScrollContainer, { canDestroy: false });
+			const scroller = this.$new(ScrollContainer, { canDestroy: true });
 			scroller.placeAt(container);
 			s.setScrollContainer(scroller);
 
@@ -413,9 +413,9 @@ export default {
 			d.own(d.on("close", lang.hitch(this, "stopSimulator", s, scroller)));
 
 			const screen = this._getSimulatorScreen();
+			s.setStartScreen(screen);
 			setTimeout(function () {
 				scroller.wrap(s.domNode);
-				s.setStartScreen(screen);
 				s.setModel(model);
 			}, 500);
 
