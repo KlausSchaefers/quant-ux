@@ -44,7 +44,7 @@ Quant-UX has two components. A front-end (this package) and a backend (qux-java)
 
 ## Docker
 
-The easiest qway to get your own Quant-UX installation running is using the Docker images. 
+The easiest way to get your own Quant-UX installation running is using the Docker images. 
 
 1) Create a docker compose file (`docker-compose.yaml`) and set the environment variables.
 
@@ -118,7 +118,7 @@ services:
 
 ```
 
-Make sure to update `QUX_JWT_PASSWORD` the ENV variable to make sure your instalation is secure.
+Make sure to update `QUX_JWT_PASSWORD` the ENV variable to make sure your installation is secure.
 Update `QUX_HTTP_HOST`, `QUX_MAIL_USER`, `QUX_MAIL_PASSWORD` and `QUX_MAIL_HOST` to sure correct mail handling
 
 
@@ -184,7 +184,7 @@ npm run build
 ```
 
 ### Config front-end
-- Set the proxy server url as en ENV variable
+- Set the proxy server url as an ENV variable
 
 ```
 export QUX_PROXY_URL=https://your.quant-ux.server.com // backend host
@@ -200,7 +200,7 @@ node server/start.js
 
 ### Reverse Proxy
 
-Now you should have a a running system. It is not secure yet. The best is to put both behind a NGINX reverse proxy, which handles SSL.
+Now you should have a running system. It is not secure yet. The best is to put both behind a NGINX reverse proxy, which handles SSL.
 
 - https://www.scaleway.com/en/docs/tutorials/nginx-reverse-proxy/
 
