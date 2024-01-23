@@ -95,10 +95,8 @@ export default {
 			if (this.model.isTryOut) {
 				this.showHint("Register to add comments...");
 				this._onCommentAdded(pos, e, []);
-			} else {
-				let comments = await this.commentService.find(this.model.id, 'ScreenComment')
-				this._onCommentAdded(pos, e, comments)
-				//this._doGet("/rest/comments/count/apps/" + this.model.id +"/ScreenComment.json", lang.hitch(this, "_onCommentAdded", pos,e));
+			} else {				
+				this._onCommentAdded(pos, e)
 			}
 		},
 
@@ -142,7 +140,6 @@ export default {
 
 
 		_onCommentAdded2() {
-			//this.commentCheckBox.setValue(true);
 			this.onChangeCanvasViewConfig()
 			this.setCommentView(true);
 		},
@@ -161,9 +158,10 @@ export default {
 				this.screenComments = {};
 				this.commentDivs = {}
 			
+				const comments = Object.values(this.comments).filter(c => !c.parentId)
 
-				for (let commentID in this.comments) {
-					const comment = this.comments[commentID];
+				for (let commentID in comments) {
+					const comment = comments[commentID];
 		
 					const screenID = comment.reference;
 					if (this.model.screens[screenID]) {
@@ -265,8 +263,6 @@ export default {
 			div.style.fontSize = this.getZoomed(this.commentFontSize, this.zoom) + 'px'
 
 			if (comment.id) {
-
-		
 
 				const letters = document.createElement('div')
 				css.add(letters, "MatcCanvasCommentLetters")
@@ -377,6 +373,9 @@ export default {
 			this.onCloseCommentPopup(e);
 			const comment = this.comments[id];
 			if (comment) {
+				this._commentSaveListener =  () => {			
+					this.loadComments()
+				}
 				this.showCommentPopUp(comment, e);
 			}
 		},
@@ -411,11 +410,11 @@ export default {
 			widget.placeAt(popup)
 			widget.setValue(comment, children)
 			widget.setUser(this.user)
-			widget.on("save", (c) => {
-				this.onSaveComment(c)
+			widget.on("save", (c, isChild) => {
+				this.onSaveComment(c, isChild)
 			})
-			widget.on("delete", (c) => {
-				this.onDeleteComment(c)
+			widget.on("delete", (c, isChild) => {
+				this.onDeleteComment(c, isChild)
 			})
 			widget.on("cancel", () => this.onCloseCommentPopup())
 
@@ -470,7 +469,7 @@ export default {
 			if (this._commentPopup && this._commentPopup.parentNode) {
 				this._commentPopup.parentNode.removeChild(this._commentPopup);
 			} else {
-				console.debug("onCloseCommentPopup() Connot remove");
+				console.debug("onCloseCommentPopup() Cannot remove");
 			}
 			delete this._commentTouchListner;
 			delete this._commentPopup;
@@ -481,7 +480,8 @@ export default {
 
 
 
-		async onSaveComment(comment) {
+		async onSaveComment(comment, isChild=false) {
+			//console.debug('onSaveComment', comment.id, comment.message, comment.parentId, isChild)
 			if (this.isPublic) {
 				this.showSuccess("Register to comment...");
 			} else {
@@ -493,30 +493,44 @@ export default {
 					old.edited = true
 					const res = await this.commentService.update(this.model.id, old)
 					this.updateCommentIcon(old)
-					this.onCommentSaved(res)
+					this.onCommentSaved(res)		
 				} else {
-					const res = await this.commentService.create(this.model.id, comment)
-					this.onCommentSaved(res)
+					const res = await this.commentService.create(this.model.id, comment)			
+					this.onCommentSaved(res)					
 				}
 			}
-			this.onCloseCommentPopup();
+			if (!isChild) {
+				this.onCloseCommentPopup();
+			}
+	
 		},
 
 
-		async onDeleteComment(comment, e) {
-			
+		async onDeleteComment(comment, isChild = false) {
+			//console.debug('onDeleteComment', comment.id, comment.message, comment.parentId, isChild)
 			if (this.isPublic) {
 				this.showSuccess("Register to comment...");
 			} else {
 				if (comment.id) {
 					const res = await this.commentService.delete(this.model.id, comment)
 					this.onCommentDeleted(res)
+		
+					// delete also all children
+					const children = Object.values(this.comments)
+						.filter(c => c.parentId === comment.id)
+					this.logger.log(-1, "onDeleteComment", "Children " + children.length);
+					children.forEach(child => {
+						this.commentService.delete(this.model.id, child)
+						delete this.comments[child.id]
+					})
+
 				} else {
 					this.showSuccess("No Comment was deleted");
 				}
-			}
-			this.stopEvent(e);
-			this.onCloseCommentPopup();
+			}			
+			if (!isChild) {
+				this.onCloseCommentPopup();
+			}	
 		},
 
 
@@ -537,26 +551,6 @@ export default {
 			this.loadComments();
 			this.rerender();
 		},
-
-		// updateCommentPosition(id, temp) {
-		// 	if (this.screenComments && this.screenComments[id]) {
-		// 		const list = this.screenComments[id];
-		// 		for (let i = 0; i < list.length; i++) {
-		// 			const item = list[i];
-		// 			const comment = this.comments[item.id];
-		// 			const box = {
-		// 				x: Math.round(temp.x + temp.w * comment.x),
-		// 				y: Math.round(temp.y + temp.h * comment.y),
-		// 			};
-		// 			this.addDragNDropRenderJob({
-		// 				div: item.div,
-		// 				pos: box,
-		// 				id: item.id
-		// 			});
-		// 		}
-		// 	}
-		// },
-
 
 		updateCommentDnd(zoomedScreen) {
 			if (this.screenComments && this.screenComments[zoomedScreen.id]) {

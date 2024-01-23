@@ -1,39 +1,41 @@
 <template>
-    <div class="MatcCanvasCommentDialog" @click.stop @mousedown.stop @keyup.stop @keydown.stop>
-        {{isNew}}
-        <template v-if="!isNew">
-            <div class="MatcCanvasCommentDialogList" v-for="c in comments" :key="c.id" >
-                
+    <div class="MatcCanvasCommentDialog" @click.stop @mousedown.stop @keyup.stop @keydown.stop @dblclick.stop>
+  
+        <div class="MatcCanvasCommentDialogList" v-if="comment">
+
+          
+            <UserComment 
+                v-if="!isNew"
+                :comment="comment" 
+                :user="user"
+                @delete = "onDelete"
+                @change="onChangeMessage"
+                @status="onChangeStatus"/>
+
+            <div v-for="child in replies" :key="child.id" class="">      
                 <UserComment
-                    :comment="c" 
+                    :comment="child" 
                     :user="user"
-                    @delete = "onDelete"
-                    @change="onMessage"
-                    @status="onStatus"/>
+                    @delete = "onDeleteChild"
+                    @change="onChangeMessage"
+                    @status="onChangeStatus"/>
+
+            </div>
             
 
-            </div>
-        </template>
-        <div v-else
-            @focus="isDirty = true"
-            :class="['MatcCanvasCommentDialogMessage MatcCanvasCommentDialogMessageEditor', { 'MatcCanvasCommentDialogMessageNew': isNew }]"
-            contenteditable="true"
-            @blur="onChangeNew($event)"
-            ref="textAreas">
-
-            {{comment.message}}
+       
         </div>
 
-        <div class="MatcButtonBar MatcButtonBarCols">
-            <div class="MatcButtonBarCol">
-                <!-- <a class="MatcButton MatcButtonXS" @click.stop="onCancel" v-if="!isDirty">Close</a> -->
-                <a class="MatcButton MatcButtonXS" @click.stop="onSave" v-if="isDirty">Save</a>
-                <!-- <a class="MatcLinkButton MatcButtonXS" @click.stop="onCancel" v-if="isDirty">Cancel</a> -->
-            </div>
-            <!-- <div class="MatcButtonBarCol">
-                <a class=" MatcLinkButton MatcButtonXS" @click.stop="onDelete" v-if="comment && comment.id">Delete</a>
-            </div> -->
+        <div v-if="isNew || isReply" class="MatcMarginTop" >
+            <textarea v-model="newMessage" ref="newInput" class="MatcCanvasCommentDialogMessage MatcCanvasCommentDialogMessageEditor"></textarea>
+            <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onCreate" v-if="isNew">Save</button> 
+            <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onReply" v-if="isReply">Save</button> 
         </div>
+        <div v-else>
+            <div class="MatcCanvasCommentDialogReplyButton" @click="showReply">Reply...</div>
+        </div>
+
+       
     </div>
 </template>
 <style lang="scss">
@@ -43,10 +45,6 @@
 import DojoWidget from "dojo/DojoWidget";
 import Logger from "common/Logger";
 import lang from 'dojo/_base/lang'
-//import UserImage from './UserImage'
-// import * as UIUtil from '../util/UIUtil'
-// import QIcon from './QIcon'
-// import QIconDropDown from './QIconDropDown'
 import UserComment from 'page/UserComment'
 
 export default {
@@ -56,19 +54,26 @@ export default {
     data: function () {
         return {
             isNew: false,
+            isReply: false,
             isDirty: false,
+            newMessage: '',
             comment: null,
             children: [],
             user: null
         };
     },
     components: {
-        //'UserImage': UserImage,
-        'UserComment': UserComment,
-        // 'QIcon': QIcon,
-        //'QIconDropDown': QIconDropDown
+        'UserComment': UserComment
     },
     computed: {
+        replies () {
+            if (this.children) {
+                return this.children.toSorted((a,b) => {
+                    return a.created - b.created
+                })
+            }
+            return []
+        },
         comments() {
             if (this.comment) {
                 return [this.comment].concat(this.children).toSorted((a,b) => {
@@ -83,51 +88,58 @@ export default {
             this.user = u
         },
 
-        onStatus (commentId, status) {
-            console.debug(status)
+        onChangeStatus (commentId, status) {
+            const comment = this.comments.find(c => c.id === commentId)
+            if (comment) {
+                comment.status = status
+                this.emit("save", comment, true)
+            } else {
+                this.logger.error("onChangeStatus", "Cannot find comment " + commentId)
+            }
         },
-        onMessage (commentId, message) {
-            console.debug(message)
+        onChangeMessage (commentId, message) {
+            const comment = this.comments.find(c => c.id === commentId)
+            if (comment) {
+                comment.message = message
+                this.emit("save", comment, true)
+            } else {
+                this.logger.error("onChangeMessage", "Cannot find comment " + commentId)
+            }
         },
         onDelete(comment) {
             this.emit("delete", comment)
         },
-        onCreate () {
 
+        onDeleteChild (child) {
+            this.children = this.children.filter(c => c.id !== child.id)
+            this.emit("delete", child, true)
         },
+       
         onReply () {
-            // this.$emit("reply", this.replyMessage, this.comment.id);
-            // this.hasReply = false
-            // this.replyMessage = ''
+            const reply = lang.clone(this.comment)
+            delete reply.id
+            delete reply._id
+            reply.parentId = this.comment.id
+            reply.message = this.newMessage
+            this.emit("save", reply, false)
+            this.newMessage = ''
+            this.isReply = false
         },
-        // getOptions (comment) {
-        //     const isDoneLabel = comment.status === 'Done' ? 'Set Active' : 'Set Done'
-        //     if (this.isAuthor(comment)) {
-        //         return [
-        //             {label: 'Edit', callback: () => this.onEdit(comment), icon: "EditPencil"},
-        //             {label: isDoneLabel, callback: () => this.toggleDone(comment), icon: "CheckBoxHook"},
-        //             {label: 'Delete', callback: () => this.onDelete(comment), icon: "DeleteX"}
-        //         ]
-        //     }
-        //     return [
-        //         {label: isDoneLabel, callback: () => this.toggleDone(comment), icon: "CheckBoxHook"},
-        //         {label: 'Delete', callback: () => this.onDelete(comment), icon: "DeleteX"}
-        //     ]
-        // },
-        onEdit () {
-            this.isDirty = true
+
+        onCreate() {
+            this.comment.message = this.newMessage
+            this.emit("save", this.comment)
+        },
+
+        showReply () {
+            this.isReply = true
             setTimeout(() => {
-                let textAreas = this.$refs.textAreas
-                if (textAreas) {
-                    textAreas[0].focus()
+                if (this.$refs.newInput) {
+                    this.$refs.newInput.focus()
                 }
             }, 100)
         },
-        toggleDone () {
-            const status = this.comment.status === 'Done' ? '' : 'Done'
-            this.comment.status = status
-            this.isDirty = true
-        },
+      
         setValue(c, children) {
             this.comment = lang.clone(c)
             this.children = lang.clone(children)
@@ -136,50 +148,16 @@ export default {
                 this.isDirty = true
                 this.isNew = true
                 setTimeout(() => {
-                    let textAreas = this.$refs.newInput
-                    if (textAreas) {
-                        textAreas.focus()
+                    if (this.$refs.newInput) {
+                        this.$refs.newInput.focus()
                     }
                 }, 100)
             }
         },
 
-        onChangeNew(c, e) {
-            const newText = this.stripHTML(e.target.innerText)
-            if (newText !== this.comment.message) {
-                this.comment.message = newText
-                this.isDirty = true
-            }
-        },
-        // isAuthor(c) {
-        //     if (this.user && this.user.id === c?.user?.id) {
-        //         return true
-        //     }
-        //     return false
-        // },
-
-        onSave() {
-            this.emit("save", this.comment)
-        },
-
         onCancel() {
             this.emit("cancel")
-        },
-
-        // onDelete() {
-        //     this.emit("delete", this.comment)
-        // },
-
-        // formatDate(t, justDate) {
-        //     return UIUtil.formatDate(t, justDate)
-        // },
-
-        // getCommentUserName(comment) {
-        //     if ((comment.user && comment.user.name) || comment.user.lastname) {
-        //         return UIUtil.getUserName(comment.user);
-        //     }
-        //     return "Guest";
-        // },
+        }
     },
 
 

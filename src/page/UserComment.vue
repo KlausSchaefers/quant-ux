@@ -12,7 +12,7 @@
         </div>
         <div class="UserCommentMessage" v-if="mode === 'view'">{{message}}</div>
         <div class="UserCommentElement" v-else>
-            <textarea v-model="message"  @blur="onBlur"></textarea>
+            <textarea v-model="message"></textarea>
             <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onBlur">Save</button> 
         </div>
     </div>
@@ -46,16 +46,18 @@ export default {
     computed: {
         dotOptions () {
             const isDoneLabel = this.status === 'Done' ? 'Set Active' : 'Set Done'
+            const isDoneIcon = this.status === 'Done' ? 'CheckBoxOff' : 'CheckBoxOn'
+            const deleteLabel = this.comment.parentId ? 'Delete' : 'Delete'
             if (this.isAuthor) {
                 return [
                     {label: 'Edit', callback: (o, e) => this.onEdit(e), icon: "EditPencil"},
-                    {label: isDoneLabel, callback: (o, e) => this.toggleDone(e), icon: "CheckBoxHook"},
-                    {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "DeleteX"}
+                    {label: isDoneLabel, callback: (o, e) => this.toggleDone(e), icon: isDoneIcon},
+                    {label: deleteLabel, callback: (o, e) => this.onDelete(e), icon: "Delete"}
                 ]
             }
             return [
-                {label: isDoneLabel, callback: (o, e) => this.toggleDone(e), icon: "CheckBoxHook"},
-                {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "DeleteX"}
+                {label: isDoneLabel, callback: (o, e) => this.toggleDone(e), icon: isDoneIcon},
+                {label: deleteLabel, callback: (o, e) => this.onDelete(e), icon: "Delete"}
             ]
         }
     },
