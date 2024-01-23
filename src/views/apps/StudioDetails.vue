@@ -49,7 +49,7 @@
                         @reply="onCreateComment"
                         @change="onChangeCommentMessage"
                         @status="onChangeCommentStatus"
-                        :user="user"
+                        :user="user" 
                         :comment="c"/>
                 </div>
             </div>
@@ -96,7 +96,7 @@ export default {
         filteredCommentsTree () {
             const tab = this.$route.params.tab
             const session = this.$route.params.session
-            let parentLookup = lang.listGroupBy(this.comments, 'parentId')
+            const parentLookup = lang.listGroupBy(this.comments, 'parentId')
             let comments = this.comments.map(c => {
                 const result = lang.clone(c)
                 if (parentLookup[c.id]) {
@@ -104,6 +104,7 @@ export default {
                 }
                 return result
             })
+       
             if (this.hasCommentFilter) {
                 if (tab === 'test') {
                     comments = comments.filter(c => c.type === 'overview_test' && !c.reference)
@@ -111,10 +112,13 @@ export default {
                 if (tab === 'analyze') {
                     comments = comments.filter(c => c.type === 'overview_dash')
                 }
-                if (!tab || tab === 'design') {
+                if ((!tab || tab === 'design') && !session) {
                     comments = comments.filter(c => c.type === 'ScreenComment' || c.type === 'overview_edit')
                 }
                 if (session) {
+                    comments.forEach(c => {
+                        console.debug(c.type, c.reference)
+                    })
                     comments = comments.filter(c => c.type === 'overview_test' && c.reference === session)
                 }
             }
@@ -150,10 +154,7 @@ export default {
 				userID: this.user.id,
 				created: new Date().getTime()
             }
-            if (parentId) {
-                comment.parentId = parentId
-            }
-
+          
             const tab = this.$route.params.tab
             const session = this.$route.params.session
             if (tab === 'test') {
@@ -163,12 +164,23 @@ export default {
                 comment.type = 'overview_dash'
             }
             if (tab === 'design') {
-                comment.type = 'overview_edit'
+                comment.type = 'overview_edit'              
             }
             if (session) {
                 comment.type = 'overview_test' 
                 comment.reference = session
             }
+
+            if (parentId) {
+                comment.parentId = parentId
+                const parent = this.comments.find(c => c.id === parentId)
+                if (parent) {
+                    comment.type = parent.type
+                    comment.reference = parent.reference
+                }
+            }
+
+            console.debug('save', comment.type, comment.reference)
        
             let response = await Services.getCommentService().create(this.app.id, comment)
             if (response.id) {
