@@ -176,6 +176,12 @@ export default {
 			this.setViewLines(!this.renderLines)
 		},
 
+		setSubMode () {
+			
+		},
+
+		cleanUpGridResize () {},
+
 		setBW(isBW) {
 			this.logger.log(-1, "setBW", "enter > " + isBW);
 			if (isBW) {

@@ -282,7 +282,7 @@ export default {
             this.renderCheckBox(row, i, td, style, db)
             this._paddingNodes.push(td);
           } else {
-            if (columns[colNumber].isEditable) {
+            if (columns[colNumber]?.isEditable) {
               const input = db.input('MatcWidgetTypeTableInput').build(td)
               input.value = row[j];
               this._paddingNodes.push(input);

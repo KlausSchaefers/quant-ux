@@ -137,7 +137,7 @@ export default {
 				y: y
 			};
 			this._commentSaveListener = lang.hitch(this, "_onCommentAdded2");
-			this.showCommentPopUp(comment, e);		
+			this.showCommentPopUp(comment, e, true);		
 		},
 
 
@@ -154,7 +154,6 @@ export default {
 		 * TODO: We could somehow do this as an decorator... But WTF
 		 **********************************************************************/
 
-
 		renderComments() {
 
 			if (this.showComments && this.comments) {
@@ -162,6 +161,7 @@ export default {
 				this.screenComments = {};
 				this.commentDivs = {}
 			
+
 				for (let commentID in this.comments) {
 					const comment = this.comments[commentID];
 		
@@ -266,24 +266,24 @@ export default {
 
 			if (comment.id) {
 
+		
+
 				const letters = document.createElement('div')
 				css.add(letters, "MatcCanvasCommentLetters")
 				letters._commentID = comment.id
 				letters.innerText = this.getUserLetter(comment.user)
-				//
 				div.appendChild(letters)
 
 				const content = document.createElement('div')
 				css.add(content, "MatcCanvasCommentPreview")
-	
-				content._commentID = comment.id
-				div.appendChild(content)
 
 				const message = document.createElement('div')
 				css.add(message, "MatcCanvasCommentMessage")
 				message.innerText = comment.message
 				message._commentID = comment.id
 				content.append(message)
+	
+			
 
 				const footer = document.createElement('div')
 				css.add(footer, "MatcCanvasCommentFooter")
@@ -302,6 +302,11 @@ export default {
 				footer.appendChild(date)
 			
 				content.append(footer)
+
+
+				content._commentID = comment.id
+				div.appendChild(content)
+
 			}
 
 
@@ -376,7 +381,7 @@ export default {
 			}
 		},
 
-		showCommentPopUp(comment, e) {
+		showCommentPopUp(comment, e, isNew = false) {
 			const db = new DomBuilder();
 
 			if (this._commentWidget) {
@@ -399,16 +404,18 @@ export default {
 			this._canvasClickLisenter = topic.subscribe("matc/canvas/click", () => this.onCloseCommentPopup());
 			this.setCanvasCancelCallback("onCloseCommentPopup");
 
+			const children = Object.values(this.comments)
+				.filter(c => c.parentId === comment.id && !isNew)
 
 			const widget = this.$new(CanvasCommet)
 			widget.placeAt(popup)
-			widget.setValue(comment)
+			widget.setValue(comment, children)
 			widget.setUser(this.user)
-			widget.on("save", (comment) => {
-				this.onSaveComment(comment)
+			widget.on("save", (c) => {
+				this.onSaveComment(c)
 			})
-			widget.on("delete", (comment) => {
-				this.onDeleteComment(comment)
+			widget.on("delete", (c) => {
+				this.onDeleteComment(c)
 			})
 			widget.on("cancel", () => this.onCloseCommentPopup())
 

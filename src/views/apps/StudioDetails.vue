@@ -245,7 +245,6 @@ export default {
                 this.app.id
             );
             this.logger.log(-1, "loadComments", "exit", this.comments.length);
-            console.debug(JSON.stringify(this.comments, null, 2))
         },
         setSummary() {
             this.logger.log(1, "setSummary", "enter");
