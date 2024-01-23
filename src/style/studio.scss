@@ -180,7 +180,7 @@
 
     .StudioOverviewHeader {
         border-bottom: 1px solid $page_border;
-        gap: 8px;
+        gap: 24px;
         display: flex;
         flex-direction: column;
         padding-top: 16px;
@@ -192,7 +192,7 @@
     .StudioOverviewHeaderRow {
         padding: 0px 64px;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         min-height: 34px;
 
 
@@ -244,6 +244,7 @@
 
             height: 32px;
             padding-bottom: 10px;
+            display: block;
         }
     }
 

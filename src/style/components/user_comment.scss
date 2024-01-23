@@ -12,6 +12,14 @@
         }
     }
 
+    &.UserCommentResponse .MatcIconDropDown{
+        opacity: 0;
+    }
+
+    &.UserCommentResponse:hover .MatcIconDropDown{
+        opacity: 1;
+    }
+
     textarea {
         background: $comment_input_background;
         padding: $form_padding;

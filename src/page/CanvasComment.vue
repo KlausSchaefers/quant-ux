@@ -2,7 +2,6 @@
     <div class="MatcCanvasCommentDialog" @click.stop @mousedown.stop @keyup.stop @keydown.stop @dblclick.stop>
   
         <div class="MatcCanvasCommentDialogList" v-if="comment">
-
           
             <UserComment 
                 v-if="!isNew"
@@ -14,16 +13,13 @@
 
             <div v-for="child in replies" :key="child.id" class="">      
                 <UserComment
+                    class="UserCommentResponse"
                     :comment="child" 
                     :user="user"
                     @delete = "onDeleteChild"
                     @change="onChangeMessage"
                     @status="onChangeStatus"/>
-
             </div>
-            
-
-       
         </div>
 
         <div v-if="isNew || isReply" class="MatcMarginTop" >
@@ -33,9 +29,7 @@
         </div>
         <div v-else>
             <div class="MatcCanvasCommentDialogReplyButton" @click="showReply">Reply...</div>
-        </div>
-
-       
+        </div>       
     </div>
 </template>
 <style lang="scss">

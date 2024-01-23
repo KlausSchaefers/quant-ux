@@ -49,8 +49,7 @@
                         @reply="onCreateComment"
                         @change="onChangeCommentMessage"
                         @status="onChangeCommentStatus"
-                        :user="user" 
-                        :comments="comments"
+                        :user="user"
                         :comment="c"/>
                 </div>
             </div>

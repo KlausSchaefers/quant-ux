@@ -9,8 +9,9 @@
             @change="onChange"
             @status="onStatus"/>
        
-        <div v-for="child in children" :key="child.id" class="StudioCommentResponse ">    
+        <div v-for="child in children" :key="child.id" class="StudioCommentResponse">    
             <UserComment 
+                class="UserCommentResponse"
                 v-if="!isNew"
                 :comment="child" 
                 :user="user"

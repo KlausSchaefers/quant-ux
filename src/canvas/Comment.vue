@@ -279,8 +279,6 @@ export default {
 				message._commentID = comment.id
 				content.append(message)
 	
-			
-
 				const footer = document.createElement('div')
 				css.add(footer, "MatcCanvasCommentFooter")
 				footer._commentID = comment.id
@@ -291,11 +289,29 @@ export default {
 				user._commentID = comment.id
 				footer.appendChild(user)
 
+				const footerDetails = document.createElement('div')
+				css.add(footerDetails, "MatcCanvasCommentFooterDetails")
+				footerDetails._commentID = comment.id
+				footer.appendChild(footerDetails)
+
 				const date = document.createElement('div')
 				css.add(date, "MatcCanvasCommentDate")
 				date.innerText = this.formatDate(comment.created)
 				date._commentID = comment.id
-				footer.appendChild(date)
+				footerDetails.appendChild(date)
+
+
+				const children = Object.values(this.comments)
+					.filter(c => c.parentId === comment.id)
+
+				if (children.length > 0) {
+					const childCount = document.createElement('div')
+					css.add(childCount, "MatcCanvasCommentDate")
+					childCount.innerText = children.length + ' Replies'
+					childCount._commentID = comment.id
+					footerDetails.appendChild(childCount)
+				}
+	
 			
 				content.append(footer)
 

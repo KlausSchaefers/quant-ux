@@ -7,7 +7,12 @@
           <div class="StudioOverviewHeaderRow MatcFlexColumns" v-if="true">
             <div class="MatcFlexColumn"  >
               <StudioColorDropDown :color="app.previewColor" @change="onColorChange"></StudioColorDropDown>
-              <input class="" v-model="app.name" @change="onNameChange"/>
+              <div>
+                <input class="" v-model="app.name" @change="onNameChange"/>
+                <span class="MatcHint"> 
+                  {{$t('app.lastedit')}} {{formatDate(app.lastUpdate, true)}}</span>
+              </div>
+   
             </div>
  
 
@@ -34,10 +39,7 @@
 
           </div>
 
-          <div class="StudioOverviewHeaderRow ">
-            <span class="MatcHint"> 
-                {{$t('app.lastedit')}} {{formatDate(app.lastUpdate, true)}}</span>
-            </div>
+         
 
           <div class="StudioOverviewHeaderRow">
 

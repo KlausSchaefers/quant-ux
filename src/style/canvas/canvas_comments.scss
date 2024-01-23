@@ -20,6 +20,9 @@
 	.MatcCanvasCommentDialogList {
 		flex-grow: 1;
 		margin-bottom: 16px;
+		display: flex;
+		flex-flow: column;
+		gap: 8px;
 	}
 
 	.Done .MatcCanvasCommentDialogMessage {
@@ -134,11 +137,17 @@
 
 		.MatcCanvasCommentFooter {
 			margin-top: 8px;
+
 			// display: flex;
 			// align-items: center;
 			// justify-content: flex-start;
 			// flex-direction: column;
 			// text-align: left;
+		}
+
+		.MatcCanvasCommentFooterDetails {
+			display: flex;
+			justify-content: space-between;
 		}
 
 		.MatcCanvasCommentUser {
@@ -147,6 +156,7 @@
 
 		.MatcCanvasCommentDate {
 			font-size: 10px;
+			display: inline-block;
 		}
 	}
 
