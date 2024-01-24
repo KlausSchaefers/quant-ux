@@ -13,9 +13,26 @@
 
 	display: flex;
 	flex-direction: column;
-	padding: 16px;
-	padding-top: 8px;
+
 	box-shadow: $page_drop_shadow_more;
+
+	.MatcCanvasCommentDialogContent {
+		padding: 16px;
+		padding-top: 8px;
+	}
+
+	.MatcCanvasCommentDialogHeader{
+		display: flex;
+		justify-content: flex-end;
+		border-bottom: 1px solid $form_border;
+
+		padding: 8px 16px;
+
+		.MatcQIcon {
+			cursor: pointer;
+		}
+
+	}
 
 	.MatcCanvasCommentDialogList {
 		flex-grow: 1;
@@ -45,7 +62,6 @@
 		width: 100%;
 		border: 1px solid $form_border;
 
-
 		&:hover {
 			border: 1px solid $form_border_hover;
 			outline: none;
@@ -56,32 +72,26 @@
 		font-size: 14px;
 		padding: $form_padding;
 		height: 168px;
-		border: 1px solid transparent;
 		border-radius: $form_radius;
 		width: 100%;
-
-		&.MatcCanvasCommentDialogMessageEditor {
-			border: 1px solid $form_border;
-			padding: 4px 8px;
-			outline: none;
-		}
-
-		&.MatcCanvasCommentDialogMessageEditor:hover {
-			border: 1px solid $form_border_hover;
-			outline: none;
-		}
-		&.MatcCanvasCommentDialogMessageEditor:focus {
-			border: 1px solid $form_border_focus;
-			outline: none;
-			
-		}
 	}
+
+
 	
 }
 
 .MatcCanvasComment textarea{
-	border: 1px solid transparent;
+	border: 1px solid $form_border;
 	background: none;
+
+	&:hover {
+		border: 1px solid $form_border_hover;
+		outline: none;
+	}
+	&:focus {
+		border: 1px solid $form_border_focus;
+		outline: none;		
+	}
 }
 
 
@@ -137,12 +147,6 @@
 
 		.MatcCanvasCommentFooter {
 			margin-top: 8px;
-
-			// display: flex;
-			// align-items: center;
-			// justify-content: flex-start;
-			// flex-direction: column;
-			// text-align: left;
 		}
 
 		.MatcCanvasCommentFooterDetails {

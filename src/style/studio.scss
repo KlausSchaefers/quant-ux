@@ -396,16 +396,17 @@
         padding: $form_padding;
         width: 100%;
         height: 168px;
-        border: 1px solid transparent;
+        border: 1px solid $comment_input_border;
         border-radius: 8px;
 
+
         &:hover {
-            border: 1px solid $comment_input_border;
+            border: 1px solid $comment_input_border_hover;
             outline: none;
         }
 
         &:focus {
-            border: 1px solid $comment_input_border;
+            border: 1px solid $comment_input_border_hover;
             outline: none;
         }
     }

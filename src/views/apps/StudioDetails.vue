@@ -40,6 +40,7 @@
                 <div class="StudioDetailsCommentsList" ref="commentList">
                     <StudioComment v-if="hasNew"
                         :isNew="true"
+                        :user="user" 
                         :comment="{}"
                         @create="onCreateComment"
                         />
@@ -116,9 +117,6 @@ export default {
                     comments = comments.filter(c => c.type === 'ScreenComment' || c.type === 'overview_edit')
                 }
                 if (session) {
-                    comments.forEach(c => {
-                        console.debug(c.type, c.reference)
-                    })
                     comments = comments.filter(c => c.type === 'overview_test' && c.reference === session)
                 }
             }
@@ -139,6 +137,10 @@ export default {
             this.hasNew = true
         },
         async onCreateComment(m, parentId) {
+            if (!m) {
+                this.hasNew = false
+                return
+            }
             const comment = {
                 message: m,
 				reference: '',
@@ -180,8 +182,7 @@ export default {
                 }
             }
 
-            console.debug('save', comment.type, comment.reference)
-       
+    
             let response = await Services.getCommentService().create(this.app.id, comment)
             if (response.id) {
                 comment.id = response.id

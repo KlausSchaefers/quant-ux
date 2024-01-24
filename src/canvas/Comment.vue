@@ -432,6 +432,9 @@ export default {
 			widget.on("delete", (c, isChild) => {
 				this.onDeleteComment(c, isChild)
 			})
+			widget.on("next", (i, e) => {
+				this.showNextComment(comment, i, e)
+			})
 			widget.on("cancel", () => this.onCloseCommentPopup())
 
 			this._commentPopup = popup;
@@ -451,6 +454,25 @@ export default {
 				popup.style.left = Math.round(box.x) + "px";		
 			}
 
+		},
+
+		showNextComment (comment, i, e) {		
+			const list = Object.values(this.comments).filter(c => !c.parentId)
+			const index = list.findIndex(c => c.id === comment.id)
+			if (index >= 0) {		
+				const nextIndex = (index + i + list.length) % list.length
+				const nextComment = list[nextIndex]
+				if (nextComment.reference !== 'canvas') {
+					this.moveToScreen(nextComment.reference, true)
+				} else {
+					const box = {
+						x: this.getZoomed(nextComment.x, this.zoom),
+						y: this.getZoomed(nextComment.y, this.zoom),
+					}
+					this.moveToBox(box, true)
+				}
+				this.showCommentPopUp(nextComment, e)
+			}
 		},
 
 		_repositionCanvasPopup(popup, e) {

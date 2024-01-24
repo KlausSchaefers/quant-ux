@@ -250,6 +250,26 @@ export default {
 			}
 		},
 
+		moveToBox (box) {
+			if(this.model){
+				var winBox = win.getBox();
+				var xOffSetScreen = (box.x);
+				var xOffSetWindow = (winBox.w/2)+ Math.abs(this.canvasPos.x);
+				this.canvasPos.x = this.canvasPos.x + (xOffSetWindow - xOffSetScreen) -100;
+				var yOffSetScreen = (box.y);
+				var yOffSetWindow = Math.min(winBox.h/2,200)+ Math.abs(this.canvasPos.y);
+				this.canvasPos.y = this.canvasPos.y + (yOffSetWindow - yOffSetScreen) -100;
+				// if (animate) {
+				// 	css.add(this.container, "MatcCanvasContainerAnimatePos")
+				// 	setTimeout(() => {
+				// 		css.remove(this.container, "MatcCanvasContainerAnimatePos")
+				// 	}, 5000)
+				// }
+				this.setContainerPos();
+
+			}
+		},
+
 		/**********************************************************************
 		 * Fonts
 		 **********************************************************************/

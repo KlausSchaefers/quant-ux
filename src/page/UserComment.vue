@@ -10,10 +10,11 @@
         <div class="UserCommentFooter">
             {{formatDate(comment.created)}} <span v-if="comment.edited">(edited)</span>
         </div>
+
         <div class="UserCommentMessage" v-if="mode === 'view'">{{message}}</div>
         <div class="UserCommentElement" v-else>
-            <textarea v-model="message"></textarea>
-            <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onBlur">Save</button> 
+            <textarea v-model="message" class="MatcMarginTopXS"></textarea>
+            <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onBlur">Save</button> 
         </div>
     </div>
 </template>

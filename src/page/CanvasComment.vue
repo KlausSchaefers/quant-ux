@@ -1,35 +1,43 @@
 <template>
     <div class="MatcCanvasCommentDialog" @click.stop @mousedown.stop @keyup.stop @keydown.stop @dblclick.stop>
-  
-        <div class="MatcCanvasCommentDialogList" v-if="comment">
-          
-            <UserComment 
-                v-if="!isNew"
-                :comment="comment" 
-                :user="user"
-                @delete = "onDelete"
-                @change="onChangeMessage"
-                @status="onChangeStatus"/>
-
-            <div v-for="child in replies" :key="child.id" class="">      
-                <UserComment
-                    class="UserCommentResponse"
-                    :comment="child" 
+        <div class="MatcCanvasCommentDialogHeader" v-if="!isNew">
+            <QIcon icon="SVGChevronLeft" @click="onNext(-1, $event)" />
+            <QIcon icon="SVGChevronRight" @click="onNext(1, $event)"/>
+        </div> 
+        <div class="MatcCanvasCommentDialogContent">
+            <div class="MatcCanvasCommentDialogList" v-if="comment">
+                
+                <UserComment 
+                    v-if="!isNew"
+                    :comment="comment" 
                     :user="user"
-                    @delete = "onDeleteChild"
+                    @delete = "onDelete"
                     @change="onChangeMessage"
                     @status="onChangeStatus"/>
-            </div>
-        </div>
 
-        <div v-if="isNew || isReply" class="MatcMarginTop" >
-            <textarea v-model="newMessage" ref="newInput" class="MatcCanvasCommentDialogMessage MatcCanvasCommentDialogMessageEditor"></textarea>
-            <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onCreate" v-if="isNew">Save</button> 
-            <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onReply" v-if="isReply">Save</button> 
+                <div v-for="child in replies" :key="child.id" class="">      
+                    <UserComment
+                        class="UserCommentResponse"
+                        :comment="child" 
+                        :user="user"
+                        @delete = "onDeleteChild"
+                        @change="onChangeMessage"
+                        @status="onChangeStatus"/>
+                </div>
+            </div>
+
+            <div v-if="isNew || isReply" class="" >
+                <UserCommentHeader :user="user" /> 
+                <textarea v-model="newMessage" ref="newInput" class="MatcCanvasCommentDialogMessage MatcCanvasCommentDialogMessageEditor MatcMarginTopXS"></textarea>
+                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCreate" v-if="isNew">Save</button> 
+                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onReply" v-if="isReply">Save</button>
+            </div>
+            <div v-else>
+                <div class="MatcCanvasCommentDialogReplyButton" @click="showReply">Reply...</div>
+            </div>    
+  
         </div>
-        <div v-else>
-            <div class="MatcCanvasCommentDialogReplyButton" @click="showReply">Reply...</div>
-        </div>       
+       
     </div>
 </template>
 <style lang="scss">
@@ -40,6 +48,8 @@ import DojoWidget from "dojo/DojoWidget";
 import Logger from "common/Logger";
 import lang from 'dojo/_base/lang'
 import UserComment from 'page/UserComment'
+import UserCommentHeader from 'page/UserCommentHeader'
+import QIcon from "page/QIcon";
 
 export default {
     name: "CanvasComment",
@@ -57,7 +67,9 @@ export default {
         };
     },
     components: {
-        'UserComment': UserComment
+        'UserComment': UserComment,
+        'UserCommentHeader': UserCommentHeader,
+        'QIcon': QIcon
     },
     computed: {
         replies () {
@@ -147,6 +159,10 @@ export default {
                     }
                 }, 100)
             }
+        },
+
+        onNext (i, e) {
+            this.emit("next", i, e)
         },
 
         onCancel() {

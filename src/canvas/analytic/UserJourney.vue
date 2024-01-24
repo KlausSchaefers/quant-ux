@@ -224,7 +224,7 @@
           
           const screenID = this.getEventScreenId(e);
           const sourceScreen = this.sourceModel.screens[screenID];
-                  const zoomedScreen = this.model.screens[screenID];
+          const zoomedScreen = this.model.screens[screenID];
           if (sourceScreen && zoomedScreen) {
             if (e.type == "SessionStart") {
               const x = sourceScreen.x - Math.max(10, Math.round(30 * this.zoom));

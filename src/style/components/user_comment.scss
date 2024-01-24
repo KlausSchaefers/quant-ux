@@ -21,22 +21,12 @@
     }
 
     textarea {
-        background: $comment_input_background;
+      
         padding: $form_padding;
         width: 100%;
-        height: 168px;
-        border: 1px solid transparent;
+        height: 168px;   
         border-radius: 8px;
 
-        &:hover {
-            border: 1px solid $comment_input_border;
-            outline: none;
-        }
-
-        &:focus {
-            border: 1px solid $comment_input_border;
-            outline: none;
-        }
     }
 
     .UserCommentHeader {

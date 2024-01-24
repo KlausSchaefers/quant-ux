@@ -557,8 +557,8 @@ export default {
                     const duration = db.div().build(details)
                     db.span("",session.duration + 's').build(duration)
 
-                    const events = db.div().build(details)
-                    db.span("",session.size + ' Events').build(events)
+                    // const events = db.div().build(details)
+                    // db.span("",session.size + ' Events').build(events)
                 } else {
                     if (order === 'duration') {
                         chk.setLabel("Test " + (session.id) + " - " + session.duration + "s"); // + session.taskPerformance +" Tasks - "

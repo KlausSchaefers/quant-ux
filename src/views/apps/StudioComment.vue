@@ -21,16 +21,18 @@
         </div>
 
         <div v-if="isNew" class="StudioCommentElement MatcMarginTop" >
-            <textarea v-model="message"></textarea>
-            <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onCreate">Save</button> 
+            <UserCommentHeader :user="user" /> 
+            <textarea v-model="message" class="MatcMarginTopXS"></textarea>
+            <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCreate">Save</button> 
         </div>
 
       
         <div class="StudioCommentReplyCntr" v-if="!isNew">
             <a class="StudioCommentReply" v-if="!hasReply" @click="showReply">Reply...</a>
             <template v-else>
-                <textarea v-model="replyMessage" ref="replyInput"></textarea>
-                <button class="MatcButton MatcButtonXXS MatcMarginTop" @click="onReply">Save</button> 
+                <UserCommentHeader :user="user" /> 
+                <textarea v-model="replyMessage" ref="replyInput" class="MatcMarginTopXS"></textarea>
+                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onReply">Save</button> 
             </template>
         </div>
 
@@ -41,7 +43,9 @@
 
 <script>
 import UserComment from 'page/UserComment'
+import UserCommentHeader from 'page/UserCommentHeader'
 import Logger from "common/Logger";
+import * as UIUtil from '../../util/UIUtil'
 export default {
     name: "StudioComment",
     mixins: [],
@@ -57,7 +61,8 @@ export default {
         };
     },
     components: {
-        'UserComment': UserComment
+        'UserComment': UserComment,
+        'UserCommentHeader': UserCommentHeader
     },
     computed: {
         children () {
@@ -106,6 +111,12 @@ export default {
             setTimeout(() => {
                 this.$refs.replyInput.focus()
             }, 200)
+        },
+        formatDate(ts) {
+            return UIUtil.formatDate(ts)
+        },
+        getUserName(user) {
+            return UIUtil.getUserName(user)
         }
     },
     watch: {
