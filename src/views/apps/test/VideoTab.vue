@@ -45,21 +45,6 @@
     </section>
     <!-- Player & Annotations -->
 
-    <section class="" v-if="hasComments">
-
-        <div class="box is-shadowless">
-          <h3 class="title">{{ $t('common.comments')}}</h3>
-          <Comment
-            v-if="app"
-            :appID="app.id"
-            type="overview_test"
-            :reference="sessionID"
-            contentID
-            insertPosition="bottom"
-          />
-        </div>
-
-    </section>
   </div>
 </template>
 <script>
@@ -68,7 +53,6 @@ import DojoWidget from "dojo/DojoWidget";
 import DataFrame from "common/DataFrame";
 import Services from "services/Services";
 import Util from "core/Util";
-import Comment from "page/Comment";
 import VideoAnnotation from "views/apps/test/VideoAnnotation";
 import VideoPlayer from "views/apps/test/VideoPlayer";
 
@@ -87,8 +71,7 @@ export default {
   },
   components: {
     VideoAnnotation: VideoAnnotation,
-    VideoPlayer: VideoPlayer,
-    Comment: Comment
+    VideoPlayer: VideoPlayer
   },
   computed: {
     pub() {

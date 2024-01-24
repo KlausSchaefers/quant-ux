@@ -66,21 +66,6 @@
         <a @click="showDeleteDialog" class="button is-fullwidth is-normal is-danger level-item" ><span ref="deleteBtn">Delete Prototype</span></a>
       </div>
     </section>
-    <section class="section">
-      <div class="container">
-        <div class="box is-shadowless">
-          <h2 class="title">Comments</h2>
-          <Comment
-            v-if="app"
-            :appID="app.id"
-            type="app_settings"
-            :reference="sessionID"
-            contentID
-            insertPosition="bottom"
-          />
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 <script>
@@ -88,7 +73,6 @@ import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
 import Team from "page/Team";
 import Services from "services/Services";
-import Comment from "page/Comment";
 import on from "dojo/on";
 import touch from "dojo/touch";
 import Dialog from "common/Dialog";
@@ -107,7 +91,6 @@ export default {
     };
   },
   components: {
-    Comment: Comment,
     Team: Team
   },
   computed: {

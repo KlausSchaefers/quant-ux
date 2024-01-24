@@ -64,21 +64,6 @@
 
     </section>
 
-
-    <section class="" v-if="hasComments">
-   
-        <div class="box is-shadowless">
-          <h3 class="title">{{ $t('common.comments')}}</h3>
-          <Comment
-            v-if="app"
-            :appID="app.id"
-            type="overview_dash"
-            reference
-            contentID
-            insertPosition="bottom"
-          />
-        </div>
-    </section>
   </div>
 </template>
 <script>
@@ -93,7 +78,6 @@ import AnalyticsHeader from "views/apps/analytics/AnalyticsHeader";
 import AnalyticTaskList from "views/apps/analytics/AnalyticTaskList";
 import SurveySection from "views/apps/analytics/SurveySection";
 import DistributionSection from "views/apps/analytics/DistributionSection";
-import Comment from "page/Comment";
 import HelpButton from "help/HelpButton";
 
 export default {
@@ -108,7 +92,6 @@ export default {
     };
   },
   components: {
-    'Comment': Comment,
     'AnalyticsHeader': AnalyticsHeader,
     'AnalyticTaskList': AnalyticTaskList,
     'SurveySection': SurveySection,

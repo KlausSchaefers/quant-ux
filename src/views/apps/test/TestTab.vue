@@ -82,21 +82,6 @@
 
     </section>
 
-    <section class="" v-if="hasComments">
-
-        <div class="box is-shadowless">
-          <h3 class="title">{{ $t('common.comments')}}</h3>
-          <Comment
-            v-if="app"
-            :appID="app.id"
-            type="overview_test"
-            reference
-            contentID
-            insertPosition="bottom"
-          />
-        </div>
-  
-    </section>
   </div>
 </template>
 <style lang="scss">
@@ -118,7 +103,6 @@ import Analytics from "dash/Analytics"
 import Plan from "page/Plan"
 import {iconDOM} from "page/QIconUtil"
 import Util from "core/Util"
-import Comment from "page/Comment"
 import HelpButton from "help/HelpButton"
 import Dialog from "common/Dialog"
 import touch from "dojo/touch"
@@ -160,7 +144,6 @@ export default {
   components: {
     'BulletGraph': BulletGraph,
     'TestSettings': TestSettings,
-    'Comment': Comment,
     'HelpButton': HelpButton,
     'CheckBox': CheckBox
   },

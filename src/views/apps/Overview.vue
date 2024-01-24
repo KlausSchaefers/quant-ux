@@ -158,7 +158,6 @@ import SettingsTab from "views/apps/SettingsTab";
 
 import Team from "page/Team";
 import Share from "page/Share";
-import Comment from "page/Comment";
 import Services from "services/Services";
 
 export default {
@@ -190,8 +189,7 @@ export default {
     VideoTab: VideoTab,
     SettingsTab: SettingsTab,
     Team: Team,
-    HeatTab: HeatTab,
-    Comment: Comment
+    HeatTab: HeatTab
   },
   computed: {
     isPublic() {
