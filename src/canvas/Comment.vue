@@ -448,7 +448,7 @@ export default {
 				popup.style.left = Math.round(screen.x + screen.w * comment.x) + "px";				
 			} else {
 				let box = {
-					x: comment.x,
+					x: comment.x + 32,
 					y: comment.y
 				};
 				box = this.getZoomedBox(box, this.zoom, this.zoom);
