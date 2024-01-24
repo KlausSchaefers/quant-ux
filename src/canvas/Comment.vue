@@ -368,6 +368,8 @@ export default {
 				const y = pos.y
 				comment.x = x;
 				comment.y = y;
+				// this will break old commments
+				comment.reference = 'canvas'
 				this.saveDNDChange(comment);				
 			}
 		},

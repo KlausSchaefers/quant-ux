@@ -10,13 +10,13 @@
       </a>
     </div>
 
-    <div class="form-group MatcShareRow">
+    <!-- <div class="form-group MatcShareRow">
       <label>Share and Comment</label>
       <input type="text" class="form-control" :value="shareLink" @focus="select" />
       <a class="MatcShareIcon" :href="shareLink" target="_QuantUXShare">
         <QIcon icon="Share"/>
       </a>
-    </div>
+    </div> -->
 
     <div class="form-group  MatcShareRow">
       <label>Low-Code Token</label>
