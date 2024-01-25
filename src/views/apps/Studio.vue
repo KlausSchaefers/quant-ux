@@ -50,12 +50,7 @@
                     </div>
 
                     <div class="MatcStudioNavRow">
-                        <a class="MatcLink" href="#/help.html">
-                            <QIcon icon="Notification"/>
-                            <span class="MatcCollapseViewMinHidden">
-                                {{ $t('app.notifications') }}
-                            </span>
-                        </a>
+                        <StudioNotification />
                     </div>
 
                     <div class="MatcStudioNavRow">
@@ -131,6 +126,7 @@ import StudioOverview from './StudioOverview'
 import CreateAppDialog from "page/CreateAppDialog";
 import QIcon from "page/QIcon";
 import AppListDialog from './AppListDialog'
+import StudioNotification from './StudioNotification'
 
 
 export default {
@@ -148,8 +144,8 @@ export default {
         'StudioOverview': StudioOverview,
         'CreateAppDialog': CreateAppDialog,
         'QIcon': QIcon,
-        'AppListDialog': AppListDialog
-        //AppList: AppList
+        'AppListDialog': AppListDialog,
+        'StudioNotification': StudioNotification
     },
     computed: {
         hasMore () {

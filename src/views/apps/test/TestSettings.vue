@@ -31,8 +31,10 @@
                     <span class="MatcHint" v-else>No steps </span>
                   </td>
                   <td class=" action">
+                    <div style="width: 100px; display: flex; justify-content: flex-end;">
                     <a class="MatcButton MatcButtonXXS MatcButtonSecondary" @click="onEditTask(task, i, $event)"><QIcon icon="EditSquare"/></a>
                     <a class="MatcButton MatcButtonXXS MatcButtonDanger MatcButtonSecondary" @click="onDelete(task, i, $event)"><QIcon icon="DeleteTrash"/></a>
+                    </div>
                   </td>
                 </tr>
             </tbody>
