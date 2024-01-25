@@ -9,8 +9,6 @@ var cloneID = 0
 export function transform(model, config) {
 	Logger.log(1, "Falt2Tree.transform () > enter", config)
 
-	this.removeRootIfNeeded = true
-
 	let result = {
 		id: model.id,
 		name: model.name,
