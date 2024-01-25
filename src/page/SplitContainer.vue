@@ -7,7 +7,7 @@
         <div :class="['MatcSplitViewBorder']" >
             <div :class="['MatcSplitViewHandler', {'MatcSplitViewHandlerLeft' : left} , {'MatcSplitViewHandlerRight' : right} ]" @mousedown="onMousedown"></div>
         </div>
-        <div :class="['MatcSplitViewChild MatcSplitViewRight ', {'MatcSplitViewChildBorder' : right} ]" :style="rightWidth" ref="rightChild">
+        <div :class="['MatcSplitViewChild MatcSplitViewRight MatcSplitViewChildResizeContainer', {'MatcSplitViewChildBorder' : right} ]" :style="rightWidth" ref="rightChild">
       
             <slot name="right"></slot>
         </div>    

@@ -117,3 +117,16 @@
     }
 }
 
+
+    
+.MatcSplitViewChildResizeContainer{
+    container-type: inline-size;
+    container-name: child;
+}
+
+
+@container (max-width: 256px) {
+    .MatcSplitView200Hidden {
+        display: none;
+    }
+}
