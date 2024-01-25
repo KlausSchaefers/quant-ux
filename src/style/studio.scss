@@ -434,3 +434,23 @@
     }
 }
 
+
+@container (max-width: 250px) {
+    .StudioDetails .StudioDetailsKPICntr {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.StudioNotification {
+    position: relative;
+    .StudioNotificationBubble {
+        position: absolute;
+        height: 8px;
+        width: 8px;
+        border-radius: 8px;
+        background: $color_danger;
+        top: 2px;
+        left:12px
+    }
+}
