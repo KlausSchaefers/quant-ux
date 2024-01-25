@@ -10,7 +10,7 @@
                     
 
                     <div class="MatcMarginTop MatcCollapseViewMinHidden">        
-                        <button @click="showNewDialog" class="MatcButton MatcButtonPrimary  MatcButtonXS">
+                        <button @click="showNewDialog" class="MatcButton MatcButtonFullWidth MatcButtonPrimary  MatcButtonXS">
                             <QIcon icon="Plus"/>
                             <span class="MatcCollapseViewMinHidden"> 
                                 {{ $t('app.create') }}

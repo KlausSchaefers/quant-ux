@@ -917,7 +917,7 @@ tr:hover .VommondInputListRemove {
 	z-index: 9000000;
 	top: 0px;
 	left: 0px;
-	background: rgba(69, 72, 77, 0.6);
+    background: rgba(69, 72, 77, 0.8);
 	transition-duration: 0.5s;
 	transition-property: all;
 }
@@ -947,8 +947,8 @@ tr:hover .VommondInputListRemove {
 
 .VommondDialogWrapper {
 	display: inline-block;
-	border-radius: 3px;
-	box-shadow: 0 0 20px #000;
+    box-shadow: 0 0.5em 1em -0.125em rgb(3 18 39 / 10%), 0 0px 0 1px rgb(3 18 39 / 2%);
+    border-radius: 8px;
 	position: absolute;
 	transition-duration: 0.3s;
 	transition-property: all;

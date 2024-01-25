@@ -132,7 +132,8 @@
         "guest": "Guest",
         "loading": "Loading...",
         "language-changed": "The language was changed",
-        "comments": "Comments"
+        "comments": "Comments",
+        "close": "Close"
     },
     "simulator": {
         "welcome": {
@@ -369,6 +370,7 @@
             "share": "Share"
         },
         "notifications": "Updates",
+        "notifications-none": "There are currently no upates.",
         "lastEdit": "Last update",
         "numberTests": "Tests",
         "create": "Create",

@@ -14,8 +14,10 @@
         stroke-linejoin="round"
         v-html="icons[icon]">
       </svg>
+      <span v-if="bubble" class="MatcQIconBubble" ></span>
     </div>
     <span v-else :class="'MatcQIcon ' + icon" @click="onClick" @mouseover="onMouseOver" @mouseout="onMouseOut"></span>
+
   </template>
   <style lang="scss">
   @import "../style/components/icon.scss";
@@ -26,7 +28,7 @@
   import {icons} from './QIconsSVG'
   export default {
     name: "QIcon",
-    props:['icon', 'tooltip'],
+    props:['icon', 'tooltip', 'bubble'],
     mixins: [DojoWidget, _Tooltip],
     data: function() {
       return {

@@ -99,7 +99,6 @@ export default class ResponsiveLayout {
 
         // add groups
         this.initApp(responsiveSelection, wrapGroups)
-
     }
 
     isBoundingBoxScreen(boundingBox) {

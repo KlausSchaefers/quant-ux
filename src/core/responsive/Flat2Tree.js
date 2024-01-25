@@ -9,6 +9,8 @@ var cloneID = 0
 export function transform(model, config) {
 	Logger.log(1, "Falt2Tree.transform () > enter", config)
 
+	this.removeRootIfNeeded = true
+
 	let result = {
 		id: model.id,
 		name: model.name,
@@ -27,7 +29,7 @@ export function transform(model, config) {
 		/**
 		 * First we build a hierachical parent child relation.
 		 */
-		screen = transformScreenToTree(screen, model)
+		screen = transformScreenToTree(screen, model, true)
 
 		/**
 		 * Add rows and grid if needed
@@ -90,6 +92,8 @@ function layoutTree(screen, useRows) {
 	 * Afterwards we re order the elements
 	 */
 	fixParents(screen)
+
+	console.debug('YYY', screen)
 
 	screen = addGrid(screen)
 	return screen
@@ -250,7 +254,7 @@ function fixParents(parent) {
 /**
  * Transforms and screen into a hiearchical presentation. return the root node.
  */
-function transformScreenToTree(screen, model) {
+function transformScreenToTree(screen, model, removeRootIfNeeded) {
 	let result = clone(screen)
 	delete result.children
 	delete result.has
@@ -320,127 +324,24 @@ function transformScreenToTree(screen, model) {
 		elementsById[element.id] = element
 	})
 
-	/**
-	 * Padding messes with the grid :(
-	 */
-	//resetPadding(result)
+	// we can have a situation that there is one child that is as bug as the selection. As 
+	// a result the grid would be for thet single box. We do not want this, so we remove the
+	// single child
+	if (removeRootIfNeeded) {
+		if (result.children.length === 1) {
+			const firstChild = result.children[0]
+			if (firstChild.w === result.w && firstChild.h === result.h) {
+				result.children = firstChild.children
+				firstChild.children.forEach(child => {
+					child.parent = result
+				})
+			}
+		}
+        
+	}
+	
 	return result
 }
-
-// function setFixedChildren(screen, model) {
-// 	if (screen.children) {
-// 		setFixedChildrenInElement(screen, screen, model)
-// 	}
-// 	return screen
-// }
-
-// function setFixedChildrenInElement(element, screen, model, fixBottomNodes = true) {
-// 	/**
-// 	 * Attention. Fixed elements must be set in the model as fixed. Otherwise
-// 	 * the oder in the tree method is not correct and the will be wrongly nested!
-// 	 */
-// 	if (element.children) {
-// 		let children = []
-// 		element.children.forEach((child) => {
-// 			if (child.style.fixed === true) {
-// 				child.x = child._x - screen.x
-// 				child.y = child._y - screen.y
-// 				// the first call if with the element being the screen
-// 				if (element.id !== screen.id) {
-// 					element.parent = screen
-// 				}
-
-// 				setAllChildrenAsNotFixed(child)
-// 				if (fixBottomNodes) {
-// 					setFixedBottom(child, model, screen)
-// 				}
-// 				screen.fixedChildren.push(child)
-// 			} else {
-// 				setFixedChildrenInElement(child, screen, model)
-// 				children.push(child)
-// 			}
-// 		})
-// 		element.children = children
-// 	}
-// }
-
-// function setFixedBottom(element, model, screen) {
-
-// 	/**
-// 	 * IF we have an pinned bottom
-// 	 */
-// 	if (Util.isPinnedDown(element)) {
-// 		element.bottom = Util.getDistanceFromScreenBottom(element, model, screen)
-// 	}
-// }
-
-// function setAllChildrenAsNotFixed(element) {
-// 	if (element.children) {
-// 		element.children.forEach((child) => {
-// 			child.style.fixed = false
-// 			setAllChildrenAsNotFixed(child)
-// 		})
-// 	}
-// }
-
-// function resetPadding(element) {
-// 	if (element.children) {
-// 		element.children.forEach((child) => {
-// 			/**
-// 			 * If we have more than one child, we have to set the padding to 0.
-// 			 * Also, we have to create an label element
-// 			 */
-// 			let labelToAdd = null
-// 			if (child.children && child.children.length > 0) {
-// 				let style = child.style
-// 				if (child.props.label) {
-// 					let style = child.style
-// 					let paddingLeft = style.paddingLeft ? style.paddingLeft : 0
-// 					let paddingRight = style.paddingRight ? style.paddingRight : 0
-// 					let paddingBottom = style.paddingBottom ? style.paddingBottom : 0
-// 					let paddingTop = style.paddingTop ? style.paddingTop : 0
-// 					// Logger.warn('Falt2Tree.resetPadding() > inline label!', child)
-// 					labelToAdd = {
-// 						id: child.id + "-label",
-// 						name: child.name + "-label",
-// 						type: "Label",
-// 						x: style.paddingRight,
-// 						y: style.paddingTop,
-// 						w: child.w - paddingLeft - paddingRight,
-// 						h: child.h - paddingBottom - paddingTop,
-// 						props: Util.clone(child.props),
-// 						style: {
-// 							color: style.color,
-// 							textAlign: style.textAlign,
-// 							fontFamily: style.fontFamily,
-// 							fontSize: style.fontSize,
-// 							fontStyle: style.fontStyle,
-// 							fontWeight: style.fontWeight,
-// 							letterSpacing: style.letterSpacing,
-// 							lineHeight: style.lineHeight,
-// 							verticalAlign: style.verticalAlign,
-// 						},
-// 						children: [],
-// 					}
-// 				}
-
-// 				style.paddingBottom = 0
-// 				style.paddingLeft = 0
-// 				style.paddingRight = 0
-// 				style.paddingTop = 0
-
-// 				resetPadding(child)
-
-// 				if (labelToAdd) {
-// 					/**
-// 					 * Or add to fron?
-// 					 */
-// 					child.children.push(labelToAdd)
-// 				}
-// 			}
-// 		})
-// 	}
-// }
 
 /**
  * This method will try to find the parent widget. By default,

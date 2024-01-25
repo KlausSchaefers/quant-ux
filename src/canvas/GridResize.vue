@@ -86,13 +86,13 @@ export default {
             
             this._gridResponsiveLayouter = new ResponsiveLayout()
             this._gridResponsiveLayouter
-                .initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children, true, false)
+                .initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children, true, true)
             
             const tree = this._gridResponsiveLayouter.treeModel
             const root = tree.screens[0]
             const grid = lang.clone(root.grid)
 
-            console.debug(root)
+            //console.debug(root)
 
             this._gridResizeGrid = grid
 

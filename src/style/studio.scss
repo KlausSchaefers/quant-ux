@@ -43,6 +43,10 @@
                 justify-content: center;
             }
         }
+
+        .StudioNotificationBubble {
+            left:18px
+        }
     }
 
     .MatcStudioNav {
@@ -84,7 +88,7 @@
             }
         }
 
-        .MatcButton {
+        .MatcButtonFullWidth {
             width: 100%;
             padding: 16px;
             height: 40px;
@@ -452,5 +456,37 @@
         background: $color_danger;
         top: 2px;
         left:12px
+    }
+
+    .StudioNotificationContainer {
+        margin-top: 24px;
+        min-height: 96px;
+        max-height: 540px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 64px;
+  
+
+        .StudioNotificationItem {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            h3 {
+                margin: 0;
+                font-size: 18px;
+            }
+
+            p {
+
+            }
+
+            .StudioNotificationVideo {
+                display: flex;
+                justify-content: center;
+                margin-top: 16px;
+            }
+        }
     }
 }
