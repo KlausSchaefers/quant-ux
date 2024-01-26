@@ -189,17 +189,11 @@ a:FOCUS {
 	color: $color_danger;
 }
 
-
-
-
-
-.MatcLead {
-	font-weight: 400;
-	margin-bottom: 20px;
-	font-size: 18px;
-	line-height: 2;
-	color: #4a5c68;
+.MatcSuccess {
+	color: $color_success;
 }
+
+
 
 .MatcScrolabeContentBox {
 	max-height: 400px;

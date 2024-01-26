@@ -9,9 +9,7 @@
     }
 
     .MatcCollapseViewMin {
-        .MatcSplitViewChild {
-            overflow: visible;
-        }
+        
         .MatcStudioNav {
             padding: 16px 8px;
             justify-content: center;
@@ -147,6 +145,16 @@
 .StudioOverview {
     width: 100%;
     background-color: $page_color-secondary;
+    font-size: $font-size-s;
+    .StudioDescription {
+        font-size: $font-size-xs;
+        padding: 0px;
+        white-space: pre-wrap;
+    }
+
+    h3, h4 {
+        font-size: $font-size-s;
+    }
 
     // .MatcScreenList .MatcContentBox .MatcPreviewWrapper {
     //     border: none;
@@ -158,10 +166,7 @@
         gap: 32px;
         flex-direction: column;
 
-        .MatcInlineEdit {
-            padding: 0px;
-            white-space: pre;
-        }
+     
     }
 
     .MatcTeam {
@@ -296,12 +301,12 @@
 }
 
 .StudioDetails {
-    height: 100vh;
     background: $page_color;
     padding: 16px;
     display: flex;
     gap: 32px;
     flex-direction: column;
+
 
     .StudioDetailsDescription {
         font-size: 14px;

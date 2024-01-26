@@ -64,12 +64,12 @@
           <div v-if="tab == 'design'">
             <div class="StudioOverviewTabContent">
               <div>
-                <h4>{{ $t('app.description')}}</h4>
-                <div @blur="onChangeAppDescription" class="MatcMarginTop MatcInlineEdit" contenteditable="true" ref="inputDescription" >{{app.description}}</div>
+                <h3>{{ $t('app.description')}}</h3>
+                <div @blur="onChangeAppDescription" class="MatcMarginTop StudioDescription MatcInlineEdit" contenteditable="true" ref="inputDescription" >{{app.description}}</div>
               </div>
 
               <div>
-                <h4 class="" >{{ $t('app.screen-list')}}</h4>
+                <h3 class="" >{{ $t('app.screen-list')}}</h3>
                 <ScreenList :app="app" v-if="appLoaded" :pub="isPublic" class="MatcMarginTop" />
               </div>
 
@@ -357,16 +357,18 @@ export default {
       return UIUtil.formatDate(t, justDate)
     },
     async onChangeAppDescription () {    
-      this.app.description = this.$refs.inputDescription.innerText.trim()
+      const description = this.$refs.inputDescription.innerText.trim()
       let res = await Services.getModelService().updateAppProps(this.app.id, {
         id: this.app.id,
-        description: this.app.description
+        description: description
       })
       if (res.status === "ok") {
+        this.app.description = description
         this.showSuccess("Description was saved...");
       } else {
         this.showError("Oooppps, Could not change the color. Try again!");
       }
+      
     },
     async onColorChange (c) {
 
