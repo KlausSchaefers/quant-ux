@@ -65,7 +65,7 @@
             <div class="StudioOverviewTabContent">
               <div>
                 <h3>{{ $t('app.description')}}</h3>
-                <div @blur="onChangeAppDescription" class="MatcMarginTop StudioDescription MatcInlineEdit" contenteditable="true" ref="inputDescription" >{{app.description}}</div>
+                <AutoTextArea  :inline="true" v-model="app.description" @blur="onChangeAppDescription"/>
               </div>
 
               <div>
@@ -133,6 +133,7 @@ import DomBuilder from "common/DomBuilder";
 import * as UIUtil from '../../util/UIUtil'
 
 import ScreenList from "page/ScreenList";
+import AutoTextArea from 'page/AutoTextArea'
 import QIcon from "page/QIcon";
 import TestTab from "views/apps/test/TestTab";
 import AnalyticsTab from "views/apps/analytics/AnalyticsTab";
@@ -190,7 +191,8 @@ export default {
     QIconDropDown: QIconDropDown,
     StudioDetails: StudioDetails,
     SplitContainer: SplitContainer,
-    CommentsTab: CommentsTab
+    CommentsTab: CommentsTab,
+    AutoTextArea: AutoTextArea
 },
   computed: {
     isPublic() {
@@ -356,13 +358,13 @@ export default {
     formatDate (t, justDate) {
       return UIUtil.formatDate(t, justDate)
     },
-    async onChangeAppDescription () {    
-      const description = this.$refs.inputDescription.innerText.trim()
+    async onChangeAppDescription (description) {    
       let res = await Services.getModelService().updateAppProps(this.app.id, {
         id: this.app.id,
         description: description
       })
       if (res.status === "ok") {
+       
         this.app.description = description
         this.showSuccess("Description was saved...");
       } else {

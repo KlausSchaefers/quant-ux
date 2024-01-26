@@ -1,0 +1,41 @@
+
+<template>
+    <div :class="['MatcAutoTextArea', {'MatcAutoTextAreaInline':inline} ]">
+        <div class="MatcAutoTextAreaHidden">{{label}}</div>
+        <textarea v-model="label" @blur="onBlur"></textarea>
+    </div>
+  </template>
+  <style lang="scss">
+    @import "../style/components/auto_textarea.scss";
+  </style>
+  <script>
+
+  export default {
+    name: "AutoTextArea",
+    props:['value', 'inline'],
+    mixins: [],
+    data: function() {
+      return {
+        label: ''
+      };
+    },
+    components: {
+    },
+    computed: {
+    },
+    methods: {
+        onBlur () {
+            this.$emit("blur", this.label.trim())
+        }
+    },
+    watch: {
+        value (v) {
+            this.label = v
+        }
+    },
+    async mounted() {
+        console.debug(this.value)
+        this.label = this.value
+    }
+  };
+  </script>
