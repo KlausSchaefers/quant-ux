@@ -64,7 +64,7 @@
 
 
         .MatcQIcon .MatcQIconSVG {
-            stroke-width: 2.5;
+            stroke-width: 2;
         }
 
         .MatcButtonSecondary {
@@ -488,5 +488,11 @@
                 margin-top: 16px;
             }
         }
+    }
+}
+
+.StudioContact {
+    textarea {
+        height: 128px;
     }
 }

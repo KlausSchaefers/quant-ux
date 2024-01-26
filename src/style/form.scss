@@ -85,7 +85,9 @@ input:focus {
 	font-size: $button_font_size;
 	text-decoration: underline;
 	border-radius: $button_radius;
-
+	background: none;
+	border:none;
+	
 	align-items: center;
 	line-height: 1;
 	display: inline-flex;
@@ -310,6 +312,15 @@ input:focus {
 .MatcButtonBar {
 	display: flex;
 	gap: 8px;
+
+	.MatcButtonBarSuccess {
+		color: $color_success;
+		height: $form_height;
+		display: flex;
+		align-items: center;
+		flex-grow: 1;
+		justify-content: flex-end;
+	}	
 }
 
 .MatcButtonBarCols {

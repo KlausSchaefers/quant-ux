@@ -353,6 +353,11 @@
         }
     },
     "app": {
+        "mail": {
+            "send": "Send",
+            "success": "Thanks for contacting us!",
+            "error": "Please enter your email and a message!"
+        },
         "error": {
             "server-offline-title": "Ooops",
             "server-offline-msg": "You have been gone for more than 30 minutes. To continue working, please log in again."
@@ -369,6 +374,8 @@
             "run-test": "Run Test",
             "share": "Share"
         },
+   
+        "contact": "Contact",
         "notifications": "Updates",
         "notifications-none": "There are currently no upates.",
         "lastEdit": "Last update",

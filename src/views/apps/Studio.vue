@@ -63,6 +63,11 @@
                     </div>
 
                     <div class="MatcStudioNavRow">
+                        <StudioContact :user="user" />
+                    </div>
+                    
+
+                    <div class="MatcStudioNavRow">
                         <a class="MatcLink" href="#/my-account.html" >
                             <QIcon icon="Account" v-if="!hasUserImage" ></QIcon>
                             <span class="MatcUserImageCntr " v-else>
@@ -127,7 +132,7 @@ import CreateAppDialog from "page/CreateAppDialog";
 import QIcon from "page/QIcon";
 import AppListDialog from './AppListDialog'
 import StudioNotification from './StudioNotification'
-
+import StudioContact from './StudioContact'
 
 export default {
     name: "Studio",
@@ -145,7 +150,8 @@ export default {
         'CreateAppDialog': CreateAppDialog,
         'QIcon': QIcon,
         'AppListDialog': AppListDialog,
-        'StudioNotification': StudioNotification
+        'StudioNotification': StudioNotification,
+        'StudioContact': StudioContact
     },
     computed: {
         hasMore () {

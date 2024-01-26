@@ -9,6 +9,7 @@
         <QIcon icon="AlignCenter" @click="onAlign('vertical', $event)"/>
         <QIcon icon="AlignHorizontal" @click="onDist('vertical', $event)" :class="{'MatcQIconPassive': !hasVertical}"/>
         <QIcon icon="AlignVertical" @click="onDist('horizontal', $event)" :class="{'MatcQIconPassive': !hasHorizontal}"/>
+        <QIcon icon="AlignGrid" @click="onDist('horizontal', $event)" :class="{'MatcQIconPassive': !hasHorizontal}" v-if="isMulti"/>
 	</div>
 </template>
 
@@ -24,6 +25,7 @@ export default {
     mixins:[_Tooltip, DojoWidget],
     data: function () {
         return {
+            hasMulti: false,
             hasHorizontal: false,
             hasVertical: false
         }

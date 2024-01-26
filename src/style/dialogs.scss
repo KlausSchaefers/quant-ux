@@ -3,6 +3,7 @@
     min-height: 200px;
     padding: $dialog_padding;
     border-radius: 12px;
+    cursor: default;
 }
 
 .MatcHelpDialog {
@@ -39,6 +40,7 @@
 
 .MatcOptionDialog {
     width: 480px;
+    cursor: default;
 }
 
 .MatcDialogMobile {
@@ -50,6 +52,7 @@
 .MatcDialogM {
     width: 600px;
     min-height: 200px;
+    cursor: default;
 }
 
 .MatcDialogXL {

@@ -94,9 +94,9 @@ export default {
         }
     },
     methods: {
-        showDialog (e) {
+        showDialog () {
             Services.getUserService().setLastNotication()
-            this.$refs.dialog.show(e.target)
+            this.$refs.dialog.show(this.$el)
         },
         close () {
             this.$refs.dialog.close()
