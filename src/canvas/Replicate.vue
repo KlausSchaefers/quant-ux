@@ -20,6 +20,8 @@ export default {
       onReplicate (){
         this.logger.log(0,"onReplicate", "enter");
 
+        this.cleanUpGridResize()
+
         // toggle between states
         if (!this._resizeDnDEndHandler){
           this._resizeDnDMoveHandler = "onReplicateDnDMove";

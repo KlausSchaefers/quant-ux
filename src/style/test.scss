@@ -1,3 +1,8 @@
+.MatcTestPage {
+    background-color: $page_color_secondary;
+    min-height: 100vh;
+}
+
 .MatcTestLogoCntr{
     position: fixed;
     left:50%;
@@ -168,7 +173,6 @@
 
 .MatcTestDesktopCntr{
 	display: inline-block;
-    margin-top: 32px;
     border-radius: 8px;
     display: inline-block;
     padding: 0px;
@@ -183,7 +187,6 @@
    border-radius: 8px;
    display: inline-block;
    padding: 0px;
-   margin-top: 48px;
    box-shadow: $page_drop_shadow_more;
 }
 
@@ -245,21 +248,35 @@ body.MatcTestMobile{
 	overflow:hidden;
 }
 
+.MatcTestCntr {
+    display: flex;
+    height: 100vh;
+  
 
-.MatcTestTaskCntr {
-    background: #fff;
-    padding: 32px;
-    width: 400px;
-    position: fixed;
-    height: 100%;
-    top:0px;
-    left:0px;
-    height: 100%;
-    box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.15);
-    transition: color 0.2s;
-    overflow: auto;
-    line-height: 1.5;
+    .MatcTestTaskCntr {
+        height: 100vh;
+        background: #fff;
+        padding: 16px;
+        width: 256px;
+        border-right: 1px solid $page_border;
+        transition: color 0.2s;
+        overflow: auto;
+    }
+
+    .MatcTest {
+        flex-grow: 1;
+        height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+
+        .MatcTestSimulatorWrapper {
+            margin-top: 48px;
+        }
+    }
+    
 }
+
 
 .MatcTestTaskCntr h1{
     font-size: 24px;

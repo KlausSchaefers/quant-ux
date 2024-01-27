@@ -91,7 +91,6 @@ function layoutTree(screen, useRows) {
 	 */
 	fixParents(screen)
 
-	console.debug('YYY', screen)
 
 	screen = addGrid(screen)
 	return screen

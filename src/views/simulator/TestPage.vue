@@ -1,6 +1,6 @@
 
 <template>
-<div :class="['MatcPublic', {'MatcWindows': hasWindows}]">
+<div :class="['MatcPublic MatcTestPage', {'MatcWindows': hasWindows}]">
 	<div :class="['MatcTest', {'MatcTestCustomSplash': hasSplash}]" v-if="step < 10">
 		<div v-if="hasSplash" class="MatcTestCustomSplashPowered">Powered by Quant-UX</div> 
 
@@ -93,7 +93,10 @@
 					</div>
 			</div>
 		</div>
-		<div class="MatcTest" ref="cntr">
+		<div class="MatcTest">
+			<div class="MatcTestSimulatorWrapper" ref="cntr">
+			
+			</div>
 		</div>
 	</div>
 	<div class="MatcTestVersion" v-if="step <= 1">
@@ -132,7 +135,7 @@ import QR from 'core/QR'
 import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
 import * as ScrollUtil from '../../util/ScrollUtil'
-
+import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
 
 export default {
     name: 'TestPage',
@@ -174,7 +177,7 @@ export default {
 		},
 		menuWidth () {
 			if (this.settings && this.settings.showTaskInTest) {
-				return 400
+				return 256
 			}
 			return 0
 		},
@@ -220,6 +223,10 @@ export default {
 			if(this.$route.query.s === "true"){
 				this.logger.log(-1,"postCreate","skipSplash");
 				this.skipSplash = true;
+			}
+
+			if (this.$route.query.responsive === 'true') {
+				this.isResponsive = true
 			}
 
 			/**
@@ -450,21 +457,83 @@ export default {
 			const screenPos = win.getBox();
 			screenPos.w -= this.menuWidth;
 
-			/**
-			 * Set container size... make sure
-			 */
-			const cntr = this.db.div("MatcSimulatorSection").build();
-			cntr.style.top="0px";
-			cntr.style.left = this.menuWidth + "px";
-			cntr.style.width = screenPos.w + "px";
-			this.$refs.cntr.appendChild(cntr);
-
-			if(this.model.type == "desktop"){
+			const cntr = this.$refs.cntr
+			if (this.isResponsive) {
+				// change model 
+				this.simulator = this.renderResponsiceSimulator(cntr, screenPos);
+			} else  if(this.model.type == "desktop"){
 				this.simulator = this.renderDesktopSimulator(cntr, screenPos);
 			} else {
+				// we want center of page, not center of right...
+				cntr.style.marginRight = this.menuWidth + 'px'
 				this.simulator = this.renderMobileSimulator(cntr, screenPos);
 			}
 			return cntr;
+		},
+		
+		renderResponsiceSimulator (cntr, screenPos){
+			this.logger.log(2,"renderDesktopSimulator","enter " );
+
+			
+			const factor = this.getDesktopScaleFactor(screenPos);
+			screenPos.w -= 64
+			const cntrPos = {
+				w : Math.floor(screenPos.w * factor),
+				h : Math.floor(screenPos.h * factor) - 96
+			};
+
+			const layout = new ResponsiveLayout()
+			layout.initApp(this.model, true)
+			const resizedModel = layout.resize(cntrPos.w,this.model.screenSize.h )
+
+
+			let pos = resizedModel.screenSize;
+			console.debug(pos, cntrPos)
+			if(cntrPos.h < resizedModel.screenSize.h){
+				this.logger.log(-1,"renderDesktopSimulator","scale down...");
+				pos = this.getScaledSize(cntrPos, "height", resizedModel);
+			}
+			
+
+			const wrapper = this.db.div("MatchSimulatorWrapper").build(cntr);
+			wrapper.style.width = Math.round(pos.w) + "px";
+			wrapper.style.height = Math.round(pos.h) + "px";
+
+			const container = this.db.div("MatchSimulatorContainer").build(wrapper)
+			container.style.width = Math.round(pos.w) + "px";
+			container.style.height = Math.round(pos.h) + "px";
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container, this.forceSimpleBar)
+
+
+			const s = this.createSimulator();
+			s.setResizeListener(size => {
+				this.logger.log(-1,"renderMobileSimulator","resize", size.w + '/' + size.h);
+				wrapper.style.height = size.h + 'px'
+				wrapper.style.width = size.w + 'px'
+
+				container.style.height = size.h + 'px'
+				container.style.width = size.w + 'px'
+			})
+			s.mode ="width";
+			/**
+			 * FIXME: Hacky workaround for initScale() issue;
+			 */
+			s.isDesktopTest = true;
+			s.setInvitation(this.hash);
+			s.placeAt(container);
+			if (hasSimpleBar) {
+				s.scrollListenTarget = "simpleBar";
+			} else {
+				s.scrollListenTarget = "parent";
+			}
+
+
+			s.startup();
+			s.setModel(resizedModel);
+		
+
+			this.logger.log(2,"renderDesktopSimulator","exit" );
+			return s;
 		},
 
 		renderMobileSimulator (cntr, screenPos){
@@ -484,8 +553,7 @@ export default {
 				pos = this.getScaledSize(cntrPos, "height", this.model);
 			}
 
-			const parent = this.db.div("MatcCenter").build(cntr);
-			const wrapper = this.db.div("MatchSimulatorWrapper").build(parent);
+			const wrapper = this.db.div("MatchSimulatorWrapper").build(cntr);
 			wrapper.style.width = Math.round(pos.w) + "px";
 			wrapper.style.height = Math.round(pos.h) + "px";
 
@@ -534,8 +602,7 @@ export default {
 			}
 
 
-			const parent = this.db.div("MatcCenter").build(cntr);
-			const wrapper = this.db.div("MatchSimulatorWrapper").build(parent);
+			const wrapper = this.db.div("MatchSimulatorWrapper").build(cntr);
 			wrapper.style.width = Math.round(pos.w) + "px";
 			wrapper.style.height = Math.round(pos.h) + "px";
 
