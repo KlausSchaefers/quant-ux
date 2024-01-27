@@ -1,6 +1,6 @@
 
 <template>
-<div :class="['MatcPublic MatcTestPage', {'MatcWindows': hasWindows}]">
+<div :class="['MatcPublic MatcTestPage', {'MatcWindows': hasWindows}, {'MatcTestPageResponsive': isResponsive}]">
 	<div :class="['MatcTest', {'MatcTestCustomSplash': hasSplash}]" v-if="step < 10">
 		<div v-if="hasSplash" class="MatcTestCustomSplashPowered">Powered by Quant-UX</div> 
 
@@ -93,14 +93,14 @@
 					</div>
 			</div>
 		</div>
-		<div class="MatcTest">
+		<div class="MatcTest" ref="responsiveScroll">
 			<div class="MatcTestSimulatorWrapper" ref="cntr">
 			
 			</div>
 		</div>
 	</div>
 	<div class="MatcTestVersion" v-if="step <= 1">
-		v4.3.30
+		v5.0.1
 	</div>
 </div>
 </template>
@@ -142,10 +142,12 @@ export default {
     mixins:[Util, DojoWidget],
     data: function () {
         return {
+			isResponsive: false,
 			true: false,
 			skipSplash: false,
 			desktopScaleDirection: "width",
 			desktopOffset: 0,
+			responiveOffset: 200,
 			settings: null,
 			logging: true,
 			model: null,
@@ -475,33 +477,29 @@ export default {
 			this.logger.log(2,"renderDesktopSimulator","enter " );
 
 			
-			const factor = this.getDesktopScaleFactor(screenPos);
+			const factor = this.getResponsiveScaleFactor(screenPos);
 			screenPos.w -= 64
 			const cntrPos = {
 				w : Math.floor(screenPos.w * factor),
 				h : Math.floor(screenPos.h * factor) - 96
 			};
 
+			// we could do this somehow nicer?
+			// now the scroll will bon on the entire page, which is messing up screen
+			// recordings
 			const layout = new ResponsiveLayout()
 			layout.initApp(this.model, true)
 			const resizedModel = layout.resize(cntrPos.w,this.model.screenSize.h )
 
-
-			let pos = resizedModel.screenSize;
-			console.debug(pos, cntrPos)
-			if(cntrPos.h < resizedModel.screenSize.h){
-				this.logger.log(-1,"renderDesktopSimulator","scale down...");
-				pos = this.getScaledSize(cntrPos, "height", resizedModel);
-			}
-			
+			cntrPos.h = Math.min(resizedModel.screenSize.h, cntrPos.h)	
 
 			const wrapper = this.db.div("MatchSimulatorWrapper").build(cntr);
-			wrapper.style.width = Math.round(pos.w) + "px";
-			wrapper.style.height = Math.round(pos.h) + "px";
+			wrapper.style.width = Math.round(cntrPos.w) + "px";
+			wrapper.style.height = Math.round(cntrPos.h) + "px";
 
 			const container = this.db.div("MatchSimulatorContainer").build(wrapper)
-			container.style.width = Math.round(pos.w) + "px";
-			container.style.height = Math.round(pos.h) + "px";
+			container.style.width = Math.round(cntrPos.w) + "px";
+			container.style.height = Math.round(cntrPos.h) + "px";
 			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container, this.forceSimpleBar)
 
 
@@ -645,9 +643,15 @@ export default {
 
 
 		getDesktopScaleFactor (screenPos){
-			var factor = (screenPos.w-this.desktopOffset) / screenPos.w;
+			const factor = (screenPos.w-this.desktopOffset) / screenPos.w;
 			return Math.min(1,factor);
 		},
+
+		getResponsiveScaleFactor (screenPos){
+			const factor = (screenPos.w-this.responiveOffset) / screenPos.w;
+			return Math.min(1,factor);
+		},
+
 
 		createSimulator (){
 			if(this.debug){

@@ -274,9 +274,15 @@ body.MatcTestMobile{
             margin-top: 48px;
         }
     }
-    
+
 }
 
+.MatcTestPageResponsive {
+    .MatcTest { 
+        overflow: auto;
+        padding-bottom: 64px;
+    }
+}
 
 .MatcTestTaskCntr h1{
     font-size: 24px;
