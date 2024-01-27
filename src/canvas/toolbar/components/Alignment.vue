@@ -9,7 +9,7 @@
         <QIcon icon="AlignCenter" @click="onAlign('vertical', $event)"/>
         <QIcon icon="AlignHorizontal" @click="onDist('vertical', $event)" :class="{'MatcQIconPassive': !hasVertical}"/>
         <QIcon icon="AlignVertical" @click="onDist('horizontal', $event)" :class="{'MatcQIconPassive': !hasHorizontal}"/>
-        <QIcon icon="AlignGrid" @click="onDist('horizontal', $event)" :class="{'MatcQIconPassive': !hasHorizontal}" v-if="isMulti"/>
+        <QIcon icon="AlignGrid" @click="onDist('horizontal', $event)" :class="{'MatcQIconPassive': !hasHorizontal}" v-if="hasMulti"/>
 	</div>
 </template>
 

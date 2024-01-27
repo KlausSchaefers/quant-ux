@@ -25,7 +25,9 @@
     },
     methods: {
         onBlur () {
-            this.$emit("blur", this.label.trim())
+            if (this.label.trim() !== this.value) {
+                this.$emit("blur", this.label.trim())
+            }
         }
     },
     watch: {
