@@ -101,10 +101,10 @@ export default {
       css.add(span, "mdi mdi-border-color");
       add.appendChild(iconDOM('Plus', '', 64, 64));
 
-      const p = document.createElement("p");
-      css.add(p, "MatcHint MatcCenter MatcListItemDescription");
-      p.innerHTML = "Edit Design";
-      add.appendChild(p)
+      // const p = document.createElement("p");
+      // css.add(p, "MatcHint MatcCenter MatcListItemDescription");
+      // p.innerHTML = "";
+      // add.appendChild(p)
 
       item.href = "#/apps/" + this.model.id + "/design/start.html";
       return item

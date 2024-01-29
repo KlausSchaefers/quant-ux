@@ -19,6 +19,35 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+	.MatcTestLogoCntr{
+		width: 80%;
+		max-width: 400px;
+	}
+
+	.MatcTestProgressCntr {
+		transform: translate(80px, 180px);
+	}
+
+	.MatcTestLogoCntrMax .MatcTestProgressCntr{
+		width: 100%;
+		height: 600px;
+		transform: translateY(-200px);
+	}
+
+	.MatcTestContent {
+		width: 100%;
+		height: 600px;
+		padding: 16px;
+		padding-bottom: 32px;
+		display: flex;
+		flex-direction: column;
+
+		.MatcTestContentCntr{
+			flex-grow: 1;
+		}
+	}
+	
 }
 
 .MatcSimulatorLoadingMessageVisible {
@@ -37,15 +66,6 @@
 	overflow: hidden;
 }
 
-.MatcSimulatorLoadingCntr{
-	left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    position:absolute;
-    width: 80%;
-    height:200px;
-}
 
 
 
@@ -82,10 +102,10 @@
 }
 
 .MatcSimulatorVersion{
-	position: absolute;
-	right:10px;
-	bottom: 10px;
-	font-size: 10px;
+	position: fixed;
+	left:8px;
+	bottom: 8px;
+	font-size: 12px;
 }
 
 .MatcSimulator .MatcScreen{

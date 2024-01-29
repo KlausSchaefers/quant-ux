@@ -80,12 +80,6 @@ body {
 }
 
 
-.MatcContentHint {
-	// background: $page_color_secondary;
-	// border: 1px solid $page_border;
-	// padding: 32px;
-	// border-radius: $page_radius;
-}
 
 /****************************************************
  * Team
@@ -414,3 +408,12 @@ body {
 		gap: 8px;
 	}
 }
+
+
+@media (max-width: 500px) {
+
+	.container, .container-fluid  {
+		padding: 32px;
+	}
+}
+

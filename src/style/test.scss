@@ -72,11 +72,6 @@
     transition: all 0.2s;
 }
 
-.MatcTestLogoCntrMax .MatcTestProgressBar{
-
-}
-
-
 @keyframes sk-load {
     0% {
       width:0%;
@@ -311,6 +306,13 @@ body.MatcTestMobile{
     color: #999;
 }
 
+.MatcTestCustomSplash {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 .MatcTestCustomSplash .MatcLogoNew{
     display: none;
 }
@@ -327,6 +329,14 @@ body.MatcTestMobile{
 .MatcTestCustomSplashPowered {
     position: fixed;
     z-index: 9999;
-    bottom: 10px;
-    right: 10px;
+    bottom: 8px;
+    right: 8px;
+    font-size: 12px;
+}
+
+.MatcTestVersion{
+	position: fixed;
+	left:8px;
+	bottom: 8px;
+	font-size: 12px;
 }

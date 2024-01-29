@@ -154,10 +154,14 @@
         font-size: $font-size-s;
     }
 
-    // .MatcScreenList .MatcContentBox .MatcPreviewWrapper {
-    //     border: none;
-    //     outline: none;
-    // }
+    .MatcScreenList .MatcContentBox .MatcPreviewWrapper {
+        box-shadow: $page_drop_shadow_soft;
+        transition: box-shadow 0.2s;
+
+        &:hover {
+            box-shadow: $page_drop_shadow_more;
+        }
+    }
 
     .StudioOverviewTabContent {
         display: flex;
@@ -304,6 +308,7 @@
     display: flex;
     gap: 32px;
     flex-direction: column;
+    min-height: 100%;
 
 
     .StudioDetailsDescription {
@@ -430,13 +435,13 @@
         font-size: 12px;
 
         &:hover {
-            color:$gray_3;
+            color:$primary_color;
         }
     }
 
     &:hover {
         .StudioCommentReply {
-            color:$gray_2;
+            color:$primary_color;
         }
     }
 }

@@ -83,6 +83,7 @@ export default {
     props: ["app", "test", "user", "annotation", "events", "hash", "isLoaded"],
     data: function () {
         return {
+            lastRenderSumamry: 0,
             hasCommentFilter: true,
             hasNew: false,
             summary: false,
@@ -248,7 +249,8 @@ export default {
             // This method gets called three times, if any of the props change,
             // but we do not want to render 3 times...
             setTimeout(async () => {
-                if (!this.summary) {
+                const now = new Date().getTime()
+                if (now - this.lastRenderSumamry > 500) {
                     await this.loadComments()
                     this.setSummary()
                 }
@@ -261,10 +263,11 @@ export default {
             this.logger.log(-1, "loadComments", "exit", this.comments.length);
         },
         setSummary() {
-            this.logger.log(1, "setSummary", "enter");
+            this.logger.log(-1, "setSummary", "enter");
             if (!this.app || !this.isLoaded) {
                 return
             }
+            this.lastRenderSumamry = new Date().getTime()
             PerformanceMonitor.start('StudioDetails.setSummary()')
             const events = this.filterEvents(this.events, this.annotation);
             const df = this.getActionEvents(new DataFrame(events));
@@ -348,7 +351,7 @@ export default {
             this.onChange()
         },
         events(v) {
-            this.logger.info("watch", "events >", v);
+            this.logger.log(1, "watch", "events >", v);
             this.events = v;
             this.onChange()
         }

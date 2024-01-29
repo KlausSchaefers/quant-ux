@@ -21,9 +21,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="MatcTestVersion" v-if="step <= 1">
-		v5.0.1
-	</div>
 </div>
 </template>
 <style>

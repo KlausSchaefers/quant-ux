@@ -332,7 +332,7 @@ export default {
     },
 
     showDeleteSessionDialog (e, session) {
-      this.logger.warn("showDeleteSessionDialog", "enter >", session.session);
+      this.logger.log(1,"showDeleteSessionDialog", "enter >", session.session);
       const db = new DomBuilder()
       const div = db.div("MatcDeleteDialog").build();
       db.h3("title is-4", 'Delete Test').build(div);
@@ -347,7 +347,7 @@ export default {
     },
 
     async deleteSession (session, d) {
-      this.logger.warn("deleteSession", "enter >", session.session);
+      this.logger.log(1,"deleteSession", "enter >", session.session);
       if (!this.pub) {
         await this.modelService.deleteEventsBySession(this.app.id, session.session)
         this.showSuccess('Test deleted');

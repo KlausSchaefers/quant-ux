@@ -41,7 +41,7 @@
                                         <p v-html="getNLS('simulator.welcome.click-start')"></p>
                                     </div>
                                     <div class="MatcMarginTop">
-                                        <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="renderTest()"	v-if="getUserTasks().length === 0">
+                                        <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="onStart()"	v-if="getUserTasks().length === 0">
                                                 {{getNLS("simulator.welcome.start")}}
                                         </div>
                                         <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="renderTasks()" v-else>
@@ -76,6 +76,7 @@
                         <div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation"></div>
                     </transition>
                 </div>
+                <div class="MatcTestVersion">v5.0.2</div>
             </div>
     </template>
     <style>
@@ -97,6 +98,7 @@
         mixins:[NLS],
         data: function () {
             return {
+                splashImage: null,
                 step: 0               
             }
         },
@@ -132,8 +134,8 @@
         },
         methods: {
 
-            onStart () {
-                this.$emit("start")
+            onStart (e) {
+                this.$emit("start", e)
             },
      
             setTestsettings (settings){
