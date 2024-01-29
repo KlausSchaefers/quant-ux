@@ -227,6 +227,20 @@ body.MatcTestMobile{
 .MatcTestCntr {
     display: flex;
     height: 100vh;
+
+
+    .MatcStudioLogo { 
+        display: flex;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        img{
+            height: 24px;
+            width: 24px;
+            border-radius: 8px;
+        }
+        margin-bottom: 16px;
+    }
   
 
     .MatcTestTaskCntr {
@@ -237,6 +251,13 @@ body.MatcTestMobile{
         border-right: 1px solid $page_border;
         transition: color 0.2s;
         overflow: auto;
+        display: flex;
+        flex-direction: column;
+
+        .MatcTestTaskList {
+            flex-grow: 1;
+            overflow: auto;
+        }
     }
 
     .MatcTest {
@@ -251,6 +272,48 @@ body.MatcTestMobile{
         }
     }
 
+    h1{
+        font-size: 24px;
+        font-weight: 700;
+        display: none;
+    }
+    
+    p{
+        margin-top: 8px;
+        transition: color 0.5s;
+        display: none;
+    }
+    
+    h3{
+        transition: color 0.5s;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    h4{
+        transition: color 0.5s;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+    
+    .MatcTestTaskDescription {
+        font-size: 14px;
+    }
+    
+    span.mdi{
+        color: $color_success;
+        font-size: 24px;
+        margin-left: 16px;
+    }
+    
+    .MatcTestTaskDone{
+        color: #999;
+        text-decoration: line-through;
+    }
 }
 
 .MatcTestPageResponsive {
@@ -260,38 +323,6 @@ body.MatcTestMobile{
     }
 }
 
-.MatcTestTaskCntr h1{
-    font-size: 24px;
-    font-weight: 700;
-    display: none;
-}
-
-.MatcTestTaskCntr p{
-    margin-top: 8px;
-    transition: color 0.5s;
-    display: none;
-    line-height: 1.5;
-}
-
-.MatcTestTaskCntr h3{
-    transition: color 0.5s;
-    height: 32px;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-}
-
-.MatcTestTaskCntr .MatcTestTaskDescription {
-    font-size: 16px;
-    margin-bottom: 40px;
-    font-weight: $font-weight-s;
-}
-
-.MatcTestTaskCntr span.mdi{
-    color: #92c500;
-    font-size: 24px;
-    margin-left: 16px;
-}
 
 .MatcTestVersion {
     color: #fff;
@@ -302,9 +333,7 @@ body.MatcTestMobile{
     font-size: 10px;
 }
 
-.MatcTestTaskDone{
-    color: #999;
-}
+
 
 .MatcTestCustomSplash {
     -webkit-background-size: cover;

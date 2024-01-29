@@ -3,17 +3,25 @@
 <div :class="['MatcPublic MatcTestPage', {'MatcWindows': hasWindows},  {'MatcTestPageResponsive': isResponsive}]">
 	<Splash :hash="hash" :model="model" :settings="settings" @start="renderTest"  v-if="hasSplash"/>
 	<div  class="MatcTestCntr">
-		<div class="MatcTestTaskCntr MatcTestContent" ref="tastCntr" v-if="showTasks">
-			<h1>{{getNLS("simulator.tasks.title")}} </h1>
-			<p>
-				{{getNLS("simulator.tasks.msg")}}
-			</p>
-			<div v-for="(t,i) in getUserTasks()" :key="t.id" :class="{'MatcTestTaskDone':taskDone[t.id] }">
-					<h3>#{{i+1}} - {{t.name}} <span class="mdi mdi-check-circle" v-if="taskDone[t.id]"/> </h3>
+		<div class="MatcTestTaskCntr MatcTestContent " ref="tastCntr" v-if="showTasks">
+
+			<div class="MatcStudioLogo">        
+				<img src="../../style/img/QUXLogo5BlueWhite2.svg" class="MatcStudioLogo" ref="logo"> 
+				<span class="MatcCollapseViewMinHidden">Quant-UX</span>               
+			</div>
+
+			<div class="MatcTestTaskList" ref="taskList">
+				<div v-for="(t) in getUserTasks()" :key="t.id" :class="{'MatcTestTaskDone':taskDone[t.id] }">
+					<h4>{{t.name}} 
+					<QIcon icon="CheckBoxHook" v-if="taskDone[t.id]"/>
+					</h4>
 					<div class="MatcTestTaskDescription">
 						{{t.description}}
 					</div>
+				</div>
 			</div>
+	
+	
 		</div>
 		<div class="MatcTest" ref="responsiveScroll">
 			<div class="MatcTestSimulatorWrapper" ref="cntr">
@@ -21,6 +29,7 @@
 			</div>
 		</div>
 	</div>
+
 </div>
 </template>
 <style>
@@ -56,6 +65,8 @@ import DataFrame from 'common/DataFrame'
 import * as ScrollUtil from '../../util/ScrollUtil'
 import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
 import Splash from './Splash'
+import QIcon from 'page/QIcon'
+
 
 export default {
     name: 'TestPage',
@@ -83,7 +94,8 @@ export default {
         }
     },
     components: {
-		'Splash':Splash
+		'Splash':Splash,
+		'QIcon': QIcon
 	},
 	computed: {
 		hasWindows () {
@@ -162,6 +174,21 @@ export default {
 				result += "&" + item[0] + "=" + item[1];
 			}
 			return result
+		},
+
+
+		getUserTasks (){
+			const tasks = [];
+			if (this.settings.tasks && this.settings.tasks){
+				for(let i=0; i< this.settings.tasks.length; i++){
+					const task = this.settings.tasks[i];
+					if (task.description && task.description != "Enter a description here"){
+						tasks.push(task);
+					}
+				}
+			}
+
+			return tasks;
 		},
 
 		async loadModel (){
@@ -538,6 +565,7 @@ export default {
     },
     mounted () {
 		css.add(win.body(), 'MatcPublic')
+
 		if (this.forceSimpleBar) {
 			console.error('forceSimpleBar')
 		}

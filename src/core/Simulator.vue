@@ -160,8 +160,6 @@
 				  }
 			  }
   
-			  console.debug(this.hasSplash)
-		  
 			  this.own(this.addTouchStart(this.domNode,lang.hitch(this, "onScreenPress")));
 			  this.own(this.addTouchRelease(this.domNode, lang.hitch(this, "onScreenRelease")));
 			  this.own(topic.subscribe("MatcSimulatorRenderFixedPopup", lang.hitch(this, "addFixedPopup")));
@@ -1093,18 +1091,18 @@
 				}
 		  },
   
-		  getUserTasks (){
-			  const tasks = [];
-			  if (this.settings.tasks && this.settings.tasks){
-				  for(var i=0; i< this.settings.tasks.length; i++){
-					  var task = this.settings.tasks[i];
-					  if(task.description && task.description != "Enter a description here"){
-						  tasks.push(task);
-					  }
-				  }
-			  }
-			  return tasks;
-		  },
+		//   getUserTasks (){
+		// 	  const tasks = [];
+		// 	  if (this.settings.tasks && this.settings.tasks){
+		// 		  for(var i=0; i< this.settings.tasks.length; i++){
+		// 			  var task = this.settings.tasks[i];
+		// 			  if(task.description && task.description != "Enter a description here"){
+		// 				  tasks.push(task);
+		// 			  }
+		// 		  }
+		// 	  }
+		// 	  return tasks;
+		//   },
   
 		  destroy (){
 			  this.logger.log(-1,"destroy","enter");
