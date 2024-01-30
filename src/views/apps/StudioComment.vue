@@ -6,6 +6,7 @@
             :comment="comment" 
             :user="user"
             @delete = "onDelete"
+            @cancel="onCancel"
             @change="onChange"
             @status="onStatus"/>
        
@@ -15,6 +16,7 @@
                 v-if="!isNew"
                 :comment="child" 
                 :user="user"
+                @cancel="onCancel"
                 @delete = "onDelete"
                 @change="onChange"
                 @status="onStatus"/>
@@ -23,7 +25,10 @@
         <div v-if="isNew" class="StudioCommentElement MatcMarginTop" >
             <UserCommentHeader :user="user" /> 
             <textarea v-model="message" class="MatcMarginTopXS"></textarea>
-            <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCreate">Save</button> 
+            <div class="UserCommentButtons">
+                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCreate">Save</button>
+                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCancel">Cancel</button> 
+            </div>
         </div>
 
       
@@ -32,7 +37,10 @@
             <template v-else>
                 <UserCommentHeader :user="user" /> 
                 <textarea v-model="replyMessage" ref="replyInput" class="MatcMarginTopXS"></textarea>
-                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onReply">Save</button> 
+                <div class="UserCommentButtons">
+                    <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onReply">Save</button> 
+                    <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCancel">Cancel</button> 
+                </div>
             </template>
         </div>
 
@@ -105,6 +113,10 @@ export default {
             this.$emit("reply", this.replyMessage, this.comment.id);
             this.hasReply = false
             this.replyMessage = ''
+        },
+        onCancel () {
+            this.hasReply = false
+            this.$emit("cancel")
         },
         showReply () {
             this.hasReply = true

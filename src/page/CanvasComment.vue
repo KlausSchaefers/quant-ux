@@ -29,8 +29,11 @@
             <div v-if="isNew || isReply" class="" >
                 <UserCommentHeader :user="user" /> 
                 <textarea v-model="newMessage" ref="newInput" class="MatcCanvasCommentDialogMessage MatcCanvasCommentDialogMessageEditor MatcMarginTopXS"></textarea>
-                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCreate" v-if="isNew">Save</button> 
-                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onReply" v-if="isReply">Save</button>
+                <div class="UserCommentButtons">
+                    <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCreate" v-if="isNew">Save</button> 
+                    <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onReply" v-if="isReply">Save</button>
+                    <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCancel">Cancel</button>
+                </div>
             </div>
             <div v-else>
                 <div class="MatcCanvasCommentDialogReplyButton" @click="showReply">Reply...</div>

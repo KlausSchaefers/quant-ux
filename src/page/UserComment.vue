@@ -14,7 +14,10 @@
         <div class="UserCommentMessage" v-if="mode === 'view'">{{message}}</div>
         <div class="UserCommentElement" v-else>
             <textarea v-model="message" class="MatcMarginTopXS"></textarea>
-            <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onBlur">Save</button> 
+            <div class="UserCommentButtons">
+                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onBlur">Save</button>
+                <button class="MatcButton MatcButtonXXS MatcMarginTopXS" @click="onCancel">Cancel</button> 
+            </div>
         </div>
     </div>
 </template>
@@ -75,6 +78,10 @@ export default {
         onBlur () {          
             this.mode = 'view'
             this.$emit("change", this.comment.id, this.message);       
+        },
+        onCancel () {
+            this.message = this.comment.message
+            this.mode = 'view'
         },
         onDelete() {
             this.$emit("delete", this.comment);

@@ -44,6 +44,7 @@
                         :isNew="true"
                         :user="user" 
                         :comment="{}"
+                        @cancel="hasNew = false"
                         @create="onCreateComment"
                         />
                     <StudioComment 
