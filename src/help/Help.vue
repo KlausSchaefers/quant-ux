@@ -28,10 +28,7 @@ x
                 </div>
 
                 <div v-if="current.hasContact">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input class="form-control MatcIgnoreOnKeyPress"  v-model="contactName"/>
-                    </div>
+                   
                     <div class="form-group">
                         <label>Email</label>
                         <input class="form-control MatcIgnoreOnKeyPress" v-model="contactEmail"/>

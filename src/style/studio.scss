@@ -148,6 +148,11 @@
     font-size: $font-size-s;
     .MatcAutoTextArea {
         font-size: $font-size-xs;
+        margin: 0px -8px;
+        > div, textarea {
+            padding: 0px 8px;
+
+        }
     }
 
     h3, h4 {
@@ -215,7 +220,7 @@
         .StudioColorDropDown {
             position: absolute;
             left: -32px;
-            top: 4px;
+            top: 8px;
 
             .MatcDropDownPopUp {
                 left: 0px;
@@ -252,10 +257,23 @@
             border: none;
             font-weight: 600;
             width: 400px;
-
+        
             height: 32px;
-            padding-bottom: 10px;
+            border-radius: $form_radius;
             display: block;
+            border: 1px solid transparent;
+            margin-left: -10px;
+            padding: 0px 8px;
+
+            &:hover{
+                border: 1px dashed $gray_3;
+       
+            }
+
+            &:focus{
+                border: 1px solid $primary_color;
+         
+            }
         }
     }
 

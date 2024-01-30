@@ -36,7 +36,6 @@
         }
     },
     async mounted() {
-        console.debug(this.value)
         this.label = this.value
     }
   };
