@@ -148,11 +148,11 @@
     font-size: $font-size-s;
     .MatcAutoTextArea {
         font-size: $font-size-xs;
-        margin: 0px -8px;
-        > div, textarea {
-            padding: 0px 8px;
+        // margin: 0px -8px;
+        // > div, textarea {
+        //     padding: 0px 8px;
 
-        }
+        // }
     }
 
     h3, h4 {
@@ -262,9 +262,7 @@
             border-radius: $form_radius;
             display: block;
             border: 1px solid transparent;
-            margin-left: -10px;
-            padding: 0px 8px;
-
+        
             &:hover{
                 border: 1px dashed $gray_3;
        
@@ -272,7 +270,7 @@
 
             &:focus{
                 border: 1px solid $primary_color;
-         
+                padding: 0px 8px;
             }
         }
     }
