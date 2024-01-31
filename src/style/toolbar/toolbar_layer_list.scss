@@ -8,6 +8,16 @@
 	top: 0px;
 	left: 0px;
 	display: none;
+
+	.MatcToolbarLayerListDND {
+		position: absolute;
+		height: 100%;
+		width: 4px;
+		background: transparent;
+		top:0px;
+		right: 0px;
+		cursor: ew-resize;
+	}
 }
 
 .MatcToolbar .MatcToolbarLayerList .mdi {

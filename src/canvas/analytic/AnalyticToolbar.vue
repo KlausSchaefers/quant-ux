@@ -2,19 +2,19 @@
 <template>
      <div class="MatcToolbar MatcAnalyticsToolbar MatcLayerListVisible">
 
-		<div class="MatcToolbarLayerList MatcToolbarAnalyticList MatcToobarPropertiesSection" >
+		<div class="MatcToolbarLayerList MatcToolbarAnalyticList MatcToobarPropertiesSection" :style="'width:'+ layerListWidth +'px'">
 			<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="testListCntr">
 							
 			</div>
-			
+			<div class="MatcToolbarLayerListDND" ref="dndHanlde" @mousedown.stop="onResizeStart"></div>
 		</div>
 
 		<div class="MatcToolbarTop ">
-			<div class="MatcToolbarTopHome">
+			<div class="MatcToolbarTopHome" :style="'width:'+ layerListWidth +'px'">
 				<HomeMenu @select="onHomeMenu"  :name="modelName" />
 			</div>
 
-			<div class="MatcToolbarTopCntr" >
+			<div class="MatcToolbarTopCntr" :style="'width:calc(100% - '+ layerListWidth +'px)'" >
 				<div class="MatcToolbarSection MatcToolbarTopLeft">
 <!-- 
 					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit">
@@ -89,7 +89,7 @@ import Help from 'help/Help'
 import QIcon from 'page/QIcon'
 import AnalyticViewModeButton from './AnalyticViewModeButton'
 import AnalyticToolbarRender from './AnalyticToolbarRender'
-
+import {onStartDND} from '../../util/DND'
 import HeatmapToggleButton from '../toolbar/components/HeatmapToggleButton.vue'
 //import SessionList from './SessionList'
 
@@ -106,7 +106,8 @@ export default {
 			value: false,
 			analyticMode: "HeatmapClick",
 			analyticHeatMapClicks: -1,
-			canvasViewConfig: {}
+			canvasViewConfig: {},
+			layerListWidth: 256
         }
     },
     components: {
@@ -123,13 +124,13 @@ export default {
 			this.logger = new Logger("AnalyticToolbar");
 			this.logger.log(2,"constructor", "entry");
 			this.renderToolbar()
+			this.initLayer()
 		},
 
 		setCommentService (s) {
 			this.logger.log(3,"setCommentService", "entry");
 			this.commentService = s
 		},
-
 
 		onMove (e){
 			this.stopEvent(e);
@@ -284,6 +285,39 @@ export default {
 			d.own(on(write, touch.press, lang.hitch(d, "close")));
 			d.popup(popup, e.target);
 		},
+
+		/**********************************************************************
+		 * Layer List Width
+		 **********************************************************************/
+
+		onResizeStart (e) {
+            const pos = this.layerListWidth
+            onStartDND(e, d => {
+				let width = pos + d.x
+				// if (Math.abs(256 - width) < 5) {
+				// 	width = 256
+				// }
+                this.layerListWidth = Math.min(Math.max(196, width), 400)
+				localStorage.setItem('quxLayerListWidth', this.layerListWidth)
+				this.setLayerListWidth(this.layerListWidth)    
+            })
+        },
+
+		initLayer (){
+			this.logger.log(-2,"initLayer", "entry");
+			const w = localStorage.getItem('quxLayerListWidth')
+			if (w && !isNaN(w * 1)) {
+				this.setLayerListWidth( w * 1)				
+			}
+		},
+
+   		setLayerListWidth(w) {
+			this.layerListWidth = w
+			if (this.canvas) {
+				this.canvas.setLayerListWidth(w)
+			}
+		},
+
 
 		/**********************************************************************
 		 * Callbacks to canvas

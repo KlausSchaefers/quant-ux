@@ -16,7 +16,7 @@
 	}
 
 	.MatcToobarHomeSectionAppNameLabel {
-		width: 220px;
+		width: calc(100% - 64px);
 		overflow: hidden;
 		display: block;
 		text-overflow: ellipsis;
@@ -25,7 +25,7 @@
 	}
 
 	.MatcToobarHomeSectionAppNameInput {
-		width: 220px;
+		width: 100%;
 		overflow: hidden;
 		display: block;
 		text-overflow: ellipsis;

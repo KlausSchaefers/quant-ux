@@ -16,8 +16,8 @@
         <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"></div>
       </div>
     </div>
-    <div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom">
-      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr">
+    <div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom" :style="'padding-left:' + this.layerListWidth + 'px'">
+      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr" >
         <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div>
       </div>
     </div>
@@ -120,7 +120,8 @@ export default {
       dropOffLineWidth: 25,
       dropOffLineColor: '#555',
       dropOffEventWidth: 40,
-      userJourneyEndColor: '#f03131'
+      userJourneyEndColor: '#f03131',
+      layerListWidth: 256
     };
   },
   components: {},
@@ -164,6 +165,7 @@ export default {
       this.initKeys();
       this.initMouseTracker()
       this.initDarkModeListener()
+      this.initLayer()
 
       this.db = new DomBuilder();
 
@@ -182,6 +184,19 @@ export default {
       this.logger.log(2, "postCreate", "exit!!!");
     },
 
+    initLayer (){
+			this.logger.log(-2,"initLayer", "entry");
+			const w = localStorage.getItem('quxLayerListWidth')
+			if (w && !isNaN(w * 1)) {
+				this.setLayerListWidth( w * 1)				
+			}
+		},
+
+
+    setLayerListWidth (w) {
+      this.layerListWidth = w
+    },
+ 
     showError(msg) {
       if (this.message) {
         css.add(this.message, "MatcMessageError");

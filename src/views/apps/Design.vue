@@ -152,7 +152,7 @@ export default {
 
     loadAll () {
       let id = this.$route.params.id
-      this.logger.log(-1, 'loadAll', 'enter', id)
+      this.logger.log(2, 'loadAll', 'enter', id)
       Promise.all([
         this.loadApp(id),
         this.loadTest(id),

@@ -1,5 +1,5 @@
 <template>
-     <div class="MatcToolbarLayerList MatcToobarPropertiesSection MatcToolbar" v-show="isVisible">
+     <div class="MatcToolbarLayerList MatcToobarPropertiesSection MatcToolbar" v-show="isVisible" :style="'width:'+ layerListWidth +'px'">
 		<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="cntr">
 			<div class="MatcToolbarLayerListScreenCntr">
 				<div class="MatcLayerListScreens">
@@ -18,6 +18,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="MatcToolbarLayerListDND" ref="dndHanlde" @mousedown.stop="onResizeStart"></div>
 	</div>
 </template>
 <script>
@@ -26,6 +27,7 @@ import Logger from 'common/Logger'
 import Util from 'core/Util'
 import ModelUtil from 'core/ModelUtil'
 import Tree from 'common/Tree'
+import {onStartDND} from '../../util/DND'
 
 export default {
 	name: 'LayerList',
@@ -42,7 +44,8 @@ export default {
 			nodes: {},
 			isVisible: true,
 			hasOptions: true,
-			isDebug: false
+			isDebug: false,
+			layerListWidth: 256, // keep in sync with Toolbar
         }
     },
     components: {
@@ -54,6 +57,15 @@ export default {
 			this.logger.log(2,"constructor", "entry > " + this.mode);
 			this.isDebug = location.href.indexOf('debug=true') >= 0
 		},
+
+		onResizeStart (e) {
+            const pos = this.layerListWidth
+            onStartDND(e, d => {
+				const width = pos + d.x
+                this.layerListWidth = Math.min(Math.max(196, width), 400)
+				this.emit('onWidthChange', this.layerListWidth)           
+            })
+        },
 
 		setController (c){
 			this.controller = c;

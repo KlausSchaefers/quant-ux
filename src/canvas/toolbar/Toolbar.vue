@@ -9,12 +9,12 @@
 
 
 		<div class="MatcToolbarTop">
-				<div class="MatcToolbarTopHome">
+				<div class="MatcToolbarTopHome" :style="'width:'+ layerListWidth +'px'">
 					<HomeMenu @select="onHomeMenu" :name="modelName" @change="onChangeModelName"/>
 				</div>
 			
 
-				<div class="MatcToolbarTopCntr">
+				<div class="MatcToolbarTopCntr" :style="'width:calc(100% - '+ layerListWidth +'px)'">
 
 			
 						<div v-show="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">							
@@ -190,6 +190,7 @@ export default {
 			mode: 'edit',
 			subMode: '',
 			hasScreens: false,
+			layerListWidth: 256
         }
     },
 	components: {
@@ -225,6 +226,11 @@ export default {
       	postCreate (){
 			this.logger = new Logger("Toolbar");
 			this.logger.log(3, "constructor", "entry > " + this.pub);
+		},
+
+		setLayerListWidth (w) {
+			this.logger.log(1,"setLayerListWidth", "entry", w);
+			this.layerListWidth = w
 		},
 
 		onHomeMenu (option, e) {

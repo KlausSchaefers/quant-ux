@@ -35,7 +35,7 @@
 			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"></div>
 		</div>
 	</div>
-	<div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom">
+	<div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom" :style="'padding-left:' + this.layerListWidth + 'px'">
 		<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr">
 			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div>
 		</div>
