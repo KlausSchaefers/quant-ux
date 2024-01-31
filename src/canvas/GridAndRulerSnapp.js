@@ -502,14 +502,34 @@ export default class GridAndRulerSnapp extends Core {
 
 
 	showWidgetDistance(from, to) {
-	
 		this.cleanupDistanceLines();
 		this.distanceLines = {};
 
 		const rPos = this.getRelPosition(from, to);
 		const [sourceFrom, sourceTo] = this.getSourceFromTo(from, to)
-		
+
 		switch (rPos) {
+			case "c":
+				{
+					const top = from.y - to.y;
+					const lblTop = sourceFrom.y - sourceTo.y
+					this._renderDistanceLineY(from.x + from.w/2, to.y , top, lblTop);
+
+					const bottom = (to.y + to.h) - (from.y + from.h) ;
+					const lblBottom = (sourceTo.y + sourceTo.h) - (sourceFrom.y + sourceFrom.h);
+					this._renderDistanceLineY(from.x + from.w/2, from.y + from.h , bottom, lblBottom);
+			
+					const left = from.x - to.x;
+					const lblLeft = sourceFrom.x - sourceTo.x
+					this._renderDistanceLineX(to.x, from.y + from.h / 2, left, lblLeft);
+		
+					const right = (to.x + to.w) - (from.x + from.w);
+					const lblRight = (sourceTo.x + sourceTo.w) - (sourceFrom.x + sourceFrom.w);
+					this._renderDistanceLineX(from.x + from.w, from.y + from.h / 2, right, lblRight);
+		
+					break;
+				}
+
 			case "n":
 				{
 					let top = from.y - to.y - to.h;
