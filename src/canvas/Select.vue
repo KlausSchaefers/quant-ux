@@ -491,7 +491,7 @@ import * as SelectionUtil from 'core/SelectionUtil'
 		},
 
 		unSelect (){		
-			this.logger.log(-1,"unSelect", "enter > ");
+			this.logger.log(1,"unSelect", "enter > ");
 			this.cleanUpResizeHandles();
 			this.onDistributeEnd();
 			this.onGridResizeEnd();

@@ -55,8 +55,6 @@ export default class ShareController extends Core{
 
 		if(this.toolbar){
 			this.toolbar.setModel(m);
-		} else {
-			console.debug("No toolbar in controller!");
 		}
 
 		if (this._canvas) {
@@ -97,6 +95,7 @@ export default class ShareController extends Core{
 		if(this._canvas){
 			let inheritedModel = CoreUtil.createInheritedModel(this.model)
 			requestAnimationFrame(() => {
+				this._canvas.setModel(inheritedModel);
 				this._canvas.render(inheritedModel);
 				if(screenID){
 					this._canvas.moveToScreen(screenID);

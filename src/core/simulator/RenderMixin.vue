@@ -18,6 +18,8 @@
 			  this.logger.log(2,"render","enter >" + this._scaleX + " > " + this._scaleY);
   
 			  css.remove(this.domNode, "MatcSimulatorSplash MactMainGradient");
+
+			  console.debug('XXX', this.startScreenID, this.model)
   
 			  if(this.startScreenID ){
 				  let start = this.model.screens[this.startScreenID];

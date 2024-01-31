@@ -96,8 +96,6 @@ export default {
       canvas.setUser(this.user)
       canvas.setHash(this.$route.query.h);
 
-  
-
       var startScreen = null;
       for(var screenID in model.screens){
         var screen = model.screens[screenID];

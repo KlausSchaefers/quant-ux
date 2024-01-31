@@ -3,14 +3,15 @@
  .MatcShare{
  	height: 100%;
  	width: 100%;
- 	background: #fff;
+	background: rgb(230, 230, 230);
+
 	.MatcScreen {
 		box-shadow: 0 0 16px rgba(0,0,0,0.15);
 	}
 
 	.MatcCanvasFrame,
 	.MatcCanvasContainer{
-		background: #fff;
+		background: rgb(230, 230, 230);
 	}
 
 	.MatcCanvasScrollBarBottom,
@@ -45,10 +46,6 @@
 	}
  }
 
-.MatcLight .MatcShare .MatcCanvasFrame,
-.MatcLight .MatcShare .MatcCanvasContainer{
-	background: #fff;
-}
 
 /**
  * Share dialog

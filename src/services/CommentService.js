@@ -14,6 +14,18 @@ class CommentService extends AbstractService{
         
     }
 
+    findByHash (appID, hash, type) {
+        return this._get(`rest/comments/hash/${hash}/${appID}/${type}.json`)
+    }
+
+    createByHash (appID, hash, comment){
+        return this._post(`rest/comments/hash/${hash}/${appID}`, comment)
+    }
+
+    updateByHash (appID, hash, comment){
+        return this._post(`rest/comments/hash/${hash}/${appID}/${comment.id}.json`, comment)
+    }
+
     find (appID, type, reference) {
         if (!reference) {
             return this._get(`rest/comments/apps/${appID}/${type}.json`)

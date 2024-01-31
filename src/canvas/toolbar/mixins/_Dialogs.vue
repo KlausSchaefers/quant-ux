@@ -857,8 +857,9 @@ export default {
 		 **********************************************************************/
 
 
+		 enableMouseZoom () {},
 
-		startSimilator() {
+		 startSimilator() {
 			this.logger.log(0, "startSimilator", "entry");
 
 			var pos = domGeom.position(win.body());
@@ -946,8 +947,11 @@ export default {
 			 * otherwise the mouse wheel listener will prevent
 			 * scrolling in the simulator!
 			 */
-			this.canvas.enableMouseZoom(false);
-			this.canvas.setState("simulate");
+			if (this.canvas) {
+				this.canvas.enableMouseZoom(false);
+				this.canvas.setState("simulate");
+			}
+	
 
 		},
 
@@ -1035,6 +1039,7 @@ export default {
 			model = this.model;
 
 			const screen = this._getSimulatorScreen();
+			console.debug(screen)
 			s.setStartScreen(screen);
 			setTimeout(() => {
 				scroller.wrap(s.domNode);
@@ -1046,8 +1051,10 @@ export default {
 			 * otherwise the mouse wheel listener will prevent
 			 * scrolling in the simulator!
 			 */
-			this.canvas.enableMouseZoom(false);
-			this.canvas.setState("simulate");
+			if (this.canvas) {
+				this.canvas.enableMouseZoom(false);
+				this.canvas.setState("simulate");
+			}
 
 		},
 
@@ -1107,7 +1114,7 @@ export default {
 			this.canvas.setState("simulate");
 		},
 
-		_setScreenAnimation: function (composer, dialog, screen, type) {
+		_setScreenAnimation (composer, dialog, screen, type) {
 			var anim = composer.getValue();
 			composer.destroy();
 			dialog.close();
@@ -1116,9 +1123,12 @@ export default {
 		},
 
 
-		stopSimulator: function (s, scroller) {
-			this.canvas.enableMouseZoom(true);
-			this.canvas.setState(0);
+		stopSimulator (s, scroller) {
+			if (this.canvas) {
+				this.canvas.enableMouseZoom(true);
+				this.canvas.setState(0);
+			}
+
 			css.remove(win.body(), 'MatcCanvasSimulatorVisible')
 			if (s) {
 				s.destroy();
