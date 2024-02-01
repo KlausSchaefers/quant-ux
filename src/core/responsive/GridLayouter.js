@@ -70,8 +70,7 @@ export function computeGrid(parent, fixSmallColumns = false) {
 			addGridRow(rows, Util.round(c.y + c.h), c, false)
 		})
 
-		console.debug('xxx', rows)
-
+		
 		/**
 		 * Set the width and convert objects to arrays
 		 */

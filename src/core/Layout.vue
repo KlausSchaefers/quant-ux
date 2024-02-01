@@ -343,10 +343,8 @@ export default {
       if (!model) {
         model = this.model;
       }
-      console.debug('Laiyt', model)
       for (var id in model.screens) {
         var screen = model.screens[id];
-        console.debug('-', id,  JSON.stringify(screen.props))
         if (screen.props.start) {
           return screen;
         }

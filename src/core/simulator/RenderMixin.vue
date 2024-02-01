@@ -19,8 +19,6 @@
   
 			  css.remove(this.domNode, "MatcSimulatorSplash MactMainGradient");
 
-			  console.debug('XXX', this.startScreenID, this.model)
-  
 			  if(this.startScreenID ){
 				  let start = this.model.screens[this.startScreenID];
 				  this.domNode.innerHTML="";

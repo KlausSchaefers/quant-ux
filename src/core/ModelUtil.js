@@ -184,6 +184,8 @@ class ModelUtil {
                         }
                     } else {
                         console.warn('ModelUtil.inlineBoxDesignToken() > NO token with id or no value:' + designTokenId, designToken)
+                        console.warn(JSON.stringify(model.designtokens, null, 2))
+                        console.warn(JSON.stringify(box, null, 2))
                     }
                 }
             }
