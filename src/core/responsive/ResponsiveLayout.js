@@ -11,10 +11,12 @@ export default class ResponsiveLayout {
         this.config = config
         this.config.useRows = false
         this.config.wrapGroups = true
+        this.config.removeRootIfNeeded = false
     }
 
-    initApp(model, wrapGroups) {
+    initApp(model, wrapGroups, removeRootIfNeeded=false) {
         this.model = model
+        this.config.removeRootIfNeeded = removeRootIfNeeded
         if (wrapGroups) {
             model = Quant2Flat.transform(model, this.config)
         }
@@ -22,7 +24,7 @@ export default class ResponsiveLayout {
         this.treeModel = treeModel
     }
 
-    initSelection(model, boundingBox, children, round=true, wrapGroups = true) {
+    initSelection(model, boundingBox, children, round=true, wrapGroups = true, removeRootIfNeeded=true) {
         Logger.log(-1, 'ResponsiveLayout.initSelection() > wrapGroups: ' + wrapGroups)
         /**
          * We want to make sure, that the selection is always
@@ -98,7 +100,7 @@ export default class ResponsiveLayout {
 
 
         // add groups
-        this.initApp(responsiveSelection, wrapGroups)
+        this.initApp(responsiveSelection, wrapGroups, removeRootIfNeeded)
     }
 
     isBoundingBoxScreen(boundingBox) {

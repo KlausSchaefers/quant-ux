@@ -7,7 +7,7 @@ import * as Rows from "./RowLayouter"
 var cloneID = 0
 
 export function transform(model, config) {
-	Logger.log(1, "Falt2Tree.transform () > enter", config)
+	Logger.log(-1, "Falt2Tree.transform () > enter", config)
 
 	let result = {
 		id: model.id,
@@ -27,7 +27,7 @@ export function transform(model, config) {
 		/**
 		 * First we build a hierachical parent child relation.
 		 */
-		screen = transformScreenToTree(screen, model, true)
+		screen = transformScreenToTree(screen, model, config.removeRootIfNeeded)
 
 		/**
 		 * Add rows and grid if needed
