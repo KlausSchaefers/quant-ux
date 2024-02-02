@@ -61,7 +61,6 @@ export function computeGrid(parent, fixSmallColumns = false) {
 		addGridRow(rows, 0, parent, true)
 		addGridRow(rows, Util.round(parent.h), parent, false)
 
-		console.debug(parent, rows)
 
 		parent.children.forEach((c) => {
 			addGridColumns(columns, Util.round(c.x), c, true)
@@ -174,7 +173,7 @@ export function setFixedGirdRowsAndColumns(parent, columns, rows) {
 			})
 		}
 		if (Util.isPinnedDown(e)) {
-			rows.forEach((row) => {
+			rows.forEach((row) => {				
 				if (row.v >= e.y + e.h) {
 					row.fixed = true
 				}

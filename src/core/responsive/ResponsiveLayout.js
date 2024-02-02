@@ -138,7 +138,7 @@ export default class ResponsiveLayout {
     }
 
     resize(width, height) {
-        Logger.log(-1, 'ResponsiveLayout.resize() > width: ' + width + ' > height:',  height )
+        Logger.log(1, 'ResponsiveLayout.resize() > width: ' + width + ' > height:',  height )
         const newNestedPositions = this.resizePositions(width, height)
         return this.resizeModel(width, height, newNestedPositions)
     }
@@ -228,7 +228,7 @@ export default class ResponsiveLayout {
         }
       
         if (box.layout.type === 'row') {
-            this.resizeChildrenRow(box, parent, newNestedPositions, indent)
+            this.resizeChildenGrid(box, parent, newNestedPositions, indent)
         }
 
         if (box.layout.type === 'grid' && box.grid) {
@@ -238,25 +238,22 @@ export default class ResponsiveLayout {
 
 
     resizeChildenGrid(box, parent, newNestedPositions, indent) {
-        Logger.log(-2, indent + 'ResponsiveLayout.resizeChildenGrid() > ' + box.name, box.layout.type )
+        Logger.log(2, indent + 'ResponsiveLayout.resizeChildenGrid() > ' + box.name, box.grid )  
         const newParent = newNestedPositions[parent.id]
         const sclaleGrid = this.sclaleGrid(box.grid, newParent, indent + box.name)
-        this.updateChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)
-      
+        this.updateChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)      
     }
 
     updateChildPositions (box, newParent, sclaleGrid, newNestedPositions, indent) {
-        box.children.forEach(child => {   
-     
+        box.children.forEach(child => {
+          
             const startX = sclaleGrid.cols[child.gridColumnStart]
             const endX = sclaleGrid.cols[child.gridColumnEnd]
-            
-
+    
             // TODO: we should check that the with and height on
             // fixed elements are really the same...
             const width = endX - startX
-      
-
+    
             const startY = sclaleGrid.rows[child.gridRowStart]
             const endY = sclaleGrid.rows[child.gridRowEnd]
             const height = endY - startY
@@ -339,8 +336,8 @@ export default class ResponsiveLayout {
         })
         result.cols.unshift(0)
         
-
-        const [flexHeight, fixedHeight] = getFlexFixed(grid.rows)
+    
+        const [flexHeight, fixedHeight] = getFlexFixed(grid.rows, 'row')
         const factorHeight = (newParent.h - fixedHeight)/ flexHeight
         let lastY = 0
         result.rows = grid.rows.map((row) => {            
