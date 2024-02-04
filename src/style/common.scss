@@ -368,30 +368,3 @@ a:FOCUS {
 	right: 5px;
 }
 
-.MatcScrollContainer {
-	scrollbar-gutter: stable;
-	overflow: auto;
-
-	&::-webkit-scrollbar {
-		width: 6px;
-	}
-
-	/* Track */
-	&::-webkit-scrollbar-track {
-		border-radius: 8px;
-	}
-
-	/* Handle */
-	&::-webkit-scrollbar-thumb {
-		background: rgba(0, 0, 0, 0.0);
-		transition: all 0.2s;
-		border-radius: 8px;
-	}
-
-	&:hover {
-		&::-webkit-scrollbar-thumb {
-			background: rgba(0, 0, 0, 0.25);
-
-		}
-	}
-}

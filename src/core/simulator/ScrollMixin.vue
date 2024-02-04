@@ -212,9 +212,20 @@ export default {
 		},
 
 		setScrollContainer (s){
+			console.error('DEPCRECATED >>> setScrollContainer()')
 			this.scrollContainer = s;
         },
 
+		setScrollListenTarget (hasSimpleBar) {
+			if (hasSimpleBar) {
+				this.scrollListenTarget = "simpleBar";
+			} else {
+				this.scrollListenTarget = "parent";
+			}
+			this.logger.log(-1,"setScrollListenTarget","exit > " + this.scrollListenTarget);
+		},
+
+	
 
 		scrollToTop (){
 			this.logger.log(1,"scrollToTop","enter > " + this.mode, this.scrollListenTarget);

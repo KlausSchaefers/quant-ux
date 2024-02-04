@@ -478,7 +478,7 @@ export default {
 			 */
 			s.initParent = () => { };
 
-			s.setScrollContainer(scroller);
+			//s.setScrollContainer(scroller);
 			scroller.wrap(s.domNode);
 			cntr.appendChild(container);
 

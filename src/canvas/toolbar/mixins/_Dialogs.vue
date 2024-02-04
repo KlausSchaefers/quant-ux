@@ -29,6 +29,8 @@ import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
 import ExportDialog from 'canvas/toolbar/dialogs/ExportDialog'
 import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
 
+import * as ScrollUtil from '../../../util/ScrollUtil'
+
 export default {
 	name: '_Dialogs',
 	mixins: [Plan, DojoWidget],
@@ -910,22 +912,27 @@ export default {
 			}
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
-
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container, false)
+		
 			const s = this.$new(Simulator, { mode: "debug", logData: false });
-			s.scrollListenTarget = "parent";
+			s.setScrollListenTarget(hasSimpleBar)
 			s.isDesktopTest = true
 			s.setHash(this.hash)
+			s.placeAt(container);
 
-			const scroller = this.$new(ScrollContainer, { canDestroy: true });
-			scroller.placeAt(container);
-			s.setScrollContainer(scroller);
+			s.setResizeListener(size => {
+				this.logger.log(-1,"renderMobileSimulator","resize", size.w + '/' + size.h);
+				container.style.height = size.h + 'px'
+				container.style.width = size.w + 'px'
+			})
 
+			// copy here the resize stuff of the TestPage. With SimpleBar we still have some weird overflow
 
 			const d = new Dialog();
 			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);
 
-			d.own(d.on("close", lang.hitch(this, "stopSimulator", s, scroller)));
+			d.own(d.on("close", lang.hitch(this, "stopSimulator", s)));
 			d.own(on(dialog, 'click', (e) => {
 				if (e.target === dialog) {
 					d.close()
@@ -938,8 +945,7 @@ export default {
 			model = this.model;
 			const screen = this._getSimulatorScreen();
 			s.setStartScreen(screen);
-			setTimeout(function () {
-				scroller.wrap(s.domNode);
+			setTimeout(() => {
 				s.setModel(model);
 			}, 500);
 
@@ -980,21 +986,27 @@ export default {
 
 			container.style.width = Math.ceil(pos.w) + "px";
 			container.style.height = Math.ceil(pos.h) + "px";
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container, false)
 
 			wrapper.style.width = Math.ceil(pos.w) + "px";
 			wrapper.style.height = Math.ceil(pos.h) + "px";
 			css.add(wrapper, 'MatcSimulatorFadeOut')
 			wrapper.appendChild(container);
 
-			const scroller = this.$new(ScrollContainer, { canDestroy: true });
-			scroller.placeAt(container);
-
 			const s = this.$new(Simulator, { mode: "debug", logData: false });
-			s.scrollListenTarget = "parent";
 			s.isDesktopTest = true
-			s.setScrollContainer(scroller);
 			s.setHash(this.hash)
+			s.placeAt(container);
+			s.setScrollListenTarget(hasSimpleBar)
 
+			s.setResizeListener(size => {
+				this.logger.log(-1,"renderMobileSimulator","resize", size.w + '/' + size.h);
+				wrapper.style.height = size.h + 'px'
+				wrapper.style.width = size.w + 'px'
+
+				container.style.height = size.h + 'px'
+				container.style.width = size.w + 'px'
+			})
 
 			// sinde 4.1.03 the qr code can be hidden in the settings.
 			const settings = this.getSettings()
@@ -1011,8 +1023,6 @@ export default {
 				qrCodeWrapper.appendChild(img);
 			}
 
-
-
 			/**
 			 * FIXME: We have here some flickering. Because of the fixed
 			 * positions widgets we cannot use cssAniamtion because the scale(1,1)
@@ -1026,7 +1036,7 @@ export default {
 			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);
 
-			d.on("close", lang.hitch(this, "stopSimulator", s, scroller));
+			d.on("close", lang.hitch(this, "stopSimulator", s));
 			d.own(on(dialog, 'click', (e) => {
 				if (e.target === dialog) {
 					d.close()
@@ -1039,10 +1049,8 @@ export default {
 			model = this.model;
 
 			const screen = this._getSimulatorScreen();
-			console.debug(screen)
 			s.setStartScreen(screen);
 			setTimeout(() => {
-				scroller.wrap(s.domNode);
 				s.setModel(model);
 				css.remove(wrapper, 'MatcSimulatorFadeOut')
 			}, 600);
@@ -1123,7 +1131,7 @@ export default {
 		},
 
 
-		stopSimulator (s, scroller) {
+		stopSimulator (s) {
 			if (this.canvas) {
 				this.canvas.enableMouseZoom(true);
 				this.canvas.setState(0);
@@ -1133,9 +1141,9 @@ export default {
 			if (s) {
 				s.destroy();
 			}
-			if (scroller) {
-				scroller.destroy();
-			}
+			// if (scroller) {
+			// 	scroller.destroy();
+			// }
 		}
 	},
 	mounted() {

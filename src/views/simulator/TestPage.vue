@@ -412,11 +412,7 @@ export default {
 			s.isDesktopTest = true;
 			s.setInvitation(this.hash);
 			s.placeAt(container);
-			if (hasSimpleBar) {
-				s.scrollListenTarget = "simpleBar";
-			} else {
-				s.scrollListenTarget = "parent";
-			}
+			s.setScrollListenTarget(hasSimpleBar)
 
 
 			s.startup();

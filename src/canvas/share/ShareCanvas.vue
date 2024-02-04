@@ -384,7 +384,7 @@ export default {
 
 			const scroller = this.$new(ScrollContainer, { canDestroy: true });
 			scroller.placeAt(container);
-			s.setScrollContainer(scroller);
+			//s.setScrollContainer(scroller);
 
 
 			const d = new Dialog();
@@ -458,7 +458,7 @@ export default {
 			const s = this.$new(Simulator, { mode: "debug", logData: false });
 			s.scrollListenTarget = "parent";
 			s.isDesktopTest = true
-			s.setScrollContainer(scroller);
+			//s.setScrollContainer(scroller);
 			s.setHash(this.hash)
 
 

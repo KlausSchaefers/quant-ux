@@ -403,7 +403,7 @@ export default {
             s.scrollListenTarget = "parent";
             s.setHash(this.hash)     
             s.initParent = () => { };
-            s.setScrollContainer(scroller);
+            //s.setScrollContainer(scroller);
             scroller.wrap(s.domNode);
             cntr.appendChild(container);
             return s;
