@@ -977,6 +977,9 @@ export default {
 			const container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 
+			// fixme. This is somehow different than the 
+			// pos calculated in the simualtor. Thus we need
+			// the setResizeListener :(
 			pos = this.getScaledSize(pos, "width", this.model);
 			if (pos.h > maxHeight) {
 				let factor = pos.h / maxHeight
