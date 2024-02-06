@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="MatcMainCntr">
+  <div id="app" :class="['MatcMainCntr', {'MatcWindows': isWindows}]">
     <router-view/>
     <div class="vommondMessage" ref="message">
     </div>
@@ -15,6 +15,11 @@ import win from 'dojo/win'
 import Services from 'services/Services'
 
 export default {
+data: function() {
+    return {  
+		isWindows:false 
+    }
+  },
   methods: {
     showSuccess (msg){
 		if (this.$refs.message){
@@ -70,6 +75,11 @@ export default {
 	initNLS () {
 		let language = Services.getUserService().getLanguage()
 		this.$root.$i18n.locale = language
+	},
+	initScroll () {
+		if (navigator.platform.indexOf('Win') > -1 || location.href.indexOf("os=win") > -1) {
+			this.isWindows = true
+		}
 	}
   },
   async mounted () {
@@ -90,6 +100,7 @@ export default {
 	})
 	css.remove(win.body(), 'MatcPublic')
 	this.initNLS()
+	this.initScroll()
   }
 }
 </script>

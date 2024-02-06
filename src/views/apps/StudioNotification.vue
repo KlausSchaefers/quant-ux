@@ -9,7 +9,7 @@
         <ZoomDialog ref="dialog">
             <div class="MatcDialogM MatcDialog" @click.stop>
                 <h1> {{ $t('app.notifications') }}</h1>
-                <div class="StudioNotificationContainer" ref="cntr">
+                <div class="StudioNotificationContainer MatcScrollContainer" ref="cntr">
                     <div v-for="n in filteredNotifications" :key="n.id" class="StudioNotificationItem">
                         <h3>{{n.title}}</h3>
                         <p v-html="n.body">
@@ -49,7 +49,6 @@
 import Services from 'services/Services'
 import QIcon from "page/QIcon";
 import ZoomDialog from 'common/ZoomDialog'
-import * as ScrollUtil from '../../util/ScrollUtil'
 
 export default {
     name: "StudioNotification",
@@ -121,7 +120,6 @@ export default {
         },
     },
     async mounted() {
-        ScrollUtil.addScrollCSSIfNeeded(this.$refs.cntr, false)
         this.notifications = await Services.getUserService().getNotications()
     }
 };

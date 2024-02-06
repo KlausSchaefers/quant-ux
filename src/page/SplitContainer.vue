@@ -1,13 +1,13 @@
 <template>
     <div class="MatcSplitView">
 
-        <div :class="['MatcSplitViewChild MatcSplitViewLeft ', {'MatcSplitViewChildBorder' : left} ] " :style="leftWidth" ref="leftChild">
+        <div :class="['MatcSplitViewChild MatcSplitViewLeft MatcScrollContainer', {'MatcSplitViewChildBorder' : left} ] " :style="leftWidth" ref="leftChild">
             <slot name="left"></slot>
         </div>
         <div :class="['MatcSplitViewBorder']" >
             <div :class="['MatcSplitViewHandler', {'MatcSplitViewHandlerLeft' : left} , {'MatcSplitViewHandlerRight' : right} ]" @mousedown="onMousedown"></div>
         </div>
-        <div :class="['MatcSplitViewChild MatcSplitViewRight MatcSplitViewChildResizeContainer', {'MatcSplitViewChildBorder' : right} ]" :style="rightWidth" ref="rightChild">
+        <div :class="['MatcSplitViewChild MatcSplitViewRight MatcSplitViewChildResizeContainer MatcScrollContainer', {'MatcSplitViewChildBorder' : right} ]" :style="rightWidth" ref="rightChild">
       
             <slot name="right"></slot>
         </div>    
@@ -18,7 +18,6 @@
   </style>
   <script>
   import {onStartDND} from '../util/DND'
-  import * as ScrollUtil from '../util/ScrollUtil'
   export default {
     name: "SplitContainer",
     mixins: [],
@@ -66,8 +65,6 @@
       if (this.right) {
         this.pos = this.right
       }
-      ScrollUtil.addScrollCSSIfNeeded(this.$refs.leftChild)
-      ScrollUtil.addScrollCSSIfNeeded(this.$refs.rightChild)
       const old = localStorage.getItem('quxSplitContainer' + this.qid)
       if (old) {
         this.pos = old * 1

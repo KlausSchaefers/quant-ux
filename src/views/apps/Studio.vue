@@ -34,7 +34,7 @@
                         <h4 class="MatcCollapseViewMinHidden"> {{ $t('app.recent-projects') }}</h4>                 
                     </div>
  
-                    <div class="MatcStudioAppList MatcMarginBottom ">
+                    <div class="MatcStudioAppList MatcMarginBottom MatcScrollContainer">
                         <a v-for="app in filteredAppList" :key="app.id" :href="'#/' + urlPrefix +'/' + app.id + '.html'" :class="['MatcLink MatcCollapseViewMinHidden', {'MatcStudioAppListSelected' : selectedApp === app.id}]">
                             <span class="MatcStudioAppListDot" :style="{'background': app.previewColor}"/>
                             <span class="MatcStudioAppListLabel">

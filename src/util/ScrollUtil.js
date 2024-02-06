@@ -12,11 +12,3 @@ export function addScrollIfNeeded(node) {
     }
     return false
 }
-
-export function addScrollCSSIfNeeded(node) {
-    if (navigator.platform.indexOf('Win') > -1 || forceSimpleBar) {
-        node.classList.add("MatcScrollContainer");
-        return true
-    }
-    return false
-}

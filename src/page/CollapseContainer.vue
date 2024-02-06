@@ -1,7 +1,7 @@
 <template>
     <div :class="['MatcSplitView MatcCollapseView', {'MatcCollapseViewMin': this.collapsed}]">
 
-        <div :class="['MatcSplitViewChild MatcSplitViewLeft ', {'MatcSplitViewChildBorder' : left} ] " :style="leftWidth" ref="leftChild">
+        <div :class="['MatcSplitViewChild MatcSplitViewLeft MatcScrollContainer', {'MatcSplitViewChildBorder' : left} ] " :style="leftWidth" ref="leftChild">
             <slot name="left"></slot>
         </div>
         <div :class="['MatcSplitViewBorder']" >
@@ -10,7 +10,7 @@
               <div class="MatcCollapseViewHandlerBottom"></div>
             </div>
         </div>
-        <div :class="['MatcSplitViewChild MatcSplitViewRight ', {'MatcSplitViewChildBorder' : right} ]" :style="rightWidth" ref="rightChild">
+        <div :class="['MatcSplitViewChild MatcSplitViewRight MatcScrollContainer', {'MatcSplitViewChildBorder' : right} ]" :style="rightWidth" ref="rightChild">
            <slot name="right"></slot>
         </div>    
     </div>
@@ -19,7 +19,6 @@
     @import "../style/components/split_view.scss";
   </style>
   <script>
-  import * as ScrollUtil from '../util/ScrollUtil'
   export default {
     name: "CollapseContainer",
     mixins: [],
@@ -71,8 +70,6 @@
         this.pos = this.right
         this.max = this.right
       }
-      ScrollUtil.addScrollCSSIfNeeded(this.$refs.leftChild, false)
-      ScrollUtil.addScrollCSSIfNeeded(this.$refs.rightChild, false)
       let old = localStorage.getItem('quxCollapseContainer'+this.qid)
       if (old === 'true') {
         this.setCollapsed(true)

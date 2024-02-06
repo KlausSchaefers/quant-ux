@@ -1,4 +1,4 @@
-import * as ExportUtil from './ExportUtil'
+//import * as ExportUtil from './ExportUtil'
 
 export function getPinnedScreenChildPositions (pos, pinnedChildren) {
     const result = {}
@@ -28,26 +28,26 @@ export function getPinnedScreenChildPositions (pos, pinnedChildren) {
     return result
 }
 
-export function getPinnedScreenChildren(screen, model) {
+export function getPinnedScreenChildren(/*screen, model */) {
     const children = []
-    screen.children.forEach(id => {
-      const widget = model.widgets[id]
-      /**
-       * We do not support widgets from a master screen
-       */
-      if (widget && !widget.inherited && ExportUtil.isPinnedDown(widget)) {
-        children.push({
-            id: widget.id,
-            x: widget.x,
-            y: widget.y,
-            h: widget.h,
-            w: widget.w,
-            offsetTop: widget.y - screen.y,
-            offsetBottom: (screen.y + screen.h) - (widget.y + widget.h),
-            pinnedUp: ExportUtil.isPinnedUp(widget),
-            pinnedDown: ExportUtil.isPinnedDown(widget)
-        })
-      }
-    })
+    // screen.children.forEach(id => {
+    //   const widget = model.widgets[id]
+    //   /**
+    //    * We do not support widgets from a master screen
+    //    */
+    //   if (widget && !widget.inherited && ExportUtil.isPinnedDown(widget)) {
+    //     children.push({
+    //         id: widget.id,
+    //         x: widget.x,
+    //         y: widget.y,
+    //         h: widget.h,
+    //         w: widget.w,
+    //         offsetTop: widget.y - screen.y,
+    //         offsetBottom: (screen.y + screen.h) - (widget.y + widget.h),
+    //         pinnedUp: ExportUtil.isPinnedUp(widget),
+    //         pinnedDown: ExportUtil.isPinnedDown(widget)
+    //     })
+    //   }
+    // })
     return children
 }
