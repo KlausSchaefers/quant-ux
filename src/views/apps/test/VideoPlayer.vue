@@ -903,12 +903,11 @@ export default {
 				let type = e.type;
 				if(type){
 
-					if(!this.invisibleEvents[type]){
+					if(!this.invisibleEvents[type] && !e.hidden){
 						var item = document.createElement("div");
 						css.add(item, "MatcPlayerEvent");
 						css.add(item, e.type);
 						var txt = this.getMinute(e.time -this.min);
-
 						if(type == "WidgetClick" || type == "WidgetChange" || type=="ValidationError" || type=="ValidationErrorLine"){
 							if(e.state && (type == "WidgetClick" || type == "WidgetChange" )){
 								txt += " - " +  this.getEventStateLabel(e.state);

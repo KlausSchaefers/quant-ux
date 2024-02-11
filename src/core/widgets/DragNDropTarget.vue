@@ -39,7 +39,8 @@
   
       wireEvents () {
         this._moveListener = topic.on('DragNDrop.Move', (e) => {this.onDNDMove(e)})
-        this._endListener = topic.on('DragNDrop.End', (e) => {this.onDNDEnd(e)})
+        this._endListener = topic.on('DragNDrop.End', (e) => {this.onDNDEnd(e, true)})
+        this._endListener = topic.on('DragNDrop.Init', (e) => {this.onDNDEnd(e, false)})
       },
   
       getLabelNode () {
@@ -65,13 +66,15 @@
         }
       },
 
-      onDNDEnd (other, widget) {
-     
+      onDNDEnd (other, animate = true) {
         if (this.isInside(other)) {
-          this.snapChildren(other, widget)
-          this.emitClick(other.event)
+          this.snapChildren(other, animate)
+          if (animate) {
+            this.emitClick(other.event)
+          }
         } else {
           this.removeChildDND(other)
+          this.repositonChildren(animate)
         }
         this.hasChildren = this.childrenDNDWidgets.length > 0
         this.emitAnimation(
@@ -90,12 +93,17 @@
         this.childrenDNDWidgets = this.childrenDNDWidgets.filter(n => n.id !== child.id)
       },
 
-      snapChildren (other) {
-
-        if ('grid' !== this.model.props.layout && 'rows' !== this.model.props.layout){
+      snapChildren (other, animate = true) {
+        const layout = this.model.props.layout
+        if ('grid' !== layout && 'rows' !== layout && 'columns' !== layout){
           return
         }
- 
+        this.insertChildAtPosition(other)
+        this.repositonChildren(animate)
+      },
+
+      repositonChildren (animate=true) {
+        const layout = this.model.props.layout
         const style = this.model.style
         const paddingTop = this.getZoomed(style.paddingTop, this._scaleY)
         const paddingBottom = this.getZoomed(style.paddingBottom, this._scaleY)
@@ -106,19 +114,17 @@
         const height = this.modelPosition.h  - paddingBottom - paddingTop
         const width = this.modelPosition.w - paddingLeft - paddingRight
 
-        const maxChildWidth = 'rows' === this.model.props.layout ?
+        const maxChildWidth = 'rows' === layout ?
           width :
-          Math.max(other.w, Math.max(...this.childrenDNDWidgets.map(n => n.w)))
+          Math.max(...this.childrenDNDWidgets.map(n => n.w))
        
-        const maxChildHeight = Math.max(other.h, Math.max(...this.childrenDNDWidgets.map(n => n.h)))
+        const maxChildHeight = 'columns' === layout? 
+          height :
+          Math.max(...this.childrenDNDWidgets.map(n => n.h))
 
 
         const columns = Math.floor(width / (maxChildWidth))
         const rows = Math.floor(height/ (maxChildHeight))
-
-     
-        this.insertChildAtPosition(other)
-        
         const offsetX = this.modelPosition.x + paddingLeft
         const offsetY = this.modelPosition.y + paddingTop
         for (let r=0; r < rows; r++) {
@@ -128,10 +134,13 @@
             if (node) {
               node.x = offsetX + (c * (maxChildWidth + gap))
               node.y = offsetY + (r * (maxChildHeight + gap))
-              topic.publish('DragNDrop.Reposition.' + node.id, {id: other.id, absPos: node})
+              topic.publish('DragNDrop.Reposition.' + node.id, {id: node.id, absPos: node, animate:animate })
             }
           }
         }
+       
+        this.emitHiddenStateChange('value', this.childrenDNDWidgets.map(n => n.value))
+        
       },
 
       insertChildAtPosition (other) {
@@ -150,6 +159,9 @@
       getBeforeIndex (other) {
           if ('rows' === this.model.props.layout) {
             return this.childrenDNDWidgets.findIndex(n => (n.y + n.h > other.y))
+          }
+          if ('columns' === this.model.props.layout) {
+            return this.childrenDNDWidgets.findIndex(n => (n.x + n.w > other.x))
           }
           return this.childrenDNDWidgets.findIndex(n => (n.y + n.h > other.y) && (n.x + n.w > other.x))
       },
@@ -172,9 +184,6 @@
           }
           return false;
       },
-
-
-
       
       setZoomedModel (m) {
         this.zoomedModel = m
@@ -199,6 +208,13 @@
       },
   
       setState () {
+
+        // if (state && state.type === 'childPositions') {
+        //   const children = state.value
+        //   children.forEach(c => {
+
+        //   })
+        // }
        
       },
   

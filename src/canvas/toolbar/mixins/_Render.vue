@@ -75,7 +75,7 @@ export default {
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
 							'Table', 'Paging', 'Timeline', 'LabeledIconToggle', 'VisualPicker', 'LockSlider', 'IconToggleButton', 'ScreenSegment', 
 							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button', 'LabeledTextBox',
-							'LabeledTextArea', 'SortableList', 'RadioTable'],
+							'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget'],
 
 			hasLogic2: ["LogicOr", "Rest", "Script"],
 
@@ -86,7 +86,7 @@ export default {
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 
-								'Paging', 'Upload', 'IconToggleButton', 'NavBar'], //DragNDrop
+								'Paging', 'Upload', 'IconToggleButton', 'NavBar', 'DragNDrop'],
 			
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton', 

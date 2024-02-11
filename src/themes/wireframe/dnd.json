@@ -37,12 +37,37 @@
 
 		"borderColor": "@button-secundary-border-color",
 		"background": "@button-secundary-background",
-		"color": "@button-secundary-color"
+		"color": "@button-secundary-color",
+		"boxShadow" : {
+			"v" : 0,
+			"h" : 0,
+			"b" : 0,
+			"s" : 0,
+			"c" : "rgba(0, 0, 0, 0)",
+			"i" : false
+		}
 	},
 	"hover": {
-		"background": "@background-passive"
+		"background": "@background-passive",
+		"boxShadow" : {
+			"v" : 0,
+			"h" : 0,
+			"b" : 0,
+			"s" : 0,
+			"c" : "rgba(0, 0, 0, 0)",
+			"i" : false
+		}
 	}, 
 	"active" : {
+		"background": "@background-passive",
+		"boxShadow" : {
+			"v" : 4,
+			"h" : 0,
+			"b" : 16,
+			"s" : 0,
+			"c" : "rgba(0, 0, 0, 0.25)",
+			"i" : false
+		}
 	}
 },
 {

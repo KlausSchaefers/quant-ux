@@ -710,6 +710,11 @@ export default class RenderFactory extends Core {
 	_createDragNDrop(parent, model) {
 		var widget = this.$new(DragNDrop);
 		widget.placeAt(parent);
+		if (this.zoomedModel){
+			widget.setZoomedModel(this.zoomedModel)
+		} else {
+			widget.setZoomedModel(this.model)
+		}
 		this._uiWidgets[model.id] = widget;
 	}
 

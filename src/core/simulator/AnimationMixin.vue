@@ -20,7 +20,7 @@ export default {
 				return;
 			}
 
-			var anim = this.renderFactory.createWidgetAnimation(e);
+			const anim = this.renderFactory.createWidgetAnimation(e);
 			if(anim){
 				anim.run()
 				this.log("Animation",screenID, widgetID, null, {animation : anim.event});

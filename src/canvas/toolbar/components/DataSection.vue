@@ -1055,11 +1055,12 @@ export default {
 			this._setSectionLabel("Drop Target");
 			this._renderLabelDropDown("Normal", model,"layout",[
 				{ value: null, icon:"NoGrid", label : "No snapping"},
-				{ value: "rows", icon:"Rows", label : "Snapp as Rows"},
-				{ value:"grid", icon:"Grid", label : "Snapp as Grid"}
+				{ value: "rows", icon:"Rows", label : "Snapp Rows"},
+				{ value: "columns", icon: 'Columns', label: "Snapp Columns"},
+				{ value: "grid", icon:"Grid", label : "Snapp Grid"}
 			]);
 
-			if (model.props.layout === 'rows' || model.props.layout === 'grid') {
+			if (model.props.layout === 'rows' || model.props.layout === 'grid' || model.props.layout === 'columns') {
 				this._renderInputDropDown("Gap", model, [4, 8, 16, 32], "gap", false);
 			}
 

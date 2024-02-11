@@ -201,7 +201,6 @@ export default {
 
     mounted () {
       this.logger = new Logger('SurveyTable')
-      console.debug(this.table)
     }
 }
 </script>

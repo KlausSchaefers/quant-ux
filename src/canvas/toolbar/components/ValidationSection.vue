@@ -218,6 +218,12 @@ export default {
 			this._renderIgnoreState(model);
 		},
 
+		_showDragNDropTarget (model){
+			this._renderDataBinding(model);
+
+			//this._renderCheck("Vertical Move",model.props.dndY, "dndY" );
+			//this._renderCheck("Horizontal Move",model.props.dndX, "dndX" );
+		},
 
 		_showBarChart (model){
 			this._renderDataBinding(model, false);

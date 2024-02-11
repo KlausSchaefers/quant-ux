@@ -315,6 +315,24 @@ export default {
       this.emit("stateChange", event);
     },
 
+    emitHiddenStateChange (type, value, e, time) {
+      const event = {
+        hidden: true,
+        type: type,
+        value: value,
+        runTransition: false,
+        e: e
+      };
+      if (time) {
+        event.time = time;
+      }
+      const options = this.getStateOptions();
+      if (options) {
+        event.options = options;
+      }
+      this.emit("stateChange", event);
+    },
+
     /**
      * stateChange events will be translated to click events, iff the event e was passed. Like this
      * the simulator know there was a click...

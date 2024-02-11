@@ -101,7 +101,6 @@ export default {
 		},
 
 		setDataBindingByKey (path, value) {
-			console.debug('setDataBindingByKey', path, value)
 			if (this.dataBindingValues) {
 				JSONPath.set(this.dataBindingValues, path, value)
 				this.emit('onDataBindingChange', this.dataBindingValues)

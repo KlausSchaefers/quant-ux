@@ -14,6 +14,7 @@ import win from "dojo/_base/win";
 import Logger from "common/Logger";
 import UIWidget from "core/widgets/UIWidget";
 import topic from 'dojo/topic'
+import CoreUtil from 'core/CoreUtil'
 
 export default {
   name: "DragNDrop",
@@ -46,13 +47,53 @@ export default {
         'DragNDrop.Reposition.' + this.model.id, 
         e => this.onExternalReposition(e)
       )
+      setTimeout(() => {
+        this.initDnd()
+        const pos = CoreUtil.getWidgetPostionInScreen(this.model, this.zoomedModel)
+        pos.id = this.model.id
+        pos.value = this.model.props.label
+        pos.z = this.model.z
+        topic.publish('DragNDrop.Init', pos)
+      }, 10)
     },
+
+    setZoomedModel (m) {
+        this.zoomedModel = m
+      },
+
+    onDomMouseOver (e) {
+      if (this.model.hover && !this.isMoving) {
+        this.emitAnimation(
+          this.model.id,
+          this.hoverAnimationDuration,
+          this.model.hover
+        );
+      }
+      this.emitMouseOver(e);
+    },
+
+    onDomMouseOut (e) {
+      if (!this.isMoving) {
+        this.emitAnimation(
+          this.model.id,
+          this.hoverAnimationDuration,
+          this.model.style
+        );
+      }
+      this.emitMouseOut(e);
+    },
+
 
     onExternalReposition (e) {
       const x = e.absPos.x
       const y = e.absPos.y
       const newValue = this.getRelativePosition(x, y)
-      this.setAnimatedValue(newValue)
+      if (e.animate) {
+        this.setAnimatedValue(newValue)
+      } else {
+        this.setValue(newValue)
+      }
+ 
       this._lastAbsPos = {
           x: x, 
           y: y, 
@@ -63,7 +104,9 @@ export default {
         }
       this.dndParentPos.x = x
       this.dndParentPos.y = y
+      this.emitHiddenStateChange('animatedPos', newValue)
     },
+    
 
     getLabelNode () {
       return this.$refs.lblNode;
@@ -88,6 +131,7 @@ export default {
           this.model.active
         );
       }
+      this.isMoving = true
     },
 
     initDnd () {
@@ -126,6 +170,7 @@ export default {
   
       // Fixme: requestAnimationFrame works slow on android..
       this.renderPosition();
+
       this._lastAbsPos.event = e
       topic.publish('DragNDrop.Move', this._lastAbsPos)
     },
@@ -144,8 +189,11 @@ export default {
       this.cleanUp();
       this.dndParentPos = this._lastDndPositon;
       this._lastAbsPos.event = e
-      this._lastAbsPos.label = this.model.props.label
+      this._lastAbsPos.value = this.model.props.label
       topic.publish('DragNDrop.End', this._lastAbsPos)
+      if (this.model.active) {
+        this.emitAnimation(this.model.id, 0, this.model.style);
+      }
     },
 
     updateValue (value) {
@@ -280,8 +328,8 @@ export default {
 
     setState (state, t) {
 
-      if (state && state.type == "pos") {
-        //this.setValue(state.value);
+      if (state && state.type == "animatedPos") {
+        this.setAnimatedValue(state.value);
       }
       if (state && state.type == "dnd") {
         const substate = this.getLastSubState(state, t);
@@ -300,16 +348,14 @@ export default {
       if (this.releaseListener) {
         this.releaseListener.remove();
       }
-
+      this.isMoving = false
       delete this.moveListener;
       delete this.releaseListener;
       delete this.dndStartPos;
       css.remove(this.domNode, "MatcWidgetDragNDropMove");
       css.remove(this.domNode.parentNode, "MatcWidgetDragNDropMove");
       css.remove(this.domNode.parentNode, "MatcWidgetDragNDropAnimated");
-      if (this.model.active) {
-        this.emitAnimation(this.model.id, 0, this.model.style);
-      }
+     
     },
 
     render (model, style, scaleX, scaleY) {
