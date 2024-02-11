@@ -1,6 +1,6 @@
 <template>
     <div class="MatcWidgetDragNDropTarget">
-      <div class="MatcInlineEditable MatcWidgetTypeLabelInlineEditable" ref="lblNode">
+      <div class="MatcInlineEditable MatcWidgetTypeLabelInlineEditable" ref="lblNode" v-if="!hasChildren">
         {{label}}
       </div>
     </div>
@@ -20,6 +20,7 @@
     data: function() {
       return {
         value: null,
+        hasChildren: false,
         label:''
       };
     },
@@ -33,10 +34,10 @@
         this._paddingNodes = [this.domNode];
         this._labelNodes = [this.$refs.lblNode];
         this._imageNodes = [this.domNode]
+        this.childrenDNDWidgets = []
       },
   
       wireEvents () {
-        //this.wireHover()
         this._moveListener = topic.on('DragNDrop.Move', (e) => {this.onDNDMove(e)})
         this._endListener = topic.on('DragNDrop.End', (e) => {this.onDNDEnd(e)})
       },
@@ -64,14 +65,106 @@
         }
       },
 
-      onDNDEnd (other) {
+      onDNDEnd (other, widget) {
+     
         if (this.isInside(other)) {
+          this.snapChildren(other, widget)
           this.emitClick(other.event)
+        } else {
+          this.removeChildDND(other)
+        }
+        this.hasChildren = this.childrenDNDWidgets.length > 0
+        this.emitAnimation(
+          this.model.id,
+          this.hoverAnimationDuration,
+          this.model.style
+        );
+      },
+
+      // addChildDND (child) {
+      //   const found = this.childrenDNDWidgets.find(n => n.id === child.id)
+      //   if (found)
+      // },
+
+      removeChildDND (child) {
+        this.childrenDNDWidgets = this.childrenDNDWidgets.filter(n => n.id !== child.id)
+      },
+
+      snapChildren (other) {
+
+        if ('grid' !== this.model.props.layout && 'rows' !== this.model.props.layout){
+          return
+        }
+ 
+        const style = this.model.style
+        const paddingTop = this.getZoomed(style.paddingTop, this._scaleY)
+        const paddingBottom = this.getZoomed(style.paddingBottom, this._scaleY)
+        const paddingLeft = this.getZoomed(style.paddingLeft, this._scaleY)
+        const paddingRight = this.getZoomed(style.paddingRight, this._scaleY)
+        const gap = this.getZoomed(style.gap, this._scaleY)
+
+        const height = this.modelPosition.h  - paddingBottom - paddingTop
+        const width = this.modelPosition.w - paddingLeft - paddingRight
+
+        const maxChildWidth = 'rows' === this.model.props.layout ?
+          width :
+          Math.max(other.w, Math.max(...this.childrenDNDWidgets.map(n => n.w)))
+       
+        const maxChildHeight = Math.max(other.h, Math.max(...this.childrenDNDWidgets.map(n => n.h)))
+
+
+        const columns = Math.floor(width / (maxChildWidth))
+        const rows = Math.floor(height/ (maxChildHeight))
+
+     
+        this.insertChildAtPosition(other)
+        
+        const offsetX = this.modelPosition.x + paddingLeft
+        const offsetY = this.modelPosition.y + paddingTop
+        for (let r=0; r < rows; r++) {
+          for (let c=0; c < columns; c++) {
+            const p = r * columns + c
+            const node = this.childrenDNDWidgets[p]
+            if (node) {
+              node.x = offsetX + (c * (maxChildWidth + gap))
+              node.y = offsetY + (r * (maxChildHeight + gap))
+              topic.publish('DragNDrop.Reposition.' + node.id, {id: other.id, absPos: node})
+            }
+          }
         }
       },
 
-      isInside (obj) {
+      insertChildAtPosition (other) {
+        const beforeIndex = this.getBeforeIndex(other)
+        if (beforeIndex === -1) {
+          this.childrenDNDWidgets = this.childrenDNDWidgets.filter(n => n.id !== other.id)
+          this.childrenDNDWidgets.push(other)
+        } else {
+          this.childrenDNDWidgets = this.childrenDNDWidgets.filter(n => n.id !== other.id)
+          this.childrenDNDWidgets.splice(beforeIndex, 0, other);
+        }
+        //console.debug(beforeIndex, this.childrenDNDWidgets.map(n => n.id))
+        return beforeIndex
+      },
+
+      getBeforeIndex (other) {
+          if ('rows' === this.model.props.layout) {
+            return this.childrenDNDWidgets.findIndex(n => (n.y + n.h > other.y))
+          }
+          return this.childrenDNDWidgets.findIndex(n => (n.y + n.h > other.y) && (n.x + n.w > other.x))
+      },
+      
+      isInside (obj, half = true) {
         const parent = this.modelPosition
+        if (half) {
+          obj = {
+            x: obj.x + obj.w / 2,
+            y: obj.y + obj.h / 2,
+            w: 1,
+            h: 1,
+            z: obj.z
+          }
+        }
         if (parent) {
             if (obj.x >= parent.x && obj.x + obj.w <= parent.w + parent.x && (obj.y >= parent.y && obj.y + obj.h <= parent.y + parent.h)) {
                 return obj.z >= this.model.z;
@@ -79,6 +172,8 @@
           }
           return false;
       },
+
+
 
       
       setZoomedModel (m) {

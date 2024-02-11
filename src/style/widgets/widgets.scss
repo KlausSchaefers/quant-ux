@@ -1369,8 +1369,13 @@
 	cursor: pointer;
 }
 
-.MatcWidgetDragNDropMove{
+.MatcWidgetDragNDropAnimated {
+	transition: all 0.25s;
+}
+
+.MatcWidgetDragNDropMove.MatcWidget{
 	cursor: move;
+	z-index: 2;
 }
 
 /*******************************

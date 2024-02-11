@@ -36,12 +36,33 @@ export default {
       this._paddingNodes = [this.domNode];
       this._imageNodes = [this.domNode]
       this._labelNodes = [this.$refs.lblNode];
-      this.log.log(4, "postrCreate", "enter");
+      this.log.log(4, "postCreate", "enter");
     },
 
     wireEvents () {
       this.own(this.addTouchStart(this.domNode, lang.hitch(this, "onDndStart")));
       this.wireHover()
+      this._repositionListener = topic.on(
+        'DragNDrop.Reposition.' + this.model.id, 
+        e => this.onExternalReposition(e)
+      )
+    },
+
+    onExternalReposition (e) {
+      const x = e.absPos.x
+      const y = e.absPos.y
+      const newValue = this.getRelativePosition(x, y)
+      this.setAnimatedValue(newValue)
+      this._lastAbsPos = {
+          x: x, 
+          y: y, 
+          w: this.model.w, 
+          h: this.model.h, 
+          z: this.model.z, 
+          id: this.model.id
+        }
+      this.dndParentPos.x = x
+      this.dndParentPos.y = y
     },
 
     getLabelNode () {
@@ -54,17 +75,18 @@ export default {
       this.cleanUp();
       this.initDnd();
 
-      css.add(this.domNode, "MatcWidgetDragNDropMove");
-
+      css.add(this.domNode.parentNode, "MatcWidgetDragNDropMove");
+      
       this.dndStartPos = this.getMouse(e);
-
       this.moveListener = this.addTouchMove(win.body(),lang.hitch(this, "onDnDMove"));
       this.releaseListener = this.addTouchRelease(win.body(),lang.hitch(this, "onDndEnd"));
-
       this.initCompositeState(this.value);
-
       if (this.model.active) {
-        //this.emitAnimation(this.model.id, 0, this.model.active);
+        this.emitAnimation(
+          this.model.id, 
+          this.hoverAnimationDuration, 
+          this.model.active
+        );
       }
     },
 
@@ -82,6 +104,7 @@ export default {
       if (!this.dndParentPos) {
         this.dndParentPos = this.getCanvasPosition(this.domNode.parentNode);
         this.log.log( 4, "onDndStart", "dom " + this.dndParentPos.x + "," + this.dndParentPos.y );
+        topic.publish('DragNDrop.Start', this.dndParentPos)
       }
     },
 
@@ -121,6 +144,7 @@ export default {
       this.cleanUp();
       this.dndParentPos = this._lastDndPositon;
       this._lastAbsPos.event = e
+      this._lastAbsPos.label = this.model.props.label
       topic.publish('DragNDrop.End', this._lastAbsPos)
     },
 
@@ -132,6 +156,30 @@ export default {
         let x = this.dndParentPos.x + value.x;
         let y = this.dndParentPos.y + value.y;
 
+        const newValue = this.getRelativePosition(x, y)
+        this.setValue(newValue);
+
+        this._lastAbsPos = {
+          x:x, 
+          y:y, 
+          w: this.model.w, 
+          h: this.model.h, 
+          z: this.model.z, 
+          id: this.model.id
+        }
+      
+       
+      } else {
+        console.warn("No container Size");
+      }
+    },
+
+    getRelativePosition (x, y) {
+      if (this.containerSize) {
+        /**
+         * Do some bounds checking...
+         */
+     
         if (x + this.model.w > this.containerSize.w) {
           x = this.containerSize.w - this.model.w;
         }
@@ -146,19 +194,13 @@ export default {
           y = 0;
         }
         /**
-         * save relative position
+         * compute relative position
          */
         const newValue = {
           x: x / this.containerSize.w,
           y: y / this.containerSize.h
         };
-        this.setValue(newValue);
-
-        this._lastAbsPos = {x:x, y:y, w: this.model.w, h: this.model.h, z: this.model.z, id: this.model.id}
-      
-       
-      } else {
-        console.warn("No container Size");
+        return newValue
       }
     },
 
@@ -169,6 +211,13 @@ export default {
       return this.value;
     },
 
+    setAnimatedValue (value) {
+      css.add(this.domNode.parentNode, "MatcWidgetDragNDropAnimated");
+      this.setValue(value)
+      setTimeout(() => {
+        css.remove(this.domNode.parentNode, "MatcWidgetDragNDropAnimated");
+      }, 255)
+    },
     /**
      * set the current position
      */
@@ -202,6 +251,10 @@ export default {
             this.domNode.parentNode.style.webkitTransform = trans;
           }
 
+          if (value.z) {
+            this.domNode.parentNode.style.zIndex = value.z;
+          }
+
           this._lastDndPositon = {
             x: value.x * this.containerSize.w,
             y: value.y * this.containerSize.h
@@ -215,9 +268,6 @@ export default {
           }
          
         }
-
-        //this.domNode.parentNode.style.top = value.y*100 +"%";
-        //this.domNode.parentNode.style.left = value.x*100 + "%";
       }
     },
 
@@ -234,9 +284,9 @@ export default {
         //this.setValue(state.value);
       }
       if (state && state.type == "dnd") {
-        var substate = this.getLastSubState(state, t);
+        const substate = this.getLastSubState(state, t);
         if (substate) {
-          var value = substate.value;
+          const value = substate.value;
           this.setValue(value);
         }
       }
@@ -255,9 +305,10 @@ export default {
       delete this.releaseListener;
       delete this.dndStartPos;
       css.remove(this.domNode, "MatcWidgetDragNDropMove");
-
+      css.remove(this.domNode.parentNode, "MatcWidgetDragNDropMove");
+      css.remove(this.domNode.parentNode, "MatcWidgetDragNDropAnimated");
       if (this.model.active) {
-        //this.emitAnimation(this.model.id, 0, this.model.style);
+        this.emitAnimation(this.model.id, 0, this.model.style);
       }
     },
 
@@ -279,25 +330,28 @@ export default {
       }
     },
 
-    getCanvasPosition: function(node) {
-      var s = domStyle.get(node);
+    getCanvasPosition (node) {
+      const s = domStyle.get(node);
       return {
         x: this.removePx(s.left),
         y: this.removePx(s.top)
       };
     },
 
-    removePx: function(v) {
-      var pos = v.indexOf("px");
+    removePx (v) {
+      const pos = v.indexOf("px");
       if (pos >= 0) {
         v = v.substring(0, pos);
       }
       return v * 1;
     },
 
-    beforeDestroy: function() {
+    beforeDestroy () {
       if (this._compositeState) {
         this.emitCompositeState();
+      }
+      if (this._repositionListener) {
+        this._repositionListener.remove()
       }
       this.cleanUp();
     }

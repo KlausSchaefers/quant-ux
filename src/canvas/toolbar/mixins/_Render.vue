@@ -10,7 +10,6 @@ import CheckBox from 'common/CheckBox'
 
 import DomBuilder from 'common/DomBuilder'
 import ScrollContainer from 'common/ScrollContainer'
-//import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
@@ -24,7 +23,6 @@ import BoxPadding from 'canvas/toolbar/components/BoxPadding'
 
 import ActionButton from 'canvas/toolbar/components/ActionButton'
 import DataSection from 'canvas/toolbar/components/DataSection'
-//import ScreenImportAdd from 'canvas/toolbar/components/ScreenImportAdd'
 import ScreenList from 'canvas/toolbar/components/ScreenList'
 import ValidationSection from 'canvas/toolbar/components/ValidationSection'
 
@@ -42,7 +40,6 @@ import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 import Filter from 'canvas/toolbar/components/Filter'
-//import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
 import TooltipSection from 'canvas/toolbar/components/TooltipSection'
 import Alignment from 'canvas/toolbar/components/Alignment'
 
@@ -60,7 +57,7 @@ export default {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox", 'LockSlider',
 						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 
 						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea', 
-						'SortableList', 'RadioTable'],
+						'SortableList', 'RadioTable', 'DragNDropTarget'],
 			
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
@@ -68,7 +65,7 @@ export default {
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 'LockSlider', "StackedRingChart",
 						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 
 						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'NavBar', 
-						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable'],
+						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
@@ -89,7 +86,7 @@ export default {
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 
-								'Paging', 'Upload', 'IconToggleButton', 'NavBar'],
+								'Paging', 'Upload', 'IconToggleButton', 'NavBar'], //DragNDrop
 			
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton', 

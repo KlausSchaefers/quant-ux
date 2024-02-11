@@ -249,7 +249,7 @@ export default {
 		},
 
 		_showRepeater (model){
-			this._setSectionLabel("Grid");
+			this._setSectionLabel("Repeater");
 
 			this._renderLabelDropDown("Normal", model,"layout",[
 				{ value: "rows", icon:"Rows", label : "Rows"},
@@ -1050,6 +1050,23 @@ export default {
 			this._renderCheck("Vertical Move",model.props.dndY, "dndY" );
 			this._renderCheck("Horizontal Move",model.props.dndX, "dndX" );
 		},
+
+		_showDragNDropTarget (model){
+			this._setSectionLabel("Drop Target");
+			this._renderLabelDropDown("Normal", model,"layout",[
+				{ value: null, icon:"NoGrid", label : "No snapping"},
+				{ value: "rows", icon:"Rows", label : "Snapp as Rows"},
+				{ value:"grid", icon:"Grid", label : "Snapp as Grid"}
+			]);
+
+			if (model.props.layout === 'rows' || model.props.layout === 'grid') {
+				this._renderInputDropDown("Gap", model, [4, 8, 16, 32], "gap", false);
+			}
+
+			//this._renderCheck("Vertical Move",model.props.dndY, "dndY" );
+			//this._renderCheck("Horizontal Move",model.props.dndX, "dndX" );
+		},
+
 
 		_showCheckBox (model){
 			this._setSectionLabel("CheckBox");

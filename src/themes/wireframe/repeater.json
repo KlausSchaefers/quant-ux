@@ -1,7 +1,7 @@
 [ {
 	"id" : "WireFrameRepeater",
 	"type" : "Repeater",
-	"name" : "Grid",
+	"name" : "Repeater",
 	"category" : "Advanced",
 	"subcategory" : "FormSpecialContainer",
 	"_type" : "Widget",
