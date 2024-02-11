@@ -13,7 +13,7 @@
         .MatcStudioNav {
             padding: 16px 8px;
             justify-content: center;
-            overflow: hidden;
+            overflow: visible;
 
             .MatcQIcon {
                 justify-content: center;
@@ -55,7 +55,6 @@
         flex-direction: column;
         gap: 8px;
         font-size: 14px;
-        background-color: $page_color_secondary;
 
         .vommondToolTip {
             left: -8px;
@@ -145,14 +144,10 @@
 
 .StudioOverview {
     width: 100%;
+    background-color: $page_color_secondary;
     font-size: $font-size-s;
     .MatcAutoTextArea {
         font-size: $font-size-xs;
-        // margin: 0px -8px;
-        // > div, textarea {
-        //     padding: 0px 8px;
-
-        // }
     }
 
     h3, h4 {
@@ -289,24 +284,13 @@
         a {
             color: $text_color_passive;
             font-weight: 600;
-            display: inline-block;
             padding: 8px 0px;
+            display: inline-block;
             border-bottom: 3px solid transparent;
-
-            //padding: 4px 16px;
-            // border-radius: 50px;
-         
-           
-
-            &:hover {
-                color: $text-color-hover;
-            }
 
             &.MatcTabActive{
                 border-bottom: 3px solid $primary_color;
                 color: $text-color;
-                // color: $primary_color;
-                // background: $gray_6;
             }
         }
 

@@ -27,7 +27,7 @@ export default {
     return {
       reverseMouseWheel: false,
       lastMouseWheel: 0,
-      debug: true,
+      debug: false,
       canDestroy: true
     };
   },

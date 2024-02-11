@@ -5,7 +5,6 @@
     min-height: 32px;
     position: relative;
   
-
     > div {
         box-sizing: border-box;
         width: 100%;
@@ -61,6 +60,16 @@
             &:focus {
                 border: 1px solid $primary_color ; 
             }
+        }
+    }
+
+
+    &.MatcAutoTextAreaFocus {
+        > div {
+            padding: 8px;
+        }
+        textarea {
+            padding: 8px;
         }
     }
 }

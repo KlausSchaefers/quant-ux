@@ -1,8 +1,8 @@
 
 <template>
-    <div :class="['MatcAutoTextArea', {'MatcAutoTextAreaInline':inline} ]">
+    <div :class="['MatcAutoTextArea', {'MatcAutoTextAreaInline':inline}, {'MatcAutoTextAreaFocus':hasFocus} ]">
         <div class="MatcAutoTextAreaHidden">{{label}}</div>
-        <textarea v-model="label" @blur="onBlur"></textarea>
+        <textarea v-model="label" @blur="onBlur" @focus="hasFocus = true"></textarea>
     </div>
   </template>
   <style lang="scss">
@@ -16,7 +16,8 @@
     mixins: [],
     data: function() {
       return {
-        label: ''
+        label: '',
+        hasFocus: false
       };
     },
     components: {
@@ -25,6 +26,7 @@
     },
     methods: {
         onBlur () {
+            this.hasFocus = false
             if (this.label.trim() !== this.value) {
                 this.$emit("blur", this.label.trim())
             }
