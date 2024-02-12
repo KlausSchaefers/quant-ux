@@ -1,12 +1,13 @@
 <template>
     <div class="StudioDetails" id="">
         <template v-if="summary">
-            <!-- <div class="StudioDetailsDescription">
-                <h4>{{ $t('app.description')}}</h4>
-                <div @blur="onChangeAppDescription" class=" MatcMarginTop MatcInlineEdit" contenteditable="true" ref="inputDescription">
-                    {{app.description}}
-                </div>
-            </div> -->
+            <div class="StudioDetailsHeader">
+                <h4>{{$t('app.test-summary')}}</h4>
+                <a class="MatcActionLink MatcStudioAction " @click="showMore">
+                    <span class="MatcSplitView200Hidden"> {{$t('app.view-more')}}</span>
+                    >
+                </a>
+            </div>
 
             <div class="StudioDetailsKPICntr" >
                 <div class="StudioDetailsKPI" :style="{'background': getBackgroundColor(summary.sessionCount, 5, 30)}">
@@ -31,7 +32,7 @@
    
 
             <div class="StudioDetailsComments">
-                <div class="StudioDetailsCommentsHeader">
+                <div class="StudioDetailsHeader">
                      <h4>{{$t('app.comments')}}</h4>
                     <a class="MatcActionLink MatcStudioAction " @click="addComment">
                         +
@@ -136,6 +137,9 @@ export default {
         onChangeAppDescription () {
             const txt = this.$refs.inputDescription.innerText
             this.$emit("change", txt)
+        },
+        showMore () {
+            this.emit("more")
         },
         addComment () {
             this.hasNew = true

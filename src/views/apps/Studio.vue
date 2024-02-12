@@ -4,7 +4,7 @@
             <template v-slot:left>
                 <div class="MatcStudioNav">
                     <div class="MatcStudioLogo">        
-                        <img src="../../style/img/QUXLogo5BlueWhite2.svg" class="MatcStudioLogo" ref="logo"> 
+                        <img src="../../style/img/QUXLogoBlack.svg" class="MatcStudioLogo" ref="logo"> 
                         <span class="MatcCollapseViewMinHidden">Quant-UX</span>               
                     </div>
                     

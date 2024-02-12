@@ -2,7 +2,7 @@
 <template>
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton MatcToobarHomeSection MatcToobarHomeSectionBlueX" @keyup.stop @keydown.stop>
 		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button" @dblclick.stop="onDoubleClick">
-			<img src="../../../style/img/QUXLogo5.svg">
+			<img src="../../../style/img/QUXLogoWhite.svg">
             <span class="MatcToobarHomeSectionAppNameLabel" v-if="!isEdit">{{modelName}}</span>
             <input class="MatcToobarHomeSectionAppNameInput" v-model="modelName" v-else @change="onBlur" ref="inputName" >
             <span class="caret"></span>

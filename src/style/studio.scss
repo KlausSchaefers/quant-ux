@@ -55,6 +55,7 @@
         flex-direction: column;
         gap: 8px;
         font-size: 14px;
+        //background-color: $page_color_secondary;
 
         .vommondToolTip {
             left: -8px;
@@ -144,8 +145,9 @@
 
 .StudioOverview {
     width: 100%;
-    background-color: $page_color_secondary;
     font-size: $font-size-s;
+    background-color: $page_color_secondary;
+
     .MatcAutoTextArea {
         font-size: $font-size-xs;
     }
@@ -167,8 +169,6 @@
         display: flex;
         gap: 32px;
         flex-direction: column;
-
-     
     }
 
     .MatcTeam {
@@ -190,13 +190,12 @@
 
 
     .StudioOverviewHeader {
-        border-bottom: 1px solid $page_border;
+        //border-bottom: 1px solid $page_border;
         gap: 24px;
         display: flex;
         flex-direction: column;
         padding-top: 16px;
         font-size: 14px;
-        background: $page_color;
         width: 100%;
     }
 
@@ -252,6 +251,7 @@
             border: none;
             font-weight: 600;
             width: 400px;
+            background: none;
         
             height: 32px;
             border-radius: $form_radius;
@@ -278,19 +278,26 @@
     .MatcTabs {
         display: flex;
         font-size: 14px;
-        gap: 16px;
+        gap: 8px;
         transform: translateY(1px);
 
         a {
-            color: $text_color_passive;
+            color: $text-color;
             font-weight: 600;
-            padding: 8px 0px;
+            padding: 6px 24px;
             display: inline-block;
-            border-bottom: 3px solid transparent;
+            border-radius: $button_radius;
 
+            &:hover{
+                background: $gray_6;
+                color: $primary_color;
+            }
+          
             &.MatcTabActive{
-                border-bottom: 3px solid $primary_color;
-                color: $text-color;
+                // color: $primary_color;
+                // background: $gray_6;
+                color: #fff;
+                background: $primary_color;
             }
         }
 
@@ -317,7 +324,7 @@
     background: $page_color;
     padding: 16px;
     display: flex;
-    gap: 32px;
+    gap: 24px;
     flex-direction: column;
     min-height: 100%;
 
@@ -358,23 +365,23 @@
         }
     }
 
+
+    .StudioDetailsHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        a{
+            font-size: 14px;
+        }
+    }
+
     .StudioDetailsComments {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         gap: 8px;
-
-        .StudioDetailsCommentsHeader {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            a{
-                font-size: 14px;
-            }
-        }
-  
-
     }
 }
 
@@ -495,10 +502,6 @@
             h3 {
                 margin: 0;
                 font-size: 18px;
-            }
-
-            p {
-
             }
 
             .StudioNotificationVideo {

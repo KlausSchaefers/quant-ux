@@ -111,6 +111,7 @@
       <template v-slot:right>
           <StudioDetails 
             @change="onChangeAppDescription"
+            @more="onShowMore"
             :isLoaded="appLoaded" 
             :app="app" 
             :user="user" 
@@ -146,7 +147,6 @@ import QIconDropDown from 'page/QIconDropDown'
 import StudioColorDropDown from './StudioColorDropDown'
 import StudioDetails from './StudioDetails'
 
-
 import Team from "page/Team";
 import Share from "page/Share";
 import Services from "services/Services";
@@ -166,7 +166,8 @@ export default {
       },
       dotOptions: [
         {label: 'Rename', callback: (o, e) => this.onRename(e), icon: "EventKeykoard"},
-        {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "DeleteX"}
+        {label: 'Change Test Link', callback: (o, e) => this.onChangeHash(e), icon: "Key"},
+        {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "Delete"}
       ],
       testSettings: {},
       events: [],
@@ -206,6 +207,9 @@ export default {
     }
   },
   methods: {
+    onShowMore () {
+      this.$router.push(`/${this.urlPrefix}/${this.appID}/analyze.html`)
+    },
     scrollTop() {
       window.scrollTo(0, 0);
     },
@@ -402,12 +406,37 @@ export default {
       }
     },
 
+    onChangeHash (e) {
+      this.logger.info("onChangeHash", "enter > ", e);
+
+      this.stopEvent(e)
+
+      const div = this.db.div("MatcDeleteDialog").build();
+      this.db.h3("title is-4", 'Change Test Link').build(div);
+      this.db.p('MatcMarginBottomXL', `Do you want to create new test links? Old test links will not work anymore!`).build(div)
+      const bar = this.db.div("MatcButtonBar").build(div);
+      const write = this.db.a("MatcButton MatcButtonDanger", this.getNLS("btn.change")).build(bar);
+      const cancel = this.db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
+
+      const d = new Dialog();
+      d.own(on(write, "click", () => this.changeHash(d, this.app)));
+      d.own(on(cancel, "click", () => d.close()));
+      d.popup(div, e.target);
+    },
+
+    async changeHash (d) {
+      await Services.getModelService().resetTeam(this.app.id);
+      location.reload();
+      d.close()
+      //this.$emit("delete", app)
+    },
+
     onDelete(e) {
       this.stopEvent(e)
 
       const div = this.db.div("MatcDeleteDialog").build();
-      this.db.h3("title is-4", 'Delete Prototype').build(div);
-      this.db.p('MatcMarginBottomXL', `Do you want to delete the '${this.app.name}' prototype?`).build(div)
+      this.db.h3("title is-4", 'Delete App').build(div);
+      this.db.p('MatcMarginBottomXL', `Do you want to delete the '${this.app.name}' app?`).build(div)
       const bar = this.db.div("MatcButtonBar").build(div);
       const write = this.db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
       const cancel = this.db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);

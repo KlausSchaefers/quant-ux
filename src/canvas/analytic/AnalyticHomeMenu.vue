@@ -2,7 +2,7 @@
 <template>
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton MatcToobarHomeSection MatcToobarHomeSectionBlueX">
 		<div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
-			<img src="../../style/img/QUXLogo5.svg">
+			<img src="../../style/img/QUXLogoWhite.svg">
             <span class="MatcToobarHomeSectionAppNameLabel" >{{name}}</span>
             <span class="caret"></span>
 		</div>

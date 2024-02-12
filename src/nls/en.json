@@ -239,7 +239,8 @@
         "import": "Import",
         "export": "Export",
         "rename": "Rename",
-        "share": "Share"
+        "share": "Share",
+        "change": "Change"
     },
     "dialog": {
         "import": {
@@ -374,7 +375,8 @@
             "run-test": "Run Test",
             "share": "Share"
         },
-   
+        "test-summary": "Test Summary",
+        "view-more": "View More",
         "contact": "Contact",
         "notifications": "Updates",
         "notifications-none": "There are currently no upates.",

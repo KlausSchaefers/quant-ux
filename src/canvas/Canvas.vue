@@ -423,7 +423,7 @@ export default {
 			 * Since 3.0.43 we snapp by default to top left corner
 			 */
 			this.settings = {
-				canvasTheme : "MatcDark",
+				canvasTheme : "MatcAuto",
 				lineColor : "#3787f2",
 				lineWidth : 1,
 				storePropView : true,
