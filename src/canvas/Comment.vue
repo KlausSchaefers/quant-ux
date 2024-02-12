@@ -230,25 +230,27 @@ export default {
 				}
 			
 				const canvasComments = this.screenComments["canvas"]
-				const id2Div = {}
-				canvasComments.forEach(pair => {
-					id2Div[pair.id] = pair.div
-				})
+				if (canvasComments) {
+					const id2Div = {}
+					canvasComments.forEach(pair => {
+						id2Div[pair.id] = pair.div
+					})
 
-				const w = Math.min(this.commentSize, this.getZoomed(this.commentSize, this.zoom))
-				for (let commentID in this.comments) {
-					const comment = this.comments[commentID];		
-					const div = id2Div[comment.id] 
-					if (div) {
-						let box = {
-							x: comment.x,
-							y: comment.y,
-							w: w,
-							h: w
-						};
-						div.style.fontSize = this.getZoomed(this.commentFontSize, this.zoom) + 'px'
-						box = this.getZoomedBox(box, this.zoom, this.zoom);
-						this.domUtil.setBox(div, box)
+					const w = Math.min(this.commentSize, this.getZoomed(this.commentSize, this.zoom))
+					for (let commentID in this.comments) {
+						const comment = this.comments[commentID];		
+						const div = id2Div[comment.id] 
+						if (div) {
+							let box = {
+								x: comment.x,
+								y: comment.y,
+								w: w,
+								h: w
+							};
+							div.style.fontSize = this.getZoomed(this.commentFontSize, this.zoom) + 'px'
+							box = this.getZoomedBox(box, this.zoom, this.zoom);
+							this.domUtil.setBox(div, box)
+						}
 					}
 				}
 			}

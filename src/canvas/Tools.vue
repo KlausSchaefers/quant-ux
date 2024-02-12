@@ -919,7 +919,7 @@ export default {
 			const selectedGroup = this.getSelectedGroup()
 			const selectedMulti = this.getMultiSelection()
 			if(selectedWidget || selectedScreen || selectedMulti || selectedGroup){
-				this._copied ={
+				this._copied = {
 					widget: selectedWidget,
 					screen: selectedScreen,
 					multi: selectedMulti,
@@ -952,7 +952,7 @@ export default {
 		},
 
 		_setClipBoard (){
-			this.logger.log(-1,"_setClipBoard", "enter > ", this.getSelectedScreen());
+			this.logger.log(1,"_setClipBoard", "enter > ", this.getSelectedScreen());
 			this.controller.setClipBoard (
 				this.getSelectedWidget(), 
 				this.getSelectedScreen(), 
@@ -964,7 +964,7 @@ export default {
 
 		_getClipBoard (){
 			this.logger.log(-1,"_setCligBoard", "enter > ");
-			return this.controller.getClipBoard ()
+			return this.controller.getClipBoard()
 		},
 
 		hasCopy (){
@@ -981,200 +981,204 @@ export default {
 			 *
 			 * TODO: We could unify this...
 			 */
-			let clipBoard = this._getClipBoard();
-			let pos = this.getLastMousePos();
+			const clipBoard = this._getClipBoard();
+			const pos = this.getLastMousePos();
 			if (clipBoard && clipBoard.id !== this.model.id) {
-
-				this.logger.log(-1,"onPaste", "enter > OTHER APP");
-				if (!fromToolBar) {
-					this.unSelect();
-
-					this.controller.onPasteClipBoard(clipBoard, pos);
-					this.showSuccess("Clipboard was pasted!");
-				} else {
-					/**
-					 * TODO: Use the bounding nbox to also have DND
-					 */
-					this.showError("Copies from other apps work only with CTRL-V");
-				}
-
+				this.onPasteFromClipboard(clipBoard, fromToolBar, pos)
 			} else if (this._copied){
-				this.logger.log(-1,"onPaste", "enter > SAME APP  > "+  fromToolBar);
+				this.onPasteFromModel(fromToolBar, pos, e)
+			} else {
+				this.showError("No thing to paste");
+			}
+		},
 
-				if (!fromToolBar){
+		onPasteFromClipboard(clipBoard, fromToolBar, pos) {
+			this.logger.log(-1,"onPasteFromClipboard", "enter > OTHER APP");
+			if (!fromToolBar) {
+				this.unSelect();
+				this.controller.onPasteClipBoard(clipBoard, pos);
+				this.showSuccess("Clipboard was pasted!");
+			} else {
+				/**
+				 * TODO: Use the bounding nbox to also have DND
+				 */
+				this.showError("Copies from other apps work only with CTRL-V");
+			}
+		},
 
-					/**
-					 * If paste was not triggered by toolbar, simply add.
-					 * Otherwise render preview and wait for click!
-					 */
-					this.unSelect();
-					pos = this.getPastePostion(pos);
+		onPasteFromModel(fromToolBar, pos, e) {
+			this.logger.log(-1,"onPasteFromModel", "enter > SAME APP  > "+  fromToolBar);
+			if (!fromToolBar) {
+				/**
+				 * If paste was not triggered by toolbar, simply add.
+				 * Otherwise render preview and wait for click!
+				 */
+				this.unSelect();
+				pos = this.getPastePostion(pos);
 
-					/**
-					 * Store last paste for pattern paste
-					 */
-					const lastPaste = {
-						ts: new Date().getTime(),
-						source: this._copied,
-						target: {}
-					};
-					/**
-					 * If we have multiple ctrl-v the this.copied stays the same
-					 * so the distance will be calculated always to the first element,
-					 * and will this increase.
-					 * We have to therefore update the source to the last paste
-					 */
-					if(this._lastPaste && this._lastPaste.target){
-						lastPaste.source = this._lastPaste.target;
-					}
-
-					if (this._copied.widget){
-						// TODO: Add a pasteClipBoardMethod, which would somehow to return a copy...
-						const copy = this.controller.onCopyWidget(this._copied.widget.id, pos);
-						if(copy){
-							requestAnimationFrame( () => {
-								this.onWidgetSelected(copy.id, true);
-							})
-							lastPaste.target.widget = copy
-						}
-						this.showSuccess("Widget was pasted!");
-					} else if(this._copied.screen){
-						const newScreen = this.controller.onCopyScreen(this._copied.screen.id, pos);
-						if (newScreen) {
-							requestAnimationFrame( () => {
-								this.setSelectedScreens([newScreen.id], false, true);
-							})
-						}
-						this.showSuccess("Screen was pasted!");
-					} else if(this._copied.multi){
-						const newIds = this.controller.onMultiCopyWidget(this._copied.multi,pos);
-						this.setMultiSelection(newIds)
-						this.showSuccess("Widgets were pasted!");
-						lastPaste.target.multi = newIds;
-					} else if(this._copied.group){
-						const copy = this.controller.onCopyGroup(this._copied.group, pos);
-						if (copy) {
-							this.showSuccess("Group were pasted!");
-							requestAnimationFrame( () => {
-									this.onGroupSelected(copy.id, true);
-							})
-							lastPaste.target.group = copy;
-						}
-
-					}
-
-					if (!pos.newScreen){
-						this.logger.log(3,"onPaste", "exit > store lastPaste");
-						this._lastPaste = lastPaste;
-					} else {
-						this.logger.log(3,"onPaste", "exit > New Screen");
-						delete this._lastPaste
-					}
-
-				} else {
-
-					/**
-					 * We were triggered from toolbar, and the user might want to still
-					 * move the stuff around...
-					 */
-
-					if(this._copied.widget){
-						/**
-						 * FIXME! We should get here the widget from the source and copy that
-						 */
-						const widget = this.getZoomedSourceWidget(this._copied.widget)
-						widget.id = "_temp";
-						const div = this.createZoomedWidget(widget);
-						if(!this._alignmentToolInited){
-							this.alignmentStart("widget", widget, "All");
-						}
-						this._onAddNDropStart(div, widget, e, "onWidgetPaste");
-						this.setState(3);
-					}
-
-					if(this._copied.screen){
-						const screen = lang.clone(this._copied.screen);
-						screen.id="_temp";
-						screen.x = 0
-						screen.y = 0
-						const div = this.createScreen(screen);
-						if(!this._alignmentToolInited){
-							this.alignmentStart("screen", screen, "All");
-						}
-						this._onAddNDropStart(div, screen, e, "onScreenPaste");
-						this.setState(3);
-					}
-
-					if(this._copied.multi){
-
-						const selection = this._copied.multi;
-						const boundingBox = this.getBoundingBox(selection);
-						const div = this.createBox(boundingBox);
-
-						// add in right order!
-						let widgets = [];
-						for(let i=0; i < selection.length; i++){
-							const id = selection[i];
-							const widget = this.model.widgets[id];
-							const zoomedWidget = this.getZoomedSourceWidget(widget)
-							widgets.push(zoomedWidget);
-						}
-						widgets = this.getOrderedWidgets(widgets);
-
-						for (let i=0; i< widgets.length; i++){
-							const widget = widgets[i];
-							const cloned = lang.clone(widget);
-							cloned.id="_temp"+i;
-							// add children relative to bounding box!
-							cloned.x =  cloned.x - boundingBox.x;
-							cloned.y =  cloned.y - boundingBox.y;
-							const clonedDiv = this.createZoomedWidget(cloned);
-							div.appendChild(clonedDiv);
-							
-						}
-
-						if(!this._alignmentToolInited){
-							this.alignmentStart("boundingbox", boundingBox, "All");
-						}
-
-						this._onAddNDropStart(div, this._copied.multi, e, "onMultiPaste");
-						this.setState(3);
-					}
-
-					if(this._copied.group){
-						const group = this._copied.group;
-						const boundingBox = this.getBoundingBox(group.children);
-						const div = this.createBox(boundingBox);
-
-						// add in right order!
-						let widgets = [];
-						for(let i=0; i < group.children.length; i++){
-							let id = group.children[i];
-							let widget = this.model.widgets[id];
-							const zoomedWidget = this.getZoomedSourceWidget(widget)
-							widgets.push(zoomedWidget);
-						}
-						widgets = this.getOrderedWidgets(widgets);
-
-						for (let i=0; i< widgets.length; i++){
-							const widget = widgets[i];
-							const cloned = lang.clone(widget);
-							cloned.id="_temp"+i;
-							cloned.x =  cloned.x - boundingBox.x;
-							cloned.y =  cloned.y - boundingBox.y;
-							let clonedDiv = this.createZoomedWidget(cloned);
-							div.appendChild(clonedDiv);
-						}
-
-						if(!this._alignmentToolInited){
-							this.alignmentStart("boundingbox", boundingBox, "All");
-						}
-
-						this._onAddNDropStart(div, group, e, "onGroupPaste");
-						this.setState(3);
-					}
+				/**
+				 * Store last paste for pattern paste
+				 */
+				const lastPaste = {
+					ts: new Date().getTime(),
+					source: this._copied,
+					target: {}
+				};
+				/**
+				 * If we have multiple ctrl-v the this.copied stays the same
+				 * so the distance will be calculated always to the first element,
+				 * and will this increase.
+				 * We have to therefore update the source to the last paste
+				 */
+				if (this._lastPaste && this._lastPaste.target) {
+					lastPaste.source = this._lastPaste.target;
 				}
 
+				if (this._copied.widget) {
+					// TODO: Add a pasteClipBoardMethod, which would somehow to return a copy...
+					const copy = this.controller.onCopyWidget(this._copied.widget.id, pos);
+					if (copy) {
+						requestAnimationFrame(() => {
+							this.onWidgetSelected(copy.id, true);
+						})
+						lastPaste.target.widget = copy
+					}
+					this.showSuccess("Widget was pasted!");
+				} else if (this._copied.screen) {
+					const newScreen = this.controller.onCopyScreen(this._copied.screen.id, pos);
+					if (newScreen) {
+						requestAnimationFrame(() => {
+							this.setSelectedScreens([newScreen.id], false, true);
+						})
+					}
+					this.showSuccess("Screen was pasted!");
+				} else if (this._copied.multi) {
+					const newIds = this.controller.onMultiCopyWidget(this._copied.multi, pos);
+					this.setMultiSelection(newIds)
+					this.showSuccess("Widgets were pasted!");
+					lastPaste.target.multi = newIds;
+				} else if (this._copied.group) {
+					const copy = this.controller.onCopyGroup(this._copied.group, pos);
+					if (copy) {
+						this.showSuccess("Group were pasted!");
+						requestAnimationFrame(() => {
+							this.onGroupSelected(copy.id, true);
+						})
+						lastPaste.target.group = copy;
+					}
+
+				}
+
+				if (!pos.newScreen) {
+					this.logger.log(3, "onPaste", "exit > store lastPaste");
+					this._lastPaste = lastPaste;
+				} else {
+					this.logger.log(3, "onPaste", "exit > New Screen");
+					delete this._lastPaste
+				}
+
+			} else {
+
+				/**
+				 * We were triggered from toolbar, and the user might want to still
+				 * move the stuff around...
+				 */
+
+				if (this._copied.widget) {
+					/**
+					 * FIXME! We should get here the widget from the source and copy that
+					 */
+					const widget = this.getZoomedSourceWidget(this._copied.widget)
+					widget.id = "_temp";
+					const div = this.createZoomedWidget(widget);
+					if (!this._alignmentToolInited) {
+						this.alignmentStart("widget", widget, "All");
+					}
+					this._onAddNDropStart(div, widget, e, "onWidgetPaste");
+					this.setState(3);
+				}
+
+				if (this._copied.screen) {
+					const screen = lang.clone(this._copied.screen);
+					screen.id = "_temp";
+					screen.x = 0
+					screen.y = 0
+					const div = this.createScreen(screen);
+					if (!this._alignmentToolInited) {
+						this.alignmentStart("screen", screen, "All");
+					}
+					this._onAddNDropStart(div, screen, e, "onScreenPaste");
+					this.setState(3);
+				}
+
+				if (this._copied.multi) {
+
+					const selection = this._copied.multi;
+					const boundingBox = this.getBoundingBox(selection);
+					const div = this.createBox(boundingBox);
+
+					// add in right order!
+					let widgets = [];
+					for (let i = 0; i < selection.length; i++) {
+						const id = selection[i];
+						const widget = this.model.widgets[id];
+						const zoomedWidget = this.getZoomedSourceWidget(widget)
+						widgets.push(zoomedWidget);
+					}
+					widgets = this.getOrderedWidgets(widgets);
+
+					for (let i = 0; i < widgets.length; i++) {
+						const widget = widgets[i];
+						const cloned = lang.clone(widget);
+						cloned.id = "_temp" + i;
+						// add children relative to bounding box!
+						cloned.x = cloned.x - boundingBox.x;
+						cloned.y = cloned.y - boundingBox.y;
+						const clonedDiv = this.createZoomedWidget(cloned);
+						div.appendChild(clonedDiv);
+
+					}
+
+					if (!this._alignmentToolInited) {
+						this.alignmentStart("boundingbox", boundingBox, "All");
+					}
+
+					this._onAddNDropStart(div, this._copied.multi, e, "onMultiPaste");
+					this.setState(3);
+				}
+
+				if (this._copied.group) {
+					const group = this._copied.group;
+					const boundingBox = this.getBoundingBox(group.children);
+					const div = this.createBox(boundingBox);
+
+					// add in right order!
+					let widgets = [];
+					for (let i = 0; i < group.children.length; i++) {
+						let id = group.children[i];
+						let widget = this.model.widgets[id];
+						const zoomedWidget = this.getZoomedSourceWidget(widget)
+						widgets.push(zoomedWidget);
+					}
+					widgets = this.getOrderedWidgets(widgets);
+
+					for (let i = 0; i < widgets.length; i++) {
+						const widget = widgets[i];
+						const cloned = lang.clone(widget);
+						cloned.id = "_temp" + i;
+						cloned.x = cloned.x - boundingBox.x;
+						cloned.y = cloned.y - boundingBox.y;
+						let clonedDiv = this.createZoomedWidget(cloned);
+						div.appendChild(clonedDiv);
+					}
+
+					if (!this._alignmentToolInited) {
+						this.alignmentStart("boundingbox", boundingBox, "All");
+					}
+
+					this._onAddNDropStart(div, group, e, "onGroupPaste");
+					this.setState(3);
+				}
 			}
 		},
 

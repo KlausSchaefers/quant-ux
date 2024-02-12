@@ -85,6 +85,7 @@ export default {
 
 
     onExternalReposition (e) {
+      this.log.log(-4, "onExternalReposition", "dom " + this.model.id + " >" +  e.absPos.x + "/"+  e.absPos.y);
       const x = e.absPos.x
       const y = e.absPos.y
       const newValue = this.getRelativePosition(x, y)

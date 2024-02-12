@@ -40,7 +40,7 @@
       wireEvents () {
         this._moveListener = topic.on('DragNDrop.Move', (e) => {this.onDNDMove(e)})
         this._endListener = topic.on('DragNDrop.End', (e) => {this.onDNDEnd(e, true)})
-        this._endListener = topic.on('DragNDrop.Init', (e) => {this.onDNDEnd(e, false)})
+        this._initListener = topic.on('DragNDrop.Init', (e) => {this.onDNDEnd(e, false)})
       },
   
       getLabelNode () {
@@ -83,11 +83,6 @@
           this.model.style
         );
       },
-
-      // addChildDND (child) {
-      //   const found = this.childrenDNDWidgets.find(n => n.id === child.id)
-      //   if (found)
-      // },
 
       removeChildDND (child) {
         this.childrenDNDWidgets = this.childrenDNDWidgets.filter(n => n.id !== child.id)
@@ -152,7 +147,6 @@
           this.childrenDNDWidgets = this.childrenDNDWidgets.filter(n => n.id !== other.id)
           this.childrenDNDWidgets.splice(beforeIndex, 0, other);
         }
-        //console.debug(beforeIndex, this.childrenDNDWidgets.map(n => n.id))
         return beforeIndex
       },
 
@@ -225,6 +219,7 @@
       },
   
       render (model, style, scaleX, scaleY) {
+        this.childrenDNDWidgets = []
         this.model = model;
         this.modelPosition = CoreUtil.getWidgetPostionInScreen(model, this.zoomedModel)
      
@@ -262,14 +257,14 @@
       },
   
       beforeDestroy () {
-        if (this._compositeState) {
-          this.emitCompositeState();
-        }
         if (this._moveListener) {
           this._moveListener.remove()
         }
         if (this._endListener) {
           this._endListener.remove()
+        }
+        if (this._initListener) {
+          this._initListener.remove()
         }
       }
     },

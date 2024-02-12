@@ -18,7 +18,7 @@ export default {
                 {value: "front", label: this.getNLS("toolbar.layer.front"), icon:"LayerTop", shortcut:"CTRL + &uarr;"},
 				{value: "forward", label: this.getNLS("toolbar.layer.forward"), icon:"LayerUp", shortcut:"CTRL + ]"},
 				{value: "backward", label: this.getNLS("toolbar.layer.backward") , icon:"LayerDown", shortcut:"CTRL + ["},
-				{value: "back", label: this.getNLS("toolbar.layer.backward"), icon:"LayerBottom", shortcut:"CTRL + &darr;"}
+				{value: "back", label: this.getNLS("toolbar.layer.back"), icon:"LayerBottom", shortcut:"CTRL + &darr;"}
             ]
         }
     },
