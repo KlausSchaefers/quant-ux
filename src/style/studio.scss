@@ -250,7 +250,7 @@
             padding: 0;
             border: none;
             font-weight: 600;
-            width: 400px;
+            width: 300px;
             background: none;
         
             height: 32px;
@@ -279,7 +279,8 @@
         display: flex;
         font-size: 14px;
         gap: 8px;
-        transform: translateY(1px);
+        // border: 1px solid #ccc;
+        // border-radius: $button_radius;
 
         a {
             color: $text-color;
@@ -287,7 +288,7 @@
             padding: 6px 24px;
             display: inline-block;
             border-radius: $button_radius;
-
+   
             &:hover{
                 background: $gray_6;
                 color: $primary_color;

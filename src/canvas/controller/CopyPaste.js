@@ -342,6 +342,19 @@ export default class CopyPaste extends Group{
 			}
 		})
 
+		if (clipBoard.designtokens && this.model.designtokens) {
+			this.logger.log(2,"onPasteClipBoard", "designtokens > before: "+ clipBoard.designtokens.length);
+			clipBoard.designtokens = clipBoard.designtokens.filter(dst => {
+				const current = this.model.designtokens[dst.id]
+				return current === null || current === undefined
+			})
+			// IMPROVEMENT: 
+			// 1) We could ask what the user if they want to replace
+			// 2) We could also check for style duplicates and replace them in the 
+			//    widget references
+
+			this.logger.log(-2,"onPasteClipBoard", "designtokens > add new design tokens: "+ clipBoard.designtokens.length);
+		}
 		
 
 		const command = {
