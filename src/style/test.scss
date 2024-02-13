@@ -13,7 +13,10 @@
     height: 200px;
 	text-align: center;
     padding:20px;
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%);
+    // display: flex;
+    // flex-direction: column-reverse;
+    // align-items: center;
 }
 
 
@@ -29,9 +32,13 @@
     position: absolute;
     top:0px;
     left:0px;
-    transform: translate(140px, 180px);
+    transform: translate(135px, 180px);
     z-index: 999;
 }
+
+// .MatcTestLogoCntrMax .MatcTestProgressBar{
+//     height: 0px;
+// }
 
 .MatcTestLogoCntrMax .MatcTestProgressCntr {
     transition-delay: 1s;
@@ -45,21 +52,57 @@
     transform: translateY(-200px);
 }
 
-.MatcTestContent{
-	padding: $dialog_padding;
-    width:400px;
-    height:530px;
-    text-align: left;
+.MatcTestHeader {
 
-    p{
-		margin-bottom: $spacing-l;
-	}
+    display: flex;
+    gap: 8px;   	
+    padding: 16px;
+    font-weight: 700;
+    font-size: 20px;
+    align-items: center;
+
+    img{
+        height: 24px;
+        width: 24px;
+        border-radius: 0px;
+    }
 }
 
-.MatcTestContentCntr{
-    height: 400px;
-    overflow: auto;
+.MatcTestPanel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-top: -5px;
+    gap: 16px;
+    
+    .MatcTestContent{
+    	display: flex;
+		flex-direction: column;
+     	padding: 16px;
+		padding-bottom: 24px;
+        width:400px;
+        text-align: left;
+        flex-grow: 1;
+        overflow: auto;
+
+        .MatcTestContentCntr{
+            flex-grow: 1;
+            overflow: auto;
+        }
+
+        p{
+            margin-bottom: $spacing-l;
+            font-size: 16px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: $spacing-l;
+        }
+    }
 }
+
+
 
 
 

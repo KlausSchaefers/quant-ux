@@ -3,20 +3,24 @@
   
             <div :class="['MatcTestSplash MatcTestSplashMax MactMainGradient', {'MatcTestCustomSplash': hasSplash}]" data-dojo-attach-point="overlay" :style="splashBackground" v-if="hasSettings">
                 <div v-if="hasSplash  && step < 5" class="MatcTestCustomSplashPowered">Powered by Quant-UX</div> 
-                <div :class="['MatcTestLogoCntr', {'MatcTestLogoCntrMax': step > 1}]" >
-    
+                    <div :class="['MatcTestLogoCntr', {'MatcTestLogoCntrWide': step == 1}, {'MatcTestLogoCntrMax': step > 1}]" >
+        
 
                     <div :class="['MatcTestProgressCntr']">
                         <div class="MatcTestProgressBar" >
                         </div>
                         <transition name="fade">
-                            <div v-if="step > 2">
+                         
+                            <div v-if="step > 2" class="MatcTestPanel">
+                                <div class="MatcTestHeader">
+                                    <img src="../../style/img/QUXLogoBlack.svg" class="MatcStudioLogo" ref="logo"> 
+                                    <span class="">Quant-UX</span>     
+                                </div>
+
                                 <div class="MatcTestContent" v-if="step === 6">
                                     <div class="MatcTestContentCntr">
                                         <h2>{{getNLS("simulator.password.title")}} </h2>
-                                        <p v-html="getNLS('simulator.password.msg')">
-                                            
-                                        </p>
+                                        <p v-html="getNLS('simulator.password.msg')"></p>
                                         <input v-model="password" class="form-control" @keypress.enter="setPassword"/>
                                         <div class="MatcButton MatcMarginTop" @click="setPassword()">
                                             {{getNLS("simulator.password.next")}}
@@ -25,9 +29,8 @@
                                             {{passwordError}}
                                         </span>
                                     </div>
-    
-    
                                 </div>
+
                                 <div class="MatcTestContent" v-if="step === 3">
                                     <div class="MatcTestContentCntr">
                                         <h2> {{getNLS("simulator.welcome.title")}} !</h2>
