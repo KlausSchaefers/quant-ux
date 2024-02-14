@@ -54,7 +54,12 @@ export default {
     computed: {
       textStyle () {
         if (this.designtoken && this.designtoken.type === 'text') {
-          return `font-family:${this.designtoken.value.fontFamily}; font-weight: ${this.designtoken.value.fontWeight}`
+          return `
+            font-family:${this.designtoken.value.fontFamily}; 
+            font-weight: ${this.designtoken.value.fontWeight}; 
+            font-style: ${this.designtoken.value.fontStyle};
+            text-decoration: ${this.designtoken.value.textDecoration};
+            `.trim()
         }
         return ''
       }

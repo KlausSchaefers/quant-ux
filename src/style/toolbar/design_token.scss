@@ -142,6 +142,8 @@
 	padding-top: 8px;
 	padding-bottom: 8px;
 
+
+
 	.MatcToolbarDropDownButton,
 	.MatcToolbarToggleButton {
 		border: 1px solid transparent;
@@ -182,6 +184,48 @@
 		}
 	}
 
+
+	.MatcTextProperties {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+
+		.MatcToolbarSectionContent {
+			gap: 8px;
+		}
+		
+		.MatcTextPropertiesFontSize input{
+			background: none;
+			width: 100%;
+			background: none;
+	
+			font-size: 12px;
+			line-height: 1em;
+			padding: 5px;
+			padding-left: 0px;
+			vertical-align: middle;
+			outline: none;
+			width: 100%;
+			padding: 3px 6px;
+			border: 1px solid transparent;
+
+			&:focus, &:hover {
+				background: none;
+				border-color: transparent;
+			}
+		}
+	}
+
+	.MatcTextPropertiesFontSize input:hover{
+		background: red;
+	}
+
+	.MatcToolbarDropDownButton:hover, 
+	.MatcToolbarColorButton:hover, 
+	.MatcToolbarIconButton:hover {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		background: rgba(0, 0, 0, 0.05);
+	}
 
 }
 

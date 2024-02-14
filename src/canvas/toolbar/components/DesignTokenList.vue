@@ -377,9 +377,11 @@ export default {
         }
 
         /**
-         * This is still super buggy!
+         * This is still super buggy! It triggers somehow also the children dropdown???
          */
-        this.$nextTick(() => this.showDropDown(e, true))
+        this.$nextTick(() => {
+          this.showDropDown(e, true)
+        })
 
       },
 
