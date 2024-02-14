@@ -172,6 +172,17 @@
 	.MatcToolbarToggleButton:hover {
 		border: 1px solid #777;
 	}
+
+
+	.MatcBoxBorder {
+		.MatcToolbarItem{
+			width: 40px;
+			padding: 0px;
+			height: 100%;
+		}
+	}
+
+
 }
 
 .MatcDesignTokenListInput{
@@ -219,16 +230,16 @@ label.MatcDesignTokenListPopupSection{
 }
 
 
-.MatcDesignTokenListPopup .MatcToolbarInputDropDownButton input{
-	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  border: 0px solid #555;
-  font-size: 12px;
-  line-height: 1em;
-  padding: 0px;
-  vertical-align: middle;
-  width:30px;
-  height: auto;
-}
+// .MatcDesignTokenListPopup .MatcToolbarInputDropDownButton input{
+// 	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+//   border: 0px solid #555;
+//   font-size: 12px;
+//   line-height: 1em;
+//   padding: 0px;
+//   vertical-align: middle;
+//   width:30px;
+//   height: auto;
+// }
 
 /* keep in sync with MatcToolbarPopUpIcon */
 

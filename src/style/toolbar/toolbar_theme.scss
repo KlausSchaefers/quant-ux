@@ -238,6 +238,19 @@
 
 .MatcBoxBorder {
 
+    .MatcBorderStyleSolid {
+        border-top: 3px solid $toolbar_color;
+    }
+    
+    .MatcBorderStyleDashed {
+        border-top: 3px dashed $toolbar_color;
+    }
+    
+    .MatcBorderStyleDotted {
+        border-top: 3px dotted $toolbar_color;
+    }
+    
+
     .MatcBoxBorderContainer {
         border: 1px solid $toolbar_form_border;
         > .MatcToolbarPopUpCntr:hover {
