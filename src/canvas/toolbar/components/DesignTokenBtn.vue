@@ -9,12 +9,12 @@
 
         <template v-if="!isTemplate">
           <li @mousedown.stop="showCreateDialog" v-show="!hasDesignToken" class="MatcDesignTokenButtonHeader">
-              <span class="MatcToolbarItemIcon mdi mdi mdi-plus-circle"></span>
+              <QIcon icon="Plus"/>
               <label class="MatcToolbarPopUpLabel">Create {{tokenLabel}} Token</label>
 
           </li>
           <li @mousedown.stop="onUnLink" v-show="hasDesignToken" class="MatcDesignTokenButtonHeader">
-              <span class="MatcToolbarItemIcon mdi mdi mdi-minus-circle MatcToolbarPopUpIconDanger"></span>
+              <QIcon icon="Delete"/>
               <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
           </li>
         </template>

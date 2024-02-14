@@ -14,7 +14,7 @@
   				  <span :class="icons[designtoken.type]" />
       </span>
       <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'boxShadow'">
-  			  <span :class="icons[designtoken.type]" />
+  			  <QIcon icon="BoxShadow"></QIcon>
       </span>
       <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'tooltip'">
   			  <span :class="icons[designtoken.type]" />

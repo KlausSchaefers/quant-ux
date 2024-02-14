@@ -10,12 +10,17 @@
 				<span class="MatcCollapseViewMinHidden">Quant-UX</span>               
 			</div>
 
-			<div class="MatcTestTaskList" ref="taskList">
-				<div v-for="(t) in getUserTasks()" :key="t.id" :class="{'MatcTestTaskDone':taskDone[t.id] }">
-					<h4>{{t.name}} 
-					<QIcon icon="CheckBoxHook" v-if="taskDone[t.id]"/>
+			<div class="MatcTestTaskList MatcScrollContainer" ref="taskList">
+				<div v-for="(t) in getUserTasks()" :key="t.id" :class="['MatcTestTask', {'MatcTestTaskDone':taskDone[t.id] }]">
+					<h4>
+						{{t.name}} 
+						<div v-if="taskDone[t.id]" class="MatcTestTaskDoneMarker">
+							<QIcon icon="CheckBoxRound" /> 
+							Done
+						</div>
+					
 					</h4>
-					<div class="MatcTestTaskDescription">
+					<div class="MatcTestTaskDescription MatcScrollContainer">
 						{{t.description}}
 					</div>
 				</div>

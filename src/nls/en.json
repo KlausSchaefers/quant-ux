@@ -138,12 +138,14 @@
     "simulator": {
         "welcome": {
             "title": "Welcome",
-            "msg": 	"You were invited for a usability test of the <b>{{name}}</b> prototype. ",
-            "privacy": "Please be aware that your interaction will be recorded to make the design better.",
+            "msg": 	"You were invited for a usability test of the <b>{{name}}</b> app prototype.",
+            "privacy-title": "Privacy",
+            "privacy": "Your interactions, including clicks and text input, will be <b>recorded</b> to evaluate the prototype's performance and identify areas for improvement.",
             "privacy1": "We do not store any personal information about you. You can find more information on our <a target='quxPrivacy' href='#/privacy.html'>Privacy page</a>.",
-            "click-start": "Click on the button if you agree and start the test.",
-            "start": "Start Prototype",
-            "showTasks": "Show Tasks"
+            "click-start": "If you agree, click on the <b>Start</b> button to beginn the test.",
+            "start": "Start",
+            "showTasks": "Show Tasks",
+            "next": "Next"
         },
         "tasks": {
             "title": "Tasks",

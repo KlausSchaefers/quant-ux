@@ -46,7 +46,7 @@
 
 	.MatcTestContent {
 		width: 100%;
-		padding: 16px;
+		padding: 24px;
 		padding-bottom: 24px;
 	}
 	
@@ -123,16 +123,6 @@
  }
 
 
- .MatcSimulatorPrivacy{
- 	font-size: 16px;
- 	line-height: 1.5;
- 	font-weight:300;
- 	width:80%;
- 	position: fixed;
- 	bottom: 30px;
- 	left:10%;
- 	text-align: left;
- }
 
  .MatcSimulatorContent {
 	padding: 15px 20px;
@@ -156,10 +146,6 @@
 	}
  }
 
- .MatcTestTaskDescription {
-	margin-bottom: $spacing-l;
-	font-weight: $font-weight-s;
- }
 
  .MatcSimulatorContentCntr {
 	height: calc(100% - 70px);

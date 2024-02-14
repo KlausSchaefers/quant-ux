@@ -33,46 +33,59 @@
 
                                 <div class="MatcTestContent" v-if="step === 3">
                                     <div class="MatcTestContentCntr">
-                                        <h2> {{getNLS("simulator.welcome.title")}} !</h2>
+                                        <h2> {{getNLS("simulator.welcome.title")}}</h2>
                                         <p v-if="settings.description">
                                             {{settings.description}}
                                         </p>
                                         <p v-else v-html="getNlSWithReplacement('simulator.welcome.msg', {'name': model.name})">
                                         </p>
-                                        <p v-html="getNLS('simulator.welcome.privacy')"></p>
-                                        <p v-html="getNLS('simulator.welcome.privacy1')"></p>
-                                        <p v-html="getNLS('simulator.welcome.click-start')"></p>
                                     </div>
                                     <div class="MatcMarginTop">
-                                        <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="onStart()"	v-if="getUserTasks().length === 0">
-                                                {{getNLS("simulator.welcome.start")}}
+                                        <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="onShowPrivacy()"	v-if="getUserTasks().length === 0">
+                                                {{getNLS("simulator.welcome.next")}}
                                         </div>
-                                        <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="renderTasks()" v-else>
+                                        <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="onShowTasks()" v-else>
                                                 {{getNLS("simulator.welcome.showTasks")}}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="MatcTestContent" v-if="step === 4">
                                     <div class="MatcTestContentCntr">
-                                        <h2>{{getNLS("simulator.tasks.title")}} !</h2>
-                                        <p>
+                                        <!-- <h2>{{getNLS("simulator.tasks.title")}}</h2>
+                                        <p >
                                             {{getNLS("simulator.tasks.msg")}}
-                                        </p>
-                                        <div v-for="t in getUserTasks()" :key="t.id">
-                                            <h4>{{t.name}}</h4>
-                                            <div class="MatcTestTaskDescription">
-                                                {{t.description}}
+                                        </p> -->
+                                        <div class="MatcTestTaskList">
+                                            <div v-for="t in getUserTasks()" :key="t.id" class="MatcTestTask">
+                                                <h4>{{t.name}}</h4>
+                                                <div class="MatcTestTaskDescription">
+                                                    {{t.description}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
     
                                     <div class="MatcMarginTop">
-                                        <div class="MatcButton MatcButtonPrimary MatcTestStartButton" @click="onStart()">
-                                            {{getNLS("simulator.welcome.start")}}
+                                        <div class="MatcButton MatcButtonPrimary MatcTestStartButton" @click="onShowPrivacy()">
+                                            {{getNLS("simulator.welcome.next")}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="MatcTestContent" v-if="step === 5">
+                                    <div class="MatcTestContentCntr">
+                                        <h2> {{getNLS("simulator.welcome.privacy-title")}}</h2>
+                                        <p v-html="getNLS('simulator.welcome.privacy')"></p>
+                                        <p v-html="getNLS('simulator.welcome.privacy1')"></p>
+                                        <p v-html="getNLS('simulator.welcome.click-start')"></p>
+                                    </div>
+                                    <div class="MatcMarginTop">
+                                        <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="onStart()">
+                                                {{getNLS("simulator.welcome.start")}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                     
                         </transition>
                     </div>
                     <transition name="logoFade" v-if="step == 0">
@@ -140,6 +153,14 @@
             onStart (e) {
                 this.$emit("start", e)
             },
+
+            onShowPrivacy () {
+                this.step = 5
+            },
+
+            onShowTasks (){
+                this.step = 4
+            },
      
             setTestsettings (settings){
                 this.logger.log(1,"setTestsettings","enter > ", settings);
@@ -172,11 +193,7 @@
                 this.step = 3
             },
     
-            renderTasks (){
-                this.logger.log(2,"renderTasks","enter" );
-                this.step = 4
-            },
-    
+     
             getUserTasks (){
                 const tasks = [];
                 if (this.settings.tasks && this.settings.tasks){

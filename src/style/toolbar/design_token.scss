@@ -36,6 +36,10 @@
 
 .MatcDesignTokenButtonHeader {
 	border-bottom: 1px solid transparent;
+	gap: 4px;
+	.MatcQIcon {
+		justify-content: flex-start;
+	}
 }
 
 .MatcDesignTokenButtonPopup .MatcDesignTokenButtonPreviews {
@@ -57,6 +61,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: 4px;
+
+	.MatcQIcon {
+		justify-content: flex-start;
+	}
 }
 
 .MatcDesignTokenPreView .MatcToolbarItemLabel {
@@ -65,12 +74,9 @@
 }
 
 
-.MatcDesignTokenPreView .MatcToolbarColorIndicator {
-	margin-right: 5px;
-}
-
+.MatcDesignTokenPreView .MatcToolbarColorIndicator,
 .MatcDesignTokenButtonPopup .MatcToolbarItemIcon {
-	margin-right: 5px;
+	width: 24px;
 }
 
 .MatcDesignTokenButtonPopup .MatcToolbarItemIcon,
@@ -133,22 +139,39 @@
 
 .MatcDesignTokenListPopup{
 	width:336px;
-}
+	padding-top: 8px;
+	padding-bottom: 8px;
 
-.MatcDesignTokenListPopup.MatcDesignTokenListPopupText{
-	width:246px;
-}
+	.MatcToolbarDropDownButton,
+	.MatcToolbarToggleButton {
+		border: 1px solid transparent;
+	}
 
+	.MatcToolbarItem {
+		color: #333;
+		min-width: 45px;
+		text-align: center;
+		vertical-align: middle;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		height: 34px;
+		border-radius: 4px;
+	}
 
+	.MatcToolbarItemActive {
+		background: rgba(0, 0, 0, 0.1);
+		border-color: rgba(0, 0, 0, 0.1);
+		color: #333;
+	}
 
-.MatcDesignTokenListPopup .MatcToolbarDropDownButton,
-.MatcDesignTokenListPopup .MatcToolbarToggleButton {
-	border: 1px solid transparent;
-}
+	&.MatcDesignTokenListPopupText{
+		width:246px;
+	}
 
-.MatcDesignTokenListPopup .MatcToolbarDropDownButton:hover,
-.MatcDesignTokenListPopup .MatcToolbarToggleButton:hover {
-	border: 1px solid #777;
+	.MatcToolbarDropDownButton:hover,
+	.MatcToolbarToggleButton:hover {
+		border: 1px solid #777;
+	}
 }
 
 .MatcDesignTokenListInput{
@@ -165,7 +188,7 @@
 }
 .MatcDesignTokenListPopupSection {
 	border-bottom: 1px solid transparent;
-	padding: 16px;
+	padding: 8px 16px;
 }
 
 .MatcDesignTokenListPopupSection:last-child {

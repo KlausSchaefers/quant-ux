@@ -63,7 +63,7 @@
 
 
        <div class="MatcToolbarPopUp MatcLight MatcDesignTokenListPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="onPopupClick" >
-          <div >
+          <div class="">
             <div class="MatcDesignTokenListPopupSection" v-if="selectedDesignToken">
                <input class="MatcIgnoreOnKeyPress MatcDesignTokenListInput " v-model="selectedDesignToken.name"/>
             </div>
@@ -89,7 +89,7 @@
              <div class="MatcDesignTokenListPopupSection">
                 <div class="MatcButtonBar">
                   <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onSave">Save</a>    
-                  <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onCancel">Cancel</a>
+                  <a class="MatcLinkButton  MatcButtonXS" @click="onCancel">Cancel</a>
               </div>
             </div>
           </div>

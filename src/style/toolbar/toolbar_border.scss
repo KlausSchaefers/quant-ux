@@ -6,6 +6,13 @@
 		justify-content: center;
 	}
 
+	.MatcToolbarInputDropDownButton input {
+        width: 40px;
+        position: absolute;
+        text-align: center;
+        height: 100%;
+    }
+
 	.MatcBoxBorderContainer {
 		border: 1px solid $toolbar_form_border;
 		height: 70px;
@@ -63,7 +70,7 @@
 	margin-right: 4px;
 }
 
-.MatcToolbar .MatcBoxBorder .MatcToolbarDropDownButton {
+.MatcBoxBorder .MatcToolbarDropDownButton {
 	width: 40px;
 	position: absolute;
 	text-align: center;
