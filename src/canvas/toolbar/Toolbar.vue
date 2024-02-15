@@ -77,7 +77,12 @@
 									<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'replicate'}]" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		
 											<QIcon icon="Replicate" />				
 									</div>	
-									<TemplateButton ref="templateBTN" @create="onToolCreateTemplate"></TemplateButton>																		
+									<TemplateButton 
+										ref="templateBTN" 
+										@create="onToolCreateTemplate"
+										@remove="onToolRemoveTemplate"
+										@update="onToolUpdateTemplate">
+									</TemplateButton>																		
 								</div>
 
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
@@ -1272,16 +1277,16 @@ export default {
 			this.showThemeCreateDialog(e);
 		},
 
-		onToolChangeTemplate(type, e){
-			this.stopEvent(e);
-			this.logger.log(-1,"onToolChangeTemplate", "entry : " + type);
-			if (type === 'update') {
-				this.onToolUpdateTemplate(e)
-			}
-			if (type === 'remove') {
-				this.onToolRemoveTemplate(e)
-			}
-		},
+		// onToolChangeTemplate(type, e){
+		// 	this.stopEvent(e);
+		// 	this.logger.log(-1,"onToolChangeTemplate", "entry : " + type);
+		// 	if (type === 'update') {
+		// 		this.onToolUpdateTemplate(e)
+		// 	}
+		// 	if (type === 'remove') {
+		// 		this.onToolRemoveTemplate(e)
+		// 	}
+		// },
 
 		onToolRemoveTemplate (e) {
 			this.logger.log(1,"onToolRemoveTemplate", "entry : " + this._selectedWidget);

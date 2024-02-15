@@ -39,7 +39,12 @@ export default {
             this.$emit('create', e)
         },
         onSelect(t, e) {
-            this.$emit('select', t, e)
+            if (t.value === 'remove') {
+                this.$emit('remove', e)
+            }
+            if (t.value === 'update') {
+                this.$emit('update', e)
+            }
         },
         setWidget(widget) {
             this.widget = widget
