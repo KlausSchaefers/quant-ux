@@ -1,7 +1,7 @@
 
 <template>
   <div class="VommondDropDownButton">
-    <div type="button" data-dojo-attach-point="button">
+    <div type="button" ref="button">
       <QIcon :icon="icon" />
       <span data-dojo-attach-point="label"></span>
       <span class="caret"></span>
@@ -57,6 +57,7 @@ export default {
       if (this.value) {
         this.setValue(this.value);
       }
+      this.button = this.$refs.button
     },
 
     showDropDown(e) {

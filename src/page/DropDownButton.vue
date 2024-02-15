@@ -1,7 +1,7 @@
 
 <template>
   <div class="MatcButton MatcDropDownButton ">
-    <div type="button" data-dojo-attach-point="button" class="MatcDropDownButtonCntr">
+    <div type="button" ref="button" class="MatcDropDownButtonCntr">
       <QIcon :icon="icon" v-if="icon"/>
       <label data-dojo-attach-point="label" class="MatcDropDownLabel"></label>
       <span class="caret"></span>

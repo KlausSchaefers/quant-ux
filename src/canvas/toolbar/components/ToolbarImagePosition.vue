@@ -1,7 +1,7 @@
 
 <template>
 	<div class=" MatcToolbarPopUpCntr MatcToolbarImagePosition">
-		<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarIconButton">
+		<div type="button" class="MatcToolbarItem MatcToolbarIconButton">
 			<QIcon icon="ImageCrop" />
 			<span class="MatcToolbarItemLabel">{{ label }}</span>
 		</div>

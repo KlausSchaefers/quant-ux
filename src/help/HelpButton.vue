@@ -1,7 +1,7 @@
 
 <template>
     <span :class="[{'MatcHelpIcon': !hasToolbar}, {'MatcToolbarItem MatcNotification': hasToolbar}]" @click="open">
-        <div type="button" data-dojo-attach-point="button"> 
+        <div type="button"> 
             <QIcon icon="Help" />        
             <span v-if="newNotifications" class="MatcNotificationBubble">{{newNotifications}}</span>
         </div>

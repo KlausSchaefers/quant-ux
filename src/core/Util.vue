@@ -3,7 +3,6 @@
 import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
 import css from "dojo/css";
-import on from "dojo/on";
 import win from "dojo/_base/win";
 import DomBuilder from "common/DomBuilder";
 import Layout from "core/Layout";
@@ -12,7 +11,7 @@ import ModelResizer from 'core/ModelResizer'
 import ModelUtil from 'core/ModelUtil'
 import PerformanceMonitor from 'core/PerformanceMonitor'
 import * as DistributeUtil from 'core/DistributionUtil'
-import SlideLeftButton from 'common/SlideLeftButton'
+
 import * as UIUtil from '../util/UIUtil'
 var Ring = {};
 var ProgressBar = {};
@@ -685,102 +684,7 @@ export default {
       return pos;
     },
 
-    /**
-     * TODO: Could go to canvas/Comment.vue
-     */
-    renderCommentPopup (comment, user, cntr, db, canDelete) {
-      css.add(cntr, "MatcActionBox");
-
-      var li = db.div("MatcMarginBottom").build(cntr);
-
-      var item = db.div("MatcCommentRow").build(li);
-
-      var pic = this.createUserImage(comment.user, item);
-      css.add(pic, "MatcUserImageCntrSmall MatcCommentPic");
-
-      var txt = db.div("MatcCommentText").build(item);
-
-      var meta = db.div("MatcCommentMeta").build(txt);
-
-      db.div("MatcCommentMeta", this.getCommentUserName(comment)).build(meta);
-
-      db.div("MatcCommentTime", this.formatDate(comment.created)).build(meta);
-
-      if (comment.userID == user.id) {
-        let txtarea = db
-          .textarea("form-control MatcIgnoreOnKeyPress", comment.message)
-          .build(cntr);
-        txtarea.setAttribute("data-gramm_editor", false);
-
-        if (comment.id) {
-          css.add(txtarea, "vommondInlineEdit");
-        } else {
-          txtarea.focus();
-        }
-
-        let bar = db.div("MatcButtonBar MatcMarginTopL").build(cntr);
-
-        if (comment.id) {
-          /**
-           * Create a save button that will only show if people start editing...
-           */
-          var saveBtn = db.a("MatcButton MatcButtonPrimary", "Update").build(bar);
-          this.tempOwn(on(saveBtn,"mousedown",lang.hitch(this, "onSaveComment", txtarea, comment)));
-
-          let close = db.a("MatcLinkButton", "Close").build(bar);
-          this.tempOwn(on(close,"mousedown", lang.hitch(this, "onCloseCommentPopup", comment)));
-
-          let s = this.$new(SlideLeftButton);
-          s.placeAt(cntr);
-          s.setOptions([
-            {
-              value: "edit",
-              icon: "mdi mdi-comment-edit-outline",
-              callback: function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                txtarea.focus();
-                txtarea.select();
-              }
-            },
-            {
-              value: "delete",
-              icon: "mdi mdi-trash-can-outline",
-              callback: lang.hitch(this, "onDeleteComment", comment)
-            }
-          ]);
-        } else {
-          let create = db.a("MatcButton MatcButtonPrimary", "Create").build(bar);
-          this.tempOwn(on(create,"mousedown",lang.hitch(this, "onSaveComment", txtarea, comment)));
-          let close = db.a("MatcLinkButton", "Close").build(bar);
-          this.tempOwn(on(close,"mousedown",lang.hitch(this, "onCloseCommentPopup", comment)));
-        }
-      } else {
-        if (canDelete) {
-          let s = this.$new(SlideLeftButton);
-          s.placeAt(cntr);
-          s.setOptions([
-            {
-              value: "delete",
-              icon: "mdi mdi-trash-can-outline",
-              callback: lang.hitch(this, "onDeleteComment", comment)
-            }
-          ]);
-        }
-
-        db.div("MatcCommentMessage", comment.message).build(cntr);
-        let bar = db.div("MatcButtonBar MatcMarginTopL").build(cntr);
-        let close = db.a("MatcLinkButton", "Close").build(bar);
-        this.tempOwn(
-          on(
-            close,
-            "mousedown",
-            lang.hitch(this, "onCloseCommentPopup", comment)
-          )
-        );
-      }
-    },
-
+   
     /***************************************************************************
      * Model access and query functions
      ***************************************************************************/

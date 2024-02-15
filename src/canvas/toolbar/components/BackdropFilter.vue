@@ -3,7 +3,7 @@
 	  <div class="MatcDesignTokenMixin">
       <DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
       <div class="MatcBoxShadow2" v-show="!hasDesignToken">
-        <div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton">
+        <div type="button" ref="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton">
             <QIcon :icon="icon"/>
             <span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
         </div>

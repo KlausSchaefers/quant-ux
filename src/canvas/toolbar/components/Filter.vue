@@ -2,7 +2,7 @@
 <template>
   <div class="MatcDesignTokenMixin MatcToolbarPopUpCntr">
 
-    <div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarIconButton">
+    <div type="button" ref="button" class="MatcToolbarItem MatcToolbarIconButton">
       <QIcon icon="ImageFilter" />
 
       <span class="MatcToolbarItemLabel">{{ label }}</span>

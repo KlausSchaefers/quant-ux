@@ -1,7 +1,7 @@
 
 <template>
     <div class="MatcToolbarDropDownButton MatcToolbarItem">
-			<div type="button" data-dojo-attach-point="button">
+			<div type="button" ref="button">
 				<span data-dojo-attach-point="lbl" class="MatcToolbarBorder MatcToolbarItemIcon"></span>
 				<span class="caret"></span>
 			</div>

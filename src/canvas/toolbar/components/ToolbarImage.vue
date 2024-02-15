@@ -1,7 +1,7 @@
 
 <template>
 	<div class=" MatcToolbarPopUpCntr MatcToolbarImage ">
-		<div type="button" data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarIconButton">
+		<div type="button" ref="button" class="MatcToolbarItem MatcToolbarIconButton">
 			<QIcon icon="Image" v-if="!multiSelection"/>
 			<QIcon icon="ImageList" v-else/>
 			<span class="MatcToolbarItemLabel">{{ btnLabel }}</span>

@@ -1,7 +1,7 @@
 
 <template>
     <div class="MatcToolbarPopUpCntr">
-		<div data-dojo-attach-point="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarInputDropDownButton">
+		<div ref="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarInputDropDownButton">
 			<span :class="'MatcToolbarInputDropDownButtonIcon ' + qIcon" v-if="qIcon"/>
 			<input type="test" data-dojo-attach-point="inputBox" class="MatcIgnoreOnKeyPress MatcToobarInputInlineEdit" />
 			<span class="caret" v-if="!qIcon"></span>
@@ -35,6 +35,7 @@ export default {
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));
 			this.own(on(this.inputBox, "change", lang.hitch(this,"onInputChange")));
             this.reposition = true
+			this.button = this.$refs.button
 		},
 
 		setLabel (value){

@@ -1,7 +1,7 @@
 
 <template>
      <div class="MatcHidden MatcToolbarItem MatcNotification MatcToolbarDropDownButton">
-		<div type="button" data-dojo-attach-point="button">
+		<div type="button" ref="button">
 			<span class="mdi mdi-bell"></span>
 		</div>
 		<div class="MatcToolbarPopUp MatcNotificationPopup" role="menu" data-dojo-attach-point="popup">

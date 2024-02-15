@@ -5,7 +5,7 @@
 		<div v-show="!hasDesignToken"  >
 			<div 
 				type="button" 
-				data-dojo-attach-point="button" 
+				ref="button"
 				:class="['MatcToolbarColorButton MatcToolbarItem MatcToolbarIconButton MatcToolbarColor', {'': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}]">
 				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
 				<span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>

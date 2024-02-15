@@ -1,7 +1,7 @@
 
 <template>
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton" v-if="!hasTemplate" @click="onCreate">
-        <div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button" data-dojo-attach-point="button">
+        <div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button">
             <label class="">
                 <QIcon icon="Component" />
             </label>

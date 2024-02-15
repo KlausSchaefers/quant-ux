@@ -1,7 +1,7 @@
 
 <template>
   <div class="MatcHidden MatcToolbarItem MatcNotification">
-    <div type="button" data-dojo-attach-point="button" @click="showDialog">
+    <div type="button" @click="showDialog">
       <span class="mdi mdi-email-outline"></span>
     </div>
   </div>

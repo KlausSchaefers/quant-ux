@@ -1,7 +1,7 @@
 
 <template>
      <div class="MatcToolbarItem  MatcMultiIcon MatcScreenImportAdd MatcToolbarDropDownButton">
-		<div type="button" data-dojo-attach-point="button">
+		<div type="button" ref="button">
 			<label data-dojo-attach-point="label" class="">
 				<QIcon icon="DeviceMobile" />
 

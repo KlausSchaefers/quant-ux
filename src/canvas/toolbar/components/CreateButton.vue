@@ -1,6 +1,6 @@
 <template>
     <div class=" MatcCreateBtn MatcToolbarArrowDropDown MatcToolbarDropDownButton">
-	<div type="button" data-dojo-attach-point="button" :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'add'}]">	
+	<div type="button" ref="button" :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'add'}]">	
 			<QIcon icon="AddWidget" />		
 			<!-- <span class="caret"></span> -->
 		</div>

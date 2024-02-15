@@ -1,7 +1,7 @@
 
 <template>
      <div class="MatcToolbarItem ">
-		<div type="button" data-dojo-attach-point="button">
+		<div type="button" ref="button">
 			<label data-dojo-attach-point="label" class="">F</label>
 			<span class="caret" data-dojo-attach-point="caret"></span>
 		</div>
@@ -38,6 +38,7 @@ export default {
 		postCreate (){
 			this.logger = new Logger("_DropDown");
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));
+			this.button = this.$refs.button
 			this.setChevron()
 		},
 

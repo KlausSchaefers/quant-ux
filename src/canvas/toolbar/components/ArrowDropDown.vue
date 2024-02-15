@@ -1,7 +1,7 @@
 
 <template>
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton">
-		<div :class="'MatcToolbarItem ' + css " type="button" data-dojo-attach-point="button">
+		<div :class="'MatcToolbarItem ' + css " type="button" ref="button">
 			<label class="">
                 <QIcon :icon="icon" />               
 			</label>
