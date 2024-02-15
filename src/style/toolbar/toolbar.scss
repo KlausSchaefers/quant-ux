@@ -242,20 +242,12 @@
 }
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a{
-	color: #777;
 	margin: 0px;
 	border-bottom: 2px solid transparent;
 	margin-bottom: -1px;
 	padding: 5px 15px;
 }
 
-.MatcToolbarPopUp .MatcToolbarTabContainer a:HOVER {
-	border-bottom: 2px solid $primary_color;
-}
-
-.MatcToolbarPopUp .MatcToolbarTabContainer a:HOVER {
-	color: $primary_color;
-}
 
 
 .MatcToolbarPopUp .MatcToolbarTabContainer a.MatcToolbarTabActive{

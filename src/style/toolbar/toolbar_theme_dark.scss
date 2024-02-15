@@ -1,4 +1,13 @@
 
+$popup_form_border: rgba(255,255,255,0.25);
+$popup_form_border_hover: rgba(255,255,255,0.25);
+$popup_form_border_focus: rgba(255,255,255,0.35);
+$popup_button_link_color: $gray_3;
+$popup_button_link_color_hover: #fff;
+$popup_button_link_background_hover: rgba(255,255,255,0.05);
+$popup_form_background: $popup_background;
+$popup_form_color: #fff;
+
 .MatcDark {
    @import './toolbar_theme.scss';
    @import './toolbar_edit_mode.scss';

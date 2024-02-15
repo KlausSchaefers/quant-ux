@@ -1,7 +1,7 @@
 
 <template>
-  <div class=" MatcToolbarItem MatcBoxShadow2 MatcTextShadow">
-      <div type="button" ref="button">
+  <div class=" MatcToolbarItem MatcBoxShadow2 MatcTextShadow" ref="button">
+      <div type="button" >
         <QIcon icon="TextShadow"></QIcon>
       </div>
       <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >

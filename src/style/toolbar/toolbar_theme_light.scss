@@ -26,6 +26,7 @@
 
     $popup_color: $toolbar_color;
     $popup_border: transparent;
+    $popup_outer_border_color: transparent;
     $popup_background: #fff;
     $popup_radius: 4px;
     $popup_shadow: 0 3px 25px rgba(0,0,0,.35);
@@ -43,6 +44,7 @@
 
     $toolbar_checkbox_background: $toolbar_form_background;
     $toolbar_checkbox_border: $toolbar_form_border;
+    $toolbar_form_border_light: $toolbar_form_border;
 
     $toolbar_checkbox_hover_background: $toolbar_form_background_hover;
     $toolbar_checkbox_hover_border: $toolbar_form_border_hover;

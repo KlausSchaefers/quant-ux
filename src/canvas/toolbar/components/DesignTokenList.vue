@@ -62,7 +62,7 @@
       </div>
 
 
-       <div class="MatcToolbarPopUp MatcLight MatcDesignTokenListPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="onPopupClick" >
+       <div class="MatcToolbarPopUp  MatcDesignTokenListPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="onPopupClick" >
           <div class="">
             <div class="MatcDesignTokenListPopupSection" v-if="selectedDesignToken">
                <input class="MatcIgnoreOnKeyPress MatcDesignTokenListInput " v-model="selectedDesignToken.name"/>

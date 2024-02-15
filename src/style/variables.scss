@@ -64,6 +64,7 @@ $toolbar_form_active_background: #202427;
 $toolbar_form_background_hover: #202427;
 $toolbar_form_background_focus: #16191b;
 $toolbar_form_border: $toolbar_border;
+$toolbar_form_border_light: rgb(64, 74, 83);
 $toolbar_form_border_hover: $toolbar_border;
 $toolbar_form_border_focus: rgba(255,255,255,0.16);
 $toolbar_form_radius: 4px;
@@ -73,6 +74,7 @@ $toolbar_checkbox_hover_background: #484E53;
 $toolbar_checkbox_hover_border: #484E53;
 $toolbar_checkbox_selected_background: $primary_color;
 $toolbar_checkbox_selected_hook: #fff;
+$toolbar_tab_border_color: $primary_color;
 
 $toolbar_help_background: rgba(255,255,255, 0.1);
 
@@ -87,6 +89,7 @@ $create_element_background: #485870;
 
 $popup_color: $white;
 $popup_color_passive: $color_passive;
+$popup_outer_border_color: transparent;
 $popup_border: $toolbar_border;
 $popup_background: $toolbar_selected_background;
 $popup_radius: 8px;
@@ -94,13 +97,16 @@ $popup_font_size: 14px;
 $popup_padding: 4px 8px;
 $popup_shadow: none;
 $popup_line: rgba(255, 255, 255, 0.08);
+$popup_form_color: $text_color;
 $popup_form_border: $toolbar_border;
 $popup_form_border_hover: $toolbar_border;
 $popup_form_border_focus: $toolbar_border;
 $popup_form_background: $toolbar_form_background;
 $popup_form_background_hover: $toolbar_form_background_hover;
 $popup_form_background_focus: $toolbar_form_background_hover;
-
+$popup_button_link_color: $text_color;
+$popup_button_link_color_hover: $text_color;
+$popup_button_link_background_hover: rgba(0, 0, 0, 0.05);
 
 $form_color: $text_color;
 $form_radius: 8px;

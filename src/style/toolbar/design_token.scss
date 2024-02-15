@@ -150,7 +150,6 @@
 	}
 
 	.MatcToolbarItem {
-		color: #333;
 		min-width: 45px;
 		text-align: center;
 		vertical-align: middle;
@@ -177,7 +176,7 @@
 
 
 	.MatcBoxBorder {
-		.MatcToolbarItem{
+		.MatcToolbarItem.MatcToolbarDropDownButton{
 			width: 40px;
 			padding: 0px;
 			height: 100%;
