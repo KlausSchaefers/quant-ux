@@ -68,8 +68,10 @@
         }
         this.resize(model)
       },
-  
-    
+
+      setAnimatedStyle (style) {
+        this.$refs.svg.style.color = style.color
+      },    
   
       getValue () {},
   

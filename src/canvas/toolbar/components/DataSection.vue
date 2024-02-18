@@ -1136,7 +1136,7 @@ export default {
 			this._setSectionLabel("Icon");
 			this._renderButton("Icon", "Settings", e => this._renderSVGIconDialog(e, model));
 
-			this._renderInputDropDown("Stroke Width", model, [1, 1.25, 1.5, 2, 3, 4, 8], "strokeWidth", false);
+			this._renderInputDropDown("Stroke Width", model, [0.5, 0.75, 1, 1.25, 1.5, 2, 3, 4, 8], "strokeWidth", false);
 
 
 

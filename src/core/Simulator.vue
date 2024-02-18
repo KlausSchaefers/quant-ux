@@ -122,6 +122,7 @@
   
 				  if(params.live == "true"){
 					  this.live = true;
+					  this.hasSplash = false
 				  }
   
 				  if(params.qr == "true"){
@@ -155,9 +156,9 @@
   
 			  } else {
 				this.hasSplash = false
-				  if(this.hash) {
-					  this.renderFactory.hash = this.hash;
-				  }
+				if(this.hash) {
+					this.renderFactory.hash = this.hash;
+				}
 			  }
   
 			  this.own(this.addTouchStart(this.domNode,lang.hitch(this, "onScreenPress")));
@@ -258,10 +259,12 @@
   
   
 		  showSplashScreen (){
-			  this.logger.log(-2,"showSplashScreen","enter >");
-			  this.hasSplash = true
-			  css.add(this.domNode, "MatcSimulatorSplash MactMainGradient");
-			  this._splashTime = new Date().getTime();
+				if (!this.live) {
+					this.logger.log(-2,"showSplashScreen","enter >");
+					this.hasSplash = true
+					css.add(this.domNode, "MatcSimulatorSplash MactMainGradient");
+					this._splashTime = new Date().getTime();
+				}
 		  },
   
 		  async loadSettings (model) {

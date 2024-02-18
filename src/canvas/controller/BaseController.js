@@ -338,7 +338,7 @@ export default class BaseController extends Core {
 	 ***************************************************************************************/
 
 	initCanvas (screenID){
-		this.logger.log(-2,"initCanvas", "enter > screenID : " + screenID);
+		this.logger.log(2,"initCanvas", "enter > screenID : " + screenID);
 		if(this._canvas){
 			const inheritedModel = this.getInheritedModel(this.model)
 			requestAnimationFrame(() => {

@@ -317,15 +317,16 @@ export default {
 		***************************************************************************/
 
 		async initIcons (){
-			let icons = await Services.getSymbolService().getIcons()
+			const icons = await Services.getSymbolService().getIcons()
 			this._onIconsLoaded(icons)
-
-			let svgIcons = await Services.getSymbolService().getSVGIcons()
-			this._onSVGIconsLoaded(svgIcons)
+			if (this.model.version >= 5) { 
+				const svgIcons = await Services.getSymbolService().getSVGIcons()
+				this._onSVGIconsLoaded(svgIcons)
+			}
 		},
 
 		_onSVGIconsLoaded (svgIcons){
-			this.logger.log(2, "_onSVGIconsLoaded", "enter > ");
+			this.logger.log(-2, "_onSVGIconsLoaded", "enter");
 			this._matcIcons;
 
 			if (this.createBTN){
