@@ -96,6 +96,7 @@ $popup_radius: 8px;
 $popup_font_size: 14px;
 $popup_padding: 4px 8px;
 $popup_shadow: none;
+$popup_child_shadow: none;
 $popup_line: rgba(255, 255, 255, 0.08);
 $popup_form_color: $text_color;
 $popup_form_border: $toolbar_border;
@@ -106,6 +107,7 @@ $popup_form_background_hover: $toolbar_form_background_hover;
 $popup_form_background_focus: $toolbar_form_background_hover;
 $popup_button_link_color: $text_color;
 $popup_button_link_color_hover: $text_color;
+$popup_child_border: none;
 $popup_button_link_background_hover: rgba(0, 0, 0, 0.05);
 
 $form_color: $text_color;

@@ -9,18 +9,15 @@
         </div>
       </div>
 
-        <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
+        <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup " role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
 
-         <div class=" MatcToolbarTabContainer">
-          <div class=" MatcToolbarTabs">
-            <a class="">Backdrop</a>
-          </div>
-        </div>
-         <div class="MatcShadowSettings">
-           <div ref="blurSliderCntr" class="MatcBoxShadowSliderCntr">
-              <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Blur</span>
+         <div class="MatcToolbarPopUpContainer">
+            <div class="MatcShadowSettings">
+              <div ref="blurSliderCntr" class="MatcBoxShadowSliderCntr">
+                  <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Blur</span>
+              </div>
             </div>
-            </div>
+          </div> 
            <div class="MatcToolbarPopupFooter" @click="onRemove">
             <QIcon icon="Delete"/>
             <span class="MatcToolbarPopupFooterLabel">No Background Blur</span>

@@ -4,6 +4,15 @@
 	box-shadow: $popup_shadow;
 	color: $popup_color;
    
+    &.MatcToolbarPopUpChild{
+        border: $popup_child_border;
+        box-shadow: $popup_shadow;
+
+        .MatcToolbarPopUpArrow {
+            border: $popup_child_border;
+         }
+    }
+
     input {
         border: 1px solid $popup_form_border;
         background: none;
@@ -208,6 +217,12 @@
 }
 
 .MatcToobarPropertiesSection {
+
+    .MatcToolbarSlider .VommondSliderContainer {
+        background: $toolbar_form_border_light;
+    }
+
+
     color:$toolbar_color;
 
     .MatcToolbarItem {
@@ -305,6 +320,9 @@
 		background: $toolbar_form_background;
 	}
 
+    .MatcToolbarColor {
+        height: 100%;
+    }
 
     .MatcBorderStyleSolid {
         border-top: 3px solid $toolbar_color;
@@ -534,6 +552,7 @@ div.MatcToolbarViewConfigCntrSpace {
 	border-bottom: 1px solid $popup_line;
 }
 
+.MatcToolbarPopUp,
 .MatcToolbar  {
     .VommondCheckBox {
         background: $toolbar_checkbox_background;

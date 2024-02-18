@@ -1542,8 +1542,6 @@ export default {
 
 			if (settingsCallback){
 				const icon = iconDOM('SettingsCog', 'MatcToolbarSectionSettingsIcon')
-				// let settings = document.createElement("span");
-				// css.add(settings, "MatcToolbarSectionSettingsIcon mdi mdi-cog"); //mdi-tune-vertical
 				div.appendChild(icon);
 				this.own(on(icon, touch.press, lang.hitch(this, settingsCallback)));
 			}

@@ -34,6 +34,7 @@ import InputDropDownButton from './InputDropDownButton'
 import ToolbarColor from './ToolbarColor'
 import _DesignToken from './_DesignToken'
 import DesignTokenView from './DesignTokenView'
+import {iconDOM} from '../../../page/QIconUtil'
 
 export default {
 	name: 'BoxBorder',
@@ -175,7 +176,6 @@ export default {
 				/**
 				 * style
 				 */
-
 				this.topStyle = this.renderStyleBox(this.cntrStyle);
 				this.topStyle.domNode.style.top = -1 * ((inputPos.h / 2) - 1) + "px";
 				this.topStyle.domNode.style.left = (cntrPos.w - inputPos.w) / 2 + "px";
@@ -206,7 +206,7 @@ export default {
 		},
 
 		renderStyleBox(parent) {
-			var widget = this.$new(ToolbarDropDownButton);
+			const widget = this.$new(ToolbarDropDownButton);
 			widget.placeAt(parent);
 			widget.reposition = true;
 			widget.updateLabel = true;
@@ -221,7 +221,7 @@ export default {
 		},
 
 		renderIntBox(parent, options) {
-			var input = this.$new(InputDropDownButton);
+			const input = this.$new(InputDropDownButton);
 			input.setOptions(options);
 			input.placeAt(parent);
 			input.isChildDropDown = this.isChildDropDown
@@ -230,7 +230,7 @@ export default {
 		},
 
 		renderColorBox(parent) {
-			var widget = this.$new(ToolbarColor, { hasPicker: true });
+			const widget = this.$new(ToolbarColor, { hasPicker: true });
 			widget.updateBackground = true;
 			widget.placeAt(parent);
 			widget.keepOpenOnTypeSelection = "widget";
@@ -242,18 +242,7 @@ export default {
 			return widget;
 		},
 
-		renderLock(node, cntrPos) {
-
-			var div = this.db.div("MatcToolbarItem").build(node);
-			var lock = this.db.span("mdi mdi-lock").build(div);
-			var inputPos = { h: 40, w: 45 };
-			div.style.top = (cntrPos.h - inputPos.h) / 2 - 1 + "px";
-			div.style.left = (cntrPos.w - inputPos.w) / 2 + "px";
-
-			this.setLock(lock);
-
-			return lock;
-		},
+		
 
 		blur () {
 			if (this.rendered) {
@@ -270,27 +259,23 @@ export default {
 
 		},
 
-		show: function () {
+		show  () {
 			if (this["show" + this.tab]) {
 				this["show" + this.tab]();
 			}
 		},
 
-		showStyle: function () {
+		showStyle () {
 			this._resetTabs(this.tabStyle, this.cntrStyle);
 			this.tab = "Style";
 			this.isLocked = this.isEqual(this.borderStyle);
 			this.setLock(this.lockWidth);
-
-
 			this.topStyle.setValue(this.value.borderTopStyle);
 			this.bottomStyle.setValue(this.value.borderBottomStyle);
 			this.leftStyle.setValue(this.value.borderLeftStyle);
 			this.rightStyle.setValue(this.value.borderRightStyle);
-
-
-			for (var i = 0; i < 4; i++) {
-				var k = this.borderStyle[i];
+			for (let i = 0; i < 4; i++) {
+				const k = this.borderStyle[i];
 				this.cntrStyle.style[k] = this.value[k];
 			}
 		},
@@ -299,8 +284,8 @@ export default {
 
 			this.value[key] = value;
 			if (this.isLocked) {
-				for (var i = 0; i < 4; i++) {
-					var k = this.borderStyle[i];
+				for (let i = 0; i < 4; i++) {
+					const k = this.borderStyle[i];
 					this.value[k] = value;
 				}
 			}
@@ -309,30 +294,23 @@ export default {
 
 		showWidth() {
 			this._resetTabs(this.tabWidth, this.cntrWidth);
-
 			this.tab = "Width";
-
 			this.isLocked = this.isEqual(this.borderWidth);
 			this.setLock(this.lockWidth);
-			/**
-			 * set values
-			 */
 			this.topWidth.setValue(this.value.borderTopWidth);
 			this.bottomWidth.setValue(this.value.borderBottomWidth);
 			this.leftWidth.setValue(this.value.borderLeftWidth);
 			this.rightWidth.setValue(this.value.borderRightWidth);
-
 		},
 
 
 		setWidth(key, input, value) {
-			//this.stopEvent(e);
 			value = value * 1;
 			if (this.isValid(value)) {
 				this.value[key] = value;
 				if (this.isLocked) {
-					for (var i = 0; i < 4; i++) {
-						var k = this.borderWidth[i];
+					for (let i = 0; i < 4; i++) {
+						const k = this.borderWidth[i];
 						this.value[k] = value;
 					}
 				}
@@ -343,12 +321,9 @@ export default {
 
 		showColor() {
 			this._resetTabs(this.tabColor, this.cntrColor);
-
 			this.tab = "Color";
-
 			this.isLocked = this.isEqual(this.borderColor);
 			this.setLock(this.lockColor);
-
 			this.topColor.setValue(this.value.borderTopColor);
 			this.bottomColor.setValue(this.value.borderBottomColor);
 			this.leftColor.setValue(this.value.borderLeftColor);
@@ -379,22 +354,13 @@ export default {
 
 		showRadius() {
 			this._resetTabs(this.tabRadius, this.cntrRadius);
-
 			this.tab = "Radius";
-
-
 			this.isLocked = this.isEqual(this.borderRadius);
 			this.setLock(this.lockRadius);
-
-			/**
-			 * set values
-			 */
 			this.topRightRadius.setValue(this.value.borderTopRightRadius);
 			this.topLeftRadius.setValue(this.value.borderTopLeftRadius);
 			this.bottomRightRadius.setValue(this.value.borderBottomRightRadius);
 			this.bottomLeftRadius.setValue(this.value.borderBottomLeftRadius);
-
-
 		},
 
 		setRadius(key, input, value) {
@@ -416,23 +382,38 @@ export default {
 			this.setLock(lock);
 		},
 
-		setLock(lock) {
-			if (this.isLocked) {
-				css.remove(lock, "mdi mdi-lock-open");
-				css.add(lock, "mdi mdi-lock");
+		renderLock(node, cntrPos) {
 
-			} else {
-				css.remove(lock, "mdi mdi-lock");
-				css.add(lock, "mdi mdi-lock-open");
+			const div = this.db.div("MatcToolbarItem").build(node);
+			const lock = iconDOM('LockOpen')
+			div.appendChild(lock)
+
+			const inputPos = { h: 40, w: 45 };
+			div.style.top = (cntrPos.h - inputPos.h) / 2 - 1 + "px";
+			div.style.left = (cntrPos.w - inputPos.w) / 2 + "px";
+
+			this.setLock(div);
+
+			return div;
+		},
+
+		setLock(div) {
+			div.innerText = ""
+			if (!this.isLocked) {
+				const lock = iconDOM('LockOpen')
+				div.appendChild(lock)
+			} else {		
+				const lock = iconDOM('LockClosed')
+				div.appendChild(lock)
 			}
 		},
 
 		isEqual(list) {
-			var last = null;
-			var result = true;
-			for (var i = 0; i < list.length; i++) {
-				var key = list[i];
-				var current = this.value[key];
+			let last = null;
+			let result = true;
+			for (let i = 0; i < list.length; i++) {
+				const key = list[i];
+				const current = this.value[key];
 				if (last != null) {
 					result &= current == last;
 				}
@@ -442,10 +423,9 @@ export default {
 			return result;
 		},
 
-
 		isValid(value) {
-			var er = /^-?[0-9]+$/;
-			var valid = er.test(value);
+			const er = /^-?[0-9]+$/;
+			const valid = er.test(value);
 			if (!valid) {
 				return false;
 			}
@@ -454,12 +434,8 @@ export default {
 			}
 			return false;
 		},
-
-
 		update() {
-
 		},
-
 		_resetTabs(tab, cntr) {
 
 			this.render();

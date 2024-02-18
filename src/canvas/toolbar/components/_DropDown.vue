@@ -148,6 +148,10 @@ export default {
 				css.add(this.button, "MatcToolbarItemActive");
 			}
 
+			if (this.isChildDropDown) {
+				css.add(this.popup, "MatcToolbarPopUpChild");
+			}
+
 			css.add(this.popup, "MatcToolbarPopUpOpen");
 
 			this._mouseDownListener = on(win.body(),"mousedown", lang.hitch(this,"hideDropDown"));
