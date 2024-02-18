@@ -60,6 +60,7 @@ import LabeledTextBox from 'core/widgets/LabeledTextBox'
 import LabeledTextArea from 'core/widgets/LabeledTextArea'
 import Navigation from 'core/widgets/Navigation'
 import NavMenu from 'core/widgets/NavMenu'
+import SVGIcon from 'core/widgets/SVGIcon'
 
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
@@ -491,6 +492,12 @@ export default class RenderFactory extends Core {
 
 	_createLabeledTextBox(parent, model) {
 		const widget = this.$new(LabeledTextBox)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createSVGIcon(parent, model) {
+		const widget = this.$new(SVGIcon)
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

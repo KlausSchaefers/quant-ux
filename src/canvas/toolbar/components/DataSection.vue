@@ -35,7 +35,8 @@ import DataBindingButton from './DataBindingButton'
 import BoxShadow from './BoxShadow2'
 import DomUtil from 'core/DomUtil'
 import ScriptEdior from '../dialogs/ScriptEditor.vue'
-import NavidationEditor from './NavigationTable.vue'
+import NavidationEditor from './NavigationTable'
+import IconTable from './IconTable'
 import {iconDOM} from 'page/QIconUtil'
 
 export default {
@@ -92,6 +93,10 @@ export default {
 
 		setIcons (icons) {
 			this.icons = icons
+		},
+
+		setSVGIcons (svgIcons) {
+			this.svgIcons = svgIcons
 		},
 
 		setValue (widget, isDataView = false){
@@ -1118,6 +1123,22 @@ export default {
 			this._setSectionLabel("Icon");
 			this._renderButton("Icon", "Settings", "_renderIconDialog");
 
+			const row = this.db.div("MatcToobarRow").build(this.cntr);
+			const rotate = this.$new(ImageRotate)
+			rotate.placeAt(row)
+			this.tempOwn(on(rotate, "change", lang.hitch(this, 'onStyleChanged', 'backgroundImageRotation')));
+			this.tempOwn(on(rotate, "changing", lang.hitch(this, "onTempStyleChanged", 'backgroundImageRotation')));
+			rotate.setValue(model.style.backgroundImageRotation)
+			this._addChildWidget(rotate);
+		},
+
+		_showSVGIcon(model) {
+			this._setSectionLabel("Icon");
+			this._renderButton("Icon", "Settings", e => this._renderSVGIconDialog(e, model));
+
+			this._renderInputDropDown("Stroke Width", model, [1, 1.25, 1.5, 2, 3, 4, 8], "strokeWidth", false);
+
+
 
 			const row = this.db.div("MatcToobarRow").build(this.cntr);
 			const rotate = this.$new(ImageRotate)
@@ -2067,115 +2088,60 @@ export default {
 		/**********************************************************************
 		 * Icons
 		 **********************************************************************/
-		_renderIconDialog (e, iconKey = 'icon'){
+		 _renderSVGIconDialog (e, model, iconKey = 'svg'){
 			this.logger.log(-1, '_renderIconDialog', 'enter', iconKey)
 			this.stopEvent(e);
 
 			const popup = this.db
-				.div("MatcDialog MatcDialogXXL MatcPadding")
+				.div("MatcDialog  MatcPadding")
 				.build();
 
-			const top = this.db
-				.div("MatcRight")
-				.build(popup);
-			const div = this.db
-				.div("form-group has-feedback")
-				.build(top);
-			const input = this.db
-				.input("MatcCreateSearch MatcIgnoreOnKeyPress form-control")
-				.build(div);
-
-			this.db
-				.span("mdi mdi-magnify  form-control-feedback MatcCreateSearchBtn")
-				.build(div);
-
-			input.type = "search";
-
-
-			const cntr = this.db.div("MatcDateSectionIconCntr MatcDateSectionIconCntrOverflow ", "").build(popup);
-			const table = this.db.div("").build();
-
-			const scroller = this.$new(ScrollContainer);
-			scroller.placeAt(cntr);
-			scroller.wrap(table);
-
-
+			const value = model.props.svg
+			const table = this.$new(IconTable, {value: value, isSVG:true})
+			table.placeAt(popup)
+			table.on("change", svg => {
+				this.onProperyChanged(iconKey, svg);
+				d.close()
+			})
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
 			const cancel = this.db.a("MatcButton MatcButtonPrimary MatcButtonXS", "Cancel").build(bar);
 
 			const d = new Dialog();
 			d.hasCSSAnimation = false
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
-			d.own(on(table, touch.press, lang.hitch(this, "setIcon", d, iconKey)));
-			d.own(on(input, touch.press, function(e){e.stopPropagation()}));
-			d.own(on(input, "keypress", function(e){e.stopPropagation()}));
-			d.own(on(input, "keydown", function(e){e.stopPropagation()}));
-			d.own(on(input, "keyup", lang.hitch(this,"onIconSearch", input, table)));
-
 			d.popup(popup, e.target);
+			
+		},
 
-			const selected = this.getSelectedIcon(iconKey)
+		_renderIconDialog (e, iconKey = 'icon'){
+			this.logger.log(-1, '_renderIconDialog', 'enter', iconKey)
+			this.stopEvent(e);
 
-			setTimeout(() => {
-				input.focus();
-				this.renderIconTable(table, "", selected, iconKey);
-			},400);
+			const popup = this.db
+				.div("MatcDialog MatcPadding")
+				.build();
+		
+			const value = this.getSelectedIcon(iconKey)
+			const table = this.$new(IconTable, {value: value, isSVG:false})
+			table.placeAt(popup)
+			table.on("change", icon => {
+				this.onStyleChanged(iconKey, icon);
+				d.close()
+			})
+
+			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			const cancel = this.db.a("MatcButton MatcButtonPrimary MatcButtonXS", "Cancel").build(bar);
+
+			const d = new Dialog();
+			d.hasCSSAnimation = false
+			d.own(on(cancel, touch.press, lang.hitch(d, "close")));	
+			d.popup(popup, e.target);
 		},
 
 		getSelectedIcon (iconKey= 'icon') {
 			if (this.widget && this.widget.style) {
 				return this.widget.style[iconKey]
 			}
-		},
-
-		renderIconTable (table, filter, selected = false){
-			table.innerHTML="";
-			const icons = this.icons;
-
-			for (let j = 0; j < icons.length; j++) {
-				const icon = icons[j];
-				if(!filter || icon.indexOf(filter.toLowerCase()) >=0 ){
-					const span = this.db
-						.span("MatcToolbarDropDownButtonItem mdi mdi-"+icons[j])
-						.build(table);
-
-					span.setAttribute("data-matc-icon", icons[j]);
-					if ('mdi mdi-' + icons[j] === selected) {
-						this.focusIcon(span)
-					}
-				}
-			}
-		},
-
-		focusIcon (span) {
-			css.add(span, 'selected')
-			setTimeout( () => {
-				span.scrollIntoView({block: "nearest", inline: "nearest"})
-			}, 100)
-		},
-
-		onIconSearch (input, tbody, e){
-			this.stopEvent(e);
-			var filter = input.value;
-			if(filter.length >= 3){
-				this.renderIconTable(tbody, filter);
-			} else {
-				this.renderIconTable(tbody, "");
-			}
-		},
-
-		setIcon (d, iconKey, e){
-			const node = e.target;
-			if(node){
-				css.add(node, 'selected')
-				const icon = node.getAttribute("data-matc-icon");
-				if(icon){
-					this.onStyleChanged(iconKey, "mdi mdi-" +icon);
-				}
-			}
-			setTimeout(() => {
-				d.close();
-			}, 250) 
 		},
 
 		setOptions (d, scroller, list){

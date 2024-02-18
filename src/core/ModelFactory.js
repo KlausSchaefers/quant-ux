@@ -74,7 +74,7 @@ export default class ModelFactory {
 
 		const grid = 8;
 		const model = {
-			version: 2.1,
+			version: 5,
 			name: name,
 			description: des,
 			screenSize: type.screenSize,

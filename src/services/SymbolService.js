@@ -35,6 +35,11 @@ class SymbolService extends AbstractService{
       return this._getChached('/icons.json')
     }
 
+    getSVGIcons () {
+      return this._getChached('/tabler-icons.json')
+    }
+
+
     hookInWidgets (themes) {
       this.logger.log(2, 'hookInWidgets', 'enter > ' +  this.widgets.length  + " + " + themes.length)
       this.widgetDataProps = {}

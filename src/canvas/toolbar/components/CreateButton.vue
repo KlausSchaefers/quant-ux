@@ -56,6 +56,7 @@ import Services from 'services/Services'
 import CheckBox from 'common/CheckBox'
 import ModelUtil from 'core/ModelUtil'
 import QIcon from 'page/QIcon'
+import {wrapIcon} from 'page/QIconUtil'
 import QSS from 'core/qss/QSS'
 import _Tooltip from 'common/_Tooltip'
 
@@ -70,6 +71,7 @@ export default {
 			selectedCategory : "WireFrame",
 			showSubCatgeoryLabels : false,
 			icons: [],
+			svgIcons: [],
 			categoryNames : {
 				"Bootstrap" : "Bootstrap 3",
 				"Bootstrap4" : "Bootstrap 4",
@@ -91,8 +93,12 @@ export default {
     },
     components: {QIcon},
     methods: {
-      setIcons (icons) {
+      	setIcons (icons) {
 			this.icons = icons
+		},
+
+		setSVGIcons (icons) {
+			this.svgIcons = icons
 		},
 
 		setUser (user) {
@@ -423,11 +429,18 @@ export default {
 			/**
 			 * 4rd icons
 			 */
-			const liIcons = db.li().build(ul);
-			db.a("", "Icons").build(liIcons);
-			this._lis["Icons"] = liIcons;
-			this.own(on(liIcons, touch.press, lang.hitch(this, "showIcons", true) ));
-
+			if (this.model.version >= 5) {
+				const liSVGIcons = db.li().build(ul);
+				db.a("", "Icons").build(liSVGIcons);
+				this._lis["SVGIcons"] = liSVGIcons;
+				this.own(on(liSVGIcons, touch.press, lang.hitch(this, "showSVGIcons", true) ));
+			} else {
+				const liIcons = db.li().build(ul);
+				db.a("", "Icons").build(liIcons);
+				this._lis["Icons"] = liIcons;
+				this.own(on(liIcons, touch.press, lang.hitch(this, "showIcons", true) ));
+			}
+		
 		
 			/**
 			 * 5rd templates
@@ -585,6 +598,16 @@ export default {
 			this.renderIcons();
 		},
 
+		showSVGIcons (resetSearch) {
+			this.showWidgets()
+			if(resetSearch){
+				this.resetSearch();
+			}
+			this.selectedCategory = 'SVGIcons';
+			this.renderSelectedTab(this.selectedCategory);
+			this.renderSVGIcons();
+		},
+
 		showTemplates (resetSearch){
 			this.showWidgets()
 			if(resetSearch){
@@ -605,15 +628,50 @@ export default {
 			}
 		},
 
+		renderSVGIcons (query) {
+			this.renderFactory.cleanUp();
+
+			if (!query) {
+				this.cleanUpTempListener();
+			}
+
+			const db = new DomBuilder();
+			const cntr = db.div("MatcDateSectionIconCntr MatcDateSectionSVGIconCntr", "").build();
+			let icons = this.svgIcons;
+
+			if (query && query.length > 1) {
+				let temp = {}
+				for (let icon in icons) {
+					if (icon.indexOf(query) >=0) {
+						temp[icon] = icons[icon]
+					}
+				}
+				icons = temp
+			}
+			for (let icon in icons) {		
+				let span = db.span("MatcToolbarDropDownButtonItem mdi").build(cntr);
+				span.setAttribute("data-matc-icon", icon);
+
+				const wrapper = db.span('').build(span)
+				wrapper.innerHTML  = wrapIcon(icons[icon])
+				this.tempOwn(on(span, touch.press, lang.hitch(this, "onCreateSVGIcon", icon)));
+			}
+
+			if (!query) {
+				this.iconCntr.innerHTML="";
+			}
+			this.iconCntr.appendChild(cntr);
+		},
+
 		renderIcons (query){
 			this.renderFactory.cleanUp();
 
 			if (!query) {
 				this.cleanUpTempListener();
 			}
-			var db = new DomBuilder();
-			var cntr = db.div("MatcDateSectionIconCntr", "").build();
-			var icons = this.icons;
+			const db = new DomBuilder();
+			const cntr = db.div("MatcDateSectionIconCntr", "").build();
+			let icons = this.icons;
 
 			if (query && query.length > 1) {
 				let temp = []
@@ -640,7 +698,7 @@ export default {
 		onCreateIcon (icon, e){
 			this.stopEvent(e);
 
-			var value = {
+			const value = {
 				"id" : "Icon",
 				"type" : "Icon",
 				"category" : "Icons",
@@ -675,13 +733,43 @@ export default {
 					"icon" : "mdi mdi-"+icon
 				}
 			};
-
 			//this.model.lastCategory = "Icons";
 			this.hideDropDown();
-
 			this.emit("change", value ,e);
+		},
 
+		onCreateSVGIcon (icon, e){
+			this.stopEvent(e);
 
+			var value = {
+				"id" : "Icon",
+				"type" : "SVGIcon",
+				"category" : "Icons",
+				"subcategory" : "Image",
+				"_type" : "Widget",
+				"name" : "Icon",
+				"x" : 0,
+				"y" : 0,
+				"w" : 40,
+				"h" : 40,
+				"z" : 0,
+				"props" : {
+					"svg": this.svgIcons[icon] 
+				},
+				"has" : {
+					"onclick" : true,
+					"data" : true
+				},
+				"actions" : {},
+				"style" : {
+					"color" : "#333333",
+					"strokeWidth": 1,
+					"backgroundImageRotation": 0
+				}
+			};
+			//this.model.lastCategory = "Icons";
+			this.hideDropDown();
+			this.emit("change", value ,e);
 		},
 
 		renderImportedApp (app) {
@@ -744,7 +832,11 @@ export default {
 			}
 			this.renderSelectedTab();
 			this.renderElements(elements, "search", false);
-			this.renderIcons(query)
+			if (this.model.version >= 5) {
+				this.renderSVGIcons(query)
+			} else {
+				this.renderIcons(query)	
+			}
 		},
 
 

@@ -30,6 +30,7 @@ import on from 'dojo/on'
 import DomBuilder from '../../../common/DomBuilder'
 import Services from 'services/Services'
 import {wrapIcon} from 'page/QIconUtil'
+
 export default {
     name: 'IconTable',
     mixins: [DojoWidget],
@@ -49,48 +50,6 @@ export default {
 		},
 
 		renderIconTable (filter, selected = false){
-			if (this.isSVG) {
-				this.renderSVGIconTable(filter, selected)
-			} else {
-				this.renderMDIIconTable(filter, selected)
-			}
-			
-		},
-
-		renderMDIIconTable (filter, selected = false){
-            const table = this.$refs.table
-			const icons = this.icons;
-			this.cleanUpTempListener()
-
-            table.innerHTML="";
-
-			const cntr = this.db.div().build()
-
-			const none = this.db
-				.span("MatcToolbarDropDownButtonItem MatcToolbarDropDownButtonItemRemove mdi mdi-cancel")
-				.build(cntr);
-
-			this.tempOwn(on(none, "click", () => {this.setNone()}))
-
-			for (let j = 0; j < icons.length; j++) {
-				const icon = icons[j];
-				if(!filter || icon.indexOf(filter.toLowerCase()) >=0 ){
-					const span = this.db
-						.span("MatcToolbarDropDownButtonItem mdi mdi-"+icons[j])
-						.build(cntr);
-
-					span.setAttribute("data-matc-icon", icons[j]);
-					if ('mdi mdi-' + icons[j] === selected) {
-						this.focusIcon(span)
-					}
-				}
-			}
-
-			table.appendChild(cntr)
-		},
-
-		renderSVGIconTable (filter, selected = false){
-			console.debug('renderSVGIconTable')
             const table = this.$refs.table
 			const icons = this.icons;
 			this.cleanUpTempListener()
@@ -124,6 +83,7 @@ export default {
 		},
 
 		focusIcon (span) {
+			console.debug(span)
 			css.add(span, 'selected')
 			setTimeout( () => {
 				span.scrollIntoView({block: "nearest", inline: "nearest"})
@@ -148,26 +108,6 @@ export default {
 		},
 
 		setIcon (e){
-			if (this.isSVG) {
-				this.setSVGIcon(e)
-			} else {
-				this.setMDIIcon(e)
-			}
-		},
-
-		setMDIIcon (e){
-			const node = e.target;
-			if(node){
-				const icon = node.getAttribute("data-matc-icon");
-				if(icon){
-                    css.add(node, 'selected')
-					this.emit('change', 'mdi mdi-' + icon)
-					this.$emit('change', 'mdi mdi-' + icon)
-				}
-			}
-		},
-
-		setSVGIcon (e){
 			let node = e.target;
 			if(node){
 				let icon = node.getAttribute("data-matc-icon");
@@ -188,17 +128,13 @@ export default {
     watch: {
     },
     async mounted() {
-		if (this.isSVG) {		
-			this.icons = await Services.getSymbolService().getSVGIcons()
-		} else {
-			this.icons = await Services.getSymbolService().getIcons()
-		}
-
+        this.icons = await Services.getSymbolService().getSVGIcons()
         this.db = new DomBuilder()
 
+
 		setTimeout(() => {
-			this.renderIconTable("", this.value)
 			this.$refs.inputSearch.focus()
+			this.renderIconTable("", this.value)
 		}, 100)
     }
 }

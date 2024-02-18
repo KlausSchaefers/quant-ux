@@ -77,7 +77,7 @@ export default {
 							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button', 'LabeledTextBox',
 							'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget'],
 
-			hasColor: ['Icon'],
+			hasColor: ['Icon', 'SVGIcon'],
 
 			hasLogic2: ["LogicOr", "Rest", "Script"],
 
@@ -93,7 +93,7 @@ export default {
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton', 
 								'DragNDropTarget', 'LabeledTextBox', 'NavBar', 'TextBox', 'LabeledTextBox', 'NavMenu', 
-								"DropDown", 'LabeledTextArea', 'SortableList', 'RadioTable'],
+								"DropDown", 'LabeledTextArea', 'SortableList', 'RadioTable', 'Icon', 'SVGIcon'],
 								
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown", 'NavMenu'],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", 
@@ -106,61 +106,6 @@ export default {
     components: {},
     methods: {
         onModeChange (){
-
-			// if (this.domNode && this.selectBtn){
-			// 	css.remove(this.selectBtn, "MatcToolbarItemActive");
-			// 	css.remove(this.addSection, "MatcToolbarItemActive");
-			// 	css.remove(this.moveTool, "MatcToolbarItemActive");
-			// 	css.remove(this.editTool, "MatcToolbarItemActive");
-			// 	css.remove(this.importSection, "MatcToolbarItemActive");
-			// 	css.remove(this.hotspotTool, "MatcToolbarItemActive" );
-			// 	//css.remove(this.svgTool, "MatcToolbarItemActive" );
-			// 	css.remove(this.textTool, "MatcToolbarItemActive");
-			// 	css.remove(this.rectangleTool, "MatcToolbarItemActive" );
-			// 	css.remove(this.addLogicSection, "MatcToolbarItemActive" );
-			// 	css.remove(this.addRestSection, "MatcToolbarItemActive" );
-			// 	css.remove(this.addScriptSection, "MatcToolbarItemActive" );
-
-
-			// 	if(this.mode == "select"){
-			// 		css.add(this.selectBtn, "MatcToolbarItemActive");
-			// 	}
-			// 	if(this.mode == "move"){
-			// 		css.add(this.moveTool, "MatcToolbarItemActive");
-			// 	}
-			// 	if(this.mode == "edit"){
-			// 		css.add(this.editTool, "MatcToolbarItemActive");
-			// 	}
-			// 	if(this.mode == "add"){
-			// 		css.add(this.addSection, "MatcToolbarItemActive");
-			// 	}
-			// 	if(this.mode == "import"){
-			// 		css.add(this.importSection, "MatcToolbarItemActive");
-			// 	}
-			// 	if(this.mode == "hotspot"){
-			// 		css.add(this.hotspotTool, "MatcToolbarItemActive" );
-			// 	}
-			// 	if(this.mode == "svg"){
-			// 		//css.add(this.svgTool, "MatcToolbarItemActive" );
-			// 	}
-			// 	if(this.mode == "addText"){
-			// 		css.add(this.textTool, "MatcToolbarItemActive" );
-			// 	}
-			// 	if(this.mode == "addBox"){
-			// 		css.add(this.rectangleTool, "MatcToolbarItemActive" );
-			// 	}
-			// 	if(this.mode == "addLogic"){
-			// 		css.add(this.addLogicSection, "MatcToolbarItemActive" );
-			// 	}
-			// 	if(this.mode == "addRest"){
-			// 		css.add(this.addRestSection, "MatcToolbarItemActive" );
-			// 	}
-			// 	if(this.mode == "addScript"){
-			// 		css.add(this.addScriptSection, "MatcToolbarItemActive" );
-			// 	}
-			// } else {
-			// 	console.error("Toolvar_Render.onModeChange() > View Destoyed...")
-			// }
 		},
 
 
@@ -374,6 +319,22 @@ export default {
 		async initIcons (){
 			let icons = await Services.getSymbolService().getIcons()
 			this._onIconsLoaded(icons)
+
+			let svgIcons = await Services.getSymbolService().getSVGIcons()
+			this._onSVGIconsLoaded(svgIcons)
+		},
+
+		_onSVGIconsLoaded (svgIcons){
+			this.logger.log(2, "_onSVGIconsLoaded", "enter > ");
+			this._matcIcons;
+
+			if (this.createBTN){
+				this.createBTN.setSVGIcons(svgIcons);
+			}
+
+			if (this.dataWidget){
+				this.dataWidget.setSVGIcons(svgIcons);
+			}
 		},
 
 		_onIconsLoaded (icons){
