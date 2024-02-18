@@ -133,8 +133,14 @@
 
 .MatcTreeToggleChildrenIcon{
 	opacity: 0;
+	text-align: right;
 }
 
 .MatcToolbarLayerList:hover .MatcTreeToggleChildrenIcon{
+	opacity: 0.5;
+}
+
+.MatcToolbarLayerList:hover .MatcTreeToggleChildrenIcon:hover{
 	opacity: 1;
 }
+

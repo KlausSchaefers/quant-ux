@@ -37,8 +37,11 @@
                                         <p v-if="settings.description">
                                             {{settings.description}}
                                         </p>
-                                        <p v-else v-html="getNlSWithReplacement('simulator.welcome.msg', {'name': model.name})">
-                                        </p>
+                                        <template  v-else>
+                                            <p v-html="getNlSWithReplacement('simulator.welcome.msg', {'name': model.name})"></p>
+                                            <p v-html="getNlSWithReplacement('simulator.welcome.msg2', {'name': model.name})"></p>
+                                        </template>
+                                  
                                     </div>
                                     <div class="MatcMarginTop">
                                         <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="onShowPrivacy()"	v-if="getUserTasks().length === 0">
@@ -76,7 +79,7 @@
                                         <h2> {{getNLS("simulator.welcome.privacy-title")}}</h2>
                                         <p v-html="getNLS('simulator.welcome.privacy')"></p>
                                         <p v-html="getNLS('simulator.welcome.privacy1')"></p>
-                                        <p v-html="getNLS('simulator.welcome.click-start')"></p>
+                                        <p class="MatcMarginTopXL" v-html="getNLS('simulator.welcome.click-start')"></p>
                                     </div>
                                     <div class="MatcMarginTop">
                                         <div class="MatcButton MatcButtonPrimary MatcTestStartButton"	@click="onStart()">
@@ -92,7 +95,7 @@
                         <div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation"></div>
                     </transition>
                 </div>
-                <div class="MatcTestVersion">v5.0.2</div>
+                <div class="MatcTestVersion">Quant-UX - v5.0.2</div>
             </div>
     </template>
     <style>

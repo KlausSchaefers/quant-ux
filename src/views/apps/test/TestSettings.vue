@@ -41,6 +41,10 @@
           </table>
           <div class="form-group mb-32">
             <CheckBox :value="test.showTaskInTest" :label="getNLS('testSettingsShowTaskInTest')" @change="onShowTaskChange"/>
+              </div>
+
+          <div class="form-group" v-if="test.showTaskInTest" >
+            <CheckBox :value="test.showSuccessInTest" :label="getNLS('testSettingsShowSuccessInTest')" @change="onShowSuccessInTest"/>
           </div>
 
           </div>
@@ -172,6 +176,10 @@ export default {
       this.save();
     },
 
+    onShowSuccessInTest (value) {
+      this.test.showSuccessInTest = value
+      this.save();
+    },
 
     showCreateDialog () {
       var d = new Dialog();

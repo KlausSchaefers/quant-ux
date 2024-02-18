@@ -11,18 +11,18 @@
 			</div>
 
 			<div class="MatcTestTaskList MatcScrollContainer" ref="taskList">
-				<div v-for="(t) in getUserTasks()" :key="t.id" :class="['MatcTestTask', {'MatcTestTaskDone':taskDone[t.id] }]">
-					<h4>
-						{{t.name}} 
-						<div v-if="taskDone[t.id]" class="MatcTestTaskDoneMarker">
-							<QIcon icon="CheckBoxRound" /> 
-							Done
-						</div>
-					
-					</h4>
-					<div class="MatcTestTaskDescription MatcScrollContainer">
-						{{t.description}}
-					</div>
+				<TestTask 
+					v-for="(t) in getUserTasks()" 
+					:key="t.id" 
+					:task="t"
+					:done="taskDone[t.id]" />
+				<div class="MatcTestTaskSuccess MatcTestTask" v-if="hasSuccessMessage">
+						<h4>{{$t('test.task.success-title')}}</h4>
+						<p class="MatcTestTaskDescription">
+							{{$t('test.task.success-message')}}
+						</p>
+
+
 				</div>
 			</div>
 	
@@ -70,7 +70,7 @@ import DataFrame from 'common/DataFrame'
 import * as ScrollUtil from '../../util/ScrollUtil'
 import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
 import Splash from './Splash'
-import QIcon from 'page/QIcon'
+import TestTask from './TestTask'
 
 
 export default {
@@ -79,6 +79,7 @@ export default {
     data: function () {
         return {
 			isResponsive: false,
+			hasSuccessMessage: false,
 			hash: '',
 			hasSplash: true,
 			true: false,
@@ -100,7 +101,7 @@ export default {
     },
     components: {
 		'Splash':Splash,
-		'QIcon': QIcon
+		'TestTask': TestTask
 	},
 	computed: {
 		hasWindows () {
@@ -328,6 +329,12 @@ export default {
 			matches.data.forEach(match => {
 				this.$set(this.taskDone, match.task, true)
 			})
+
+			if (this.settings.showSuccessInTest) {
+				if (Object.values(this.taskDone).length === tasks.length) {
+					this.hasSuccessMessage = true
+				}
+			}
 		},
 
 		renderTest (){

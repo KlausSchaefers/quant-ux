@@ -279,13 +279,24 @@ body.MatcTestMobile{
             margin-top: 48px;
         }
     }
-    
-    h4{
-        font-size: 16px;
+
+    .MatcTestTaskHeader {
         display: flex;
         align-items: center;
         justify-content: space-between;
         height: 24px;
+    }
+    
+    h4{
+        font-size: 16px;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .MatcChevron {
+        cursor: pointer;
+        transition: all 0.2s;
     }
     
     .MatcTestTaskDoneMarker {
@@ -294,24 +305,29 @@ body.MatcTestMobile{
         align-items: center;
         font-size: 16px;
         font-weight: 400;
-    }
-  
-    .MatcTestTaskDone{
-        background: $kpi_background;
-        //max-height: 128px;
-        h4 {
-            text-decoration: line-through;
-        }
 
         .MatcQIcon {
             color:$primary_color
         }
 
-        // &:hover {
-        //     max-height: fit-content;
-        //     transition: all 0.2s;
-        //     transition-delay: 2s;
-        // }
+    }
+
+    .MatcTestTaskCollapased {
+        .MatcChevron {
+            transform: rotate(-90deg);
+
+        }
+    }
+  
+    .MatcTestTaskDone{
+        background: $kpi_background;
+        h4, p {
+            text-decoration: line-through;
+        }
+    }
+
+    .MatcTestTaskSuccess {
+        background: #D4F7D3;
     }
 }
 
