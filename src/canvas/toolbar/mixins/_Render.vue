@@ -77,6 +77,8 @@ export default {
 							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button', 'LabeledTextBox',
 							'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget'],
 
+			hasColor: ['Icon'],
+
 			hasLogic2: ["LogicOr", "Rest", "Script"],
 
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", 

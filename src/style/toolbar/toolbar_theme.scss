@@ -138,6 +138,11 @@
     color:$popup_color
 }
 
+.MatcDialog .MatcToolbarDropDownButtonItem {
+    background-color: #f2f2f2;
+    color:$text_color;
+}
+
 .MatcToolbarLayerListCntr{
 	border-right: 1px solid $toolbar_border;
 }

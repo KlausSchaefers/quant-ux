@@ -1117,10 +1117,10 @@ export default {
 		_showIcon (model){
 			this._setSectionLabel("Icon");
 			this._renderButton("Icon", "Settings", "_renderIconDialog");
-			this._renderColor('Color','<span class="Color"></span>',model.style.color, "color", "onStyleChanged", true );
 
-			var row = this.db.div("MatcToobarRow").build(this.cntr);
-			let rotate = this.$new(ImageRotate)
+
+			const row = this.db.div("MatcToobarRow").build(this.cntr);
+			const rotate = this.$new(ImageRotate)
 			rotate.placeAt(row)
 			this.tempOwn(on(rotate, "change", lang.hitch(this, 'onStyleChanged', 'backgroundImageRotation')));
 			this.tempOwn(on(rotate, "changing", lang.hitch(this, "onTempStyleChanged", 'backgroundImageRotation')));
@@ -1504,8 +1504,8 @@ export default {
 			editor.placeAt(cntr)
 
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			const write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
-			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+			const write = this.db.div("MatcButton MatcButtonXS MatcButtonPrimary", "Ok").build(bar);
+			const cancel = this.db.a("MatcLinkButton MatcButtonXS", "Cancel").build(bar);
 
 			const d = new Dialog();
 			d.own(on(write, touch.press, lang.hitch(this,"setNavBar", d, editor)));
@@ -2072,7 +2072,7 @@ export default {
 			this.stopEvent(e);
 
 			const popup = this.db
-				.div("MatcDialogXXL MatcPadding")
+				.div("MatcDialog MatcDialogXXL MatcPadding")
 				.build();
 
 			const top = this.db
@@ -2101,7 +2101,7 @@ export default {
 
 
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+			const cancel = this.db.a("MatcButton MatcButtonPrimary MatcButtonXS", "Cancel").build(bar);
 
 			const d = new Dialog();
 			d.hasCSSAnimation = false

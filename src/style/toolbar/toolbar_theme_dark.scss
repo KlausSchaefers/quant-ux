@@ -12,5 +12,17 @@ $popup_child_shadow: none;
 .MatcDark {
    @import './toolbar_theme.scss';
    @import './toolbar_edit_mode.scss';
+
+   .MatcCreateBtnElement .MatcCreateBtnElementPreview {
+      .MatcWidgetTypeCheckBoxLabel,
+      .MatcVAlignCntr,
+      .MatcWidgetTypeRadioTableLabel,
+      .MatcWidgetTypeSortableListItemLabel,
+      .MatcWidgetTypeChart,
+      .MatchWidgetTypeLabel{
+         filter: invert(100%);
+      }
+   }
 }
+
 

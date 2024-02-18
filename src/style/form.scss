@@ -21,6 +21,16 @@ input:focus {
 		border-color: $form_border_focus;
 		box-shadow: $form_shadow;
 	}
+
+
+	
+}
+
+.form-group {
+	.form-control-feedback {
+		height: 100%;
+		line-height: 1;
+	}
 }
 
 

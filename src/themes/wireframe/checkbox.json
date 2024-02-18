@@ -63,6 +63,7 @@
 			"data": true
 		},
 		"style": {	
+			"background": "@form-background",
 			"fontSize": "@font-size-m",
 			"fontFamily": "@font-family",
 			"textAlign": "left",
@@ -70,7 +71,13 @@
 			"lineHeight": "@lineHeight",
 			"padding": 0,	
 			"textShadow": null,
-			"verticalAlign": "middle"
+			"verticalAlign": "middle",
+			"color": "@form-color",
+			"colorButton": "@background-active",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color"
 		},
 		"error": {
 			"borderColor": "@form-border-color:error",

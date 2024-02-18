@@ -2,10 +2,14 @@
 <template>
     <div class="MatcIconTable ">
         <div class="MatcIconTableSearch">
-			<input 
+			<div class="form-group has-feedback">
+				<input 
 				class="MatcCreateSearch MatcIgnoreOnKeyPress form-control" 
 				ref="inputSearch" 
 				@keyup="onIconSearch"/>
+				<span class="mdi mdi-magnify  form-control-feedback MatcCreateSearchBtn " aria-hidden="true" data-dojo-attach-point="searchRemoveBtn"></span>
+			</div>
+			
 		</div>
         <div class="MatcDateSectionIconCntr MatcDateSectionIconCntrOverflow">
             <table ref="table" @click.stop="setIcon">

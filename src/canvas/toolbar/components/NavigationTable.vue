@@ -24,7 +24,6 @@
                 <tbody>
 
 
-
                 <tr v-for="(item, i) in items" :key="item.id" 
                     :class="[{'MatcFormRowDNDHover': i === hoverRow}, {'MatcFormRowDNDSelect': i == dragRow}]"
                     :draggable="isDraggable"
@@ -71,7 +70,7 @@
                 <tr class="MatcFormRow">
                     <td></td>
                     <td>
-                        <span class="MatcButton" @click="addItem">Add Item</span>
+                        <span class="MatcButton MatcButtonXS" @click="addItem">Add Item</span>
                     </td>
               
                     <td></td>
