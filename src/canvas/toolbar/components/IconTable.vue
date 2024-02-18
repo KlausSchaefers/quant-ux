@@ -199,7 +199,7 @@ export default {
 		setTimeout(() => {
 			this.renderIconTable("", this.value)
 			this.$refs.inputSearch.focus()
-		}, 100)
+		}, 400)
     }
 }
 </script>
