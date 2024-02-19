@@ -354,6 +354,7 @@ export default {
 		_renderDesignTokens () {
 
 			var parent = this.createSection("");
+			css.add(parent, 'MatcToolbarSectionNoBorder')
 
 			var content = document.createElement("div");
 			css.add(content, "");
@@ -362,7 +363,7 @@ export default {
 			this.designTokenList = this.$new(DesignTokenList)
 			this.designTokenList.placeAt(content)
 			this.own(on(this.designTokenList, "change", lang.hitch(this, "changeDesignToken")));
-			this.own(on(this.designTokenList, "remove", lang.hitch(this, "removeDesignToken")));
+			this.own(on(this.designTokenList, "delete", lang.hitch(this, "deleteDesignToken")));
 			this.designTokenList.setFontFamilies(this._getFontFamilies());
 
 			this.properties.appendChild(parent);
@@ -1356,6 +1357,7 @@ export default {
 				css.add(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
 				css.add(this.canvas.scrollBottom, "MatcCanvasScrollBarBottomOpen");
 			}
+			//this.hasEditModeButton = hasEditModeButton
 			css.add(this.widgetViewSection, "MatcToobarViewSectionVisible");
 		},
 

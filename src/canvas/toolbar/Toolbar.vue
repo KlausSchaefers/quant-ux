@@ -127,9 +127,10 @@
 			</div>
 
 			<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
-				<div class="MatcToolbarSection">
+				<div class="MatcToolbarSection" >
 					<div class=" MatcToolbarSectionContent">
 					<EditModeButton 
+				
 						:value="canvasViewConfig" 
 						@change="onChangeCanvasViewConfig" 
 						@canvasViewMode="setCanvasViewMode" 
@@ -195,7 +196,8 @@ export default {
 			mode: 'edit',
 			subMode: '',
 			hasScreens: false,
-			layerListWidth: 256
+			layerListWidth: 256,
+			hasEditModeButton: true
         }
     },
 	components: {
@@ -1070,7 +1072,7 @@ export default {
 
 		linkDesignToken (designToken, cssProps) {
 			this.logger.log(-1,"linkDesignToken", "entry");
-			var state = this._getViewStyleModelKey();
+			const state = this._getViewStyleModelKey();
 			if(this._selectedWidget){
 				this.controller.linkDesignToken(this._selectedWidget.id, designToken.id,state, cssProps, 'widget');
 			}
@@ -1081,8 +1083,7 @@ export default {
 
 		unlinkDesignToken (designToken) {
 			this.logger.log(-1,"unlinkDesignToken", "entry", designToken);
-
-			var state = this._getViewStyleModelKey();
+			const state = this._getViewStyleModelKey();
 			if(this._selectedWidget){
 				this.controller.unlinkDesignToken(this._selectedWidget.id, designToken.id,state, 'widget');
 			}
@@ -1093,13 +1094,12 @@ export default {
 
 		changeDesignToken (designToken) {
 			this.logger.log(-1,"changeDesignToken", "entry");
-
 			this.controller.updateDesignToken(designToken.id, designToken.name, designToken.value);
-
 		},
 
-		removeDesignToken () {
+		deleteDesignToken (designToken) {
 			this.logger.log(-1,"deleteDesignToken", "entry");
+			this.controller.deleteDesignToken(designToken.id);
 		},
 
 		/**********************************************************************

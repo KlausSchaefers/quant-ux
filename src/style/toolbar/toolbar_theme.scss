@@ -609,3 +609,7 @@ div.MatcToolbarViewConfigCntrSpace {
 	// 	}
 	// }
 }
+
+.MatcDesignTokenList .MatcDesignTokenListSection{
+    border-top: 1px solid $toolbar_border;
+}

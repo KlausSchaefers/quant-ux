@@ -7,7 +7,7 @@ $popup_button_link_color_hover: #ffffff93;
 $popup_button_link_background_hover: rgba(255,255,255,0.05);
 $popup_form_background: $popup_background;
 $popup_form_color: #fff;
-$popup_child_border: 1px solid rgba(255,255,255,0.05);
+$popup_child_border: 1px solid $toolbar_border;
 $popup_child_shadow: none;
 .MatcDark {
    @import './toolbar_theme.scss';

@@ -7,7 +7,7 @@
               <div class=" MatcDesignTokenListSection" v-show="colorTokens.length > 0">
                   <label>Color Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in colorTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in colorTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
@@ -15,7 +15,7 @@
               <div class=" MatcDesignTokenListSection" v-show="textTokens.length > 0">
                   <label>Text Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in textTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in textTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
@@ -23,14 +23,14 @@
               <div class=" MatcDesignTokenListSection" v-show="strokeTokens.length > 0">
                   <label>Border Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in strokeTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in strokeTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
               <div class=" MatcDesignTokenListSection" v-show="tooltipTokens.length > 0">
                   <label>Tooltip Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in tooltipTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in tooltipTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
@@ -39,7 +39,7 @@
               <div class=" MatcDesignTokenListSection" v-show="shadowTokens.length > 0">
                   <label>Shadow Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in shadowTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in shadowTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
@@ -47,7 +47,7 @@
               <div class=" MatcDesignTokenListSection" v-show="paddingTokens.length > 0">
                 <label>Padding Styles</label>
                 <div class="MatcDesignTokenListSectionContent">
-                  <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit"/>
+                  <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                 </div>
             </div>
 
@@ -94,6 +94,7 @@
             </div>
           </div>
         </div>
+
 	</div>
 </template>
 <script>
@@ -112,10 +113,12 @@ import BoxPadding from 'canvas/toolbar/components/BoxPadding'
 import TooltipSettings from './TooltipSettings'
 import css from 'dojo/css'
 import topic from 'dojo/topic'
-//import Input from '../../../common/Input.vue'
+import Dialog from "common/Dialog";
+import on from "dojo/on";
+import DomBuilder from "common/DomBuilder";
 
 export default {
-    name: 'DesignTokenBtn',
+    name: 'DesignTokenList',
     mixins:[DojoWidget, _DropDown],
     data: function () {
         return {
@@ -137,6 +140,7 @@ export default {
         }
     },
     components: {
+      //'DeleteDialog': DeleteDialog,
       'DesignTokenPreview': DesignTokenPreview,
       'ShadowSettings': ShadowSettings,
       'ColorPickerSketch': ColorPickerSketch,
@@ -233,6 +237,26 @@ export default {
       }
     },
     methods: {
+      onDelete (token, node) {
+        const div = this.db.div("MatcDeleteDialog").build();
+        this.db.h3("title is-4", 'Delete Design Token').build(div);
+        this.db.p('MatcMarginBottomXL', `Do you want to delete the '${token.name}' token?`).build(div)
+        const bar = this.db.div("MatcButtonBar").build(div);
+        const write = this.db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
+        const cancel = this.db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
+
+        const d = new Dialog();
+        d.own(on(write, "click", () => this.deleteToken(d, token)));
+        d.own(on(cancel, "click", () => d.close()));
+        d.popup(div, node);
+      },
+      deleteToken (d, token) {
+        d.close()
+        this.emit('delete', token)
+        setTimeout(() => {
+          this.$forceUpdate()
+        }, 100)
+      },
       isGradient (token) {
         if (token) {
           let color = token.value
@@ -242,7 +266,6 @@ export default {
       },
 
       onPopupClick () {
-        console.debug('onPopupClick')
         topic.publish('matc/dropdown/child')
       },
 
@@ -398,6 +421,7 @@ export default {
     },
     mounted () {
       this.logger = new Logger('DesignTokenList')
+      this.db = new DomBuilder()
     }
 }
 </script>

@@ -240,6 +240,10 @@
 	padding: 0px;
 	width: 230px;
 	height: auto;
+
+	&.MatcToolbarSectionNoBorder {
+		border: none;
+	}
 }
 
 .MatcToobarPropertiesSectionCntr > .MatcToolbarSection{

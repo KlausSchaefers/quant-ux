@@ -25,7 +25,8 @@ export default {
           return
         }
 
-        this.showProperties();
+        this.showProperties(false);
+
         css.remove(this.designTokenDiv, "MatcToolbarSectionHidden")
         css.remove(this.designTokenDownloadDiv, "MatcToolbarSectionHidden")
 
