@@ -613,3 +613,11 @@ div.MatcToolbarViewConfigCntrSpace {
 .MatcDesignTokenList .MatcDesignTokenListSection{
     border-top: 1px solid $toolbar_border;
 }
+
+.MatcToolbarLayerList:hover .MatcTreeToggleChildrenIcon{
+	color: $layerlist_chevron_color;
+}
+
+.MatcToolbarLayerList:hover .MatcTreeToggleChildrenIcon:hover{
+	color: $layerlist_chevron_color_hover;
+}

@@ -457,7 +457,7 @@ export default {
 			return node
 		},
 
-		createNode (box, widgetID, screenID, groupId, type = 'widget', defaultIsOpen = true) {
+		createNode (box, widgetID, screenID, groupId, type = 'widget', defaultIsOpen = false) {
 			if (this.openNodes[box.id] === undefined) {
 				this.openNodes[box.id] = defaultIsOpen
 			}
