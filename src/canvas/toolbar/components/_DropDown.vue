@@ -29,6 +29,7 @@ export default {
             reposition: false,
             isOpen: false,
             arrowSize: 10,
+			popupOffsetRight: 6,
             chevron: true,
 			isChildDropDown: false
         }
@@ -211,6 +212,7 @@ export default {
 			if (!this.popupPos || forceUpdatePosition){
 				this.popupPos = domGeom.position(this.popup);
 			}
+			this.popupPos.h -=8
 
 			var h = win.getBox().h;
 			if(pos.y > h * 0.667){
@@ -225,10 +227,10 @@ export default {
 			this.popup.style.bottom = "auto";
 			if (this.repositionPosition === 'right') {
 				this.popup.style.left = "auto"
-				this.popup.style.left = pos.x + pos.w + this.arrowSize + "px";
+				this.popup.style.left = pos.x + pos.w + this.popupOffsetRight + "px";
 			} else {
 				this.popup.style.right = "auto"
-				this.popup.style.left = pos.x - this.popupPos.w -this.arrowSize+ "px";
+				this.popup.style.left = pos.x - this.popupPos.w -this.popupOffsetRight+ "px";
 			}
 
 			return true
@@ -250,7 +252,7 @@ export default {
 					var pos = domGeom.position(this.getPopupRootNode());
 					var popupPos = domGeom.position(this.popup);
 					var y = Math.round(pos.y - popupPos.y +((pos.h-this.arrowSize)/2));
-					this.arrow.style.top = Math.min(y, popupPos.h-2*this.arrowSize) + "px";
+					this.arrow.style.top = Math.min(y, (popupPos.h-8) * this.arrowSize) + "px";
 				}
 			}
 		},

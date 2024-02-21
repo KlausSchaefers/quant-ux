@@ -4,14 +4,14 @@
 	box-shadow: $popup_shadow;
 	color: $popup_color;
    
-    &.MatcToolbarPopUpChild{
+    //&.MatcToolbarPopUpChild{
         border: $popup_child_border;
         box-shadow: $popup_shadow;
 
         .MatcToolbarPopUpArrow {
             border: $popup_child_border;
          }
-    }
+    //}
 
     input {
         border: 1px solid $popup_form_border;
