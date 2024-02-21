@@ -34,6 +34,7 @@ export default {
 			isIconButton: false,
 			hasObjects: false,
 			hasCaret: true,
+			hasFixedLabel: false,
 			updateLabel: true,
 			maxLabelLength: 7,
 			hasLabelTxt: true,
@@ -253,7 +254,7 @@ export default {
 			}
 			this.currentLabel = value
 
-			if (this.hasObjects) {
+			if (this.hasObjects && !this.hasFixedLabel) {
 				this.label.innerHTML = "";
 				const o = this._options.find(o => o.value == value)
 

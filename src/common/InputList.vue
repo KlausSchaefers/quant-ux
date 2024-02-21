@@ -186,6 +186,7 @@ export default {
 
 		onDragstart(e, i) {
 			e.dataTransfer.setData("text", i);
+			e.dataTransfer.effectAllowed = 'move';
 		},
 
 		onDrop(e, i) {

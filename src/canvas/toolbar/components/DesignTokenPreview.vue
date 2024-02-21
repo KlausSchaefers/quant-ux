@@ -9,10 +9,10 @@
       <span :class="icons[designtoken.type]" :style="{ 'color': designtoken.value.borderTopColor }" />
     </span>
     <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'text'">
-      <span :class="icons[designtoken.type]" />
+      <QIcon icon="Text"></QIcon>
     </span>
     <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'padding'">
-      <span :class="icons[designtoken.type]" />
+      <QIcon icon="Padding"></QIcon>
     </span>
     <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'boxShadow'">
       <QIcon icon="BoxShadow"></QIcon>

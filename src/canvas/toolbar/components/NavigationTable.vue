@@ -148,6 +148,7 @@ export default {
         },
         onColDragStart(e, i) {
             e.dataTransfer.setData("text", i);
+            e.dataTransfer.effectAllowed = 'move';
             this.dragRow = i
         },
         oColDragOver(e,i) {

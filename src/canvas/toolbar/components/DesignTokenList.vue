@@ -7,7 +7,7 @@
               <div class=" MatcDesignTokenListSection" v-show="colorTokens.length > 0">
                   <label>Color Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in colorTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
+                    <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in colorTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
@@ -15,7 +15,7 @@
               <div class=" MatcDesignTokenListSection" v-show="textTokens.length > 0">
                   <label>Text Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in textTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
+                    <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in textTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
@@ -23,14 +23,14 @@
               <div class=" MatcDesignTokenListSection" v-show="strokeTokens.length > 0">
                   <label>Border Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in strokeTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
+                    <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in strokeTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
               <div class=" MatcDesignTokenListSection" v-show="tooltipTokens.length > 0">
                   <label>Tooltip Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in tooltipTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
+                    <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in tooltipTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
@@ -39,7 +39,7 @@
               <div class=" MatcDesignTokenListSection" v-show="shadowTokens.length > 0">
                   <label>Shadow Styles</label>
                   <div class="MatcDesignTokenListSectionContent">
-                    <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in shadowTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
+                    <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in shadowTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
@@ -47,7 +47,7 @@
               <div class=" MatcDesignTokenListSection" v-show="paddingTokens.length > 0">
                 <label>Padding Styles</label>
                 <div class="MatcDesignTokenListSectionContent">
-                  <DesignTokenPreview :designtoken="designtoken"  v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
+                  <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                 </div>
             </div>
 
@@ -358,7 +358,10 @@ export default {
       onEdit(designtoken, node, e) {
         this.logger.log(-1, 'onEdit', 'enter', designtoken)
 
+       
         this.hideDropDown();
+
+        this.setActiveButton(node)
         if (designtoken.type === 'text' || designtoken.type === 'stroke' || designtoken.type === 'padding') {
           css.add(this.popup, 'MatcDesignTokenListPopupText')
         } else {

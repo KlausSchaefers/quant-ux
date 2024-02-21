@@ -109,10 +109,14 @@
 .MatcDesignTokenList .MatcDesignTokenListSection{
 	margin-bottom: 16px;
     border-bottom: 1px solid transparent;
+
 }
 
 .MatcDesignTokenList .MatcDesignTokenListSectionContent {
 	padding: 0px 8px;
+	display: flex;
+	flex-direction: column;
+	gap: $toolbar_section_content_gap;
 }
 
 .MatcDesignTokenList .MatcDesignTokenListSection:first-child,
@@ -133,7 +137,8 @@
 
 
 .MatcDesignTokenList .MatcDesignTokenPreView{
-	padding: 8px;
+	padding: 4px 8px;
+	border-radius: 4px;
 }
 
 .MatcDesignTokenListPopup{

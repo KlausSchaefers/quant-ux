@@ -196,6 +196,7 @@ export default {
       }
       if (this.value && !this.value.disabled) {
         e.dataTransfer.setData("text", this.value.id)
+        e.dataTransfer.effectAllowed = 'move';
         TreeDND.start(this.value)
       } else {
         e.preventDefault()

@@ -199,6 +199,7 @@ export default {
     methods: {
         onActionDragStart(e, i) {
             e.dataTransfer.setData("text", i);
+            e.dataTransfer.effectAllowed = 'move';
             this.dragRow = i
         },
         onActionDragOver(e, i) {
@@ -223,6 +224,7 @@ export default {
         },
         onColDragStart(e, i) {
             e.dataTransfer.setData("text", i);
+            e.dataTransfer.effectAllowed = 'move';
             this.dragRow = i
         },
         onColDragOver(e, i) {

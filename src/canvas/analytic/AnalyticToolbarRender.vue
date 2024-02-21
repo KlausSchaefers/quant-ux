@@ -429,48 +429,22 @@ export default {
 
             this.sessionOrderBrn = this.$new(ToolbarDropDownButton, { maxLabelLength: 20 });
             this.sessionOrderBrn.setOptions([
-                { value: 'date', label: "Sort by Date" },
+                { value: 'date', label: "See by Date" },
                 { value: 'duration', label: "Sort by Duration" },
                 { value: 'events', label: "Sort by Events" },   
                 { value: 'weirdness', label: "Sort by Outlier" }
             ]);
             this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties MatcPopupArrowLeft");
-            this.sessionOrderBrn.updateLabel = true;
+    
+            this.sessionOrderBrn.updateLabel = false;
+            this.sessionOrderBrn.hasFixedLabel = true
             this.sessionOrderBrn.reposition = true;
             this.sessionOrderBrn.repositionPosition = 'right';
             this.sessionOrderBrn.setValue('date')
+            this.sessionOrderBrn.setLabel("Test Sessions")
             this.sessionOrderBrn.placeAt(row);
             this.tempOwn(on(this.sessionOrderBrn, "change", (v) => { this.onSortSessionList(v) }));
-            this.addTooltip(this.sessionOrderBrn.domNode, "Change the sort order of the session list");
-
-
-
-            
-            // row = this.db.div("MatcToobarRow").build(content);
-
-            // const selectOptions = [
-            //     { value: 'all', label: "Select All", callback: () => this.onSelectSesionAll()},
-            //     { value: 'invert', label: "Invert Selection", callback: () => this.onSelectSessionInvert()}
-            // ]
-            // if (this.testSettings && this.testSettings.tasks) {
-            //     this.testSettings.tasks.forEach(t => {
-            //         selectOptions.push({
-            //             value: t.id, label: "Select " + t.name, callback: () => this.onSelectSesionsTask(t)
-            //         })
-            //     })
-            // }
-       
-            // this.sessionSelectBtn = this.$new(ToolbarDropDownButton, { maxLabelLength: 20 });
-            // this.sessionSelectBtn.setOptions(selectOptions);
-            // this.sessionSelectBtn.setPopupCss("MatcActionAnimProperties MatcPopupArrowLeft");
-            // this.sessionSelectBtn.updateLabel = true;
-            // this.sessionSelectBtn.reposition = true;
-            // this.sessionSelectBtn.repositionPosition = 'right';
-            // this.sessionSelectBtn.setValue('all')
-            // this.sessionSelectBtn.placeAt(row);
-            // this.tempOwn(on(this.sessionSelectBtn, "change", (v) => { this.onSelectSesionsBy(v) }));
-            // this.addTooltip(this.sessionSelectBtn.domNode, "Select a subset of sessions");
-
+            //this.addTooltip(this.sessionOrderBrn.domNode, "Change the sort order of the session list");
 
             this.sessionListCntr = this.db.div("MatcToolbarSessionCntr").build(content);
             this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);

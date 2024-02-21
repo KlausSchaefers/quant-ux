@@ -294,8 +294,8 @@
 	min-width: 45px;
 	text-align: center;
 	vertical-align: middle;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 	height: 34px;
 	border-radius: $toolbar_form_radius;
 }
@@ -385,7 +385,7 @@
 .MatcToolbarSectionContent {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: $toolbar_section_content_gap;
 }
 
 .MatcToolbarSectionCollabsed .MatcToolbarSectionContent,

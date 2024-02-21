@@ -4,7 +4,7 @@
 
 		<div class="MatcToolbarLayerList MatcToolbarAnalyticList MatcToobarPropertiesSection" :style="'width:'+ layerListWidth +'px'">
 			<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="testListCntr">
-							
+				
 			</div>
 			<div class="MatcToolbarLayerListDND" ref="dndHanlde" @mousedown.stop="onResizeStart"></div>
 		</div>

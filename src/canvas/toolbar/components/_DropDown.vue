@@ -64,6 +64,9 @@ export default {
 
 		},
 
+		setActiveButton (node) {
+			this.button = node
+		},
 
 		setPopupCss (cls){
 			css.add(this.popup, cls);
