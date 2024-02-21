@@ -728,6 +728,7 @@ export default {
 			this.selection = ids
 			this.$nextTick(() => {
 				ids.forEach(id => {
+					this.expandIfNeeded(id)
 					const node = this.nodes[id]
 					if (node) {
 						this.$set(node, 'selected', true)
@@ -745,7 +746,6 @@ export default {
 			if (this.selection) {
 				this.selection.forEach(id => {
 					let node = this.nodes[id]
-		
 					if (node.type === 'widget') {
 						result.add(node.widgetID)
 					}
@@ -771,8 +771,19 @@ export default {
 			}
 		},
 
+		expandIfNeeded (id) {
+			let node = this.nodes[id]
+			while (node && node.groupID) {
+				node = this.nodes[node.groupID]
+				if (node) {
+					this.$set(node, 'open', true)
+				}
+			}
+		},
+
 		scrollToSelection(ids) {
 			const id = ids[0]
+
 			if (id) {
 				const element = document.getElementById(this.getScrollId(id))
 				if (element) {

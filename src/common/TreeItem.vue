@@ -16,11 +16,12 @@
             :draggable="!isEditable"
           >
           <template v-if="hasChildren">
-            <span :class="expandIcon" @click.stop="toggleOpen"></span>
+            <span :class="expandIcon(value.open)" @click.stop="toggleOpen"></span>
           </template>
           <template v-else>
             <span class="MatcTreeIcon"  @click.stop=""></span>
           </template>
+
 
           <QIcon class="MatcTreeTypeIcon" v-if="nodeIcon" :icon="nodeIcon" ></QIcon>
 
@@ -41,7 +42,7 @@
 
 
         </div>
-        <ul v-if="isOpen">
+        <ul v-if="value.open">
           <TreeItem v-for="child in value.children" :key="child.id"
             :value="child"
             @dnd="onChildDnd"
@@ -70,7 +71,6 @@ export default {
     return {
       hasLock: false,
       hasOptions: false,
-      isOpen: true,
       isDragOver: false
     };
   },
@@ -130,9 +130,11 @@ export default {
         return 'Hidden'
       }
       return 'Visible'
-    },
-    expandIcon () {
-      if (this.isOpen) {
+    }
+  },
+  methods: {
+    expandIcon (open) {
+      if (open) {
         if (this.value && this.value.openIcon) {
           return this.value.openIcon + ' MatcTreeToggleChildrenIcon'
         }
@@ -142,9 +144,7 @@ export default {
          return this.value.closeIcon + ' MatcTreeToggleChildrenIcon'
       }
       return 'mdi mdi-folder MatcTreeIcon MatcTreeToggleChildrenIcon'
-    }
-  },
-  methods: {
+    },
     unStripHTML:function(s) {
 			if(!s){
 				s = '';
@@ -179,8 +179,9 @@ export default {
       this.$emit('hidden', this.value.id, !this.value.hidden)
     },
     toggleOpen () {
-      this.isOpen = !this.isOpen
-      this.$emit('open', this.value.id, this.isOpen )
+      const open = !this.value.open
+      this.$set(this.value, "open", open)
+      this.$emit('open', this.value.id, open )
     },
     onClick (e) {
       let expand = e.ctrlKey || e.metaKey || e.shiftKey
@@ -281,13 +282,9 @@ export default {
   watch: {
     value (v) {
       this.value = v
-      this.isOpen = this.value.open
     }
   },
   mounted() {
-    if (this.value) {
-      this.isOpen = this.value.open
-    }
   }
 };
 </script>
