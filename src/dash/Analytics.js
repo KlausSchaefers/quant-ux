@@ -39,6 +39,7 @@ export default class {
 			ids: [],
 			rows: [],
 			cols: [],
+			labels: [],
 			tasks: []
 		}
 
@@ -159,8 +160,9 @@ export default class {
 		/**
 		 * sort by start??
 		 */
+		let id = 1
 		sessionGrouping.foreach((df, sessionID) => {
-			
+			let label = `Test ${id}`
 			const row = {}
 			const taskRow = []
 			result.cols.forEach(c => row[c] = '-')
@@ -199,6 +201,11 @@ export default class {
 				}
 			})
 
+			const start = sessionEvents.find(e => e.type === 'SessionStart')
+			if (start && start.label) {
+			  label = start.label
+			}
+
 			if (showId) {
 				row['id'] = sessionID
 			}
@@ -220,10 +227,13 @@ export default class {
 					}
 				})
 			}
+			result.labels.push(label)
 			result.tasks.push(taskRow)
 			result.ids.push(sessionID)
 			result.rows.push(row)
 		})
+
+		console.debug(result.labels)
 
 		PerformanceMonitor.end('Analytics.getSurveyAnswers()')
 		return result

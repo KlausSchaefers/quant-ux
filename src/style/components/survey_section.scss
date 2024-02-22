@@ -29,7 +29,15 @@
     .MatcSurveySectionTableGroupLabel {
       text-align: center;
     }
-  
+
+    .MatcSurveySectionTableLabel{
+      width: 80px;
+      text-align: left;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+      overflow: hidden;
+    }
+
 
     .MatcSurveySectionTableNumber{
       width: 40px;

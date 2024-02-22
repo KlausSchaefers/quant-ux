@@ -17,8 +17,8 @@
             </tr>
 
             <tr>
-              <th class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight MatcSurveySectionTableBorderBottom">
-                #                 
+              <th class="MatcSurveySectionTableLabel MatcSurveySectionTableBorderRight MatcSurveySectionTableBorderBottom">
+                Test               
               </th>
               <th v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight MatcSurveySectionTableBorderBottom">
                 {{$t('survey.id')}}
@@ -42,8 +42,8 @@
 
           <tbody>
             <tr v-for="(row, r) in sortedTable.rows" :key="r">
-              <td class="MatcSurveySectionTableNumber MatcSurveySectionTableBorderRight">
-                {{r+1}}
+              <td class="MatcSurveySectionTableLabel MatcSurveySectionTableBorderRight">
+                {{sortedTable.labels[r]}}
               </td>
               <td v-if="hasID" class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableBorderRight">
                 <a :href="getVideoURL(sortedTable.ids[r])" target="_QUXvideo">

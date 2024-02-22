@@ -56,6 +56,9 @@ class PublicModelService extends ModelService{
         return this._get(`/examples/invitation/${app.id}/${hash}/test.json`)
     }
 
+    updateEvent () {
+    }
+
 
 
     _post() {

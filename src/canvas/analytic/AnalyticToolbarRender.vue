@@ -31,7 +31,7 @@ export default {
     mixins: [],
     data: function () {
         return {
-            hasSelectAll: true,
+            hasSelectAll: false,
             hasSessionDetails: true
         }
     },
@@ -429,10 +429,12 @@ export default {
 
             this.sessionOrderBrn = this.$new(ToolbarDropDownButton, { maxLabelLength: 20 });
             this.sessionOrderBrn.setOptions([
-                { value: 'date', label: "See by Date" },
+                { value: 'date', label: "Sort by Date" },
                 { value: 'duration', label: "Sort by Duration" },
                 { value: 'events', label: "Sort by Events" },   
-                { value: 'weirdness', label: "Sort by Outlier" }
+                { value: 'weirdness', label: "Sort by Outlier" },
+                { value: '', css:'MatcToolbarPopUpLine', label: "" },
+                { value: '', label: "Select all", callback: ()=> this.selectAllSessions(true)}
             ]);
             this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties MatcPopupArrowLeft");
     
@@ -472,7 +474,7 @@ export default {
         renderSessionList(content, list, order) {
 
             const db = new DomBuilder();
-
+            this.cleanUpSessionList()
             content.innerHTML = ""
 
            
@@ -504,7 +506,7 @@ export default {
             this.sessionCheckBoxes = {};
             for (let i = 0; i < list.length; i++) {
                 const session = list[i];
-
+             
                 //const sessionDIV = db.div('MatcToolbarSession MatcToolbarIconButton').build(cntr)
 
                 const row = db.div("MatcToobarRow MatcToolbarIconButton").build(cntr);
@@ -520,8 +522,8 @@ export default {
                     //chk.setLabel("Test " + (session.id)); // + session.taskPerformance +" Tasks - "
 
                     const labelCntr = db.div('MatcToolbarSessionLabels').build(row)
-
-                    db.span('', 'Test ' + (session.id)).build(labelCntr)
+                    
+                    db.span('', session.label).build(labelCntr)
               
                     const details = db.div("MatcToolbarSessionListDetails").build(labelCntr)
 
@@ -551,19 +553,19 @@ export default {
 
 
                 this.sessionCheckBoxes[session.session] = chk;
-                this.own(on(chk, "change", lang.hitch(this, "selectSession")));
-                this.own(on(row, "mousedown",  (e) => {
+                this.ownSession(on(chk, "change", lang.hitch(this, "selectSession")));
+                this.ownSession(on(row, "mousedown",  (e) => {
                     this.stopEvent(e)
                     chk.setValue(!chk.getValue())
                     this.selectSession()
                 }));
-                this.own(on(row, "mouseover", lang.hitch(this, "hoverSession", session)))
-                this.own(on(row, "mouseout", lang.hitch(this, "hoverSession", null)))
+                this.ownSession(on(row, "mouseover", lang.hitch(this, "hoverSession", session)))
+                this.ownSession(on(row, "mouseout", lang.hitch(this, "hoverSession", null)))
 
                 const play = db.div("MatcToobarRowRightIcon").build(row)
                 play.appendChild(iconDOM('PlayVideo'))
 
-                this.own(on(play, "mousedown", e => {
+                this.ownSession(on(play, "mousedown", e => {
                     this.stopEvent(e)
                     this.showSession(session,e)
                 }))
@@ -573,6 +575,18 @@ export default {
             this.sessionScroller.placeAt(content);
             this.sessionScroller.wrap(cntr, 40);
         },
+
+        ownSession(listener) {
+            this._sessionListeners.push(listener)
+        },
+
+        cleanUpSessionList () {
+            if (this._sessionListeners) {
+                this._sessionListeners.forEach(l => l.remove())
+            }
+            this._sessionListeners = []
+        },
+
 
         hoverSession(session) {
             if (this.analyticMode !== 'UserJourney') {
@@ -701,7 +715,7 @@ export default {
 
             let id = 1;
             for (let sessionID in sessions) {
-
+                let label = `Test ${id}`
                 let session = sessions[sessionID];
                 let date = this.formatDate(session.min("time"), true);
 
@@ -720,10 +734,13 @@ export default {
                     taskSuccess = 0;
                 }
 
-                const df = new DataFrame(session.data)
-                //const actionsEvents = this.getActionEvents(df);
-                const clicks = df.select("type", "in", ["ScreenClick", "WidgetClick", "WidgetChange", "ScreenGesture", "WidgetGesture"])
+                const start = session.data.find(e => e.type === 'SessionStart')
+                if (start && start.label) {
+                    label = start.label
+                }
 
+                const df = new DataFrame(session.data)
+                const clicks = df.select("type", "in", ["ScreenClick", "WidgetClick", "WidgetChange", "ScreenGesture", "WidgetGesture"])
 
                 const item = {
                     session: sessionID,
@@ -736,6 +753,7 @@ export default {
                     status: status,
                     isValid: isValid,
                     id: id,
+                    label: label,
                     screens: session.unique("screen")
                 };
 
@@ -750,26 +768,18 @@ export default {
             return list;
         },
 
-
         renderGestureProperties() {
-
-            var db = new DomBuilder();
-
+            const db = new DomBuilder();
             this.gestureOptionsDiv = this.createSection("Options", this.properties);
-
-            let content = this.createContent(this.gestureOptionsDiv);
-
-            var row = db.div("MatcToobarRow MatcMarginBottomXXL").build(content);
+            const content = this.createContent(this.gestureOptionsDiv);
+            const row = db.div("MatcToobarRow MatcMarginBottomXXL").build(content);
             db.span("MatcToolbarItemLabel", "Gesture Color").build(row);
-
             this.gestureLineColor = this.$new(ToolbarColor, { updateColor: true, hasCustomColor: false, hasPicker: false });
             this.gestureLineColor.placeAt(row);
             this.gestureLineColor.setLabel('Line Color');
             this.gestureLineColor.setModel(this.model);
             this.gestureLineColor.setValue("#0099cc");
             this.own(on(this.gestureLineColor, "change", lang.hitch(this, "showGestureMap")));
-
-
         },
 
 

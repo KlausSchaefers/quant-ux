@@ -68,8 +68,12 @@
 }
 
 
-.MatchDashTable{
-	margin: 20px;
+.MatcDashTable{
+	.MatcInlineEdit {
+		width: 120px;
+		padding: 4px 4px;
+		transform: translateX(-5px)
+	}
 }
 
 .MatcDashTableTdHint{
@@ -545,6 +549,21 @@
  /****************************************************
  * Session Replay
  ****************************************************/
+
+ .MatcSessionDetails{
+	display: flex;
+	justify-content: space-between;
+	margin-top: $spacing-m;
+	align-items: center;
+	gap: 32px;
+	input {
+		width: 400px;
+	}
+	p {
+		flex-grow: 1;
+		text-align: right;
+	}
+ }
 
 
 .MatcPlayerDialog.MatcDialog{

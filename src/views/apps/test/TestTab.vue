@@ -250,7 +250,7 @@ export default {
     },
     showSessions() {
       this.logger.log(-1, "showSessions", "enter " + this.planGetTestCount());
-
+      this.cleanUpTempListener()
       const app = this.app;
       const list = this._getTestList(lang.clone(this.events), this.annotation, this.test);
       const urlPrefix = this.urlPrefix;
@@ -258,8 +258,16 @@ export default {
       const tbl = this.$new(Table);
       tbl.setColumns([
         {
-          query: "id",
-          label: "#"
+          query: "label",
+          width:10,
+          label: "Test",
+          fct: (td, row) => {
+            const input = document.createElement('input')
+            css.add(input, 'form-control MatcInlineEdit')
+            input.value = row.label
+            td.appendChild(input)
+            this.tempOwn(on(input, "change", () => this.onChangeSessionLabel(input.value, row)))
+          }
         },
         {
           query: "status",
@@ -268,14 +276,13 @@ export default {
         {
           query: "taskPerformance",
           label: "Successful Tasks",
-          fct: function(td, row) {
-            var names = row.taskNames;
-         
-            let cntr = document.createElement('div')
+          fct: (td, row) => {
+            const names = row.taskNames;
+            const cntr = document.createElement('div')
             css.add(cntr, "MatcTagCntr");
             if (names && names.length > 0) {
-              for (var r = 0; r < names.length; r++) {
-                var span = document.createElement("span");
+              for (let r = 0; r < names.length; r++) {
+                const span = document.createElement("span");
                 css.add(span, "tag");
                 span.innerHTML = names[r];
                 cntr.appendChild(span);
@@ -317,7 +324,7 @@ export default {
             group.appendChild(play);
 
             const remove = document.createElement("a");
-            this.own(on(remove, 'click',(e) => this.showDeleteSessionDialog(e, row)));
+            this.tempOwn(on(remove, 'click',(e) => this.showDeleteSessionDialog(e, row)));
             css.add(remove, "MatcButton MatcButtonDanger MatcButtonXXS MatcButtonSecondary");
             remove.appendChild(iconDOM('DeleteTrash'))
             group.appendChild(remove);
@@ -329,6 +336,20 @@ export default {
       this.$refs.sessionCntr.innerHTML = ""
       tbl.placeAt(this.$refs.sessionCntr);
       tbl.setValue(list);
+    },
+
+    onChangeSessionLabel (value, row) {
+      this.logger.log(-1,"onChangeSessionLabel", "enter >", value);
+      const session = row.session
+      const sessionStart = this.events.find(e => e.type === 'SessionStart' && e.session === session)
+      if (sessionStart) {
+        sessionStart.label = value
+        this.modelService.updateEvent(this.app.id, sessionStart)
+        this.$root.$emit("Success", "Test name was updated");
+      } else {
+        this.logger.warn("onChangeSessionLabel", "No session start >");
+      }
+
     },
 
     showDeleteSessionDialog (e, session) {
@@ -390,6 +411,7 @@ export default {
 
       let id = 1;
       for (let sessionID in sessions) {
+        let label = `Test ${id}`
         const session = sessions[sessionID];
         const date = this.formatDate(session.min("time"));
 
@@ -403,6 +425,10 @@ export default {
           }
         }
 
+        const start = session.data.find(e => e.type === 'SessionStart')
+        if (start && start.label) {
+          label = start.label
+        }
 
         /** Since 2.4 we show also the user */
         let user = session.data && session.data.length > 0 ? session.data[0].user : '-'
@@ -429,6 +455,7 @@ export default {
           status: status,
           isValid: isValid,
           id: id,
+          label: label,
           screens: session.unique("screen")
         };
 
