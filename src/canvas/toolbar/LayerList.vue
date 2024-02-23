@@ -323,7 +323,7 @@ export default {
 		},
 
 		createTreeForScreen (id, screen, model, parentGroups) {
-		
+	
 			if (this.openNodes[screen.id] === undefined) {
 				this.openNodes[screen.id] = true
 			}
@@ -774,10 +774,11 @@ export default {
 		expandIfNeeded (id) {
 			let node = this.nodes[id]
 			while (node && node.groupID) {
+				this.openNodes[node.groupID] = true
 				node = this.nodes[node.groupID]
 				if (node) {
 					this.$set(node, 'open', true)
-				}
+				} 
 			}
 		},
 

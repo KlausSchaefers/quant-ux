@@ -149,7 +149,7 @@ export default {
 
 			//this.replicateBtn = this.createToolBarItem('<span class="mdi mdi-view-grid-plus-outline"></span>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
 			// this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-arrow-expand-horizontal"></span>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);		
-			this.createThemeBtn = this.createToolBarItem('<span class="mdi mdi-ninja"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.developerDiv);
+			// this.createThemeBtn = this.createToolBarItem('<span class="mdi mdi-ninja"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.developerDiv);
 			
 
 			this.logger.log(3,"renderToolbar", "exit");

@@ -622,3 +622,22 @@ div.MatcToolbarViewConfigCntrSpace {
 .MatcToolbarLayerList:hover .MatcTreeToggleChildrenIcon:hover{
 	color: $layerlist_chevron_color_hover;
 }
+
+.MatcToolbarNinjaSection {
+    width: 100px;
+    justify-content: center;
+    overflow: hidden;
+    .MatcToolbarNinja {
+        color: #fff;
+        transition: all 0.2s;
+        opacity: 0.8;
+    }
+
+    &:hover {
+        .MatcToolbarNinja {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+    }
+}

@@ -33,10 +33,8 @@ export default {
 				return false
 			},
 			dispatchDoubleClick (e) {
-				this.logger.log(-1, "dispatchDoubleClick", "enter", this.mode);
-			
-				const target = e.target
-				
+				this.logger.log(-1, "dispatchDoubleClick", "enter", this.mode);			
+				const target = e.target				
 				if (this.mode === "svg") {
 					return
 				}
@@ -44,8 +42,8 @@ export default {
 					this.onWidgetDoubleClick(target._widgetID)
 					return
 				}
-				this.forceCompleteRender()
-				this.rerender()
+				// this.forceCompleteRender()
+				// this.rerender()
 			},
 
 			dispatchBackroundClick (e) {

@@ -92,7 +92,12 @@
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
 								</div>
 							</div>
+							<div v-if="isDeveloperMode" class="MatcToolbarSection MatcToolbarNinjaSection">
+								<QIcon icon="mdi mdi-ninja" class="MatcToolbarNinja"/>										
+							</div>
 						</div>
+
+					
 									
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
