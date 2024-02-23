@@ -65,7 +65,7 @@
             <div class="StudioOverviewTabContent">
               <div>
                 <h3>{{ $t('app.description')}}</h3>
-                <AutoTextArea  :inline="true" v-model="app.description" @blur="onChangeAppDescription"/>
+                <AutoTextArea  :inline="true" v-model="app.description" @blur="onChangeAppDescription" :placeholder="$t('app.description-hint')"/>
               </div>
 
               <div>

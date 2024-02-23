@@ -133,12 +133,14 @@ input:focus {
 	height: $button_height;
 
 
-	&:HOVER {
+	&:hover, &:visited {
 		background-color: $button_background_hover;
 		border: 1px solid $button_background_hover;
 		color: $button_color_hover;
 		text-decoration: none;
 	}
+
+	
 }
 
 .MatcButtonXS {
@@ -160,7 +162,7 @@ input:focus {
 	background-color: $primary_color;
 	border-color: $primary_color;
 
-	&:hover {
+	&:hover,&:visited {
 		background-color: $primary_color_hover;
 		border-color: $primary_color_hover;
 	}

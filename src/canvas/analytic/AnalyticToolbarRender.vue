@@ -434,7 +434,8 @@ export default {
                 { value: 'events', label: "Sort by Events" },   
                 { value: 'weirdness', label: "Sort by Outlier" },
                 { value: '', css:'MatcToolbarPopUpLine', label: "" },
-                { value: '', label: "Select all", callback: ()=> this.selectAllSessions(true)}
+                { value: '', label: "Select all", callback: ()=> this.selectAllSessions(true)},
+                { value: '', label: "Unselect all", callback: ()=> this.selectAllSessions(false)}
             ]);
             this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties MatcPopupArrowLeft");
     

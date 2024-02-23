@@ -2,7 +2,7 @@
 <template>
     <div :class="['MatcAutoTextArea', {'MatcAutoTextAreaInline':inline}, {'MatcAutoTextAreaFocus':hasFocus} ]">
         <div class="MatcAutoTextAreaHidden">{{label}}</div>
-        <textarea v-model="label" @blur="onBlur" @focus="hasFocus = true"></textarea>
+        <textarea v-model="label" @blur="onBlur" @focus="hasFocus = true" :placeholder="placeholder"></textarea>
     </div>
   </template>
   <style lang="scss">
@@ -12,7 +12,7 @@
 
   export default {
     name: "AutoTextArea",
-    props:['value', 'inline'],
+    props:['value', 'inline', 'placeholder'],
     mixins: [],
     data: function() {
       return {

@@ -2,7 +2,7 @@
 .MatcAutoTextArea {
     width: 100%;
     min-width: 96px;
-    min-height: 32px;
+    min-height: 48px;
     position: relative;
   
     > div {
@@ -47,13 +47,16 @@
     }
 
     &.MatcAutoTextAreaInline {
+
         > div {
-            padding: 0px;
+            padding: 8px 0px;
+            transition: all 0.05s;
         }
         textarea {
             border: 1px dashed transparent ;
             background: none;
-            padding: 0px;
+            padding: 8px 0px;
+            transition: all 0.05s;
             &:hover {
                 border: 1px dashed $form_border_hover ; 
             }
