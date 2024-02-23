@@ -4,7 +4,6 @@
 
 		<div class="MatcToolbarLayerList MatcToolbarAnalyticList MatcToobarPropertiesSection" :style="'width:'+ layerListWidth +'px'">
 			<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="testListCntr">
-				
 			</div>
 			<div class="MatcToolbarLayerListDND" ref="dndHanlde" @mousedown.stop="onResizeStart"></div>
 		</div>
@@ -83,7 +82,6 @@ import Share from 'page/Share'
 
 import DataFrame from 'common/DataFrame'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
-// import HelpButton from 'help/HelpButton'
 import HomeMenu from './AnalyticHomeMenu.vue'
 import Help from 'help/Help'
 import QIcon from 'page/QIcon'
@@ -91,7 +89,6 @@ import AnalyticViewModeButton from './AnalyticViewModeButton'
 import AnalyticToolbarRender from './AnalyticToolbarRender'
 import {onStartDND} from '../../util/DND'
 import HeatmapToggleButton from '../toolbar/components/HeatmapToggleButton.vue'
-//import SessionList from './SessionList'
 
 export default {
     name: 'AnalyticToolbar',
@@ -111,14 +108,13 @@ export default {
         }
     },
     components: {
-			'ViewConfig': ViewConfig,
-			//'HelpButton': HelpButton,
-			'HomeMenu': HomeMenu,
-			'QIcon': QIcon,
-			'AnalyticViewModeButton': AnalyticViewModeButton,
-			'HeatmapToggleButton': HeatmapToggleButton
-			//'SessionList': SessionList
-		},
+		'ViewConfig': ViewConfig,
+		//'HelpButton': HelpButton,
+		'HomeMenu': HomeMenu,
+		'QIcon': QIcon,
+		'AnalyticViewModeButton': AnalyticViewModeButton,
+		'HeatmapToggleButton': HeatmapToggleButton
+	},
     methods: {
         postCreate(){
 			this.logger = new Logger("AnalyticToolbar");

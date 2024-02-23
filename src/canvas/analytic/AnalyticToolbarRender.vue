@@ -24,7 +24,7 @@ import Ring from 'common/Ring'
 import Analytics from 'dash/Analytics'
 import VideoPlayer from 'views/apps/test/VideoPlayer'
 import DataFrame from 'common/DataFrame'
-import {iconDOM} from '../../page/QIconUtil'
+import SessionList from './SessionList'
 
 export default {
     name: 'AnalyticToolbarRender',
@@ -446,148 +446,25 @@ export default {
             this.sessionOrderBrn.setValue('date')
             this.sessionOrderBrn.setLabel("Test Sessions")
             this.sessionOrderBrn.placeAt(row);
-            this.tempOwn(on(this.sessionOrderBrn, "change", (v) => { this.onSortSessionList(v) }));
-            //this.addTooltip(this.sessionOrderBrn.domNode, "Change the sort order of the session list");
-
-            this.sessionListCntr = this.db.div("MatcToolbarSessionCntr").build(content);
+            this.tempOwn(on(this.sessionOrderBrn, "change", (v) => { 
+                this.sessionListWidget.setOrder(v)
+             }));
             this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
-            this.renderSessionList(this.sessionListCntr, this.sessionList, 'date')
 
-        },
-
-        onSelectSessionInvert () {
-            console.debug('onSelectSesionAll')
-        },
-
-        onSelectSesionAll(v) {
-            console.debug('onSelectSesionAll', v)
-        },
-
-        onSelectSesionsTask(v) {
-            console.debug('onSelectSesionsTask', v)
-        },
-
-        onSortSessionList(value) {
-            this.renderSessionList(this.sessionListCntr, this.sessionList, value)
-            
-        },
-
-        renderSessionList(content, list, order) {
-
-            const db = new DomBuilder();
-            this.cleanUpSessionList()
-            content.innerHTML = ""
-
-           
-            if (this.hasSelectAll) {
-                this.sessionAllCheckBox = this.$new(CheckBox);
-                this.sessionAllCheckBox.setLabel("Show All");
-                this.sessionAllCheckBox.setValue(true);
-                css.add(this.sessionAllCheckBox.domNode, "MatcToolbarItem");
-                this.sessionAllCheckBox.placeAt(db.div("MatcToobarRow").build(content));
-                this.own(on(this.sessionAllCheckBox, "change", lang.hitch(this, "selectAllSessions")));
-            }
-
-
-            list.sort((a, b) => {
-                if (order === 'duration') {
-                    return b.duration - a.duration
-                }
-                if (order === 'date') {
-                    return a.start - b.start
-                }
-                if (order === 'weirdness') {
-                    return b.weirdness - a.weirdness
-                }
-                return b.size - a.size
+            this.sessionListWidget = this.$new(SessionList)
+            this.sessionListWidget.placeAt(content)
+                  
+            this.sessionListWidget.setSessions(this.sessionList)
+            this.sessionListWidget.on('select', () => {
+                this.onSessionSelectionChanged()
+            })    
+            this.sessionListWidget.on('hover', (s) => {
+                this.hoverSession(s)
             })
-
-
-            const cntr = db.div("MatcToolbarSessionList").build()
-            this.sessionCheckBoxes = {};
-            for (let i = 0; i < list.length; i++) {
-                const session = list[i];
-             
-                //const sessionDIV = db.div('MatcToolbarSession MatcToolbarIconButton').build(cntr)
-
-                const row = db.div("MatcToobarRow MatcToolbarIconButton").build(cntr);
-
-                const chk = this.$new(CheckBox);
-                //css.add(chk.domNode, "MatcToolbarItem");
-                chk.setValue(true);
-         
-                chk.placeAt(db.div().build(row));
-
-                if (this.hasSessionDetails) {
-
-                    //chk.setLabel("Test " + (session.id)); // + session.taskPerformance +" Tasks - "
-
-                    const labelCntr = db.div('MatcToolbarSessionLabels').build(row)
-                    
-                    db.span('', session.label).build(labelCntr)
-              
-                    const details = db.div("MatcToolbarSessionListDetails").build(labelCntr)
-
-                    const start = db.div().build(details)
-                    db.span("",session.date).build(start)
-
-                    const duration = db.div().build(details)
-                    db.span("",session.duration + 's').build(duration)
-
-                    // const events = db.div().build(details)
-                    // db.span("",session.size + ' Events').build(events)
-                } else {
-                    if (order === 'duration') {
-                        chk.setLabel("Test " + (session.id) + " - " + session.duration + "s"); // + session.taskPerformance +" Tasks - "
-                    }
-                    if (order === 'date') {
-                        chk.setLabel("Test " + (session.id) + " - " + session.date + ""); // + session.taskPerformance +" Tasks - "
-                    }
-                    if (order === 'events') {
-                        chk.setLabel("Test " + (session.id) + " - " + session.size + ""); // + session.taskPerformance +" Tasks - "
-                    }
-
-                    if (order === 'weirdness') {
-                        chk.setLabel("Test " + (session.id) + " - " + session.weirdness * 100 + "%"); // + session.taskPerformance +" Tasks - "
-                    }
-                }
-
-
-                this.sessionCheckBoxes[session.session] = chk;
-                this.ownSession(on(chk, "change", lang.hitch(this, "selectSession")));
-                this.ownSession(on(row, "mousedown",  (e) => {
-                    this.stopEvent(e)
-                    chk.setValue(!chk.getValue())
-                    this.selectSession()
-                }));
-                this.ownSession(on(row, "mouseover", lang.hitch(this, "hoverSession", session)))
-                this.ownSession(on(row, "mouseout", lang.hitch(this, "hoverSession", null)))
-
-                const play = db.div("MatcToobarRowRightIcon").build(row)
-                play.appendChild(iconDOM('PlayVideo'))
-
-                this.ownSession(on(play, "mousedown", e => {
-                    this.stopEvent(e)
-                    this.showSession(session,e)
-                }))
-            }
-
-            this.sessionScroller = this.$new(ScrollContainer);
-            this.sessionScroller.placeAt(content);
-            this.sessionScroller.wrap(cntr, 40);
+            this.sessionListWidget.on('play', (s, e) => {
+                this.showSession(s,e)
+            })
         },
-
-        ownSession(listener) {
-            this._sessionListeners.push(listener)
-        },
-
-        cleanUpSessionList () {
-            if (this._sessionListeners) {
-                this._sessionListeners.forEach(l => l.remove())
-            }
-            this._sessionListeners = []
-        },
-
 
         hoverSession(session) {
             if (this.analyticMode !== 'UserJourney') {
@@ -670,9 +547,7 @@ export default {
         },
 
         selectAllSessions(value) {
-            for (let id in this.sessionCheckBoxes) {
-                this.sessionCheckBoxes[id].setValue(value);
-            }
+            this.sessionListWidget.setAllSelected(value)
             this.onSessionSelectionChanged();
         },
 
@@ -686,11 +561,7 @@ export default {
         },
 
         getSelectedSessions () {
-            const sessions = {};
-			for(var id in this.sessionCheckBoxes){
-				sessions[id] = this.sessionCheckBoxes[id].getValue();
-			}
-            return sessions
+            return this.sessionListWidget.getSelected()
         },
 
         _getTestList(events, annotatation, testSettings) {

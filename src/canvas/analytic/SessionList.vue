@@ -1,37 +1,113 @@
 
 <template>
-    <div class="MatcSessionList">
-        {{events}}
+  <div class="MatcToolbarSessionCntr MatcScrollContainer">
+    <div class="MatcToolbarSessionList ">
+      <div v-for="s in sortedSession" :key="s.id" class="MatcToobarRow MatcToolbarIconButton" 
+        @click="toggleSession(s)" 
+        @mouseout="onMouseOut(s, $event)"
+        @mouseover="onMouseOver(s, $event)">
+        <CheckBox :value="selected[s.session]"></CheckBox>
+        <div class="MatcToolbarSessionLabels">
+          <span>{{s.label}}</span>
+          <div class="MatcToolbarSessionListDetails">
+            <div>{{s.date}}</div>
+            <div>{{s.duration}}s</div>
+          </div>
+        </div>
+        <div class="MatcToobarRowRightIcon">
+          <QIcon icon="PlayVideo" @click.stop="onPlay(s, $event)"/>
+        </div>
+      </div>
     </div>
-  </template>
+
+  </div>
+</template>
   
 
-  <style lang="scss">
-    @import "../../style/components/session_list.scss";
-  </style>
+<style lang="scss">
+@import "../../style/components/session_list.scss";
+</style>
   
-  <script>
-  import DojoWidget from "dojo/DojoWidget";  
-  import Logger from "common/Logger";
+<script>
+import DojoWidget from "dojo/DojoWidget";
+import Logger from "common/Logger";
+import CheckBox from 'common/CheckBox'
+import QIcon from 'page/QIcon'
 
-  
-  export default {
-    name: "SessionList",
-    props:['events'],
-    mixins: [DojoWidget],
-    data: function () {
-      return {
-      };
+export default {
+  name: "SessionList",
+  props: [],
+  mixins: [DojoWidget],
+  data: function () {
+    return {
+      sessions: [],
+      selected: {},
+      order: 'date'
+    };
+  },
+  components: {
+    'CheckBox': CheckBox,
+    'QIcon': QIcon
+  },
+  computed: {
+    sortedSession() {
+      const order = this.order
+      return this.sessions.toSorted((a, b) => {
+        if (order === 'duration') {
+          return b.duration - a.duration
+        }
+        if (order === 'date') {
+          return a.start - b.start
+        }
+        if (order === 'weirdness') {
+          return b.weirdness - a.weirdness
+        }
+        return b.size - a.size
+      })
+    }
+  },
+  methods: {
+    onPlay(s,e) {
+      this.emit("play", s, e)
     },
-    components: {},
-    methods: {
-      postCreate() {
-
-      }
+    onMouseOver (s) {
+      this.emit("hover",s)
     },
-    mounted() {
-        this.logger = new Logger("AnalyticCanvas");
-        this.logger.log(2, "constructor", "entry");
+    onMouseOut () {
+      this.emit("hover", null)
     },
-  };
-  </script>
+    onChange () {
+      this.emit("select", this.selected)
+    },
+    getSelected () {
+      return this.selected
+    },
+    toggleSession (s) {
+      this.$set(this.selected, s.session, !this.selected[s.session])
+      this.$forceUpdate()
+      this.onChange()
+    },
+    setSessions(s) {
+      this.sessions = s
+      this.sessions.forEach(s => {
+          this.selected[s.session] = true
+      })
+      this.onChange()
+    },
+    setOrder (o) {
+      this.order = o
+    },
+    setAllSelected(value) {
+      this.sessions.forEach(s => {
+          this.selected[s.session] = value
+      })
+      this.$forceUpdate()
+      //this.onChange()
+    }
+  },
+  mounted() {
+    this.logger = new Logger("SessionList");
+    this.logger.log(2, "constructor", "entry");
+  },
+};
+</script>
