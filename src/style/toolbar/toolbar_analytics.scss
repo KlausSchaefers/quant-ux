@@ -40,6 +40,17 @@
 
 		.MatcToolbarSessionLabels {
 			flex-grow: 1;
+			
+			span {
+				display: inline-block;
+			}
+
+			input {
+				border: none;
+				padding: 0px;
+				margin: 0px;
+				line-height: inherit;
+			}
 		}
 	}
 

@@ -429,13 +429,13 @@ export default {
 
             this.sessionOrderBrn = this.$new(ToolbarDropDownButton, { maxLabelLength: 20 });
             this.sessionOrderBrn.setOptions([
-                { value: 'date', label: "Sort by Date" },
-                { value: 'duration', label: "Sort by Duration" },
-                { value: 'events', label: "Sort by Events" },   
-                { value: 'weirdness', label: "Sort by Outlier" },
+                { value: 'date', label: "Sort by Date" , icon:"Calendar"},
+                { value: 'duration', label: "Sort by Duration" , icon:"Duration"},
+                { value: 'events', label: "Sort by Events" , icon:"Hash"},   
+                { value: 'weirdness', label: "Sort by Outlier", icon:"Outlier" },
                 { value: '', css:'MatcToolbarPopUpLine', label: "" },
-                { value: '', label: "Select all", callback: ()=> this.selectAllSessions(true)},
-                { value: '', label: "Unselect all", callback: ()=> this.selectAllSessions(false)}
+                { value: '', label: "Select all", callback: ()=> this.selectAllSessions(true), icon:"CheckBoxOn"},
+                { value: '', label: "Unselect all", callback: ()=> this.selectAllSessions(false), icon:"CheckBoxOff"}
             ]);
             this.sessionOrderBrn.setPopupCss("MatcActionAnimProperties MatcPopupArrowLeft");
     
@@ -464,6 +464,10 @@ export default {
             this.sessionListWidget.on('play', (s, e) => {
                 this.showSession(s,e)
             })
+            this.sessionListWidget.on('label', (s, label) => {
+                this.onChangeSessionLabel(s,label)
+            })
+            
         },
 
         hoverSession(session) {
@@ -562,6 +566,14 @@ export default {
 
         getSelectedSessions () {
             return this.sessionListWidget.getSelected()
+        },
+
+        onChangeSessionLabel (sessionID, label) {
+            const start = this.events.find(e => e.type === 'SessionStart' && e.session === sessionID)
+            if (start && start.label !== label) {
+                start.label = label
+                this.modelService.updateEvent(this.model.id,start)
+            }
         },
 
         _getTestList(events, annotatation, testSettings) {

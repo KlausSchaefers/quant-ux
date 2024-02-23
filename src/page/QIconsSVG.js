@@ -1487,5 +1487,52 @@ export const icons = {
         <path d="M12 12l0 .01" />
         <path d="M16 12l0 .01" />
         <path d="M12 16l0 .01" />
+    `,
+    'CalendarTime': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M10.5 21h-4.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v3" />
+        <path d="M16 3v4" />
+        <path d="M8 3v4" />
+        <path d="M4 11h10" />
+        <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /
+        ><path d="M18 16.5v1.5l.5 .5" />
+    `,
+    'Calendar': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+        <path d="M16 3v4" />
+        <path d="M8 3v4" />
+        <path d="M4 11h16" />
+        <path d="M11 15h1" />
+        <path d="M12 15v3" />
+    `,
+    'Duration': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M9 9v6" />
+        <path d="M12 11v2a2 2 0 1 0 4 0v-2a2 2 0 1 0 -4 0z" />
+        <path d="M3 12v.01" />
+        <path d="M21 12v.01" />
+        <path d="M12 21v.01" />
+        <path d="M7.5 4.2v.01" />
+        <path d="M16.5 19.8v.01" />
+        <path d="M7.5 19.8v.01" />
+        <path d="M4.2 16.5v.01" />
+        <path d="M19.8 16.5v.01" />
+        <path d="M4.2 7.5v.01" />
+        <path d="M19.81 7.527a8.994 8.994 0 0 0 -7.81 -4.527" />
+    `,
+    'Hash': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M5 9l14 0" />
+        <path d="M5 15l14 0" />
+        <path d="M11 4l-4 16" />
+        <path d="M17 4l-4 16" />
+    `,
+    'Outlier': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+        <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5" />
+        <path d="M19 22v.01" />
+        <path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" />
     `
 }

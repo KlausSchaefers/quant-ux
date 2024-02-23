@@ -5,10 +5,18 @@
       <div v-for="s in sortedSession" :key="s.id" class="MatcToobarRow MatcToolbarIconButton" 
         @click="toggleSession(s)" 
         @mouseout="onMouseOut(s, $event)"
+        @dblclick="onEdit(s)"
         @mouseover="onMouseOver(s, $event)">
         <CheckBox :value="selected[s.session]"></CheckBox>
         <div class="MatcToolbarSessionLabels">
-          <span>{{s.label}}</span>
+          <input 
+            v-if="s.session === selectedSession" 
+            class="MatcIgnoreOnKeyPress"
+            :value="s.label" 
+            @change="onChangeSessionLabel(s, $event)" 
+            ref="sessionInput" 
+            @click.stop>
+          <span v-else>{{s.label}}</span>
           <div class="MatcToolbarSessionListDetails">
             <div>{{s.date}}</div>
             <div>{{s.duration}}s</div>
@@ -42,7 +50,8 @@ export default {
     return {
       sessions: [],
       selected: {},
-      order: 'date'
+      order: 'date',
+      selectedSession: ''
     };
   },
   components: {
@@ -67,6 +76,22 @@ export default {
     }
   },
   methods: {
+    onChangeSessionLabel (s, e) {
+      const label = e.target.value.trim()
+      s.label = label
+      this.selectedSession = false
+      this.emit("label", s.session, label)
+    },
+    onEdit (s) {
+      this.selectedSession = s.session
+      setTimeout(() => {
+        const input = this.$refs.sessionInput[0]
+        if (input) {
+          input.focus()
+          input.select()
+        }
+      }, 100)
+    },
     onPlay(s,e) {
       this.emit("play", s, e)
     },

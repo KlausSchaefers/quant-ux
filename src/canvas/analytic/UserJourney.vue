@@ -33,27 +33,42 @@
         this.logger.log(1, "highlightAnalyticLine", "entry > ", sessionID);
           if (this.analyticLines) {
             for (let id in this.analyticLines) {
-              let line = this.analyticLines[id]
-              if (!sessionID || sessionID === id) {
-                // somebug when tasks are selected
-                line.style('opacity', 1)
-              } else {
-                line.style('opacity', 0)
-              }
-
-              if (this.analyticCircles[id]) {
-                let divs = this.analyticCircles[id]             
-                divs.forEach(div => {
-                  if (!sessionID || sessionID === id) {
-                    div.style.opacity = 1                  
-                  } else {
-                    div.style.opacity = 0
-                  }
-                })   
-              }
+              this.hideOrShowLine(id, sessionID)    
             }
           }
       },
+
+      hideOrShowLine (id, sessionID) {
+        const line = this.analyticLines[id]
+        if (line) {
+          if (!sessionID || sessionID === id) {
+            line.style('opacity', 1)
+          } else {
+            line.style('opacity', 0)
+          }
+        }
+        // fix to also show task lines
+        const line2 = this.analyticLines[id + 'taskBackGround']
+        if (line2) {
+          if (!sessionID || sessionID +'taskBackGround' === id + 'taskBackGround') {
+            line2.style('opacity', 1)
+          } else {
+            line2.style('opacity', 0)
+          }
+        }
+        if (this.analyticCircles[id]) {
+          const divs = this.analyticCircles[id]             
+          divs.forEach(div => {
+            if (!sessionID || sessionID === id) {
+              div.style.opacity = 1                  
+            } else {
+              div.style.opacity = 0
+            }
+          })   
+        }
+      },
+
+
     
   
       _render_global_UserJourney() {
@@ -313,7 +328,7 @@
         
         if (task) {
           lineOpacity = this.taskLineOpacity * 0.5
-          this.drawStraightAnalyticLine(sessionID, line, lineColor, lineWidth, lineOpacity);
+          this.drawStraightAnalyticLine(sessionID+"taskBackGround", line, lineColor, lineWidth, lineOpacity);
           this.drawStraightAnalyticLine(sessionID, matchLines,this.analyticParams.taskColor, 4 ,this.taskLineOpacity);
         } else {
           this.drawStraightAnalyticLine(sessionID,line, lineColor, lineWidth, lineOpacity);
