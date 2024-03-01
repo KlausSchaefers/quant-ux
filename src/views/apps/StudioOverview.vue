@@ -166,6 +166,7 @@ export default {
       },
       dotOptions: [
         {label: 'Rename', callback: (o, e) => this.onRename(e), icon: "EventKeykoard"},
+        {label: 'Duplicate', callback: (o, e) => this.onDuplicate(e), icon: "Duplicate"},
         {label: 'Change Test Link', callback: (o, e) => this.onChangeHash(e), icon: "Key"},
         {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "Delete"}
       ],
@@ -404,6 +405,47 @@ export default {
       } else {
         this.showError("Oooppps, Could not change the name. Try again!");
       }
+    },
+
+    onDuplicate (e) {
+      this.logger.info("onChangeHash", "enter > ", e);
+      this.stopEvent(e)
+
+
+			const db = new DomBuilder();
+			const popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
+
+		
+      const cntr = db.div().build(popup);
+      db.h3("MatcDialogHeader", "Duplicate").build(cntr);
+      const inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", "Copy of " + this.app.name, "Name of the template").build(cntr);
+      const bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
+      const write = db.div("MatcButton MatcButtonPrimary", "Save As").build(bar);
+      const cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
+      
+      const dialog = new Dialog();
+      dialog.own(on(cancel, "click", lang.hitch(dialog, "close")));
+      dialog.own(on(write, "click", () => {
+        this.duplicateApp(inputName.value)
+        dialog.close()
+      }))
+
+      setTimeout(() => {
+        inputName.select()
+        inputName.focus()
+      }, 200)
+		
+			dialog.popup(popup, e.target);
+    },
+
+    async duplicateApp (newName) {
+      this.logger.log(-1, "duplicateApp", "enter > ", newName);
+    	const app = await this.modelService.copyApp(this.app, newName)
+      if (app) {
+				this.redirectAfterExit = false;
+				this.$router.push("/apps/" + app.id + ".html");
+        this.$emit("duplicate")
+			}
     },
 
     onChangeHash (e) {

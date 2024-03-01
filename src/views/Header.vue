@@ -19,11 +19,13 @@
         </div>
       </div>
       <div class="MatcHeaderRight">
-        <!-- <a class="" href="#/help.html">
+   
+          <LanguagePicker @change="setLanguage" />
+        <!--  
+          <a class="" href="#/help.html">
             <QIcon icon="Book" :tooltip="$t('header.tooltip.documentation')"/>
           </a>
-          <LanguagePicker @change="setLanguage" />
-        <AccountButton :user="user"/> -->
+         <AccountButton :user="user"/> -->
         <!-- <a class="" href="#/my-account.html">
           <QIcon icon="Account"/>
           {{ $t('header.my-account') }}
@@ -48,7 +50,7 @@
 import Services from 'services/Services'
 import Logger from 'common/Logger'
 import hash from "dojo/hash";
-// import LanguagePicker from "page/LanguagePicker";
+import LanguagePicker from "page/LanguagePicker";
 // import AccountButton from 'page/AccountButton'
 //import QIcon from 'page/QIcon'
 import _Tooltip from "common/_Tooltip";
@@ -68,7 +70,7 @@ export default {
     }
   },
   components: {
-    // 'LanguagePicker': LanguagePicker,
+    'LanguagePicker': LanguagePicker,
     // 'QIcon': QIcon,
     // 'AccountButton': AccountButton
   },

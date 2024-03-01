@@ -97,7 +97,7 @@
             </template>
 
             <template v-slot:right>
-                <StudioOverview v-if="selectedApp" :user="user" @change="onChangeAppProps" @delete="onDeleteApp"/>
+                <StudioOverview v-if="selectedApp" :user="user" @change="onChangeAppProps" @delete="onDeleteApp" @duplicate="onDuplicate"/>
                 <div class="MatcStudioWelcome" v-else>
 
                     <div class="">
@@ -185,6 +185,9 @@ export default {
         },
     },
     methods: {
+        onDuplicate () {
+            this.load()
+        },
         onDeleteApp (app) {
             this.apps = this.apps.filter(a => a.id !== app.id)
             this.setDefaultApp()
