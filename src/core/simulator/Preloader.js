@@ -4,10 +4,14 @@ class Preloader {
 
     constructor () {
         this.images = new Set()
+        this.visited = {}
+        this.lines = {}
     }
 
     reset () {
         this.images = new Set() 
+        this.visited = {}
+        this.lines = {}
     }
 
     load(model, hash, parentNode) {
@@ -18,27 +22,61 @@ class Preloader {
     }
 
     loadImages (model, hash) {
-        const screens = Object.values(model.screens)
 
-        screens.sort((a,b) => {
-            if (a.props.start) {
-                return -1
-            }
-            if (b.props.start) {
-                return 1
-            }
-            return 0
+        // cache all lines
+        Object.values(model.lines).forEach(l => {
+            this.lines[l.from] = l.to
         })
-        
-        screens.forEach(s => {
-            if (s.props.start) {
-                this.loadScreen(model, s, hash, 'high')
-            } else {
+
+        // get start screen
+        const screens = Object.values(model.screens)
+        let start = screens.find(s => s.props.start === true)
+        if (!start) {
+            start = screens[0]
+        }
+
+        // load by navigation flow
+        this.visitScreen(model, hash, start, 'high')
+
+        // Some screen might not be linked (logic, ab etc)
+        // so we load the rest as well
+        this.ensureRestIsLoaded(model, hash, screens)       
+    }
+
+    ensureRestIsLoaded (model, hash, screens) {
+        screens.forEach(s => {      
+            if (!this.visited[s.id]) {
                 setTimeout( () => {
                     this.loadScreen(model, s, hash, 'low')
-                }, 1000)
-            }
+                }, 1000) 
+            }           
         })
+    }
+
+    visitScreen (model, hash, scrn, prio = 'low') {
+        if (!this.visited[scrn.id]) {
+            this.visited[scrn.id] = true
+            this.loadImage(scrn, hash, prio)
+            this.followLines(model, hash, scrn)            
+            if (scrn.children) {
+                scrn.children.forEach(id => {
+                    const w = model.widgets[id]
+                    if (w) {
+                        this.loadImage(w, hash, prio)
+                        this.followLines(model, hash, w)
+                    }
+                })
+            }
+        }
+    }
+
+    followLines (model, hash, box) {
+        if (this.lines[box.id]) {
+            const scrn = model.screens[this.lines[box.id]]
+            if (scrn) {
+                this.visitScreen(model, hash, scrn)
+            }
+        }
     }
 
     loadScreen (model, s, hash, prio) {

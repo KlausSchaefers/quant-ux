@@ -1,7 +1,7 @@
 @import './variables.scss';
 
 .MatcTestPage {
-    background-color: $page_color_secondary;
+    background-color: $page_color_secondary_dark;
     min-height: 100vh;
 }
 
@@ -23,7 +23,7 @@
     height: 5px;
     border: 1px solid rgba(0,0,0,1);
     border-radius: 3px;
-    transition: all 1s;
+    transition: all 1s, border 0.4s;
     transition-delay: 1s;
     overflow: hidden;
     position: absolute;
@@ -31,6 +31,7 @@
     left:0px;
     transform: translate(135px, 180px);
     z-index: 999;
+    
 
     .MatcTestProgressBar{
         width: 0%;
@@ -38,7 +39,7 @@
         background: rgba(0,0,0,1);
         animation: sk-load 2s  ease-in-out normal forwards ;
         animation-iteration-count: 1;
-        transition: all 0.2s;
+        transition: all 0.2s, background-color 0s;
     }
 }
 

@@ -23,15 +23,15 @@
                 :userID="user.id" 
                 :qteam="team"/>
                 
-              <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab === 'analyze'"
+              <a :class="['MatcButton MatcButtonXS MatcButton MatcButtonSecondary MatcButtonSecondaryBlue MatcRoundButton', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab === 'analyze'"
                   :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`" id="overviewHeaderRunTest">
                   {{$t('app.analyze') }}
               </a>
-              <a :class="['MatcButton MatcButtonXS MatcButtonPrimary', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab !== 'analyze'"
+              <a :class="['MatcButton MatcButtonXS MatcButtonSecondary MatcButtonSecondaryBlue MatcRoundButton', { 'MatcButtonPassive': tab == 'X' }]" v-if="tab !== 'analyze'"
                 :href="`#/${urlPrefix}/${appID}/design/start.html`" id="overviewHeaderRunTest">
                 {{$t('app.edit') }}
               </a>
-              <a class="MatcButton MatcButtonXS MatcButtonSecondary MatcButtonIcon" @click="showShareDialog" ref="shareButton">
+              <a class="MatcButton MatcButtonXS MatcButtonSecondary MatcButtonIcon MatcRoundButton" @click="showShareDialog" ref="shareButton">
                 <QIcon icon="Share"></QIcon>
               </a>
               <QIconDropDown icon="Dots" :options="dotOptions"/>
@@ -44,9 +44,18 @@
           <div class="StudioOverviewHeaderRow">
 
             <div class="MatcTabs ">
-              <a :href="`#/${urlPrefix}/${appID}/design.html`" :class="{'MatcTabActive': tab === 'design'}">{{ $t('app.overview.design') }}</a>
-              <a :href="`#/${urlPrefix}/${appID}/test.html`" :class="{'MatcTabActive': tab == 'test' || tab === 'video'}" >{{ $t('app.overview.test') }}</a>
-              <a :href="`#/${urlPrefix}/${appID}/analyze.html`" :class="{'MatcTabActive': tab == 'analyze'}">{{ $t('app.overview.dash') }}</a>
+              <a :href="`#/${urlPrefix}/${appID}/design.html`" :class="{'MatcTabActive': tab === 'design'}">
+                <QIcon icon="Overview" />
+                {{ $t('app.overview.design') }}
+              </a>
+              <a :href="`#/${urlPrefix}/${appID}/test.html`" :class="{'MatcTabActive': tab == 'test' || tab === 'video'}" >
+                <QIcon icon="Tests" />
+                {{ $t('app.overview.test') }}              
+              </a>
+              <a :href="`#/${urlPrefix}/${appID}/analyze.html`" :class="{'MatcTabActive': tab == 'analyze'}">
+                <QIcon icon="Results" />
+                {{ $t('app.overview.dash') }}
+              </a>
               <!-- <a :href="`#/${urlPrefix}/${appID}/comments.html`" :class="{'MatcTabActive': tab == 'comments'}">{{ $t('app.overview.comments') }}</a> -->
             </div>
  

@@ -16,7 +16,7 @@ body {
 
 .box.is-shadowless{
 	box-shadow: $page_drop_shadow_soft !important;
-	border-radius: $page_radius;
+	border-radius: $page_radius_l;
 	border: 1px solid $page_border;
 	
 }
@@ -405,7 +405,7 @@ body {
 
 	.MatcFlexColumn {
 		display: flex;
-		gap: 8px;
+		gap: 16px;
 	}
 }
 

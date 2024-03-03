@@ -5,7 +5,7 @@
             'MatcToolbarItem MatcToolbarPrimaryItem', 
             {'MatcToolbarItemSelected': (mode === 'addBox'|| mode=== 'addText' || mode === 'hotspot' || mode === 'addRest' || mode === 'addLogic' || mode === 'addScript')}
             ]" >
-            <QIcon icon="Plus" />
+            <QIcon icon="PlusSquare" />
             <!-- <span class="MatcToolbarResponsiveLabel">Insert</span>     -->
             <!-- <span class="caret"></span> -->
 

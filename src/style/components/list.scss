@@ -376,36 +376,36 @@
 	.MatcContentBox {
 		box-shadow: none;
 		outline: 1px solid transparent;
-		border: none;
-		background: none;
+		border: 1px solid $page_border;
+		background: #fff;
+		border-radius: $page_radius-l;
+		overflow: hidden;
+		transition: all 0.2s;
+		box-shadow: $page_drop_shadow_soft;
+
+		&:hover {
+			box-shadow: $page_drop_shadow_more;
+			border: 1px solid $primary_color;
+		}
 
 		.MatcPreviewWrapper{
-			border-radius: $page_radius_xs;
-			box-shadow: $page_drop_shadow_soft;
 			border:none;
-			height:350px;
+			height:180px;
 			position: relative;		
-			outline: 1px solid $page_border;
 		}
 		
-		&:hover {
-			.MatcPreviewWrapper {
-				outline: 1px solid $primary_color;
-			}
-		}
+		
 
 		.MatcListItemDescription{
 			width: 230px;
-			height: 32px;
+			height: 48px;
 			overflow:hidden;
-			font-style: italic;
-			font-size: 16px;
-			font-weight: 300;
-			line-height: 1.4;
-			padding: 8px;
-			text-align: center;	
-
-
+			font-size: 14px;
+			font-weight: 600;
+			color: $text-color;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 

@@ -41,10 +41,11 @@ import Util from 'core/Util'
 import RenderFactory from 'core/RenderFactory'
 import _DropDown from './_DropDown'
 import QIcon from 'page/QIcon'
+import _Tooltip from 'common/_Tooltip'
 
 export default {
     name: 'ScreenImportAdd',
-    mixins:[Util, DojoWidget, _DropDown],
+    mixins:[Util, DojoWidget, _DropDown, _Tooltip],
     data: function () {
         return {
             screenWidth: 300,
@@ -71,9 +72,9 @@ export default {
 				this.screenHeight = m.screenSize.h;
 				this.renderFactory = new RenderFactory();
 				this.renderFactory.setModel(m);
-				if (this.icon){
-					css.add(this.icon, this.getAppTypeIcon(m));
-				}
+				// if (this.icon){
+				// 	css.add(this.icon, this.getAppTypeIcon(m));
+				// }
 
 			},
 
@@ -181,6 +182,7 @@ export default {
 			}
     },
     mounted () {
+		this.addTooltip(this.$el, this.getNLS("tooltip.screen"))
     }
 }
 </script>

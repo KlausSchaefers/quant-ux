@@ -146,7 +146,7 @@
 .StudioOverview {
     width: 100%;
     font-size: $font-size-s;
-    background-color: $page_color_secondary;
+    background-color: $page_color_secondary_dark;
 
     .MatcAutoTextArea {
         font-size: $font-size-xs;
@@ -156,13 +156,15 @@
         font-size: $font-size-s;
     }
 
-    .MatcScreenList .MatcContentBox .MatcPreviewWrapper {
-        box-shadow: $page_drop_shadow_soft;
-        transition: box-shadow 0.2s;
+    .MatcScreenList {
 
-        &:hover {
-            box-shadow: $page_drop_shadow_more;
-        }
+        // .MatcContentBox .MatcPreviewWrapper {
+        //         box-shadow: $page_drop_shadow_soft;
+        //         transition: box-shadow 0.2s;
+        //         height: 200px;
+        //         overflow: hidden;
+
+        //  }
     }
 
     .StudioOverviewTabContent {
@@ -172,7 +174,7 @@
     }
 
     .MatcTeam {
-        border: 1px solid $page_border;
+        border:none;
         border-radius: 50px;
         display: flex;
         align-items: center;
@@ -181,6 +183,7 @@
 
         .MatcUserAdd {
             background: $button_secondary_background;
+            border: none;
         }
     }
 
@@ -279,26 +282,25 @@
         display: flex;
         font-size: 14px;
         gap: 8px;
-        // border: 1px solid #ccc;
-        // border-radius: $button_radius;
+
 
         a {
             color: $text-color;
             font-weight: 600;
-            padding: 6px 24px;
+            padding: 4px 16px;
             display: inline-block;
-            border-radius: $button_radius;
+            border-bottom: 2px solid transparent;
+            display: flex;
+            gap: 4px;
+            align-items: center;
    
             &:hover{
-                background: $gray_6;
                 color: $primary_color;
             }
           
             &.MatcTabActive{
-                // color: $primary_color;
-                // background: $gray_6;
-                color: #fff;
-                background: $primary_color;
+                color: $primary_color;
+                border-bottom: 2px solid $primary_color;
             }
         }
 
@@ -352,7 +354,7 @@
             justify-content: center;
             flex-direction: column;
             gap:8px;
-            border-radius: $page_radius;
+            border-radius: $page_radius-l;
 
             h4 {
                 font-size: 24px;

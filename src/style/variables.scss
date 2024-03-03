@@ -29,10 +29,11 @@ $page_color: #FFF; // rgb(250, 250, 250); // #e6e6e6; //
 $page_color_secondary: rgb(250, 250, 250); //F3F5F6
 $page_color_secondary_dark: #F3F5F6;
 $page_border: #dbdbdb; // #CFCFCF;
-$page_drop_shadow_soft: 0 8px 24px rgba(0,0,0,0.04);
-$page_drop_shadow_more: 0 8px 24px rgba(0,0,0,0.12);
+$page_drop_shadow_soft: 0 4px 24px rgba(0,0,0,0.04);
+$page_drop_shadow_more: 0 8px 24px rgba(0,0,0,0.1);
 $page_radius:8px;
 $page_radius_xs:8px;
+$page_radius-l:12px;
 
 $kpi_background:#F3F5F6;
 
@@ -149,7 +150,7 @@ $button_radius-l: 8px;
 $button_height:38px;
 
 $button_secondary_background: #E6E6E6;
-$button_secondary_background_hover: #CFCFCF;
+$button_secondary_background_hover: #e3e3e3;
 $button_secondary_color: #333;
 $button_secondary_color_hover: #000;
 

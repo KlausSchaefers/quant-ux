@@ -84,7 +84,7 @@ export default {
             paddingFactor: 1.1,
             dialog: false,
             includeDropOff: false,
-            defaultColor: "#56A9FC",
+            defaultColor: "#365fff",
             outlierColor: '#f83a3a',
             clusters: [],
             colors: [ "#9933cc", "#669900", "#ff8a00", "#cc0000", "#000000", "#8ad5f0", "#d6adeb", "#c5e26d"],

@@ -193,6 +193,19 @@ input:focus {
 	}
 }
 
+.MatcRoundButton {
+	border-radius: $button_radius;
+}
+
+.MatcButtonSecondaryBlue {
+	color: $primary_color;
+	font-weight: 600;
+
+	&:hover{
+		color: $primary_color_hover;
+	}
+}
+
 .MatcButtonDanger {
 	background-color: $color_danger;
 	border-color: $color_danger;
