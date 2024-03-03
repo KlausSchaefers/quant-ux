@@ -85,12 +85,12 @@ x
                 <div class="MatcHelpTopicsCntr">
                     <div v-if="!standalone">
                         <template v-for="topic in topics">
-                            <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" >
+                            <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" :topicid="topic.id" ref="links" >
                                 {{topic.name}}
                             </a>
                             <template v-if="topic.id === selected">
                                 <template v-for="(p, i) in topic.paragraphs"  >
-                                    <a  v-if="p.title" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)" >
+                                    <a  v-if="p.title" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)" :topicid="p.id" ref="links"  >
                                         {{p.title}}
                                     </a>
                                 </template>
@@ -100,12 +100,12 @@ x
                     </div>
                     <div v-else>
                         <template v-for="topic in topics">
-                            <a :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" :href="'#/help/' + topic.id + '.html'">
+                            <a :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" :href="'#/help/' + topic.id + '.html'" :topicid="topic.id" ref="links" >
                                 {{topic.name}}
                             </a>
                             <template v-if="topic.id === selected">
                                 <template v-for="(p, i) in topic.paragraphs"  >
-                                    <a  v-if="p.title" :key="i"  :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" :href="'#/help/' + topic.id + '/' + p.id +'.html'" >
+                                    <a  v-if="p.title" :key="i"  :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" :href="'#/help/' + topic.id + '/' + p.id +'.html'"  :topicid="p.id" ref="links" >
                                         {{p.title}}
                                     </a>
                                 </template>
@@ -184,13 +184,13 @@ export default {
             this.selected = t
             this.selectedParagraph = ""
         },
-        setSupTopic (paragraph) {
+        setSupTopic (paragraph, focusLink=false) {
             this.selectedParagraph = paragraph
             Vue.nextTick( () => {
-                this.focus(paragraph)
+                this.focus(paragraph, focusLink)
             })
         },
-        focus (id) {
+        focus (id, focusLink) {
             if (this.$refs.paragraph) {
                let p = this.$refs.paragraph.find(p => {
                    return p.getAttribute('pid') === id;
@@ -199,6 +199,19 @@ export default {
                    p.scrollIntoView()
                }
             }
+            setTimeout(() => {
+                if (focusLink) {
+                    if (this.$refs.links) {
+                        let a = this.$refs.links.find(p => {
+                            return p.getAttribute('topicid') === id;
+                        })
+                        if (a) {
+                            a.scrollIntoView()
+                        }
+                    }                  
+                }
+            }, 100)
+           
         },
         convertNotification (n) {
             let news = {

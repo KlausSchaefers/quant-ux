@@ -17,20 +17,15 @@
 					:task="t"
 					:done="taskDone[t.id]" />
 				<div class="MatcTestTaskSuccess MatcTestTask" v-if="hasSuccessMessage">
-						<h4>{{$t('test.task.success-title')}}</h4>
-						<p class="MatcTestTaskDescription">
-							{{$t('test.task.success-message')}}
-						</p>
-
-
+					<h4>{{$t('test.task.success-title')}}</h4>
+					<p class="MatcTestTaskDescription">
+						{{$t('test.task.success-message')}}
+					</p>
 				</div>
-			</div>
-	
-	
+			</div>	
 		</div>
 		<div class="MatcTest" ref="responsiveScroll">
-			<div class="MatcTestSimulatorWrapper" ref="cntr">
-			
+			<div class="MatcTestSimulatorWrapper" ref="cntr">			
 			</div>
 		</div>
 	</div>

@@ -39,7 +39,7 @@ export default {
                 let help = this.$new(Help, {hasNotifications: false})
                 help.placeAt(popup)
                 help.setTopic(topic)
-                help.setSupTopic(subtopic)
+                help.setSupTopic(subtopic, true)
             }, 300)
         },
         open () {
@@ -58,7 +58,7 @@ export default {
                 help.placeAt(popup)
                 if (this.topic) {
                     help.setTopic(this.topic)
-                    help.setSupTopic(this.subtopic)
+                    help.setSupTopic(this.subtopic, true)
                 }
             }, 300)
             

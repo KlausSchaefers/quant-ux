@@ -331,12 +331,10 @@
 		  },
   
 		  preloadImages (){
-			console.debug('preload?', this.hasPreload)
 				if (this.hasPreload) {
 					this.logger.log(-2,"preloadImages","enter", this.mode);
 					Preloader.load(this.model, this.hash, this.domNode)	
-				}  
-			  	this.logger.log(3,"preloadImages","exit");
+				}
 		  },
   
   
