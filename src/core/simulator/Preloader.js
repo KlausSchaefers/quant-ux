@@ -12,17 +12,19 @@ class Preloader {
         this.images = new Set() 
         this.visited = {}
         this.lines = {}
+        delete this.hiddenDomNode
     }
 
     load(model, hash, parentNode) {
-        Logger.log(-1, 'Preloader.load() > enter')
-        //       
-        this.loadImages(model, hash)
+        Logger.warn('Preloader.load() > enter', parentNode)  
+        this.loadImages(model, hash, parentNode)
         this.loadIcons(model, parentNode)
     }
 
-    loadImages (model, hash) {
-
+    loadImages (model, hash) {  
+        // keep the domNodes around
+        this.hiddenDomNode = document.createElement("div")
+   
         // cache all lines
         Object.values(model.lines).forEach(l => {
             this.lines[l.from] = l.to
@@ -122,12 +124,13 @@ class Preloader {
             const url = "/rest/images/" + hash + "/"  + box.style.backgroundImage.url
             if (!this.images.has(url)) {
                 const img = document.createElement("img");
-                img.fetchpriority = prio
+                //img.fetchpriority = prio
                 img.src = url;
                 this.images.add(url)
                 img.onload = () => {
                     Logger.log(4, 'Preloader.loadImage() >  done >', url, prio)
                 }
+                this.hiddenDomNode.appendChild(img)
             }
         }
     }

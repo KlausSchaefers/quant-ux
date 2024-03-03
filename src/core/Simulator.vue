@@ -44,7 +44,7 @@
   
   export default {
 	  name: 'Simulator',
-	  props: ['mode', 'app'],
+	  props: ['mode', 'app', 'hasPreload'],
 	  mixins:[
 		  Layout, Gestures, RestMixin, LogMixin, RenderMixin, EventMixin,ScriptMixin, TooltipMixin,
 		  ScrollMixin, AnimationMixin, MouseMixin, DataBindingMixin, TemplateMixin, DojoWidget
@@ -331,11 +331,12 @@
 		  },
   
 		  preloadImages (){
-			  this.logger.log(2,"preloadImages","enter");
-  
-			  Preloader.load(this.model, this.hash, this.domNode)	
-  
-			  this.logger.log(3,"preloadImages","exit");
+			console.debug('preload?', this.hasPreload)
+				if (this.hasPreload) {
+					this.logger.log(-2,"preloadImages","enter", this.mode);
+					Preloader.load(this.model, this.hash, this.domNode)	
+				}  
+			  	this.logger.log(3,"preloadImages","exit");
 		  },
   
   

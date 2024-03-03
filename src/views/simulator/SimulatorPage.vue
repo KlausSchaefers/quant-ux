@@ -1,6 +1,6 @@
 <template>
   <div class="Matc">
-    <Simulator mode="standalone"/>
+    <Simulator mode="standalone" hasPreload="true"/>
   </div>
 </template>
 <style lang="scss">
