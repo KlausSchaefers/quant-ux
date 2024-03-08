@@ -162,7 +162,12 @@ input:focus {
 	background-color: $primary_color;
 	border-color: $primary_color;
 
-	&:hover,&:visited {
+	&:visited {
+		background-color: $primary_color;
+		border-color: $primary_color;
+	}
+
+	&:hover {
 		background-color: $primary_color_hover;
 		border-color: $primary_color_hover;
 	}
@@ -191,6 +196,13 @@ input:focus {
 		color: $button_secondary_color_hover;
 		border: 1px solid $button_secondary_background_hover;
 	}
+
+	&:visited {
+		border: 1px solid $button_secondary_background;
+		color: $button_secondary_color;
+		background: $button_secondary_background;
+	}
+
 }
 
 .MatcRoundButton {
@@ -204,6 +216,11 @@ input:focus {
 	&:hover{
 		color: $primary_color_hover;
 	}
+
+	&:visited {
+		color: $primary_color;
+	}
+
 }
 
 .MatcButtonDanger {

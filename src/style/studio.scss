@@ -102,6 +102,10 @@
             &:hover {
                 color: #000;
             }
+
+            &:visited {
+                color: $text-color;
+            }
         }
 
         .MatcStudioAppList{
@@ -136,6 +140,8 @@
                     border-radius: 50px;                
                     flex-basis: 8px;
                 }
+
+
             }
 
 

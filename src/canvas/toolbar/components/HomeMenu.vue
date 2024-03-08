@@ -39,19 +39,18 @@ export default {
             isEdit: false,
             modelName: "...",
             tools: [
+                {value: 'onExit', icon: '', label: this.getNLS('toolbar.menu.exit')},
                 {value: 'startSimilator', icon: '', label: this.getNLS('toolbar.menu.start')},
-                {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.settings')},
-                {value: 'showShortCuts', icon: '', label: this.getNLS('toolbar.menu.shortcuts')},
-                {value: 'showHelp', icon: '', label: this.getNLS('toolbar.menu.help')},
-                {value: 1, css:'MatcToolbarPopUpLine'},
-                {value: 'showSharing', icon: '', label: this.getNLS('toolbar.menu.share')},
+                {value: 3, css:'MatcToolbarPopUpLine'},
+                {value: 'onSaveAs', icon: '', label: this.getNLS('toolbar.menu.save-as')},
                 {value: 'showImportDialog', icon: '', label: this.getNLS('toolbar.menu.import')},
                 {value: 'showDownloadDialog', icon: '', label: this.getNLS('toolbar.menu.export')},
-                {value: 2, css:'MatcToolbarPopUpLine'},
                 {value: 'onChangeScreenSize', icon: '', label: this.getNLS('toolbar.menu.change-screen-size')},
-                {value: 'onSaveAs', icon: '', label: this.getNLS('toolbar.menu.save-as')},
-                {value: 3, css:'MatcToolbarPopUpLine'},
-                {value: 'onExit', icon: '', label: this.getNLS('toolbar.menu.exit')},
+                {value: 'showSharing', icon: '', label: this.getNLS('toolbar.menu.share')},
+                {value: 2, css:'MatcToolbarPopUpLine'},
+                {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.settings')},
+                {value: 'showShortCuts', icon: '', label: this.getNLS('toolbar.menu.shortcuts')},
+                {value: 'showHelp', icon: '', label: this.getNLS('toolbar.menu.help')}
             ]
         }
     },
