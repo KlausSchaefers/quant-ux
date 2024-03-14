@@ -111,7 +111,7 @@ export default {
     },
 
     createScreenWidget () {
-      var heatmap = this.$new(Preview);
+      const heatmap = this.$new(Preview);
       heatmap.isFillBackground = true
       heatmap.setJwtToken(this.jwtToken);
       heatmap.setPublic(this.pub)
@@ -122,15 +122,15 @@ export default {
     },
 
     renderDescription (app, item) {
-      var des = this.getDescription(app);
-      var p = document.createElement("p");
+      let des = this.getDescription(app);
+      let p = document.createElement("p");
       p.innerHTML = des;
       css.add(p, "MatcListItemDescription");
       item.appendChild(p);
     },
 
     getDescription (screen) {
-      var des = "";
+      let des = "";
       if (screen.name) {
         des += screen.name;
       } else {

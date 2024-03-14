@@ -269,6 +269,7 @@
 		border-radius: $page_radius;
 		box-shadow: $page_drop_shadow_soft;
 		outline: 1px solid $page_border;
+		transition: box-shadow 0.2s;
 		border: none;
 
 		.MatcPreviewWrapper{
@@ -280,7 +281,7 @@
 		}
 		
 		&:hover {
-			outline: 1px solid $primary_color;
+			box-shadow: $page_drop_shadow_more;
 		}
 
 		.MatcListItemDescription{
@@ -375,17 +376,19 @@
 
 	.MatcContentBox {
 		box-shadow: none;
-		outline: 1px solid transparent;
+		outline: none;
 		border: 1px solid $page_border;
 		background: #fff;
 		border-radius: $page_radius-l;
 		overflow: hidden;
 		transition: all 0.2s;
 		box-shadow: $page_drop_shadow_soft;
+		transition: box-shadow 0.2s;
+		width: 230px;
 
 		&:hover {
 			box-shadow: $page_drop_shadow_more;
-			border: 1px solid $primary_color;
+			border: 1px solid $page_border;
 		}
 
 		.MatcPreviewWrapper{
