@@ -419,11 +419,13 @@
 .StudioComment{
     background: $comment_background;
     border: 1px solid $comment_border;
+    border-radius: $comment_radius;
     box-shadow: $comment-shadow;
     padding: 16px;
     padding-top: 0px;
     font-size: 14px;
     display: flex;
+
     flex-direction: column;
 
     .StudioCommentResponse {

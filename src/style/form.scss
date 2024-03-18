@@ -140,10 +140,10 @@ input:focus {
 		text-decoration: none;
 	}
 
-	
 }
 
 .MatcButtonXS {
+	font-size: $button_font_size-s;
 	height: 32px;
 	padding: 4px 16px;
 	border-radius: $button_radius_s;

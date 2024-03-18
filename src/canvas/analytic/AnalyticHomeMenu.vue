@@ -41,10 +41,10 @@ export default {
         return {
             selectedTool: null,
             tools: [               
+                {value: 'onExit', icon: '', label: this.getNLS('toolbar.menu.exit')},
+                {value: 3, css:'MatcToolbarPopUpLine'},
                 {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.settings')},       
                 {value: 'showHelp', icon: '', label: this.getNLS('toolbar.menu.help')},         
-                {value: 3, css:'MatcToolbarPopUpLine'},
-                {value: 'onExit', icon: '', label: this.getNLS('toolbar.menu.exit')},
             ]
         }
     },
