@@ -516,28 +516,14 @@
                 
             }
         }
-      
-        .StudioNotificationItemFooter {
-            display: flex;
-            //flex-direction: column;
-            gap: 4px;
-            align-items: center;
-            justify-content: flex-end;
-
-            span {
-                font-size: 14px;
-                color: $text_color_passive;
-                
-            }
-        }
+  
 
         .StudioNotificationItemSpacer {
             display: flex;
             gap: 8px;
-            margin-top: 8px;
-            padding-top: 32px;
+            margin-top: 24px;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
             color: $gray_3;
             
             .StudioNotificationItemLine {
@@ -545,12 +531,8 @@
                 height: 1px;
                 flex-grow: 1;
             }
-            div {
-            
-            }
         }
       
-
 
         .StudioNotificationItem {
             display: flex;

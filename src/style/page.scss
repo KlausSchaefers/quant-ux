@@ -410,6 +410,23 @@ body {
 }
 
 
+.MatcDangerBox {
+	padding: 16px;
+	color:$color_danger;
+	background: rgba($color_danger, 0.25);
+	border-radius: 8px;
+	border: 1px solid $color_danger;
+
+	a {
+		color: $color_danger;
+		text-decoration: underline;
+		:hover {
+			color: $color_danger_hover;
+		}
+	}
+}
+
+
 @media (max-width: 500px) {
 
 	.container, .container-fluid  {

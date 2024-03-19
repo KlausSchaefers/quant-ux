@@ -1,12 +1,20 @@
 import AbstractService from './AbstractService'
 import Logger from '../common/Logger'
 
+function getDays (user) {
+    const now = new Date().getTime()
+    const age = now - user.created
+    const days = age / 86400000
+    return days
+}
+
 class NotificationService extends AbstractService{
 
     constructor () {
         super()
         this.logger = new Logger('UserService')
         this.rules = this.initRules()
+        this.day = 86400000
     }
 
     setUser (user) {
@@ -34,6 +42,7 @@ class NotificationService extends AbstractService{
         }
         this.logger.log(-1, 'addUserJourneyNotifications', 'Seen notifications:', user.notifications )
         let addCount = 0
+        console.debug(user)
         this.rules.forEach(rule => {
             if (user.notifications[rule.id]) {
                 this.logger.log(-1, 'addUserJourneyNotifications', 'Add OLD:', rule.id)
@@ -61,6 +70,8 @@ class NotificationService extends AbstractService{
                     isDirty = true
                     addCount++
                 }
+            } else {
+                this.logger.log(-1, 'addUserJourneyNotifications', 'No match:', rule.id)
             }
         })
 
@@ -95,6 +106,8 @@ class NotificationService extends AbstractService{
         return this._get('/rest/user/notification/last.json')
     }
 
+
+
     initRules () {
         return [
             {
@@ -105,26 +118,29 @@ class NotificationService extends AbstractService{
                 more: `
                     Welcome to the <b>new</b> beta version of Quant-UX. 
                     We are working hard to finish the new release. You can
-                    help us by trying the new version. If you spot any bugs,
-                    please reach out to us.
+                    help us by trying out the new version. If you spot any bugs,
+                    or have ideas for improvements, please reach out to us via the
+                    "Contact" button or our <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a> 
+                    channel.
                 `,
                 title: 'Quant-UX 5!'
             },
             {
-                matches () {
-                    return true
+                matches (user) {
+                    return user.loginCount >= 2
                 },
                 id:"GiveUsAStar",
                 more: `
-                    If you like Quant-UX and you have an GitHub account, it would be 
+                    If you like Quant-UX and you have an 
+                    <a href="https://github.com/KlausSchaefers/quant-ux" target="github">GitHub</a> account, it would be 
                     great if you could give us a <b>STAR</b>. Here is the link to our
                     project: <a href="https://github.com/KlausSchaefers/quant-ux" target="github">Quant-UX</a>
                 `,
                 title: 'Give us a star at GitHub'
             },
             {
-                matches () {
-                    return true
+                matches (user) {
+                    return getDays(user) > 2
                 },
                 id:"Discord",
                 more: `
@@ -134,8 +150,8 @@ class NotificationService extends AbstractService{
                 title: 'Chat with us on Discord'
             },
             {
-                matches () {
-                    return true
+                matches (user) {              
+                    return getDays(user) > 1
                 },
                 id:"Youtube",
                 more: `
@@ -146,16 +162,42 @@ class NotificationService extends AbstractService{
                 title: 'YouTube'
             },
             {
-                matches () {
-                    return true
+                matches (user) {
+                    return getDays(user) > 3 && !user.image
                 },
                 id:"ProfilePic",
                 more: `
-                    You can upload a profile picture in your 
-                    <a href="#/my-account.html" target="account">Account Settings</a>.
+                    Boost your collaboration with your team! You can upload a profile picture in your 
+                    <a href="#/my-account.html" target="account">Account Settings</a>. This will
+                    make it easier for others to distinguish your account.
                    
                 `,
                 title: 'Add a profile picture'
+            },
+            {
+                matches (user) {
+                    return user.loginCount >= 5 && !user.name
+                },
+                id:"UserName",
+                more: `
+                    If you add your name and lastname in the
+                    <a href="#/my-account.html" target="account">Account Settings</a>,
+                    other users can better collaborate with you.
+                   
+                `,
+                title: 'Add your name and lastname'
+            },
+            {
+                matches (user) {
+                    return getDays(user) > 4
+                },
+                id:"CollaborativeWork",
+                more: `
+                    Do you know that you can invite other Quant-UX members to collaborate 
+                    on a prototype? You can even work in realtime in the same canvas with them!
+                   
+                `,
+                title: 'Work with others'
             }
             
         ]

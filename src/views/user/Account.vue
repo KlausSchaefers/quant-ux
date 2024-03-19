@@ -12,7 +12,7 @@
           </p>
           <div class="row">
 
-            <div class="col-md-6" v-if="isQuxAuth">
+            <div class="col-md-8 " v-if="isQuxAuth">
               <div data-dojo-type="de/vommond/Form">
 
                 <div class="form-group MatcHoverHint" @dblclick="isEmailDisabled = false">
@@ -65,7 +65,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6" v-else>
+            <div class="col-md-8" v-else>
               <p class="MatcLead MatcMarginBottomXL">
                 Your credentials are managed in Keycloak. Contact your admin for help.
               </p>
@@ -74,12 +74,22 @@
               <Label>Image</Label>
               <UserImage :user="user" @change="onImageChanged"/>
             </div>
-            <div class="col-md-1 col-md-offset-1">
-              <a class="MatcButton MatcButtonDanger" @click="retire">Delete</a>
+   
+          </div>
+          <div class="row ">
+            <div class="col-md-8 MatcMarginTopXXL">
+         
+              <p class="MatcDangerBox">
+             
+                If you want to delete your account, click <a @click="retire">here</a>. All your data will
+                be removed, including your prototypes. If you want to save them, export them as *.zip files.
+              </p>
             </div>
 
           </div>
         </div>
+
+
       </div>
     </div>
   </div>
