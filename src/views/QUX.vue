@@ -30,6 +30,7 @@ export default {
  data: function() {
     return {
       hasHeader: false,
+      isDebug: false,
       user: {
         id: -1,
         name: "Guest",
@@ -78,7 +79,9 @@ export default {
 			}
     },
     showErrorDetails (e, trace) {
-      this.$refs.errorDialog.show(e, trace)
+      if (this.isDebug) {
+        this.$refs.errorDialog.show(e, trace)
+      }
     }
   },
   watch :{

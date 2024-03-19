@@ -224,7 +224,7 @@ export default {
       window.scrollTo(0, 0);
     },
     reloadEvents() {
-      this.logger.log(-1, "reloadEvents", "enter > ");
+      this.logger.log(1, "reloadEvents", "enter > ");
       this.loadEvents();
     },
     onSettingsChange(settings) {
@@ -267,7 +267,7 @@ export default {
           this.events = events;
           this.loading = false
           this.appLoaded = true;
-          this.logger.log(-1, "loadEvents", "Found " + events.length + " events");
+          this.logger.log(1, "loadEvents", "Found " + events.length + " events");
           this.checkEventCount()
         });
       } catch (e) {
@@ -359,7 +359,7 @@ export default {
       this.scrollTop();
     },
     onWindowFocus() {
-      this.logger.log(-1, "onWindowFocus", "enter > ");
+      this.logger.log(1, "onWindowFocus", "enter > ");
       this.loadEvents();
     },
     initFocusListener() {

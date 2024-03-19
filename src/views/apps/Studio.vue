@@ -80,7 +80,7 @@
                         </a>
                     </div>
 
-                    <div class="MatcStudioNavRow">
+                    <!-- <div class="MatcStudioNavRow">
                         <a class="MatcLink" @click="onLogout">
                             <QIcon icon="Logout"/>
                             <span class="MatcCollapseViewMinHidden">
@@ -88,7 +88,7 @@
                             </span>
                               
                         </a>
-                    </div>       
+                    </div>        -->
           
                 </div>
    

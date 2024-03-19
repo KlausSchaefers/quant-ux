@@ -73,8 +73,7 @@ data: function() {
 		}
 	},
 	initNLS () {
-		let language = Services.getUserService().getLanguage()
-		console.debug(language)
+		const language = Services.getUserService().getLanguage()
 		this.$root.$i18n.locale = language
 	},
 	initScroll () {

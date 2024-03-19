@@ -265,10 +265,10 @@ export default {
             this.comments = await Services.getCommentService().findAll(
                 this.app.id
             );
-            this.logger.log(-1, "loadComments", "exit", this.comments.length);
+            this.logger.log(1, "loadComments", "exit", this.comments.length);
         },
         setSummary() {
-            this.logger.log(-1, "setSummary", "enter");
+            this.logger.log(1, "setSummary", "enter");
             if (!this.app || !this.isLoaded) {
                 return
             }

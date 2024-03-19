@@ -383,6 +383,7 @@
         "contact": "Contact",
         "notifications": "Updates",
         "notifications-none": "There are currently no upates.",
+        "oldnotifications": "Previous Updates",
         "lastEdit": "Last update",
         "numberTests": "Tests",
         "create": "Create",

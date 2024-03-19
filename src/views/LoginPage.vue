@@ -251,7 +251,7 @@ export default {
     }
 
     this.config = Services.getConfig()
-    this.logger.log(-1,'mounted', 'exit > ', this.config.user)
+    this.logger.log(1,'mounted', 'exit > ')
   }
 }
 </script>

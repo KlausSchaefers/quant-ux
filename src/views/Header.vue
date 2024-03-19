@@ -30,10 +30,12 @@
           <QIcon icon="Account"/>
           {{ $t('header.my-account') }}
         </a>
-       <a class="" href="#/logout.html">{{ $t('header.logout') }}</a>
+        <a class="" href="#/logout.html">{{ $t('header.logout') }}</a>
+      -->
+       
         <a class="" href="#/logout.html">
           <QIcon icon="Logout"/>
-        </a> -->
+        </a>
        
       </div>
 
@@ -52,7 +54,7 @@ import Logger from 'common/Logger'
 import hash from "dojo/hash";
 import LanguagePicker from "page/LanguagePicker";
 // import AccountButton from 'page/AccountButton'
-//import QIcon from 'page/QIcon'
+import QIcon from 'page/QIcon'
 import _Tooltip from "common/_Tooltip";
 
 export default {
@@ -71,7 +73,7 @@ export default {
   },
   components: {
     'LanguagePicker': LanguagePicker,
-    // 'QIcon': QIcon,
+    'QIcon': QIcon,
     // 'AccountButton': AccountButton
   },
   methods: {

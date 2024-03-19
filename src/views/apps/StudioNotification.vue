@@ -1,6 +1,6 @@
 <template>
-    <a class="MatcLink StudioNotification" @click="showDialog">
-        <span class="StudioNotificationBubble" v-if="notifications.length > 0"></span>
+    <a class="MatcLink StudioNotification" @click="showDialog" @click.right="reset">
+        <span class="StudioNotificationBubble" v-if="newNotifications > 0"></span>
         <QIcon icon="Notification" />
         <span class="MatcCollapseViewMinHidden">
             {{ $t('app.notifications') }}
@@ -10,8 +10,12 @@
             <div class="MatcDialogM MatcDialog" @click.stop>
                 <h1> {{ $t('app.notifications') }}</h1>
                 <div class="StudioNotificationContainer MatcScrollContainer" ref="cntr">
-                    <div v-for="n in filteredNotifications" :key="n.id" class="StudioNotificationItem">
-                        <h3>{{n.title}}</h3>
+                    <div v-for="n in filteredNewNotifications" :key="n.id" class="StudioNotificationItem">
+                        <div class="StudioNotificationItemHeader">
+                            <h3>{{n.title}}</h3>
+                            <span>{{formatDate(n.lastUpdate)}}</span>
+                        </div>
+          
                         <p v-html="n.body">
                         </p>
                         <div class="StudioNotificationVideo">
@@ -23,13 +27,37 @@
                                 frameborder="0"
                                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                             </iframe>
-                        </div>
-         
+                        </div>         
                     </div>
-                    <div v-if="filteredNotifications.length === 0" class="StudioNotificationItem">
+                    <div v-if="filteredNewNotifications.length === 0" class="StudioNotificationItem">
                         <p>
                             {{ $t('app.notifications-none') }}
                         </p>
+                    </div>
+                    <div v-if="filteredOldNotifications.length > 0" class="StudioNotificationItemSpacer">
+                        <div class="StudioNotificationItemLine"></div>
+                        <div> {{ $t('app.oldnotifications') }}</div>
+                        <div class="StudioNotificationItemLine"></div>
+                    </div>
+
+                    <div v-for="n in filteredOldNotifications" :key="n.id" class="StudioNotificationItem">
+                        <div class="StudioNotificationItemHeader">
+                            <h3>{{n.title}}</h3>
+                            <span>{{formatDate(n.lastUpdate)}}</span>
+                        </div>
+          
+                        <p v-html="n.body">
+                        </p>
+                        <div class="StudioNotificationVideo">
+                            <iframe
+                                v-if="n.video"
+                                :width="560 * videoScaleFactor"
+                                :height="315 * videoScaleFactor"
+                                :src="n.video.src"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                            </iframe>
+                        </div>         
                     </div>
                 </div>
        
@@ -49,6 +77,7 @@
 import Services from 'services/Services'
 import QIcon from "page/QIcon";
 import ZoomDialog from 'common/ZoomDialog'
+import * as UIUtil from '../../util/UIUtil'
 
 export default {
     name: "StudioNotification",
@@ -56,6 +85,7 @@ export default {
     data: function () {
         return {
             videoScaleFactor: 1,
+            newNotifications: 0,
             notifications: [
                 // {
                 //     id:1,
@@ -88,23 +118,47 @@ export default {
             }
             return 'private'
         },
-        filteredNotifications () {
-            return this.notifications.map(n => this.convertNotification(n))
+        filteredNewNotifications () {
+            return this.notifications
+                .map(n => this.convertNotification(n))
+                .filter(n => n.isNew)
+                .toSorted((a,b) => {
+                    return b.lastUpdate - a.lastUpdate
+                })
+        },
+        filteredOldNotifications () {
+            return this.notifications
+                .map(n => this.convertNotification(n))
+                .filter(n => !n.isNew)
+                .toSorted((a,b) => {
+                    return b.lastUpdate - a.lastUpdate
+                })
         }
     },
     methods: {
         showDialog () {
-            Services.getUserService().setLastNotication()
+            this.notifcationService.setLastNotication()
+            this.newNotifications = 0
             this.$refs.dialog.show(this.$el)
         },
         close () {
             this.$refs.dialog.close()
         },
+        formatDate(ts) {
+            return UIUtil.formatDate(ts)
+        },
+        reset () {
+            if (location.href.indexOf('localhost') > 0) {
+                this.notifcationService.reset()
+            }
+        },
         convertNotification (n) {
             let result = {
                 "id": "notifications." + n.id,
                 "title": n.title,
-                "body": n.more
+                "body": n.more,
+                "lastUpdate": n.lastUpdate,
+                "isNew": n.isNew
             }
             if (n.video) {
                 let url = n.video
@@ -120,7 +174,10 @@ export default {
         },
     },
     async mounted() {
-        this.notifications = await Services.getUserService().getNotications()
+        this.notifcationService = Services.getNotificationService()
+        this.notifications = await this.notifcationService.getNotications()
+        this.newNotifications = this.notifications.filter(n => n.isNew).length
+        console.debug('StudioNotification found ' + this.newNotifications + '  new notifcatios')
     }
 };
 </script>
