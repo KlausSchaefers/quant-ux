@@ -1619,6 +1619,10 @@ export default class RenderFactory extends Core {
 		}
 	}
 
+	_set_backgroundImageRepeat() {
+		// will be handled in _set_backgroundImage()
+	}
+
 	/**
 	 * background image
 	 */
@@ -1669,7 +1673,12 @@ export default class RenderFactory extends Core {
 				parent.style.backgroundPosition = "0 0"; // 100%
 			}
 
-			parent.style.backgroundRepeat = "no-repeat";
+			if (style.backgroundImageRepeat) {
+				parent.style.backgroundRepeat = "repeat";
+			} else {
+				parent.style.backgroundRepeat = "no-repeat";
+			}
+
 			parent.style.border = "none";
 		} else {
 			/**

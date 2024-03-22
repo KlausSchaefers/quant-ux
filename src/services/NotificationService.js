@@ -5,7 +5,14 @@ function getDays (user) {
     const now = new Date().getTime()
     const age = now - user.created
     const days = age / 86400000
-    return days
+    return Math.floor(days)
+}
+
+function getDaysSinceLastNotification (user) {
+    const now = new Date().getTime()
+    const age = now - user.lastNotification
+    const days = age / 86400000
+    return Math.floor(days)
 }
 
 class NotificationService extends AbstractService{
@@ -40,9 +47,10 @@ class NotificationService extends AbstractService{
             user.notifications = {}
             isDirty = true
         }
-        this.logger.log(-1, 'addUserJourneyNotifications', 'Seen notifications:', user.notifications )
+  
         let addCount = 0
-        console.debug(user)
+        const maxAdd = getDaysSinceLastNotification(user) > 1 ? 1 : 0
+        this.logger.log(-1, 'addUserJourneyNotifications', `> days since last ${getDaysSinceLastNotification(user)} > maxAdd: ${maxAdd} > Seen notifications:`, user.notifications )
         this.rules.forEach(rule => {
             if (user.notifications[rule.id]) {
                 this.logger.log(-1, 'addUserJourneyNotifications', 'Add OLD:', rule.id)
@@ -55,7 +63,7 @@ class NotificationService extends AbstractService{
                     lastUpdate: user.notifications[rule.id]
                 })
             } else if (rule.matches(user)) {
-                if (addCount < 1) {
+                if (addCount < maxAdd) {
                     this.logger.log(-1, 'addUserJourneyNotifications', 'Add NEW:', rule.id)
                     const lastUpdate = new Date().getTime()
                     notifications.push({
@@ -69,6 +77,8 @@ class NotificationService extends AbstractService{
                     user.notifications[rule.id] = lastUpdate
                     isDirty = true
                     addCount++
+                } else {
+                    this.logger.log(-1, 'addUserJourneyNotifications', 'Ignored:', rule.id)
                 }
             } else {
                 this.logger.log(-1, 'addUserJourneyNotifications', 'No match:', rule.id)
@@ -144,8 +154,8 @@ class NotificationService extends AbstractService{
                 },
                 id:"Discord",
                 more: `
-                    Did you know that we have a <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a>
-                    channel? You can reach us also there.
+                    We have a <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a>
+                    channel! You can reach us also there, or discuss with other users.
                 `,
                 title: 'Chat with us on Discord'
             },
@@ -156,7 +166,7 @@ class NotificationService extends AbstractService{
                 id:"Youtube",
                 more: `
                     Did you know that we have a <a href="https://www.youtube.com/@quant-ux8332" target="github">YouTube</a>
-                    channel? You can find there a lot of tutorials. If you like the content, subscribe to 
+                    channel? You can find there tutorials and previews. If you like the content, subscribe to 
                     the channel to not miss our on new content.
                 `,
                 title: 'YouTube'
@@ -167,7 +177,7 @@ class NotificationService extends AbstractService{
                 },
                 id:"ProfilePic",
                 more: `
-                    Boost your collaboration with your team! You can upload a profile picture in your 
+                    Boost the collaboration with your team! You can upload a profile picture in your 
                     <a href="#/my-account.html" target="account">Account Settings</a>. This will
                     make it easier for others to distinguish your account.
                    

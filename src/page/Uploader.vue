@@ -2,7 +2,7 @@
 <template>
 	<div class="MatcUploader">
 		<div class="MatcUploaderCanvas " data-dojo-attach-point="canvasCntr"></div>
-		<QIcon icon="Upload" />
+		<QIcon icon="Upload"/>
 		<input type="file" data-dojo-attach-point="file" class="MatcImageUploadFile" />
 	</div>
 </template>

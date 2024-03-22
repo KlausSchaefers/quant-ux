@@ -22,7 +22,7 @@
     cursor: pointer;
     height: 96px;
     position: relative;
-    border-radius: 4px;
+    border-radius: $form_radius;
 
     .MatcHint {
       color: #ccc;

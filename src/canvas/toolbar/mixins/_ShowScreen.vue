@@ -90,14 +90,25 @@ export default {
 					this.screenStart.setValue(model.props.start);
 					this.screenBackgroundImage.setValue(style.backgroundImage);
 					this.screenBackgroundImage.setModel(this.model);
+
+					/**
+					 * Since 5.0.3 we support image repeats
+					 */
+					if (style.backgroundImage) {
+						css.remove(this.screenImageRepeatDiv, "MatcToolbarSectionHidden")
+					} else {
+						css.add(this.screenImageRepeatDiv, "MatcToolbarSectionHidden")
+					}
+					this.screenImageRepeat.setValue(style.backgroundImageRepeat)
+
+
 					this.screenBackgroundColor.setValue(style.background);
 					this.screenBackgroundColor.setBox(model)
-
 					this.screenOverlayCheckBox.setValue(style.overlay);
 
 					/**
-						* Since 2.2.2 we show the segemnt box
-						*/
+					* Since 2.2.2 we show the segemnt box
+					*/
 					if (this.screenSegmentCheckbox) {
 						this.screenSegmentCheckbox.setValue(model.segment)
 						css.remove(this.screenSegmentCheckbox.domNode, "hidden");

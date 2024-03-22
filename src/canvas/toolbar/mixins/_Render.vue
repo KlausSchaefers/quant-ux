@@ -1143,7 +1143,16 @@ export default {
 			this.own(on(this.screenBackgroundImage, "change", lang.hitch(this, "setScreenStyle", "backgroundImage")));
 			this._placeAt(this.screenBackgroundImage, content);
 
+			this.screenImageRepeat = this.$new(CheckBox);
+			this.screenImageRepeat.setLabel("Repeat Image");
+			css.add(this.screenImageRepeat.domNode, "MatcToolbarItem");
+			this.own(on(this.screenImageRepeat, "change", lang.hitch(this, "setScreenStyle", "backgroundImageRepeat")));
 
+			const screenImageRepeatDiv = document.createElement('div')
+			content.append(screenImageRepeatDiv)
+			this.screenImageRepeat.placeAt(screenImageRepeatDiv)
+
+			this.screenImageRepeatDiv = screenImageRepeatDiv
 			this.screenImageDiv = parent;
 			this.properties.appendChild(parent);
 		},
