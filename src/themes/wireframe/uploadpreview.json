@@ -8,8 +8,8 @@
         "name" : "Data Image",
         "x" : 0,
         "y" : 0,
-        "w" : 100,
-        "h" : 100,
+        "w": "@box-width-xl",
+        "h": "@box-width-xl",
         "z" : 0,
         "props" : {},
         "has" : {
@@ -20,10 +20,9 @@
         "actions":{},
         "style" : {
 			"borderRadius": "@border-radius",
-			"borderWidth": "@border-width-none",
 			"borderStyle": "solid",
 			"borderColor": "@form-border-color",
-                        
+            "borderWidth": "@border-width-none",
             "backgroundImage" : null
         }
     }
