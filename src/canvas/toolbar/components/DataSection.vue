@@ -1469,7 +1469,7 @@ export default {
 		_renderScriptDialog (e) {
 
    			const dialogCSS = (this.model.type === 'desktop' || this.model.type === 'tablet') ? 'MatcScriptEditorDialogXL' : ''
-			const popup = this.db.div("MatcScriptEditorDialog MatcPadding " + dialogCSS).build();
+			const popup = this.db.div("MatcScriptEditorDialog MatcDialog MatcPadding " + dialogCSS).build();
 			const cntr = this.db.div("").build(popup);
 			const settings = this.$new(ScriptEdior);
 			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);

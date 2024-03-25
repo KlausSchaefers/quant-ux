@@ -20,6 +20,7 @@
 	cursor: pointer;
 	text-decoration: none;
 	border-bottom: 1px solid transparent;
+
 }
 
 .MatcToolbarTabsBig.MatcToolbarTabs{
@@ -31,6 +32,7 @@
 	font-size: 18px;
 	padding: 5px;
 	border-bottom-width: 2px;
+	color:$text_color;
 }
 
 .MatcToolbarTabs a.MatcToolbarTabActive{

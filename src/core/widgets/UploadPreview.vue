@@ -111,7 +111,7 @@ export default {
         /**
          * We can have normal urls and data ulrs
          */
-        if (v.substring && (v.indexOf('data:image/png;base64') === 0 || v.indexOf('http') === 0)) {
+        if (v.substring && (v.indexOf('data:image') === 0 || v.indexOf('http') === 0)) {
             this.setValue(v);
             this.renderBorder()
             return;

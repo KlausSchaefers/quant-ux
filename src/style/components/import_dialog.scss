@@ -10,6 +10,7 @@
 
   .MatcToolbarTabs a {
     border-bottom: 2px solid transparent;
+    color: $text_color;
 
     &.MatcToolbarTabActive {
       border-bottom-width: 2px;
