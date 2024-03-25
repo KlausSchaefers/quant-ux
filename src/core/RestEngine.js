@@ -1,9 +1,8 @@
-import Logger from 'common/Logger'
+import Logger from './Logger'
 
 class RestEngine {
 
     constructor () {
-        this.logger = new Logger("RestEngine")
     }
 
     run (request, data) {
@@ -39,7 +38,7 @@ class RestEngine {
 
     async buildURL (request, values) {
         let url = await this.fillString(request.url, values, false);
-        this.logger.log(11, "buildURL", "exit" ,url)
+        Logger.log(11, "RestEngine.buildURL()", "exit" ,url)
         return url;
     }
 
@@ -57,49 +56,41 @@ class RestEngine {
                 throw new Error("buildFormData() > template not ok") 
             }
         }
-        this.logger.log(-1, "buildFormData", "exit", formData)
+        Logger.log(-1, "RestEngine.buildFormData() > exit", formData)
         return formData;
     }
 
     async buildData (request, values) {
         let data = await this.fillString(request.input.template, values, true);
-        this.logger.log(1, "buildData", "exit", data)
+        Logger.log(1, "RestEngine.buildData() > exit", data)
         return data;
     }
 
     async buildToken (request, values) {
         let data = await this.fillString(request.token, values, true);
-        this.logger.log(1, "buildToken", "exit", data)
+        Logger.log(1, "RestEngine.buildToken() > exit", data)
         return data;
     }
     
     async fillString (s, values, encodeFiles = true) {
+        const finalValues = {}
         for (let key in values) {
             let value = this.getValueByKey(values, key)
             value = await this.getStringFilelValue(value, encodeFiles)
-            let pattern = "${" + key + "}"
-            s = this.replacePattern(s, pattern, value)
+            finalValues[key] = value
         }
+        s = this.fillSimpleString(s, values)
         if (s.indexOf('${') >= 0){
-            this.logger.error("fillString", "exit" ,s)
+            Logger.error("RestEngine.fillString() > error" ,s)
             throw new Error("fillString() > Not all parameters replaced!" + s)
         }
         return s
     }
 
-    fillSimpleString (s, values) {
-        let matches = this.getDataBindingVariables(s)
-        matches.forEach(key => {
-            if (values[key] !== undefined) {
-                let value = this.getValueByKey(values, key)
-                let pattern = "${" + key + "}"
-                s = this.replacePattern(s, pattern, value)
-            } else {
-                this.logger.warn("fillSimpleString", "Could not find", key)
-            }
-        })
-        return s
+    fillSimpleString (template, values) {
+        return template.replace(/\${(.*?)}/g, (match, key) => values[key.trim()] || match);
     }
+
 
     getDataBindingVariables (s) {
         let matches = []
@@ -122,6 +113,7 @@ class RestEngine {
         }
         return s
     }
+
 
     getStringFilelValue (value, encodeFiles) {
         // FIXME: check if we contain ${} to avoid messz stuff
@@ -159,7 +151,7 @@ class RestEngine {
     }
 
     handleOutput (resolve, request, response) {
-        this.logger.log(2, "handleOutput", "enter" ,response)
+        Logger.log(2, "RestEngine.handleOutput() > enter" ,response)
      
         if (response.status == 200 || response.status == 201) {
             if (request.output.type === "JSON") {
@@ -231,7 +223,7 @@ class RestEngine {
     }
 
     postOrPutForm (request, values) {
-        this.logger.log(1, "postOrPutForm", "enter >")
+        Logger.log(1, "RestEngine.postOrPutForm() > enter >")
         return new Promise( async (resolve, reject) => {
 
             const url = await this.buildURL(request, values)
