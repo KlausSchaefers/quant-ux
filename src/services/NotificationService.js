@@ -3,14 +3,16 @@ import Logger from '../common/Logger'
 
 function getDays (user) {
     const now = new Date().getTime()
-    const age = now - user.created
+    const created = user.created ? user.created : 0
+    const age = now - created
     const days = age / 86400000
     return Math.floor(days)
 }
 
 function getDaysSinceLastNotification (user) {
     const now = new Date().getTime()
-    const age = now - user.lastNotification
+    const lastNotification = user.lastNotification ? user.lastNotification : now
+    const age = now -lastNotification
     const days = age / 86400000
     return Math.floor(days)
 }
@@ -19,7 +21,7 @@ class NotificationService extends AbstractService{
 
     constructor () {
         super()
-        this.logger = new Logger('UserService')
+        this.logger = new Logger('NotificationService')
         this.rules = this.initRules()
         this.day = 86400000
     }
@@ -60,6 +62,7 @@ class NotificationService extends AbstractService{
                     title: rule.title,
                     more: rule.more,
                     video: rule.video,
+                    details: rule.details,
                     lastUpdate: user.notifications[rule.id]
                 })
             } else if (rule.matches(user)) {
@@ -72,6 +75,7 @@ class NotificationService extends AbstractService{
                         title: rule.title,
                         more: rule.more,
                         video: rule.video,
+                        details: rule.details,
                         lastUpdate: lastUpdate
                     })
                     user.notifications[rule.id] = lastUpdate
@@ -126,14 +130,31 @@ class NotificationService extends AbstractService{
                 },
                 id:"WelcomeToDev",
                 more: `
-                    Welcome to the <b>new</b> beta version of Quant-UX. 
+                    Welcome at the cutting-edge beta edition of Quant-UX!
                     We are working hard to finish the new release. You can
                     help us by trying out the new version. If you spot any bugs,
                     or have ideas for improvements, please reach out to us via the
                     "Contact" button or our <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a> 
                     channel.
                 `,
-                title: 'Quant-UX 5!'
+                Xdetails: {
+                    title: "What is new in Quant-UX 5",
+                    body: `
+                      <ul>
+                        <li>
+                            <b>Project Overview</b>: After you login, you will not see a list of thumbnails. Instead 
+                            you will see the new studio. You can select the recent prototypes on the left side. The 
+                            selected prototype is show in the center. On the right side we show you the most important
+                            indicators, e.g. how many test you habe run, or the avergae success rate.
+                        </li>
+                        <li>
+                            <b>New Design</b>: We have completey redesigned the canvas. 
+                        </li>
+                      <ul>
+                    
+                    `
+                },
+                title: 'Quant-UX 5! 🚀 '
             },
             {
                 matches (user) {
@@ -141,10 +162,11 @@ class NotificationService extends AbstractService{
                 },
                 id:"GiveUsAStar",
                 more: `
-                    If you like Quant-UX and you have an 
-                    <a href="https://github.com/KlausSchaefers/quant-ux" target="github">GitHub</a> account, it would be 
-                    great if you could give us a <b>STAR</b>. Here is the link to our
-                    project: <a href="https://github.com/KlausSchaefers/quant-ux" target="github">Quant-UX</a>
+                    If Quant-UX has been lighting up your projects and you're part of the GitHub community, 
+                    we'd be over the moon if you could shower us with a ⭐️ star ⭐️! Simply hop over to 
+                    our GitHub project page and hit that star button to show your support. 
+                    Together, let's keep the momentum going! Give us a star right here
+                     <a href="https://github.com/KlausSchaefers/quant-ux" target="github">Quant-UX on GitHub</a> 
                 `,
                 title: 'Give us a star at GitHub'
             },
@@ -155,7 +177,7 @@ class NotificationService extends AbstractService{
                 id:"Discord",
                 more: `
                     We have a <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a>
-                    channel! You can reach us also there, or discuss with other users.
+                    channel! You can reach us there or discuss with other users.
                 `,
                 title: 'Chat with us on Discord'
             },
@@ -165,9 +187,9 @@ class NotificationService extends AbstractService{
                 },
                 id:"Youtube",
                 more: `
-                    Did you know that we have a <a href="https://www.youtube.com/@quant-ux8332" target="github">YouTube</a>
-                    channel? You can find there tutorials and previews. If you like the content, subscribe to 
-                    the channel to not miss our on new content.
+                    hey there, do you know that we have a <a href="https://www.youtube.com/@quant-ux8332" target="github">YouTube</a>
+                    channel?  Dive into a treasure trove of tutorials and sneak peeks that'll supercharge your learning journey.
+                    If you like the content, subscribe to the channel to not miss out on new content.
                 `,
                 title: 'YouTube'
             },

@@ -8,62 +8,63 @@
 
         <ZoomDialog ref="dialog">
             <div class="MatcDialogM MatcDialog" @click.stop>
-                <h1> {{ $t('app.notifications') }}</h1>
-                <div class="StudioNotificationContainer MatcScrollContainer" ref="cntr">
-                    <div v-for="n in filteredNewNotifications" :key="n.id" class="StudioNotificationItem">
-                        <div class="StudioNotificationItemHeader">
-                            <h3>{{n.title}}</h3>
-                            <span>{{formatDate(n.lastUpdate)}}</span>
+                <template v-if="tab === 'all'">
+                    <h1> {{ $t('app.notifications') }}</h1>
+                    <div class="StudioNotificationContainer MatcScrollContainer" ref="cntr">
+                        <div v-for="n in filteredNewNotifications" :key="n.id" class="StudioNotificationItem">
+                            <div class="StudioNotificationItemHeader">
+                                <h3>{{n.title}}</h3>
+                                <span>{{formatDate(n.lastUpdate)}}</span>
+                            </div>
+            
+                            <p v-html="n.body">
+                            </p>
+                            <a v-if="n.details" @click="showMore(n)">More...</a>
+                                
                         </div>
-          
-                        <p v-html="n.body">
-                        </p>
-                        <div class="StudioNotificationVideo">
-                            <iframe
-                                v-if="n.video"
-                                :width="560 * videoScaleFactor"
-                                :height="315 * videoScaleFactor"
-                                :src="n.video.src"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                            </iframe>
-                        </div>         
-                    </div>
-                    <div v-if="filteredNewNotifications.length === 0" class="StudioNotificationItem">
-                        <p>
-                            {{ $t('app.notifications-none') }}
-                        </p>
-                    </div>
-                    <div v-if="filteredOldNotifications.length > 0" class="StudioNotificationItemSpacer">
-                        <div class="StudioNotificationItemLine"></div>
-                        <div> {{ $t('app.oldnotifications') }}</div>
-                        <div class="StudioNotificationItemLine"></div>
-                    </div>
 
-                    <div v-for="n in filteredOldNotifications" :key="n.id" class="StudioNotificationItem">
-                        <div class="StudioNotificationItemHeader">
-                            <h3>{{n.title}}</h3>
-                            <span>{{formatDate(n.lastUpdate)}}</span>
+                        <div v-if="filteredNewNotifications.length === 0" class="StudioNotificationItem">
+                            <p>
+                                {{ $t('app.notifications-none') }}
+                            </p>
                         </div>
-          
-                        <p v-html="n.body">
-                        </p>
-                        <div class="StudioNotificationVideo">
-                            <iframe
-                                v-if="n.video"
-                                :width="560 * videoScaleFactor"
-                                :height="315 * videoScaleFactor"
-                                :src="n.video.src"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                            </iframe>
-                        </div>         
+
+                        <div v-if="filteredOldNotifications.length > 0" class="StudioNotificationItemSpacer">
+                            <div class="StudioNotificationItemLine"></div>
+                            <div> {{ $t('app.oldnotifications') }}</div>
+                            <div class="StudioNotificationItemLine"></div>
+                        </div>
+
+                        <div v-for="n in filteredOldNotifications" :key="n.id" class="StudioNotificationItem">
+                            <div class="StudioNotificationItemHeader">
+                                <h3>{{n.title}}</h3>
+                                <span>{{formatDate(n.lastUpdate)}}</span>
+                            </div>
+            
+                            <p v-html="n.body">
+                            </p>
+                            <a v-if="n.details" @click="showMore(n)">More...</a>
+                              
+                        </div>
                     </div>
-                </div>
+                </template>
+                <template v-if="tab === 'more'">
+                    <h1> {{ selectedNotification.details.title }}</h1>
+                    <div class="StudioNotificationContainer MatcScrollContainer" ref="cntr">
+                        <div class="StudioNotificationItem">
+                            <p v-html="selectedNotification.details.body"></p>
+                        </div>
+                    </div>
+                </template>
        
 
                 <div class="MatcButtonBar MatcMarginTop">
-                    <button class="MatcButton MatcButtonPrimary" @click="close">{{$t('common.close')}}</button>
+                    <button class="MatcButton MatcButtonPrimary" @click="close" v-if="tab === 'all'">
+                        {{$t('common.close')}}
+                    </button>
+                    <button v-else class="MatcButton MatcButtonPrimary" @click="tab = 'all'">
+                        {{$t('btn.back')}}
+                    </button>
                 </div>
 
             </div>
@@ -85,23 +86,10 @@ export default {
     data: function () {
         return {
             videoScaleFactor: 1,
+            selectedNotification: null,
             newNotifications: 0,
-            notifications: [
-                // {
-                //     id:1,
-                //     more: `Lorem ipsum dolor <b>sit</b> amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. .`,
-                //     title: 'This is the body',
-                //     video: 'https://www.youtube.com/embed/qWJ5kTb_Gec?si=Ccu0Hwsenf0hOXDW',
-                //     lastUpdate: new Date().getTime()
-                // },
-                // {
-                //     id:2,
-                //     title: 'Test 1',
-                //     more: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-                //     video: 'https://www.youtube.com/embed/qWJ5kTb_Gec?si=Ccu0Hwsenf0hOXDW',
-                //     lastUpdate: new Date().getTime() - 86000
-                // }
-            ]
+            notifications: [],
+            tab:'all'
         };
     },
     components: {
@@ -141,6 +129,10 @@ export default {
             this.newNotifications = 0
             this.$refs.dialog.show(this.$el)
         },
+        showMore (n) {
+            this.tab = 'more',
+            this.selectedNotification = n
+        },
         close () {
             this.$refs.dialog.close()
         },
@@ -153,12 +145,13 @@ export default {
             }
         },
         convertNotification (n) {
-            let result = {
+            const result = {
                 "id": "notifications." + n.id,
                 "title": n.title,
                 "body": n.more,
                 "lastUpdate": n.lastUpdate,
-                "isNew": n.isNew
+                "isNew": n.isNew,
+                "details": n.details
             }
             if (n.video) {
                 let url = n.video
@@ -177,7 +170,6 @@ export default {
         this.notifcationService = Services.getNotificationService()
         this.notifications = await this.notifcationService.getNotications()
         this.newNotifications = this.notifications.filter(n => n.isNew).length
-        console.debug('StudioNotification found ' + this.newNotifications + '  new notifcatios')
     }
 };
 </script>

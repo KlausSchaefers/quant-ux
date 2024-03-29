@@ -30,12 +30,14 @@
                         </a>
                     </div>
 
-                    <div class="MatcStudioNavRow MatcMarginTop" v-if="filteredAppList.length > 0">
+                    <div class="MatcStudioNavRow MatcMarginTop">
                         <h4 class="MatcCollapseViewMinHidden"> {{ $t('app.recent-projects') }}</h4>                 
                     </div>
  
                     <div class="MatcStudioAppList MatcMarginBottom MatcScrollContainer">
-                        <a v-for="app in filteredAppList" :key="app.id" :href="'#/' + urlPrefix +'/' + app.id + '.html'" :class="['MatcLink MatcCollapseViewMinHidden', {'MatcStudioAppListSelected' : selectedApp === app.id}]">
+                        <a v-for="app in filteredAppList" 
+                            :key="app.id" :href="'#/' + urlPrefix +'/' + app.id + '.html'" 
+                            :class="['MatcLink MatcCollapseViewMinHidden', {'MatcStudioAppListSelected' : selectedApp === app.id}]">
                             <span class="MatcStudioAppListDot" :style="{'background': app.previewColor}"/>
                             <span class="MatcStudioAppListLabel">
                                 {{app.name}}
@@ -47,6 +49,10 @@
                                 {{$t('app.more')}}
                             </span>    
                         </a>
+                        <div v-if="isLoading" class="MatcStudioAppListLoading">
+
+                            {{$t('app.loading')}}
+                        </div>
                     </div>
 
                     <div class="MatcStudioNavRow">
@@ -139,6 +145,7 @@ export default {
     mixins: [DojoWidget],
     data: function () {
         return {
+            isLoading: true,
             selectedApp: null,
             apps: [],
             user: null
@@ -221,6 +228,7 @@ export default {
 
         async setApps(value) {
             this.logger.log(0, "setApps", "enter > " + value.length);
+            this.isLoading = false
             value.sort((a, b) => {
                 return b.lastUpdate - a.lastUpdate;
             });

@@ -236,6 +236,7 @@
         "delete": "Delete",
         "download": "Download",
         "edit": "Edit",
+        "back": "Back",
         "continue": "Continue",
         "post": "Post",
         "close": "Close",
@@ -405,7 +406,8 @@
         "add-comment": "Add Comment",
         "screen-list" : "Screens",
         "description": "Description",
-        "description-hint": "Add a description here"
+        "description-hint": "Add a description here",
+        "loading": "Loading..."
     },
     "survey": {
         "video": "Video",
