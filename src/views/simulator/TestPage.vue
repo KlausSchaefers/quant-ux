@@ -1,110 +1,44 @@
 
 <template>
-<div :class="['MatcPublic', {'MatcWindows': hasWindows}]">
-	<div :class="['MatcTest', {'MatcTestCustomSplash': hasSplash}]" v-if="step < 10">
-		<div v-if="hasSplash" class="MatcTestCustomSplashPowered">Powered by Quant-UX</div> 
-
-		<div class="MatcTestMenu MatcTestMenuMax MactMainGradient" data-dojo-attach-point="overlay" :style="splashBackground" v-if="hasSettings">
-
-			<div :class="['MatcTestLogoCntr', {'MatcTestLogoCntrMax': step > 1}]" >
-
-				<div :class="['MatcTestProgressCntr']">
-					<div class="MatcTestProgressBar" >
-					</div>
-					<transition name="fade">
-						<div v-if="step > 2">
-							<div class="MatcTestContent" v-if="step === 6">
-								<div class="MatcTestContentCntr">
-									<h2>{{getNLS("simulator.password.title")}} </h2>
-									<p v-html="getNLS('simulator.password.msg')">
-										
-									</p>
-									<input v-model="password" class="form-control" @keypress.enter="setPassword"/>
-									<div class="MatcButton MatcMarginTop" @click="setPassword()">
-										{{getNLS("simulator.password.next")}}
-									</div>
-									<span class="MatcError" style="margin-left:20px">
-										{{passwordError}}
-									</span>
-								</div>
-
-
-							</div>
-							<div class="MatcTestContent" v-if="step === 3">
-								<div class="MatcTestContentCntr">
-									<h2> {{getNLS("simulator.welcome.title")}} !</h2>
-									<p v-if="settings.description">
-										{{settings.description}}
-									</p>
-									<p v-else v-html="getNlSWithReplacement('simulator.welcome.msg', {'name': model.name})">
-									</p>
-									<p v-html="getNLS('simulator.welcome.privacy')">
-										
-									</p>
-								</div>
-								<div class="MatcMarginTop">
-									<div class="MatcButton MatcTestStartButton"	@click="renderTest()"	v-if="getUserTasks().length === 0">
-											{{getNLS("simulator.welcome.start")}}
-									</div>
-									<div class="MatcButton MatcTestStartButton"	@click="renderTasks()" v-else>
-											{{getNLS("simulator.welcome.showTasks")}}
-									</div>
-								</div>
-							</div>
-							<div class="MatcTestContent" v-if="step === 4">
-								<div class="MatcTestContentCntr">
-									<h2>{{getNLS("simulator.tasks.title")}} !</h2>
-									<p>
-										{{getNLS("simulator.tasks.msg")}}
-									</p>
-									<div v-for="t in getUserTasks()" :key="t.id">
-										<h3>{{t.name}}</h3>
-										<div class="MatcTestTaskDescription">
-											{{t.description}}
-										</div>
-									</div>
-								</div>
-
-								<div class="MatcMarginTop">
-									<div class="MatcButton MatcTestStartButton" @click="renderTest()">
-										{{getNLS("simulator.welcome.start")}}
-									</div>
-								</div>
-							</div>
-						</div>
-					</transition>
-				</div>
-				<transition name="logoFade" v-if="step == 0">
-					<div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation"></div>
-				</transition>
-			</div>
-		</div>
-	</div>
+<div :class="['MatcPublic MatcTestPage', {'MatcWindows': hasWindows},  {'MatcTestPageResponsive': isResponsive}]">
+	<Splash :hash="hash" :model="model" :settings="settings" @start="renderTest"  v-if="hasSplash"/>
 	<div  class="MatcTestCntr">
-		<div class="MatcTestTaskCntr MatcTestContent" ref="tastCntr" v-if="showTasks">
-			<h1>{{getNLS("simulator.tasks.title")}} </h1>
-			<p>
-				{{getNLS("simulator.tasks.msg")}}
-			</p>
-			<div v-for="(t,i) in getUserTasks()" :key="t.id" :class="{'MatcTestTaskDone':taskDone[t.id] }">
-					<h3>#{{i+1}} - {{t.name}} <span class="mdi mdi-check-circle" v-if="taskDone[t.id]"/> </h3>
-					<div class="MatcTestTaskDescription">
-						{{t.description}}
-					</div>
+		<div class="MatcTestTaskCntr MatcTestContent " ref="tastCntr" v-if="showTasks">
+
+			<div class="MatcStudioLogo">        
+				<img src="../../style/img/QUXLogoBlack.svg" class="MatcStudioLogo" ref="logo"> 
+				<span class="MatcCollapseViewMinHidden">Quant-UX</span>               
+			</div>
+
+			<div class="MatcTestTaskList MatcScrollContainer" ref="taskList">
+				<TestTask 
+					v-for="(t) in getUserTasks()" 
+					:key="t.id" 
+					:task="t"
+					:done="taskDone[t.id]" />
+				<div class="MatcTestTaskSuccess MatcTestTask" v-if="hasSuccessMessage">
+					<h4>{{$t('test.task.success-title')}}</h4>
+					<p class="MatcTestTaskDescription">
+						{{$t('test.task.success-message')}}
+					</p>
+				</div>
+			</div>	
+		</div>
+		<div class="MatcTest" ref="responsiveScroll">
+			<div class="MatcTestSimulatorWrapper" ref="cntr">			
 			</div>
 		</div>
-		<div class="MatcTest" ref="cntr">
-		</div>
 	</div>
-	<div class="MatcTestVersion" v-if="step <= 1">
-		v4.3.30
-	</div>
+
 </div>
 </template>
 <style>
-  @import url("../../style/matc.css");
-  @import url("../../style/canvas/all.css");
-  @import url("../../style/test.css");
+	@import url("../../style/css/legacy.css");
+</style>
+<style lang="scss">
+  @import "../../style/matc.scss";
+  @import "../../style/test.scss";
+  @import "../../style/canvas/all.scss";
 </style>
 <style lang="sass">
   @import "../../style/bulma.sass"
@@ -129,6 +63,9 @@ import QR from 'core/QR'
 import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
 import * as ScrollUtil from '../../util/ScrollUtil'
+import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
+import Splash from './Splash'
+import TestTask from './TestTask'
 
 
 export default {
@@ -136,10 +73,15 @@ export default {
     mixins:[Util, DojoWidget],
     data: function () {
         return {
+			isResponsive: false,
+			hasSuccessMessage: false,
+			hash: '',
+			hasSplash: true,
 			true: false,
 			skipSplash: false,
 			desktopScaleDirection: "width",
 			desktopOffset: 0,
+			responiveOffset: 200,
 			settings: null,
 			logging: true,
 			model: null,
@@ -152,13 +94,13 @@ export default {
 			forceSimpleBar: false ,
         }
     },
-    components: {},
+    components: {
+		'Splash':Splash,
+		'TestTask': TestTask
+	},
 	computed: {
 		hasWindows () {
 			return navigator.platform.indexOf('Win') > -1
-		},
-		hasSplash () {
-			return this.splashImage !== null
 		},
 		showTasks () {
 			if (this.settings && this.settings.showTaskInTest) {
@@ -171,15 +113,9 @@ export default {
 		},
 		menuWidth () {
 			if (this.settings && this.settings.showTaskInTest) {
-				return 400
+				return 256
 			}
 			return 0
-		},
-		splashBackground () {
-			if (this.splashImage) {
-  				return `background-image: url(/rest/images/${this.hash}/${this.splashImage.url});`
-			}
-			return ''
 		}
 	},
     methods: {
@@ -219,6 +155,10 @@ export default {
 				this.skipSplash = true;
 			}
 
+			if (this.$route.query.responsive === 'true') {
+				this.isResponsive = true
+			}
+
 			/**
 			 * Load the model a little later to avoid any flickering
 			 */
@@ -235,6 +175,21 @@ export default {
 				result += "&" + item[0] + "=" + item[1];
 			}
 			return result
+		},
+
+
+		getUserTasks (){
+			const tasks = [];
+			if (this.settings.tasks && this.settings.tasks){
+				for(let i=0; i< this.settings.tasks.length; i++){
+					const task = this.settings.tasks[i];
+					if (task.description && task.description != "Enter a description here"){
+						tasks.push(task);
+					}
+				}
+			}
+
+			return tasks;
 		},
 
 		async loadModel (){
@@ -325,83 +280,14 @@ export default {
 		setTestsettings (settings){
 			this.logger.log(1,"setTestsettings","enter > ", settings);
 			this.settings = settings;
-			this.setCustomSplash(settings)
-			if(this.debug || this.skipSplash){
-				setTimeout(lang.hitch(this,"renderTest"),0);
-			} else{
-				setTimeout(lang.hitch(this,"hideLogo"),500);
-			}
 		},
 		
-		setCustomSplash (settings) {
-			this.logger.log(1,"setCustomSplash","enter > ", settings);
-			if (settings.splash) {
-				this.splashImage = settings.splash
-			}
-		},
-
-		hideLogo () {
-			this.logger.log(1,"hideLogo","enter" );
-			this.step = 1
-			setTimeout(lang.hitch(this,"expandWindow"),500);
-		},
-
-		expandWindow () {
-			this.logger.log(1,"expandWindow","enter" );
-			this.step = 2
-			setTimeout(lang.hitch(this,"renderSettings"),1000);
-		},
-
-		renderSettings(){
-			this.logger.log(2,"renderSettings","enter" );
-			this.step = 3
-		},
-
-		renderTasks (){
-			this.logger.log(2,"renderTasks","enter" );
-			this.step = 4
-		},
-
-		getUserTasks (){
-			const tasks = [];
-			if (this.settings.tasks && this.settings.tasks){
-				for(var i=0; i< this.settings.tasks.length; i++){
-					var task = this.settings.tasks[i];
-					if (task.description && task.description != "Enter a description here"){
-						tasks.push(task);
-					}
-				}
-			}
-			return tasks;
-		},
-
-		getPricacy () {
-			return this.getNLS("test.welcome.privacy");
-		},
+		
 
 		preloadImages (model) {
 			this.logger.log(-1,"preloadImages","enter");
 			Preloader.load(model, this.hash, this.domNode)	
 		},
-
-		renderTest (){
-			this.logger.log(-1,"renderTest","enter", this.settings.showTaskInTest );
-
-			this.step = 10
-			css.remove(this.overlay, "MatcTestMenuMax");
-			this.renderSimulator();
-
-			if (this.model.type != "desktop") {
-				let btn = this.db.div("MatcTestQRButton  MatcAnimated MatcFadeOut").build(this.domNode);
-				this.db.span("mdi mdi-qrcode MatcMiddle").build(btn);
-				this.own(on(btn, touch.press, lang.hitch(this, "showQRDialog")));
-
-				setTimeout(() => {
-					css.remove(btn, "MatcFadeOut");
-				}, 1500);
-			}
-		},
-
 
 		showQRDialog (e){
 			this.stopEvent(e);
@@ -438,7 +324,32 @@ export default {
 			matches.data.forEach(match => {
 				this.$set(this.taskDone, match.task, true)
 			})
+
+			if (this.settings.showSuccessInTest) {
+				if (Object.values(this.taskDone).length === tasks.length) {
+					this.hasSuccessMessage = true
+				}
+			}
 		},
+
+		renderTest (){
+			this.logger.log(-1,"renderTest","enter", this.settings.showTaskInTest );
+
+			this.hasSplash = false
+			
+			this.renderSimulator();
+
+			if (this.model.type != "desktop") {
+				let btn = this.db.div("MatcTestQRButton  MatcAnimated MatcFadeOut").build(this.domNode);
+				this.db.span("mdi mdi-qrcode MatcMiddle").build(btn);
+				this.own(on(btn, touch.press, lang.hitch(this, "showQRDialog")));
+
+				setTimeout(() => {
+					css.remove(btn, "MatcFadeOut");
+				}, 1500);
+			}
+		},
+
 
 		renderSimulator () {
 			/**
@@ -447,21 +358,76 @@ export default {
 			const screenPos = win.getBox();
 			screenPos.w -= this.menuWidth;
 
-			/**
-			 * Set container size... make sure
-			 */
-			const cntr = this.db.div("MatcSimulatorSection").build();
-			cntr.style.top="0px";
-			cntr.style.left = this.menuWidth + "px";
-			cntr.style.width = screenPos.w + "px";
-			this.$refs.cntr.appendChild(cntr);
-
-			if(this.model.type == "desktop"){
+			const cntr = this.$refs.cntr
+			if (this.isResponsive) {
+				// change model 
+				this.simulator = this.renderResponsiceSimulator(cntr, screenPos);
+			} else  if(this.model.type == "desktop"){
 				this.simulator = this.renderDesktopSimulator(cntr, screenPos);
 			} else {
+				// we want center of page, not center of right...
+				cntr.style.marginRight = this.menuWidth + 'px'
 				this.simulator = this.renderMobileSimulator(cntr, screenPos);
 			}
 			return cntr;
+		},
+		
+		renderResponsiceSimulator (cntr, screenPos){
+			this.logger.log(2,"renderDesktopSimulator","enter " );
+
+			
+			const factor = this.getResponsiveScaleFactor(screenPos);
+			screenPos.w -= 64
+			const cntrPos = {
+				w : Math.floor(screenPos.w * factor),
+				h : Math.floor(screenPos.h * factor) - 96
+			};
+
+			// we could do this somehow nicer?
+			// now the scroll will bon on the entire page, which is messing up screen
+			// recordings
+			const layout = new ResponsiveLayout()
+			layout.initApp(this.model, true)
+			// should this be the same height or scalled????
+			const resizedModel = layout.resize(cntrPos.w,this.model.screenSize.h )
+
+			cntrPos.h = Math.min(resizedModel.screenSize.h, cntrPos.h)	
+
+			const wrapper = this.db.div("MatchSimulatorWrapper").build(cntr);
+			wrapper.style.width = Math.round(cntrPos.w) + "px";
+			wrapper.style.height = Math.round(cntrPos.h) + "px";
+
+			const container = this.db.div("MatchSimulatorContainer").build(wrapper)
+			container.style.width = Math.round(cntrPos.w) + "px";
+			container.style.height = Math.round(cntrPos.h) + "px";
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container, this.forceSimpleBar)
+
+
+			const s = this.createSimulator();
+			s.setResizeListener(size => {
+				this.logger.log(-1,"renderMobileSimulator","resize", size.w + '/' + size.h);
+				wrapper.style.height = size.h + 'px'
+				wrapper.style.width = size.w + 'px'
+
+				container.style.height = size.h + 'px'
+				container.style.width = size.w + 'px'
+			})
+			s.mode ="width";
+			/**
+			 * FIXME: Hacky workaround for initScale() issue;
+			 */
+			s.isDesktopTest = true;
+			s.setInvitation(this.hash);
+			s.placeAt(container);
+			s.setScrollListenTarget(hasSimpleBar)
+
+
+			s.startup();
+			s.setModel(resizedModel);
+		
+
+			this.logger.log(2,"renderDesktopSimulator","exit" );
+			return s;
 		},
 
 		renderMobileSimulator (cntr, screenPos){
@@ -481,8 +447,7 @@ export default {
 				pos = this.getScaledSize(cntrPos, "height", this.model);
 			}
 
-			const parent = this.db.div("MatcCenter").build(cntr);
-			const wrapper = this.db.div("MatchSimulatorWrapper").build(parent);
+			const wrapper = this.db.div("MatchSimulatorWrapper").build(cntr);
 			wrapper.style.width = Math.round(pos.w) + "px";
 			wrapper.style.height = Math.round(pos.h) + "px";
 
@@ -531,8 +496,7 @@ export default {
 			}
 
 
-			const parent = this.db.div("MatcCenter").build(cntr);
-			const wrapper = this.db.div("MatchSimulatorWrapper").build(parent);
+			const wrapper = this.db.div("MatchSimulatorWrapper").build(cntr);
 			wrapper.style.width = Math.round(pos.w) + "px";
 			wrapper.style.height = Math.round(pos.h) + "px";
 
@@ -575,9 +539,15 @@ export default {
 
 
 		getDesktopScaleFactor (screenPos){
-			var factor = (screenPos.w-this.desktopOffset) / screenPos.w;
+			const factor = (screenPos.w-this.desktopOffset) / screenPos.w;
 			return Math.min(1,factor);
 		},
+
+		getResponsiveScaleFactor (screenPos){
+			const factor = (screenPos.w-this.responiveOffset) / screenPos.w;
+			return Math.min(1,factor);
+		},
+
 
 		createSimulator (){
 			if(this.debug){
@@ -598,6 +568,7 @@ export default {
     },
     mounted () {
 		css.add(win.body(), 'MatcPublic')
+
 		if (this.forceSimpleBar) {
 			console.error('forceSimpleBar')
 		}

@@ -17,6 +17,7 @@ import ScrollContainer from 'common/ScrollContainer'
 import ToolbarDropDownButton from './ToolbarDropDownButton'
 import DataSection from './DataSection'
 import Validation from './Validation'
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
     name: 'ValidationSection',
@@ -156,6 +157,14 @@ export default {
 			this._renderValidationLabels(validation, model);
 		},
 
+		_showLabeledTextArea (model){
+			this._renderDataBinding(model);
+			var validation = this.getValidationModel(model);
+			this._renderRequired(validation);
+			this._renderTextBoxValidation(validation);
+			this._renderValidationLabels(validation, model);
+		},
+
 
 		_showSpinner (model){
 			this._renderDataBinding(model);
@@ -209,6 +218,12 @@ export default {
 			this._renderIgnoreState(model);
 		},
 
+		_showDragNDropTarget (model){
+			this._renderDataBinding(model);
+
+			//this._renderCheck("Vertical Move",model.props.dndY, "dndY" );
+			//this._renderCheck("Horizontal Move",model.props.dndX, "dndX" );
+		},
 
 		_showBarChart (model){
 			this._renderDataBinding(model, false);
@@ -247,10 +262,16 @@ export default {
 
 		},
 
+		_showSortableList(model){
+			this._renderDataBinding(model);
+		},
+
+
+		_showRadioTable(model) {
+			this._renderDataBinding(model);
+		},
 
 		_showSwitch (model){
-
-			this._renderDataBinding(model);
 
 			var validation = this.getValidationModel(model);
 			this._renderRequired(validation);
@@ -365,7 +386,6 @@ export default {
 
 			var row = this.db.div("MatcToobarRow MatcAction").build(this.cntr);
 			var drpBox = this.$new(ToolbarDropDownButton, {maxLabelLength:15});
-			css.add(drpBox.domNode, "MatcToolbarGridFull  MatcToolbarIconNoSmooth");
 			drpBox.reposition=true;
 			drpBox.setOptions([
 				{"value" : null, label:"No Validation", icon:"mdi mdi-close", callback:lang.hitch(this, "removeDateValidation")},
@@ -390,8 +410,9 @@ export default {
 			validation.placeAt(cntr);
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			var write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
 			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
-			var write = this.db.div("MatcButton", "Ok").build(bar);
+	
 
 			var d = new Dialog({overflow:true});
 
@@ -443,26 +464,28 @@ export default {
 
 			if(validation.required || (validation.type != null && validation.type !=undefined)){
 
-				var errorLabels = this.getErrorLabels(model);
+				const errorLabels = this.getErrorLabels(model);
+				const row = this.db
+					.div("MatcToobarRow MatcAction ")
+					.build(this.cntr);
 
-				var row = this.db.div("MatcToobarRow MatcAction ").build(this.cntr);
-
-				var txt =  "No Label";
-				var icon = "mdi mdi-close";
-				if(errorLabels){
-					icon = "mdi mdi-label";
+				let txt =  "No Label";
+				let icon = "ReferenceNone";
+				if(errorLabels && errorLabels.length > 0){
+					icon = "Reference";
 					txt = "Change Labels...";
 				}
 
-				var cntr = this.db.div(" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarGridFull").build(row);
-				var lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
-				this.db.span(icon).build(lbl);
+				const cntr = this.db
+					.div(" MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton ")
+					.build(row);
+				cntr.appendChild(iconDOM(icon));
+
+				const lbl = this.db.label("MatcToolbarItemIcon").build(cntr);
+				
 				this.db.span("MatcToolbarDropDownButtonLabel", txt).build(lbl);
 
-
-				this.db.span("caret").build(cntr);
 				this.tempOwn(on(cntr, touch.press, lang.hitch(this, "_showErrorLabelDialog", validation, model)));
-
 
 			}
 		},
@@ -470,32 +493,30 @@ export default {
 
 		_showErrorLabelDialog (validation,model, e){
 
-
-
 			this.stopEvent(e);
 
-			var popup = this.db.div("MatcOptionDialog MatcPadding").build();
+			const popup = this.db.div("MatcOptionDialog MatcDialog MatcPadding").build();
 
-			var cntr = this.db.div("MatcDialogTable MatcDialogTableXL").build(popup);
+			const cntr = this.db.div("MatcDialogTable MatcDialogTableXL").build(popup);
 
-			var list = {};
+			const list = {};
 
-			var widgetsWidthDistance = this._getSortedErrorLabels();
+			const widgetsWidthDistance = this._getSortedErrorLabels();
 
-			var tbl = this.db.table("").build(cntr);
-			var tbody = this.db.tbody().build(tbl);
+			const tbl = this.db.table("").build(cntr);
+			const tbody = this.db.tbody().build(tbl);
 
-
-			var errorLabels = this.getErrorLabels(model);
+			const errorLabels = this.getErrorLabels(model);
 
 
 			for(let i=0; i< widgetsWidthDistance.length; i++){
-				let widget = widgetsWidthDistance[i].w;
-				let widgetID = widget.id;
-				let tr = this.db.tr().build(tbody);
+				const widget = widgetsWidthDistance[i].w;
+				const widgetID = widget.id;
+				const tr = this.db.tr().build(tbody);
 
-				let td = this.db.td("MatcDialogTableCheckBoxCntr").build(tr);
-				let chkBox = this.$new(CheckBox);
+				let td = this.db.td("MatcDialogTableSelectCntr").build(tr);
+				
+				const chkBox = this.$new(CheckBox);
 				chkBox.setValue((errorLabels && errorLabels.indexOf(widgetID) >=0));
 				chkBox.placeAt(td);
 
@@ -508,17 +529,23 @@ export default {
 				list[widgetID] = chkBox;
 			}
 
-			var scroller = this.$new(ScrollContainer);
+			const scroller = this.$new(ScrollContainer);
 			scroller.placeAt(cntr);
-
 			scroller.wrap(tbl);
 
-			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			const bar = this.db
+				.div("MatcButtonBar MatcMarginTop")
+				.build(popup);
 	
-			var write = this.db.div("MatcButton", "Ok").build(bar);
-			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+			const write = this.db
+				.div("MatcButton MatcButtonPrimary", "Ok")
+				.build(bar);
 
-			var d = new Dialog({overflow:true});
+			const cancel = this
+				.db.a("MatcLinkButton", "Cancel")
+				.build(bar);
+
+			const d = new Dialog({overflow:true});
 
 			d.own(on(write, touch.press, lang.hitch(this,"setErrorLabels", d, list, model)));
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
@@ -602,7 +629,7 @@ export default {
 
 			var row = this.db.div("MatcToobarRow MatcAction").build(this.cntr);
 			var drpBox = this.$new(ToolbarDropDownButton, {maxLabelLength:15});
-			css.add(drpBox.domNode, "MatcToolbarGridFull  MatcToolbarIconNoSmooth");
+			css.add(drpBox.domNode, "  MatcToolbarIconNoSmooth");
 			drpBox.reposition=true;
 			drpBox.setOptions([
 				{"value" : null, label:"No Validation", icon:"mdi mdi-close"},
@@ -663,7 +690,7 @@ export default {
 			validation.placeAt(cntr);
 
 			var bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
-			var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+			var cancel = this.db.a("MatcLinkButton MatcButtonPrimary", "Cancel").build(bar);
 			var write = this.db.div("MatcButton", "Ok").build(bar);
 
 			var d = new Dialog({overflow:true});

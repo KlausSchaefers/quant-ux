@@ -1,7 +1,7 @@
 
 <template>
     <div class=" MatcToolbarItem MatcToolbarDropDownButton MatcVectorStrokeProps">
-		<div class="" type="button" data-dojo-attach-point="button">
+		<div class="" type="button" ref="button">
 			<label data-dojo-attach-point="label" class="">
 				<span class="mdi mdi-dots-vertical"></span>	
 			</label>

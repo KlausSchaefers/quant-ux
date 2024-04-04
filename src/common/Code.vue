@@ -1,5 +1,5 @@
 <template>
-  <div class="MatcCode MatcToolbarTabContainer" @keydown.stop="stopKey" @keyup.stop="" @keypress.stop="">
+  <div class="MatcCode " @keydown.stop="stopKey" @keyup.stop="" @keypress.stop="">
     <div class="MatcToolbarTabs MatcToolbarTabsBig">
       <a @click="tab='lowCode'" :class="{'MatcToolbarTabActive': tab === 'lowCode'}" v-if="hasLowCode">Vue Low Code</a>
       <a @click="tab='css'" :class="{'MatcToolbarTabActive': tab === 'css'}">CSS</a>
@@ -32,8 +32,8 @@
      </div>
   </div>
 </template>
-<style lang="css">
-@import url("../style/code.css");
+<style lang="scss">
+@import "../style/components/code.scss";
 </style>
 
 <script>

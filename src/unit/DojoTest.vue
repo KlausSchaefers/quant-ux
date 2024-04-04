@@ -51,8 +51,11 @@
   </div>
 </template>
 
+<style lang="scss">
+  @import "../style/matc.scss";
+</style>
 <style lang="css">
-@import url("../style/matc.css");
+
 .TestBox {
   display: inline-block;
   width: 300px;

@@ -48,7 +48,7 @@
 	 </div>
 </template>
 <style lang="scss">
-	@import '../../../style/scss/toolbar_conditional_style.scss';
+	@import '../../../style/components/toolbar_conditional_style.scss';
 </style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'

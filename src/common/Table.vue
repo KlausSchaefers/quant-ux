@@ -12,6 +12,7 @@ import lang from "dojo/_base/lang";
 import touch from "dojo/touch";
 import Logger from "common/Logger";
 import DomBuilder from "common/DomBuilder";
+import {iconDOM} from "../page/QIconUtil";
 
 export default {
   name: "Table",
@@ -182,7 +183,7 @@ export default {
             let a = db.a(action.css, action.label).build(td);
 
             if (action.icon) {
-              db.span(action.icon, "").build(a);
+              a.appendChild(iconDOM(action.icon))
             }
             if (action.callback) {
               this.tempOwn(

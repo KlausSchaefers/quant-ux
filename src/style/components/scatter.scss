@@ -1,0 +1,454 @@
+@import '../variables.scss';
+
+.MatcScatterPlot {
+	width: calc(100% - 60px);
+
+	.MatcScatterPlotCntr {
+		background: #f5f5f5;
+	}
+
+	.MatcScatterPlotCanvas {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		overflow: hidden;
+		top: 0px;
+		left: 0px;
+	}
+
+
+	.MatcScatterPlot .MatcToolbarTabs a {
+	    color: $text_color;
+		font-size: 18px;
+		margin-right: 20px;
+	}
+
+	.MatcScatterPlot .MatcToolbarTabs a:hover {
+		color: $primary_color;
+	}
+
+	 @keyframes detailsFadeIn {
+		0% {opacity: 0;}
+		100% {opacity: 1;}
+		
+	 }
+	.MatcScatterPlotDetails {
+		position: absolute;
+		height: 0px;
+		width: 0px;
+		border-radius: 8px;
+		transform: translateY(50%) translateX(-50%);
+		z-index: 9999;
+		animation: detailsFadeIn 0.2s;
+
+		.MatcScatterPlotDetailsTaskCntr {
+			display: flex;
+			gap: 8px;
+			align-items: flex-start;
+			width: 140px;
+			flex-wrap: wrap;
+		} 
+
+		.MatcScatterPlotDetailsTask {
+			background: rgba(255, 255, 255, 0.255);
+			color: #fff;
+			padding: 2px 8px;
+			max-height: 30px;
+			border-radius: 4px;
+			max-width: 64px;
+			display: block;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			font-size: 10px;
+		}
+
+		td{
+			padding: 1px;
+		}
+		td:first-child {
+			padding-right: 8px;
+		}
+
+		.MatcScatterPlotDetailsContainer {
+			min-width: 320px;
+			position: absolute;
+			padding: 5px 10px;
+			background: #333;
+			color: #fff;
+			border-radius: 3px;
+			box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.25);
+		
+			font-size: 12px;
+
+		}
+
+		.MatcScatterPlotDetailsArrow {
+			width: 16px;
+			height: 16px;
+			position: absolute;
+			transform: rotate(45deg);
+			background: #333;
+		}
+
+		&.left {
+			.MatcScatterPlotDetailsContainer{
+				right: 16px
+			}
+			.MatcScatterPlotDetailsArrow{
+				right:12px
+			}	
+		}
+		&.right {
+			.MatcScatterPlotDetailsContainer{
+				left: 16px
+			}
+			.MatcScatterPlotDetailsArrow{
+				left:12px
+			}	
+		}
+
+		&.top {
+			.MatcScatterPlotDetailsContainer{
+				bottom: -16px
+			}
+			.MatcScatterPlotDetailsArrow{
+				bottom: -8px;
+			}		
+		}
+		&.bottom {
+			.MatcScatterPlotDetailsContainer{
+				top: -16px
+			}
+			.MatcScatterPlotDetailsArrow{
+				top: -8px;
+			}	
+		}
+	}
+
+
+	.MatcScatterPlotCntr {
+		width: 100%;
+		height: 450px;
+		border: 1px solid #ccc;
+		margin-bottom: 30px;
+		margin-left: 30px;
+		margin-right: 30px;
+		position: relative;
+		transition: all 0.2s;
+	}
+
+	.MatxAxisLabel {
+		position: absolute;
+		color: #777;
+		font-size: 14px;
+	}
+
+	.MatxAxisLabel.xLabel {
+		bottom: 0px;
+		left: 50%;
+		transform: translateX(-50%);
+		color: #999;
+	}
+
+	.MatxAxisLabel.yLabel {
+		top: 60%;
+		transform: translateY(-50%) rotate(270deg);
+		color: #999;
+		transform-origin: top left;
+	}
+
+	.MatxAxisLabel.yLabelEast {
+		top: 50%;
+		right: -12px;
+		transform: translateY(-50%) rotate(270deg);
+		color: #999;
+	}
+
+	.MatxAxisLabel.minLabel {
+		top: 100%;
+		left: 0px;
+	}
+
+
+	.MatxAxisLabel.xMaxLabel {
+		top: 100%;
+		right: 0px;
+	}
+
+
+	.MatxAxisLabel.xMiddleLabel {
+		top: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		transition: all 0.2s;
+	}
+
+	.MatxAxisLabel.yMiddleLabel {
+		bottom: 50%;
+		left: -5px;
+		transform: translateY(50%) translateX(-100%);
+		transition: all 0.2s;
+	}
+
+	.MatxAxisLabel.yMaxLabel {
+		top: 0px;
+		left: -5px;
+		transform: translateX(-100%);
+	}
+
+
+	.MatxAxisLabel.yMinLabel {
+		bottom: 10px;
+		left: -5px;
+		transform: translateX(-100%);
+	}
+
+
+
+	.MatxAxisLabel.yMaxLabelEast {
+		top: 0px;
+		right: -5px;
+		transform: translateX(100%);
+	}
+
+	.MatxAxisLabel.yMinLabelEast {
+		top: 100%;
+		right: 0px;
+	}
+
+	.MatxAxisLabel.bottom25Label {
+		bottom: 0px;
+		left: 25%;
+		transform: translateX(-50%);
+		color: #999;
+	}
+
+	.MatxAxisLabel.bottom75Label {
+		bottom: 0px;
+		left: 75%;
+		transform: translateX(-50%);
+		color: #999;
+	}
+
+
+
+	.MatxScatterPoint {
+		position: absolute;
+		width: 10px;
+		height: 10px;
+		transform: translateY(50%) translateX(-50%);
+		transition: all 0.2s;
+		background: #56A9FC;
+		opacity: 0.7;
+		border-radius: 100%;
+		cursor: pointer;
+		z-index: 10;
+
+		&:hover {
+			opacity: 1;
+			width: 16px;
+			height: 16px;
+		}
+	}
+
+	.MatxScatterPoint:hover {
+		background: #333;
+		opacity: 1;
+	}
+
+	.MatxAxisXLine {
+		position: absolute;
+		width: 0px;
+		height: 100%;
+		left: 0%;
+		bottom: -1%;
+		border-left: #ddd 1px dashed;
+		transition: all 0.2s;
+	}
+
+	.MatxAxisYLine {
+		position: absolute;
+		width: 100%;
+		height: 0px;
+		bottom: -1%;
+		left: 0%;
+		border-top: #ddd 1px dashed;
+		transition: all 0.2s;
+	}
+
+	.MatcScatterPlotCntrHover .MatxAxisYLine,
+	.MatcScatterPlotCntrHover .MatxAxisXLine {
+		border-color: #555;
+	}
+
+	.MatcScatterPlotCntrHover .yMiddleLabel,
+	.MatcScatterPlotCntrHover .xMiddleLabel {
+		color: #555;
+	}
+
+
+	.MatcScatterPlotBar {
+		position: absolute;
+		background-color: $primary_color;
+		border-top-right-radius: 3px;
+		border-bottom-right-radius: 3px;
+		transition: all 0.2s;
+		text-align: right;
+		font-size: 12px;
+		color: #fff;
+		padding-right: 10px;
+		padding-top: 2px;
+		overflow: hidden;
+	}
+
+	.MatcScatterPlotBarLabel.MatxAxisLabel {
+		position: absolute;
+		right: 100%;
+		width: 200px;
+		text-align: right;
+		padding-right: 5px;
+
+		transition: all 0.2s;
+		overflow: hidden;
+	}
+
+	.MatcScatterPlotBarLabelHidden,
+	.MatcScatterPlotDropScatter .MatcScatterPlotBarLabel {
+		opacity: 0
+	}
+
+
+	.MatcScatterPlotScatter .MatcScatterPlotScatterHidden {
+		opacity: 0
+	}
+
+	.MatcScatterPlotfScatternVisible {
+		opacity: 1
+	}
+
+
+	.MatcScatterPlotfDetailsVisible {
+		opacity: 0
+	}
+
+	.MatcScatterPlotDetails .MatcScatterPlotfDetailsVisible {
+		opacity: 1;
+	}
+
+	.MatcScatterPlotBoxPlotCntr {
+		position: absolute;
+		width: 20px;
+		border-top: 1px solid #999;
+		border-bottom: 1px solid #999;
+		transition: all 0.2s;
+	}
+
+	.MatcScatterPlotBoxPlotLine {
+		position: absolute;
+		width: 1%;
+		left: 49%;
+		top: 0px;
+		height: 100%;
+		border-right: 1px solid #999;
+
+	}
+
+	.MatcScatterPlotBoxPlot {
+		position: absolute;
+		width: 100%;
+		left: 0px;
+		opacity: 0.6;
+	}
+
+	.MatcScatterPlotBoxPlotMean {
+		position: absolute;
+		width: 100%;
+		left: 0px;
+		background: #000;
+		height: 2px;
+	}
+
+
+	.MatcScatterPlotHintBar {
+		text-align: center;
+		font-size: 14px;
+		margin-top: 48px;
+		display: flex;
+		justify-content: center;
+		gap: 8px;
+		align-items: center;
+	}
+
+
+	.MatcScatterPlotHideTasks .MatcScatterPlotfTaskCntr {
+		display: none;
+	}
+
+	.MatcScatterPlotHideDropoff .MatcScatterPlotfDropCntr {
+		display: none;
+	}
+
+	.MatcScatterPlotfTaskCntr {
+		position: absolute;
+		bottom: 0px;
+		right: 0px;
+		min-width: 24px;
+		max-width: 200px;
+		min-height: 30px;
+		max-height: 200px;
+		overflow: auto;
+		transition: all 0.2s;
+	}
+
+	.MatcScatterPlotfTaskCntr:hover {
+		max-height: 300px;
+	}
+
+	.MatcScatterPlotfTaskCntr div {
+		cursor: pointer;
+		height: 30px;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		padding-right: 8px;
+		gap: 8px;
+	}
+
+	.MatcScatterPlotfTaskCntr span {
+		height: 12px;
+		width: 12px;
+		border-radius: 50%;
+		display: inline-block;
+		cursor: pointer;
+		vertical-align: middle;
+		border: 1px solid #777;
+	}
+
+	.MatcScatterPlotfTaskCntr .MatcScatterPlotfTaskSelected span {
+		border: none
+	}
+
+	.MatcScatterPlotfTaskCntr label {
+		color: #999;
+		font-size: 14px;
+		font-weight: 400;
+		cursor: pointer;
+		margin: 0px;
+		height: 14px;
+		line-height: 1;
+		&:hover{
+			color: #777;
+		}
+	}
+
+	.MatcScatterPlotfTaskCntr .MatcScatterPlotfTaskSelected {
+		span {
+			border: none;
+		}
+		label {
+			color: #777;
+		}
+	}
+
+}

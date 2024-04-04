@@ -6,205 +6,153 @@
 		</div>
 
 
-		<div class="MatcToobarLeft" data-dojo-attach-point="toolsSection">
 
-			<div class="hidden" data-dojo-attach-point="importSection"></div>
-
-			<div class="MatcToolbarItem MatcToolbarItemActive" data-dojo-attach-point="editTool">
-				<span class="mdi mdi-cursor-default"></span>
-			</div>
-
-			<div class="" data-dojo-attach-point="addScreenSection"></div>
-
-			<div class="" data-dojo-attach-point="addSection"></div>
-
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="rectangleTool" >
-				<span class="mdi mdi-square-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="textTool" >
-				<span class="mdi mdi-format-text" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="hotspotTool" >
-				<span class="mdi mdi-select" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="" data-dojo-attach-point="addVectorSection" >
-				<CreateVectorButton @add="onToolSVG" />
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addLogicSection" >
-				<span class="mdi mdi-rhombus-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addRestSection" v-show="showRestTool">
-				<span class="mdi mdi-cloud-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-			<div class="MatcToolbarItem MatcMultiIcon " data-dojo-attach-point="addScriptSection">
-				<span class="mdi mdi-code-tags" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-		
-
-			<div class="MatcToolbarItem MatcToolbarMove" data-dojo-attach-point="moveTool" >
-				<span class="mdi mdi-cursor-move" ></span>
-			</div>
-
-
-			<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="selectBtn">
-				<span class="mdi mdi-selection"></span>
-				<span class="mdi mdi-cursor-default MatcTinyIcon"></span>
-			</div>
-
-			<div class="" data-dojo-attach-point="commentSection">
-				<div class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="commentBtn">
-					<span class="mdi mdi-comment-outline"></span>
-				</div>
-			</div>
-
-			<div class="MatcToolbarItem MatcToolbarItemChat MatcMultiIcon" data-dojo-attach-point="addGPTSection" @click.stop="showDesignGPT" v-show="hasProtoMoto">
-				<span class="mdi mdi-robot-outline" ></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</div>
-
-		</div>
 
 		<div class="MatcToolbarTop">
-				<div class=" MatcToobarHomeSection MatcToobarItemBig" data-dojo-attach-point="home"></div>
+				<div class="MatcToolbarTopHome" :style="'width:'+ layerListWidth +'px'">
+					<HomeMenu @select="onHomeMenu" :name="modelName" @change="onChangeModelName"/>
+				</div>
+			
 
-				<div class="MatcToolbarTopCntr">
+				<div class="MatcToolbarTopCntr" :style="'width:calc(100% - '+ layerListWidth +'px)'">
 
-						
-						<div class=" MatcToobarSimulatorSection MatcToolbarSection" data-dojo-attach-point="simulatorSection">
-							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="simulatorButton">
-								<span class="mdi mdi-play" style="vertical-align:middle" data-dojo-attach-point="simulatorIcon"></span>
-								<span class="MatcToolbarLabel MatcToolbarResponsiveLabel">{{ $t('toolbar.simulate')}}</span>
-							</a>
-						</div>
-					
-						
-						<div class="MatcToolbarSection MatcToolbarDenseSection" v-show="svgEditorVisible" >
-							<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgUndo" @click="onSVGUndo">
-									<span class="mdi mdi-undo"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" ref="svgRedo" @click="onSVGRedo">
-									<span class="mdi mdi-redo"></span>
-								</a>						
-						</div>
-
-					
-
-						<div v-show="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">
-
-							
-								<div class="MatcToolbarItem">
-									<div class="MatcButton MatcToolbarCloseButton" @click="onToolSVGEnd" >
-										{{$t('toolbar.svgStop')}}
-									</div>
+			
+						<div v-show="svgEditorVisible" class="MatcToolbarSection MatcToolbarMaxSection">							
+							<div class="MatcToolbarItem">
+								<div class="MatcToobarPrimaryButton" @click="onToolSVGEnd" >
+									{{$t('toolbar.svgStop')}}
 								</div>
+							</div>
 						</div> 
 
-					
+						<div class="MatcToolbarSection" v-show="!svgEditorVisible" >				
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit" v-show="hasScreens">
+								<QIcon icon="Edit" />
+							</div> 
 
-							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="undoSection"  v-show="!svgEditorVisible" >
-								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="undo">
-									<span class="mdi mdi-undo"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarIconNoSmooth MatcToolbarItemDisbaled" data-dojo-attach-point="redo">
-									<span class="mdi mdi-redo"></span>
-								</a>
+
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove" v-show="hasScreens">
+								<QIcon icon="EditMove" />
 							</div>
-
-							<div class="MatcToolbarSection MatcToolbarDenseSection" data-dojo-attach-point="copyPasteDiv"  v-show="!svgEditorVisible" >
-								<a class="MatcToolbarItem MatcToolbarItemDisbaled " data-dojo-attach-point="copyBtn">
-									<span class="mdi mdi-content-copy"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="pasteBtn">
-									<span class="mdi mdi-content-paste"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="copyStyleBtn">
-									<span class="mdi mdi-format-paint"></span>
-								</a>
-								<a class="MatcToolbarItem MatcToolbarItemDisbaled" data-dojo-attach-point="deleteBtn">
-									<span class="mdi mdi-trash-can-outline"></span>
-								</a>
+						
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
+								<QIcon icon="DevicesAdd" />
+								<!-- <span class="MatcToolbarResponsiveLabel">Screen</span>    						 -->
 							</div>
+						
+							<CreateBasicButton @add="onToolBasic" :mode="mode" v-show="hasScreens"/>
+							<CreateButton ref="createButton" :mode="mode" v-show="hasScreens"/>
+							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
+							<CreateVectorButton @add="onToolSVG" v-if="false" />	
 
-							<div class="MatcToolbarTopCenterCntr"  v-show="!svgEditorVisible" >
-								<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
 
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
+								<QIcon icon="Comment" />
+							</div>		
+							
+						</div>
+							
+
+						<div class="MatcToolbarTopCenterCntr"  v-show="!svgEditorVisible" >
+							<div class="MatcToolbarSection MatcToolbarDenseSection MatcToolbarSectionTools MatcToolbarSectionHidden" data-dojo-attach-point="toolsCntrDiv">
+							
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
+									<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="groupBTN" @click="onToolGroup">						
+										<QIcon icon="Group" />					
+									</div>
+									<div class="MatcToolbarItem MatcToolbarPrimaryItem" data-dojo-attach-point="ungroupBTN" @click="onToolGroup">					
+										<QIcon icon="UnGroup" />					
+									</div>
+									<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'distribute'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarDistribute">
+										<QIcon icon="Distribute" />					
+									</div> -->
 								
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="groupDIV">
-										<a class="MatcToolbarItem MatcMultiIcon" data-dojo-attach-point="groupBTN">
-											<span class="mdi mdi-vector-union" ></span>
-											<span class="mdi mdi-plus-circle MatcTinyIcon "></span>
-										</a>
-										<a class="MatcToolbarItem MatcMultiIcon MatcIconDanger" data-dojo-attach-point="ungroupBTN">
-											<span class="mdi mdi-vector-union"></span>
-											<span class="mdi mdi-minus-circle MatcTinyIcon "></span>
-										</a>
-									</div>
+								</div>
 
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
-									</div>
+								<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'gridResize'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
+										<QIcon icon="ResiseGrid" />					
+								</div>
 
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="magicCopyDiv">
-									</div>
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
+									<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'replicate'}]" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		
+											<QIcon icon="Replicate" />				
+									</div>	
+									<TemplateButton 
+										ref="templateBTN" 
+										@create="onToolCreateTemplate"
+										@remove="onToolRemoveTemplate"
+										@update="onToolUpdateTemplate">
+									</TemplateButton>																		
+								</div>
 
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
-									</div>
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="toolsDiv">
+									<LayerButton @select="onToolWidgetLayer"/>
+								</div>
 
-									<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
-									</div>
-
+								<div class="MatcToolbarSubSection" data-dojo-attach-point="developerDiv">
 								</div>
 							</div>
+							<div v-if="isDeveloperMode" class="MatcToolbarSection MatcToolbarNinjaSection">
+								<QIcon icon="mdi mdi-ninja" class="MatcToolbarNinja"/>										
+							</div>
+						</div>
+
 					
-
-
-				
+									
 						<div class="MatcToolbarNotificationSection MatcToolbarSection" data-dojo-attach-point="notificationSection">
 							<div class="MatcToolbarSection">
 								<CollabUser :users="collabUsers" @select="onCollabUserClicked" />
+							</div>		
+										
+							<div class="MatcToolbarArrowDropDown" data-dojo-attach-point="simulatorButton"  v-show="hasScreens">			
+								<div class="MatcToolbarItem MatcToolbarPrimaryItem" @click="startSimilator">																
+									<QIcon icon="Play" />												
+								</div>
 							</div>
-							<div class="MatcToolbarSection" v-if="!svgEditorVisible">
-								<EditModeButton 
-									:value="canvasViewConfig" 
-									@change="onChangeCanvasViewConfig" 
-									@canvasViewMode="setCanvasViewMode" 
-									ref="editModeButton"/>
-							</div>
-							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>
-							<HelpButton :hasNotifications="true" :hasToolbar="true"/>
-						</div>
 
-						<div class="MatcToobarSignUpSection MatcToolbarSection MatcToolbarSectionHidden" data-dojo-attach-point="signupSection">
-							<a class="MatcToolbarItem MatcToolbarIconNoSmooth" data-dojo-attach-point="saveButton">
-							<span class="MatcToolbarLabel">{{ $t('toolbar.sign-up')}}</span>
-							</a>
+							<!-- <div class="MatcToolbarArrowDropDown" data-dojo-attach-point="simulatorButton"  v-show="hasScreens">			
+								<div class="MatcToolbarItem MatcToolbarPrimaryItem" @click="showSharing">																
+									<QIcon icon="Share" />												
+								</div>
+							</div> -->
+
+						
+							<ViewConfig :value="canvasViewConfig" @change="onChangeCanvasViewConfig" v-if="hasViewConfigVtn"/>	
+							<HeatmapToggleButton :value="'Design'" @change="$emit('viewModeChange', $event)"/>		
+						
+							<div class="MatcToolbarItem" @click="showSharing">
+								<div class="MatcToobarPrimaryButton">									
+									Share						
+								</div>
+							</div> 
+							
 						</div>
 
 				</div>
 			</div>
 
 			<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
+				<div class="MatcToolbarSection" >
+					<div class=" MatcToolbarSectionContent">
+					<EditModeButton 
+				
+						:value="canvasViewConfig" 
+						@change="onChangeCanvasViewConfig" 
+						@canvasViewMode="setCanvasViewMode" 
+						ref="editModeButton"/>
+					</div>
+				</div>
+				
 			</div>
+
 		</div>
 
 </template>
+
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
-import on from 'dojo/on'
-import touch from 'dojo/touch'
 import hash from 'dojo/hash'
 import Util from 'core/Util'
 import topic from 'dojo/topic'
@@ -213,14 +161,21 @@ import _Tools from 'canvas/toolbar/mixins/_Tools'
 import _Render from 'canvas/toolbar/mixins/_Render'
 import _Dialogs from 'canvas/toolbar/mixins/_Dialogs'
 import _Show from 'canvas/toolbar/mixins/_Show'
-import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import EditModeButton from "canvas/toolbar/components/EditModeButton"
 import CollabUser from "canvas/toolbar/components/CollabUser"
-import CreateVectorButton from 'canvas/toolbar/components/CreateVectorButton'
 import ModelUtil from '../../core/ModelUtil';
-import HelpButton from 'help/HelpButton'
+// import HelpButton from 'help/HelpButton'
+import CreateVectorButton from './components/CreateVectorButton'
+import CreateLogicButton from './components/CreateLogicButton'
+import CreateBasicButton from './components/CreateBasicButton'
+import CreateButton from './components/CreateButton.vue'
+import HomeMenu from './components/HomeMenu'
+import LayerButton from './components/LayerButton.vue'
+import TemplateButton from './components/TemplateButton.vue'
+import HeatmapToggleButton from './components/HeatmapToggleButton.vue'
 
+import QIcon from 'page/QIcon'
 
 
 export default {
@@ -229,6 +184,7 @@ export default {
 	props:['pub'],
     data: function () {
         return {
+			modelName: "Loading...",
 			canvasViewMode: 'design',
 			value: false,
 			isPublic: false,
@@ -242,17 +198,35 @@ export default {
 			collabUsers:[],
 			showLabels:false,
 			isDeveloperMode: false,
-			mode: ''
+			mode: 'edit',
+			subMode: '',
+			hasScreens: false,
+			layerListWidth: 256,
+			hasEditModeButton: true
         }
     },
 	components: {
 		'ViewConfig': ViewConfig,
-		'HelpButton': HelpButton,
+		//'HelpButton': HelpButton,
 		'EditModeButton': EditModeButton,
 		'CollabUser': CollabUser,
-		'CreateVectorButton': CreateVectorButton
+		'CreateVectorButton': CreateVectorButton,
+		'CreateLogicButton': CreateLogicButton,
+		'CreateBasicButton': CreateBasicButton,
+		'CreateButton': CreateButton,
+		'HomeMenu': HomeMenu,
+		'LayerButton': LayerButton,
+		'TemplateButton': TemplateButton,
+		'HeatmapToggleButton': HeatmapToggleButton,
+		'QIcon': QIcon
 	},
 	computed: {
+		selectedButton () {
+			if (this.mode === 'edit' && this.subMode) {
+				return this.subMode
+			}
+			return this.mode
+		},
 		hasProtoMoto () {
 			return this.settings && this.settings.hasProtoMoto
 		},
@@ -261,58 +235,24 @@ export default {
 		}
 	},
     methods: {
-      postCreate (){
+      	postCreate (){
 			this.logger = new Logger("Toolbar");
 			this.logger.log(3, "constructor", "entry > " + this.pub);
-
-			this.own(on(this.undo, touch.press, lang.hitch(this, "onUndo")));
-			this.own(on(this.redo, touch.press, lang.hitch(this, "onRedo")));
-
-			this.own(on(this.copyBtn, touch.press, lang.hitch(this, "onCopy")));
-			this.own(on(this.pasteBtn, touch.press, lang.hitch(this, "onPaste")));
-			this.own(on(this.deleteBtn, touch.press, lang.hitch(this, "onDelete")));
-			this.own(on(this.copyStyleBtn, touch.press, lang.hitch(this, "onToolCopyStyle")));
-			this.own(on(this.commentBtn, touch.press, lang.hitch(this, "onNewComment")));
-
-			this.own(on(this.editTool, touch.press, lang.hitch(this, "onEdit")));
-			this.own(on(this.moveTool, touch.press, lang.hitch(this, "onMove")));
-			this.own(on(this.signupSection, touch.press, lang.hitch(this, "showSignUpDialog")));
-
-			this.own(on(this.selectBtn, touch.press, lang.hitch(this, "onToolSelect", "select")));
-			this.own(on(this.groupBTN, touch.press, lang.hitch(this, "onToolGroup")));
-			this.own(on(this.ungroupBTN, touch.press, lang.hitch(this, "onToolGroup")));
-			this.own(on(this.hotspotTool, touch.press, lang.hitch(this, "onToolHotspot")));
-		
-			this.own(on(this.textTool, touch.press, lang.hitch(this, "onToolText")));
-			this.own(on(this.rectangleTool, touch.press, lang.hitch(this, "onToolBox")));
-
-			const btn = this.$new(ToolbarDropDownButton,{arrowPosition:false});
-			btn.updateLabel = false;
-			btn.setLabel('<span class="mdi mdi-menu"></span>');
-			btn.setOptions(this.getMainMenu());
-			btn.placeAt(this.home);
-			css.add(btn.domNode, "MatcToolbarItem");
 		},
 
-
-		getMainMenu   () {
-
-			var options = [
- 			  {label : this.getNLS('toolbar.menu.start'), callback:lang.hitch(this, "startSimilator") },
-			  {label : this.getNLS('toolbar.menu.settings'), callback:lang.hitch(this, "onShowSettings")},
-			  {label : this.getNLS('toolbar.menu.shortcuts'), callback:lang.hitch(this, "showShortCuts")},
-			  {label : this.getNLS('toolbar.menu.share'), callback:lang.hitch(this, "showSharing")},
-			  {label : this.getNLS('toolbar.menu.import'), callback:lang.hitch(this, "showImportDialog")},
-			  {label : this.getNLS('toolbar.menu.export'), callback:lang.hitch(this, "showDownloadDialog")},
-			  {css:"MatcToolbarPopUpLine"},
-			  {label : this.getNLS('toolbar.menu.change-screen-size'), callback:lang.hitch(this, "onChangeScreenSize")},
-			  {label :this.getNLS('toolbar.menu.save-as'), callback:lang.hitch(this, "onSaveAs")},
-			  {css:"MatcToolbarPopUpLine"},
-			  {label : this.getNLS('toolbar.menu.exit'), callback:lang.hitch(this, "onExit")},
-			]
-			return options
+		setLayerListWidth (w) {
+			this.logger.log(1,"setLayerListWidth", "entry", w);
+			this.layerListWidth = w
 		},
 
+		onHomeMenu (option, e) {
+			this.logger.log(1,"onHomeMenu", "entry", e);
+			if (this[option.value]) {
+				this[option.value](e)
+			}
+		},
+
+	
 		setController (c){
 			this.logger.log(3,"setController", "entry");
 			this.controller = c;
@@ -333,6 +273,16 @@ export default {
 			this.context = context;
 		},
 
+		setCommentService (s) {
+			this.logger.log(3,"setCommentService", "entry");
+			this.commentService = s
+		},
+
+		setModelService (s) {
+			this.logger.log(3,"setModelService", "entry");
+			this.modelService = s
+		},
+
 		setCurrentTool (t) {
 			this.logger.log(3,"setCurrentTool", "entry");
 			this.currentTool = t
@@ -345,8 +295,12 @@ export default {
 
 		setModel (m){
 			this.model = m;
+			if (m) {
+				this.modelName = m.name
+			}
 			this.renderToolbar();
 			this.renderProperties()
+			this.showCanvas()
 		},
 
 		setPublic (isPublic) {
@@ -357,7 +311,13 @@ export default {
 		setMode (mode){
 			this.logger.log(3,"setMode", "entry > '" + mode + "'");
 			this.mode = mode;
+			this.subMode = ''
 			this.onModeChange();
+		},
+
+		setSubMode (subMode) {
+			this.logger.log(3,"setSubMode", "entry > '" + subMode + "'");
+			this.subMode = subMode
 		},
 
 		setLayerList (layerlist){
@@ -484,6 +444,11 @@ export default {
 		},
 
 
+		onChangeModelName (name) {
+			this.logger.log(-1, "onChangeModelName", "enter" , name);
+			this.controller.setModelName(name)
+		},
+
 
 		/********************************************************
 		 * Selection handlers!
@@ -582,6 +547,7 @@ export default {
 						this._selectionID = screen.id;
 						this._selectedScreen = screen;
 						this.showScreenProperties(screen);
+						this.showScreenTools();
 						this.showCopyPaste();
 						this.showDevTools()
 					} else {
@@ -751,11 +717,19 @@ export default {
 			 * a little bit hacky. we flush the screen name now!
 			 * FIXME; This can cause errors in case of undo and redo!
 			 */
-			this.setScreenName(this.stripHTML(this.screenName.value));
+			if (this.isPrototypeView) {
+				if (this.screenName) {
+					this.setScreenName(this.stripHTML(this.screenName.value));
+				}
+				
+				if (this.widgetName) {
+					this.setWidgetName(this.stripHTML(this.widgetName.value));
+				}
 
-			this.setWidgetName(this.stripHTML(this.widgetName.value));
-
-			this.setGroupName(this.stripHTML(this.groupName.value));
+				if (this.groupName) {
+					this.setGroupName(this.stripHTML(this.groupName.value));
+				}
+			}
 
 			if(this.widgetSize.isDirty()){
 				this.widgetSize.update();
@@ -776,11 +750,18 @@ export default {
 		 */
 		onModelNameChange (id, type, txt){
 			if (type == "widget"){
-				this.widgetName.value = txt
+				if (this.widgetName) {
+					this.widgetName.value = txt
+				}
+				
 			} else if (type == "screen"){
-				this.screenName.value = txt
+				if (this.screenName) {
+					this.screenName.value = txt
+				}
 			} else if (type == "group"){
-				this.groupName.value = txt
+				if (this.groupName) {
+					this.groupName.value = txt
+				}
 			}
 		},
 
@@ -790,8 +771,95 @@ export default {
 		 * Add & Remove Events
 		 **********************************************************************/
 
+		onToolCreateScreen(e) {
+			this.logger.log(-1,"onToolCreateScreen", "entry >", e);
+			let scrn = this.createEmptyScreen(0, 0, 'Screen')
+			this.emit("newThemedScreen", {"obj" : scrn, "event" : e});
+		},
+
+		onToolBasic (v, e) {
+			this.logger.log(-1,"onToolBasic", "entry >", v.value, e);
+			this.stopEvent(e);
+			topic.publish("matc/canvas/click", "");
+
+
+			if (v.value === 'screen') {
+				let scrn = this.createEmptyScreen(0, 0, 'Screen')
+				this.emit("newThemedScreen", {"obj" : scrn, "event" : e});
+				return		
+			}
+	
+			if (v.value === 'box') {
+				this.onToolBox(e)
+				return
+			}
+
+			if (v.value === 'text') {
+				this.onToolText(e)
+				return
+			}
+
+			if (v.value === 'designgpt') {
+				this.showDesignGPT(e)
+				return
+			}
+
+			if (v.value === 'rest') {
+				this.onNewRestObject(e)
+				return		
+			}
+
+			if (v.value === 'hotspot') {
+				this.onToolHotspot(e)
+				return		
+			}
+	
+			if (v.value === 'logic') {
+				this.onNewLogicObject(e, "OR", false)
+				return
+			}
+
+			if (v.value === 'ab') {
+				this.onNewLogicObject(e, "AB", true)
+				return		
+			}
+
+			if (v.value === 'script') {
+				this.onNewScriptObject(e)
+				return
+			}
+
+			if (v.type === 'vector') {
+				this.onToolSVG(v)
+				return
+			}
+
+
+		},
+
+		onToolLogicAndRest (v, e) {
+			this.logger.log(-1,"onToolLogicAndRest", "entry >", v.value, e);
+			this.stopEvent(e);
+			topic.publish("matc/canvas/click", "");
+
+			if (v.value === 'rest') {
+				this.onNewRestObject(e)
+				return		
+			}
+	
+			if (v.value === 'logic') {
+				this.onNewLogicObject(e)
+				return
+			}
+
+			if (v.value === 'script') {
+				this.onNewScriptObject(e)
+				return
+			}
+		},
+
 		onNewScriptObject (e) {
-			this.logger.log(-1,"onNewLogicObject", "entry > ");
+			this.logger.log(-1,"onNewScriptObject", "entry > ");
 
 				var obj = {
 				"id" : "Script",
@@ -855,19 +923,20 @@ export default {
 			this.emit("onNewRestObject", {"obj" : obj, "event":e});
 		},
 
-		onNewLogicObject (e){
-			this.logger.log(0,"onNewLogicObject", "entry > ");
+		onNewLogicObject (e, label="OR", isRandom=false){
+			this.logger.log(-1,"onNewLogicObject", "entry > " + isRandom);
 
 			var obj = {
 				"id" : "Or",
-				"name" : "Or",
+				"name" : label,
 				"type":"LogicOr",
 				"x": 0,
 				"y": 0,
 				"w": 80,
 				"h": 80,
 				"props" : {
-					"label" : "Or"
+					"label" : label,
+					"isRandom": isRandom
 				},
 				"has" :{
 					"logic" : true
@@ -1008,7 +1077,7 @@ export default {
 
 		linkDesignToken (designToken, cssProps) {
 			this.logger.log(-1,"linkDesignToken", "entry");
-			var state = this._getViewStyleModelKey();
+			const state = this._getViewStyleModelKey();
 			if(this._selectedWidget){
 				this.controller.linkDesignToken(this._selectedWidget.id, designToken.id,state, cssProps, 'widget');
 			}
@@ -1019,8 +1088,7 @@ export default {
 
 		unlinkDesignToken (designToken) {
 			this.logger.log(-1,"unlinkDesignToken", "entry", designToken);
-
-			var state = this._getViewStyleModelKey();
+			const state = this._getViewStyleModelKey();
 			if(this._selectedWidget){
 				this.controller.unlinkDesignToken(this._selectedWidget.id, designToken.id,state, 'widget');
 			}
@@ -1031,13 +1099,12 @@ export default {
 
 		changeDesignToken (designToken) {
 			this.logger.log(-1,"changeDesignToken", "entry");
-
 			this.controller.updateDesignToken(designToken.id, designToken.name, designToken.value);
-
 		},
 
-		removeDesignToken () {
+		deleteDesignToken (designToken) {
 			this.logger.log(-1,"deleteDesignToken", "entry");
+			this.controller.deleteDesignToken(designToken.id);
 		},
 
 		/**********************************************************************
@@ -1215,16 +1282,16 @@ export default {
 			this.showThemeCreateDialog(e);
 		},
 
-		onToolChangeTemplate(type, e){
-			this.stopEvent(e);
-			this.logger.log(-1,"onToolChangeTemplate", "entry : " + type);
-			if (type === 'update') {
-				this.onToolUpdateTemplate(e)
-			}
-			if (type === 'remove') {
-				this.onToolRemoveTemplate(e)
-			}
-		},
+		// onToolChangeTemplate(type, e){
+		// 	this.stopEvent(e);
+		// 	this.logger.log(-1,"onToolChangeTemplate", "entry : " + type);
+		// 	if (type === 'update') {
+		// 		this.onToolUpdateTemplate(e)
+		// 	}
+		// 	if (type === 'remove') {
+		// 		this.onToolRemoveTemplate(e)
+		// 	}
+		// },
 
 		onToolRemoveTemplate (e) {
 			this.logger.log(1,"onToolRemoveTemplate", "entry : " + this._selectedWidget);
@@ -1272,20 +1339,19 @@ export default {
 			this.stopEvent(e);
 			this.logger.log(1,"onToolbarReplicate", "entry : " + this._selectedWidget);
 			this.canvas.onReplicate();
-			if (this.replicateBtn){
-				css.toggle(this.replicateBtn, "MatcToolbarItemActive");
-			}
 		},
 
 		onToolbarDistribute (e){
 			this.stopEvent(e);
 			this.logger.log(1,"onToolbarDistribute", "entry : " + this._selectedWidget);
 			this.canvas.onDistribute();
-			if (this.distributeBtn){
-				css.toggle(this.distributeBtn, "MatcToolbarItemActive");
-			}
 		},
 
+		onToolbarGridResize (e) {
+			this.stopEvent(e);
+			this.logger.log(-1,"onToolbarGridResize", "entry : " + this._selectedWidget);
+			this.canvas.onGridResize()
+		},
 
 		onToolCopyStyle (e){
 			this.stopEvent(e);
@@ -1459,17 +1525,16 @@ export default {
 		},
 
 
-		onToolWidgetLayer (value){
-			this.logger.log(-1,"onToolWidgetLayer", "entry > "+ value);
-
+		onToolWidgetLayer (option){
+			const value = option.value ? option.value : option
+			this.logger.log(-1,"onToolWidgetLayer", "entry > "+ value);	
 			let selection = this._getSelectedWidgets();
 			if (selection.length > 0) {
 				let topId = false
 				/**
 				 * Since 4.0.60 we have a single selection in a group, 
 				 * can we boost the entire group to top?
-				 */
-		
+				 */		
 				if (selection.length === 1 && (value === 'front' || value === 'back')) {
 					const widget = this.model.widgets[selection[0]];
 					if (widget) {
@@ -1549,19 +1614,15 @@ export default {
 
 		_getZOffset (selection, values){
 			const offsets = {};
-
 			let min = 100000;
-
 			for(let i=0;i< selection.length; i++){
 		    	const id =selection[i];
 		    	min = Math.min(min, values[id]);
 			}
-
 			for(let i=0;i< selection.length; i++){
 			    const id =selection[i];
 			    offsets[id] = values[id] - min;
 			}
-
 			return offsets;
 		},
 
@@ -1751,7 +1812,7 @@ export default {
 		},
 
 		setWidgetMultiProps (newProps){
-			this.logger.log(-1,"setWidgetMultiProps", "entry", JSON.stringify(newProps));
+			this.logger.log(1,"setWidgetMultiProps", "entry", JSON.stringify(newProps));
 			if(this._selectedWidget && this._selectedWidget.style){
 				this.controller.updateWidgetProperties(this._selectedWidget.id, newProps, "props");
 			}

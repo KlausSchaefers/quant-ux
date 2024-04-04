@@ -3,31 +3,15 @@
     <div class="MatcDistributionSection">
         <div class="level">
         <div class="level-left">
-          <h2 class="title level-item">
+          <h3 class="title level-item">
             <span >{{$t('analytics.distribution.title')}}</span>
             <HelpButton
               topic="analytics.dist"
               :hasNotifications="false"
             />
-          </h2>
+          </h3>
         </div>
         <div class="level-right level-options">
-<!--        
-          <DropDownButton
-            class="MatcButtonTrans MatcDropDownRight"
-            :value="scatterMode"
-            @change="setScatterMode"
-            :options="scatterOptions"         
-          /> -->
-
-<!-- 
-          <DropDownButton
-            class="MatcButtonTrans MatcDropDownRight"       
-            ref="dropDown"
-            :value="viewMode"
-            @change="setViewMode"
-            :options="viewOptions"         
-          /> -->
 
           <CheckBox @change="onChangeNorm" :value="false" label="zScore" v-if="hasConfig"/>
 

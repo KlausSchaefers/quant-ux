@@ -1,0 +1,30 @@
+.MatcToolbarCollabUser{
+  width: 100px;
+ 
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 8px;
+  padding: 0px
+}
+
+.MatcToolbarCollabUser .MatcTeamItem {
+  margin: 0px;
+  cursor: default;
+}
+
+.MatcToolbarCollabUser .MatcUserImageNone{
+  border-radius: 100%;
+  width: 24px;
+  height:24px;
+  font-size: 14px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+
+@media (max-width: 1200px) {
+  .MatcToolbarCollabUser {
+  }
+}

@@ -3,9 +3,10 @@
 		 "id" : "WebLink",
 		 "type" : "WebLink",
 		 "_type" : "Widget",
-		 "category" : "WireFrame",
+		 "category" : "Advanced",
 		 "subcategory" : "XxForm",
 		 "name" : "Web Link",
+         "_extends": "Label",
 		 "x" : 0,
 	    "y" : 0,
 	    "w" : 150,
@@ -14,35 +15,25 @@
 	    "props" : {
 	       "label" : "https://quant-ux.com"
 	    },
-	    "has" : {
-           "backgroundColor" : true,
-           "border" : true,
-	       "label" : true
+	    "has" : {    
+	       "label" : true      
 	    },
-	    "style" : {
-            "fontSize" : 14,
-            "background": "transparent",
-            "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-            "textAlign" : "center",
-            "letterSpacing" : 0,
-            "lineHeight" : 1,
-            "color" : "#333333",
-            "paddingTop" : 0,
-            "paddingBottom" : 0,
-            "paddingLeft" : 0,
-            "paddingRight" : 0,
-            "borderTopRightRadius" : 0,
-            "borderTopLeftRadius" : 0,
-            "borderBottomRightRadius" : 0,
-            "borderBottomLeftRadius" : 0,
-            "borderTopWidth" : 0,
-            "borderBottomWidth" : 0,
-            "borderRightWidth" : 0,
-            "borderLeftWidth" : 0,
-            "verticalAlign" : "middle"
+	    "style" : {    
+            "fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"background": "transparent",
+            "color": "@label-color",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width-none",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"padding":0    
         },
         "hover": {
-            "color": "3787f2"
+            "color": "@label-color:hover"
         }
 	}
 ]

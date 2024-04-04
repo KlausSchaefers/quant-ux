@@ -1,0 +1,125 @@
+[
+	{
+		"id": "SurveyTextBox",
+		"type": "TextBox",
+		"_type": "Widget",
+		"category": "Survey",
+		"subcategory": "AFormInput",
+		"name": "Text Box",
+		"x": 0,
+		"y": 0,
+        "w": "@form-width",
+        "h": "@form-height",
+		"z": 0,
+		"props": {
+			"label": "Enter a value",
+			"placeholder": true,
+            "isSurveyElement": true
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"background": "@form-background",
+			"color": "@form-color",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"paddingBottom": "@form-padding-vertical",
+			"paddingTop": "@form-padding-vertical",
+			"paddingLeft": "@form-padding-horizontal",
+			"paddingRight": "@form-padding-horizontal"
+		},
+		"focus": {
+			"borderWidth": "@border-width:focus",
+			"borderColor": "@form-border-color:focus",
+			"background": "@form-background:focus",
+			"color": "@form-color:focus"
+		},
+		"hover": {
+			"borderColor": "@form-border-color:hover",
+			"background": "@form-background:hover",
+			"color": "@form-color:hover"
+		},
+		"error": {
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"color": "@form-color:error"
+		}
+	},
+	{
+		"id": "SurveyTextBoxInt",
+		"type": "TextBox",
+		"_type": "Widget",
+		"category": "Survey",
+		"subcategory": "FormInput",
+		"name": "Text Box (Number)",
+		"_extends": "SurveyTextBox",
+		"z": 0,
+		"props": {
+			"label": "Enter a number",
+			"placeholder": true,
+            "isSurveyElement": true,
+			"validation": {
+				"type": "int"
+			}
+		}
+	},
+	{
+		"id": "SurveyTextBoxEmail",
+		"type": "TextBox",
+		"_type": "Widget",
+		"category": "Survey",
+		"subcategory": "FormInput",
+		"name": "Text Box (Email)",
+		"_extends": "SurveyTextBox",
+		"z": 0,
+		"props": {
+			"label": "Enter an email",
+			"placeholder": true,
+            "isSurveyElement": true,
+			"validation": {
+				"type": "email"
+			}
+		}
+	},
+	{
+		"id": "SurveyTextArea",
+		"type": "TextArea",
+		"_type": "Widget",
+		"category": "Survey",
+		"subcategory": "AFormInput",
+		"_extends": "SurveyTextBox",
+		"name": "Text Area",	
+		"z": 0,
+		"x": 0,
+		"y": 0,
+		"w": "@form-width",
+		"h": "@box-height-l",
+		"props": {
+            "isSurveyElement": true,
+			"label": "Enter a value"
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {
+		}
+	}
+]

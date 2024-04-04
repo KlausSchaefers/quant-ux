@@ -183,11 +183,12 @@ export default class CopyPaste extends Group{
 	}
 
 	setClipBoard (selectWidget, selectedScreen, selectMulti, selectGroup) {
-		var clipBoard = {
+		let clipBoard = {
 			id: this.model.id,
 			widgets: [],
 			screens: [],
-			groups: []
+			groups: [],
+			designtokens: []
 		};
 		if (selectWidget) {
 
@@ -197,8 +198,8 @@ export default class CopyPaste extends Group{
 
 			clipBoard.screens = [this.model.screens[selectedScreen.id]];
 			for(let i = 0; i < selectedScreen.children.length; i++){
-				let id = selectedScreen.children[i];
-				let widget = this.model.widgets[id];
+				const id = selectedScreen.children[i];
+				const widget = this.model.widgets[id];
 				/**
 				 * It can happen that there are master widgets. these shall not be copied
 				 */
@@ -226,6 +227,32 @@ export default class CopyPaste extends Group{
 				}
 			})
 		}
+
+		/**
+		 * also copy design tokens!
+		 */
+		if (this.model.designtokens) {
+			const designtokenIdSet = new Set()
+			clipBoard.widgets.forEach(w => {
+				if (w.designtokens) {
+					const designtokens = w.designtokens
+					for (let key in designtokens) {
+						const obj = designtokens[key]
+						for (let prop in obj) {
+							const designtokenId = obj[prop]
+							designtokenIdSet.add(designtokenId)
+						}
+					}
+				}
+			})
+
+			designtokenIdSet.forEach(id => {
+				const dst = this.model.designtokens[id]
+				clipBoard.designtokens.push(dst)
+			})
+			this.logger.log(-1, "_setCligBoard", `Copied ${designtokenIdSet.size} design tokens`);
+		}
+
 
 		/**
 		 * Clone before we change the offset! Otherwise
@@ -315,7 +342,22 @@ export default class CopyPaste extends Group{
 			}
 		})
 
-		var command = {
+		if (clipBoard.designtokens && this.model.designtokens) {
+			this.logger.log(2,"onPasteClipBoard", "designtokens > before: "+ clipBoard.designtokens.length);
+			clipBoard.designtokens = clipBoard.designtokens.filter(dst => {
+				const current = this.model.designtokens[dst.id]
+				return current === null || current === undefined
+			})
+			// IMPROVEMENT: 
+			// 1) We could ask what the user if they want to replace
+			// 2) We could also check for style duplicates and replace them in the 
+			//    widget references
+
+			this.logger.log(-2,"onPasteClipBoard", "designtokens > add new design tokens: "+ clipBoard.designtokens.length);
+		}
+		
+
+		const command = {
 			timestamp : new Date().getTime(),
 			type : "PasteClipBoard",
 			clipBoard: clipBoard
@@ -346,6 +388,18 @@ export default class CopyPaste extends Group{
 			}
 			this.model.groups[group.id] = group
 		})
+		if (clipBoard.designtokens) {
+			if (!this.model.designtokens) {
+				this.model.designtokens = {}
+			}
+			clipBoard.designtokens.forEach(dst => {
+				if (!this.model.designtokens[dst.id]) {
+					this.model.designtokens[dst.id] = dst
+				} else {
+					this.logger.warn('modelPasteClipBoard', "Design token exists")
+				}
+			})
+		}
 		this.onModelChanged([]);
 		this.render();
 	}
@@ -363,6 +417,11 @@ export default class CopyPaste extends Group{
 				delete this.model.groups[group.id]
 			}
 		})
+		if (clipBoard.designtokens && this.model.designtokens) {
+			clipBoard.designtokens.forEach(dst => {
+				delete this.model.designtokens[dst.id]
+			})
+		}
 		this.onModelChanged([]);
 		this.render();
 	}

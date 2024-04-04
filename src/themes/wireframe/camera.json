@@ -2,14 +2,15 @@
     {
         "id" : "UploadCamera",
         "type" : "Camera",
-        "category" : "WireFrame",
+        "category" : "Advanced",
         "subcategory" : "XBox",
         "_type" : "Widget",
         "name" : "Camera",
+        "_extends": "PrimaryButton",
         "x" : 0,
         "y" : 0,
-        "w" : 100,
-        "h" : 100,
+		"w": "@box-height-m",
+		"h": "@box-width-m",
         "z" : 0,
         "props" : {
             "label" : ""
@@ -23,34 +24,9 @@
         "actions":{},
         "style" : { 
             "icon": "mdi-camera",
-            "fontSize" : 20,
-            "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-            "textAlign" : "center",
-            "letterSpacing" : 0,
-            "lineHeight" : 1,
-            "color" : "#333333",
-            "paddingTop" : 0,
-            "paddingBottom" : 0,
-            "paddingLeft" : 0,
-            "paddingRight" : 0,
-            "borderTopRightRadius" : 100,
-            "borderTopLeftRadius" : 100,
-            "borderBottomRightRadius" : 100,
-            "borderBottomLeftRadius" : 100,
-            "borderTopWidth" : 1,
-            "borderBottomWidth" : 1,
-            "borderRightWidth" : 1,
-            "borderLeftWidth" : 1,
-            "borderTopColor" : "#333333",
-            "borderBottomColor" : "#333333",
-            "borderRightColor" : "#333333",
-            "borderLeftColor" : "#333333",
-            "borderTopStyle": "solid",
-            "borderBottomStyle": "solid",
-            "borderRightStyle": "solid",
-            "borderLeftStyle": "solid",
-            "background": "#cecece",
-            "verticalAlign" : "middle"
+            "borderRadius" : "@border-radius-round",
+            "background": "@button-primary-background",
+            "color": "@button-primary-color"
         }
     }
 ]

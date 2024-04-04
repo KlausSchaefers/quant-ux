@@ -2,21 +2,25 @@
 <template>
     <div class="MatcIconTable ">
         <div class="MatcIconTableSearch">
-			<input 
+			<div class="form-group has-feedback">
+				<input 
 				class="MatcCreateSearch MatcIgnoreOnKeyPress form-control" 
 				ref="inputSearch" 
 				@keyup="onIconSearch"/>
+				<span class="mdi mdi-magnify  form-control-feedback MatcCreateSearchBtn " aria-hidden="true" data-dojo-attach-point="searchRemoveBtn"></span>
+			</div>
+			
 		</div>
-        <div class="MatcDateSectionIconCntr MatcDateSectionIconCntrOverflow">
-            <table ref="table" @click.stop="setIcon">
+        <div class="MatcDateSectionIconCntr MatcDateSectionIconCntrOverflow MatcScrollContainer">
+            <div ref="table" @click.stop="setIcon">
 
-            </table>
+            </div>
         </div>
        
     </div>
 </template>
 <style lang="scss">
-    @import "../../../style/scss/icon_table.scss";
+    @import "../../../style/components/icon_table.scss";
 </style>
 <style></style>
 <script>
@@ -25,7 +29,7 @@ import css from 'dojo/css'
 import on from 'dojo/on'
 import DomBuilder from '../../../common/DomBuilder'
 import Services from 'services/Services'
-
+import {wrapIcon} from 'page/QIconUtil'
 export default {
     name: 'IconTable',
     mixins: [DojoWidget],
@@ -45,15 +49,26 @@ export default {
 		},
 
 		renderIconTable (filter, selected = false){
+			if (this.isSVG) {
+				this.renderSVGIconTable(filter, selected)
+			} else {
+				this.renderMDIIconTable(filter, selected)
+			}
+			
+		},
+
+		renderMDIIconTable (filter, selected = false){
             const table = this.$refs.table
 			const icons = this.icons;
 			this.cleanUpTempListener()
 
             table.innerHTML="";
 
+			const cntr = this.db.div().build()
+
 			const none = this.db
 				.span("MatcToolbarDropDownButtonItem MatcToolbarDropDownButtonItemRemove mdi mdi-cancel")
-				.build(table);
+				.build(cntr);
 
 			this.tempOwn(on(none, "click", () => {this.setNone()}))
 
@@ -62,7 +77,7 @@ export default {
 				if(!filter || icon.indexOf(filter.toLowerCase()) >=0 ){
 					const span = this.db
 						.span("MatcToolbarDropDownButtonItem mdi mdi-"+icons[j])
-						.build(table);
+						.build(cntr);
 
 					span.setAttribute("data-matc-icon", icons[j]);
 					if ('mdi mdi-' + icons[j] === selected) {
@@ -70,6 +85,42 @@ export default {
 					}
 				}
 			}
+
+			table.appendChild(cntr)
+		},
+
+		renderSVGIconTable (filter, selected = false){
+			console.debug('renderSVGIconTable')
+            const table = this.$refs.table
+			const icons = this.icons;
+			this.cleanUpTempListener()
+
+            table.innerHTML="";
+
+			const cntr = this.db.div().build()
+
+			const none = this.db
+				.span("MatcToolbarDropDownButtonItem MatcToolbarDropDownButtonItemRemove mdi mdi-cancel")
+				.build(cntr);
+
+			this.tempOwn(on(none, "click", () => {this.setNone()}))
+
+			for (let icon in this.icons) {
+				if(!filter || icon.indexOf(filter.toLowerCase()) >=0 ){
+					let span = this.db.span("MatcToolbarDropDownButtonItem mdi").build(cntr);
+					span.setAttribute("data-matc-icon", icon);
+
+					const wrapper = this.db.span('').build(span)
+					wrapper.setAttribute("data-matc-icon", icon);
+					wrapper.innerHTML  = wrapIcon(icons[icon])
+
+					if (this.icons[icon] === selected) {
+						this.focusIcon(span)
+					}
+				}
+			}
+
+			table.appendChild(cntr)
 		},
 
 		focusIcon (span) {
@@ -97,12 +148,39 @@ export default {
 		},
 
 		setIcon (e){
+			if (this.isSVG) {
+				this.setSVGIcon(e)
+			} else {
+				this.setMDIIcon(e)
+			}
+		},
+
+		setMDIIcon (e){
 			const node = e.target;
 			if(node){
 				const icon = node.getAttribute("data-matc-icon");
 				if(icon){
                     css.add(node, 'selected')
+					this.emit('change', 'mdi mdi-' + icon)
 					this.$emit('change', 'mdi mdi-' + icon)
+				}
+			}
+		},
+
+		setSVGIcon (e){
+			let node = e.target;
+			if(node){
+				let icon = node.getAttribute("data-matc-icon");
+				if (!icon && node.parentNode) {
+					node = node.parentNode
+					icon = node.getAttribute("data-matc-icon");
+				}
+
+				if(icon){
+					const svg = this.icons[icon]
+                    css.add(node, 'selected')
+					this.emit('change', svg)
+					this.$emit('change', svg)
 				}
 			}
 		}
@@ -110,13 +188,18 @@ export default {
     watch: {
     },
     async mounted() {
-        this.icons = await Services.getSymbolService().getIcons()
+		if (this.isSVG) {		
+			this.icons = await Services.getSymbolService().getSVGIcons()
+		} else {
+			this.icons = await Services.getSymbolService().getIcons()
+		}
+
         this.db = new DomBuilder()
-        this.renderIconTable("", this.value)
 
 		setTimeout(() => {
+			this.renderIconTable("", this.value)
 			this.$refs.inputSearch.focus()
-		})
+		}, 400)
     }
 }
 </script>

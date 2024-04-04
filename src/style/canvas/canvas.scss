@@ -1,0 +1,1550 @@
+@import '../variables.scss';
+
+.MatcCanvasPage{
+	width:100%;
+	height: 100%;
+}
+
+.MatcCanvasPage .MatcCanvas{
+}
+
+.MatcVisualEditor .caret{
+	border: none;
+	border-bottom: 1px solid;
+	border-left: 1px solid;
+	transform: rotate(-45deg);
+	width: 5px;
+	height: 5px;
+}
+
+
+/****************************************************
+ * AnalyticCanvas
+ ****************************************************/
+
+.MatcAnalyticCanvasEventCntr{
+	position: absolute;
+	height:1px;
+	width: 1px;
+	z-index: 10010;
+}
+
+.MatcAnalyticCanvasEvent{
+	background: #0099cc;
+	position: absolute;
+	border-radius:50%;
+	border:none;
+	transition: all 0.2s;
+}
+
+.MatcAnalyticCanvasEventHalo {
+	background: #0099cc28;
+	position: absolute;
+	border-radius:50%;
+	cursor:pointer;
+	transition: all 0.2s;
+	border: 1px solid #0099cc;
+}
+
+@keyframes growHalo {
+	from {transform: scale(0);}
+	to {transform: scale(1);}
+  }
+
+
+.MatcAnalyticCanvas .MatcStatus .MatcMessage {
+	left:0px;
+}
+
+.MatcAnalyticCanvasClickableEvent {
+	cursor: pointer;
+}
+
+.MatcAnalyticCanvasClickableEvent:HOVER{
+	box-shadow: 0px 0px 15px #000;
+}
+
+
+.MatcAnalyticCanvasEventSessionEnd{
+	background: #f03131;
+}
+
+.MatcAnalyticCanvasEventSessionEnd .MatcAnalyticCanvasEventHalo,
+.MatcAnalyticCanvasEventSessionEnd .MatcAnalyticCanvasEvent {
+	border-radius: 2px;
+	transform: rotate(45deg);
+}
+
+.UserJourney .MatcScreenDnD,
+.UserJourney .MatcWidgetDND{
+	display: none;
+}
+
+/****************************************************
+ * Canvas
+ ****************************************************/
+
+ .MatcCanvas{
+  	width: 100%;
+ 	height: 100%;
+ 	background: #383e43;
+ 	transition-duration: 0.2s;
+	transition-property:opacity;
+ }
+
+.MatcCanvasFadeOut{
+	 opacity:0.1;
+}
+
+.MatcCanvasFrame{
+ 	width: 100%;
+ 	height: 100%;
+ 	position: relative;
+ 	overflow: hidden;
+ 	background-color: #cecece;
+ 	transition: background 0.8s;
+ }
+
+.MatcCanvasContainer{
+	position: absolute;
+	background-color: #fff;
+	box-shadow:#333 0px 2px 5px;
+	transition-duration: 0.2s;
+	transition-property:opacity;
+	left:0px;
+	right:0px;
+	transform-origin: 0% 0%;
+}
+
+.MatcCanvasContainerAnimate{
+ 	transition: transform 0.35s;
+}
+
+.MatcCanvasContainerAnimatePos{
+	transition: all 0.35s;
+}
+
+
+.MatcCanvasLayer{
+	position: absolute;
+	width: 100%;
+ 	height: 100%;
+}
+
+.MatcDnDLayer{
+	position: absolute;
+	width: 100%;
+ 	height: 100%;
+}
+
+.MatcSVGLayer {
+	position: absolute;
+	width: 100%;
+ 	height: 100%;
+}
+
+.MatcBox{
+	position: absolute;
+}
+
+.MatcBox:FOCUS{
+	outline: none;
+}
+
+.MatcInlineEditable{
+	display: inline-block;
+	text-decoration: inherit;
+}
+
+.MatcInlineEditable:FOCUS{
+	outline: none;
+}
+
+.MatcBox.MatcBoxSelected .MatcInlineEditable{
+	cursor: text;
+}
+
+.MatcScreenDnD{
+	position: absolute;
+	z-index: 10008;
+}
+
+.MatcMultiBoxSelected {
+	outline:1px solid $canvas_selection;
+}
+
+.MatcWidgetDND{
+	position: absolute;
+	z-index: 10009;
+	border:1px solid transparent;
+	background: none;
+	transition: background 0.1s;
+}
+
+.MatcBoxPlaceHolder{
+	border:1px dashed #92c500;
+	background:rgba(146,197,0,0.4);
+}
+
+.MatcInlineEditableStarted{
+	z-index:90010;
+	outline: none;
+}
+
+.MatcCanvasModeedit .MatcWidgetDND:hover{
+	border:1px solid $canvas_selection;
+	background:rgba(73,192,240,0.3);
+}
+
+.MatcCanvasModeedit .MatcWidgetDND.MatcWidgetDNDInherited:hover{
+	border:1px dashed $canvas_selection;
+}
+
+.MatcBoxSelected.MatcWidgetDND:hover,
+.MatcBoxMoving.MatcWidgetDND:hover{
+	border:1px solid transparent;
+	background: none;
+}
+
+.MatcCanvasSelection .MatcWidgetDND:hover{
+	background: none;
+	border:1px solid transparent;
+}
+
+.MatcCanvasModedistance.MatcCanvasSelection .MatcWidgetDND.MatcRulerDistanceBox:hover{
+	border:1px solid red;
+}
+
+.MatcScreenBorder{
+	position: absolute;
+	z-index: 10005;
+}
+
+.MatcScreenLabel{
+	position: absolute;
+	bottom: calc(100% + 0.4em);
+	left:0px;
+	color:#cecece;
+	font-size: 200%;
+	cursor: pointer;
+	user-select: none;
+}
+
+.MatcTopologySVG{
+	position: absolute;
+	z-index: 1000;
+}
+
+.MatcTouchLine{
+	color:orange;
+	opacity : 0.5;
+}
+
+.MatcLineSupportPoint{
+	color:orange;
+	position :absolute;
+	z-index: 90007;
+}
+
+.MatcLineSupportPoint:hover{
+	cursor: pointer;
+}
+
+.MatcLineSupportPointTouch{
+	position: absolute;
+	height:11px;
+	width:11px;
+	top : -6px;
+	left : -6px;
+	z-index: 90008;
+	display: block;
+	border-radius:5px;
+	border:3px solid #fff;
+	background: #777;
+}
+
+.MatcLineSupportPointTouch:HOVER{
+	background: $canvas_selection;
+}
+
+.MatcCanvasAnimate{
+	transition-duration: 0.3s;
+	transition-property:opacity;
+}
+
+.MatcCanvasAnimateHidden{
+	opacity : 0.0;
+}
+
+.MatcAddBox {
+	z-index: 999999;
+}
+
+.MatcImportBox.MatcAddBox {
+	border:1px dashed #92c500;
+	background:rgba(146,197,0,0.4);
+	box-shadow: none;
+}
+/****************************************************
+ * Collab
+ ****************************************************/
+.MatcCanvasMouse {
+	position: absolute;
+	height: 1px;
+	width: 1px;
+	z-index: 999999;
+}
+
+.MatcCanvasMouse .MatcCanvasMousePointer {
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-top: 10px solid $primary_color;
+	border-right: 10px solid transparent;
+}
+
+.MatcCanvasMouse .MatcCanvasMouseLabel{
+	position: absolute;
+	font-size: 12px;
+	padding: 4px;
+	top: 4px;
+	left: 2px;
+	width: 24px;
+	height: 24px;
+	border-radius: 50px;
+	background: $primary_color;
+	color: #fff;
+	text-align: center;
+}
+
+.MatcCanvasMouse .MatcCanvasMouseImageCntr{
+	position: absolute;
+	top: 4px;
+	left: 2px;
+	width: 24px;
+	height: 24px;
+	border-radius: 50px;
+	overflow: hidden;
+}
+
+/****************************************************
+ * Modes
+ ****************************************************/
+.MatcCanvasModehotspot .MatcCanvasContainer,
+.MatcCanvasModehotspot .MatcBox {
+	cursor: crosshair;
+}
+
+.MatcCanvasModeaddBox .MatcCanvasContainer,
+.MatcCanvasModeaddBox .MatcBox {
+	cursor: crosshair;
+}
+
+.MatcCanvasModeaddText .MatcCanvasContainer,
+.MatcCanvasModeaddText .MatcBox {
+	cursor: crosshair;
+}
+
+.MatcCanvasModemove .MatcCanvasContainer,
+.MatcCanvasModemove .MatcBox {
+	cursor: pointer;
+}
+
+
+.MatcCanvasModemove .VommondDnDMove .MatcCanvasContainer,
+.MatcCanvasModemove .VommondDnDMove .MatcBox,
+.MatcCanvasResizeCursorAll,
+.MatcCanvasResizeCursorAll .MatcBox {
+	cursor: move;
+}
+
+
+.MatcCanvasResizeCursorAll .MatcResizeHandle,
+.MatcCanvasResizeCursorAll .MatcCutsomerHandler,
+.MatcCanvasResizeCursorAll .MatcResizeBorder{
+	display: none;
+}
+
+.MatcCanvasModesvg .MatcScreenDnD, 
+.MatcCanvasModesvg .MatcWidgetDND{
+	pointer-events: none;
+}
+
+.MatcCanvasScreenDND .MatcMultiBoxSelected{
+	outline: none;
+}
+.MatcCanvasScreenDND .MatcResizeHandle,
+.MatcCanvasScreenDND .MatcCutsomerHandler,
+.MatcCanvasScreenDND .MatcResizeBorder{
+	display: none;
+}
+
+
+/****************************************************
+* Custom Handlers
+****************************************************/
+
+.MatcCutsomerHandler{
+	position: absolute;
+	border: 1px solid $canvas_selection;
+	z-index: 90012;
+	background: #fff;
+	border-radius: 50%;
+}
+
+.MatcCutsomerHandler.MatcCutsomerHandlerY{
+	border-radius: 0px;
+	border-width: 5px 0 5px 5px;
+	border-color: transparent transparent transparent $canvas_selection;
+	background: none;
+	cursor:ns-resize;
+	transform: translateY(-5px);
+}
+
+.MatcCutsomerHandler.MatcCutsomerHandlerX{
+	border-radius: 0px;
+	border-width: 5px 5px 0px 5px;
+	border-color: $canvas_selection transparent transparent transparent;
+	background: none;
+	cursor:ew-resize;
+	transform: translateX(-5px);
+}
+
+.MatcCutsomerHandler:hover{
+
+}
+
+.MatcCutsomerHandler.MatcCutsomerHandlerAdd {
+	border:none;
+	text-align: center;
+	color: $canvas_selection;
+	font-size: 250%;
+	cursor: pointer;
+	background: none;
+}
+
+/****************************************************
+ * Inline Edit
+ ****************************************************/
+.MatcCanvasModeInlineEdit .MatcResizeHandle{
+	display: none;
+}
+
+.MatcCanvasModeInlineEdit .MatcCutsomerHandler{
+	display: none;
+}
+
+.MatcCanvasModeInlineEdit .MatcDnDLayer,
+.MatcCanvasModeInlineEdit .MatcCanvasGridLayer {
+	pointer-events: none;
+}
+
+.MatcCanvasModeInlineEdit .MatcResizeBorderDown {
+	border-bottom: 1px dashed $canvas_selection;
+}
+.MatcCanvasModeInlineEdit .MatcResizeBorderLeft {
+	border-left: 1px dashed $canvas_selection;
+}
+.MatcCanvasModeInlineEdit .MatcResizeBorderUp {
+	border-top: 1px dashed $canvas_selection;
+}
+.MatcCanvasModeInlineEdit .MatcResizeBorderRight {
+	border-right: 1px dashed $canvas_selection;
+}
+
+ /****************************************************
+ * Upload
+ ****************************************************/
+
+.MatcScreen.MatcCanvasImageUploadPreview{
+	background: rgba(0,0,0,0.25);
+}
+
+.MatcCanvasImageUploadPreview .VommondProgressContainer{
+	height: 10%;
+	width: 100%;
+}
+
+.MatcCanvas.MatcCanvasImageUploadDND .MatcCanvasFrame{
+ 	background: rgba(0,0,0,0.25);
+ 	transition: background 0.3s;
+}
+
+
+.MatcCanvas.MatcCanvasImageUploadDND .MatcScreenDnD{
+ 	background: rgba(0,0,0,0.25);
+ 	transition: all 0.3s;
+}
+
+.MatcCanvasImageUploadDND .MatcScreenDnD.MatcScreenDragOver{
+	box-shadow: 0 0 20px 0px #0099cc;
+	background: none;
+}
+
+.MatcCanvasImageUploadDND .MatcWidgetDND{
+	display: none;
+}
+
+/****************************************************
+ * Context Menu
+ ****************************************************/
+.MatcCanvasContextBack{
+	position: fixed;
+	z-index: 99999999;
+	background: rgba(0,0,0,0.5);
+	height: 100%;
+	width:100%;
+}
+
+
+
+/****************************************************
+ * Tool
+ ****************************************************/
+
+.MatcHotspotTool{
+	position: absolute;
+	border:1px solid #ff353a;
+	background:rgba(255,53,58,0.3);
+	z-index: 90010;
+}
+
+.MatcAddTool{
+	position: absolute;
+	border:1px solid #8abd00;
+	background:rgba(100,212,61,0.3);
+	z-index: 90010;
+}
+
+.MatcSelectionTool{
+	position: absolute;
+	border:1px solid $canvas_selection;
+	background:rgba(73,192,240,0.3);
+	z-index: 90010;
+}
+
+/****************************************************
+ * Grid
+ ****************************************************/
+.MatcCanvasGrid{
+	position: absolute;
+	height:100%;
+	width:100%;
+}
+
+.MatcGridDialogContent{
+	width:300px;
+
+}
+
+.MatcGridSelectorDialogContent{
+	width:500px;
+}
+
+/****************************************************
+ * Dialog
+ ****************************************************/
+
+.MatcCanvasDialogWrapper.VommondDialogWrapper{
+	background: #3e4149;
+	font-size: 14px;
+}
+
+.MatcCanvasDialogWrapper .MatcLinkButton{
+	color: #fff;
+}
+
+.MatcCanvasDialogWrapper .MatcLinkButton:HOVER{
+	color: #fff;
+}
+
+.MatcCanvasDialogWrapper .form-control{
+	background: none;
+	box-shadow:none;
+	color: #fff;
+	border-radius:0px;
+	border: 1px solid #777;
+}
+
+.MatcCanvasDialogWrapper .MatcButton, .MatcCanvasDialogWrapper .MatcLinkgButton{
+	background:none;
+	border: 1px solid #777;
+}
+
+.MatcCanvasDialogWrapper .MatcButton:HOVER{
+	border: 1px solid rgb(73,192,240);;
+	color:fff;
+}
+
+.MatcCanvasDialogWrapper .MatcLinkgButton:HOVER{
+	color:fff;
+}
+
+.MatcCanvasDialogWrapper{
+	color: #fff;
+}
+
+.MatcCanvasDialogWrapper label{
+	font-weight: 400;
+	font-size: 14px;
+}
+
+/****************************************************
+ *  Scroll Bar
+ ****************************************************/
+
+.MatcCanvasScrollBar{
+ 	transition-duration: 0.3s;
+	transition-property: opacity;
+	z-index: 91000;
+}
+
+.MatcCanvasScrollBar:HOVER{
+
+}
+
+.MatcCanvasScrollBarBottom{
+	position: fixed;
+	width:100%;
+	height: 10px;
+	bottom:0px;
+}
+
+.MatcCanvasScrollBarBottom.MatcCanvasScrollBarBottomLayerList {
+	padding-left:300px;
+}
+
+.MatcCanvasScrollBarBottomOpen.MatcCanvasScrollBarBottom{
+	padding-right:230px;
+}
+
+
+.MatcCanvasScrollBarRight{
+	position: absolute;
+	width:10px;
+	height: 100%;
+	right:0px;
+	top:0px;
+	padding-top: 40px;
+	padding-bottom: 25px;
+	transition-property: right;
+	transition-duration: 0.2s;
+}
+
+.MatcCanvasScrollBarRightOpen.MatcCanvasScrollBarRight{
+	right:230px;
+}
+
+.MatcCanvasScrollBarCntr{
+
+	cursor: pointer;
+	position: relative;
+}
+
+.MatcCanvasScrollBarCntrRight{
+	width:10px;
+	height: 100%;
+}
+
+.MatcCanvasScrollBarCntrBottom{
+	width:100%;
+	height: 10px;
+}
+
+.MatchCanvasScrollHandle{
+	background:#fff;
+	transition-property: opacity;
+	transition-duration: 0.5s;
+	position: absolute;
+	border-radius:5px;
+	width: 10px;
+	height: 10px;
+	cursor: pointer;
+	opacity:0.3;
+}
+
+.MatcCanvasScrollBarCntr:Hover .MatchCanvasScrollHandle,
+.MatcCanvasScrollBarHandlerActive .MatchCanvasScrollHandle{
+	background:#fff;
+	opacity:1;
+}
+
+
+
+
+/****************************************************
+ * Resizing
+ ****************************************************/
+
+
+.MatcResizeContainer{
+	position: absolute;
+	z-index: 90009;
+	border: 1px solid orange;
+}
+
+
+.MatcResizeHandle{
+	position: absolute;
+	background: #fff;
+	z-index: 90012;
+	border: 1px solid $canvas_selection;
+	cursor: pointer;
+	border-radius: 50%;
+}
+
+.MatcResizeHandleTouch{
+ 	height: 12px;
+    left: -4px;
+    position: absolute;
+    top: -4px;
+    width: 12px;
+}
+
+.MatcResizeBorder{
+	position: absolute;
+	z-index: 90010;
+}
+
+.MatcResizeBorderLeft{
+	border-left:1px solid $canvas_selection;
+}
+
+.MatcResizeBorderRight{
+	border-right:1px solid $canvas_selection;
+}
+
+.MatcResizeBorderUp{
+	border-top:1px solid $canvas_selection;
+}
+
+.MatcResizeBorderDown{
+	border-bottom:1px solid $canvas_selection;
+}
+
+.MatchResizeEast,
+.MatcCanvasResizeCursorEast,
+.MatcCanvasResizeCursorEast .MatcBox{
+	cursor: ew-resize;
+}
+
+.MatchResizeRightUp,
+.MatcCanvasResizeCursorRightUp,
+.MatcCanvasResizeCursorRightUp .MatcBox{
+	cursor:ne-resize;
+}
+
+.MatchResizeLeftUp,
+.MatcCanvasResizeCursorLeftUp,
+.MatcCanvasResizeCursorLeftUp .MatcBox{
+	cursor:nw-resize;
+}
+
+.MatchResizeWest,
+.MatcCanvasResizeCursorWest,
+.MatcCanvasResizeCursorWest .MatcBox{
+	cursor:ew-resize;
+}
+
+.MatchResizeNorth,
+.MatcCanvasResizeCursorNorth,
+.MatcCanvasResizeCursorNorth .MatcBox{
+	cursor:ns-resize;
+}
+
+.MatchResizeSouth,
+.MatcCanvasResizeCursorSouth,
+.MatcCanvasResizeCursorSouth .MatcBox{
+	cursor:ns-resize;
+}
+
+.MatchResizeRightDown,
+.MatcCanvasResizeCursorDown,
+.MatcCanvasResizeCursorDown .MatcBox{
+	cursor:se-resize;
+}
+
+.MatchResizeLeftDown,
+.MatcCanvasResizeCursorLeftDown,
+.MatcCanvasResizeCursorLeftDown .MatcBox{
+	cursor:sw-resize;
+}
+
+.MatcCanvasModedistance .MatcResizeHandle,
+.MatcCanvasModedistance .MatcCutsomerHandler,
+.MatcCanvasModedistance .MatcResizeBorder{
+	display: none;
+}
+
+.MatcCanvasModeAlign .MatcResizeBorder,
+.MatcCanvasModeAlign .MatcResizeHandle{
+	border-color:orange;
+}
+
+.MatcCanvasModeAlign .MatchResizeRightUp,
+.MatcCanvasModeAlign .MatchResizeLeftDown,
+.MatcCanvasModeAlign .MatcCutsomerHandler,
+.MatcCanvasModeAlign .MatchResizeRightDown,
+.MatcCanvasModeAlign .MatchResizeLeftUp{
+	display: none;
+}
+
+.MatcCanvasModeAlignNoVertical .MatchResizeWest,
+.MatcCanvasModeAlignNoVertical .MatchResizeEast{
+	display: none;
+}
+
+.MatcCanvasModeAlignNoHorizontal .MatchResizeNorth,
+.MatcCanvasModeAlignNoHorizontal .MatchResizeSouth {
+	display: none;
+}
+
+
+.MatcCanvasModeReplicate .MatcResizeBorder,
+.MatcCanvasModeReplicate .MatcCutsomerHandler,
+.MatcCanvasModeReplicate .MatcResizeHandle{
+	border-color:#92c500;
+}
+
+
+.MatcCanvasModeGridResize {
+		.MatcResizeHandle{
+			display: none;
+		}
+
+
+		.MatcResizeBorderLeft{
+			border-left:1px dashed $canvas_selection_grid_resize;
+		}
+		
+		.MatcResizeBorderRight{
+			border-right:1px dashed $canvas_selection_grid_resize;
+		}
+		
+		.MatcResizeBorderUp{
+			border-top:1px dashed $canvas_selection_grid_resize;
+		}
+		
+		.MatcResizeBorderDown{
+			border-bottom:1px dashed $canvas_selection_grid_resize;
+		}
+		
+
+		.MatcCanvasModeGridResizeHandler {
+			z-index: 90012;
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			cursor: pointer;
+		}
+
+		.MatcCanvasModeGridResizeHandlerColumn {
+			.MatcCanvasModeGridResizeHandlerLine {
+				position: absolute;
+				top:0px;
+				left:0px;
+				width: 1px;
+				background: $canvas_selection_grid_resize;
+			}
+	
+			.MatcCanvasModeGridResizeHandlerIcon {
+				position: absolute;
+				transform: translate(-50%, -9px) rotate(45deg);
+				background: $canvas_selection_grid_resize;
+			}
+	
+			.MatcCanvasModeGridResizeHandlerDot {
+				position: absolute;
+				border-radius: 50%;
+				transform: translate(-50%, -9px) rotate(45deg);
+				border: 1px solid $canvas_selection_grid_resize;
+			}
+		}
+
+		.MatcCanvasModeGridResizeHandlerRow {
+			.MatcCanvasModeGridResizeHandlerLine {
+				position: absolute;
+				top:0px;
+				left:0px;
+				height: 1px;
+				background: $canvas_selection_grid_resize;
+			}
+	
+			.MatcCanvasModeGridResizeHandlerIcon {
+				position: absolute;
+				transform: translate(-9px, -50%) rotate(45deg);
+				background: $canvas_selection_grid_resize;
+			}
+	
+			.MatcCanvasModeGridResizeHandlerDot {
+				position: absolute;
+				border-radius: 50%;
+				transform: translate(-9px, -50%) rotate(45deg);
+				border: 1px solid $canvas_selection_grid_resize;
+			}
+		}
+
+		.MatcCanvasModeGridResizeLabelColumn {
+			position: absolute;
+			top:0px;
+			left:0px;
+			transform: translateY(-32px);
+			color: $canvas_selection_grid_resize;
+			font-size: 12px;
+			text-align: center;
+		}
+
+		.MatcCanvasModeGridResizeLabelRow {
+			position: absolute;
+			top:0px;
+			left:0px;
+			transform: translateX(-32px);
+			color: $canvas_selection_grid_resize;
+			font-size: 12px;
+			text-align: center;
+			display: flex;
+			align-items: center;
+		}
+	
+}
+
+
+/****************************************************
+ * Canvas States
+ ****************************************************/
+
+ .MatcCanvasStateAdd{
+ 	cursor: move;
+ }
+
+ .MatcCanvasStateDnD{
+ 	cursor: move;
+ }
+
+
+ .MatcCanvasAddNDropNode{
+
+ }
+
+ .MatcCanvasStateBeginLine, .MatcCanvasStateEndLine{
+ 	cursor: crosshair;
+ }
+
+ .MatcCanvasStateBeginLine .MatcBox,  .MatcCanvasStateEndLine .MatcBox {
+ 	cursor: crosshair;
+ }
+
+ .MatcCanvasStateBeginLine .MatcWidget.MatcEventedWidget{
+ 	opacity:1;
+ }
+
+
+ .MatcCanvasStateBeginLine .MatcEventedWidget:HOVER{
+ 	border:2px solid orange;
+ }
+
+ .MatcCanvasStateEndLine .MatcScreenDnD{
+
+ }
+
+ .MatcCanvasStateEndLine .MatcScreenDnD:HOVER{
+ 	border:2px solid orange;
+ }
+
+ .MatcCanvasStateEndLine .MatcLogicWidgetDnD:HOVER{
+ 	border:2px solid orange;
+ }
+
+ .MatcCanvasStateEndLine .MatcWidget{
+  	opacity:0.1;
+ }
+
+  .MatcCanvasStateEndLine .MatcWidgetDND{
+  	display: none;
+ }
+
+ .MatcCanvasStateEndLine .MatcWidgetDND.MatcLogicWidgetDnD{
+ 	display: block;
+ }
+
+ .MatcCanvasStateEndLine .MatcLogic.MatcWidget{
+ 	opacity:1;
+ }
+
+ .MatcCanvasStateEndLine .MatcWidget .MatcWidgetSelected{
+
+ }
+
+ .MatcCanvasAddNDropNode{
+
+ }
+
+ .MatcCanvasStateCopyStyle .MatcScreen{
+  	opacity:0.1;
+ }
+ /****************************************************
+ * ruler
+ ****************************************************/
+
+ .MatcRulerDimensionLabel{
+ 	position: absolute;
+ 	padding:4px;
+ 	background:rgba(0,0,0,0.3);
+ 	color:#fff;
+ 	font-size:10px;
+ 	border-radius:3px;
+ }
+
+ .MatcRulerBoxSelectedBorder{
+ 	border:1px solid #92c500;
+ 	background: rgba(255, 255, 255, 0.2);
+ }
+
+ .MatcRulerBoxSelectedMiddle{
+ 	border:1px solid orange;
+ 	background: rgba(255, 255, 255, 0.2);
+ }
+
+ .MatcRulerLine{
+ 	position: absolute;
+ 	background: red;
+ 	z-index: 90020;
+ 	width: 100px;
+ 	height:100px;
+ 	opacity:0.5;
+ }
+
+ .MatcRulerLine.MatcRulerLineReference{
+	background: #92c500;
+ }
+
+ .MatcRulerLineDebug {
+	background: #aa37b9;
+ }
+
+ .MatcRulerLineDebuger .MatcRulerLine{
+	display: block;
+	background: #aa37b9;
+ }
+
+ .MatcRulerLineDebuger .MatcRulerLine.MatcRulerLineMiddle{
+	display: block;
+	background: #e4cd1c;
+ }
+
+
+ .MatcRulerDistanceLine{
+ 	position: absolute;
+ 	background: red;
+ 	z-index: 90020;
+ 	width: 100px;
+ 	height:100px;
+
+ }
+
+ .MatcRulerDistanceLineDottedX{
+ 	background: none;
+ 	border-top:1px dotted red;
+ }
+
+ .MatcRulerDistanceLineDottedY{
+ 	background: none;
+ 	border-left:1px dotted red;
+ }
+
+ .MatcRulerDistanceLabelY{
+ 	color:red;
+ 	font-size: 14px;
+ 	z-index: 90020;
+ 	position: absolute;
+ 	top:50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+ 	left:5px;
+ }
+
+.MatcRulerDistanceLabelX{
+	color:red;
+ 	font-size: 14px;
+ 	z-index: 90020;
+ 	position: absolute;
+ 	top:-21px;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+ 	left:50%;
+}
+
+.MatcRulerDistanceXEnd{
+	background: red;
+	height: 11px;
+	width: 1px;
+	position:absolute;
+	right:0px;
+	top:-5px;
+}
+
+.MatcRulerDistanceXStart{
+	background: red;
+	height: 11px;
+	width: 1px;
+	position:absolute;
+	left:0px;
+	top:-5px;
+}
+
+.MatcRulerDistanceYEnd{
+	background: red;
+	height: 1px;
+	width: 11px;
+	position:absolute;
+	left:-5px;
+	bottom:0px;
+}
+
+.MatcRulerDistanceYStart{
+	background: red;
+	height: 1px;
+	width: 11px;
+	position:absolute;
+	left:-5px;
+	top:0px;
+}
+
+.MatcRulerDistanceBox{
+	 border:1px solid red;
+}
+
+
+.MatcRulerLineHidden{
+ 	display: none;
+}
+
+.MatcRulerLineSelected{
+	background: #92c500;
+	opacity:1;
+}
+
+
+.MatcRulerLineSnappmiddleX.MatcRulerLineSelected,
+.MatcRulerLineSnappmiddleY.MatcRulerLineSelected{
+	background-color: orange;
+	opacity:1;
+}
+
+
+.MatcTest .MatcRulerLineGrid{
+	background-color: blue;
+}
+
+.MatcTest .MatcRulerLineScreen{
+	background-color: green;
+}
+
+.MatcTest .MatcRulerLineHidden{
+	display: block;
+	opacity:0.3;
+	color: red;
+}
+
+ /****************************************************
+ * New App Dialog
+ ****************************************************/
+
+.MatcAppProperties{
+	background: #fff;
+	border-radius:3px;
+	width:600px;
+	display: inline-block;
+	padding:20px;
+}
+
+ /****************************************************
+ * Inline Simulartor
+ ****************************************************/
+.MatcCanvasSimulatorVisible .MatcCanvasPage{
+	filter: blur(20px)
+}
+
+.MatcCanvasSimulatorVisible .VommondDialogWrapper{
+	background: none;
+	box-shadow: none;
+}
+
+.MatcCanvasSimulatorVisible .MatcSimulatorQR{
+	margin-left: 50px;
+}
+
+.MatcCanvasSimulatorVisible .MatcSimulator{
+	border-radius: 0px;
+}
+
+
+.MatcSimilatorBackGround{
+	margin-top: 30px;
+	border-radius:8px;
+	padding: 0px;
+	text-align: center;
+}
+
+.MatcSimulatorQRWrapper{
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+}
+
+.MatcSimulatorQRWrapperSmall {
+	display: none;
+}
+
+.MatcSimulatorQRWrapperClose {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    font-size: 32px;
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 4px;
+    line-height: 1;
+	cursor: pointer;
+}
+
+.MatcSimulatorQRWrapperClose:hover {
+	color: #000;
+}
+
+ .MatcSimulatorQR{
+ 	height: 300px;
+ 	width:300px;
+ 	vertical-align: top;
+ 	border-radius : 8px;
+ 	display: inline-block;
+ }
+
+  .MatchSimulatorContainer{
+  	height:452px;
+	width:302px;
+	overflow: auto;
+	display: inline-flex;
+	border-radius: 8px;
+	font-size: 0;
+ }
+
+ .MatchSimulatorWrapper{
+	background: none;
+	border: none;
+	border-radius: 8px;
+	display: inline-block;
+	padding: 0px;
+ }
+
+ .MatchSimulatorWrapperTablet{
+  	padding-bottom:20px;
+ }
+
+.MatchSimulatorDialogShadow{
+	box-shadow:0 0 35px #000;
+}
+
+
+ /****************************************************
+ * Test
+ ****************************************************/
+
+ .MatcTestItem{
+ 	margin-top: 30px;
+	border-radius:3px;
+	background: #fff;
+	box-shadow: 0px 0px 2px #cecece;
+	border-bottom: 2px solid #cecece;
+	padding: 20px;
+	padding-bottom: 40px;
+	margin: 20px;
+ }
+
+
+
+
+.MatcMessage{
+	position:absolute;
+	bottom: 0px;
+	left:0px;
+	transition-duration: 0.5s;
+	transition-property: all;
+	padding: 3px 10px;
+	font-size: 14px;
+	opacity:0;
+	color:white;
+	z-index:92000;
+	display: none;
+}
+
+
+.MatcMessageSuccess{
+	background: #83b600;
+	opacity:1;
+	display: block;
+}
+
+.MatcMessageError{
+	background: #ff7400;
+	opacity:1;
+	display: block;
+}
+
+.MatcMessageHint{
+	background: rgb(73,192,240);
+	opacity:1;
+	display: block;
+}
+
+
+ /****************************************************
+ * Some stuff for the comments
+ ****************************************************/
+.MatcCanvasPopupBackground{
+	position: absolute;
+	top:0px;
+	height:0px;
+	width:100%;
+	height:100%;;
+}
+
+
+ /****************************************************
+ * Black and white mode
+ ****************************************************/
+.MatcCanvasBW .MatcScreen,
+.MatcCanvasBW .MatcWidget{
+	 -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+    opacity:0.6;
+}
+
+ /****************************************************
+ * DataView
+ ****************************************************/
+
+.MatcCanvasDataView .MatcScreen,
+.MatcCanvasDataView .MatcWidget{
+	 -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+    opacity:0.6;
+}
+
+.MatcCanvasDataView .MatcResizeHandle{
+	 display: none;
+}
+
+.MatcCanvasDataViewLabelList {
+	position: absolute;
+	bottom: 100%;
+	left: -2px;
+	font-size: 100%;
+
+}
+
+.MatcCanvasDataViewLabelVariables {
+	background: $canvas_selection;
+	color:#fff;
+  	padding: 1px 5px;
+	display: inline-block;
+	margin-right: 8px;
+	border-radius: 16px;
+	box-shadow: 0px 1px 1px rgba(0,0,0,0.25);
+	white-space: nowrap;
+}
+
+.MatcCanvasDataViewLabelMethods {
+	background: #83b600;
+	color:#fff;
+  	padding: 1px 5px;
+	display: inline-block;
+	border-radius: 16px;
+	box-shadow: 0px 1px 1px rgba(0,0,0,0.25);
+	white-space: nowrap;
+}
+
+ /****************************************************
+ * Prototyping
+ ****************************************************/
+
+
+ .MatcCanvasPrototypingView .MatcResizeHandle{
+		display: none;
+ }
+
+ .MatcCanvasPrototypingView .MatcResizeHandle.MatcPrototypingHandle{
+	display: block;
+}
+
+
+
+
+
+/****************************************************
+ * ScreenGrid
+ ****************************************************/
+.MatcScreenGridButtonTop{
+	height: 5px;
+	background: $canvas_selection;
+	position: absolute;
+	bottom:100%;
+	left:0px;
+	width:100%;
+	cursor: s-resize;
+	opacity: 0;
+	transition: opacity 0.1s;
+	transition-delay: 0.2s;
+}
+
+.MatcScreenGridButtonTopLine{
+	position: absolute;
+	height: 1px;
+	background: $canvas_selection;
+	width:100%;
+	left:0px;
+}
+
+.MatcScreenGridButtonLeftLine{
+	position: absolute;
+	width: 1px;
+	background: $canvas_selection;
+	height: 100%;
+	top:0px;
+}
+
+.MatcScreenGridHandle{
+	width: 8px;
+	height: 8px;
+	position: absolute;
+	border-style: solid;
+	opacity: 1;
+	transition: opacity 0.2s;
+}
+
+.MatcScreenDnD:hover .MatcScreenGridHandle{
+	opacity: 1
+}
+
+.MatcScreenGridHandlex{
+	top: -8px;
+	border-radius: 0px;
+	border-width: 5px 5px 0px 5px;
+	border-color: $canvas_selection transparent transparent transparent;
+	background: none;
+	cursor:ew-resize;
+	transform: translateX(-5px);
+}
+
+.MatcScreenGridHandley{
+	left: -8px;
+	border-radius: 0px;
+	border-width: 5px 0 5px 5px;
+	border-color: transparent transparent transparent $canvas_selection;
+	background: none;
+	cursor:ns-resize;
+	transform: translateY(-5px);
+}
+
+.MatcScreenGridHandleDel.MatcScreenGridHandlex{
+	border-color: red transparent transparent transparent;
+}
+.MatcScreenGridHandleDel.MatcScreenGridHandley{
+	border-color: transparent transparent transparent red;
+}
+
+.MatcScreenGridHandleDisbaled{
+	cursor: not-allowed;
+}
+
+.MatcScreenGridButtonLeft{
+	height: 100%;
+	background: $canvas_selection;
+	position: absolute;
+	right:100%;
+	top:0px;
+	width:5px;
+	cursor: e-resize;
+	opacity: 0;
+	transition: opacity 0.1s;
+	transition-delay: 0.2s;
+}
+
+.MatcScreenGridButtonTop:hover,
+.MatcScreenGridButtonLeft:hover{
+	opacity: 0.5;
+}
+
+.MatcScreenGridLinex {
+	position: absolute;
+	width: 1px;
+	top:3px;
+	background: $canvas_selection;
+	z-index: 90009;
+}
+
+.MatcScreenGridLiney {
+	position: absolute;
+	height: 1px;
+	left:3px;
+	background: $canvas_selection;
+	z-index: 90009;
+}
+
+
+ /****************************************************
+ * debug
+ ****************************************************/
+
+ .debug .MatcScreenDnD{
+
+}
+
+.debug .MatcCanvasContainer{
+
+}
+
+.MatcLineDebugPoint{
+	position:absolute;
+	border-radius:5px;
+	height:6px;
+	width:6px;
+	border: 1px solid orange;
+
+}
+
+.MatcDebugMousePos{
+	position: absolute;
+	bottom:0px;
+	right:0px;
+	background: orange;
+	color:white;
+	padding:5px;
+	font-size: 10px;
+	opacity:0.8;
+}
+
+.debug .MatcResizeContainer{
+
+}
+
+.Xdebug .MatcBoxSelected .MatcInlineEditable{
+	outline: 1px dashed red;
+}
+
+
+
+
+.debug .MatchBoxDebugInfo{
+	font-size: 12px;
+	position: absolute;
+	top:-15px;
+	width: 150px;
+}
+
+.Xdebug .MatcBorderNode{
+	background: orange;
+	opacity:0.2;
+}

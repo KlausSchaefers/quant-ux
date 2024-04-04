@@ -39,14 +39,12 @@ export default {
 
 		showGroupPrototypeProperties (model) {
 
-			if (model.name){
-				this.groupName.value = model.name;
-			} else {
-				this.groupName.value = "";
+			if (this.groupName) {
+				css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
+				this.groupName.value = model.name ? model.name : "";
+				this.groupName.blur();
 			}
-			this.groupName.blur();
-			css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
-
+	
 			css.remove(this.groupActionDiv, "MatcToolbarSectionHidden");
 			this.groupActionBTN.setValue(model);
 
@@ -68,19 +66,20 @@ export default {
 				css.remove(this.responsiveGroupDiv, "MatcToolbarSectionHidden")
 			}
 
-			css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 			this.responsiveGroupWidget.setValue(model)
 
 			/**
 			* Since 2.1.3 we have sub groups
 			*/
-			if(model.name){
-				this.groupName.value = model.name;
-			} else {
-				this.groupName.value = "";
+			if (this.groupName){
+				if(model.name){
+					this.groupName.value = model.name;
+				} else {
+					this.groupName.value = "";
+				}
+				this.groupName.blur();
 			}
-			this.groupName.blur();
 
 			let fixed = true;
 			const children = this.getAllGroupChildren(model)
@@ -101,12 +100,15 @@ export default {
 		},
 
 		showGroupDataProperties (model) {
-			css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
 			css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")
 			css.remove(this.lowCodeResponsiveDiv, "MatcToolbarSectionHidden")
 			this.groupActionBTN.setValue(model);
-			this.groupName.value = model.name ? model.name : "";
-			this.groupName.blur();
+			if (this.groupName) {
+				css.remove(this.groupNameDiv, "MatcToolbarSectionHidden");
+				this.groupName.value = model.name ? model.name : "";
+				this.groupName.blur();
+			}
+	
 			this.lowCodeSection.setValue(model, true)
 			this.lowCodeResponsiveSection.setValue(model, true)
 		},

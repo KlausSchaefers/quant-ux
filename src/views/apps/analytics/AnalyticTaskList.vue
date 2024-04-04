@@ -4,17 +4,17 @@
     <div class data-dojo-attach-point="sectionTask">
       <div class="level">
         <div class="level-left">
-          <h2 class="title level-item">
+          <h3 class="title level-item">
             <span data-nls="testSettingsTasks">{{$t('analytic-task-list.header')}}</span>
             <HelpButton
               topic="analytics.tasks"
               subtopic="analytics.tasks.create"
               :hasNotifications="false"
             />
-          </h2>
+          </h3>
         </div>
         <div class="level-right">
-          <a class="button is-primary is-outlined level-item"  data-nls="btn.download"  @click="downloadCVS" >{{$t('analytic-task-list.download')}}</a>
+          <a class="MatcButton MatcButtonSecondary MatcButtonXS"  data-nls="btn.download"  @click="downloadCVS" >{{$t('analytic-task-list.download')}}</a>
         </div>
       </div>
 
@@ -38,6 +38,7 @@ import TaskPerfGram from "views/apps/analytics/TaskPerfGram";
 import TestSettings from "views/apps/test/TestSettings";
 import Analytics from "dash/Analytics";
 import HelpButton from "help/HelpButton";
+
 
 export default {
   name: "AnalyticsTaskList",
@@ -220,8 +221,8 @@ export default {
       tbl.setActions([
         {
           label: "",
-          icon: "mdi mdi-chart-bar",
-          css: "button is-primary is-outlined",
+          icon: "AnalyseChart",
+          css: "MatcButton MatcButtonXXS MatcButtonSecondary",
           callback: lang.hitch(me, "_showTaskPerf")
         }
       ]);

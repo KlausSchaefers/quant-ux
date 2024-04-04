@@ -71,7 +71,7 @@ export default class AbstractService {
                     if (errorCallback) {
                         errorCallback(new Error('Could not load ...'))
                     }
-                    reject(new Error('Could not load'))
+                    reject(new Error('Could not load ' + url))
                 }
             }).catch((err) => {
                 if (errorCallback) {
@@ -103,7 +103,7 @@ export default class AbstractService {
                     if (errorCallback) {
                         errorCallback(new Error('Could not load ...'))
                     }
-                    reject(new Error('Could not load'))
+                    reject(new Error('Could not load ' + url))
                 }
             }).catch((err) => {
                 if (errorCallback) {
@@ -136,7 +136,7 @@ export default class AbstractService {
                     if (errorCallback) {
                         errorCallback(new Error('Could not _post ...'))
                     }
-                    reject(new Error('Could not post'))
+                    reject(new Error('Could not post ' + url))
                 }
             }).catch((err) => {
                 if (errorCallback) {
@@ -168,7 +168,7 @@ export default class AbstractService {
                     if (errorCallback) {
                         errorCallback(new Error('Could not _put ...'))
                     }
-                    reject(new Error('Could not put'))
+                    reject(new Error('Could not put ' + url))
                 }
             }).catch((err) => {
                 this.onError(url)

@@ -1,86 +1,11 @@
 <template>
 	<div class="MatcSimulator">
-	  <div class="MatcSimulatorLoading" data-dojo-attach-point="splashNode">
-		<div class="MatcSimulatorLoadingCntr">
-			  <div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation" data-dojo-attach-point="splashLogo" v-show="step == 0" >
-  
-			  </div>
-  
-			   <transition name="fade">
-						  <div class="MatcSimulatorContent" v-if="step === 6">
-							  <div class="MatcSimulatorContentCntr">
-								  <h2>{{getNLS("simulator.password.title")}} </h2>
-								  <p v-html="getNLS('simulator.password.msg')">
-									  
-								  </p>
-								  <input v-model="password" class="form-control MatcMarginTop" @keypress.enter="setPassword"/>
-  
-								  <div class="MatcMarginTop">
-									  <div  class="MatcButton MatcSimulatorStartBtn" @click="setPassword()">
-										  {{getNLS("simulator.password.next")}}
-									  </div>
-									  <span class="MatcError" style="margin-left:20px">
-										  {{passwordError}}
-									  </span>
-  
-								  </div>
-							  </div>
-						  </div>
-						  <div class="MatcSimulatorContent" v-if="step === 2">
-							  <div class="MatcSimulatorContentCntr">
-								  <h2> {{getNLS("simulator.welcome.title")}} !</h2>
-									  <p v-if="settings.description" >
-										  {{settings.description}}
-									  </p>
-									  <p v-else v-html="getNlSWithReplacement('simulator.welcome.msg', {'name': model.name})"></p>
-									  <p v-html="getNLS('simulator.welcome.privacy')"></p>
-								  </div>
-								  <div class="MatcMarginTop">
-									  <div  class="MatcButton MatcSimulatorStartBtn" @click="onStart()" v-if="getUserTasks().length === 0">
-										  {{getNLS("simulator.welcome.start")}}
-									  </div>
-									  <div class="MatcButton MatcSimulatorStartBtn" @click="step = 3" v-else>
-										  {{getNLS("simulator.welcome.showTasks")}}
-									  </div>
-								  </div>
-						  </div>
-						  <div class="MatcSimulatorContent" v-if="step === 3">
-							  <div class="MatcSimulatorContentCntr">
-								  <h2>{{getNLS("simulator.tasks.title")}} !</h2>
-								  <p>
-									  {{getNLS("simulator.tasks.msg")}}
-								  </p>
-								  <div v-for="t in getUserTasks()" :key="t.id">
-									  <h3>{{t.name}}</h3>
-									  <div class="MatcTestTaskDescription">
-										  {{t.description}}
-									  </div>
-								  </div>
-							  </div>
-  
-							  <div class="MatcMarginTop">
-							  <div class="MatcButton MatcSimulatorStartBtn" @click="onStart()">
-								  {{getNLS("simulator.welcome.start")}}
-							  </div>
-						  </div>
-					  </div>
-			   </transition>
-  
-		  <div class="MatcSimulatorStartBtn" data-dojo-attach-point="startNode" v-show="step === 4">
-			  {{getNLS("simulator.welcome.start")}}
-		  </div>
-  
-		</div>
-		<div class="MatcSimulatorPrivacy" data-dojo-attach-point="privacyNode" v-show="step === 4" v-html="getNLS('simulator.welcome.privacy')">
-		 
-		</div>
-		<div class="MatcSimulatorVersion">v4.6.1</div>
-	  </div>
+		<Splash :hash="hash" :model="model" :settings="settings" @start="onStart"  v-if="hasSplash"/>
 	</div>
   </template>
-  <style>
-	@import url("../style/simulator.css");
-	@import url("../style/widgets/all.css");
+  <style lang="scss">
+	@import "../style/simulator.scss";
+	@import "../style/widgets/all.scss";
   </style>
   <script>
   import DojoWidget from 'dojo/DojoWidget'
@@ -110,6 +35,8 @@
   import ScriptMixin from 'core/simulator/ScriptMixin'
   import TooltipMixin from 'core/simulator/TooltipMixin'
   import Preloader from 'core/simulator/Preloader'
+  import Splash from '../views/simulator/Splash.vue'
+
   
   import ModelUtil from 'core/ModelUtil'
   
@@ -117,40 +44,43 @@
   
   export default {
 	  name: 'Simulator',
-	  props: ['mode', 'app'],
+	  props: ['mode', 'app', 'hasPreload'],
 	  mixins:[
 		  Layout, Gestures, RestMixin, LogMixin, RenderMixin, EventMixin,ScriptMixin, TooltipMixin,
 		  ScrollMixin, AnimationMixin, MouseMixin, DataBindingMixin, TemplateMixin, DojoWidget
 	  ],
 	  data: function () {
 		  return {
-			  debug: false,
-			  logData: true,
-			  qr: false,
-			  hash: null,
-			  remoteDebug: false,
-			  skipSplash: false,
-			  lastScroll: 0,
-			  lastMouse: 0,
-			  isGesture: false,
-			  scrollListenTarget: "window",
-			  mouseSampleRate: 50,
-			  currentScrollTop: 0,
-			  hoverAnimationDuration: 150,
-			  runTimerLinesOnScreenLoad: true,
-			  embedded: false,
-			  live: false,
-			  eventCount: 0,
-			  settings: null,
-			  step: 0,
-			  maxEventCount: 1000,
-			  model: {},
-			  password: '',
-			  passwordError: '',
-			  doNotExecuteScripts: false
+				hasSplash: false,
+				debug: false,
+				logData: true,
+				qr: false,
+				hash: null,
+				remoteDebug: false,
+				skipSplash: false,
+				lastScroll: 0,
+				lastMouse: 0,
+				isGesture: false,
+				scrollListenTarget: "window",
+				mouseSampleRate: 50,
+				currentScrollTop: 0,
+				hoverAnimationDuration: 150,
+				runTimerLinesOnScreenLoad: true,
+				embedded: false,
+				live: false,
+				eventCount: 0,
+				settings: null,
+				step: 0,
+				maxEventCount: 1000,
+				model: {},
+				password: '',
+				passwordError: '',
+				doNotExecuteScripts: false
 		  }
 	  },
-	  components: {},
+	  components: {
+		'Splash': Splash
+	  },
 	  methods: {
 		  async postCreate (){
 			  this.logger = new Logger("Simulator");
@@ -188,14 +118,16 @@
 			  if(this.mode == "standalone"){
 				  // FIXME: On reloads this may cause issues because we get several screens
 				  this.baseURI = uri
+			
   
 				  if(params.live == "true"){
 					  this.live = true;
+					  this.hasSplash = false
 				  }
   
 				  if(params.qr == "true"){
 					  this.qr = true;
-					  this.showSplashScreen();
+					  this.showSplashScreen()
 					  this.own(on(window, "popstate", lang.hitch(this, "onPopState")));
 				  }
   
@@ -223,12 +155,12 @@
 				  }
   
 			  } else {
-				  if(this.hash) {
-					  this.renderFactory.hash = this.hash;
-				  }
+				this.hasSplash = false
+				if(this.hash) {
+					this.renderFactory.hash = this.hash;
+				}
 			  }
   
-		  
 			  this.own(this.addTouchStart(this.domNode,lang.hitch(this, "onScreenPress")));
 			  this.own(this.addTouchRelease(this.domNode, lang.hitch(this, "onScreenRelease")));
 			  this.own(topic.subscribe("MatcSimulatorRenderFixedPopup", lang.hitch(this, "addFixedPopup")));
@@ -293,14 +225,12 @@
 		  async checkLiveUpdate (){
 			  const app = await Services.getModelService().checkAppUpdateByHash(this.hash)
 			  this.setLiveUpdate(app)
-			  // this._doGet("rest/invitation/"+ this.hash + "/update.json", lang.hitch(this, "setLiveUpdate"));
 		  },
   
 		  async setLiveUpdate (app){
 			  if (app && app.lastUpdate && this.model && this.model.lastUpdate < app.lastUpdate){
 				  const app = await Services.getModelService().findAppByHash(this.hash)
 				  this.doLiveUpdate(app)
-				  // this._doGet("rest/invitation/"+ this.hash + "/app.json", lang.hitch(this, "doLiveUpdate"));
 			  } else {
 				  setTimeout(lang.hitch(this,"checkLiveUpdate"), 5000);
 			  }
@@ -329,9 +259,12 @@
   
   
 		  showSplashScreen (){
-			  this.logger.log(-2,"showSplashScreen","enter >");
-			  css.add(this.domNode, "MatcSimulatorSplash MactMainGradient");
-			  this._splashTime = new Date().getTime();
+				if (!this.live) {
+					this.logger.log(-2,"showSplashScreen","enter >");
+					this.hasSplash = true
+					css.add(this.domNode, "MatcSimulatorSplash MactMainGradient");
+					this._splashTime = new Date().getTime();
+				}
 		  },
   
 		  async loadSettings (model) {
@@ -368,7 +301,7 @@
 				  if(this.hash){
 					  this.preloadImages();
 				  }
-				  if(	this._splashTime > 0 && this.skipSplash !== true){
+				  if(this._splashTime > 0 && this.skipSplash !== true){
   
 					  this.logger.log(-1,"setModel","show splash");
 					  /**
@@ -378,7 +311,7 @@
 					  setTimeout(() => {
 						  this.afterSplash()
 					  }, t);
-					  this.fullSreenListener = on(this.startNode, "click", lang.hitch(this, "onStartClick", model));
+					  //this.fullSreenListener = on(this.startNode, "click", lang.hitch(this, "onStartClick", model));
 				  } else {
 					  this.startSimilator(model);
 				  }
@@ -398,11 +331,10 @@
 		  },
   
 		  preloadImages (){
-			  this.logger.log(2,"preloadImages","enter");
-  
-			  Preloader.load(this.model, this.hash, this.domNode)	
-  
-			  this.logger.log(3,"preloadImages","exit");
+				if (this.hasPreload) {
+					this.logger.log(-2,"preloadImages","enter", this.mode);
+					Preloader.load(this.model, this.hash, this.domNode)	
+				}
 		  },
   
   
@@ -1161,18 +1093,18 @@
 				}
 		  },
   
-		  getUserTasks (){
-			  const tasks = [];
-			  if (this.settings.tasks && this.settings.tasks){
-				  for(var i=0; i< this.settings.tasks.length; i++){
-					  var task = this.settings.tasks[i];
-					  if(task.description && task.description != "Enter a description here"){
-						  tasks.push(task);
-					  }
-				  }
-			  }
-			  return tasks;
-		  },
+		//   getUserTasks (){
+		// 	  const tasks = [];
+		// 	  if (this.settings.tasks && this.settings.tasks){
+		// 		  for(var i=0; i< this.settings.tasks.length; i++){
+		// 			  var task = this.settings.tasks[i];
+		// 			  if(task.description && task.description != "Enter a description here"){
+		// 				  tasks.push(task);
+		// 			  }
+		// 		  }
+		// 	  }
+		// 	  return tasks;
+		//   },
   
 		  destroy (){
 			  this.logger.log(-1,"destroy","enter");

@@ -1,34 +1,38 @@
 
 <template>
-  <div class="MatcLanguagePicker">
-    <div type="button" data-dojo-attach-point="button" @click.stop="open"  >
+ <div :class="['MatcLanguagePicker', {'MatcToolbarPopUpVisible': isVisible}]">
+    <a type="button" @click.stop="open" class="MatcToolbarIconButton" >
       <span v-if="hasLabel">
         {{selectedLanguage}}
       </span>
-      <span data-dojo-attach-point="label" class="mdi mdi-earth"></span>
+      <QIcon icon="World"></QIcon>
       <span class="caret" v-if="hasCarret"></span>
-    </div>
+    </a>
     <div class="MatcDropDownPopUp" role="menu" data-dojo-attach-point="popup" v-if="isVisible">
       <ul class role="menu" data-dojo-attach-point="ul">
         <li v-for="ln in languages" :key="ln.value" @click.stop="onChangeLanguage(ln.value)" ><a>{{ln.label}}</a>
         </li>
       </ul>
     </div>
+    <div class="MatcDropDownPopUpBackdrop" v-if="isVisible"></div>
   </div>
 </template>
 <style lang="scss">
-  @import "../style/language.scss";
+  @import "../style/components/language.scss";
 </style>
 <script>
 //import Services from "services/Services";
 import on from "dojo/on";
 import win from "dojo/_base/win";
 import Logger from "common/Logger";
+import QIcon from "../page/QIcon";
+
+import _Tooltip from "common/_Tooltip";
 
 export default {
   name: "LangaugePicker",
   props:['hasLabel', 'value'],
-  mixins: [],
+  mixins: [_Tooltip],
   data: function() {
     return {
       isVisible: false,
@@ -55,6 +59,7 @@ export default {
     };
   },
   components: {
+    'QIcon': QIcon
   },
   computed: {
     selectedLanguage () {
@@ -87,6 +92,8 @@ export default {
     if (this.value) {
       this.language = this.value
     }
+
+    this.addTooltip(this.$el, "Change the language", "vommondToolTipRightBottom")
   }
 };
 </script>

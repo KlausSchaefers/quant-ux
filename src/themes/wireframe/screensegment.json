@@ -2,7 +2,7 @@
 	"id" : "WireFrameScreenSegment",
 	"type" : "ScreenSegment",
 	"name" : "Screen Segment",
-	"category" : "WireFrame",
+	"category" : "Advanced",
 	"subcategory" : "FormSpecialContainer",
 	"_type" : "Widget",
 	"x" : 0,

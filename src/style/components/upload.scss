@@ -1,0 +1,145 @@
+@import '../variables.scss';
+
+.MatUploader {
+
+
+    .MatcHint {
+        color: $text_color_passive;
+        font-size: $form_font_size;
+        display: block;
+        padding-bottom: calc(0.5em - 1px);
+        padding-left: calc(0.75em - 1px);
+        padding-right: calc(0.75em - 1px);
+        padding-top: calc(0.5em - 1px);
+      }
+
+}
+
+.MatUploaderDropZone {
+        
+    border: 1px solid $form_border;
+    transition: 0.2s all;
+    cursor: pointer;
+    height: 96px;
+    position: relative;
+    border-radius: $form_radius;
+
+    .MatcHint {
+      color: #ccc;
+    }
+
+
+    &.MatUploaderHasFile {
+      border: 0px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    input {
+      width: 100%;
+      height: 100%;
+      border:none;
+      opacity: 0;
+      cursor: pointer;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+
+    &:hover{
+      border-color: $form_border_hover;
+
+      .MatcHint {
+        color: $form_border_hover;
+      }
+    }
+
+    &.MatUploaderDropZoneHover{
+      border-color: $main_color;
+
+      .MatcHint {
+        color: $main_color;
+      }
+    }
+
+    .MatUploaderPreview{
+      display: block;
+      height: 100%;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+   
+      &:hover {
+        .MatUploaderPreviewRemove {
+          opacity: 1;
+        }
+      }
+
+      .MatUploaderPreviewRemove {
+        position: absolute;
+        top:0px;
+        right: 5px;
+        font-size: 24px;
+        text-shadow: 0px 0px 10px rgb(255 255 255);
+        opacity: 0;
+
+        &:hover {
+          color: #f83a3a;
+        }
+      }
+    }
+}
+
+
+.MatcUploaderCanvas {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.MatcUploader {
+	height: 150px;
+	width: 150px;
+	border-radius: 50%;
+	background: #cecece;
+	position: relative;
+	display: inline-block;
+	transition: all;
+	transition-duration: 0.25s;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.MatcUploader.MatcUploaderLoading {
+	background: #fff;
+}
+
+.MatcUploader.MatcUploaderLoading .MatcUploaderIcon.mdi {
+	color: #92c500;
+}
+
+.MatcUploader.MatcUploaderLoading:HOVER {
+	background: none;
+}
+
+.MatcUploader:hover,
+.MatcUploader.MatcUploaderDnD {
+	background-color: #92c500;
+}
+
+.MatcUploader .MatcQIcon {
+	color: #fff;
+	height: 48px;
+	width: 48px;
+}
+
+.MatcUploader .MatcQIcon svg {
+	color: #fff;
+	height: 48px;
+	width: 48px;
+}
+

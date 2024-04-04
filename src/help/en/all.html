@@ -1,0 +1,1254 @@
+<html>
+
+<body>
+    <h1>getting started</h1>
+    A prototype consists out of the screens in which you can place widgets. Widgets are the basic building blocks
+    of your design, but in contrast to most other prototyping tools, they are fully functional.
+    This means users can toggle a checkbox or enter data into a text field.
+    <br><br>
+
+    Quant-UX canvas has three main views on a prototype.
+
+    <ol>
+        <li>
+            The <b>Design</b> view allows you to create the visual aspect of your prototype. You can
+            add screens and widgets and change the appearance.
+        </li>
+        <li>
+            The <b>Prototype</b> view defines the interaction between the screens and elements. In the prototype
+            view, you can see and create the links between the screens. You can also customize certain
+            dynamic properties of input element, e.g. form validation and data binding.
+        </li>
+        <li>
+            In the <b>Low Code</b> view, you can define properties that are important for turning the prototype
+            into a working application.
+        </li>
+    </ol>
+
+    <br>
+    You can define screen transitions that link the screens together. A transition is triggered when the user
+    performs a certain action, for instance, clicks on a button or performs a screen gesture.
+
+    To create a screen, press <strong>S</strong> or click the <span class=" mdi mdi-cellphone" /> icon.
+    You can place the screen freely on the canvas.<br>
+    Once you have placed the screen, click on it to select it. On the right property panel, you can
+    now configure the screen name, the background (color or image).
+    <br>
+    You can also set a screen to be an overlay. This means, that the screen will be rendered on top of
+    another screens. This is for instance useful if you want to build modal dialogs.
+
+    Quant-UX comes with a rich selection of functional widgets. You can create a widget by pressing
+    <strong>W</strong> or selecting <span class="mdi mdi-puzzle-outline" /> icon. To create the most common widgets,
+    you can also use the <strong>R</strong> (Rectangle), <strong>T</strong>
+    (Text) or <strong>H</strong> (Hotspot)
+    shortcuts.<br>
+    To select a widget, simply click on it. The property panel will show up, and you can configure the visual
+    appearance of the widget. In addition, you can configure certain properties, for instance the
+    entries in a dropdown box.
+
+    To create a screen transition, you have to link a source (widget or screen) to a target screen.
+    Change to the <strong>Prototype</strong> view and select the widget (or screen) and press the <strong>L</strong> or
+    click on the
+    <span class="MatcButton">Add Action</span> button in the properties panel.
+    Now you can select the target screen.
+    <br>
+    Once you have created a link the Add Action button will disappear in the properties panel, and you
+    can configure certain properties of the link, for instance the animation and the user
+    event that should trigger the screen transition. For screens, you can also create timed
+    transitions to create splash screens.
+    <br>
+    <strong>Hint:</strong> To clean up the design, you can also place waypoints, by clicking on the canvas.
+
+
+
+    <h1>animations</h1>
+    To add an animation to a widget, select a widget, and if the widget supports animations you can see in the
+    lower right corner a tab bar with the different widget states, e.g. <strong>Normal</strong>
+    and <strong>Hover</strong>. Note that this is only visible in Design view.
+
+    <br> <br>
+    If you press Hover, the properties panel will change and only show the properties
+    that you can change for the hover state. Change the background, or text color. When you
+    launch the simulator the selected color will be shown when
+    you hover with the mouse over the widget.
+
+    Before you create a screen animation, you have to create a link between a source (widget or screen)
+    and a target screen. Once you have created the link, select the source element. In the properties panel,
+    you can now select in the <strong>Action</strong> section
+    the <strong><span class="mdi mdi-close" /> No Animation</strong> button. A popup will show up,
+    that lets you define how the new screen is animated, for instance, if it is faded or slid in.
+    You can also configure the duration and the easing function.
+    <br> <br>
+    You can also create dedicated loading animations that will animate each widget separately.
+    Select a screen, and press the <strong><span class="mdi mdi-video" /> Animation</strong> button.
+    The animation composer will show up, which lets you define for each widget an animation
+    timeline. You can set the start and end of the animation. Press the
+    <span class="mdi mdi-close" /> icon to select the type of animation.
+
+    <p class="MatcHelpCallout">
+        Please note that the <strong><span class="mdi mdi-auto-fix" /> Transform</strong> animation type
+        works only if the first screen has an element with the <strong>same name</strong>.
+        The animation will transform the previous widget (position and style) to the current one.
+    </p>
+
+    If you want more advanced animations you can use the <strong>Animation</strong> links. These
+    special kinds of links create under the hoods for every widget a transform animation
+    that is shown when the screen is loaded. The best way to work with animation links is to:
+    <ol>
+        <li>
+            Create a screen with all elements in the initial state.
+        </li>
+        <li>
+            Create a copy of the screen.
+        </li>
+        <li>
+            Change the elements in the copy to define the end state of the animation.
+        </li>
+        <li>
+            Select the element which should trigger the animation and click on
+            <span class="MatcButton">Add Action</span> button and select <strong>Animation</strong>
+        </li>
+    </ol>
+
+
+
+    <h1>import</h1>
+    You can import PNG and JPEG files from other tools into Quant-UX. Simply drag and drop them on the canvas,
+    and the images will be uploaded as screens. If you drop the images within an existing screen, they will be
+    added as images.
+    <br>
+    As an alternative, you can also select the <span class="mdi mdi-image" /> image icon when
+    you have a screen or image widget selected to open the Upload dialog. Once the dialog is open, you can drag and drop
+    your files in here, or select already uploaded files.
+
+    You can import Figma projects into Quant-UX by opening the Import wizard. Before you start you need to create an
+    Access key:
+
+    <ol>
+        <li>
+            Login to your Figma account.
+        </li>
+        <li>
+            Open the "Account Settings" in the top left menu
+        </li>
+        <li>
+            Go to the "personal Access Tokens" section
+        </li>
+        <li>
+            Click on "Create new token"
+        </li>
+        <li>
+            Copy the generated token, and save it somewhere safe.
+        </li>
+    </ol>
+
+    You need to create the token only once, it is valid for all projects in Figma.
+    Once you have a token, perform the following steps:
+
+    <ol>
+        <li>
+            Click the menu (<span class="mdi mdi-menu" />) and select "Import"
+        </li>
+        <li>
+            Select the "Figma" tab
+        </li>
+        <li>
+            Enter your access key and copy the URL of the Figma project.
+        </li>
+        <li>
+            Click on "Import"
+        </li>
+    </ol>
+
+
+
+    <h1>data binding</h1>
+    In Quant-UX there is hidden data which allows you to store and read data, while
+    the prototype is tested. You can think of the data as a simple JSON object
+    with different properties.
+
+    <br><br>
+    Imagine you build a form for the users to sign up for a service. They need
+    to enter their email, name, last name and address. The data might look
+    like this:
+
+    <div class="MatcHelpExample">
+
+        <pre>
+{
+    "email": "PedroHauten@gmail.com"
+    "name": "Pedro",
+    "lastname": "Hauten",
+    "address": {
+        "street": "Cavar de Castelo",
+        "zip": "34414-100",
+        "city": "Warburgo",
+        "country":"Portugal"
+    }
+}
+                        </pre>
+    </div>
+
+    Data Binding allows you to link this data to the UI elements, e.g. a text input element.
+    If you want to link for example a text box to the email of the user, the correct variable name would
+    be "email". If you want to link to the street, the name would be "address.street".
+    <br>
+    Once the user has entered data, the information is stored. You can use it in the following
+    screens, e.g. to show it again, maybe as a label. You can also use the data for rule based navigation
+    or send it with the <b>Web Service</b> to a real server.
+
+    <br><br>
+
+    To assign or edit the variable follow the steps below:
+
+    <ol>
+        <li>
+            Select the element
+        </li>
+        <li>
+            Click on <span class="MatcButton">Prototype</span> at the top
+        </li>
+        <li>
+            In the data section click on "<b>Add Data Binding</b>"
+        </li>
+        <li>
+            A dialog will open, that allows you to define the name of
+            the variable you want to write to. You can also select
+            an existing variable
+        </li>
+    </ol>
+
+
+
+    <p class="MatcHelpCallout">
+        Most UI elements have only one variable that is used for input and output.
+        An example is a simple textbox, which reads or writes the text. Some elements have
+        more variables, for example, a Dropdown element. It has an input and output as well as
+        a list of menu items. These could also be read from the data model or even a web service.
+    </p>
+
+
+
+    <h1>logic flows</h1>
+    Sometimes, a prototype has to react to the user input. Imagine you are testing a checkout
+    process, and the user must choose between several payment options, for instance, bank
+    transfer and credit card. Depending on the selection, the next page should show
+    the different information and input fields.
+    <br>
+    For these kinds of scenarios, Quant-UX supports <strong>Logic Flows</strong>. In addition
+    to linking two pages, you can also add a logical operator
+    to dynamically decide which screen to show next.
+    <br>
+
+    Click on the <span class="mdi mdi-rhombus-outline"> icon to place a Logic Operator on
+        the canvas. Instead of creating a direct link from the button to the next page,
+        <strong>you link the logic operator instead</strong>.
+        Once you selected it, you can create multiple links to different pages, and add rules to each link.
+        A rule simply states that a certain input field should be equal to a given value.
+        When the user clicks on the button, the first link which matches the rule
+        will be followed. If no rule is matched then the first link without any rule is followed.
+
+
+
+        <h1>a/b testing </h1>
+
+        A / B tests are a great way to compare two designs. However, you must carefully think
+        about how to design the test. If you test two completely different designs,
+        the results will give you an idea of which design works better, but you might
+        not understand why. This can be fine, but if you aim for a deeper understanding,
+        you should keep most of the design stable and only change one aspect.
+        For example, the type of a UI element or its color.
+
+
+
+        If you run A / B tests you should aim for a large number of tests, otherwise,
+        the differences in the KPIs might be statistically not significant.
+        For instance, a single user, that did not understand the design, might skew the KPIs quite a lot.
+
+
+
+        <p class="MatcHelpCallout">
+            Best test with more than 60 people in each variant.
+        </p>
+
+
+
+
+        <h1>form validation</h1>
+        When you are designing a complex workflow, data validation is mandatory to
+        prevent users from entering the wrong data. Thus, validation is also
+        crucial during prototyping, if you want to create a realistic prototype.
+
+        To enable validation, select a widget and select the <strong>Required</strong> checkbox
+        in the <strong>Data & Validation</strong> section of the property panel. You can also
+        set for certain types of widgets the required input pattern. To change this, click on the
+        <strong>No Validation</strong> button to select the type of pattern that is allowed.
+
+        Of course, simply validating the input is not enough. In case the input is wrong,
+        you want to give some feedback to the user. With Quant-UX you can do this in two ways.
+        First, you can define a special <strong>error style</strong> of the error case,
+        and customize the appearance of the widget in case the input is wrong.
+        For instance, the border of the input field can turn red. Second, you can
+        also specify a so called <strong>error label</strong>, which will be shown
+        when the user input is wrong.
+
+
+        In most scenarios, you don’t want the user to progress in the workflow
+        when the input is wrong. For example, the user should only be able
+        to move on in the sign-up process, when he has entered a valid
+        email address. Therefore, you can also <strong>enforce data validation on links</strong>.
+        The linked screen will only be loaded when all fields
+        in the current screen are valid.
+
+
+
+
+        <h1>screen segments</h1>
+
+
+        <h1>web services</h1>
+        To create a web service, you need to first drop the "Web Service" element onto the canvas. If
+        you double click the element, or select it and click on the "Configuration" button in the properties
+        panel, the configuration dialog will be opened. In here you can configure which URL to call, which
+        HTTP method to use and which data to send.
+
+        There are three ways how a web service can be called, this is configured via the "Trigger" element
+        in the properties panel.
+
+        <ol>
+            <li>
+                First, you can link the element to a button. When the button is clicked, the web service is called.
+            </li>
+            <li>
+                Second, the web service can be called, when the simulator is started. Select "Loaded Trigger". This
+                option is useful, to load initial data.
+            </li>
+            <li>
+                Third, you can also execute the web servicein an interval. Select "Repeat Trigger"
+                and set the duration to the desired seconds.
+            </li>
+
+        </ol>
+
+        A web service element can be also linked to a screen, a script or a logic elements. Once the web service is
+        executed, the linked screen is shown, or the linked logic elements are executed.
+
+
+
+
+        <h1>scripts</h1>
+        Select the <span class="mdi mdi-code-tags" /> icon in the right toolbar and drop the widget on the canvas. When
+        you select the script
+        widget, you can see in the right menu an "Edit Script" button. Clicking it will open the Script editor. The
+        editor has on the right side,
+        the simulator and on the left a simple JavaScript editor. You can enter your scripts there. Click on "Run" to
+        execute and test the script.
+        In the "Console" tab, you can see the output of the script.
+
+        The script has access to Quant-UX objects, the "data" binding and the "qux" object.
+
+        <ol>
+            <li>
+                The <b>data</b> object allows you to read
+                and write data through the data binding that is defined for the components in your prototype.
+            </li>
+            <li>
+                The <b>qux</b> object allows you to change the styles for the
+                components or to change the visibility.
+            </li>
+            <li>
+                The <b>event</b> object shows from which widget the script was triggered.
+            </li>
+        </ol>
+
+
+
+        Scripts can be executed on three different events.
+
+        <ol>
+            <li>
+                If the user <b>clicks</b> on a component and the component is wired to a script. Use this
+                to trigger the actions only on explicit user interactions.
+            </li>
+            <li>
+                On <b>data-binding</b> changes. For instance, the user changes the value of a text field. Use
+                this to update other components are set dynamic data-binding values.
+            </li>
+            <li>
+                When the simulator is <b>loaded</b>. Use this to prefetch data, or set data.
+            </li>
+        </ol>
+
+
+        The script can also return a value. If the value matches the name if a
+        screen, the simulator will load the corresponding screen. The following sections
+        contain some sample scripts for common use cases.
+
+
+        To access data, you need to use the data-binding mechanism. Suppose you want to calculate the sum
+        of two text fields. You need to
+
+        <ol>
+            <li>
+                Create two text fields and a label to show the sum.
+            </li>
+            <li>
+                Select the first text field and set the data binding to "valueA"
+            </li>
+            <li>
+                Select the second text field and set the data binding to "valueB"
+            </li>
+            <li>
+                Select the label and set the data binding to "sum"
+            </li>
+            <li>
+                Add a script component to the canvas
+            </li>
+            <li>
+                Add a button and wire it to the script. When the user clicks on the button the script is executed.
+            </li>
+        </ol>
+
+        Your prototype could look like this:
+
+
+
+        Now open the script editor and enter the following script. "
+
+        <pre class="MatcHelpCode">data.sum = data.valueA * 1 + data.valueB * 1</pre>
+
+        The script will
+        read the user input from the first text field, which is saved in "data.valueA" and add
+        the value of the second field ("data.valueB"). The result is written to "data.sum" and thus shown
+        in the label.
+
+        <p class="MatcHelpCallout">
+            Text fields return string values. You need to cast them to numbers, e.g. by
+            multiplying with 1.
+        </p>
+
+
+        To navigate after the execution of a script to a specific screen just return the name of the screen. You can
+        also use it with the data binding to build conditional navigation. The following example will show "Screen A"
+        if 'a' is entered into a text box, and otherwise "Screen B"
+
+        <pre class="MatcHelpCode">
+if (data.valueA === 'a') {
+    return 'Screen A'
+} else {
+    return 'Screen B
+}
+</pre>
+
+        You can also run the script automatically, every time the data has changed. Also, you
+        want to initialize some values when the prototype is tested. Perform the following steps:
+
+
+        <ol>
+            <li>
+                Create a "Grid" elements, which can repeat the child elements.
+            </li>
+            <li>
+                Add a single text field to the grid.
+            </li>
+            <li>
+                Create a label and set the text to "Sum: {0}". The {0} is a placeholder
+                and will be later replaced.
+            </li>
+            <li>
+                Bind the "Grid" to a "items" data-binding.
+            </li>
+            <li>
+                Bind the text field to a "value" data-binding.
+            </li>
+            <li>
+                Bind the label to a "sum" data-binding.
+            </li>
+            <li>
+                Add two Script components. Rename the first to "Load" and the second to "Sum"
+            </li>
+        </ol>
+
+        The prototype could look like this:
+
+
+
+        Select the "Load" script and enter the following value:
+
+        <pre class="MatcHelpCode">
+data.items = [
+    {value:1},
+    {value:2},
+    {value:3}
+]</pre>
+
+        To execute the script on load, change the trigger in the right properties panel to "Loaded Trigger".
+
+        Now the script is executed when the simulator is launched. It will set the "items" variable to the
+        list of objects. The "Grid" will now loop over the list and create a text field for each element in the list,
+        because it is bound to "items". The text fields
+        will be bound to the "value". So the first element is bound to "items[0].value", while the second
+        is bound to "items[1].value" and so on.
+
+
+
+        Select the "Sum" script and enter the following value:
+
+        <pre class="MatcHelpCode">
+let sum = 0
+data.items.forEach(item => {
+    sum += item.value * 1
+})
+data.sum = sum</pre>
+
+        To execute the script on any input change, select the trigger "Data Trigger" in the properties.
+
+        When the user changes the value (and after the first load), the script will calculate the sum and set it to the
+        "data" object.
+
+
+
+        To toggle the visibility of an element you need to:
+
+
+        <ol>
+            <li>
+                Create a screen called "ToggleScreen"
+            </li>
+            <li>
+                Create a button
+            </li>
+            <li>
+                Create an element to toggle, e.g. a rectangle. Call it "ToggleCntr"
+            </li>
+            Add a Script component and wire it to the button
+            </li>
+        </ol>
+
+        the result could look like this.
+
+
+        Now edit the script and add the following code:
+
+        <pre class="MatcHelpCode">
+let toggleScreen = qux.getScreen('ToggleScreen')
+let widget = toggleScreen.getWidget('ToggleCntr')
+widget.toggle()                
+                </pre>
+
+        The script uses the qux API object.
+
+        <ol>
+            <li>
+                In the first line, it will get the screen by its name.
+            </li>
+            <li>
+                In the second line, we get the "ToggleCntr"
+            </li>
+            <li>
+                In the last line, we will toggle() its visibility.
+        </ol>
+
+
+        <p class="MatcHelpCallout">
+            You can also use the <b>hide()</b> and <b>show()</b> methods to
+            set the visiblity depending on a value!
+        </p>
+
+        If you want to hide several elements, you need to group them and use the
+        <b>getGroup()</b> method.
+
+        <pre class="MatcHelpCode">
+let toggleScreen = qux.getScreen('ToggleScreen')
+let group = toggleScreen.getGroup('ToggleGroup')
+group.toggle()           
+                </pre>
+
+
+        You can also set the style of an object. Let's assume we want to
+        make an element red if the value is too low. The code would look like this:
+
+        <pre class="MatcHelpCode">
+let screen = qux.getScreen('Screen')
+let widget = screen.getWidget('Element')
+if (data.valueA * 1 < 100) {
+    widget.setStyle({color: 'red'})  
+} else {
+    widget.setStyle({color: 'black'})  
+}
+                 
+                    </pre>
+
+        The script uses the <b>setStyle()</b> method to set a new style. You simply need to pass
+        a JavaScript object of key-value pairs. The keys are the CSS property you want to change,
+        the value is the corresponding CSS value. You can also pass several properties in one call.
+
+        <p class="MatcHelpCallout">
+            Quant-UX follows the standard JavaScript way of set CSS styles. For instance, the
+            "border-top-color" would have the key "borderTopColor"
+        </p>
+
+
+        To give haptic feedback, use the <b>vibrate()</b> method. You can pass a number or an
+        array of numbers to define the pattern. For more details see the
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate" target="_mozilla"
+            class="MatcHelpLink">Mozilla</a>
+        website.
+
+        <pre class="MatcHelpCode">
+qux.vibrate(200)    
+qux.vibrate([100, 30, 100, 30, 100])                 
+                    </pre>
+
+
+        <p class="MatcHelpCallout">
+            Vibrations work only on mobile devices
+        </p>
+
+
+
+
+        <h1>design tokens</h1>
+        To create a design token follow these steps:
+        <ol>
+            <li>
+                Create a widget and style it as you like. For instance, define a background color.
+            </li>
+            <li>
+                Click the <span class="mdi mdi-dots-horizontal"></span> icon and select 'Create Token'. Enter a
+                name for the token in the dialog and press 'Create'.
+            </li>
+            <li>
+                Now the view will change, and the name of the token will be shown.
+            </li>
+        </ol>
+
+
+        To link an existing design token to a widget perform the following steps:
+        <ol>
+            <li>
+                Select a widget
+            </li>
+            <li>
+                Click the <span class="mdi mdi-dots-horizontal"></span> icon and select the style you want to link. If
+                the widget
+                is already linked, the new style will be applied.
+            </li>
+            <li>
+                Now the view will change, and the name of the token will be shown.
+            </li>
+        </ol>
+
+
+        To update a design token follow these steps:
+        <ol>
+            <li>
+                Select a canvas. The list of all design tokens will be shown.
+            </li>
+            <li>
+                Hover over the token you want to change, and click on the <b><span class="mdi mdi-cogs"></span> </b>
+                icon.
+            </li>
+            <li>
+                Change the style or the name in the popup.
+            </li>
+            <li>
+                Press <span class="MatcButton">Save</span>.
+            </li>
+            <li>
+                All instances of the style will be updated.
+            </li>
+        </ol>
+
+
+
+
+        <h1>components</h1>
+        To create a component follow these steps:
+
+        <ol>
+            <li>
+                Create a UI element and style it as you like. You can also group several elements.
+            </li>
+            <li>
+                Select the element. In the toolbar on top, click on 'Create Component'.
+            </li>
+            <li>
+                Enter the name of the component in the dialog.
+            </li>
+            <li>
+                Click <span class="MatcButton">Create</span>
+            </li>
+        </ol>
+
+        To reuse a component follow these steps:
+
+        <ol>
+            <li>
+                Press <strong>W</strong> or select the <span class="mdi mdi-puzzle-outline" /> icon. The widget
+                menu will open
+            </li>
+            <li>
+                Select the 'My Components' section.
+            </li>
+            <li>
+                Click on the component you would like to add.
+            </li>
+        </ol>
+
+        At some point in time, you might want to update a component.
+
+        <ol>
+            <li>
+                Select an instance of a component.
+            </li>
+            <li>
+                Perform the changes.
+            </li>
+            <li>
+                Click on 'Update Component' in the top toolbar.
+            </li>
+        </ol>
+
+
+
+        <h1>master screens</h1>
+        Prototypes often share the same design elements across multiple screens. Examples are for
+        instance navigation bars or visual styles for text and buttons. The simplest way to
+        share the elements is to copy them from one screen to another. This approach has
+        a significant drawback. Once you want to change the style of the elements, you
+        have to apply the changes on all screens.
+
+        For such scenarios, we introduced Master Screens in Quant-UX.com.
+        A master screen is a kind of symbol for screens that the different screens
+        in your app can extend. Changes to the master screen are automatically
+        updated in all screens. It’s basically like a master slide in PowerPoint,
+        but we extended the concept to boost productivity further.
+        <br>
+        In Quant-UX you can extend (or overrule) the master screen for
+        selected elements, for instance, to highlight the current position in the screen flow.
+
+        First, you have to create a master screen. This contains for instance a navigation bar that should be shared
+        with all other screens.
+        <br>
+        Once it is created, you can create a new screen and place it on the canvas. After selecting the screen,
+        you can select the master screen in the "Master Screen" section
+        by clicking on <strong>Add Master Screen</strong>. Now, all elements from
+        the master screen are copied to the child screen.
+
+        When you want to change the style of an element that is copied from a master screen, you have
+        to explicitly enable editing. Select the element, and click <span class="MatcButton">Enable Editing</span>.
+        In the properties panel on the right side, you have to enable editing.
+        Once editing is enabled, you can change the font color to give a visual
+        indication.
+
+
+
+        <h1>sharing a design system</h1>
+
+
+        <h1>user testing</h1>
+        To start testing, you need to create a shareable link. Simply navigate to the prototype,
+        and click on the 'Share' button. A dialog will appear. Copy the first link and share it with your
+        testers. When they open the link, the prototype will be launched and they can try it out.
+
+        When the users load the shared link, they will come to a landing page. On this page, they will
+        see a welcome message with an explanation as well as a list of tasks. You can customize the following settings:
+
+        <ol>
+            <li>
+                <b>Welcome Message</b>: You can customize the welcome message that will be shown to the users. Make sure
+                the welcome message encourages them to start the test, but also explains what is the purpose of the
+                test,
+                and what is expected from them.
+            </li>
+            <li>
+                <b>Splash Image</b>: You can upload a custom background image for the landing page. This allows you to
+                keep
+                the test experience close to your brand.
+            </li>
+            <li>
+                <b>Single Test per user</b>: Sometimes users open the prototype several times, which can mess up the
+                collected data. You can avoid the this, by enabling the checkbox "Record data only for the
+                first time a user tests the prototype." If checked, only the first test session is recorded.
+            </li>
+        </ol>
+
+        Often you want your users to fulfil one or more tasks. You can tell your users about the tasks,
+        by creating a Task. A task has a name and description, that will be shown to the users before the
+        prototype is launched. In addition, you can also specify the number of steps that make up the test, for example,
+        the users should click on the 'Start' button, and navigate to the 'SignUp' screen. To create a task,
+        follow these steps:
+
+        <ol>
+            <li>
+                Create a prototype
+            </li>
+            <li>
+                Navigate to the 'Test' tab
+            </li>
+            <li>
+                Click 'Add Task'. A dialog will show up.
+            </li>
+            <li>
+                Enter a name and description, that will be shown to the users.
+            </li>
+            <li>
+                If you want to create steps, use the prototype on the right side. Simply perform the
+                task that the users should do. The relevant steps will be shown on the lower left side.
+                You can remove not needed steps, by clicking on them.
+            </li>
+            <li>
+                By default, only the screen loads will be considered for steps. If you want to define
+                a fine grained task, unselect the 'Record only screen views' checkbox.
+            </li>
+            <li>
+                Click on 'Save'
+            </li>
+        </ol>
+
+
+        To gather statistically relevant results, one requires at least 30 users. However, often it is difficult
+        to get access to a large number of users. Therefore the literature suggests to test with at least 5 different
+        users.
+
+
+
+        <h1>user surveys</h1>
+        To create a survey in your prototype, simply use the normal input elements, such as Star Ratings or input boxes.
+        You have to
+        create a data binding for every element that you want to be visible in the survey section. To create for
+        instance a Star Rating at the end of the test follow these steps:
+
+        <ol>
+            <li>
+                Add a new screen to your prototype, and link it as the last screen in the flow.
+            </li>
+            <li>
+                Add for instance a Star Rating element to the screen
+            </li>
+            <li>
+                Select the new element
+            </li>
+            <li>
+                Select the 'Prototype' view
+            </li>
+            <li>
+                Select the 'Survey Element' checkbox.
+            </li>
+        </ol>
+
+        You can also show for each user the successful task. Simply select "Show Tasks" in the "Options" menu.
+
+        <br>
+        By comparing the user feedback and the task success, it becomes easy to varify if there is a correlation between
+        the
+        objective performance of a tester and the implicit, personal perception of the app.
+        If there is a mismatch, it might make sense to check the screen recording for further details.
+
+
+
+
+        <h1>analytics</h1>
+        The question of how many users should participate in trials is heavily discussed in the scientific
+        community. The bare minimum is <strong>5 users</strong>, which allows you to get some qualitative insights into
+        user behaviour. You should be able to spot if the users understand the design or if they do errors.
+        The best tool is in such a case the video recordings, which allow you to review each testing session.
+        <br>
+        5 users, however, do not yield statically relevant results and thus the heatmaps and other KPIs are
+        very biased. This means, that if you test with more users the results might change significantly.
+        This bias will get smaller with every user that tests the prototype and after roughly <strong>40
+            testers</strong>,
+        you can expect the results to stabilize.
+        <br>
+        If you want to run A / B tests you should aim for more than 60
+        testers in each variant. Otherwise, the differences that you observe in certain KPIs, e.g.
+        the duration, might still be biased. Also, be aware, the outliers might strongly
+        influence the results in small tests.
+        <p class="MatcHelpCallout">
+            In conclusion, you should try to test with as many users as possible.
+            If you have access to only a small user group, be careful when you report the
+            results to your stakeholders.
+            <br>
+            It is always correct to say that 4 of 5 users clicked
+            on a given button, but concluding that 80% of all users will click on the button is likely to be wrong.
+        </p>
+
+
+        The test coverage is calculated as the fraction of screens that have been seen by the testers.
+        The test coverage gives you a quick hint if your testers understood your prototype.
+        <p class="MatcHelpExample">
+            <b>Example</b>: If your prototype has 3 screens, and all users have only
+            managed to see 2 of them, the test coverage is 66%
+        </p>
+
+        The test duration tells you how long the users tried out your prototype.
+        It is calculated as the average duration of a test, starting from the first
+        event until the last interaction. The standard derivation is also shown
+        and gives you a hint of how similarly the users tested the prototype.
+        <p class="MatcHelpExample">
+            <b>Example</b>: Three users have tested your prototype. The first user took 30s,
+            the second 40s and the third 50s. The average duration is
+            then 40s and the standard derivation is 10s.
+        </p>
+
+
+
+        <h1>analytics tasks</h1>
+        Once the task flow is defined the task list will update and show several KPIs. These KPIs
+        allow you to get a first understanding of whether the testers' behavior is inline with your expectations.
+
+        <p class="MatcHelpExample">
+            <b>Example</b>: You have created a new design for a shopping app, and you
+            are interested in how the design works. You run some tests and see that
+            the users took an average of 2:30min. This is much more than expected, so you should
+            do a deep dive and check out the detailed statistics to find if there are only some
+            users that have issues and skew the KPIs, or if there is a general problem.
+        </p>
+
+
+        The start rate tells you how many users were able to start a given task.
+        <p class="MatcHelpExample">
+            <b>Example</b>: Let's assume you have a prototype with three screens. A, B and C. A is wired to B,
+            and B is wired to C. Also, you have defined a task, that measures if users go from B to C.
+            If a tester views only screen A, this test session is not counted as started. If the
+            tester visits A and B, the session is counted as started.
+        </p>
+        A low start rate indicates that the users have issues navigating in your design. They were not able
+        to navigate to the right screen.
+
+        The success rate tells you how many users were able to
+        complete a given task once they have <b>started</b>.
+
+        <div class="MatcHelpExample">
+            <b>Example</b>: We continue with the example outlined above. Let's assume
+            we have three testers. Tester X visits only
+            A, tester Y visits A and B, and tester Z visits A, B and C. In this case, the
+            start rate would be 2 / 3, because testers Y and Z managed
+            to visit screen B. The total number of successes is however only 1 since
+            only tester Z managed to visit screen C. The success rate is thus 1 / 2.
+        </div>
+
+        In general, you want all users to understand your design and be able to complete
+        the tasks. Hence, the higher the success rate, the better your design.
+
+        The task duration measures the average / mean time the users take to complete a task.
+        Most of the time short durations indicate that the users understood your design.
+
+        <div class="MatcHelpExample">
+            <b>Example</b>: We continue with the example outlined above. Let's assume
+            we have 4 testers that have completed the task. They took 10s, 12s, 10s
+            and 28s. In this case, the mean duration would
+            be (10 + 12 + 10 + 28) = 60s divided by 4, so 15s.
+        </div>
+
+        Please be aware that often duration times <b>vary</b> a lot between individual users. As you
+        could see in the example the first three users were quite fast, whereas the last user
+        was slow.
+        <br>
+        It would, in such a case, make sense to review the screen recordings or check the
+        user journey graphs to understand the user's problems.
+
+        <p class="MatcHelpCallout">
+            One can click on the <span class="MatcButton mdi mdi-chart-bar"></span> to open a detailed
+            view of the distribution of the durations in the scatter plot.
+        </p>
+
+
+
+        The task interaction measures the average / mean number of interactions
+        the user needs to complete a task.
+
+        <div class="MatcHelpExample">
+            <b>Example</b>: We continue with the example outlined above. Let's assume
+            we have 2 testers that have completed the task. They took 5
+            and 15 clicks. In this case, the mean interaction would
+            be (5 + 15) = 20 divided by 2, so 10 clicks.
+        </div>
+
+        Like the duration, the number of interactions may vary a lot between
+        the individual users. The mean value might hide such case outliers,
+        that are interesting for further analysis.
+
+        <p class="MatcHelpCallout">
+            One can click on the <span class="MatcButton mdi mdi-chart-bar"></span> to review
+            the distribution of the interactions and spot outliers.
+        </p>
+
+        You can get a deeper insight into the distribution of the duration and interactions by
+        clicking on the <span class="MatcButton mdi mdi-chart-bar"></span> button.
+        In the dialog, you can switch between scatter plots and box plots.
+        <br><br>
+        <b>Scatter plots</b> show the duration of a task vs the number of interactions and
+        make it easy to spot outliers, for instance, a user that took an unusual amount
+        of time and clicks.
+
+        <p class="MatcHelpCallout">
+            Clicking on a dot in the scatter plot will open the screen recording, so you
+            can easily understand where the testers struggled.
+        </p>
+
+        <b>Box plots</b> show also the duration and interaction but in a condensed way.
+        They visualize the distribution and skewness of the data, by showing
+        the average and 75% quartiles.
+
+
+
+
+
+        <h1>data distribution</h1>
+
+        The data distribution gives you an overview of how much time the users spend
+        on the prototype and how many clicks they took.
+        The data is shown as a scatter plot. Each user is presented as a circle in the diagram.
+        The x-axis represents the time the users spend (duration), and
+        the y-axis the number of clicks (interactions).
+
+
+
+
+        <p>
+            The scatter plot gives an instant overview of how the data is distributed.
+            Often, most testers will use a similar amount of clicks and time.
+            This will lead to a dense plot area where many of the circles are close
+            together, which can be easily spotted. If this area is at a different place
+            than you expected, the design might have some issues, or the task
+            descriptions need to be more precise.
+        </p>
+        <br>
+
+
+        <p class="MatcHelpCallout">
+            By clicking on a circle, one can
+            open the session replay. Just click on the link that will appear below the chart.
+        </p>
+
+
+        <p>
+            In statistics, outliers are data points very different from most of the data.
+            Nevertheless, often it is interesting to investigate these data points because they reveal important
+            insights.
+        </p>
+        <br>
+        <p>
+            In the scatter plot, outliers are marked red. These points present users have behaved
+            differently than the majority of the users. For instance, they take more time,
+            finish different tasks, or navigate unexpectedly. For the analysis, Quant-UX uses
+            not only the interactions and the duration as inputs but also the following variables:
+
+
+        <ol>
+            <li>
+                <b>Duration</b>: The total time the user has spent on the test.
+                A very high or low number might indicate that the user had issues.
+            </li>
+            <li>
+                <b>Interactions:</b> The number of clicks and other interactions that the user has done.
+            </li>
+            <li>
+                <b>Unique Screens:</b> The number of individual screens a user has seen. This metric
+                quantifies if the user was able to navigate through the design.
+            </li>
+            <li>
+                <b>Total Screens:</b> The total number of screens a user has visited. This number might
+                differ from the number of visited screens, for instance, if users go back and forth
+                between two screens. A significant difference might be a sign that the user had
+                problems with the navigation.
+            </li>
+            <li>
+                <b>Navigation Anomaly:</b> This metric measures how different a user's navigation patterns
+                are compared to those of other users. For instance, if all users click 'button 1', 'button 2'
+                and 'button 3' expect of one user that clicked 'button 3', 'button 2' and 'button 1', that
+                last user would have a very high score (100) in this metric.
+            </li>
+            <li>
+                <b>Task Success:</b> The number of tasks the user could complete.
+            </li>
+        </ol>
+
+
+
+        <p>
+            <br>
+        <p class="MatcHelpCallout">
+            Hovering over the points will open a tooltip with additional information to help understand why the user
+            was an outlier. For a deeper analysis, click on the point and open the screen recording for an in-depth
+            review.
+        <p>
+
+
+
+
+        <h1>analytic canvas</h1>
+        Click heatmaps to visualize where the users have clicked. The more the users
+        click on a certain area, the hotter (more reddish) the area gets. Thus, the
+        elements in the area are likely important for the user.
+
+        When you review Click Heatmaps, you should analyze them in the context of your
+        use cases. Before you created the interface, you identified and
+        prioritized user tasks and designed the interface accordingly. The primary
+        elements should be easy to find and you expect them to be used a lot.
+        <br> </br>
+        If the primary elements are hot your hypothesis was most likely right
+        and the users behave as you expected. If the primary elements are cold,
+        this usually indicates a problem. The users might not be able to
+        find the elements or do not want to use the function.
+        Unexpected hot areas indicate that the users behave differently than you thought.
+        </br> </br>
+        There are five different types of click heatmaps supported:
+        <ol>
+            <li>
+                <b>All Clicks</b> gives you a good understanding of
+                busy areas of your design but also makes it easy to spot areas
+                that did not catch the users' attention.
+            </li>
+            <li>
+                <b>First Click</b> helps you to uncover which
+                elements draw the most attention from the users and where they
+                clicked right after a screen was loaded.
+            </li>
+            <li>
+                <b>First three Clicks</b> extend the first clicks to three clicks.
+                Elements that are not touched within three
+                clicks, may be hard to discover for the user.
+            </li>
+            <li>
+                <b>Missed Clicks</b> show clicks on not actionable elements, for instance
+                when the users click on the screen background. This can indicate that the users made an
+                error and could not understand the intended interaction.
+            </li>
+        </ol>
+
+
+        Cursor heat maps work differently than click heat maps. The longer the cursor
+        is over a certain screen area, the hotter it gets. Research shows some
+        correlation between cursor movement and eye gaze. This means long hover
+        times over a specific area can indicate strong user interest, but it can also mean
+        that the user simply didn’t move the mouse.
+
+        <p class="MatcHelpCallout">
+            Often these heatmaps are the result of a “reading pattern”, which often takes
+            an F shaped form.
+        </p>
+
+        The user journey shows how the users have navigated over the prototype. By default,
+        the different journeys are merged and common paths are shown in a warmer color.
+        You can deselect the merge option in the properties panel to show the individual
+        flows.
+        <br>
+        In the properties section, you can also see the list of all user tests.
+        You can toggle the visibility and also launch the screen recordings.
+
+        The scroll visibility shows for each screen which parts of the screen were shown to the users.
+        This is important if you have longer screens. Parts below the fold (the bottom of the screen)
+        are usually less often seen and are therefore shown in colder colors.
+        The scroll visibility helps you to detect if the users explored the entire screen.
+
+        The scroll time shows on which parts of the screen the users have spent
+        most of their time. The more time the users spend on a given
+        section, the warmer the color gets.
+
+        The view heatmap shows how many times a screen was seen by the users in
+        relation to the other screens. Cold colors indicate that the majority
+        of users have not seen the screen, which could be an indicator that the navigation is broken.
+
+        The dwell time indicates how much time the users have spent on a screen.
+        If you have for instance a screen where the users have to fill out a form,
+        the screen is usually hot.
+
+        When you select a widget or screen you can also see certain KPIs
+        that are related to the widget. These KPIs include:
+
+        The widget clicks tell you how many times a certain widget was clicked.
+        This KPI relates directly to the heat maps. The gauge shows the absolute
+        number of clicks, and the position of the ring shows the relation to all
+        other widgets in the prototype.
+        <p class="MatcHelpExample">
+            <b>Example</b>: During the test 100 clicks were recorded by 5 users.
+            Widget A was clicked 20 times. The relative frequency is therefore 20%.
+        </p>
+
+
+        The Widget First Clicks tells you how many times a certain widget <strong>was clicked directly
+            after a screen was loaded</strong>. The first clicks show which elements catch the most
+        attention of the users. The gauge shows the absolute number, and the position
+        visualizes the relation to the screen loads.
+
+        <p class="MatcHelpExample">
+            <b>Example</b>: A screen has two elements, A and B. The screen was loaded 10 times
+            and 4 times element B was clicked immediately afterwards.
+            The relative frequency is thus 40%.
+        </p>
+
+
+        The time before click tells you how many seconds the users took in average
+        until they interacted the first time with the given element. In general, elements
+        at the top should have shorter times than the elements at the bottom of a screen.
+
+        <p class="MatcHelpExample">
+            <b>Example</b>: A screen is loaded and after 10s the user interacts with element A.
+            In a second test, the user only clicked on the element after 2s.
+            The average time before the click is therefore 15s.
+        </p>
+
+        The test coverage tells you how many times a screen was tested.
+        This metric indicates how easy the screen is to find. The gauge
+        shows the absolute number of screen tests in the middle.
+        The position of the ring indicates the relative test ratio.
+        <p class="MatcHelpExample">
+            <b>Example</b>: Your prototype has two screens and was tested by two users.
+            The first user saw both screens, whereas the second user saw only the
+            first screen. This means there are two tests. The relative frequency
+            of the first screen is 100% because it was tested by every user,
+            whereas the relative frequency of the second screen is 50%.
+        </p>
+
+
+        The average dwell time tells you how much time the users have spent, on average,
+        on a screen. A high number might indicate that the users had to perform a lot of
+        interactions, e.g. fill out a form. However, it can also indicate that the
+        users had some problems, for instance finding the right elements.
+        The gauge shows the absolute dwell time and also puts it in relation to the total test duration.
+
+
+        <p class="MatcHelpExample">
+            <b>Example</b>: Five tests were done, each taking exactly 60 seconds.
+            The users spend 20, 30, 30, 30 and 40 seconds on the first screen.
+            The average dwell time is 30 seconds, and the relative dwell
+            time 50% ((20 + 30 + 30 +30 + 40) / (5*60)).
+        </p>
+
+        The screen views tell you how many times a screen was shown. If this number is
+        much higher than the "Test Views", this indicates that the users often came
+        back to this screen. The gauge shows the absolute number in the middle.
+        The position of the ring indicates the relative frequency.
+        <p class="MatcHelpExample">
+            <b>Example</b>: Your prototype has two screens and was tested by two users.
+            The first user saw both screens, whereas the second user saw only the
+            first screen. This means there were three screen loads. The relative
+            frequency of the first screen is thus 67% and of the second 33%.
+        </p>
+
+
+        The background clicks tell you how many times the users have clicked on the screen,
+        and not on a widget. A high number indicates often problems, for instance, that the
+        users expect certain elements to be clickable. The gauge shows the absolute number,
+        and the position indicates the relative frequency with respect to all clicks on the screen.
+        <p class="MatcHelpExample">
+            <b>Example</b>: During the test, 100 events were recorded by three users on a given screen A.
+            10 events were on screen A. The relative frequency is therefore 10%.
+        </p>
+
+        The widget clicks tell you how many times the users have clicked on elements.
+        The number indicates how much "work" the users have performed on a certain screen.
+        The gauge shows the absolute number, and the position indicates the relative
+        frequency with respect to all clicks on the screen.
+        <p class="MatcHelpExample">
+            <b>Example</b>: During the test, 100 events were recorded by three users on screen A.
+            90 events were on the five widgets of the screen. The relative frequency is therefore 90%.
+        </p>
+
+
+</body>
+
+</html>

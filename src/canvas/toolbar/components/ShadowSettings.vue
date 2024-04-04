@@ -3,7 +3,7 @@
     <div class="MatcToolbarPopUpContainer " role="menu" data-dojo-attach-point="ctnr" @keydown.stop="" @keypress.stop="" @keyup.stop="">
         <div class=" MatcToolbarTabContainer">
           <div class=" MatcToolbarTabs">
-            <a :class="{'MatcToolbarTabActive' : tab === 'position'}" @mousedown.stop="setTab('position')">Postion</a>
+            <a :class="{'MatcToolbarTabActive' : tab === 'position'}" @mousedown.stop="setTab('position')">Position</a>
             <a :class="{'MatcToolbarTabActive' : tab === 'color'}" @mousedown.stop="setTab('color')">Color</a>
           </div>
         </div>

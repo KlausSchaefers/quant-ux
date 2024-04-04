@@ -1,5 +1,5 @@
 <template>
-     <div class="MatcToolbarLayerList MatcToobarPropertiesSection MatcToolbar" v-show="isVisible">
+     <div class="MatcToolbarLayerList MatcToobarPropertiesSection MatcToolbar" v-show="isVisible" :style="'width:'+ layerListWidth +'px'">
 		<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="cntr">
 			<div class="MatcToolbarLayerListScreenCntr">
 				<div class="MatcLayerListScreens">
@@ -18,6 +18,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="MatcToolbarLayerListDND" ref="dndHanlde" @mousedown.stop="onResizeStart"></div>
 	</div>
 </template>
 <script>
@@ -26,6 +27,7 @@ import Logger from 'common/Logger'
 import Util from 'core/Util'
 import ModelUtil from 'core/ModelUtil'
 import Tree from 'common/Tree'
+import {onStartDND} from '../../util/DND'
 
 export default {
 	name: 'LayerList',
@@ -42,7 +44,8 @@ export default {
 			nodes: {},
 			isVisible: true,
 			hasOptions: true,
-			isDebug: false
+			isDebug: false,
+			layerListWidth: 256, // keep in sync with Toolbar
         }
     },
     components: {
@@ -54,6 +57,15 @@ export default {
 			this.logger.log(2,"constructor", "entry > " + this.mode);
 			this.isDebug = location.href.indexOf('debug=true') >= 0
 		},
+
+		onResizeStart (e) {
+            const pos = this.layerListWidth
+            onStartDND(e, d => {
+				const width = pos + d.x
+                this.layerListWidth = Math.min(Math.max(196, width), 400)
+				this.emit('onWidthChange', this.layerListWidth)           
+            })
+        },
 
 		setController (c){
 			this.controller = c;
@@ -311,7 +323,7 @@ export default {
 		},
 
 		createTreeForScreen (id, screen, model, parentGroups) {
-		
+	
 			if (this.openNodes[screen.id] === undefined) {
 				this.openNodes[screen.id] = true
 			}
@@ -445,7 +457,7 @@ export default {
 			return node
 		},
 
-		createNode (box, widgetID, screenID, groupId, type = 'widget', defaultIsOpen = true) {
+		createNode (box, widgetID, screenID, groupId, type = 'widget', defaultIsOpen = false) {
 			if (this.openNodes[box.id] === undefined) {
 				this.openNodes[box.id] = defaultIsOpen
 			}
@@ -656,11 +668,11 @@ export default {
 			if (screen.type === 'canvas') {
 				return "mdi mdi-border-none-variant MatcTreeIconRoot";
 			} else if (model.type == "smartphone") {
-				return "mdi mdi-cellphone MatcTreeIconRoot";
+				return "mdi mdi-crop-portrait MatcTreeIconRoot";
 			} else if (model.type == "tablet") {
-				return "mdi mdi-tablet-ipad MatcTreeIconRoot";
+				return "mdi mdi-crop-landscape MatcTreeIconRoot";
 			}
-			return "mdi mdi-laptop MatcTreeIconRoot";
+			return "mdi  mdi mdi-crop-landscape MatcTreeIconRoot";
 		},
 
 		changeName (box) {
@@ -716,6 +728,7 @@ export default {
 			this.selection = ids
 			this.$nextTick(() => {
 				ids.forEach(id => {
+					this.expandIfNeeded(id)
 					const node = this.nodes[id]
 					if (node) {
 						this.$set(node, 'selected', true)
@@ -733,7 +746,6 @@ export default {
 			if (this.selection) {
 				this.selection.forEach(id => {
 					let node = this.nodes[id]
-		
 					if (node.type === 'widget') {
 						result.add(node.widgetID)
 					}
@@ -759,8 +771,20 @@ export default {
 			}
 		},
 
+		expandIfNeeded (id) {
+			let node = this.nodes[id]
+			while (node && node.groupID) {
+				this.openNodes[node.groupID] = true
+				node = this.nodes[node.groupID]
+				if (node) {
+					this.$set(node, 'open', true)
+				} 
+			}
+		},
+
 		scrollToSelection(ids) {
 			const id = ids[0]
+
 			if (id) {
 				const element = document.getElementById(this.getScrollId(id))
 				if (element) {

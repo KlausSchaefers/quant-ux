@@ -1,10 +1,10 @@
 
 <template>
      <div class="MatcToolbarItem  MatcMultiIcon MatcScreenImportAdd MatcToolbarDropDownButton">
-		<div type="button" data-dojo-attach-point="button">
+		<div type="button" ref="button">
 			<label data-dojo-attach-point="label" class="">
-				<span data-dojo-attach-point="icon" class=""></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
+				<QIcon icon="DeviceMobile" />
+
 			</label>
 
 			</div>
@@ -40,10 +40,12 @@ import DomBuilder from 'common/DomBuilder'
 import Util from 'core/Util'
 import RenderFactory from 'core/RenderFactory'
 import _DropDown from './_DropDown'
+import QIcon from 'page/QIcon'
+import _Tooltip from 'common/_Tooltip'
 
 export default {
     name: 'ScreenImportAdd',
-    mixins:[Util, DojoWidget, _DropDown],
+    mixins:[Util, DojoWidget, _DropDown, _Tooltip],
     data: function () {
         return {
             screenWidth: 300,
@@ -62,7 +64,7 @@ export default {
 			}
         }
     },
-    components: {},
+    components: {QIcon},
     methods: {
 			setModel (m){
 				this.model = m;
@@ -70,7 +72,9 @@ export default {
 				this.screenHeight = m.screenSize.h;
 				this.renderFactory = new RenderFactory();
 				this.renderFactory.setModel(m);
-				css.add(this.icon, this.getAppTypeIcon(m));
+				// if (this.icon){
+				// 	css.add(this.icon, this.getAppTypeIcon(m));
+				// }
 
 			},
 
@@ -178,6 +182,7 @@ export default {
 			}
     },
     mounted () {
+		this.addTooltip(this.$el, this.getNLS("tooltip.screen"))
     }
 }
 </script>

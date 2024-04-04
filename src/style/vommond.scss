@@ -1,0 +1,1239 @@
+@import './variables.scss';
+
+/****************************************************
+ * Bullet Graph
+ *
+ ****************************************************/
+.vommondBulletGraph {
+	width: 100%;
+}
+
+.vommondBulletGraphContainer {
+	position: relative;
+	height: 30px;
+	width: 100%;
+	background: #cecece;
+	border-radius: 3px
+}
+
+.vommondBulletGraphContainer .vommondBulletGraphSection {
+	position: absolute;
+	height: 30px;
+	border-radius: 3px
+}
+
+.vommondBulletGraph .vommondLegendBarItem {
+	position: absolute;
+	right: 0px;
+	top: 30px;
+	height: 10px;
+}
+
+.vommondBulletGraph .vommondLegendBarItemLabel {
+	cursor: pointer;
+}
+
+.vommondBulletGraphHelp {
+	color: #999;
+	font-weight: 300;
+	line-height: 1.6;
+	margin-top: 20px;
+	height: 50px;
+}
+
+.vommondBulletGraphBar {
+	position: absolute;
+	background: #333;
+	height: 10px;
+	top: 10px;
+	border-radius: 3px
+}
+
+
+.vommondBulletGraphBarLbl {
+	color: #333;
+	font-size: 14px;
+	position: absolute;
+	right: -15px;
+	top: -6px;
+}
+
+.vommondBulletGraph .vommondToolTip {
+	bottom: -60px;
+	height: 50px;
+}
+
+.vommondBulletGraph .vommondToolTipArrow {
+	display: none;
+}
+
+.vommondBulletGraphColor .vommondBulletGraphBar {
+	top: 0px;
+	height: 30px;
+	transition: all 0.2s;
+}
+
+.vommondBulletGraphColor .vommondBulletGraphBarLbl {
+	color: #fff;
+	font-size: 18px;
+	right: 15px;
+	top: auto;
+}
+
+.vommondBulletGraphColor .vommondBulletGraphBarLbl.vommondBulletGraphBarLblRight {
+	color: #333;
+	right: -15px;
+}
+
+/****************************************************
+ * Popup
+ ****************************************************/
+
+.vommondPopupCntr {
+	position: relative;
+}
+
+.vommondPopup {
+	position: absolute;
+	bottom: 110%;
+	left: 0px;
+	box-shadow: 0 0 10px -5px #333;
+}
+
+
+
+
+.vommondToolTip {
+	position: absolute;
+	visibility: hidden;
+	opacity: 0;
+	text-align: left;
+	font-size: 12px;
+	width: 240px;
+	left: 0px;
+	bottom: -70px;
+	height: 60px;
+}
+
+
+
+.vommondToolTipLabel {
+	padding: 4px 8px;
+	background: #333;
+	color: #fff;
+	border-radius: 3px;
+	position: relative;
+	box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.25);
+	display: inline-block;
+	white-space: pre;
+}
+
+.vommondToolTipCntr {
+	position: relative;
+}
+
+.vommondToolTipCntr:HOVER>.vommondToolTip,
+.vommondToolTipCntrVisble>.vommondToolTip {
+	transition: visibility 0s, opacity 0.25s linear;
+	transition-delay: 0.25s;
+	visibility: visible;
+	opacity: 1;
+}
+
+.vommondToolTipArrow {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	-ms-transform: rotate(45deg);
+	/* IE 9 */
+	-webkit-transform: rotate(45deg);
+	/* Chrome, Safari, Opera */
+	transform: rotate(45deg);
+	background: #333;
+	left: 10px;
+	top: -5px;
+}
+
+.vommondToolTipRightBottom {
+	text-align: right;
+	left: auto;
+	right: -10px;
+}
+
+.vommondToolTipRightBottom .vommondToolTipArrow {
+	left: auto;
+	right: 10px;
+}
+
+.vommondToolTipLeft {
+	left: auto;
+	top: 0px;
+	bottom: auto;
+	right: -250px;
+}
+
+.vommondToolTipLeft .vommondToolTipArrow {
+	height: 10px;
+	left: -5px;
+	right: auto;
+	top: 10px;
+	width: 10px;
+}
+
+.MatcToolbarPopUpVisible .vommondToolTip{
+	display: none;
+}
+
+
+/****************************************************
+ * ... Slide Left Button
+ ****************************************************/
+
+
+.VommondSlideLeftButton {
+	position: relative;
+	height: 24px;
+	width: 24px;
+	display: inline-block;
+	font-size: 12px;
+}
+
+.VommondSlideLeftButtonLabel {
+	text-align: center;
+}
+
+
+.VommondSlideLeftButton .mdi {
+	cursor: pointer;
+	color: #777;
+	font-size: 16px;
+	transition-duration: 0.2s;
+	transition-property: all;
+}
+
+.VommondSlideLeftButtonLabel:hover .mdi,
+.VommondSlideLeftPopupOpenItem:hover .mdi {
+	color: #333;
+}
+
+.VommondSlideLeftPopup {
+	position: absolute;
+	top: 0px;
+	right: 100%;
+	width: 0px;
+	overflow: hidden;
+	transition-duration: 0.2s;
+	transition-property: all;
+	text-align: right;
+}
+
+.VommondSlideLeftPopupCntr {
+	width: 120px;
+}
+
+
+.VommondSlideLeftPopupOpen .VommondSlideLeftPopup {
+	width: 120px;
+}
+
+.VommondSlideLeftPopupOpenItem {
+	display: inline-block;
+	padding: 0px 5px;
+}
+
+
+/****************************************************
+ * Input List
+ ****************************************************/
+
+
+.VommondInputListInputCntr {
+	width: 80%;
+}
+
+.VommondInputList .VommondCheckBoxLabel {
+	display: none;
+}
+
+.VommondInputListRemove {
+	vertical-align: middle;
+	color: $color_danger;
+	padding: 5px;
+	opacity: 0;
+	cursor: pointer;
+}
+
+tr:hover .VommondInputListRemove {
+	opacity: 1
+}
+
+
+
+
+/****************************************************
+ * Scroll Container
+ ****************************************************/
+
+.VommondScrollContainer {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+}
+
+.VommondScrollContainerWrapper {
+	height: 100%;
+	overflow: hidden;
+}
+
+.VommondScrollContainerCntr {
+	position: relative;
+	height: 100%;
+}
+
+.VommondScrollContainerBar {
+	height: 100%;
+	width: 10px;
+	background: #cecece;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	opacity: 0;
+	transition-duration: 0.3s;
+	transition-property: opacity;
+	border-radius: 3px;
+	z-index: 11000;
+}
+
+.VommondScrollContainer:HOVER .VommondScrollContainerBar,
+.VommondScrollContainerScrolling .VommondScrollContainerBar {
+	opacity: 0.8;
+}
+
+.VommondScrollContainerBarButton {
+	height: 100px;
+	width: 100%;
+	background: #333;
+	position: absolute;
+	border-radius: 5px;
+}
+
+
+
+
+/****************************************************
+ * Scroll Image
+ ****************************************************/
+.VommondScrollImage {
+	height: 300px;
+	width: 100%;
+	overflow: hidden;
+
+}
+
+.VommondScrollImageWrapper {
+	position: relative;
+	height: 280px;
+	width: 100%;
+}
+
+.VommondScrollImage img {
+	display: none;
+	position: absolute;
+	top: 0;
+}
+
+.VommondScrollImageVisible.VommondScrollImage img {
+	display: inline-block;
+}
+
+
+.VommondScrollImagePopUp {
+	cursor: pointer;
+}
+
+.VommondScrollImageDialog {
+	padding: 20px;
+}
+
+.VommondScrollImageDialog img {}
+
+.VommondScrollImageCircles {
+	text-align: center;
+}
+
+.VommondScrollImageCircles span {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin: 10px;
+	border-radius: 50%;
+	cursor: pointer;
+	border: 1px solid #ccc;
+}
+
+.VommondScrollImageCircles span:HOVER,
+.VommondScrollImageCirclesSelected {
+	background: #ccc;
+}
+
+
+.VommondScrollImageContainer {
+	position: relative;
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+	visibility: hidden;
+}
+
+.VommondScrollImageVisible .VommondScrollImageContainer {
+	visibility: visible;
+}
+
+
+.VommondScrollImage .VommondScrollImageContainer {
+	position: absolute;
+	transition: 1s;
+	top: 0px;
+	left: 0px;
+}
+
+
+
+.VommondScrollImageFade .VommondScrollImageContainer {
+	opacity: 0.0;
+}
+
+.VommondScrollImageVisible.VommondScrollImageFade .VommondScrollImageContainer {
+	opacity: 1.0;
+}
+
+.VommondScrollImageSlideRight .VommondScrollImageContainer {
+	left: 100%;
+}
+
+
+.VommondScrollImageSlideRight.VommondScrollImageVisible .VommondScrollImageContainer {
+	left: 0px;
+}
+
+
+.VommondScrollImageSlideLeft .VommondScrollImageContainer {
+	right: 100%;
+	left: auto;
+}
+
+.VommondScrollImageSlideLeft.VommondScrollImageVisible .VommondScrollImageContainer {
+	right: 0px;
+	left: auto;
+}
+
+
+
+
+
+
+/****************************************************
+ * ImageUpload
+ ****************************************************/
+.VommonImageUpload {}
+
+
+
+.VommondImageUploadContainer {
+	min-height: 200px;
+	min-width: 600px;
+	max-height: 500px;
+	overflow: hidden;
+}
+
+.VommondImageUploadPreview {
+	height: 100px;
+	width: 100px;
+	text-align: center;
+	font-size: 30px;
+	display: inline-block;
+	margin: 5px;
+	vertical-align: top;
+
+	background-repeat: no-repeat;
+	background-position: center center;
+	position: relative;
+	cursor: pointer;
+}
+
+.VommondImageUploadPreview:Hover,
+.VommondImageUploadPreview.VommondImageUploadPreviewSelected {}
+
+.VommondImageUploadPreviewVertical {
+	background-size: auto 100%;
+}
+
+.VommondImageUploadPreviewHorizontal {
+	background-size: 100% auto;
+}
+
+.VommondImageUploadRemove {
+	background: none repeat scroll 0 0 #fff;
+	border-radius: 50%;
+	color: red;
+	font-size: 20px;
+	height: 20px;
+	position: absolute;
+	right: 0px;
+	top: 0;
+	width: 20px;
+	display: none;
+	cursor: pointer;
+}
+
+.VommondImageUploadPreview:Hover .VommondImageUploadRemove {
+	display: inline-block;
+}
+
+
+.VommondImageUploadAdd {
+	padding-top: 10px;
+	font-size: 60px;
+	color: #777;
+	border: none;
+	cursor: pointer;
+}
+
+.VommondImageUploadAdd:HOVER,
+.VommondImageUploadDND .VommondImageUploadAdd {
+	color: rgb(73, 192, 240);
+	border: none;
+}
+
+
+
+
+.VommondImageUploadFile {
+	height: 0px;
+	width: 0px;
+}
+
+.VommondImageUploadLabel {
+	padding: 3px;
+}
+
+.VommondImageUploadError {
+	color: red;
+}
+
+
+
+
+/****************************************************
+ * table
+ ****************************************************/
+.vommondTable td.action {
+	text-align: right;
+
+}
+
+.vommondTableRowStrike {
+	text-decoration: line-through;
+	color: #ccc;
+}
+
+.vommondTable .vommondTableSortSymbol {
+	width: 32px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px;
+	font-size: 12px;
+}
+
+
+.vommondTable .pagination {
+	text-align: center;
+	width: 100%;
+}
+
+.vommondTable .pagination ul {
+	list-style: none;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+
+.vommondTable .pagination ul li {
+	display: inline-block;
+	padding: 3px 10px;
+	margin: 0px 5px;
+	color: $primary_color;
+	cursor: pointer;
+	border-radius: 3px;
+}
+
+.vommondTable .pagination ul li.active {
+	background: $primary_color;
+	color: #fff;
+
+}
+
+
+/****************************************************
+ * From
+ ****************************************************/
+
+.VommondFormInputError {
+	border-color: $color_danger;
+}
+
+.VommondFormErrorLabel {
+	transition-duration: 0.5s;
+	transition-property: all;
+	opacity: 1;
+	color: $color_danger;
+	font-size: 14px;
+}
+
+.VommondDialogContent .VommondFormErrorLabelBottom {
+	margin-top: -25px;
+	padding-bottom: 10px;
+}
+
+.VommondFormErrorLabelHidden {
+	opacity: 0;
+}
+
+.form-control-feedback.VommondFormFeedback {
+	width: auto;
+	pointer-events: auto;
+	padding: 5px;
+}
+
+
+.vommondMessage {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	transition-duration: 0.5s;
+	transition-property: all;
+	padding: 3px;
+	font-size: 16x;
+	opacity: 0;
+	color: white;
+	z-index: 11000;
+}
+
+
+.vommondMessageSuccess {
+	background: $color_success;
+	opacity: 1;
+}
+
+.vommondMessageError {
+	background: #ff7400;
+	opacity: 1;
+}
+
+.vommondMessageHint {
+	background: rgb(73, 192, 240);
+	opacity: 1;
+}
+
+
+/****************************************************
+ * Slider
+ ****************************************************/
+
+.VommondSlider {
+	height: 100%;
+	width: 100%;
+	display: inline-block;
+}
+
+.VommondSliderPos {
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+.VommondSliderContainer {
+	width: 100%;
+	display: inline-block;
+	background: #cecece;
+	height: 4px;
+	left: 0px;
+
+	position: absolute;
+}
+
+.VommondSliderMarkContainer {
+	width: 100%;
+	display: inline-block;
+
+	height: 100%;
+	position: absolute;
+}
+
+.VommondSliderMarker {
+	position: absolute;
+	height: 8px;
+	top: -2px;
+	min-width: 10px;
+	background-color: #ffa713;
+}
+
+.VommondSliderMarker .VommondSliderMarkPopup {
+	padding: 10px;
+	top: 15px;
+	background-color: $primary_color;
+	color: #fff;
+	display: none;
+	position: absolute;
+	border-radius: 3px;
+	width: 200px;
+	z-index: 11000;
+	font-size: 14px;
+}
+
+
+.VommondSliderMarker:HOVER .VommondSliderMarkPopup {
+	display: inline-block;
+}
+
+
+.VommondSliderBar {
+	width: 10%;
+	height: 100%;
+	background: #333;
+	position: relative;
+	cursor: pointer;
+}
+
+.VommondSliderMoving .VommondSliderBar {
+	cursor: grabbing;
+}
+
+
+.VommondSliderHandle {
+	position: absolute;
+	height: 19px;
+	width: 10px;
+	border-radius: 2px;
+	border: 1px solid #333;
+	background-color: #333;
+	top: -6px;
+	transition-duration: 0.1s;
+	transition-property: border;
+	cursor: pointer;
+}
+
+.VommondSliderHandleLabel,
+.VommondSliderHandleIcon {
+	display: none;
+}
+
+
+
+/****************************************************
+ * Legend bar
+ ****************************************************/
+.vommondLegendBar {
+	height: 30px;
+	width: 100%;
+	position: relative;
+}
+
+.vommondLegendBarItem {
+	position: absolute;
+	border-right: 1px solid #cecece;
+	height: 10px;
+	top: -10px;
+}
+
+.vommondLegendBarItemLabel {
+	width: 40px;
+	text-align: center;
+	position: absolute;
+	top: 10px;
+	left: -20px;
+	cursor: pointer;
+	color: #cecece;
+}
+
+
+
+/****************************************************
+ * DragNDrop
+ ****************************************************/
+
+.VommondContentContainer {
+	height: 100%;
+	width: 100%;
+}
+
+
+
+.VommondDnDMove {
+	cursor: move;
+}
+
+
+/****************************************************
+ * DropDownButton
+ ****************************************************/
+.VommondDropDownButton {
+	display: inline-block;
+	position: relative;
+}
+
+.VommondDropDownButton button {
+	background: none;
+	border: none;
+}
+
+.VommondDropDownButton label {
+	display: inline-block;
+	text-align: left;
+	margin-right: 5px;
+	font-weight: normal;
+	margin-bottom: 0px;
+	cursor: pointer;
+}
+
+
+.VommondDropDownButton ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0px;
+	text-align: left;
+	z-index: 900000;
+	padding: 0px;
+	min-width: 60px;
+	cursor: default;
+}
+
+.VommondDropDownButtonOpen ul {
+	display: block;
+	cursor: pointer;
+}
+
+.VommondDropDownButton li {
+	list-style: none;
+	cursor: pointer;
+}
+
+
+/****************************************************
+ * Vommond input - a kind of drop down
+ ****************************************************/
+.VommondInput {
+	position: relative;
+
+}
+
+.VommondInputDropButton {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 100%;
+	width: 30px;
+	text-align: center;
+	border-radius: 0px 3px 3px 0px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.VommondInputDropButton .caret {
+	position: absolute;
+	right:10px;
+	top:45%;
+	border: none;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    width: 5px;
+    height: 5px;
+}
+
+
+
+.VommondInput ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0px;
+	text-align: left;
+	z-index: 900000;
+	padding: 0px;
+	min-width: 60px;
+	max-height: 200px;
+	overflow: auto;
+
+	background: none repeat scroll 0 0 white;
+	box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.5);
+	border-radius: 4px;
+}
+
+.VommondInputOpenTop ul {
+	top: auto;
+	bottom: 100%;
+	max-height: 200px;
+	overflow: auto;
+}
+
+
+.VommondInputOpen ul {
+	display: block;
+	cursor: pointer;
+}
+
+.VommondInput li {
+	list-style: none;
+	cursor: pointer;
+	padding: 10px;
+	width: 100%;
+}
+
+.VommondInput li:HOVER,
+.VommonInputSelected {
+	background: #cecece;
+}
+
+
+/****************************************************
+ * ButtonSelector
+ ****************************************************/
+.VommondButtonSelector {}
+
+
+/****************************************************
+ * Dialog
+ ****************************************************/
+
+.VommondDialogBackground {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000000;
+	top: 0px;
+	left: 0px;
+    background: rgba(69, 72, 77, 0.8);
+	transition-duration: 0.5s;
+	transition-property: all;
+}
+
+.VommondDialogFullScreen {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	text-shadow: 0 0 10px rgba(255, 255, 255, 1);
+	z-index: 9999999;
+	font-size: 24px;
+}
+
+.VommondDialogHidden {
+	opacity: 0;
+}
+
+.VommondDialogContainer {
+	transition-duration: 0.5s;
+	transition-property: all;
+}
+
+.VommondDialogHidden .VommondDialogContainer {
+	transform: rotateX(1deg);
+}
+
+
+.VommondDialogWrapper {
+	display: inline-block;
+    box-shadow: 0 0.5em 1em -0.125em rgb(3 18 39 / 10%), 0 0px 0 1px rgb(3 18 39 / 2%);
+    border-radius: 8px;
+	position: absolute;
+	transition-duration: 0.3s;
+	transition-property: all;
+	overflow: hidden;
+	background: #fff;
+}
+
+.VommondDialogWrapperMobile.VommondDialogWrapper {
+	box-shadow: none;
+	background: none;
+}
+
+.VommondDialogWrapper.VommondDialogWrapperOverflow {
+	overflow: visible;
+}
+
+.VommondDialogContent {
+	transition-duration: 0.3s;
+	transition-property: opacity;
+}
+
+.VommondDialogContentHidden .VommondDialogContent {
+	opacity: 0;
+}
+
+.VommondDialogContent.VommondDialogContentMobile {
+	position: fixed;
+	width: 100%;
+	padding: 20px;
+	top: 0px;
+	left: 0px;
+}
+
+
+
+.VommondDialogContent.VommondDialogContentMobile .MatcDialog {
+	width: 100%;
+	height: 100%;
+	box-shadow: 0 0 20px #000;
+	padding: 20px 20px 40px;
+	background: #fff;
+	border-radius: 3px;
+}
+
+.VommondDialogWrapper.VommondDialogWrapperShake {
+	transition-duration: 0.05s;
+	transition-property: all;
+}
+
+
+
+
+/****************************************************
+ * ProgressBar
+ ****************************************************/
+.VommondProgress {
+	height: 10px;
+	width: 100%;
+	border-radius: 3px;
+	display: inline-block;
+	overflow: hidden;
+}
+
+.VommondProgressContainer {
+	background: #cecece;
+	height: 100%;
+	width: 100%;
+}
+
+.VommondProgressBar {
+	height: 100%;
+	background: $primary_color;
+	transition-duration: 0.5s;
+	transition-property: width;
+	position: relative;
+}
+
+.VommondProgressBarLabel {
+	color: white;
+	position: absolute;
+	right: 10px;
+	top: 3px;
+	white-space: nowrap;
+}
+
+.VommondProgressBarLabelRight {
+	left: 100%;
+	padding-left: 10px;
+	text-align: left;
+	width: 200px;
+}
+
+.VommondProgressRow {
+	margin-bottom: 10px;
+}
+
+/****************************************************
+ * RadioBox
+ ****************************************************/
+
+.VommondRadioBox {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	position: relative;
+	border: 1px solid $form_border;
+	vertical-align: middle;
+	cursor: pointer;
+	border-radius: 50%;
+	padding: 6px;
+	position: relative;
+	background: #fff;
+
+	&:hover {
+		border: 1px solid $form_border_hover;
+	}
+}
+
+.VommondRadioBoxLabel {
+	margin-left: 8px;
+	vertical-align: middle;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.VommondRadioBoxMark {
+	opacity: 0;
+
+	transition-duration: 0.5s;
+	transition-property: opacity;
+
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+
+	vertical-align: top;
+	border-radius: 50%;
+}
+
+.VommondRadioBoxChecked {
+
+	.VommondRadioBoxMark {
+		opacity: 1;
+		background: $primary_color;
+	}
+
+	&.VommondRadioBox {
+		background: #fff;
+		//border-color: $primary_color;
+
+		&:hover {
+			background: $primary_color_hover;
+			border-color: $primary_color_hover;
+		}
+	}
+
+
+} 
+
+.VommondRadioBoxListItem {
+	padding: 10px 0px;
+}
+
+
+/****************************************************
+ * CheckBox
+ ****************************************************/
+
+.VommondCheckBoxWrapper {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.VommondCheckBox {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	position: relative;
+	border: 1px solid $form_border;
+	background: #fff;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.VommondCheckBoxWrapper:hover .VommondCheckBox {
+	border-color: $form_border_hover
+}
+
+
+.VommondCheckBoxLabel {
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.VommondCheckBoxHook {
+	opacity: 0;
+	transition-duration: 0.3s;
+	transition-property: opacity;
+	border-bottom: 3px solid #fff;
+	border-right: 2px solid #fff;
+	transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	display: inline-block;
+	height: 80%;
+	width: 40%;
+	left: 30%;
+	top: 5%;
+	position: absolute;
+	opacity: 0;
+
+}
+
+.VommondCheckBoxChecked {
+
+	.VommondCheckBoxHook {
+		opacity: 1;
+	}
+
+	.VommondCheckBox {
+		background: $primary_color;
+		border-color: $primary_color;
+	}
+
+	&:hover {
+		.VommondCheckBox {
+			background: $primary_color_hover;
+			border-color: $primary_color_hover;
+		}
+	}
+}
+
+.VommondLabelCheckBox {
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+
+
+/****************************************************
+ * Loading
+ ****************************************************/
+.VommondLoadingIncidator {
+	font-size: 60px;
+	color: #ccc;
+	text-align: center;
+	height: 250px;
+	padding-top: 100px;
+}
+
+
+/****************************************************
+ * FileUpload
+ ****************************************************/
+
+.VommondFileButton {
+	display: inline-block;
+	padding: 3px 20px;
+	border: 1px solid $primary_color;
+	border-radius: 3px;
+	color: $primary_color;
+	cursor: pointer;
+	transition: all 0.25s;
+	text-align: left;
+	font-size: 18px;
+	font-weight: 400;
+	position: relative;
+}
+
+.VommondFileButton:hover,
+.VommondFileButtonSelected {
+	background: $primary_color;
+	color: #fff;
+}
+
+.VommondFileButton input {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	border: 1px solid orange;
+	opacity: 0;
+	cursor: pointer;
+}

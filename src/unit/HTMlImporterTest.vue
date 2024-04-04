@@ -33,8 +33,11 @@
   </div>
 </template>
     
+<style lang="scss">
+  @import "../style/matc.scss";
+</style>
 <style lang="css">
-@import url("../style/matc.css");
+
 
 .panel {
   display: flex;
@@ -197,7 +200,6 @@ export default {
        */
       s.initParent = () => { };
 
-      s.setScrollContainer(scroller);
       scroller.wrap(s.domNode);
       cntr.appendChild(container);
       return s;

@@ -1,0 +1,64 @@
+.MatcBoxShadowSection{
+  display: flex;
+  align-items: top;
+
+}
+
+.MatcBoxShadowSection input.MatcBoxShadowInput{
+  width: 45px;
+}
+
+.MatcBoxShadowSectionDetails{
+  flex-grow: 1;
+  height: 60px;
+}
+
+.MatcBoxShadowSectionRow {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.MatcBoxShadowPopup {
+  width: 320px;
+}
+
+.MatcShadowSettings{
+  padding: 8px;
+}
+
+.MatcBoxShadowSliderCntr {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.MatcBoxShadowSliderCntr .MatcToolbarPopUpLabel{
+  width:90px
+}
+
+.MatcBoxShadowSliderCntr input.MatcToobarInput{
+  width: 40px;
+  border: 1px solid transparent
+}
+
+.MatcBoxShadowSliderCntr input.MatcToobarInput:hover {
+  border: 1px solid #ddd;
+}
+
+.MatcBoxShadowSliderCntr input.MatcToobarInput:focus{
+  border: 1px solid #ddd;
+}
+
+.MatcBoxShadowSliderCntr .MatcToolbarSlider {
+  width: 250px;
+}
+
+.MatcBoxShadowSliderCntr .MatcToolbarSlider .MatcToolbarSliderCntr{
+  width: 150px;
+}
+
+.MatcBoxShadowSliderCntr .MatcToolbarSlider .VommondSliderContainer{
+  background: #999;
+}

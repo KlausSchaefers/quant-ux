@@ -1,28 +1,28 @@
 <template>
   <div class="MatcTest">
-    <section class="section">
-      <div class="container">
+    <section class="" v-if="false">
+
         <div class="box is-shadowless">
           <div class="level">
             <div class="level-left">
-              <h2 class="level-item title">
+              <h3 class="level-item title">
                   Dashboard <HelpButton topic="analytics"  :hasNotifications="false"
-            /></h2>
+            /></h3>
             </div>
             <div class="level-right">
               <div class="level-item">
-                <a class="button is-primary is-outlined" @click="downloadCSV">Download Test Data</a>
+                <a class="MatcButton MatcButtonSecondary MatcButtonXS" @click="downloadCSV">Download Test Data</a>
               </div>
             </div>
           </div>
           <AnalyticsHeader :value="summary" />
         </div>
-      </div>
+
     </section>
     <!-- header -->
 
-    <section class="section" data-dojo-attach-point="sectionTask">
-      <div class="container">
+    <section class="" data-dojo-attach-point="sectionTask">
+ 
         <div class="box is-shadowless">
           <AnalyticTaskList
             :hash="hash"
@@ -34,11 +34,11 @@
             @change="onTaskChange"
           />
         </div>
-      </div>
+
     </section>
 
-    <section class="section" data-dojo-attach-point="sectionScatter">
-      <div class="container">
+    <section class="" data-dojo-attach-point="sectionScatter">
+
         <div class="box is-shadowless">
           <DistributionSection
             :pub="pub"
@@ -47,12 +47,12 @@
             :events="events"
             :annotation="annotation"/>
         </div>
-      </div>
+
     </section>
 
 
-     <section class="section" data-dojo-attach-point="sectionTask">
-      <div class="container">
+     <section class="" data-dojo-attach-point="sectionTask">
+
         <div class="box is-shadowless">
           <SurveySection
             :pub="pub"
@@ -61,25 +61,9 @@
             :events="events"
             :annotation="annotation"/>
         </div>
-      </div>
+
     </section>
 
-
-    <section class="section">
-      <div class="container">
-        <div class="box is-shadowless">
-          <h2 class="title">Comments</h2>
-          <Comment
-            v-if="app"
-            :appID="app.id"
-            type="overview_dash"
-            reference
-            contentID
-            insertPosition="top"
-          />
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 <script>
@@ -94,7 +78,6 @@ import AnalyticsHeader from "views/apps/analytics/AnalyticsHeader";
 import AnalyticTaskList from "views/apps/analytics/AnalyticTaskList";
 import SurveySection from "views/apps/analytics/SurveySection";
 import DistributionSection from "views/apps/analytics/DistributionSection";
-import Comment from "page/Comment";
 import HelpButton from "help/HelpButton";
 
 export default {
@@ -104,11 +87,11 @@ export default {
   data: function() {
     return {
       MIN_REQUIERED_USERS: 40,
-      summary: {}
+      summary: {},
+      hasComments: false
     };
   },
   components: {
-    'Comment': Comment,
     'AnalyticsHeader': AnalyticsHeader,
     'AnalyticTaskList': AnalyticTaskList,
     'SurveySection': SurveySection,

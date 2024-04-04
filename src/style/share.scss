@@ -1,0 +1,68 @@
+@import './variables.scss';
+
+ .MatcShare{
+ 	height: 100%;
+ 	width: 100%;
+	background: rgb(230, 230, 230);
+
+	.MatcScreen {
+		box-shadow: 0 0 16px rgba(0,0,0,0.15);
+	}
+
+	.MatcCanvasFrame,
+	.MatcCanvasContainer{
+		background: rgb(230, 230, 230);
+	}
+
+	.MatcCanvasScrollBarBottom,
+	.MatcMessage{
+		bottom: 0px;
+	}
+
+	.MatcTestQRButton{
+		bottom:90px;
+	}
+
+	.MatcTestQRButton.MatcShareLine{
+		bottom: 290px;
+	}
+	
+	.MatcTestQRButton.MatcShareZoomIn{
+		bottom: 230px;
+	}
+	
+
+	.MatcTestQRButton.MatcShareZoomOut{
+		bottom:160px;
+	}
+
+	.MatcTestCommentButton,
+	.MatcTestQRButton {
+		z-index:10010;
+	}
+
+	.MatcCanvasContainer.MatcShareCanvasAnimatedContainer{
+		transition: all 0.4s;
+	}
+ }
+
+
+/**
+ * Share dialog
+ */
+.MatcShareRow{
+	position: relative;
+}
+
+.MatcShareRow .MatcShareIcon{
+	position: absolute;
+	bottom:3px;
+	right:5px;
+	color: $form_color;
+	background: #fff;
+	padding: 4px;
+}
+
+.MatcShareRow .MatcShareIcon:hover{
+	color:$primary_color;
+}

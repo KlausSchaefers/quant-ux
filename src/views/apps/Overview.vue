@@ -4,12 +4,12 @@
       <div class="container">
         <div class="level" style="margin-bottom:40px">
           <div class="level-left">
-            <h2 class="title">{{app.name}}</h2>
+            <h2 class="">{{app.name}}</h2>
           </div>
           <div class="level-right" v-if="!isPublic">
-            <div class="level-item">
+            <!-- <div class="level-item">
               <h6 class="title is-6 has-text-grey">{{ $t('app.overview.team')}}</h6>
-            </div>
+            </div> -->
             <div class="level-item">
               <Team v-if="app.id && user.id && !isPublic" :appID="app.id" :userID="user.id" />
             </div>
@@ -22,31 +22,44 @@
                 <li :class="[{'is-active': tab == 'design'}]">
                   <a :href="`#/${urlPrefix}/${appID}/design.html`">{{ $t('app.overview.design')}}</a>
                 </li>
+                <span class="MatcOverviewChevron">
+                  >
+                </span>
+            
                 <li :class="[{'is-active': tab == 'test' || tab === 'video'}]">
                   <a :href="`#/${urlPrefix}/${appID}/test.html`">{{ $t('app.overview.test')}}</a>
                 </li>
+                <span class="MatcOverviewChevron">
+                  >
+                </span>
                 <li :class="[{'is-active': tab == 'analyze'}]">
                   <a :href="`#/${urlPrefix}/${appID}/analyze.html`">{{ $t('app.overview.dash')}}</a>
                 </li>
-                <li :class="[{'is-active': tab == 'heat'}]">
-                  <a :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`">{{ $t('app.overview.heat')}}</a>
+                <!-- <li :class="[{'is-active': tab == 'heat'}]">
+                  <a :href="`#/${urlPrefix}/${appID}/heat.html`">{{ $t('app.overview.heat')}}</a>
                 </li>
                 <li :class="[{'is-active': tab == 'settings'}]">
                   <a :href="`#/${urlPrefix}/${appID}/settings.html`" v-if="!isPublic">{{ $t('app.overview.settings')}}</a>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
           <div class="level-right">
             <div class="level-item">
+            <a
+                :class="['MatcButton MatcButtonXS MatcButtonPrimary', {'MatcButtonPassive': tab=='X'}]"
+                :href="`#/${urlPrefix}/${appID}/analyze/workspace.html`"
+                id="overviewHeaderRunTest">{{ $t('app.overview.analytic-canvas')}}</a>
+            </div>
+            <div class="level-item">
               <a
-                class="button is-primary"
+                :class="['MatcButton MatcButtonXS MatcButtonPrimary', {'MatcButtonPassive': tab=='X'}]"
                 target="test"
                 :href="'#/test.html?h=' + hash + '&log=' + !isPublic"
                 id="overviewHeaderRunTest">{{ $t('app.overview.run-test')}}</a>
             </div>
             <div class="level-item">
-              <a class="button is-primary" @click="showShareDialog" ref="shareButton">{{ $t('app.overview.share')}}</a>
+              <a class="MatcButton MatcButtonXS MatcButtonPrimary" @click="showShareDialog" ref="shareButton">{{ $t('app.overview.share')}}</a>
             </div>
           </div>
         </div>
@@ -145,7 +158,6 @@ import SettingsTab from "views/apps/SettingsTab";
 
 import Team from "page/Team";
 import Share from "page/Share";
-import Comment from "page/Comment";
 import Services from "services/Services";
 
 export default {
@@ -177,8 +189,7 @@ export default {
     VideoTab: VideoTab,
     SettingsTab: SettingsTab,
     Team: Team,
-    HeatTab: HeatTab,
-    Comment: Comment
+    HeatTab: HeatTab
   },
   computed: {
     isPublic() {
@@ -239,10 +250,28 @@ export default {
           this.events = events;
           this.loading = false
           this.logger.log(-1, "loadEvents", "Found " + events.length + " events");
+          this.checkEventCount()
         });
       } catch (e) {
           this.logger.error("loadEvents", "Some error");
           this.logger.sendError(e);
+      }
+    },
+    async checkEventCount () {
+      if (this.isPublic) {
+        return
+      }
+      const loads = this.events.filter(e => e.type === 'SessionStart')
+      this.logger.log(-1, "checkEventCount", "Check " + this.app.sessionCount + " ?= " + loads.length);
+      if (this.app.sessionCount !== loads.length && this.app && this.app.id) {
+        const res = await this.modelService.updateAppProps(this.app.id, {
+          id: this.app.id,
+          sessionCount: loads.length
+        });
+        if (res.status !== "ok") {
+          this.logger.error("checkEventCount", "Could not update");
+          this.logger.sendError(new Error());
+        }
       }
     },
     loadRest() {
@@ -271,7 +300,7 @@ export default {
     showShareDialog() {
       const db = new DomBuilder();
       const popup = db
-        .div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding")
+        .div("MatcDialog MatcInfitationDialog MatcInfitationDialogLarge MatcPadding")
         .build();
 
       let cntr = db.div("container").build(popup);

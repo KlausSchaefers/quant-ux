@@ -1,0 +1,50 @@
+[
+    {
+		"id" : "SurveyCheckBoxGroup",
+		 "type" : "CheckBoxGroup",
+		 "name" : "CheckBoxGroup",
+		 "category" : "Survey",
+		 "subcategory" : "FormCheckBox",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+		 "w": "@box-width-xxl",
+		 "h": "@box-height-l",
+	     "z" : 0,
+	     "props" : {
+	    	"options" : ["Option 1", "Option 2",  "Option 3"],
+	    	"selected": [],
+            "isSurveyElement": true
+		 },
+	     "has" : {
+			"backgroundColor" : true,
+	        "onclick" : true,
+	        "border" : true,
+			"label" : true,
+	        "data" : true,
+            "random": true   
+	     },
+	     "style" : { 
+	    	"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"background": "@form-background",
+			"color": "@form-color",
+			"colorButton": "@background-active",
+
+	        "boxHeight": "@form-height",
+	        "boxMarginRight": "@spacing-s"
+	    },
+		"error" : {
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"colorButton": "@form-border-color:error"
+		}
+	}
+]

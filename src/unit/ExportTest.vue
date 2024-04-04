@@ -7,9 +7,12 @@
     </div>
   </div>
 </template>
-
+<style lang="scss">
+@import "../style/matc.scss";
+</style>
 <style>
-  @import url("../style/matc.css");
+
+ 
   .MatcDialog {
       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2), 0px 0px 2px rgba(0, 0, 0, 0.2);
       overflow: auto;
@@ -17,11 +20,13 @@
       background: #fff;
   }
 </style>
-
+  <style lang="scss">
+   @import "../style/canvas/all.scss";
+  @import '../style/toolbar/tab.scss';
+</style>
 <style lang="sass">
   @import "../style/bulma.sass"
 </style>
-
 
 <script>
 

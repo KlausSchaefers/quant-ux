@@ -9,8 +9,8 @@ class topic {
         if (!this._dojoTopicListeners[name]) {
             this._dojoTopicListeners[name] = []
         }
-        let id = this._idCounter++
-        let listener = {
+        const id = this._idCounter++
+        const listener = {
             'topic': name,
             'callback': callback,
             'id': id,

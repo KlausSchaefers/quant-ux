@@ -59,7 +59,7 @@ export default {
 
 
     cleanUpRepeatRests () {
-        this.logger.log(-2,"cleanUpRepeatRests","enter" );
+        this.logger.log(2,"cleanUpRepeatRests","enter" );
         if (this._repeatRestIntervals) {
             this._repeatRestIntervals.forEach(id => {
                 clearInterval(id)

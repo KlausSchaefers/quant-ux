@@ -339,7 +339,7 @@ export default {
       return b;
     },
 
-    getStartScreen: function(model) {
+    getStartScreen(model) {
       if (!model) {
         model = this.model;
       }

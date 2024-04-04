@@ -1,0 +1,53 @@
+@import '../variables.scss';
+
+.MatcToolbarTableSettingsDialog {
+    width: auto;
+}
+
+.MatcToolbarTableSettings {
+    width: 1200px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+
+
+    .MatcToolbarTableSettingsCntr {
+        height: 100%;
+        margin-top: 10px;
+    }
+
+    .MatcToolbarTableSettingsTable th{
+        font-weight: 400;
+        padding-top: 15px;
+        font-size: 14px;
+    }
+
+   .MatcToolbarItem.MatcToolbarColor{
+        padding: 0px;
+        margin: 0px;
+        height: unset;
+        vertical-align: middle;
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: 400;
+        display: inline;
+        vertical-align: middle;
+    }
+
+   .MatcFormRow .MatcToolbarDropDownButton{
+        margin: 0px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .MatcToolbarTableSettingsTable{
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .MatcDataTable {
+        width: 100%;
+    }
+}

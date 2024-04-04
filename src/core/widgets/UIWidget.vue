@@ -112,6 +112,14 @@ export default {
       this.setStyle(style, model);
     },
 
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    },
 
     /*
      * should be called when the widget was scalled, e.g. by
@@ -295,6 +303,24 @@ export default {
         type: type,
         value: value,
         runTransition: true,
+        e: e
+      };
+      if (time) {
+        event.time = time;
+      }
+      const options = this.getStateOptions();
+      if (options) {
+        event.options = options;
+      }
+      this.emit("stateChange", event);
+    },
+
+    emitHiddenStateChange (type, value, e, time) {
+      const event = {
+        hidden: true,
+        type: type,
+        value: value,
+        runTransition: false,
         e: e
       };
       if (time) {
@@ -745,6 +771,13 @@ export default {
       }
     },
 
+    setBorderColorForNode (node, style) {
+      this._setBorderStyle("borderTopColor", node, style, this.model);
+      this._setBorderStyle( "borderBottomColor", node, style, this.model);
+      this._setBorderStyle( "borderRightColor", node, style, this.model);
+      this._setBorderStyle( "borderLeftColor", node, style, this.model);
+    },
+
     setBorderColor () {
       this._setBorderStyle("borderTopColor", this.domNode, this.style, this.model);
       this._setBorderStyle( "borderBottomColor", this.domNode, this.style, this.model);
@@ -873,8 +906,6 @@ export default {
         const inset = shadow.i ? "inset" : "";
         const value = h + "px " + v + "px " + b + "px " + s + "px " + shadow.c + " " + inset;
         parent.style.boxShadow = value;
-      } else {
-        console.debug('UIWidget._setShadow() > Error : Shadow is null', shadow)
       }
 
     },

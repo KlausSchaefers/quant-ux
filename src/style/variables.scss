@@ -1,20 +1,162 @@
-$main_color: #3787f2;
-$text-color-passive: #ccc;
-$text-color-dark: #363636;
-$color-danger: #f83a3a;
-$color-passive: #777;
+$main_color: #365fff;
 
-$color-black: #000;
-$color-red: #f94c4c;
-$color-red-dark: #f83a3a;
+$primary_color: #365fff;
+$primary_color_hover: #123ef0;
+$primary_color_trans: #bac8fe;
 
-$table-background:rgb(245, 245, 245);
-$table-selected: #d6e5f8;
+$color_danger: #f94c4c;
+$color_danger_light: #f7dddd;
+$color_danger_hover: #f83a3a;
+$color_passive: #777;
+$color_success: rgb(53, 198, 27);
+$color_success_hover: rgb(41, 184, 15);
 
-$input_border: #dbdbdb;
-$input_border_focus: #b5b5b5;
+$canvas_selection: #49C0F0;
+$canvas_selection_grid_resize: #dd1787;
 
-$form-height:34px;
+
+$white: #fff;
+$gray_1: #dbdbdb;
+$gray_2: #c4c3c3;
+$gray_3: #b4b3b3;
+$gray_4: #555;
+$gray_5: #4a4a4a;
+$gray_6: #F3F5F6;
+$black: #111;
+
+
+$page_color: #FFF; // rgb(250, 250, 250); // #e6e6e6; //
+$page_color_secondary: rgb(250, 250, 250); //F3F5F6
+$page_color_secondary_dark: #F3F5F6;
+$page_border: #dbdbdb; // #CFCFCF;
+$page_drop_shadow_soft: 0 4px 24px rgba(0,0,0,0.04);
+$page_drop_shadow_more: 0 8px 24px rgba(0,0,0,0.1);
+$page_radius:8px;
+$page_radius_xs:8px;
+$page_radius-l:12px;
+
+$kpi_background:#F3F5F6;
+
+$text_color: #333;
+$text_color_hover : #111;
+$text_color_passive: #777;
+$text_color_dark: #111;
+$text_line_height: 1.5;
+
+$comment_background: #fff4cc;
+$comment_border: #fff4cc;
+$comment-shadow: none;
+$comment_radius: 8px;
+$comment_input_background: rgba($color: #000000, $alpha: 0.1);
+$comment_input_border: rgba($color: #000000, $alpha: 0.2);
+$comment_input_border_hover: rgba($color: #000000, $alpha: 0.3);
+
+$toolbar_height: 48px;
+$toolbar_background: #25292F;
+$toolbar_color: $white;
+$toolbar_color_hover: $white;
+$toolbar_color_passive: $gray_3;
+$toolbar_color_disabled: $gray_4;
+$toolbar_selected_background: #16191b;
+$toolbar_border: rgb(49, 55, 60);
+$toolbar_padding:8px;
+
+$toolbar_form_background: $toolbar_background;
+$toolbar_form_active_background: #202427;
+$toolbar_form_background_hover: #202427;
+$toolbar_form_background_focus: #16191b;
+$toolbar_form_border: $toolbar_border;
+$toolbar_form_border_light: rgb(64, 74, 83);
+$toolbar_form_border_hover: $toolbar_border;
+$toolbar_form_border_focus: rgba(255,255,255,0.16);
+$toolbar_form_radius: 4px;
+$toolbar_checkbox_background: #484E53;
+$toolbar_checkbox_border: #484E53;
+$toolbar_checkbox_hover_background: #484E53;
+$toolbar_checkbox_hover_border: #484E53;
+$toolbar_checkbox_selected_background: $primary_color;
+$toolbar_checkbox_selected_hook: #fff;
+$toolbar_tab_border_color: $primary_color;
+$toolbar_section_content_gap:4px;
+
+$toolbar_help_background: rgba(255,255,255, 0.1);
+
+$color_picker_border: rgba(255,255,255, 0.25);
+$color_picker_border-hover: rgba(255,255,255, 0.35);
+
+$layerlist_width: 256px;
+$layerlist_background: red;
+$layerlist_selected: $toolbar_selected_background;
+$layerlist_chevron_color: $gray_4;
+$layerlist_chevron_color_hover: $gray_2;
+
+$create_element_background: #25292f;
+
+$popup_color: $white;
+$popup_color_passive: $color_passive;
+$popup_outer_border_color: transparent;
+$popup_border: $toolbar_border;
+$popup_background: $toolbar_selected_background;
+$popup_radius: 8px;
+$popup_font_size: 14px;
+$popup_padding: 4px 8px;
+$popup_shadow: none;
+$popup_child_shadow: none;
+$popup_line: rgba(255, 255, 255, 0.08);
+$popup_form_color: $text_color;
+$popup_form_border: $toolbar_border;
+$popup_form_border_hover: $toolbar_border;
+$popup_form_border_focus: $toolbar_border;
+$popup_form_background: $toolbar_form_background;
+$popup_form_background_hover: $toolbar_form_background_hover;
+$popup_form_background_focus: $toolbar_form_background_hover;
+$popup_button_link_color: $text_color;
+$popup_button_link_color_hover: $text_color;
+$popup_child_border: none;
+$popup_button_link_background_hover: rgba(0, 0, 0, 0.05);
+
+$form_color: $text_color;
+$form_radius: 8px;
+$form_border: $page_border;
+$form_border_hover: $gray_2;
+$form_border_focus: $gray_3;
+$form_shadow:none;
+$form_padding: 8px 8px;
+$form_height:38px;
+$form_font_size:16px;
+
+$dialog_padding:  32px 32px 32px;
+$dialog_padding-l:  40px 40px 40px;
+$dialog_color: $text_color;
+$dialog_form_border: $form_border;
+$dialog_table_background: rgba(0,0,0, .05);
+$dialog_table_border: rgba(0,0,0, .1);
+
+
+$table_background_header:rgb(230, 230, 230);
+$table_background:rgba(0,0,0, .05);
+$table_selected: $gray_2;
+
+$button_background: #25292F;
+$button_background_hover: #16191b;
+$button_color: $white;
+$button_color_hover: $white;
+$button_font_size: 16px;
+$button_font_size-s: 14px;
+$button_padding: 4px 24px;
+$button_padding_min: 4px;
+$button_radius: 12px;
+$button_radius_s: 8px;
+$button_radius-input: 2px;
+$button_radius-l: 8px;
+$button_height:38px;
+
+$button_secondary_background: #E6E6E6;
+$button_secondary_background_hover: #e3e3e3;
+$button_secondary_color: #333;
+$button_secondary_color_hover: #000;
+
+$tab_color_active: $button_background_hover;
 
 $spacing-xxxl:96px;
 $spacing-xxl:64px;
@@ -25,15 +167,19 @@ $spacing-m:16px;
 $spacing-s:8px;
 $spacing-xs:4px;
 
-$font-weight: 400;
-$font-weight-l: 500;
-$font-family: Source Sans Pro, Helvetica, Arial, sans-serif;
+$font-weight-s: 300;
+$font-weight-m: 400;
+$font-weight-l: 600;
+$font-family: 'Inter', 'Helvetica Neue', -apple-system, 'BlinkMacSystemFont', "Segoe UI", 'Helvetica', sans-serif;
 
 $font-size-xxl: 1.8rem;
 $font-size-xl: 1.6rem;
 $font-size-l: 24px;
 $font-size-m: 24px;
+$font-size-ms: 18px;
 $font-size-default: 18px;
 $font-size-s: 16px;
 $font-size-xs: 14px;
 $font-size-xxs: 12px;
+
+

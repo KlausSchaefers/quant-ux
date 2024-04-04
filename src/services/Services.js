@@ -7,6 +7,7 @@ import HelpService from './HelpService'
 import ImageService from './ImageService'
 import WebSocketService from './WebSocketService'
 import KeyCloakService from './KeyCloakService'
+import NotificationService from './NotificationService'
 import AIService from './AIService'
 
 class Services {
@@ -54,6 +55,12 @@ class Services {
     getImageService () {
         ImageService.setToken(this.getUserService().getToken())
         return ImageService
+    }
+
+    getNotificationService() {
+        NotificationService.setToken(this.getUserService().getToken())
+        NotificationService.setUser(this.getUserService().getUser())
+        return NotificationService
     }
 
     getWebSocketService (modelId, token, user) {

@@ -8,10 +8,9 @@
     </div>
    
   </template>
-  
-  <style>
-    @import url("../style/matc.css");
-  </style>
+<style lang="scss">
+@import "../style/matc.scss";
+</style>
   
   <script>
   

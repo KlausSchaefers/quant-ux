@@ -1,0 +1,49 @@
+.Matc, .MatcPublic, .MatcTest, .MatcMainCntr {
+
+
+	h1 {
+		font-size: $font-size-m;
+		font-weight: $font-weight-l;
+		margin: unset;
+		margin-top: 0;
+		margin-bottom: $spacing-l;
+	}
+	
+    h2 {
+		font-size: $font-size-m;
+		font-weight: $font-weight-l;
+		margin-top: 0;
+		margin-bottom: $spacing-s;
+	}
+
+	h3 {
+		font-size: $font-size-default;
+		font-weight: $font-weight-l;
+		margin-top: 0;
+		margin-bottom: $spacing-s;
+	}
+
+	h4 {
+		font-size: $font-size-s;
+		font-weight: $font-weight-l;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+	p {
+		font-size: $font-size-default;
+		b {
+			font-weight: $font-weight-l;
+		}
+	}
+	
+}
+
+.MatcArticle {
+	h3, h4 { 
+		margin-top: 24px;
+	}
+	p {
+		margin-bottom: 8px;
+	}
+}

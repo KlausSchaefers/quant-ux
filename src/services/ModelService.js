@@ -155,6 +155,10 @@ export class ModelService extends AbstractService{
         return this._delete(`/rest/events/${id}/${session}.json`)
     }
 
+    updateEvent (appID, event) {
+        return this._post(`/rest/events/${appID}/${event.id}.json`, event)
+    }
+
     /**
      * Mouse
      */

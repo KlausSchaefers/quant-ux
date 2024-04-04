@@ -1,0 +1,128 @@
+@import '../variables.scss';
+
+.MatcDialog.MatchImportDialog {
+  width: 1200px;
+  height: 500px;
+
+  .MatcError {
+    height: 20px;
+  }
+
+  .MatcToolbarTabs a {
+    border-bottom: 2px solid transparent;
+    color: $text_color;
+
+    &.MatcToolbarTabActive {
+      border-bottom-width: 2px;
+      border-bottom: 2px solid $main_color;
+    }
+  }
+
+  .MatcToolbarTabsBig {
+    margin-bottom: 20px;
+  }
+
+  .MatchImportDialogCntr {
+    height: 300px;
+    border: 1px solid transparent;
+    position: relative;
+    overflow: auto;
+
+    .VommondRadioBoxListItem {
+      display: inline-block;
+      width: 250px;
+    }
+
+    .MatcHint {
+      color: $text_color_passive;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: 0.2s all;
+      font-size: 24px;
+      text-align: center;
+
+      .MatcUploadProgressCnr {
+        display: block;
+        margin: 20px;
+        width: 200px;
+        height: 10px;
+
+
+        .MatcUploadProgress {
+          width: 10px;
+          height: 100%;
+          display: block;
+          border-radius: 3px;
+          background-color: $main_color;
+        }
+      }
+
+
+    }
+
+
+  }
+
+  .mdi {
+    color: $text_color_passive
+  }
+
+  .MatchImportDialogDropZone {
+    border: 1px dashed $form_border;
+    transition: 0.2s all;
+    overflow: auto;
+    cursor: pointer;
+
+    input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    &:hover {
+      border-color: $form_border_hover;
+
+      .MatcHint {
+        color: $form_border_hover;
+      }
+    }
+
+    &.MatchImportDialogDropZoneHover {
+      border-color: $main_color;
+
+      .MatcHint {
+        color: $main_color;
+        font-size: 26px;
+      }
+    }
+
+    .MatchImportDialogPreview {
+      display: inline-block;
+      margin: 10px;
+      vertical-align: top;
+      position: relative;
+
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .MatchImportDialogZip {
+      padding: 20px;
+
+      .mdi {
+        font-size: 80px;
+      }
+    }
+
+  }
+
+
+}
+
+

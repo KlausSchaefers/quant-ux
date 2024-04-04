@@ -1,0 +1,157 @@
+@import './variables.scss';
+
+.MatchSimulatorStandAlone{
+ 	width: 100%;
+	height: 100%;
+}
+
+.MatcSimulator{
+ 	height: 100%;
+ 	width:100%;
+ 	position: relative;
+ 	display: inline-block;
+	overflow: hidden;
+	text-align: left;
+
+   -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+	.MatcTestLogoCntr{
+		width: 60%;
+		max-width: 400px;
+		transition: all 0.4s;
+		transition-delay: 1s;
+	}
+
+	.MatcTestProgressCntr {
+		width: 80%;
+		transform: translate(10%, 180px);
+		transform-origin: center;
+	}
+
+	.MatcTestLogoCntr.MatcTestLogoCntrMax {
+		width: 80%;
+	}
+
+	.MatcTestLogoCntrMax .MatcTestProgressCntr{
+		width: 100%;
+		height: 600px;
+		left:0%;
+		transform: translate(0px, -200px);
+	}
+
+	.MatcTestContent {
+		width: 100%;
+		padding: 24px;
+		padding-bottom: 24px;
+	}
+	
+}
+
+.MatcSimulatorLoadingMessageVisible {
+	text-align: center;
+}
+
+.MatcSimulatorFadeOut{
+	transition: opacity 0.2s;
+	opacity: 0;
+}
+
+
+.MatcSimulatorImagePreloader{
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+
+
+
+
+.MatcSimulatorLoadingLogoAnimation{
+  -webkit-animation: sk-bounce 1.5s infinite ease-in-out;
+  animation: sk-bounce 1.5s infinite ease-in-out;
+}
+
+
+
+@keyframes sk-bounce {
+  0%, 100% {
+    opacity:1;
+  } 50% {
+    opacity:0.5;
+  }
+}
+
+
+.MatcSimulator .MatcScreen{
+	box-shadow:none;
+	position: absolute;
+	left:0px;
+}
+
+ .MatcSimulator .MatcWidget{
+ 	position: absolute;
+ 	z-index: auto;
+ }
+
+ .MatcWidget.MatcWidgetNoTouch{
+ 	touch-action: none;
+ }
+
+
+ .MatcSimulator .MactWidgetFixed{
+  	z-index: 10010;
+ }
+
+ .MatcSimulatorClickable{
+ 	cursor: pointer;
+ }
+
+ .MatchSimulatorAnimation{
+ 	transition-duration: 0.5s;
+	transition-property:left;
+ }
+
+ .MatcSimulatorWidgetHightlight{
+ 	transition:all 0.2s;
+ 	border:1px solid #49C0F0;
+	background:rgba(73,192,240,0.3);
+ }
+
+
+
+ .MatcSimulatorContent {
+	padding: 15px 20px;
+    width: 100%;
+    height: 600px;
+	line-height: $text_line_height;
+	text-align: left;
+	background: #fff;
+    border: 1px solid rgba(255,255,255,1);
+    color: $text_color;
+	border-radius: 8px;
+	position: relative;
+	top: -200px;
+	font-weight: 300;
+	font-size: $font-size-ms;
+	box-shadow: 0px 0px 10px rgba(0,0,0, 0.15);
+
+	p{
+		margin-bottom: $spacing-l;
+		font-size: $font-size-ms;
+	}
+ }
+
+
+ .MatcSimulatorContentCntr {
+	height: calc(100% - 70px);
+	overflow: auto;
+ }
+
+ .MatcScreenOverlay {
+	 min-height: 100%;
+ }

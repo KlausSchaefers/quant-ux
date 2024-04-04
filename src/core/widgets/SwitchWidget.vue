@@ -61,7 +61,7 @@ export default {
       }
     },
 
-    render: function(model, style, scaleX, scaleY) {
+    render (model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
       this._scaleX = scaleX;
@@ -76,51 +76,51 @@ export default {
       this.setValue(model.props.checked, true);
     },
 
-    _set_paddingButton: function(parent, style) {
+    _set_paddingButton (parent, style) {
       var w = this._getBorderWidth(style.paddingButton);
       this.handle.style.padding = w + "px";
     },
 
-    _set_colorForeGround: function(parent, style) {
+    _set_colorForeGround (parent, style) {
       this.foregroundDiv.style.background = style.colorForeGround;
     },
 
-    _set_cssClass: function(parent, style) {
+    _set_cssClass (parent, style) {
       css.add(this.domNode, style.cssClass);
     },
 
-    _set_borderWidthButton: function(parent, style) {
+    _set_borderWidthButton (parent, style) {
       var w = this._getBorderWidth(style.borderWidthButton);
       this.button.style.borderWidth = w + "px";
     },
 
-    _set_borderColorButton: function(parent, style) {
+    _set_borderColorButton (parent, style) {
       this.button.style.borderColor = style.borderColorButton;
     },
 
-    _set_colorButton: function(parent, style) {
+    _set_colorButton (parent, style) {
       this.button.style.background = style.colorButton;
     },
 
-    _set_boxShadowButton: function(parent, style) {
+    _set_boxShadowButton (parent, style) {
       this._setShadow(this.button, style.boxShadowButton);
     },
 
-    getValue: function() {
+    getValue () {
       return this.value;
     },
 
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue: function(v) {
+    _setDataBindingValue (v) {
       if (v !== true && v !== false && v >= 1) {
         v = true;
       }
       this.setValue(v);
     },
 
-    setValue: function(value, ignoreValidation) {
+    setValue (value, ignoreValidation) {
       this.value = value;
       var valid = true;
       if (!ignoreValidation) {
@@ -141,7 +141,7 @@ export default {
       }
     },
 
-    _validateValue: function(value) {
+    _validateValue (value) {
       var validation = this.model.props.validation;
       if (validation) {
         if (validation.required && value === false) {
@@ -151,24 +151,24 @@ export default {
       return true;
     },
 
-    isValid: function(showError) {
+    isValid (showError) {
       return this.validate(this.value, showError);
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "checked",
         value: this.value
       };
     },
 
-    setState: function(state) {
+    setState (state) {
       if (state && state.type == "checked") {
         this.setValue(state.value);
       }
     },
 
-    onChange: function(e) {
+    onChange (e) {
       this.stopEvent(e);
 
       this.setValue(!this.value);

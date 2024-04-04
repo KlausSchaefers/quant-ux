@@ -1,0 +1,38 @@
+@import '../variables.scss';
+
+.MatcNavidationEditor{
+
+    font-size: 12px;
+    width: 800px;
+    height: 450px;
+
+   
+    .MatcFormRowRemove span{
+        cursor: pointer;
+    }
+
+    .MatcFormRowIconSelect {
+    
+        div {
+            display: flex;
+            align-items: center;
+            height: $form-height;
+        }
+        .mdi {
+            font-size: 18px;
+            vertical-align: middle;
+            cursor: pointer;
+
+            &:hover{
+                color:$text_color_dark;
+            }
+        }
+    }
+   
+
+
+    
+   
+}
+
+

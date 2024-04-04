@@ -1,0 +1,54 @@
+@import '../variables.scss';
+
+.MatcExportDialogCntr{
+  height: 500px;
+  overflow: auto;
+}
+
+.MatchExportDialog.MatchImportDialog{
+  height: 720px;
+}
+
+.MatcExportZip{
+
+  .MatcCreateBtnElement {
+    width: 160px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .mdi {
+      font-size: 80px;
+      color: #777;
+      transition: color 0.2s;
+    }
+
+    &:hover .mdi {
+      color: #555;
+    }
+  }
+
+}
+
+.MatcExportComments {
+  .MatcExportCommentsDownloadCntr {
+    margin-top: 4px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.MatcExportCommentsTools {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+// .MatcExportComments {
+//   height: 100%;
+
+//   .MatcDialogTable {
+//     height: 100%;
+//   }
+// }

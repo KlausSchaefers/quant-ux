@@ -2,42 +2,41 @@ import * as Util from "./ExportUtil"
 //import { Layout } from "../core/Const"
 
 export function addGridToElements(parent) {
-    /**
-     * FIXME: Just add grdid when needed?
-     */
-	//if (parent.layout === Layout.Grid) {
-		let grid = computeGrid(parent)
-		if (grid) {
-			parent.grid = grid
-			if (parent.children && parent.children.length > 0) {
-				parent.children.forEach((e) => {
-					e.gridColumnStart = 0
-					e.gridColumnEnd = grid.columns.length
-					e.gridRowStart = 0
-					e.gridRowEnd = grid.rows.length
-					grid.columns.forEach((c, i) => {
-						/**
-						 * FIXME: if we want to use grdiCleanUp we
-						 * have to use start and end
-						 */
-						if (c.v === e.x) {
-							e.gridColumnStart = i
-						} else if (c.v === e.x + e.w) {
-							e.gridColumnEnd = i
-						}
-					})
-					grid.rows.forEach((r, i) => {
-						if (r.v === e.y) {
-							e.gridRowStart = i
-						}
-						if (r.v === e.y + e.h) {
-							e.gridRowEnd = i
-						}
-					})
+  
+	const grid = computeGrid(parent)
+
+	if (grid) {
+		parent.grid = grid
+		if (parent.children && parent.children.length > 0) {
+			parent.children.forEach((e) => {
+		
+				e.gridColumnStart = 0
+				e.gridColumnEnd = grid.columns.length
+				e.gridRowStart = 0
+				e.gridRowEnd = grid.rows.length
+				grid.columns.forEach((c, i) => {
+					/**
+					 * FIXME: if we want to use grdiCleanUp we
+					 * have to use start and end
+					 */
+					if (c.v === e.x) {
+						e.gridColumnStart = i
+					} else if (c.v === e.x + e.w) {
+						e.gridColumnEnd = i
+					}
 				})
-			}
+				grid.rows.forEach((r, i) => {
+					if (r.v === e.y) {
+						e.gridRowStart = i
+					}
+					if (r.v === e.y + e.h) {
+						e.gridRowEnd = i
+					}
+				})
+			})
 		}
-	//}
+	}
+	
 
 	if (parent.children && parent.children.length > 0) {
 		parent.children.forEach((c) => {
@@ -58,17 +57,19 @@ export function computeGrid(parent, fixSmallColumns = false) {
 		 * then all the children
 		 */
 		addGridColumns(columns, 0, parent, true)
-		addGridColumns(columns, parent.w, parent, false)
+		addGridColumns(columns, Util.round(parent.w), parent, false)
 		addGridRow(rows, 0, parent, true)
-		addGridRow(rows, parent.h, parent, false)
+		addGridRow(rows, Util.round(parent.h), parent, false)
+
 
 		parent.children.forEach((c) => {
-			addGridColumns(columns, c.x, c, true)
-			addGridColumns(columns, c.x + c.w, c, false)
-			addGridRow(rows, c.y, c, true)
-			addGridRow(rows, c.y + c.h, c, false)
+			addGridColumns(columns, Util.round(c.x), c, true)
+			addGridColumns(columns, Util.round(c.x + c.w), c, false)
+			addGridRow(rows, Util.round(c.y), c, true)
+			addGridRow(rows, Util.round(c.y + c.h), c, false)
 		})
 
+		
 		/**
 		 * Set the width and convert objects to arrays
 		 */
@@ -172,7 +173,7 @@ export function setFixedGirdRowsAndColumns(parent, columns, rows) {
 			})
 		}
 		if (Util.isPinnedDown(e)) {
-			rows.forEach((row) => {
+			rows.forEach((row) => {				
 				if (row.v >= e.y + e.h) {
 					row.fixed = true
 				}
@@ -185,11 +186,12 @@ export function setGridColumnWidth(columns, parent) {
 	columns = Object.values(columns).sort((a, b) => a.v - b.v)
 	columns.forEach((column, i) => {
 		if (columns[i + 1]) {
-			column.l = columns[i + 1].v - column.v
+			column.l = Util.round(columns[i + 1].v - column.v)
 		} else {
-			column.l = parent.w - column.v
+			column.l = Util.round(parent.w - column.v)
 		}
 	})
+	// FIXME: this should be smarter for rows that are not the beginning and the ned
 	return columns.filter((c) => c.l > 0)
 }
 
@@ -197,11 +199,12 @@ export function setGridRowHeight(rows, parent) {
 	rows = Object.values(rows).sort((a, b) => a.v - b.v)
 	rows.forEach((row, i) => {
 		if (rows[i + 1]) {
-			row.l = rows[i + 1].v - row.v
+			row.l = Util.round(rows[i + 1].v - row.v)
 		} else {
-			row.l = parent.h - row.v
+			row.l = Util.round(parent.h - row.v)
 		}
 	})
+	// FIXME: this should be smarter for rows that are not the beginning and the ned
 	return rows.filter((r) => r.l > 0)
 }
 

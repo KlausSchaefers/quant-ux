@@ -3,7 +3,6 @@
 import DojoWidget from "dojo/DojoWidget";
 import lang from "dojo/_base/lang";
 import css from "dojo/css";
-import on from "dojo/on";
 import win from "dojo/_base/win";
 import DomBuilder from "common/DomBuilder";
 import Layout from "core/Layout";
@@ -12,8 +11,8 @@ import ModelResizer from 'core/ModelResizer'
 import ModelUtil from 'core/ModelUtil'
 import PerformanceMonitor from 'core/PerformanceMonitor'
 import * as DistributeUtil from 'core/DistributionUtil'
-import SlideLeftButton from 'common/SlideLeftButton'
 
+import * as UIUtil from '../util/UIUtil'
 var Ring = {};
 var ProgressBar = {};
 export default {
@@ -46,11 +45,11 @@ export default {
   components: {},
   methods: {
 
-    getIcons: function() {
+    getIcons () {
       return this._matcIcons;
     },
 
-    fixGestures: function(events) {
+    fixGestures(events) {
       events.sort(function(a, b) {
         return a.time - b.time;
       });
@@ -114,7 +113,7 @@ export default {
     /**********************************************************************
      * Clone Tool
      **********************************************************************/
-    getClones: function(ids, target) {
+    getClones(ids, target) {
       var result = [];
       var previews = [];
 
@@ -203,7 +202,8 @@ export default {
     /**
      * Gets the new position for a group child
      */
-    _getGroupChildResizePosition: function(widget, oldGroup, newGroup, dif) {
+    _getGroupChildResizePosition(widget, oldGroup, newGroup, dif) {
+      console.warn("DEPRECATED: _getGroupChildResizePosition()")
       return ModelResizer.getGroupChildResizePosition(widget, oldGroup, newGroup, dif)
     },
 
@@ -213,7 +213,7 @@ export default {
     },
 
 
-    getWidgetsByDistanceAndType: function(widget, types) {
+    getWidgetsByDistanceAndType(widget, types) {
       var result = [];
 
       if (this.model) {
@@ -243,7 +243,7 @@ export default {
       return result;
     },
 
-    getObjectLength: function(o) {
+    getObjectLength (o) {
       if (o) {
         return Object.keys(o).length;
       } else {
@@ -251,7 +251,7 @@ export default {
       }
     },
 
-    getEventStateLabel: function(state) {
+    getEventStateLabel (state) {
       if (state.type == "hidden") {
         /**
          * A little hacky
@@ -296,7 +296,7 @@ export default {
       return "Change";
     },
 
-    getGestureLabel: function(type) {
+    getGestureLabel (type) {
       if (this.gestureLabels[type]) {
         return this.gestureLabels[type];
       }
@@ -322,7 +322,7 @@ export default {
     },
     
 
-    getWidgetName: function(widgetID) {
+    getWidgetName (widgetID) {
       if (this.model.widgets[widgetID] && this.model.widgets[widgetID].name) {
         return this.model.widgets[widgetID].name;
       }
@@ -332,7 +332,7 @@ export default {
     /**
      * Filters out bad sessions
      */
-    filterEvents: function(events, anno) {
+    filterEvents (events, anno) {
       var bad = {};
       for (let i = 0; i < anno.length; i++) {
         var a = anno[i];
@@ -377,7 +377,7 @@ export default {
     /**
      * Returns all click events
      */
-    getClickEvents: function(df) {
+    getClickEvents (df) {
       return df.select("type", "in", [
         "ScreenClick",
         "WidgetClick",
@@ -385,7 +385,7 @@ export default {
       ]);
     },
 
-    createEmptyImage: function(x, y, name) {
+    createEmptyImage (x, y, name) {
       return {
         type: "Image",
         name: name,
@@ -419,7 +419,7 @@ export default {
       };
     },
 
-    createEmptyScreen: function(x, y, name) {
+    createEmptyScreen (x, y, name) {
       return {
         x: x,
         y: y,
@@ -444,16 +444,16 @@ export default {
       };
     },
 
-    getAppTypeIcon: function(model) {
+    getAppTypeIcon (model) {
       if (model.type == "smartphone") {
-        return "mdi mdi-cellphone";
+        return "mdi mdi-crop-portrait";
       } else if (model.type == "tablet") {
-        return "mdi mdi-tablet-ipad";
+        return "mdi mdi-crop-landscape";
       }
-      return "mdi mdi-laptop";
+      return "mdi mdi-crop-landscape";
     },
 
-    getDomain: function() {
+    getDomain () {
       var host = window.location.hostname;
       if (host == "127.0.0.1" || host == "flowalytics.com") {
         return "flowalytics.com";
@@ -465,7 +465,7 @@ export default {
      * Render helper  functios
      ***************************************************************************/
 
-    ring: function(label, value, p, node, size, color) {
+    ring (label, value, p, node, size, color) {
       if (!size) {
         size = 200;
       }
@@ -487,24 +487,24 @@ export default {
       return ring;
     },
 
-    simpleStats: function(label, mean, std, node) {
-      var db = this.getDB();
-      var cntr = db.div("MatcDashNumberContainer").build(node);
-      db.div("MatcDashLabel", label).build(cntr);
-      db.div("MatcDashNumber", mean + " ").build(cntr);
-      db.div("MatcDashLabelHint", "+/- " + std).build(cntr);
+    // simpleStats (label, mean, std, node) {
+    //   var db = this.getDB();
+    //   var cntr = db.div("MatcDashNumberContainer").build(node);
+    //   db.div("MatcDashLabel", label).build(cntr);
+    //   db.div("MatcDashNumber", mean + " ").build(cntr);
+    //   db.div("MatcDashLabelHint", "+/- " + std).build(cntr);
 
-      //node.appendChild(cntr);
-    },
+    //   //node.appendChild(cntr);
+    // },
 
-    getDB: function() {
+    getDB () {
       if (!this.domBuilder) {
         this.domBuilder = new DomBuilder();
       }
       return this.domBuilder;
     },
 
-    progress: function(label, value, p, id) {
+    progress (label, value, p, id) {
       var node = document.getElementById(id);
 
       var row = document.createElement("div");
@@ -532,7 +532,7 @@ export default {
     },
 
 
-    bulletGraph: function(row, value, emptyMsg) {
+    bulletGraph (row, value, emptyMsg) {
       var db = this.getDB();
 
       for (var i = 0; i < value.length; i++) {
@@ -557,7 +557,7 @@ export default {
       }
     },
 
-    bulletGraphTable: function(row, value, emptyMsg) {
+    bulletGraphTable (row, value, emptyMsg) {
       var db = this.getDB();
 
       var tbody = db
@@ -586,7 +586,7 @@ export default {
       }
     },
 
-    createUserImage: function(user, parent) {
+    createUserImage (user, parent) {
       var imgCntr = document.createElement("div");
       css.add(imgCntr, "MatcUserImageCntr");
       parent.appendChild(imgCntr);
@@ -616,14 +616,14 @@ export default {
       return imgCntr;
     },
 
-    getCommentUserName: function(comment) {
+    getCommentUserName (comment) {
       if ((comment.user && comment.user.name) || comment.user.lastname) {
         return this.getUserName(comment.user);
       }
       return "Guest";
     },
 
-    getUserLetter: function(user) {
+    getUserLetter  (user) {
       let result = ''
       if (user.name) {
         result += user.name.substring(0, 1).toUpperCase();
@@ -642,7 +642,7 @@ export default {
       return result
     },
 
-    getUserName: function(user) {
+    getUserName (user) {
       var result = "";
       if (user.name) {
         result = user.name + " ";
@@ -657,8 +657,8 @@ export default {
       return result;
     },
 
-    resizeSimulatorContainer: function(model, container, factor) {
-      console.error('Util.resizeSimulatorContainer() > DEPRECATED')
+    resizeSimulatorContainer (model, container, factor) {
+
       css.add(container, "MatchSimulatorContainer");
 
       var pos;
@@ -684,109 +684,12 @@ export default {
       return pos;
     },
 
-    /**
-     * TODO: Could go to canvas/Comment.vue
-     */
-    renderCommentPopup: function(comment, user, cntr, db, canDelete) {
-      css.add(cntr, "MatcActionBox");
-
-      var li = db.div("MatcMarginBottom").build(cntr);
-
-      var item = db.div("MatcCommentRow").build(li);
-
-      var pic = this.createUserImage(comment.user, item);
-      css.add(pic, "MatcUserImageCntrSmall MatcCommentPic");
-
-      var txt = db.div("MatcCommentText").build(item);
-
-      db.div("MatcFloatClear").build(li);
-
-      var meta = db.div("MatcCommentMeta").build(txt);
-
-      db.div("MatcCommentMeta", this.getCommentUserName(comment)).build(meta);
-
-      db.div("MatcCommentTime", this.formatDate(comment.created)).build(meta);
-
-      if (comment.userID == user.id) {
-        let txtarea = db
-          .textarea("form-control MatcIgnoreOnKeyPress", comment.message)
-          .build(cntr);
-        txtarea.setAttribute("data-gramm_editor", false);
-
-        if (comment.id) {
-          css.add(txtarea, "vommondInlineEdit");
-        } else {
-          txtarea.focus();
-        }
-
-        let bar = db.div("MatcButtonBar MatcMarginTopL").build(cntr);
-
-        if (comment.id) {
-          /**
-           * Create a save button that will only show if people start editing...
-           */
-          var saveBtn = db.a("MatcButton MatcButtonAnimated ", "Update").build(bar);
-          this.tempOwn(on(saveBtn,"mousedown",lang.hitch(this, "onSaveComment", txtarea, comment)));
-
-          let close = db.a("MatcLinkButton", "Close").build(bar);
-          this.tempOwn(on(close,"mousedown", lang.hitch(this, "onCloseCommentPopup", comment)));
-
-          let s = this.$new(SlideLeftButton);
-          s.placeAt(cntr);
-          s.setOptions([
-            {
-              value: "edit",
-              icon: "mdi mdi-comment-edit-outline",
-              callback: function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                txtarea.focus();
-                txtarea.select();
-              }
-            },
-            {
-              value: "delete",
-              icon: "mdi mdi-trash-can-outline",
-              callback: lang.hitch(this, "onDeleteComment", comment)
-            }
-          ]);
-        } else {
-          let create = db.a("MatcButton", "Create").build(bar);
-          this.tempOwn(on(create,"mousedown",lang.hitch(this, "onSaveComment", txtarea, comment)));
-          let close = db.a("MatcLinkButton", "Close").build(bar);
-          this.tempOwn(on(close,"mousedown",lang.hitch(this, "onCloseCommentPopup", comment)));
-        }
-      } else {
-        if (canDelete) {
-          let s = this.$new(SlideLeftButton);
-          s.placeAt(cntr);
-          s.setOptions([
-            {
-              value: "delete",
-              icon: "mdi mdi-trash-can-outline",
-              callback: lang.hitch(this, "onDeleteComment", comment)
-            }
-          ]);
-        }
-
-        db.div("MatcCommentMessage", comment.message).build(cntr);
-        let bar = db.div("MatcButtonBar MatcMarginTopL").build(cntr);
-        let close = db.a("MatcLinkButton", "Close").build(bar);
-        this.tempOwn(
-          on(
-            close,
-            "mousedown",
-            lang.hitch(this, "onCloseCommentPopup", comment)
-          )
-        );
-      }
-    },
-
+   
     /***************************************************************************
      * Model access and query functions
      ***************************************************************************/
 
-    getWidgets: function(screenID, filter) {
+    getWidgets (screenID, filter) {
       var result = [];
       if (screenID) {
         var screen = this.model.screens[screenID];
@@ -828,7 +731,7 @@ export default {
     /**
      * returns screen from left to right!
      */
-    getScreens: function(app) {
+    getScreens (app) {
       if (!app) {
         app = this.model;
       }
@@ -849,7 +752,7 @@ export default {
       return result;
     },
 
-    getClickableWidgets: function(screen) {
+    getClickableWidgets (screen) {
       var result = [];
       var children = screen.children;
       for (let i = 0; i < children.length; i++) {
@@ -867,7 +770,7 @@ export default {
       return result;
     },
 
-    getModelChildren: function(screen) {
+    getModelChildren (screen) {
       var result = [];
 
       for (let id in this.model.widgets) {
@@ -880,7 +783,7 @@ export default {
       return result;
     },
 
-    getWidgetsWithoutParent: function() {
+    getWidgetsWithoutParent () {
       var result = [];
 
       var temp = [];
@@ -899,7 +802,7 @@ export default {
       return this.getOrderedWidgets(result);
     },
 
-    getBoxById: function(id) {
+    getBoxById (id) {
       if (this.model.widgets[id]) {
         return this.model.widgets[id];
       }
@@ -965,7 +868,7 @@ export default {
      * Line helpers
      ***************************************************************************/
 
-    getToLines: function(box) {
+    getToLines (box) {
       var result = [];
 
       for (var id in this.model.lines) {
@@ -978,7 +881,7 @@ export default {
       return result;
     },
 
-    getLines: function(box, deep) {
+    getLines (box, deep) {
       var result = [];
 
       var _ids = {};
@@ -1008,7 +911,7 @@ export default {
       return result;
     },
 
-    hasLine: function(widget) {
+    hasLine (widget) {
       for (let id in this.model.lines) {
         let line = this.model.lines[id];
         if (line.from == widget.id) {
@@ -1018,7 +921,7 @@ export default {
       return false;
     },
 
-    getLine: function(widget) {
+    getLine (widget) {
       for (let id in this.model.lines) {
         let line = this.model.lines[id];
         if (line.from == widget.id) {
@@ -1130,7 +1033,7 @@ export default {
       return true;
     },
 
-    _isContainedInBox: function(obj, parent) {
+    _isContainedInBox (obj, parent) {
       if (parent) {
         if (
           obj.x >= parent.x &&
@@ -1148,7 +1051,7 @@ export default {
      * Object Compare and Change functios
      ***************************************************************************/
 
-    countProps: function(obj) {
+    countProps (obj) {
       var count = 0;
       for (let k in obj) {
         if (obj.hasOwnProperty(k)) {
@@ -1158,7 +1061,7 @@ export default {
       return count;
     },
 
-    objectEquals: function(v1, v2) {
+    objectEquals (v1, v2) {
       if (typeof v1 !== typeof v2) {
         return false;
       }
@@ -1192,16 +1095,16 @@ export default {
      * Helper functios
      ***************************************************************************/
 
-    round: function(value) {
+    round (value) {
       return Math.round(value * 100) / 100;
     },
 
-    formatTime: function(millis) {
+    formatTime (millis) {
       millis = Math.round(millis / 1000);
       return millis + "s";
     },
 
-    formatSTD: function(value) {
+    formatSTD (value) {
       return (
         '<span class="MatcDashTableTdHint">( +/- ' +
         this.formatNumber(value) +
@@ -1209,11 +1112,11 @@ export default {
       );
     },
 
-    formatRound: function(value) {
+    formatRound (value) {
       return Math.round(value * 100) / 100;
     },
 
-    formatNumber: function(value) {
+    formatNumber (value) {
       if (value > 1000000) {
         value = Math.floor(value / 1000000) + "M";
         return value;
@@ -1233,7 +1136,7 @@ export default {
       return value;
     },
 
-    formatPercent: function(value) {
+    formatPercent (value) {
       value = Math.round(value * 100);
       var cls = "MatchDashStatusFailure";
       if (value > 70) {
@@ -1244,15 +1147,11 @@ export default {
       return '<span class="' + cls + '">' + value + "%</span>";
     },
 
-    formatDate: function(t, justDate) {
-      var date = new Date(t);
-      if (justDate) {
-        return date.toLocaleDateString();
-      }
-      return date.toLocaleString();
+    formatDate (ts, justDate) {
+      return UIUtil.formatDate(ts, justDate)
     },
 
-    formatString: function(s, l) {
+    formatString (s, l) {
       if (s.length > l) {
         s = s.substring(0, l - 3) + "...";
       }

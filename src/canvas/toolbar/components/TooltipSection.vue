@@ -1,9 +1,9 @@
 
 <template>
      <div class="MatcTooltipSection">
-        <div class=" MatcToolbarGridFull">
+        <div class="MatcToolbarItem MatcToolBarTextArea">
             <textarea 
-                class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" 
+                class="MatcIgnoreOnKeyPress MatcToobarInput" 
                 placeholder="Enter tooltip text" 
                 ref="innputField"
                 v-model="tooltipText" 

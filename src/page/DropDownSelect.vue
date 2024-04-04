@@ -1,7 +1,8 @@
 
 <template>
     <div class="MatcButton MatcDropDownButton MatcDropDownSelect">
-        <div type="button" data-dojo-attach-point="button">
+        <div type="button" ref="button" class="MatcDropDownButtonCntr">
+            <QIcon :icon="icon" v-if="icon"/>
             <label data-dojo-attach-point="label" class="MatcDropDownLabel"></label>
             <span class="caret"></span>
         </div>
@@ -23,10 +24,12 @@ import touch from "dojo/touch";
     mixins: [DropDownButton],
     data: function() {
       return {
+        icon: '',
         openCSS: "MatcDropDownButtonOpen",
         iconCSS: "MatcDropDownIcon",
         labelCSS: "MatcDropDownLabel",
         selectedCSS: "MatcDropDownButtonSelected",
+        liCSS: "MatcDropDownMenuItem",
         updateLabel: false,
         selected: {}
       };
@@ -37,7 +40,7 @@ import touch from "dojo/touch";
             for (let i = 0; i < list.length; i++) {
                 const o = list[i];
                 const li = document.createElement("li");
-
+                css.add(li, this.liCSS)
                 if (o.check) {
                     const checkCntr = document.createElement("span");
                     css.add(checkCntr, 'MatcDropDownSelectCheck');
@@ -79,6 +82,10 @@ import touch from "dojo/touch";
             }
         },
         onSelect (option, selected) {
+            if (option.callback) {
+                option.callback(selected)
+                return
+            }
             this.selected[option.value] = selected
             this.$emit('select', this.selected)
         },

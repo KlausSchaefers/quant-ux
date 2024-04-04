@@ -2,38 +2,30 @@
 <template>
   <div class="MatcShareDialog" @keydown.stop @keyup.stop @keypress.stop>
     <LanguagePicker @change="setLanguage"  :hasLabel="true"/>
-    <div class="field MatcShareRow">
+    <div class="form-group MatcShareRow">
       <label>Test</label>
-      <input type="text" class="input" :value="testLink" @focus="select" />
+      <input type="text" class="form-control" :value="testLink" @focus="select" />
       <a class="MatcShareIcon" :href="testLink" target="_QuantUXTest">
-        <span class="mdi mdi-share" />
+        <QIcon icon="Share"/>
       </a>
     </div>
 
-    <div class="field MatcShareRow">
+    <div class="form-group MatcShareRow">
       <label>Share and Comment</label>
-      <input type="text" class="input" :value="shareLink" @focus="select" />
+      <input type="text" class="form-control" :value="shareLink" @focus="select" />
       <a class="MatcShareIcon" :href="shareLink" target="_QuantUXShare">
-        <span class="mdi mdi-share" />
+        <QIcon icon="Share"/>
       </a>
     </div>
 
-    <div class="field MatcShareRow">
+    <div class="form-group  MatcShareRow">
       <label>Low-Code Token</label>
-      <input type="text" class="input" :value="`${hash}`" @focus="select" ref="hashInput" />
+      <input type="text" class="form-control" :value="`${hash}`" @focus="select" ref="hashInput" />
       <a class="MatcShareIcon" @click="copy" target="_QuantUXShare">
-        <span class="mdi mdi-content-copy" />
+        <QIcon icon="Copy"/>
       </a>
     </div>
 
-  <!--
-    <div class="field MatcShareRow">
-      <label>Language</label>
-      <div class=" form-group">
-        <DropDownButton :options="languageOptions" :value="language" @change="setLanguage"/>
-      </div>
-    </div>
-    -->
 
     <div class="MatcMarginTop MatcShareRow MatcSharePasswordRow" v-if="hasPassword">
       <CheckBox v-model="needPassword" label="Require Password" />
@@ -49,8 +41,8 @@
   </div>
 </template>
 
-<style>
-  @import url("../style/share.css");
+<style lang="scss">
+  @import "../style/share.scss";
 </style>
 
 
@@ -75,8 +67,8 @@
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import CheckBox from "common/CheckBox";
-//import DropDownButton from 'page/DropDownButton'
 import LanguagePicker from "page/LanguagePicker";
+import QIcon from "page/QIcon";
 
 export default {
   name: "ShareForm",
@@ -97,8 +89,9 @@ export default {
     };
   },
   components: {
-    CheckBox: CheckBox,
-    LanguagePicker: LanguagePicker
+    'CheckBox': CheckBox,
+    'LanguagePicker': LanguagePicker,
+    'QIcon': QIcon
   },
   computed: {
     base() {

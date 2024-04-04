@@ -1,0 +1,73 @@
+
+/****************************************************
+ * View Config Section
+ ****************************************************/
+ .MatcToolbarViewConfig {
+	min-width: 50px;
+
+}
+
+.MatcToolbarViewConfigLabel {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
+.MatcToolbarViewConfig .MatcToolbarLabel {
+	width: 56px;
+	padding: 4px;
+}
+
+
+.MatcToolbarViewConfig .MatcToolbarPopUpArrowCntr {
+	left: auto;
+	right: 12px;
+	top: -8px;
+}
+
+.MatcToolbarViewConfig .MatcToolbarViewConfigPopup {
+	width: 170px;
+	min-height: 100px;
+	left: auto;
+	right: 0px;
+	padding: 10px 0px;
+
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.MatcToolbarViewConfigBtn:hover {
+	color: $primary_color;
+	cursor: pointer;
+}
+
+.MatcToolbarViewConfigCntrRow {
+	margin-bottom: $spacing-m;
+	padding: 0px $spacing-m;
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+
+	.MatcQIcon {
+		justify-content: flex-start;
+	}
+}
+
+.MatcToolbarViewConfigCntrRow:last-child {
+	margin-bottom: 0px;
+}
+
+div.MatcToolbarViewConfigCntrSpace {
+	padding-bottom: $spacing-m;
+	margin-bottom: $spacing-m;
+}
+
+.MatcToolbarViewConfigZoomLabel {
+	width: 80px;
+	display: inline-block;
+	text-align: center;
+}

@@ -9,7 +9,7 @@ export default class ModelDB {
 
   _getDB() {
     return new Promise((resolve) => {
-      if (window.indexedDB) {
+      if (window && window.indexedDB) {
         if (!this.db) {
           const request = window.indexedDB.open("quxModelDB", 2);
           request.onerror = (event) => {

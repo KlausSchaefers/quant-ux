@@ -1,46 +1,7 @@
 x
 <template>
     <div class="MatcHelp">
-            <div class="MatcHelpContent">
-                <div class="MatcHelpTopics" v-if="hasSideBar">
-                <div v-if="hasSearch">
-                    <input type="search" class=" MatcCreateSearch MatcIgnoreOnKeyPress form-control" placeholder="Search" v-model="search"/>
-                </div>
-                <span v-if="loading" class="MatchHint">
-                    Loading...
-                </span>
-                <div class="MatcHelpTopicsCntr">
-                    <div v-if="!standalone">
-                        <template v-for="topic in topics">
-                            <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" >
-                                {{topic.name}}
-                            </a>
-                            <template v-if="topic.id === selected">
-                                <template v-for="(p, i) in topic.paragraphs"  >
-                                    <a  v-if="p.title" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)" >
-                                        {{p.title}}
-                                    </a>
-                                </template>
-                               
-                            </template>
-                        </template>
-                    </div>
-                    <div v-else>
-                        <template v-for="topic in topics">
-                            <a :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" :href="'#/help/' + topic.id + '.html'">
-                                {{topic.name}}
-                            </a>
-                            <template v-if="topic.id === selected">
-                                <template v-for="(p, i) in topic.paragraphs"  >
-                                    <a  v-if="p.title" :key="i"  :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" :href="'#/help/' + topic.id + '/' + p.id +'.html'" >
-                                        {{p.title}}
-                                    </a>
-                                </template>
-                            </template>
-                        </template>
-                    </div>
-                </div>
-            </div>
+       
             <span v-if="loading" class="MatchHint">
                 Loading...
             </span>
@@ -67,21 +28,18 @@ x
                 </div>
 
                 <div v-if="current.hasContact">
-                    <div class="field">
-                        <label>Name</label>
-                        <input class="input MatcIgnoreOnKeyPress"  v-model="contactName"/>
-                    </div>
-                    <div class="field">
+                   
+                    <div class="form-group">
                         <label>Email</label>
-                        <input class="input MatcIgnoreOnKeyPress" v-model="contactEmail"/>
+                        <input class="form-control MatcIgnoreOnKeyPress" v-model="contactEmail"/>
                     </div>
-                    <div class="field">
+                    <div class="form-group">
                         <label>Message</label>
-                        <textarea class="input MatcIgnoreOnKeyPress" v-model="contactMessage"/>
+                        <textarea class="form-control MatcIgnoreOnKeyPress" v-model="contactMessage"/>
                     </div>
 
-                    <div class=" MatcButtonBar buttons">
-                        <div class="button is-primary" @click="sendContact">Send</div>
+                    <div class="MatcButtonBar">
+                        <div class="MatcButton MatcButtonPrimary" @click="sendContact">Send</div>
                         <span class="MatcError">
                             {{contactError}}
                         </span>
@@ -115,6 +73,47 @@ x
                 </div>
 
             </div>
+
+            <div class="">
+                <div class="MatcHelpTopics" v-if="hasSideBar">
+                <div v-if="hasSearch">
+                    <input type="search" class=" MatcCreateSearch MatcIgnoreOnKeyPress form-control" placeholder="Search" v-model="search"/>
+                </div>
+                <span v-if="loading" class="MatchHint">
+                    Loading...
+                </span>
+                <div class="MatcHelpTopicsCntr">
+                    <div v-if="!standalone">
+                        <template v-for="topic in topics">
+                            <a @click="setTopic(topic.id)" :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" :topicid="topic.id" ref="links" >
+                                {{topic.name}}
+                            </a>
+                            <template v-if="topic.id === selected">
+                                <template v-for="(p, i) in topic.paragraphs"  >
+                                    <a  v-if="p.title" :key="i" :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" @click.stop="setSupTopic(p.id)" :topicid="p.id" ref="links"  >
+                                        {{p.title}}
+                                    </a>
+                                </template>
+                               
+                            </template>
+                        </template>
+                    </div>
+                    <div v-else>
+                        <template v-for="topic in topics">
+                            <a :class="[{'selected': topic.id === selected && !selectedParagraph}, topic.css]" :key="topic.id" :href="'#/help/' + topic.id + '.html'" :topicid="topic.id" ref="links" >
+                                {{topic.name}}
+                            </a>
+                            <template v-if="topic.id === selected">
+                                <template v-for="(p, i) in topic.paragraphs"  >
+                                    <a  v-if="p.title" :key="i"  :class="['MatcHelpSubTopic', {'selected': p.id === selectedParagraph}]" :href="'#/help/' + topic.id + '/' + p.id +'.html'"  :topicid="p.id" ref="links" >
+                                        {{p.title}}
+                                    </a>
+                                </template>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -125,9 +124,8 @@ textarea {
 }
 </style>
 
-
-<style>
-  @import url("../style/help.css");
+<style lang="scss">
+  @import "../style/components/help.scss" ;
 </style>
 
 
@@ -147,7 +145,7 @@ export default {
             selectedParagraph: "",
             search: "",
             hasSideBar: true,
-            hasSearch: true,
+            hasSearch: false,
             hasNotifications: true,
             contactName: '',
             contactEmail: '',
@@ -186,13 +184,13 @@ export default {
             this.selected = t
             this.selectedParagraph = ""
         },
-        setSupTopic (paragraph) {
+        setSupTopic (paragraph, focusLink=false) {
             this.selectedParagraph = paragraph
             Vue.nextTick( () => {
-                this.focus(paragraph)
+                this.focus(paragraph, focusLink)
             })
         },
-        focus (id) {
+        focus (id, focusLink) {
             if (this.$refs.paragraph) {
                let p = this.$refs.paragraph.find(p => {
                    return p.getAttribute('pid') === id;
@@ -201,6 +199,19 @@ export default {
                    p.scrollIntoView()
                }
             }
+            setTimeout(() => {
+                if (focusLink) {
+                    if (this.$refs.links) {
+                        let a = this.$refs.links.find(p => {
+                            return p.getAttribute('topicid') === id;
+                        })
+                        if (a) {
+                            a.scrollIntoView()
+                        }
+                    }                  
+                }
+            }, 100)
+           
         },
         convertNotification (n) {
             let news = {

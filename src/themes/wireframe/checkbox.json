@@ -8,8 +8,8 @@
 		"_type": "Widget",
 		"x": 0,
 		"y": 0,
-		"w": 40,
-		"h": 40,
+        "w": "@form-height",
+        "h": "@form-height",
 		"z": 0,
 		"props": {
 			"checked": true
@@ -20,41 +20,22 @@
 			"data": true,
 			"backgroundColor": true
 		},
-		"style": {
-			"borderTopRightRadius": 5,
-			"borderTopLeftRadius": 5,
-			"borderBottomRightRadius": 5,
-			"borderBottomLeftRadius": 5,
-			"borderTopWidth": 1,
-			"borderBottomWidth": 1,
-			"borderRightWidth": 1,
-			"borderLeftWidth": 1,
-			"borderTopColor": "#333333",
-			"borderBottomColor": "#333333",
-			"borderRightColor": "#333333",
-			"borderLeftColor": "#333333",
-			"background": "#ffffff",
-			"color": "#333333",
-			"colorButton": "#333333"
+		"style": {			
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"background": "@form-background",
+			"color": "@form-color",
+			"colorButton": "@background-active"
+		},
+		"checked": {
+			"background": "@form-background"
 		},
 		"error": {
-			"borderTopColor": "#cc0000",
-			"borderBottomColor": "#cc0000",
-			"borderRightColor": "#cc0000",
-			"borderLeftColor": "#cc0000",
-			"background": "#ffcaca"
-		}
-	},
-	{
-		"id": "CheckBoxOff",
-		"type": "CheckBox",
-		"name": "CheckBox",
-		"_extends": "CheckBox",
-		"category": "WireFrame",
-		"subcategory": "FormSpecialLabeledX",
-		"_type": "Widget",
-		"props": {
-			"checked": false
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"colorButton": "@form-border-color:error"
 		}
 	},
 	{
@@ -63,11 +44,12 @@
 		"name": "Label CheckBox",
 		"category": "WireFrame",
 		"subcategory": "FormCheckBox",
+		"_extends": "CheckBox",
 		"_type": "Widget",
 		"x": 0,
 		"y": 0,
-		"w": 120,
-		"h": 32,
+        "w": "@form-width",
+        "h": "@form-height",
 		"z": 0,
 		"props": {
 			"checked": true,
@@ -80,36 +62,28 @@
 			"border": true,
 			"data": true
 		},
-		"style": {
-			"fontSize": 24,
-			"fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+		"style": {	
+			"background": "@form-background",
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
 			"textAlign": "left",
-			"letterSpacing": 0,
-			"lineHeight": 1,
+			"letterSpacing": "@letterSpacin",
+			"lineHeight": "@lineHeight",
+			"padding": 0,	
 			"textShadow": null,
-			"borderTopRightRadius": 5,
-			"borderTopLeftRadius": 5,
-			"borderBottomRightRadius": 5,
-			"borderBottomLeftRadius": 5,
-			"borderTopWidth": 1,
-			"borderBottomWidth": 1,
-			"borderRightWidth": 1,
-			"borderLeftWidth": 1,
-			"borderTopColor": "#333333",
-			"borderBottomColor": "#333333",
-			"borderRightColor": "#333333",
-			"borderLeftColor": "#333333",
-			"background": "#ffffff",
-			"color": "#333333",
-			"colorButton": "#333333",
-			"verticalAlign": "middle"
+			"verticalAlign": "middle",
+			"color": "@form-color",
+			"colorButton": "@background-active",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color"
 		},
 		"error": {
-			"borderTopColor": "#cc0000",
-			"borderBottomColor": "#cc0000",
-			"borderRightColor": "#cc0000",
-			"borderLeftColor": "#cc0000",
-			"background": "#ffcaca"
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"color": "@form-color:error",
+			"colorButton": "@form-border-color:error"		
 		}
 	}
 ]

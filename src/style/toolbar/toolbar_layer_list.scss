@@ -1,0 +1,146 @@
+.MatcToolbarLayerList{
+	position: fixed;
+	width:$layerlist_width;
+	height:100%;
+	padding-top:$toolbar_height;
+	padding-bottom:0px;
+	z-index: 91001;
+	top: 0px;
+	left: 0px;
+	display: none;
+
+	.MatcToolbarLayerListDND {
+		position: absolute;
+		height: 100%;
+		width: 4px;
+		background: transparent;
+		top:0px;
+		right: 0px;
+		cursor: ew-resize;
+	}
+}
+
+.MatcToolbar .MatcToolbarLayerList .mdi {
+	font-size:12px;
+}
+
+
+.MatcToolbarLayerListScreen .MatcTreeItemLabel{
+
+}
+
+
+.MatcLayerListVisible .MatcToolbarLayerList{
+	display: block
+}
+
+.MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel {
+	text-align: center;
+	border: 0px;
+}
+
+.MatcLayerListWidget{
+	cursor: pointer;
+}
+
+.XMatcLayerListVisible .MatcToobarLeft{
+	left:200px;
+}
+
+.MatcToolbarLayerList.MatcToobarPropertiesSection{
+	border-top:1px solid #1a1f23;
+}
+
+
+.MatcToolbarLayerList .MatcToolbarSection {
+    width: 100%;
+	cursor: auto;
+}
+
+.MatcToolbarLayerListCntr{
+	height: 100%;
+	overflow: auto;
+	padding-bottom: 30px;
+}
+
+.MatcLayerListFadeOut {
+	opacity: 0.1;
+	transition: opacity 0.2s;
+}
+
+.MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionContent {
+    padding: 0px;
+    width: 100%;
+}
+
+.MatcLayerListRowLabel{
+	vertical-align: center;
+}
+
+.MatcTreeItemRow input.MatcTreeItemLabel{
+	width: 140px;
+	padding: 7px 5px 7px 10px;
+	border: none;
+	font-size: inherit;
+	display: block;
+}
+
+.MatcLayerListDragOver{
+	border-top:3px solid $primary_color;
+}
+
+
+.MatcToolbarLayerList.MatcToobarPropertiesSection .MatcToolbarSectionLabel{
+	background: #242a30;
+}
+
+.MatcLayerListWidget:hover{
+	background: rgba(0,0,0,0.2);
+}
+
+.MatcToolbarLayerListScreenLabel {
+	border-bottom: 0px;
+	background: none;
+	margin-top: 8px;
+	text-align: left;
+	padding: 3px 10px;
+	display: block;
+	font-weight: 400;
+	font-size: 12px;
+	position: relative;
+	display: block;
+	cursor: pointer;
+	color:#555;
+}
+
+.MatcToolbarSection:first-child .MatcToolbarLayerListScreenLabel{
+	border:none;
+}
+
+.MatcToolbarSectionCollabsed .MatcToolbarLayerListScreenLabel{
+	border-bottom: none;
+}
+
+
+
+.MatcLayerListWidgetInherited{
+	opacity: 0.7;
+}
+
+.MatcLayerListWidgetInherited .MatcTreeItemLabel{
+	cursor: auto;
+}
+
+.MatcTreeToggleChildrenIcon{
+	opacity: 0;
+	text-align: right;
+}
+
+.MatcToolbarLayerList:hover .MatcTreeToggleChildrenIcon{
+	opacity: 1;
+}
+
+.MatcToolbarLayerList:hover .MatcTreeToggleChildrenIcon:hover{
+	opacity: 1;
+}
+

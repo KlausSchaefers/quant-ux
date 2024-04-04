@@ -2,10 +2,9 @@
 <template>
 	  <div class="MatcDesignTokenMixin">
       <DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
-      <div class=" MatcToolbarItem MatcBoxShadow2" v-show="!hasDesignToken">
-        <div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
-            <span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator">
-            </span>
+      <div class="MatcBoxShadow2" v-show="!hasDesignToken">
+        <div type="button" ref="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton">
+            <QIcon :icon="icon"/>
             <span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
         </div>
       </div>
@@ -13,7 +12,7 @@
         <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
           <ShadowSettings ref="settings" @changing="onTempChange" @resize="onResize"/>
            <div class="MatcToolbarPopupFooter" @click="onRemove">
-            <span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span>
+            <QIcon icon="Delete"/>
             <span class="MatcToolbarPopupFooterLabel">No Shadow</span>
           </div>
         </div>
@@ -29,6 +28,7 @@ import _Color from 'common/_Color'
 import _DesignToken from './_DesignToken'
 import DesignTokenView from './DesignTokenView'
 import ShadowSettings from './ShadowSettings'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'BoxShadow',
@@ -49,12 +49,14 @@ export default {
             activeLabel: '',
             reposition: true,
 						arrowPosition: "right",
-            labelPrefixFix: ''
+            labelPrefixFix: '',
+            icon: 'BoxShadowNone'
         }
     },
     components: {
       'DesignTokenView': DesignTokenView,
-      'ShadowSettings': ShadowSettings
+      'ShadowSettings': ShadowSettings,
+      'QIcon': QIcon
     },
     methods: {
 
@@ -102,9 +104,7 @@ export default {
 
 				if (v) {
 					this.value = lang.clone(v);
-          if (this.icon) {
-            this.icon.style.background = v.c
-          }
+          this.icon = 'BoxShadow'
           
           if (!v.i) {
             this.label = 'Drop Shadow'
@@ -114,9 +114,7 @@ export default {
 
 				} else {
           this.value = lang.clone(this.defaultValue)
-           if (this.icon) {
-            this.icon.style.background = ''
-          }
+          this.icon = 'BoxShadowNone'
           this.label = 'No Shadow'
         }
 

@@ -102,8 +102,8 @@
 	</div>
 </template>
 <style lang="scss">
-	@import '../../../style/scss/toolbar_table.scss';
-    @import '../../../style/scss/toolbar_styled_table.scss';
+	@import '../../../style/components/toolbar_table.scss';
+    @import '../../../style/components/toolbar_styled_table.scss';
 </style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'

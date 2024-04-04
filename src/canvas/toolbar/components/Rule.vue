@@ -23,6 +23,7 @@ export default {
             widgetOutputTypes: {
 				"ToggleButton" : "active",
 				"SegmentButton" : "options",
+				"SegmentPicker" : "options",
 				"DropDown" : "options",
 				"MobileDropDown" : "options",
 				"TextBox" : "string",
@@ -31,7 +32,10 @@ export default {
 				"CheckBox" : "checked",
 				"RadioBox" : "checked",
 				"RadioBox2" : "checked",
+				"IconToggleButton": "checked",
+				"VisualPicker": "checked",
 				"HSlider" : "int",
+				"CountingStepper": "int",
 				"Spinner" : "options",
 				"Switch" : "active",
 				"DragNDrop" : "pos",

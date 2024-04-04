@@ -1,0 +1,360 @@
+
+
+/****************************************************
+ * Color Picker
+ ****************************************************/
+
+ .MatcToolbarColor{
+	position: relative;
+	display: flex;
+}
+
+.MatcToolbarColorIndicator{
+	display: inline-block;
+	width: 16px;
+    height: 16px;
+	border-radius: 2px;
+	background: red;
+	background: linear-gradient(145deg, rgba(255,255,255,1) 47%, rgba(237,0,0,1) 48%, rgba(237,0,0,1) 52%, rgba(255,255,255,1) 53%);
+	background-repeat: no-repeat;
+}
+
+.MatcBoxBorder .MatcToolbarColorIndicator{
+	width: 45px;
+	height: 23px;
+	border-radius: 0px;
+	border: none;
+}
+
+.MatcDesignTokenPreView .MatcToolbarColorIndicator,
+.MatcToolbarLabeledColor .MatcToolbarColorIndicator {
+	width: 16px;
+	height:16px;
+	border-radius: 50%;
+	margin-right: 2px;
+}
+
+
+
+.MatcToolbarColorButton input.MatcToobarInputInlineEdit {
+	width: 110px;
+}
+
+.MatcToolbarColorContainer{
+	min-height: 300px;
+	width: 470px;
+	padding-top:0px;
+}
+
+.MatcToolbarColor label{
+	width: 20px;
+}
+
+.MatcToolbarColor td span, .MatcColorBox span{
+	height:30px;
+	width:30px;
+	display: block;
+	border:1px solid #cecece;
+	margin: 2px;
+}
+
+.MatcToolbarColor td span:HOVER, .MatcColorBox span:HOVER{
+	border:1px solid #555;
+}
+
+
+td.MatcColorBox{
+	padding: 0px;
+	cursor: pointer;
+}
+td.MatcGradientBox.MatcColorBox span{
+	height:30px;
+	width:40px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+}
+
+
+.MatcToolbarColorCntr{
+	padding: 10px;
+}
+
+.MatcToolbarColorLabel{
+	padding-top: 20px;
+	padding-bottom: 5px;
+	color:#777;
+}
+
+.MatcToolbarColorLabel a{
+	margin-right: 20px;
+}
+
+.MatcColorDialog{
+	width:440px;
+	height:370px;
+}
+
+
+.MatcColorGradientDialog{
+	width:600px;
+	height:420px;
+}
+
+
+
+.MatcToolbarColorSketch.MatcToolbarColor td span,
+.MatcToolbarColorSketch .MatcColorBox span{
+	height:25px;
+	width:25px;
+	margin: 1px;
+	margin-left:2px;
+	border: 1px solid rgba(0,0,0, 0.35);
+	border-radius: 2px;
+}
+
+.MatcColorAlphaBox {
+	background-image: linear-gradient(90deg, transparent 50%, rgba(0,0,0, 0.15) 50%)
+}
+
+
+.MatcToolbarColorSketch.MatcToolbarColor td span:hover,
+.MatcToolbarColorSketch .MatcColorBox span:hover{
+	border: 1px solid rgba(0,0,0, 0.25);
+}
+
+.MatcToolbarColorSketch.MatcToolbarColorContainer{
+	width:320px;
+}
+
+/****************************************************
+ * DropDownTree
+ ****************************************************/
+
+.MatcDesignTokenPreView .MatcToolbarColorIndicator,
+.MatcToolbarDropDownTree .MatcToolbarColorIndicator{
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+
+
+
+/****************************************************
+ * Gradient Picker
+ ****************************************************/
+
+ .VommondGradientPicker{
+	width: 320;
+}
+
+.VommondGradientPickerSelectorRow, .VommondGradientPickerAngleRow {
+	height:60px;
+	display: flex;
+	justify-content: space-between;
+	align-items:flex-end;
+}
+
+.VommondGradientPickerSelectorLabels {
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
+	text-align: center;
+  font-size: 10px;
+  color: #777;
+	margin-bottom: 16px;
+}
+
+.VommondGradientPickerSelectorLabels span:first-child{
+	margin-left: 8px;
+	margin-right: 8px;
+	width: 240px;
+}
+
+.VommondGradientPickerSelectorLabels span:last-child{
+	width: 35px;
+}
+
+.VommondGradientPickerSelector{
+	margin-top: 32px;
+	margin-left: 8px;
+	margin-right: 8px;
+	width: 240px;
+	height: 28px;
+	position: relative;
+	border:1px solid #ddd;
+ }
+.VommondGradientPickerAngle{
+	background: linear-gradient(177deg, rgba(255,255,255,1) 50%, rgba(193,193,193,1) 51%);
+	margin-top: 32px;
+	margin-left: 8px;
+	margin-right: 8px;
+	height: 16px;
+	position: relative;
+}
+
+ .VommondGradientPickerSelectorHandleCntr{
+	position: absolute;
+	width: 1px;
+	height: 17px;
+	cursor: pointer;
+ }
+
+ .VommondGradientPickerSelectorOuter{
+	cursor: pointer;
+	transform: translate(-8px, -22px);
+	width: 16px;
+	height: 16px;
+	background: #fff;
+	border:1px solid #bbb;
+	padding: 2px;
+ }
+
+ .VommondGradientPickerSelectorOuter::after{
+	content: "";
+	border: 5px solid transparent;
+	border-top-color: #bbb;
+	height: 8px;
+	width: 8px;
+	position: absolute;
+	bottom: -11px;
+	left: 2px;
+ }
+
+
+ .VommondGradientPickerSelectorHandleCntrSelected .VommondGradientPickerSelectorOuter{
+	border:1px solid #333;
+ }
+
+
+ .VommondGradientPickerSelectorHandleCntrSelected  .VommondGradientPickerSelectorOuter::after{
+	border-top-color: #333;
+ }
+
+ .VommondGradientPickerSelectorInner {
+	 height: 10px;
+	 width: 10px;
+ }
+
+
+
+.VommondGradientPickerMainRow{
+	height: 300px;
+	position: relative;
+}
+
+
+
+.VommondGradientPickerRotationInput{
+ width:100%;
+ border:1px solid #cecece;
+ margin: 0px;
+ color: #777;
+ font-size: 16px;
+ margin-top:11px;
+}
+
+
+
+.VommondGradientPickerDirections{
+ height: 30px;
+}
+
+
+
+/****************************************************
+* Color Picker
+****************************************************/
+
+.VommondColorPicker{
+ width:600px;
+}
+
+.VommondColorPickerLeftCntr{
+ width: 350px;
+ height:300px;
+ position: relative;
+ display: inline-block;
+ vertical-align: top;
+}
+
+.VommondColorPickerRightCntr{
+ padding-left:50px;
+ width: 140px;
+ height:300px;
+ display: inline-block;
+ position: relative;
+ vertical-align: top;
+}
+
+.VommondColorPickerWheelCntr{
+ border-radius: 50%;
+ overflow: hidden;
+ position: absolute;
+ width:300px;
+ height:300px;
+ top:0px;
+ left:0px;
+ border:1px solid #ccc;
+
+}
+
+.VommondColorPickerWheel{
+ position: absolute;
+
+ cursor: pointer;
+}
+
+
+
+.VommondColorPickerPreview{
+ width: 100%;
+ height:60px;
+ border:1px solid #ccc;
+ position: absolute;
+ bottom:0px;
+
+}
+
+.VommondColorPickerGradient{
+ border:1px solid #ccc;
+ width: 100%;
+ height:300px;
+ width:30px;
+ top:0px;
+ right:0px;
+ position: absolute;
+ cursor: pointer;
+}
+
+.VommondColorPickerGradientPosition{
+ position: absolute;
+ top:150px;
+ width:30px;
+	 height: 2px;
+}
+
+.VommondColorPickerGradientPointer{
+ position: absolute;
+ top:-12px;
+ right:-20px;
+ height: 20px;
+ width:20px;
+ color:#cecece;
+}
+
+.VommondColorPickerNumberInput, .VommondColorPickerHexInput{
+ width: 98px;
+ margin-left: 10px;
+ padding: 3px;
+ color:#777;
+ font-size: 16px;
+}
+
+.VommondColorPicker table td{
+ padding-bottom: 20px;
+}
+
+input.VommondHasError{
+ border:solid red;
+}
+

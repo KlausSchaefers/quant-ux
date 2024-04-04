@@ -1,8 +1,8 @@
 
 <template>
      <div class="MatcDownloader ">
-		<div data-dojo-attach-point="donwloadBtn" class="MatcPointer MatcToolbarItem ">
-			<span class="MatcToolbarSmallIcon mdi  mdi-cloud-download"></span>
+		<div data-dojo-attach-point="donwloadBtn" class="MatcPointer MatcToolbarItem MatcToolbarIconButton">
+			<QIcon icon="Download"/>
 			<span class="MatcToolbarItemLabel">Download PNG</span>
 		</div>
 	</div>
@@ -16,6 +16,7 @@ import Logger from 'common/Logger'
 import DomBuilder from 'common/DomBuilder'
 import _Tooltip from 'common/_Tooltip'
 import Preview from 'page/Preview'
+import QIcon from 'page/QIcon'
 
 import * as htmlToImage from 'html-to-image';
 
@@ -27,7 +28,9 @@ export default {
 
         }
     },
-    components: {},
+    components: {
+		'QIcon': QIcon
+	},
     methods: {
       postCreate (){
 				this.logger = new Logger("Downloader");

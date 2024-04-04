@@ -2,14 +2,14 @@
     {
         "id" : "UploadPreview",
         "type" : "UploadPreview",
-        "category" : "WireFrame",
-        "subcategory" : "XBoxCamera",
+        "category" : "Advanced",
+        "subcategory" : "FormImage",
         "_type" : "Widget",
-        "name" : "Camerea Image",
+        "name" : "Data Image",
         "x" : 0,
         "y" : 0,
-        "w" : 100,
-        "h" : 100,
+        "w": "@box-width-xl",
+        "h": "@box-width-xl",
         "z" : 0,
         "props" : {},
         "has" : {
@@ -19,18 +19,10 @@
         },
         "actions":{},
         "style" : {
-            "borderTopRightRadius" : 0,
-            "borderTopLeftRadius" : 0,
-            "borderBottomRightRadius" : 0,
-            "borderBottomLeftRadius" : 0,
-            "borderTopWidth" : 1,
-            "borderBottomWidth" : 1,
-            "borderRightWidth" : 1,
-            "borderLeftWidth" : 1,
-            "borderTopColor" : "#333333",
-            "borderBottomColor" : "#333333",
-            "borderRightColor" : "#333333",
-            "borderLeftColor" : "#333333",
+			"borderRadius": "@border-radius",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+            "borderWidth": "@border-width-none",
             "backgroundImage" : null
         }
     }

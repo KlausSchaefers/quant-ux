@@ -1,0 +1,309 @@
+@import '../variables.scss';
+
+.MatcToolbarTable {
+	width: 1030px;
+	font-size: 14px;
+	border-radius: 3px;
+	position: relative;
+	overflow: hidden;
+
+
+
+	thead {
+		background: $table_background_header;
+
+		.MatcToolbarTableLabel {
+			position: relative;
+			text-align: left;
+			color: #777;
+			display: flex;
+			padding: 7px 0px;
+
+			.vommondInlineEdit {
+				border: 1px dashed transparent;
+				width: auto;
+				margin: 2px 2px;
+				height: auto;
+				padding: 2px;
+				box-sizing: border-box;
+				background: none;
+				flex-grow: 1;
+				text-align: left;
+
+				&:hover {
+					border: 1px dashed $primary_color
+				}
+			}
+		}
+	}
+
+	table {
+		border-collapse: separate;
+		border-spacing: 0;
+		/* remove border gaps */
+	}
+
+	.MatcToolbarTableBody {
+		height: 450px;
+		overflow: auto;
+	}
+
+	.MatcToolbarTableReizeCol td {
+		cursor: col-resize;
+	}
+
+	.MatcToolbarTableBody td {
+		border-top: 1px solid #cecece !important;
+		border-left: 1px solid #cecece;
+		padding: 0px;
+	}
+
+	.MatcToolbarTableBody table thead tr.MatcToolbarTableHead td {
+		border-top: 0px !important;
+		padding: 0px;
+	}
+
+	input {
+		border: none;
+		width: 100%;
+		height: 100%;
+		outline: none;
+	}
+
+	.MatcToolbarTableLabelRow input {
+		font-weight: 700;
+	}
+
+	input:focus {
+		border: medium none;
+		height: 100%;
+		width: 100%;
+		outline: none;
+	}
+
+	.VommondCheckBoxWrapper {
+		height: 16px;
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.MatcToolbarTableInputFocus {
+		background: $table_selected;
+	}
+
+	thead td {
+		text-align: center;
+		color: $gray_2;
+	}
+
+	.MatcToolbarTableBody tr td:FIRST-CHILD,
+	.MatcToolbarTableBody tr td:FIRST-CHILD {
+		text-align: center;
+		background: $table_background_header;
+		width: 30px;
+		vertical-align: inherit;
+		color: #777;
+		border-left: none;
+	}
+
+
+	.MatcToolbarTableHidden {
+		opacity: 0;
+		height: 0px;
+		padding: 0px;
+		overflow: hidden;
+	}
+
+	.MatcToolbarTableColumnHandle {
+		position: absolute;
+		height: 100%;
+		top: 0px;
+		right: -4px;
+		width: 9px;
+		background: transparent;
+		cursor: col-resize;
+	}
+
+	.MatcToolbarTableColumnHandle:HOVER,
+	.MatcToolbarTableColumnHandle.MatcToolbarTableColumnHandleSelected {
+		background: $main_color;
+	}
+
+	.MatcToolbarTableUpload {
+		position: relative;
+		display: inline-block;
+	}
+
+	.MatcToolbarTableUpload:hover a {
+		text-decoration: underline;
+	}
+}
+
+.MatcFormRow {
+	text-align: left;
+	margin-bottom: 20px;
+}
+
+.MatcFormRow label {
+	display: block;
+}
+
+.MatcFormRow input {
+	width: 300px;
+}
+
+.MatcFormRowDNDHover {
+	background: $gray_2;
+}
+
+.MatcFormRowDNDSelect {
+	opacity: 0.1;
+}
+
+.MatcFormRowDND {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	height: 38px;
+}
+
+.MatcFormRowDND .MatcQIcon {
+	font-size: 16px;
+	cursor: grab;
+	line-height: 1;
+	opacity: 0.5;
+}
+
+.MatcFormRowDND:hover .MatcQIcon{
+	opacity: 1;
+}
+
+
+
+/****************************************************
+ * DialogTable
+ ****************************************************/
+
+.MatcDialogTable {
+	overflow: hidden;
+	padding: 0px;
+	border-radius: 4px;
+	height: 450px;
+
+	.MatcDialogTableCol60 {
+		width: 60%;
+	}
+
+	td,
+	th {
+		padding: 8px;
+		vertical-align: middle;
+	}
+
+	.MatcDialogTableMaxRow {
+		width: 80%;
+	}
+
+
+	.MatcDialogTableFlexTD {
+		display: flex;
+		align-items: center;
+		gap:16px;
+	}
+
+
+	&.MatcDialogTableScrollable {
+		overflow: scroll;
+	}
+	
+	.MatcDialogTableSelectCntr {
+		width: 32px;
+		padding: 8px 16px;
+
+		.MatcVerticalCenter {
+			display: flex;
+			align-items: center;
+		}
+	}
+
+	td.MatcDialogTableAction {
+		cursor: pointer;
+	}
+	
+	.MatcDialogTableInvalidRow {
+		text-decoration: line-through;
+	}
+
+
+	table {
+		width: 100%;
+		min-width: 250px;
+	}
+	
+	&.MatcDialogTableXL table {
+		min-width: 450px;
+	}
+	
+	thead {
+		font-weight: bold;
+		background: rgb(230, 230, 230);
+		border-bottom: 1px solid #cecece;
+	}
+
+	tr:HOVER {
+		background: rgb(230, 230, 230)
+	}
+
+
+    input.form-control{
+        display: inline-block;
+        vertical-align: middle;
+        width: 100%;
+    }
+
+	.MatcFormRow .MatcToolbarColorIndicator {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-top: 0px;
+    }
+
+    input.form-control.form-control-xs{
+        width: 40px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .VommondCheckBoxLabel{
+        font-size: 14px;
+    }
+
+    .MatcFormRowRemove {
+        opacity: 0;
+        text-align: right;
+		text-align: right;
+    }
+
+	.MatcFormRowRemove span:hover{
+        color: $color_danger;
+    }
+
+	tr:hover .MatcFormRowRemove {
+        opacity: 1
+    }
+
+
+    .MatcFormRowRemove .MatcQIcon{
+        cursor: pointer;
+    }
+
+    .MatcFormRowRemove .MatcQIcon:hover{
+        color: $color_danger
+    }
+
+    .MatcFormRow:hover .MatcFormRowRemove {
+        opacity: 1
+    }
+
+}
+

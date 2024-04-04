@@ -1,11 +1,8 @@
-\
 <template>
-    <div class="MatcToolbarItem MatcCreateBtn MatcMultiIcon MatcToolbarDropDownButton">
-		<div type="button" data-dojo-attach-point="button">
-			<label data-dojo-attach-point="label" class="" style="margin-right: -3px;">
-				<span class="mdi mdi-puzzle-outline"></span>
-				<span class="mdi mdi-plus-circle MatcTinyIcon MatcTinyIconAnimated"></span>
-			</label>
+    <div class=" MatcCreateBtn MatcToolbarArrowDropDown MatcToolbarDropDownButton">
+	<div type="button" ref="button" :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'add'}]">	
+			<QIcon icon="AddWidget" />		
+			<!-- <span class="caret"></span> -->
 		</div>
 			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 				<div class="MatcCreateBtnCntr MatcPadding">
@@ -28,7 +25,8 @@
 									<div class="MatcHint">Loading Apps...</div>
 								</div>
 								<div class="MatcButtonBar">
-									<a class="MatcButton" @click="onSaveImports">Save</a> <a class="MatcLinkButton" @click="showWidgets()">Back</a>
+									<a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onSaveImports">Save</a> 
+									<a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="showWidgets()">Back</a>
 								</div>
 							</div>
 
@@ -57,10 +55,15 @@ import _DropDown from './_DropDown'
 import Services from 'services/Services'
 import CheckBox from 'common/CheckBox'
 import ModelUtil from 'core/ModelUtil'
+import QIcon from 'page/QIcon'
+import {wrapIcon} from 'page/QIconUtil'
+import QSS from 'core/qss/QSS'
+import _Tooltip from 'common/_Tooltip'
 
 export default {
     name: 'CreateButton2',
-    mixins:[Util, DojoWidget, _DropDown],
+    mixins:[Util, DojoWidget, _DropDown, _Tooltip],
+	props:['mode'],
     data: function () {
         return {
         	screenWidth : 300,
@@ -68,6 +71,7 @@ export default {
 			selectedCategory : "WireFrame",
 			showSubCatgeoryLabels : false,
 			icons: [],
+			svgIcons: [],
 			categoryNames : {
 				"Bootstrap" : "Bootstrap 3",
 				"Bootstrap4" : "Bootstrap 4",
@@ -87,10 +91,14 @@ export default {
 			importableApps: []
         }
     },
-    components: {},
+    components: {QIcon},
     methods: {
-      setIcons (icons) {
+      	setIcons (icons) {
 			this.icons = icons
+		},
+
+		setSVGIcons (icons) {
+			this.svgIcons = icons
 		},
 
 		setUser (user) {
@@ -104,7 +112,12 @@ export default {
 			this.renderFactory = new RenderFactory();
 			this.renderFactory.setModel(m);
 			this.renderFactory.setSymbol(true);
-			this.categoriesList = ["WireFrame", "Material", "IOS", "OpenUI", "Bootstrap4", "Charts" ];
+			this.categoriesList = ["WireFrame", "Advanced", "Survey", "Material", "IOS", "Charts" ];
+			this.categoryToQSS = {
+				WireFrame: QSS.getTheme("wireframe"),
+				Advanced: QSS.getTheme("wireframe"),
+				Survey: QSS.getTheme("survey")
+			}
 			this._importedApps = {}
 			/**
 			 * set to last added category...
@@ -134,11 +147,11 @@ export default {
 				this.searchBox.select();
 				this.searchBox.focus();
 			}, 250)
-			css.add(this.domNode,"MatcToolbarItemActive");
+			css.add(this.button,"MatcToolbarItemActive");
 		},
 
 		onHide (){
-			css.remove(this.domNode,"MatcToolbarItemActive");
+			css.remove(this.button,"MatcToolbarItemActive");
 		},
 
 		async init (){
@@ -166,6 +179,7 @@ export default {
 				this.own(on(this.searchRemoveBtn, touch.press, lang.hitch(this,"resetSearch")));
 			}
 		},
+
 
 		onSearch (e){
 			e.stopPropagation();
@@ -203,13 +217,15 @@ export default {
 			var categories = {};
 			var temp = {};
 
+
+
 			/**
 			 * sort into categories
 			 */
 			for (let i=0; i< themes.length; i++){
 				let theme = themes[i];
 				if (theme.id){
-					let category = theme.category;
+					const category = theme.category;
 					if(!categories[category]){
 						categories[category] = {};
 					}
@@ -219,7 +235,15 @@ export default {
 						this.categoriesList.push(category)
 					}
 					if(!categories[category][theme.id]){
-						categories[category][theme.id] = (theme);
+						categories[category][theme.id] = theme
+			
+						if (this.categoryToQSS[category]) {					
+							const qssTheme = this.categoryToQSS[category]				
+							QSS.replaceVariables(qssTheme, theme)
+							QSS.replaceSize(qssTheme, theme)
+							QSS.replaceBorderVariables(theme)		
+						}
+
 						temp[theme.id] = theme;
 						this.setDefaultValues(theme);
 						this.setDefaultValues(theme.min);
@@ -276,6 +300,8 @@ export default {
 			this.render(categories)
 		},
 
+
+
 		setDefaultValues (box){
 			if(box){
 
@@ -297,6 +323,9 @@ export default {
 				if(box.w === "$75%"){
 					box.w = Math.round(this.screenWidth * 0.75);
 				}
+				if(box.w === "$80%"){
+					box.w = Math.round(this.screenWidth * 0.80);
+				}
 				if(box.w === "$90%"){
 					box.w = Math.round(this.screenWidth * 0.9);
 				}
@@ -315,7 +344,7 @@ export default {
 					box.h = Math.round(this.screenHeight * 0.33);
 				}
 				if(box.h === "$50%"){
-					box.h = Math.round(this.screenHeight *0.5);
+					box.h = Math.round(this.screenHeight * 0.5);
 				}
 				if(box.h === "$66%"){
 					box.h = Math.round(this.screenHeight *0.66);
@@ -323,12 +352,16 @@ export default {
 				if(box.h === "$75%"){
 					box.h = Math.round(this.screenHeight * 0.75);
 				}
+				if(box.h === "$80%"){
+					box.h = Math.round(this.screenHeight * 0.80);
+				}
 				if(box.h === "$90%"){
 					box.h = Math.round(this.screenHeight * 0.9);
 				}
 				if(box.h === "$100%"){
 					box.h = Math.round(this.screenHeight);
 				}
+
 
 				if (box.children){
 					for (let i = 0; i < box.children.length; i++){
@@ -382,7 +415,7 @@ export default {
 				importApps.forEach(appHash => {
 					const sharedLi = db.li().build(ul);
 					const a = db.a("", "importing...").build(sharedLi);
-					this._lis[appHash] = li;
+					this._lis[appHash] = sharedLi;
 					Services.getModelService().findAppByHash(appHash).then(app => {
 						this.own(on(sharedLi, touch.press, lang.hitch(this, "showImportedApp", app.id, true) ));
 						this.onImportedLoaded(app, a, '')
@@ -396,11 +429,18 @@ export default {
 			/**
 			 * 4rd icons
 			 */
-			const liIcons = db.li().build(ul);
-			db.a("", "Icons").build(liIcons);
-			this._lis["Icons"] = liIcons;
-			this.own(on(liIcons, touch.press, lang.hitch(this, "showIcons", true) ));
-
+			if (this.model.version >= 5) {
+				const liSVGIcons = db.li().build(ul);
+				db.a("", "Icons").build(liSVGIcons);
+				this._lis["SVGIcons"] = liSVGIcons;
+				this.own(on(liSVGIcons, touch.press, lang.hitch(this, "showSVGIcons", true) ));
+			} else {
+				const liIcons = db.li().build(ul);
+				db.a("", "Icons").build(liIcons);
+				this._lis["Icons"] = liIcons;
+				this.own(on(liIcons, touch.press, lang.hitch(this, "showIcons", true) ));
+			}
+		
 		
 			/**
 			 * 5rd templates
@@ -436,10 +476,9 @@ export default {
 					}
 				})
 			}
-
 		
-			const li = db.span().build(ul);
-			db.a("MatcButton MatcButtonFullWidth MatcButtonSignUp", "Import").build(li);
+			const li = db.li("MatcMarginTop").build(ul);
+			db.a("", "Import").build(li);
 			this._lis["Import"] = li;
 			this.own(on(li, touch.press, lang.hitch(this, "showImportSection") ));
 
@@ -559,6 +598,16 @@ export default {
 			this.renderIcons();
 		},
 
+		showSVGIcons (resetSearch) {
+			this.showWidgets()
+			if(resetSearch){
+				this.resetSearch();
+			}
+			this.selectedCategory = 'SVGIcons';
+			this.renderSelectedTab(this.selectedCategory);
+			this.renderSVGIcons();
+		},
+
 		showTemplates (resetSearch){
 			this.showWidgets()
 			if(resetSearch){
@@ -579,15 +628,50 @@ export default {
 			}
 		},
 
+		renderSVGIcons (query) {
+			this.renderFactory.cleanUp();
+
+			if (!query) {
+				this.cleanUpTempListener();
+			}
+
+			const db = new DomBuilder();
+			const cntr = db.div("MatcDateSectionIconCntr MatcDateSectionSVGIconCntr", "").build();
+			let icons = this.svgIcons;
+
+			if (query && query.length > 1) {
+				let temp = {}
+				for (let icon in icons) {
+					if (icon.indexOf(query) >=0) {
+						temp[icon] = icons[icon]
+					}
+				}
+				icons = temp
+			}
+			for (let icon in icons) {		
+				let span = db.span("MatcToolbarDropDownButtonItem mdi").build(cntr);
+				span.setAttribute("data-matc-icon", icon);
+
+				const wrapper = db.span('').build(span)
+				wrapper.innerHTML  = wrapIcon(icons[icon])
+				this.tempOwn(on(span, touch.press, lang.hitch(this, "onCreateSVGIcon", icon)));
+			}
+
+			if (!query) {
+				this.iconCntr.innerHTML="";
+			}
+			this.iconCntr.appendChild(cntr);
+		},
+
 		renderIcons (query){
 			this.renderFactory.cleanUp();
 
 			if (!query) {
 				this.cleanUpTempListener();
 			}
-			var db = new DomBuilder();
-			var cntr = db.div("MatcDateSectionIconCntr", "").build();
-			var icons = this.icons;
+			const db = new DomBuilder();
+			const cntr = db.div("MatcDateSectionIconCntr", "").build();
+			let icons = this.icons;
 
 			if (query && query.length > 1) {
 				let temp = []
@@ -614,7 +698,7 @@ export default {
 		onCreateIcon (icon, e){
 			this.stopEvent(e);
 
-			var value = {
+			const value = {
 				"id" : "Icon",
 				"type" : "Icon",
 				"category" : "Icons",
@@ -649,13 +733,43 @@ export default {
 					"icon" : "mdi mdi-"+icon
 				}
 			};
-
 			//this.model.lastCategory = "Icons";
 			this.hideDropDown();
-
 			this.emit("change", value ,e);
+		},
 
+		onCreateSVGIcon (icon, e){
+			this.stopEvent(e);
 
+			var value = {
+				"id" : "Icon",
+				"type" : "SVGIcon",
+				"category" : "Icons",
+				"subcategory" : "Image",
+				"_type" : "Widget",
+				"name" : "Icon",
+				"x" : 0,
+				"y" : 0,
+				"w" : 40,
+				"h" : 40,
+				"z" : 0,
+				"props" : {
+					"svg": this.svgIcons[icon] 
+				},
+				"has" : {
+					"onclick" : true,
+					"data" : true
+				},
+				"actions" : {},
+				"style" : {
+					"color" : "#333333",
+					"strokeWidth": 1,
+					"backgroundImageRotation": 0
+				}
+			};
+			//this.model.lastCategory = "Icons";
+			this.hideDropDown();
+			this.emit("change", value ,e);
 		},
 
 		renderImportedApp (app) {
@@ -718,7 +832,11 @@ export default {
 			}
 			this.renderSelectedTab();
 			this.renderElements(elements, "search", false);
-			this.renderIcons(query)
+			if (this.model.version >= 5) {
+				this.renderSVGIcons(query)
+			} else {
+				this.renderIcons(query)	
+			}
 		},
 
 
@@ -1033,6 +1151,7 @@ export default {
 		}
     },
     mounted () {
+		this.addTooltip(this.$el, this.getNLS("tooltip.widget"))
     }
 }
 </script>

@@ -29,12 +29,13 @@
 			</div>
 		</div>
 	</div>
+	<ContextMenu ref="contextMenu" @select="onContextSelect"/>
 	<div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
 		<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr">
 			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"></div>
 		</div>
 	</div>
-	<div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom">
+	<div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom" :style="'padding-left:' + this.layerListWidth + 'px'">
 		<div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr">
 			<div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div>
 		</div>
@@ -77,20 +78,23 @@ import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
 import Collab from 'canvas/Collab'
 import SVG from 'canvas/SVG'
+import ContextMenu from './ContextMenu'
 
 import KeyBoard from 'canvas/KeyBoard'
 import Resize from 'canvas/Resize'
 import Replicate from 'canvas/Replicate'
 import Prototyping from 'canvas/Prototyping'
+import GridResize from 'canvas/GridResize'
 
 import FastDomUtil from 'core/FastDomUtil'
 import SVGEditor from '../svg/SVGEditor'
 
 export default {
   name: 'Canvas',
+	props:['viewport'],
 	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView,
-			KeyBoard, Resize, Replicate, Prototyping, Collab, SVG],
+			KeyBoard, Resize, Replicate, Prototyping, Collab, SVG, GridResize],
     data: function () {
         return {
 			mode: "edit",
@@ -104,7 +108,8 @@ export default {
         }
     },
     components: {
-		SVGEditor
+		'SVGEditor': SVGEditor,
+		'ContextMenu': ContextMenu
 	},
     methods: {
 		postCreate (){
@@ -123,6 +128,7 @@ export default {
 				w: this.canvasFlowWidth,
 				h: this.canvasFlowHeight
 			};
+			this.initViewport()
 			this.initContainerSize();
 			this.setContainerPos();
 
@@ -178,6 +184,8 @@ export default {
 			this.controller = c;
 			c.setCanvas(this);
 		},
+
+	
 
 		getController (){
 			if(this._controllerCallback){
@@ -340,6 +348,7 @@ export default {
 		setModel (model){
 			this.model = model;
 			this.onChangeCanvasViewConfig()
+			this.setCommentView(this.showComments)	
 		},
 
 		setCanvasModeListener (listener) {
@@ -382,6 +391,12 @@ export default {
 			}
 		},
 
+		setSubMode (subMode) {
+			if(this.toolbar){
+				this.toolbar.setSubMode(subMode);
+			}
+		},
+
 		getMode (){
 			return this.mode;
 		},
@@ -408,7 +423,7 @@ export default {
 			 * Since 3.0.43 we snapp by default to top left corner
 			 */
 			this.settings = {
-				canvasTheme : "MatcLight",
+				canvasTheme : "MatcAuto",
 				lineColor : "#3787f2",
 				lineWidth : 1,
 				storePropView : true,
@@ -419,7 +434,7 @@ export default {
 				renderLines : false,
 				snapGridOnlyToTopLeft: true,
 				keepColorWidgetOpen: true,
-				layerListVisible: false,
+				layerListVisible: true,
 				showRuler: true,
 				fastRender: false,
 				hasProtoMoto: false,
@@ -436,8 +451,11 @@ export default {
 				this.logger.log(2,"initSettings", "exit>  no saved settings" );
 			}
 			this.applySettings(this.settings);
+			this.initDarkModeListener()
+		
 
 		},
+
 
 		getSettings (){
 			return this.settings;
@@ -551,20 +569,7 @@ export default {
 			}
 
 			if (s.canvasTheme){
-				if(this._lastCanvasTheme){
-					css.remove(win.body(), this._lastCanvasTheme);
-				}
-				css.add(win.body(), s.canvasTheme)
-				this._lastCanvasTheme = s.canvasTheme;
-
-				/**
-				 * FIXME: Kind of hack
-				 */
-				if(s.canvasTheme=="MatcLight"){
-					this.defaultLineColor = "#49C0F0";
-				} else {
-					this.defaultLineColor = "#49C0F0";
-				}
+				this.setCanvasTheme(s.canvasTheme)
 			}
 
 			this.settings = s;
@@ -576,7 +581,52 @@ export default {
 			//console.debug("applySetztings() > exit > renderlines: ", this.renderLines, " > showSettings: ", this.showComments);
 		},
 
+		setCanvasTheme (canvasTheme) { 
 
+			if (canvasTheme === "MatcAuto") {
+				this.logger.log(-1, "setCanvasTheme","enter > auto: " + canvasTheme  + ' > OS: '+ this.isDarkModeOS())
+				if (this.isDarkModeOS()) {
+					canvasTheme = 'MatcDark'
+				} else {
+					canvasTheme = 'MatcLight'
+				}
+			}
+
+			if(this._lastCanvasTheme){
+				css.remove(win.body(), this._lastCanvasTheme);
+			}
+
+			css.add(win.body(), canvasTheme)
+			this._lastCanvasTheme = canvasTheme;
+		
+			if(canvasTheme=="MatcLight"){
+				this.defaultLineColor = "#49C0F0";
+			} else {
+				this.defaultLineColor = "#49C0F0";
+			}
+		},
+
+		initDarkModeListener () {
+			const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+			this.own(on(mediaQuery, 'change', () => {
+				this.logger.log(-1,"initDarkModeListener", "change");
+				if (this.settings.canvasTheme === 'MatcAuto') {
+					this.setCanvasTheme(this.settings.canvasTheme)
+				}
+			}))
+		},
+
+
+		isDarkModeOS () {
+			if (window.matchMedia) {
+				if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+					return true
+				} else {
+					return false
+				}
+			}
+			return true
+		},
 
 		/***************************************************************************
 		 * Grid
@@ -594,7 +644,7 @@ export default {
 
 			var dialog = this.createDialog();
 			var bar = db.div("container").div("row").div("col-md-12").div("MatcButtonBar MatcMarginTop").build(popup);
-			var write = db.div("MatcButton", "Save").build(bar);
+			var write = db.div("MatcButton MatcButtonPrimary", "Save").build(bar);
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 
 			dialog.own(on(cancel, touch.press, lang.hitch(this, "closeDialog")));

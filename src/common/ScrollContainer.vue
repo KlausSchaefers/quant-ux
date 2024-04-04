@@ -33,7 +33,7 @@ export default {
   },
   components: {},
   methods: {
-    wrap: function(node, offset) {
+    wrap (node, offset) {
       if (!this.debug) {
         if (has("android") || has("ios") || has("mac")) {
           /**
@@ -78,9 +78,7 @@ export default {
         this.own(on(this.domNode, touch.over, lang.hitch(this, "onHover")));
         this.own(on(this.domNode, touch.out, lang.hitch(this, "onBlur")));
         this.own(on(this.bar, touch.press, lang.hitch(this, "onClick")));
-        this.own(
-          on(this.handle, touch.press, lang.hitch(this, "onHandlePress"))
-        );
+        this.own(on(this.handle, touch.press, lang.hitch(this, "onHandlePress")));
       }
 
       this.offset = offset;
@@ -100,7 +98,7 @@ export default {
       );
     },
 
-    initValues: function() {
+    initValues () {
       this.visibleHeight = 1;
       this.distanceTop = 0;
       this.position = 0;
@@ -114,7 +112,7 @@ export default {
      * The simulator can reload the div, which will set the scrolling to top. We
      * have to keep track of this...
      */
-    scrollToTop: function() {
+    scrollToTop () {
       if (this.fixNativeScroller) {
         this.cntr.scrollTop = 0;
         this.wrapper.scrollTop = 0;
@@ -124,7 +122,7 @@ export default {
       }
     },
 
-    setScrollTop: function(pos) {
+    setScrollTop (pos) {
       if (this.fixNativeScroller) {
         this.cntr.scrollTop = pos;
         this.wrapper.scrollTop = pos;
@@ -133,7 +131,7 @@ export default {
       }
     },
 
-    getScrollTop: function() {
+    getScrollTop () {
       if (this.cntr) {
         console.debug(this.cntr.scrollTop);
         console.debug(this.wrapper.scrollTop);
@@ -142,7 +140,7 @@ export default {
       return -1;
     },
 
-    getCntrHeight: function() {
+    getCntrHeight () {
       var cntrHeight = domGeom.position(this.domNode.parentNode).h;
       if (this.offset) {
         cntrHeight -= this.offset;
@@ -150,7 +148,7 @@ export default {
       return cntrHeight;
     },
 
-    onHover: function() {
+    onHover () {
       this.cntrHeight = this.getCntrHeight();
       var nodePos = domGeom.position(this.node);
 
@@ -182,16 +180,14 @@ export default {
       }
     },
 
-    onNativeScroll: function(e) {
-      console.debug("onNativeScroll", e.type);
+    onNativeScroll (e) {
       e.stopPropagation();
       e.preventDefault();
       e.returnValue = false;
       return false;
     },
 
-    onNativeMouseWheel: function(e) {
-      console.debug("onNativeMouseWheel", e.target);
+    onNativeMouseWheel (e) {
       this.stopPropagation(e);
     },
 
@@ -199,7 +195,7 @@ export default {
      * This methods fixes the stupid bug with the simulator having always a scroll bar...
      * we check if we have to scroll, of so we use our container to do the scrolling.
      */
-    onNativeHover: function() {
+    onNativeHover () {
       this.cntrHeight = this.getCntrHeight();
       var nodePos = domGeom.position(this.node);
 
@@ -221,7 +217,7 @@ export default {
       }
     },
 
-    onMouseWheel: function(e) {
+    onMouseWheel (e) {
       this.stopEvent(e);
       var dir = e.wheelDelta ? e.wheelDelta : e.detail;
       var p = this.distanceTop + this.visibleHeight;
@@ -251,7 +247,7 @@ export default {
       this.setScroll(p);
     },
 
-    onHandlePress: function(e) {
+    onHandlePress (e) {
       this.stopEvent(e);
       this.cleanup();
       this._touchMoveListner = on(
@@ -269,19 +265,19 @@ export default {
       css.add(this.domNode, "VommondScrollContainerScrolling");
     },
 
-    onHandleMove: function(e) {
+    onHandleMove (e) {
       this.stopEvent(e);
       var pos = this.getClickPosition(e);
       var dif = pos - this._startClickPosition;
       this.setScroll(this._startPosition + dif);
     },
 
-    onHandleRelease: function(e) {
+    onHandleRelease (e) {
       this.stopEvent(e);
       this.cleanup();
     },
 
-    getClickPosition: function(e) {
+    getClickPosition (e) {
       this.stopEvent(e);
       var mPos = this._getMousePosition(e);
       var pos = domGeom.position(this.domNode);
@@ -291,12 +287,12 @@ export default {
       return p;
     },
 
-    onClick: function(e) {
+    onClick (e) {
       var p = this.getClickPosition(e);
       this.setScroll(p);
     },
 
-    setScroll: function(p) {
+    setScroll (p) {
       p = Math.min(1, p);
       p = Math.max(0, p);
 
@@ -325,7 +321,7 @@ export default {
       }
     },
 
-    cleanup: function() {
+    cleanup () {
       if (this._touchMoveListner) {
         this._touchMoveListner.remove();
       }
@@ -339,7 +335,7 @@ export default {
       css.remove(this.domNode, "VommondScrollContainerScrolling");
     },
 
-    destroy: function() {
+    destroy () {
       if (!this._isDestroyed) {
         this.cleanup();
         if (this.scrollListener1) {

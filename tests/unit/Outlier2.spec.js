@@ -201,11 +201,9 @@ test('Test Outlier.getOutlierByQuantile() > ', async () => {
 
 })
 
-
-
 test('Test Outlier.encodeSessions() > ', async () => {
-
-    const encoded = outlier.computeRawGraphScores(df)
+    const df = new DataFrame(events)
+    const encoded = outlier.encodeSessions(df)
     expect(Object.values(encoded).length).toBe(3)
     expect(encoded['1'].join(',')).toBe('1,2,3,4,3')
     expect(encoded['2'].join(',')).toBe('1,3,4,5,3')

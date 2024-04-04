@@ -1,35 +1,35 @@
 <template>
   <div class="MatcTest MatcLayout" >
-    <section class="section">
-      <div class="container">
+    <section class="" v-if="false">
+   
         <div class="box is-shadowless">
-          <h2 class="title">Tests
+          <h3 class="title">Tests
             <HelpButton
               topic="testing"
               subtopic="testing.howmany"
               :hasNotifications="false"
             />
 
-          </h2>
+          </h3>
           <div class="MatcForm" id="testUserCountCntr">
             <BulletGraph :value="sessionCount" :sections="bulletGraphSection" />
           </div>
         </div>
-      </div>
+
     </section>
-    <section class="section" data-dojo-attach-point="sectionDes" >
-      <div class="container">
+    <section class="" data-dojo-attach-point="sectionDes" >
+
         <div class="box is-shadowless ">
 
-            <h2 class="title">
+            <h3 class="title">
               {{getNLS('testSettingsHeader')}}  
               <HelpButton topic="testing" subtopic="testing.landing" :hasNotifications="false"/>
-            </h2>
+            </h3>
 
           
             <div class="MatcLayoutCols mb-32">
                 <textarea
-                    class="input MatcTextAreaMedium MatcLayoutColGrow"
+                    class="form-control MatcTextAreaMedium MatcLayoutColGrow"
                     v-model="test.description"
                     data-gramm_editor="false"
                     @change="onTestChange"
@@ -55,54 +55,38 @@
           </div>
 
         
-        </div>
       </div>
     </section>
 
 
-    <section class="section" data-dojo-attach-point="sectionTask">
-      <div class="container">
+    <section data-dojo-attach-point="sectionTask">
+
         <div class="box is-shadowless">
-          <h2 data-nls="testSettingsTasks" class="title">Tasks
+          <h3 data-nls="testSettingsTasks" class="title">Tasks
             <HelpButton
               topic="testing"
               subtopic="testing.tasks"
               :hasNotifications="false"
-            /></h2>
+            /></h3>
           <TestSettings :pub="pub" :test="test" :app="app" @change="onTaskChange" :hash="hash"/>
         </div>
-      </div>
+  
     </section>
 
-    <section class="section">
-      <div class="container">
+    <section class="">
+ 
         <div class="box is-shadowless">
-          <h2 class="title">Screen Recordings</h2>
+          <h3 class="title">Screen Recordings</h3>
           <div ref="sessionCntr" class="MatcDashTable"></div>
         </div>
-      </div>
+
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="box is-shadowless">
-          <h2 class="title">Comments</h2>
-          <Comment
-            v-if="app"
-            :appID="app.id"
-            type="overview_test"
-            reference
-            contentID
-            insertPosition="top"
-          />
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 <style lang="scss">
-  @import '../../../style/scss/upload.scss';
-  @import '../../../style/scss/layout.scss';
+  @import '../../../style/components/upload.scss';
+  @import '../../../style/components/layout.scss';
 </style>
 <script>
 import Logger from "common/Logger"
@@ -117,8 +101,8 @@ import Table from "common/Table"
 import Services from "services/Services"
 import Analytics from "dash/Analytics"
 import Plan from "page/Plan"
+import {iconDOM} from "page/QIconUtil"
 import Util from "core/Util"
-import Comment from "page/Comment"
 import HelpButton from "help/HelpButton"
 import Dialog from "common/Dialog"
 import touch from "dojo/touch"
@@ -134,6 +118,7 @@ export default {
       sessionCount: 10,
       hasDragOver: false,
       isUploading: false,
+      hasComments: false,
       bulletGraphSection: [
         {
           value: 5,
@@ -159,7 +144,6 @@ export default {
   components: {
     'BulletGraph': BulletGraph,
     'TestSettings': TestSettings,
-    'Comment': Comment,
     'HelpButton': HelpButton,
     'CheckBox': CheckBox
   },
@@ -266,7 +250,7 @@ export default {
     },
     showSessions() {
       this.logger.log(-1, "showSessions", "enter " + this.planGetTestCount());
-
+      this.cleanUpTempListener()
       const app = this.app;
       const list = this._getTestList(lang.clone(this.events), this.annotation, this.test);
       const urlPrefix = this.urlPrefix;
@@ -274,8 +258,16 @@ export default {
       const tbl = this.$new(Table);
       tbl.setColumns([
         {
-          query: "id",
-          label: "#"
+          query: "label",
+          width:10,
+          label: "Test",
+          fct: (td, row) => {
+            const input = document.createElement('input')
+            css.add(input, 'form-control MatcInlineEdit')
+            input.value = row.label
+            td.appendChild(input)
+            this.tempOwn(on(input, "change", () => this.onChangeSessionLabel(input.value, row)))
+          }
         },
         {
           query: "status",
@@ -284,14 +276,13 @@ export default {
         {
           query: "taskPerformance",
           label: "Successful Tasks",
-          fct: function(td, row) {
-            var names = row.taskNames;
-         
-            let cntr = document.createElement('div')
+          fct: (td, row) => {
+            const names = row.taskNames;
+            const cntr = document.createElement('div')
             css.add(cntr, "MatcTagCntr");
             if (names && names.length > 0) {
-              for (var r = 0; r < names.length; r++) {
-                var span = document.createElement("span");
+              for (let r = 0; r < names.length; r++) {
+                const span = document.createElement("span");
                 css.add(span, "tag");
                 span.innerHTML = names[r];
                 cntr.appendChild(span);
@@ -322,20 +313,20 @@ export default {
         {
           render: (node, row) => {
             const group = document.createElement("div");
-            group.style.width = '120px'
+            group.style.width = '140px'
             group.style.display = 'inline-block'
             node.appendChild(group);
 
             const play = document.createElement("a");
             play.href = "#/" +  urlPrefix + "/" +  app.id + "/replay/" + row.session + ".html";
-            css.add(play, "button is-primary");
-            play.innerHTML = '<span class="mdi mdi-play"></span>';
+            css.add(play, "MatcButton MatcButtonSecondary MatcButtonXXS");
+            play.appendChild(iconDOM('PlayVideo'))
             group.appendChild(play);
 
             const remove = document.createElement("a");
-            this.own(on(remove, 'click',(e) => this.showDeleteSessionDialog(e, row)));
-            css.add(remove, "button is-danger");
-            remove.innerHTML = '<span class="mdi mdi-close"></span>';
+            this.tempOwn(on(remove, 'click',(e) => this.showDeleteSessionDialog(e, row)));
+            css.add(remove, "MatcButton MatcButtonDanger MatcButtonXXS MatcButtonSecondary");
+            remove.appendChild(iconDOM('DeleteTrash'))
             group.appendChild(remove);
 
           }
@@ -347,15 +338,29 @@ export default {
       tbl.setValue(list);
     },
 
+    onChangeSessionLabel (value, row) {
+      this.logger.log(-1,"onChangeSessionLabel", "enter >", value);
+      const session = row.session
+      const sessionStart = this.events.find(e => e.type === 'SessionStart' && e.session === session)
+      if (sessionStart) {
+        sessionStart.label = value
+        this.modelService.updateEvent(this.app.id, sessionStart)
+        this.$root.$emit("Success", "Test name was updated");
+      } else {
+        this.logger.warn("onChangeSessionLabel", "No session start >");
+      }
+
+    },
+
     showDeleteSessionDialog (e, session) {
-      this.logger.warn("showDeleteSessionDialog", "enter >", session.session);
+      this.logger.log(1,"showDeleteSessionDialog", "enter >", session.session);
       const db = new DomBuilder()
-      const div = db.div("box MatcDeleteDialog").build();
+      const div = db.div("MatcDeleteDialog").build();
       db.h3("title is-4", 'Delete Test').build(div);
-      db.p('', "Do you want to delete the test? You will loose all data related to this test!").build(div)
-      const bar = db.div("buttons").build(div);
-      const write = db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
-      const cancel = db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
+      db.p('MatcMarginBottomXL', "Do you want to delete the test? You will loose all data related to this test!").build(div)
+      const bar = db.div("MatcButtonBar").build(div);
+      const write = db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
+      const cancel = db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
       const d = new Dialog();
       d.own(on(write, touch.press, lang.hitch(this, "deleteSession", session, d)));
       d.own(on(cancel, touch.press, lang.hitch(d, "close")));
@@ -363,7 +368,7 @@ export default {
     },
 
     async deleteSession (session, d) {
-      this.logger.warn("deleteSession", "enter >", session.session);
+      this.logger.log(1,"deleteSession", "enter >", session.session);
       if (!this.pub) {
         await this.modelService.deleteEventsBySession(this.app.id, session.session)
         this.showSuccess('Test deleted');
@@ -406,6 +411,7 @@ export default {
 
       let id = 1;
       for (let sessionID in sessions) {
+        let label = `Test ${id}`
         const session = sessions[sessionID];
         const date = this.formatDate(session.min("time"));
 
@@ -419,6 +425,10 @@ export default {
           }
         }
 
+        const start = session.data.find(e => e.type === 'SessionStart')
+        if (start && start.label) {
+          label = start.label
+        }
 
         /** Since 2.4 we show also the user */
         let user = session.data && session.data.length > 0 ? session.data[0].user : '-'
@@ -445,6 +455,7 @@ export default {
           status: status,
           isValid: isValid,
           id: id,
+          label: label,
           screens: session.unique("screen")
         };
 

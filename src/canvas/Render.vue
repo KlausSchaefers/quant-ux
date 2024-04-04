@@ -1,6 +1,5 @@
 <script>
 import css from 'dojo/css'
-import on from 'dojo/on'
 import lang from 'dojo/_base/lang'
 import domGeom from 'dojo/domGeom'
 import win from 'dojo/win'
@@ -93,7 +92,6 @@ export default {
 
 			this.own(topic.subscribe("matc/canvas/fadeout", lang.hitch(this, "onFadeOut")));
 			this.own(topic.subscribe("matc/canvas/fadein", lang.hitch(this, "onFadeIn")));
-			this.own(on(this.domNode, "contextmenu", lang.hitch(this, "onContextMenu")));
 			this.logger.log(2,"initRender", "exit");
 		},
 
@@ -187,6 +185,25 @@ export default {
 			}
 		},
 
+		initViewport () {
+			// console.debug("initViewport", this.viewport)
+			// if (this.viewport) {
+		
+			// 	this.canvasPos.x = this.viewport.x
+			// 	this.canvasPos.y = this.viewport.y
+			// 	this.zoom = this.viewport.zoom
+			// 	//this.$emit("viewport", viewport)
+			// }
+		},
+
+		onViewportChange () {
+			const viewport = {
+				zoom: this.zoom,
+				x: this.canvasPos.x,
+				y: this.canvasPos.y
+			}
+			this.$emit("viewport", viewport)
+		},
 
 		/**********************************************************************
 		 * Container Size
@@ -230,6 +247,26 @@ export default {
 				var yOffSetWindow = Math.min(winBox.h/2,200)+ Math.abs(this.canvasPos.y);
 				this.canvasPos.y = this.canvasPos.y + (yOffSetWindow - yOffSetScreen) -100;
 				this.setContainerPos();
+			}
+		},
+
+		moveToBox (box) {
+			if(this.model){
+				var winBox = win.getBox();
+				var xOffSetScreen = (box.x);
+				var xOffSetWindow = (winBox.w/2)+ Math.abs(this.canvasPos.x);
+				this.canvasPos.x = this.canvasPos.x + (xOffSetWindow - xOffSetScreen) -100;
+				var yOffSetScreen = (box.y);
+				var yOffSetWindow = Math.min(winBox.h/2,200)+ Math.abs(this.canvasPos.y);
+				this.canvasPos.y = this.canvasPos.y + (yOffSetWindow - yOffSetScreen) -100;
+				// if (animate) {
+				// 	css.add(this.container, "MatcCanvasContainerAnimatePos")
+				// 	setTimeout(() => {
+				// 		css.remove(this.container, "MatcCanvasContainerAnimatePos")
+				// 	}, 5000)
+				// }
+				this.setContainerPos();
+
 			}
 		},
 
@@ -291,6 +328,8 @@ export default {
 			if (!ignoreScollUpdate){
 				this.updateScrollHandlers();
 			}
+
+			this.onViewportChange()
 		},
 
 		isInContainer (obj){
@@ -343,7 +382,14 @@ export default {
 				 * property panel. We just need to update the seelction handlers
 				 */
 				this.updateSelection();
+				this.updateGridRezise();
 				this.renderDistance();
+
+				/**
+				 * Since 5 we have absolute canvas positions and we need
+				 * to rescale
+				 */
+				this.updateCommentPositions();
 			}
 		},
 
@@ -491,6 +537,7 @@ export default {
 			css.remove(this.container, "MatcCanvasFadeOut");
 			css.remove(this.container, "MatcCanvasModeAlign");
 			css.remove(this.container, "MatcCanvasModeReplicate");
+			css.remove(this.container, "MatcCanvasModeGridResize");
 
 			//this.screenContainer.innerHTML = "";
 			//this.widgetContainer.innerHTML = "";
@@ -525,6 +572,7 @@ export default {
 				delete this._hotspotToolPressListener;
 			}
 			this.cleanUpResizeHandles();
+			this.cleanUpGridResize()
 			this.cleanUpAddNDrop();
 		},
 

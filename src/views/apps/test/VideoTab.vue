@@ -1,9 +1,14 @@
 <template>
   <div class="MatcTest">
-    <section class="section">
-      <div class="container">
+    <section class="">
+
         <div class="box is-shadowless">
-          <h2 class="title">Screen Recording</h2>
+
+            <h3 class="title">Screen Recording</h3>
+       
+
+       
+
           <VideoPlayer
             v-if="eventsWithAnnimations.length > 0"
             :app="app"
@@ -21,8 +26,8 @@
             >The Screen Recording is too big!</div>
             <div class="MatcLoading" v-else>Loading...</div>
           </div>
-          <div class="level mt-16">
-            <div class="level-left">
+          <div class=" MatcSessionDetails">
+            <div>
               <VideoAnnotation
                 :appID="app.id"
                 :sessionID="sessionID"
@@ -33,33 +38,23 @@
                 @change="onAnnotationChange"
               />
             </div>
-            <div class="level-right">
-              <div class="level-item">
-                <p>Test Performed on {{currentDate}}</p>
-              </div>
-            </div>
+      
+          
+            <p>Test Performed {{currentDate}}</p>      
+            
           </div>
         </div>
+
+
+        <!-- <div class="box is-shadowless ">
+          <h3 class="title">Test name</h3>
+          <input class="form-control" v-model="sessionStart.label" @change="onChangeSessionLabel" placeholder="Enter a name for the test"/>
+        </div> -->
         <!-- Player -->
-      </div>
+
     </section>
     <!-- Player & Annotations -->
 
-    <section class="section">
-      <div class="container">
-        <div class="box is-shadowless">
-          <h2 class="title">Comments</h2>
-          <Comment
-            v-if="app"
-            :appID="app.id"
-            type="overview_test"
-            :reference="sessionID"
-            contentID
-            insertPosition="top"
-          />
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 <script>
@@ -68,7 +63,6 @@ import DojoWidget from "dojo/DojoWidget";
 import DataFrame from "common/DataFrame";
 import Services from "services/Services";
 import Util from "core/Util";
-import Comment from "page/Comment";
 import VideoAnnotation from "views/apps/test/VideoAnnotation";
 import VideoPlayer from "views/apps/test/VideoPlayer";
 
@@ -79,15 +73,16 @@ export default {
   data: function() {
     return {
       sessionID: "",
+      hasComments: false,
       hasToManyEvents: false,
       eventsWithAnnimations: [],
+      sessionStart: '',
       mouseEvents: []
     };
   },
   components: {
     VideoAnnotation: VideoAnnotation,
-    VideoPlayer: VideoPlayer,
-    Comment: Comment
+    VideoPlayer: VideoPlayer
   },
   computed: {
     pub() {
@@ -143,7 +138,15 @@ export default {
         this.onLoaded(values[0], values[1]);
       });
     },
+    onChangeSessionLabel () {
+      this.modelService.updateEvent(this.app.id, this.sessionStart)
+      this.$root.$emit("Success", "Test name was updated");
+    },
     onLoaded(events, mouse) {
+       const start = events.find(e => e.type === 'SessionStart')
+       if (start) {
+          this.sessionStart = start
+       }
        if (events.length < 2000) {
         this.eventsWithAnnimations = events;
         this.mouseEvents = mouse;

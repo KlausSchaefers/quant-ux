@@ -1,0 +1,28 @@
+
+$popup_form_border: rgb(64, 74, 83);
+$popup_form_border_hover: rgba(255,255,255,0.25);
+$popup_form_border_focus: rgba(255,255,255,0.35);
+$popup_button_link_color: rgb(64, 74, 83);
+$popup_button_link_color_hover: #ffffff93;
+$popup_button_link_background_hover: rgba(255,255,255,0.05);
+$popup_form_background: $popup_background;
+$popup_form_color: #fff;
+$popup_child_border: 1px solid $toolbar_border;
+$popup_child_shadow: none;
+.MatcDark {
+   @import './toolbar_theme.scss';
+   @import './toolbar_edit_mode.scss';
+
+   .MatcCreateBtnElement .MatcCreateBtnElementPreview {
+      .MatcWidgetTypeCheckBoxLabel,
+      .MatcVAlignCntr,
+      .MatcWidgetTypeRadioTableLabel,
+      .MatcWidgetTypeSortableListItemLabel,
+      .MatcWidgetTypeChart,
+      .MatchWidgetTypeLabel{
+         filter: invert(100%);
+      }
+   }
+}
+
+

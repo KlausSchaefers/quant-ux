@@ -4,13 +4,12 @@
     <div class="MatcListContainer" data-dojo-attach-point="container">Loading...</div>
   </div>
 </template>
-<style>
-  @import url("../style/list.css");
+<style lang="scss">
+  @import "../style/components/list.scss";
 </style>
 <script>
 import DojoWidget from "dojo/DojoWidget";
 import css from "dojo/css";
-import domGeom from "dojo/domGeom";
 import lang from "dojo/_base/lang";
 import on from "dojo/on";
 import Logger from "common/Logger";
@@ -36,103 +35,80 @@ export default {
   },
   components: {},
   methods: {
-    constructor: function() {
+    constructor() {
       this.log = new Logger("List");
       this.own(on(window, "resize", lang.hitch(this, "onResize")));
     },
 
-    setValue: function(value) {
+    setValue(value) {
       this.render(value, this.animate);
     },
 
-    setColumns: function(value) {
+    setColumns(value) {
       this.columns = value;
     },
 
-    setSpacing: function(value) {
+    setSpacing(value) {
       this.spacing = value;
     },
 
-    setItemFct: function(fct) {
+    setItemFct(fct) {
       this.itemRenderFct = fct;
     },
 
-    render: function(list, animate) {
+    render(list, animate) {
       this.log.log(0, "render", "enter > " + list.length);
 
-      if (this.colWidth > 0) {
-        let w = domGeom.position(this.container).w;
-        this.columns = Math.floor(w / (this.colWidth + this.minSpacing));
-        this.log.log(3, "render", "Set columns to " + this.columns);
-      }
-
-      var width = this.getColWidth();
-      var spacing = this.getSpacing();
-
       this.container.innerHTML = "";
+      const parent = this.db.div("MatcListFlexCntr").build()
+      const offSet = 0; 
 
-      var parent = document.createElement("div");
-
-      var offSet = 0;
-      if (this.canAdd && !this.isMobile) {
-        this._renderRow(0, parent, width, spacing);
-
-        let item = document.createElement("div");
-        css.add(item, "MatcListItem");
-
-        this.onRenderAdd(item);
-
-        let col = this.cols[0 % this.columns];
-        col.appendChild(item);
-        offSet++;
-      }
-
-      var end = this.getElementsToRender(list);
+      const end = this.getElementsToRender(list);
       for (let j = 0; j < end; j++) {
-        var i = j + offSet;
-        /**
-         * make sure there is a row
-         */
-        this._renderRow(i, parent, width, spacing);
-        let element = list[j];
-
-        let item = document.createElement("div");
+        let i = j + offSet;
+        const element = list[j];
+        const item = document.createElement("div");
         css.add(item, "MatcListItem");
-
         this.renderItem(item, element, j);
-
-        let col = this.cols[i % this.columns];
-        col.appendChild(item);
-
+        parent.appendChild(item)
         if (animate) {
           css.add(item, "MatcListItemHidden MatcListItemAnimated");
           this.showItem(item, i);
         }
       }
 
+      if (list.length === 0) {
+        const div = this.renderDefault()
+        if (div) {
+          parent.appendChild(div)
+        }
+      } else {
+        for (let j = 0; j < 5; j++) {
+          const item = document.createElement("div");
+          css.add(item, "MatcListPlaceHolder");      
+          parent.appendChild(item)   
+        }   
+      }
+
+
+
       /**
        * Finalize rendering and attach to dom
        */
       this.container.appendChild(parent);
-
       this._list = list;
-
       this.onRenderDone(list);
-
-      this.renderMore(list, parent);
-
+      this.renderMore(list, this.container);
       this.log.log(0, "render", "exit > ");
     },
 
-    renderMore: function(list, parent) {
-      this.log.log(
-        2,
-        "renderMore",
-        "enter " + this.maxElementsToRender + " < " + list.length
-      );
+    renderDefault () {
+
+    },
+
+    renderMore(list, parent) {
       if (this.maxElementsToRender < list.length) {
-        var db = new DomBuilder();
-        var more = db
+        var more = this.db
           .div("MatcCenter MatcMarginBottom")
           .a("MatcButton", "Show More...")
           .build(parent);
@@ -140,30 +116,20 @@ export default {
       }
     },
 
-    showMore: function(list) {
+    showMore(list) {
       this.maxElementsToRender = Math.min(
         list.length,
         this.maxElementsToRenderStep + this.maxElementsToRender
       );
-      this.log.log(
-        2,
-        "showMore",
-        "exit " + this.maxElementsToRender + " > " + list.length
-      );
       this.onResize();
     },
 
-    getElementsToRender: function(list) {
-      this.log.log(
-        2,
-        "getElementsToRender",
-        "enter " + Math.min(list.length, this.maxElementsToRender)
-      );
+    getElementsToRender(list) {
       return Math.min(list.length, this.maxElementsToRender);
     },
 
-    showItem: function(item, i) {
-      setTimeout(function() {
+    showItem(item, i) {
+      setTimeout(() => {
         css.remove(item, "MatcListItemHidden");
       }, 100 + Math.min(i, 10) * 50);
     },
@@ -171,76 +137,31 @@ export default {
     /**
      * Template methods for child classes to overwrite
      */
-    onRenderDone: function() {},
+    onRenderDone() {},
 
     /**
      * Template methods for child classes to overwrite
      */
-    onRenderAdd: function() {},
+    onRenderAdd() {},
 
     /**
      * Template methods for child classes to overwrite
      */
-    renderItem: function(node, element, i) {
+    renderItem(node, element, i) {
       if (this.itemRenderFct) {
         this.itemRenderFct(node, element, i);
       }
     },
 
-    onBeforeResize: function() {},
+    onBeforeResize() {},
 
-    _renderRow: function(i, parent, width, spacing) {
-      if (this.grid && i % this.columns == 0) {
-        this._colsCreated = false;
-      }
 
-      if (!this._colsCreated) {
-        var row = document.createElement("div");
-        css.add(row, "MatcListRow");
-        parent.appendChild(row);
-
-        this.cols = [];
-        for (var c = 0; c < this.columns; c++) {
-          var col = document.createElement("div");
-          css.add(col, "MatcListColumn");
-          col.style.width = width + "px";
-          if (c < this.columns - 1) {
-            col.style.marginRight = spacing + "px";
-          }
-          row.appendChild(col);
-          this.cols[c] = col;
-        }
-
-        this._colsCreated = true;
-      }
-    },
-
-    getColWidth: function() {
-      if (this.colWidth < 0) {
-        var width = domGeom.position(this.container).w;
-        return Math.floor(
-          (width - (this.columns - 1) * this.spacing) / this.columns
-        );
-      }
-      return this.colWidth;
-    },
-
-    getSpacing: function() {
-      if (this.spacing < 0) {
-        var width = domGeom.position(this.container).w;
-        return Math.floor(
-          (width - this.columns * this.colWidth) / (this.columns - 1)
-        );
-      }
-      return this.spacing;
-    },
-
-    cleanUp: function() {
+    cleanUp() {
       this._colsCreated = false;
       this.cols = true;
     },
 
-    onResize: function() {
+    onResize() {
       this.log.log(0, "onResize", "enter");
 
       this.cleanUp();
@@ -252,6 +173,8 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {
+    this.db = new DomBuilder();
+  }
 };
 </script>

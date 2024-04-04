@@ -1,0 +1,49 @@
+[
+	{
+		"id": "SegmentPicker",
+		"type": "SegmentPicker",
+		"name": "Segment Button",
+		"category": "WireFrame",
+		"subcategory": "AFormButton",
+		"_type": "Widget",
+		"x": 0,
+		"y": 0,
+		"w": "@box-width-xxl",
+		"h": "@box-height-s",
+		"z": 0,
+		"props": {
+			"options": [
+				"Option 1",
+				"Option 2",
+				"Option 3"
+			],
+			"selected": "Option 1"
+		},
+		"has": {
+			"onclick": true,
+			"backgroundColor": true,
+			"border": true,
+			"label": true
+		},
+		"style": {
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "center",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"background": "@form-background",
+			"color": "@form-color",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-background",
+			"paddingBottom": "@form-padding-vertical",
+			"paddingTop": "@form-padding-vertical",
+			"paddingLeft": "@form-padding-horizontal",
+			"paddingRight": "@form-padding-horizontal",
+			"verticalAlign": "middle",
+			"selectedBackground": "@form-border-color",
+			"selectedColor": "@form-background"
+		}
+	}
+]

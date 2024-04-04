@@ -1,0 +1,58 @@
+.MatcDark {
+
+
+    .MatcDialog .MatcToolbarTabs a {
+        color: #333;
+    }
+
+    .MatcDialog .MatcToolbarTabs a.MatcToolbarTabDisabled,
+    .MatcDialog .MatcToolbarTabs a.MatcToolbarTabDisabled:hover {
+        color: #777;
+        cursor: auto;
+    }
+
+
+    /****************************************************
+    * Canvas Dark
+    ****************************************************/
+
+    .MatcScreen {
+        box-shadow: 0 0 10px #333;
+    }
+
+    .MatcCanvasContainer {
+        background: #202427;
+        box-shadow: none;
+    }
+
+    .MatcLineSupportPointTouch {
+        border-color: #383e43;
+    }
+
+    .MatcCanvasFrame {
+        background: #000;
+    }
+
+    .MatcTreeItem {
+        color: $toolbar_color;
+    }
+
+    .MatcTreeItemRow:hover {
+        color: $toolbar_color;
+    }
+
+    .MatcTreeItem .mdi {
+        color: #999;
+    }
+
+    .MatcTreeItem.MatcTreeItemSelected .mdi {
+        color: #fff;
+    }
+
+    .MatcTreeItem.MatcTreeItemSelected,
+    .MatcTreeItemSelected .MatcTreeItem {
+        background: $layerlist_selected;
+    }
+
+
+}

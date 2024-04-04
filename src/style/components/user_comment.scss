@@ -1,0 +1,55 @@
+@import '../variables.scss';
+
+.UserComment{
+    padding-top: 0px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+
+    &.Done {
+        .UserCommentMessage, .UserCommentFooter, .UserCommentUser {
+            text-decoration: line-through;
+        }
+    }
+
+    &.UserCommentResponse .MatcIconDropDown{
+        opacity: 0;
+    }
+
+    &.UserCommentResponse:hover .MatcIconDropDown{
+        opacity: 1;
+    }
+
+    textarea {
+      
+        padding: $form_padding;
+        width: 100%;
+        height: 168px;   
+        border-radius: 8px;
+
+    }
+
+    .UserCommentHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        min-height: 16px;
+    }
+    .UserCommentMessage {
+        white-space: pre-wrap;
+        margin-top: 4px;
+    }
+    .UserCommentUser {
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .UserCommentFooter {
+        font-size: 12px;
+        font-weight: 400;
+    }
+}
+
+.UserCommentButtons {
+    display: flex;
+    gap: 8px;
+}

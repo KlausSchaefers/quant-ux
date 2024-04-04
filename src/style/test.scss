@@ -1,0 +1,413 @@
+@import './variables.scss';
+
+.MatcTestPage {
+    background-color: $page_color_secondary_dark;
+    min-height: 100vh;
+}
+
+.MatcTestLogoCntr{
+    position: fixed;
+    left:50%;
+    top:50%;
+    width:400px;
+    height: 200px;
+	text-align: center;
+    padding:20px;
+    transform: translate(-50%, -50%);
+}
+
+
+.MatcTestProgressCntr {
+    display: inline-block;
+    width: 128px;
+    height: 5px;
+    border: 1px solid rgba(0,0,0,1);
+    border-radius: 3px;
+    transition: all 1s, border 0.4s;
+    transition-delay: 1s;
+    overflow: hidden;
+    position: absolute;
+    top:0px;
+    left:0px;
+    transform: translate(135px, 180px);
+    z-index: 999;
+    
+
+    .MatcTestProgressBar{
+        width: 0%;
+        height: 5px;
+        background: rgba(0,0,0,1);
+        animation: sk-load 2s  ease-in-out normal forwards ;
+        animation-iteration-count: 1;
+        transition: all 0.2s, background-color 0s;
+    }
+}
+
+.MatcTestLogoCntrMax .MatcTestProgressCntr {
+    transition-delay: 1s;
+    height: 530px;
+    width: 400px;
+    background: #fefefe;
+    border: 1px solid rgba(255,255,255,1);
+	color:$text_color;
+	border-radius:8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transform: translateY(-200px);
+
+    .MatcTestProgressBar {
+        background: #fff;
+        transition-delay: 0.7s;
+    }
+}
+
+.MatcTestHeader {
+
+    display: flex;
+    gap: 8px;   	
+    padding: 16px 24px;
+    padding-bottom: 8px;
+    font-weight: 700;
+    font-size: 20px;
+    align-items: center;
+
+    img{
+        height: 24px;
+        width: 24px;
+        border-radius: 0px;
+    }
+}
+
+.MatcTestPanel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-top: -5px;
+    gap: 8px;
+    
+    .MatcTestContent{
+    	display: flex;
+		flex-direction: column;
+     	padding: 24px;
+        width:400px;
+        text-align: left;
+        flex-grow: 1;
+        overflow: auto;
+
+        .MatcTestContentCntr{
+            flex-grow: 1;
+            overflow: auto;
+        }
+
+        p{
+            margin-bottom: $spacing-s;
+            font-size: 16px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: $spacing-m;
+        }
+    }
+}
+
+
+@keyframes sk-load {
+    0% {
+      width:0%;
+    } 100% {
+        width:100%;
+    }
+}
+
+
+.MatcTestSplash{
+	position: fixed;
+	top:0px;
+	left:0px;
+	height:100%;
+	width:100%;
+	color:#fff;
+	transition: all 0.5s;
+	left:0px;
+	opacity:0;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+
+.MatcTestSplash.MatcTestSplashMax{
+	opacity:1;
+	left:0px;
+	width:100%;
+	overflow: scroll;
+	z-index: 999;
+}
+
+
+.MatcTestLogoCntr H1{
+	text-shadow: none;
+}
+
+.MatchTestQRDialog{
+	width:340px;
+	height:400px;
+}
+
+.MatchTestQRDialogHint{
+	margin: 15px;
+    margin-top: 0px;
+    width: 280px;
+}
+
+.MatcTestStartButton{
+	width:100%;
+	text-align: center;
+}
+
+
+
+.MatcTest .MatchSimulatorWrapper{
+   background: #fff;
+   border: none;
+   border-radius: 8px;
+   display: inline-block;
+   padding: 0px;
+   box-shadow: $page_drop_shadow_more;
+}
+
+
+.MatcSimulatorSection{
+	overflow: visible;
+	position: relative;
+}
+
+.MatcTestBtnCntr{
+	position: fixed;
+	height: 100%;
+	width:100px;
+	top:0px;
+	right:0px;
+	background: organge;
+}
+
+.MatcTestQRButton{
+ 	color:#333;
+ 	transition:all 0.3s;
+    border-radius: 50%;
+
+    font-size: 24px;
+    height: 50px;
+    right: 20px;
+    position: fixed;
+    text-align: center;
+    bottom: 20px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.MatcTestQRButton:hover{
+	color: #fff;
+	background: #333 none repeat scroll 0 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s;
+    transition-delay: 1s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transition-delay: 1s;
+}
+
+.logoFade-enter-active, .logoFade-leave-active {
+    transition: opacity 0.25s;
+}
+
+.logoFade-enter, .logoFade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+
+body.MatcTestMobile{
+	overflow:hidden;
+}
+
+.MatcTestCntr {
+    display: flex;
+    height: 100vh;
+
+
+    .MatcStudioLogo { 
+        display: flex;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        img{
+            height: 24px;
+            width: 24px;
+            border-radius: 8px;
+        }
+        margin-bottom: 16px;
+    }
+  
+
+    .MatcTestTaskCntr {
+        height: 100vh;
+        background: #fff;
+        padding: 16px;
+        width: 256px;
+        border-right: 1px solid $page_border;
+        transition: color 0.2s;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+
+        .MatcTestTaskList {
+            flex-grow: 1;
+            overflow: auto;
+        }
+    }
+
+    .MatcTest {
+        flex-grow: 1;
+        height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+
+        .MatcTestSimulatorWrapper {
+            margin-top: 48px;
+        }
+    }
+
+    .MatcTestTaskHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 24px;
+    }
+    
+    h4{
+        font-size: 16px;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .MatcChevron {
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .MatcTestTaskDoneMarker {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 400;
+
+        .MatcQIcon {
+            color:$primary_color
+        }
+
+    }
+
+    .MatcTestTaskCollapased {
+        .MatcChevron {
+            transform: rotate(-90deg);
+
+        }
+    }
+  
+    .MatcTestTaskDone{
+        background: $kpi_background;
+        h4, p {
+            text-decoration: line-through;
+        }
+    }
+
+    .MatcTestTaskSuccess {
+        background: #D4F7D3;
+    }
+}
+
+.MatcTestTaskList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .MatcTestTask {
+        border: 1px solid $page_border;
+        padding: 16px;
+        border-radius: $button_radius;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        h4 {
+            font-size: 16px;
+        }
+    
+        .MatcTestTaskDescription {
+            font-size: 14px;
+            flex-grow: 1;
+            overflow: auto;
+        }
+        
+    }
+    
+}
+
+
+.MatcTestPageResponsive {
+    .MatcTest { 
+        overflow: auto;
+        padding-bottom: 64px;
+    }
+}
+
+
+.MatcTestVersion {
+    color: $text-color;
+    position: fixed;
+    bottom: 4px;
+    left: 4px;
+    z-index: 999;
+    font-size: 10px;
+}
+
+.MatcTestCustomSplash {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.MatcTestCustomSplash .MatcLogoNew{
+    display: none;
+}
+
+.MatcTestCustomSplash .MactMainGradient{
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+.MatcTestCustomSplashPowered {
+    position: fixed;
+    z-index: 9999;
+    bottom: 8px;
+    right: 8px;
+    font-size: 12px;
+}
+
+.MatcTestVersion{
+	position: fixed;
+	left:8px;
+	bottom: 8px;
+	font-size: 12px;
+}

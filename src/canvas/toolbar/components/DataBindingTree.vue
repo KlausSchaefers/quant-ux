@@ -12,36 +12,18 @@
             </div>
          <div v-if="model" class="MatcDialogTable">
           
-             <table>
-                  <tr >
-                    <td class="MatcDataBindingCheckCntr">
-                        <span class="mdi mdi-database-plus"></span>
-                    </td>
-                     <td class="MatcDataBindingNameCntr">
-                       <Combo
-                            :fireOnBlur="true"
-                            :top="false"
-                            placeholder="Create new variable"
-                            :inline="true"
-                            :hints="hints"
-                            ref="combo"
-                            @focus="hasNewTypeSelector = true"
-                            @change="onNewVariable"
-					        :formControl="true"/>
-                    </td>
-                     <td>
-                        <a class="MatcButton">Create</a>                       
-                    </td>
-                 </tr>
-             </table>
+    
      
               <table>                  
                  <tbody>
                     <tr class="" v-for="variable in modelVariables" :key="variable.name">
-                        <td class="MatcDataBindingCheckCntr">
-                            <CheckBox :value="variable.selected" @change="onSelectVariable($event, variable.name)"/>
+                        <td class="MatcDialogTableSelectCntr">
+                            <div class="MatcVerticalCenter">
+                                <CheckBox :value="variable.selected" @change="onSelectVariable($event, variable.name)"/>
+                            </div>
+                         
                         </td>                 
-                        <td>                
+                        <td class="MatcDialogTableMaxRow">                
                             <span class="MatcDataBindingVariableName">
                                 {{variable.name}}
                             </span>
@@ -49,16 +31,35 @@
                         <td class="MatcDataBindingVariableDefault" v-if="hasDefaults">
                             <input class="MatcIgnoreOnKeyPress form-control" placeholder="default value" v-model="variable.defaultValue"        @keydown.stop=""/>
                         </td>
+                        <td></td>
                     </tr>
                  </tbody>
-
+           
+                
+                  <tr >
+                    <td class="MatcDialogTableSelectCntr">
+                       
+                    </td>
+                     <td class="MatcDialogTableMaxRow">
+                            <Combo
+                                :fireOnBlur="true"
+                                :top="false"
+                                placeholder="Create new variable"
+                                :inline="true"
+                                :hints="hints"
+                                ref="combo"
+                                @focus="hasNewTypeSelector = true"
+                                @change="onNewVariable"
+                                :formControl="true"/>
+                    </td>
+                    <td></td>
+                 </tr>
              </table>
          </div>
 	</div>
 </template>
-<style>
-
-  @import url("../../../style/databinding.css");
+<style lang="scss">
+  @import "../../../style/components/databinding.scss";
 </style>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -67,6 +68,7 @@ import Logger from 'common/Logger'
 // import DropDownButton from 'page/DropDownButton'
 import CheckBox from 'common/CheckBox'
 import Input from 'common/Input'
+import lang from '../../../dojo/_base/lang'
 import DataBindingService from 'services/DataBindingService'
 
 export default {
@@ -143,8 +145,8 @@ export default {
         onSelectVariable (selected, variable) {      
             this.logger.log(-1, 'onSelectVariable', 'enter', selected, variable)     
             if (selected) {
-                this.databinding[this.selectedVaribaleType] = variable
-            } else {
+                this.$set(this.databinding, this.selectedVaribaleType,variable)
+             } else {
                 this.$delete(this.databinding, this.selectedVaribaleType)
             }
             this.onChange()
@@ -161,7 +163,7 @@ export default {
         setWidget (v) {
             this.widget = v
             if (this.widget.props && this.widget.props.databinding) {
-                this.databinding = this.widget.props.databinding               
+                this.databinding = lang.clone(this.widget.props.databinding)         
             }
             this.variableKeys = DataBindingService.getDefautlBindings(this.widget)
             if (this.variableKeys.length > 0) {

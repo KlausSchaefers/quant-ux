@@ -9,13 +9,12 @@ export default class DesignToken extends Widget{
 
 	addDesignToken (id, tokenType, cssProps, cssState, name, modelType) {
 		this.logger.log(-1,"addDesignToken", "enter > " + id, tokenType, cssProps);
-
+		this.startModelChange()
 	
-		let token = this.modelAddDesignToken(id, tokenType, cssProps,cssState, name, modelType)
+		const token = this.modelAddDesignToken(id, tokenType, cssProps,cssState, name, modelType)
 		if (!token) {
 			return
 		}
-		this.startModelChange()
 
 		/**
 		 * make command
@@ -333,6 +332,82 @@ export default class DesignToken extends Widget{
 	redoUpdateDesignToken (command) {
 		this.logger.log(-1,"undoUpdateDesignToken", "enter > ", command);
 		this.modelUpdateDesignToken(command.modelId, command.n.name, command.n.value)
+		this.render()
+	}
+
+	/**********************************************************************
+	 * delete design token
+	 **********************************************************************/
+	deleteDesignToken (id) {
+		this.logger.log(-1,"deleteDesignToken", "enter > " + id);
+
+		if (!this.model.designtokens || !this.model.designtokens[id]) {
+			this.logger.warn("deleteDesignToken", "NO Design tokens in model", id);
+			return
+		}
+
+		this.startModelChange()
+		const token = this.model.designtokens[id]
+		const command = {
+			timestamp : new Date().getTime(),
+			type : "DeleteDesignToken",
+			modelId: id,
+			token: token
+		};
+
+		this.modelDeleteDesignToken(id)
+		this.addCommand(command);
+		this.render();
+		this.commitModelChange()
+		this.logger.log(-1,"deleteDesignToken", "exit");		
+	}
+
+
+	modelDeleteDesignToken (id) {
+		if (!this.model.designtokens || !this.model.designtokens[id]) {
+			this.logger.warn("deleteDesignToken", "NO Design tokens in model", id);
+			return
+		}
+		delete this.model.designtokens[id]
+		// FIXME: Make this undoable...
+		const types = ['style', 'hover', 'error', 'active']
+		for (let widetID in this.model.widgets) {
+			const widget = this.model.widgets[widetID]
+			if (widget.designtokens) {
+				const designtokens = widget.designtokens
+				for (let type of types) {
+					const style =designtokens[type]
+					if (style) {
+						for (let key in style) {
+							if (style[key] === id) {
+								this.logger.warn("modelDeleteDesignToken", `delete ${id} in ${type}@${widetID}`);
+								delete style[key]
+							}
+						}
+					}
+				}
+			}
+		}
+		this.onModelChanged([{type: 'designtoken', action:'delete', id: id}]);
+	}
+
+	modelUnDeleteDesignToken (id, token) {
+		if (!this.model.designtokens){
+			this.model.designtokens = {}
+		}
+		this.model.designtokens[id] = token
+		this.onModelChanged([{type: 'designtoken', action:'undelete', id: id}]);
+	}
+
+	undoDeleteDesignToken (command) {
+		this.logger.log(-1,"undoDeleteDesignToken", "enter > ", command);
+		this.modelUnDeleteDesignToken(command.modelId, command.token)
+		this.render()
+	}
+
+	redoDeleteDesignToken (command) {
+		this.logger.log(-1,"redoDeleteDesignToken", "enter > ", command);
+		this.modelDeleteDesignToken(command.modelId)
 		this.render()
 	}
 }

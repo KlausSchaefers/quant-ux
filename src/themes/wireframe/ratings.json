@@ -2,13 +2,13 @@
 	"id" : "WireFrameRating",
 	"type" : "Rating",
 	"name" : "Star Rating",
-	"category" : "WireFrame",
+	"category" : "Advanced",
 	"subcategory" : "FormSpecial",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,
-	"w" : 100,
-	"h" : 20,
+	"w": 88,
+	"h": "@box-height-xxs",
 	"z" : 0,
 	"props" : {
 		"elementCount" : 5,
@@ -18,6 +18,6 @@
 		"onclick" : true
 	},
 	"style" : {
-		"color" : "#333333"
+		"color" : "@background-active"
 	}
 } ]

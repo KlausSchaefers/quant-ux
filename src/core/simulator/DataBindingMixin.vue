@@ -144,14 +144,14 @@ export default {
 		},
 
 		onUIWidgetDataBinding (screenID, widgetID, variable, value, runDataScripts = true){
-			let oldValue = JSONPath.get(this.dataBindingValues, variable)
-			if (oldValue !== value) {
+			//let oldValue = JSONPath.get(this.dataBindingValues, variable)
+			//if (oldValue !== value) {
 				this.dataBindingValues = JSONPath.set(this.dataBindingValues, variable, value)
 				this.emit('onDataBindingChange', this.dataBindingValues)
 				this.updateAllDataBindings(screenID, variable, value, runDataScripts)
-			} else {
-				this.logger.log(1, "onUIWidgetDataBinding","exit > No change");
-			}
+			// } else {
+			// 	this.logger.log(1, "onUIWidgetDataBinding","exit > No change");
+			// }
 		},
 
 		updateAllDataBindings (screenID, variable, value, runDataScripts = true) {

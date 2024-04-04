@@ -146,8 +146,8 @@ class ModelGeom {
         if (!box.h) {
             box.h = 0;
         }
-        for (var id in model.screens) {
-            var screen = model.screens[id];
+        for (let id in model.screens) {
+            const screen = model.screens[id]
             if (this._isBoxChild(box, screen)) {
                 return screen;
             }

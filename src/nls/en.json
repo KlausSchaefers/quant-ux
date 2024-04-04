@@ -11,12 +11,16 @@
         "error-no-idea": "Something went wrong",
         "error-server-no-key": "You need to enter the API key",
         "error-server-key": "The API key is wrong",
+        "error-insufficient_quota": "Something is wrong with your OpenAI Quota. Check the payments.",
         "error-prompt-too-short": "The prompt is too short",
+        "error-yaml": "OpenAI send wrong data. Please try again",
         "is-wireframe": "Create as wireframe",
         "is-minimal": "Minimize elements",
         "is-custom-styles": "Use prototype styles",
-        "gpt-model-gpt3": "ChatGPT - Faster and cheaper",
-        "gpt-model-gpt4": "GPT4 - Slower and better",
+        "gpt-model-gpt3": "ChatGPT:  Faster and cheaper",
+        "gpt-model-gpt4": "GPT4: Slower and better",
+        "gpt-model-gpt4-turbo": "GPT4 - Creative: Takes longer, but might surprise you.",
+        "gpt-model-gpt4-turbo-yaml": "GPT4 - Boost: Fast and clean.",
         "gpt-model": "Select the GPT model to use",
         "gpt-temperature": "Randomness (Temperature)",
         "waiting-title": "Processing",
@@ -80,14 +84,14 @@
         "hint-did-you-know": "Did you know?",
         "hint-1": "You can include colors in your prompt! Ask for background, text or border colors. For example:",
         "hint-1-prompt": "Create a form with a red button. The text color should be black.",
-        "hint-2": "You can ask to create forms? For instance ask:",
+        "hint-2": "You can ask to create forms and specify the different elements that should be included.",
         "hint-2-prompt": "Create a form with an email, password and age field.",
-        "hint-3": "OpenAI can create data tables for you. No need to invent names, places, birthdays and so on. The prompt could look like:",
+        "hint-3": "OpenAI can create data tables for you. No need to invent names, places, birthdays and so on",
         "hint-3-prompt": "Please create a table containing data of 5 persons. Include the name, age, weight and profession.",
-        "hint-4": "You can influence the style of texts used in the design. For example ask:",
+        "hint-4": "You can influence the style of texts used in the design.",
         "hint-4-prompt": "Create a funny headline about designers.",
-        "hint-5": "",
-        "hint-5-prompt": "You know that you can ask for colors?",
+        "hint-5": "You can create DropDowns, Radio Groups and Checkbox Lists by including the options.",
+        "hint-5-prompt": "Create a form where the users can choose their favorite music style. Examples are Rap, Soul, Metal and House.",
         "hint-6": "6",
         "hint-6-prompt": "You know that you can ask for colors?",
         "hint-7": "7",
@@ -105,9 +109,18 @@
     },
     "header": {
         "my-prototypes": "My Prototypes",
+        "examples": "Examples",
         "documentation": "Documentation",
         "my-account": "My Account",
-        "logout": "Logout"
+        "logout": "Logout",
+        "login": "Login",
+        "signup": "SignUp for Free",
+        "tooltip": {
+            "language": "Change the language",
+            "my-prototypes": "Show your prototypes",
+            "documentation": "Read the Documentation",
+            "my-account": "Manage your Account or logout"
+        }
     },
     "script": {
         "edit": "Edit",
@@ -118,15 +131,22 @@
         "register": "Please register to save changes...",
         "guest": "Guest",
         "loading": "Loading...",
-        "language-changed": "The language was changed"
+        "language-changed": "The language was changed",
+        "comments": "Comments",
+        "close": "Close"
     },
     "simulator": {
         "welcome": {
             "title": "Welcome",
-            "msg": 	"You were invited for a usability test of the <b>{{name}}</b> application. You can try out the prototype by clicking on the <b>Start Prototype</b> button.",
-            "privacy": "This is a usability test. Please be aware that your interaction will be recorded to make the design better. We do not store any personal information about you. You can find more information on our <a target='quxPrivacy' href='#/privacy.html'>Privacy page</a>.",
-            "start": "Start Prototype",
-            "showTasks": "Show Tasks"
+            "msg": 	"You were invited for a usability test of the <b>{{name}}</b> app.",
+            "msg2": "",
+            "privacy-title": "Privacy",
+            "privacy": "Your interactions, including clicks and text input, will be <b>recorded</b> to evaluate the app's performance and identify areas for improvement.",
+            "privacy1": "We do not store any personal information about you, expect the data you choose to enter. You can find more information on our <a target='quxPrivacy' href='#/privacy.html'>privacy page</a>.",
+            "click-start": "If you agree, click on the <b>Start</b> button to beginn the test.",
+            "start": "Start",
+            "showTasks": "Show Tasks",
+            "next": "Next"
         },
         "tasks": {
             "title": "Tasks",
@@ -139,6 +159,12 @@
         }
     },
     "toolbar": {
+        "layer": {
+            "front": "Bring to front",
+            "forward": "Bring forward",
+            "backward": "Send backward",
+            "back": "Send to back "
+        },
         "menu": {
             "start": "Start Simulator",
             "settings": "Settings",
@@ -147,8 +173,24 @@
             "import": "Import",
             "export": "Export",
             "change-screen-size": "Change Screen Size",
-            "save-as": "Save As",
-            "exit": "Back to Prototypes"
+            "save-as": "Duplicate",
+            "exit": "Back to Prototypes",
+            "help": "Help"
+        },
+        "create": {
+            "rectangle": "Rectangle",
+            "text": "Text",
+            "hotspot": "Hotspot",
+            "logic": "Logic",
+            "rest": "Web Service",
+            "or": "Or Conenctor",
+            "ab": "AB Test",
+            "script": "Script",
+            "vector": "Vector",
+            "curve": "Curve",
+            "path": "Path",
+            "triangle": "Triangle",
+            "gpt": "Design GPT"
         },
         "svgStop": "Stop Editing",
         "simulate": "Simulate",
@@ -161,6 +203,31 @@
     "table": {
         "action": "Action"
     },
+    "tooltip": {
+        "edit": "Edit and Select (A)",
+        "move": "Move Canvas (SPACE)",
+        "simulate": "Start Simulation",
+        "screen": "Add Screens (S)",
+        "group": "Create group (CTRL-G)",
+        "ungroup": "Remove group (CTRL-G)",
+        "clone": "Clone selection (C)",
+        "distribute": "Change grid (D)",
+        "template": "Create or edit component",
+        "basic": "Add basic Elements",
+        "widget": "Add interactive Widgets (W)",
+        "comment": "Add comment",
+        "layer": "Change Layer",
+        "editmode": "Toggle design and \nprototype mode (TAB)",
+        "protomode": "Define the interaction (Tab)",
+        "resizeGrid": "Change Selection Grid",
+        "toggle-design": "Change to Edit mode",
+        "toggle-heatmap": "Change to Heatmap mode",
+        "analyics-heatmaps": "Show different kind of heatmaps",
+        "analyics-user": "Show the user journey",
+        "analyics-task": "Show task completion, outliers and drop-offs",
+        "analyics-screen": "Show screen statstics such as scroll maps or dwell time",
+        "app-color": "Change the app color"
+    },
     "table-action": "Action X",
     "btn": {
         "login": "Login",
@@ -169,11 +236,15 @@
         "delete": "Delete",
         "download": "Download",
         "edit": "Edit",
+        "back": "Back",
         "continue": "Continue",
         "post": "Post",
         "close": "Close",
         "import": "Import",
-        "export": "Export"
+        "export": "Export",
+        "rename": "Rename",
+        "share": "Share",
+        "change": "Change"
     },
     "dialog": {
         "import": {
@@ -216,6 +287,7 @@
         "export": {
             "tab-images": "Images",
             "tab-github": "Github",
+            "tab-comments": "Comments",
             "tab-zip": "Zip File",
             "github-token": "Github Access Token",
             "github-user": "User",
@@ -258,23 +330,23 @@
                 "1": "You were invited for a usability test of the",
                 "2": "application.",
                 "tasks": "You can try out the prototype and perform certain tasks. When you click on <b>Show Tasks</b> button, you will receive detailed instructions.",
-                "no-tasks": "You can try out the prototype by clicking on the <b>Start Prototype</b> button. ",
-                "privacy": "Please be aware that your interaction will be recored to make the design better. We do not store any personal information about you."
-            },
+                "no-tasks": "You can try out the prototype by clicking on the <b>Start Prototype</b> button. "  
+             },
             "next": "Show Tasks",
-            "start": "Start Prototype",
-            "privacy": "This is a usability test and your interaction will be stored to make the design better. We do not store any personal information about you."
+            "start": "Start Prototype"
         },
         "task": {
             "headline": "Tasks",
             "description": "In the scope of this usability test you are kindly requested to perform the tasks listed below. Don't worry if you can not fulfill all tasks. This is just a sign that the prototype needs further improvements. The tasks are:",
-            "footer": "You can try out the prototype by clicking on the <b>Start Prototype</b> button."
+            "footer": "You can try out the prototype by clicking on the <b>Start Prototype</b> button.",
+            "success-title": "Congratualtions!",
+            "success-message": "You have completed all tasks. You can close the page now."
         },
         "qr": {
             "headline": "Scan the QR code with your mobile device."
         },
         "splash": {
-            "upload": "Upload Splash image",
+            "upload": "Drop Splash image",
             "uploading": "Uploading..."
         }
     },
@@ -286,6 +358,11 @@
         }
     },
     "app": {
+        "mail": {
+            "send": "Send",
+            "success": "Thanks for contacting us!",
+            "error": "Please enter your email and a message!"
+        },
         "error": {
             "server-offline-title": "Ooops",
             "server-offline-msg": "You have been gone for more than 30 minutes. To continue working, please log in again."
@@ -293,13 +370,44 @@
         "overview": {
             "design": "Design",
             "test": "Test",
-            "dash": "Dashboard",
+            "dash": "Results",
+            "comments": "Comments",
             "heat": "Heat Maps",
             "settings": "Settings",
             "team": "Team",
+            "analytic-canvas": "Analytic Canvas",
             "run-test": "Run Test",
             "share": "Share"
-        }
+        },
+        "test-summary": "Test Summary",
+        "view-more": "View More",
+        "contact": "Contact",
+        "notifications": "Updates",
+        "notifications-none": "There are currently no upates.",
+        "oldnotifications": "Previous Updates",
+        "lastEdit": "Last update",
+        "numberTests": "Tests",
+        "create": "Create",
+        "help": "Documentation",
+        "recent-projects": "Recent Prototypes",
+        "projects": "All Prototypes",
+        "more": "More...",
+        "lastedit": "Last Edited:",
+        "analyze": "Analytic Canvas",
+        "logout": "Logout",
+        "edit": "Edit Design",
+        "welcome-headline": "Welcome to Quant-UX!",
+        "welcome-intro": "Click on the 'Create' button to create your first prototype.",
+        "kpi-sessions": "Test(s)",
+        "kpi-coverage": "Coverage",
+        "kpi-duration": "&#8960 Duration",
+        "kpi-task": "&#8960 Success",
+        "comments":"Comments",
+        "add-comment": "Add Comment",
+        "screen-list" : "Screens",
+        "description": "Description",
+        "description-hint": "Add a description here",
+        "loading": "Loading..."
     },
     "survey": {
         "video": "Video",
@@ -384,7 +492,8 @@
                 "hintAll": "Find the busy areas in your design where the users have clicked most.",
                 "hintFirst": "Uncover which elements draw the most attention from the users right after a screen was loaded.",
                 "hintFirstThree": "Elements that are not clicked withing three interactions, may be hard to discover for the user.",
-                "hintMissed": "Clicks on passive elements, such as backgrounds, can indicate that the users made an error and could not understand the intended interaction."
+                "hintMissed": "Clicks on passive elements, such as backgrounds, can indicate that the users made an error and could not understand the intended interaction.",
+                "hintMouse": "The mouse movement correlates strongly with the eye gaze. The mouse heatmap indicates areas that catch the users interest."
             }
         }
     },
@@ -449,6 +558,7 @@
     "testSettingsTaskAddHint": "Click the  'Add Task' button to create a new task. The tasks a shown to the users before the test.",
     "testSettingsRegister": "Please register to save changes.",
     "testSettingsShowTaskInTest": "Show tasks during test.",
+    "testSettingsShowSuccessInTest": "Show message when all tasks are completed.",
     "testSettingsNoFlow": "No Flow",
     "testSettingsFlow1": "Flow: ",
     "testSettingsFlow2": " steps",

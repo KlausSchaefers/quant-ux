@@ -1,6 +1,11 @@
 
 <template>
-  <div :class="['MatcWidgetTypeUploadPreview', {'MatcWidgetTypeUploadPreviewImage': hasImage}]" :style="{'backgroundImage': src}"/>
+  <div 
+    :class="[
+      'MatcWidgetTypeUploadPreview', 
+      {'MatcWidgetTypeUploadPreviewImage': hasImage, 'MatcWidgetTypeUploadPreviewNoImage': !hasImage}
+    ]" 
+    :style="{'backgroundImage': src}"/>
 
 </template>
 <script>
@@ -92,6 +97,13 @@ export default {
       }
     },
 
+    renderBorder() {
+        this._set_borderTopWidth(this.domNode, this.style)
+        this._set_borderBottomWidth(this.domNode, this.style)
+        this._set_borderLeftWidth(this.domNode, this.style)
+        this._set_borderRightWidth(this.domNode, this.style)
+    },
+
     /**
      * Can be overwritten by children to have proper type conversion
      */
@@ -99,8 +111,9 @@ export default {
         /**
          * We can have normal urls and data ulrs
          */
-        if (v.substring && (v.indexOf('data:image/png;base64') === 0 || v.indexOf('http') === 0)) {
+        if (v.substring && (v.indexOf('data:image') === 0 || v.indexOf('http') === 0)) {
             this.setValue(v);
+            this.renderBorder()
             return;
         } 
         /**
@@ -122,16 +135,50 @@ export default {
         try {
           let imgUrl = this.bufferToImage(v)
           this.setValue(imgUrl)
+          this.renderBorder()
         } catch (e) {
           console.error('UploadPreview._setDataBindingValue() Cannot handle data. Not ArrayBuffer',e)
         }
     },
 
-    getValue: function() {
+    _set_borderTopWidth (parent, style) {
+      if (this.value) {
+        this._setScalledBorderStyle("borderTopWidth", parent, style);
+      } else {
+        parent.style.borderTopWidth = '1px'
+      }
+    },
+
+    _set_borderBottomWidth (parent, style) {
+      if (this.value) {
+        this._setScalledBorderStyle("borderBottomWidth", parent, style);
+      } else {
+        parent.style.borderBottomWidth = '1px'
+      }
+    },
+
+    _set_borderLeftWidth (parent, style) {
+      if (this.value) {
+        this._setScalledBorderStyle("borderLeftWidth", parent, style);
+      } else {
+        parent.style.borderLeftWidth = '1px'
+      }
+    },
+
+    _set_borderRightWidth(parent, style) {
+      if (this.value) {
+        this._setScalledBorderStyle("borderRightWidth", parent, style);
+      } else {
+        parent.style.borderRightWidth = '1px'
+      }
+    },
+
+
+    getValue () {
       return this.value;
     },
 
-    setValue: function(value) {
+    setValue (value) {
       this.value = value;
     },
 
@@ -148,20 +195,20 @@ export default {
         return window.btoa(binary);
     },
 
-    getState: function() {
+    getState () {
       return {
         type: "value",
         value: ''
       };
     },
 
-    setState: function(state) {
+    setState (state) {
       if (state && state.type == "value") {
         this.setValue(state.value);
       }
     },
 
-    onClick: function(e) {
+    onClick (e) {
       this.stopEvent(e);
       this.emitClick(e);
     }

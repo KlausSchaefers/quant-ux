@@ -3,34 +3,34 @@
   <div class="MatcExportGit" @dblclick="forgetProfile">
 
 
-        <div class="field">
+        <div class="form-group">
             <label>{{ $t('dialog.export.github-token')}}</label>
             <a  target="github" href="https://github.com/settings/tokens">
               <span class="mdi mdi-help-circle"></span>
             </a>
-            <input type="password" class="input" v-model="github.token"  @change="saveChanges"/>
+            <input type="password" class="form-control" v-model="github.token"  @change="saveChanges"/>
         </div>
 
 
-         <div class="field">
+         <div class="form-group">
             <label>{{ $t('dialog.export.github-user')}}</label>
-            <input type="text" class="input" v-model="github.user" @change="saveChanges"/>
+            <input type="text" class="form-control" v-model="github.user" @change="saveChanges"/>
         </div>
 
 
-         <div class="field">
+         <div class="form-group">
             <label>{{ $t('dialog.export.github-repo')}}</label>
-            <input type="text" class="input" v-model="github.repo" @change="saveChanges"/>
+            <input type="text" class="form-control" v-model="github.repo" @change="saveChanges"/>
         </div>
 
-        <div class="field">
+        <div class="form-group">
             <label>{{ $t('dialog.export.github-branch')}}</label>
-            <input type="text" class="input" v-model="github.branch" @change="saveChanges"/>
+            <input type="text" class="form-control" v-model="github.branch" @change="saveChanges"/>
         </div>
 
-         <div class="field">
+         <div class="form-group">
             <label>{{ $t('dialog.export.github-folder')}}</label>
-            <input type="text" class="input" v-model="github.folder" @change="saveChanges" />
+            <input type="text" class="form-control" v-model="github.folder" @change="saveChanges" />
         </div>
 
 	</div>

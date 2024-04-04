@@ -2,29 +2,24 @@
 <template>
 	  <div class="MatcDesignTokenMixin">
       <DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
-      <div class=" MatcToolbarItem MatcBoxShadow2" v-show="!hasDesignToken">
-        <div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
-            <span class="MatcToolbarItemIcon ">
-              <span class="mdi mdi-blur" />
-            </span>
+      <div class="MatcBoxShadow2" v-show="!hasDesignToken">
+        <div type="button" ref="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton">
+            <QIcon :icon="icon"/>
             <span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
         </div>
       </div>
 
-        <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
+        <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup " role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
 
-         <div class=" MatcToolbarTabContainer">
-          <div class=" MatcToolbarTabs">
-            <a class="">Backdrop</a>
-          </div>
-        </div>
-         <div class="MatcShadowSettings">
-           <div ref="blurSliderCntr" class="MatcBoxShadowSliderCntr">
-              <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Blur</span>
+         <div class="MatcToolbarPopUpContainer">
+            <div class="MatcShadowSettings">
+              <div ref="blurSliderCntr" class="MatcBoxShadowSliderCntr">
+                  <span class="MatcToolbarPopUpLabel MatcToolbarLabeledColor">Blur</span>
+              </div>
             </div>
-            </div>
+          </div> 
            <div class="MatcToolbarPopupFooter" @click="onRemove">
-            <span class="MatcToolbarPopupFooterNone mdi mdi-close-circle"></span>
+            <QIcon icon="Delete"/>
             <span class="MatcToolbarPopupFooterLabel">No Background Blur</span>
           </div>
         </div>
@@ -41,6 +36,7 @@ import _Color from 'common/_Color'
 import _DesignToken from './_DesignToken'
 import DesignTokenView from './DesignTokenView'
 import ToolbarSlider from './ToolbarSlider'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'BackgroundBlur',
@@ -55,11 +51,13 @@ export default {
             tempValue: false,
             label: '',
             reposition: true,
-						arrowPosition: "right"
+						arrowPosition: "right",
+            icon: 'BlurNone'
         }
     },
     components: {
-      'DesignTokenView': DesignTokenView
+      'DesignTokenView': DesignTokenView,
+      'QIcon': QIcon
     },
     methods: {
 
@@ -131,9 +129,11 @@ export default {
 				if (v) {
 					this.value = lang.clone(v);
           this.label = 'Backdrop Blur (' + this.value.blur + ')'
+          this.icon = 'Blur'
 				} else {
           this.value = lang.clone(this.defaultValue)
           this.label = 'No Blur'
+          this.icon = 'BlurNone'
         }
         this.setValuesInWidgets(this.value)
 

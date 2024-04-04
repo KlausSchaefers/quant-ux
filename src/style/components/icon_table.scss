@@ -1,0 +1,23 @@
+@import '../variables.scss';
+
+.MatcIconTable{
+    height: 450px;
+    width: 800px;
+    overflow: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    .MatcDateSectionIconCntr {
+        flex-grow: 1;
+    }
+
+
+    .MatcIconTableSearch {
+        padding: 0px 8px;
+    }
+
+    .MatcToolbarDropDownButtonItem.selected {
+        border: 1px solid $primary_color;
+    }
+}

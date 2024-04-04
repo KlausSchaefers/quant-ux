@@ -10,7 +10,6 @@ import CheckBox from 'common/CheckBox'
 
 import DomBuilder from 'common/DomBuilder'
 import ScrollContainer from 'common/ScrollContainer'
-import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
@@ -21,10 +20,9 @@ import BoxSize from 'canvas/toolbar/components/BoxSize'
 import BoxBorder from 'canvas/toolbar/components/BoxBorder'
 import BoxBorder2 from 'canvas/toolbar/components/BoxBorder2'
 import BoxPadding from 'canvas/toolbar/components/BoxPadding'
-import CreateButton from 'canvas/toolbar/components/CreateButton'
+
 import ActionButton from 'canvas/toolbar/components/ActionButton'
 import DataSection from 'canvas/toolbar/components/DataSection'
-import ScreenImportAdd from 'canvas/toolbar/components/ScreenImportAdd'
 import ScreenList from 'canvas/toolbar/components/ScreenList'
 import ValidationSection from 'canvas/toolbar/components/ValidationSection'
 
@@ -42,15 +40,14 @@ import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
 import Filter from 'canvas/toolbar/components/Filter'
-//import ConditionalStyleButton from 'canvas/toolbar/components/ConditionalStyleButton'
 import TooltipSection from 'canvas/toolbar/components/TooltipSection'
-//import Alignment from 'canvas/toolbar/components/Alignment'
+import Alignment from 'canvas/toolbar/components/Alignment'
 
 import DesignTokenBtn from 'canvas/toolbar/components/DesignTokenBtn'
 import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
 
 import Services from 'services/Services'
-
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
     name: '_Render',
@@ -59,7 +56,8 @@ export default {
         return {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox", 'LockSlider',
 						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 
-						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu'],
+						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea', 
+						'SortableList', 'RadioTable', 'DragNDropTarget'],
 			
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
@@ -67,7 +65,7 @@ export default {
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 'LockSlider', "StackedRingChart",
 						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 
 						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'NavBar', 
-						'NavMenu'],
+						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
@@ -76,22 +74,26 @@ export default {
 							"RadioBox2", "Upload", "Camera", "UploadPreview", 'Repeater', 'ProgressBar', 'ImageCarousel',
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
 							'Table', 'Paging', 'Timeline', 'LabeledIconToggle', 'VisualPicker', 'LockSlider', 'IconToggleButton', 'ScreenSegment', 
-							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button', 'LabeledTextBox'],
+							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button', 'LabeledTextBox',
+							'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget'],
+
+			hasColor: ['Icon', 'SVGIcon'],
 
 			hasLogic2: ["LogicOr", "Rest", "Script"],
 
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", 
-								"TypeAheadTextBox", "CheckBoxGroup", "RadioGroup", 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox'],
+								"TypeAheadTextBox", "CheckBoxGroup", "RadioGroup", 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'LabeledTextArea'],
 
-			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox", 'LabeledTextBox'],
+			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox", 'LabeledTextBox', 'LabeledTextArea'],
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 
-								'Paging', 'Upload', 'IconToggleButton', 'NavBar'],
+								'Paging', 'Upload', 'IconToggleButton', 'NavBar', 'DragNDrop'],
 			
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton', 
-								'DragNDropTarget', 'LabeledTextBox', 'NavBar', 'TextBox', 'LabeledTextBox', 'NavMenu', "DropDown"],
+								'DragNDropTarget', 'LabeledTextBox', 'NavBar', 'TextBox', 'LabeledTextBox', 'NavMenu', 
+								"DropDown", 'LabeledTextArea', 'SortableList', 'RadioTable', 'Icon', 'SVGIcon'],
 								
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown", 'NavMenu'],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", 
@@ -104,61 +106,6 @@ export default {
     components: {},
     methods: {
         onModeChange (){
-
-			if (this.domNode && this.selectBtn){
-				css.remove(this.selectBtn, "MatcToolbarItemActive");
-				css.remove(this.addSection, "MatcToolbarItemActive");
-				css.remove(this.moveTool, "MatcToolbarItemActive");
-				css.remove(this.editTool, "MatcToolbarItemActive");
-				css.remove(this.importSection, "MatcToolbarItemActive");
-				css.remove(this.hotspotTool, "MatcToolbarItemActive" );
-				//css.remove(this.svgTool, "MatcToolbarItemActive" );
-				css.remove(this.textTool, "MatcToolbarItemActive");
-				css.remove(this.rectangleTool, "MatcToolbarItemActive" );
-				css.remove(this.addLogicSection, "MatcToolbarItemActive" );
-				css.remove(this.addRestSection, "MatcToolbarItemActive" );
-				css.remove(this.addScriptSection, "MatcToolbarItemActive" );
-
-
-				if(this.mode == "select"){
-					css.add(this.selectBtn, "MatcToolbarItemActive");
-				}
-				if(this.mode == "move"){
-					css.add(this.moveTool, "MatcToolbarItemActive");
-				}
-				if(this.mode == "edit"){
-					css.add(this.editTool, "MatcToolbarItemActive");
-				}
-				if(this.mode == "add"){
-					css.add(this.addSection, "MatcToolbarItemActive");
-				}
-				if(this.mode == "import"){
-					css.add(this.importSection, "MatcToolbarItemActive");
-				}
-				if(this.mode == "hotspot"){
-					css.add(this.hotspotTool, "MatcToolbarItemActive" );
-				}
-				if(this.mode == "svg"){
-					//css.add(this.svgTool, "MatcToolbarItemActive" );
-				}
-				if(this.mode == "addText"){
-					css.add(this.textTool, "MatcToolbarItemActive" );
-				}
-				if(this.mode == "addBox"){
-					css.add(this.rectangleTool, "MatcToolbarItemActive" );
-				}
-				if(this.mode == "addLogic"){
-					css.add(this.addLogicSection, "MatcToolbarItemActive" );
-				}
-				if(this.mode == "addRest"){
-					css.add(this.addRestSection, "MatcToolbarItemActive" );
-				}
-				if(this.mode == "addScript"){
-					css.add(this.addScriptSection, "MatcToolbarItemActive" );
-				}
-			} else {
-				console.error("Toolvar_Render.onModeChange() > View Destoyed...")
-			}
 		},
 
 
@@ -185,81 +132,24 @@ export default {
 			* now we have to factory and create a menu
 			* for the widgets
 			*/
-			this.createBTN = this.$new(CreateButton);
+			this.createBTN = this.$refs.createButton
 			this.createBTN.setUser(this.user);
 			this.createBTN.setModel(this.model);
 			this.createBTN.setJwtToken(this.jwtToken)
 			this.tempOwn(on(this.createBTN, "change", lang.hitch(this, "onNewThemeObject")));
 			this.tempOwn(on(this.createBTN, "importsChange", lang.hitch(this, "onImportChange")));
 			this.tempOwn(on(this.createBTN, "removeTemplate", lang.hitch(this, "onRemoveTemplate")));
-			css.add(this.createBTN.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
-			this.createBTN.placeAt(this.addSection);
-
-
-			this.screenCreateBtn = this.$new(ScreenImportAdd, {mode: this.mode});
-			this.screenCreateBtn.setModel(this.model);
-			this.tempOwn(this.screenCreateBtn.on( "onAdd", lang.hitch(this, "onNewThemeObject")));
-			this.tempOwn(this.screenCreateBtn.on("onUpload", lang.hitch(this, "onThemedMultiScreen")));
-			this.tempOwn(this.screenCreateBtn.on("onImport", lang.hitch(this, "showImportDialog")));
-			this.tempOwn(this.screenCreateBtn.on("onDesignGPT", lang.hitch(this, "showDesignGPT")));
-
-
-			css.add(this.screenCreateBtn.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
-			this.screenCreateBtn.placeAt(this.addScreenSection);
-
-			this.own(on(this.addLogicSection, touch.release, lang.hitch(this, "onNewLogicObject")));
-			this.own(on(this.addRestSection, touch.release, lang.hitch(this, "onNewRestObject")));
-			this.own(on(this.addScriptSection, touch.release, lang.hitch(this, "onNewScriptObject")));
-			
-			//this.own(on(this.addGPTSection, touch.release, lang.hitch(this, "showDesignGPT")));
+			//css.add(this.createBTN.domNode, "MatcToolbarItem MatcToolbarDropDownButtonMiddle");
 
 			/**
 			* set model
 			*/
-			this.own(on(this.simulatorButton, touch.press, lang.hitch(this, "startSimilator")));
+		
+			this.template = this.$refs.templateBTN.domNode
 
-			/**
-			* Tools section
-			*/
-			this.layer = this.$new(ToolbarDropDownButton, {arrowPosition:false, hasCaret: true});
-			this.layer.setLabel('<span class="mdi mdi-layers-outline"></span>');
-			css.add(this.layer.domNode, "MatcToolbarDropDownButtonWide");
-			this.layer.updateLabel = false;
-			this.layer.setOptions([
-				{value: "front", label: "Bring to front (CTRL + &uarr;)", icon:"mdi mdi-arrange-bring-to-front"},
-				{value: "forward", label: "Bring forward (CTRL + ])", icon:"mdi mdi-arrange-bring-forward"},
-				{value: "backward", label: "Send backward (CTRL + [)", icon:"mdi mdi-arrange-send-backward"},
-				{value: "back", label: "Send to back (CTRL + &darr;)", icon:"mdi mdi-arrange-send-to-back"}
-			]);
-			this.layer.updateSelection = false;
-			this.layer.hideCaret()
-			this.own(on(this.layer, "change", lang.hitch(this, "onToolWidgetLayer")));
-			this._placeAt(this.layer, this.toolsDiv);
-			this.addTooltip(this.layer.domNode, "Change the layer of the element");
-
-			this.template = this.createToolBarItem(
-				'<span class="mdi mdi-view-grid-outline MatcIcon45"></span>',
-				lang.hitch(this,"onToolCreateTemplate"), null, this.templateDiv
-			);			
-			this.addTooltip(this.template, "Create a reusable component. You can find it in the widget menu.");	
-
-			this.templateDropBox = this.$new(ToolbarDropDownButton, {arrowPosition:false, hasCaret: true});
-			this.templateDropBox.setLabel('<span class="mdi mdi-view-grid MatcIcon45"></span>');
-			css.add(this.templateDropBox.domNode, "MatcToolbarDropDownButtonWide");
-			this.templateDropBox.updateLabel = false;
-			this.templateDropBox.setOptions([
-				{value: "update", label: "Update all instances", icon:"mdi mdi-pencil"},
-				{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
-			]);
-			this.templateDropBox.updateSelection = false;
-			this.templateDropBox.hideCaret()
-			this.own(on(this.templateDropBox, "change", lang.hitch(this, "onToolChangeTemplate")));
-			this._placeAt(this.templateDropBox, this.templateDiv);
-			this.addTooltip(this.templateDropBox.domNode, "Change the component");
-
-			this.replicateBtn = this.createToolBarItem('<span class="mdi mdi-view-grid-plus-outline"></span>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
-			this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-arrow-expand-horizontal"></span>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);		
-			this.createThemeBtn = this.createToolBarItem('<span class="mdi mdi-ninja"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.developerDiv);
+			//this.replicateBtn = this.createToolBarItem('<span class="mdi mdi-view-grid-plus-outline"></span>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
+			// this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-arrow-expand-horizontal"></span>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);		
+			// this.createThemeBtn = this.createToolBarItem('<span class="mdi mdi-ninja"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.developerDiv);
 			
 
 			this.logger.log(3,"renderToolbar", "exit");
@@ -298,7 +188,9 @@ export default {
 			/**
 			* render widget properties;
 			*/
-			this._renderWidgetName();
+			this._renderWidgetShape();
+
+			this._renderWidgetName()
 
 			this._renderWidgetResponsive();
 
@@ -342,6 +234,9 @@ export default {
 			/**
 			* render screen properties
 			*/
+
+			this._renderScreenShape()
+
 			this._renderScreenName();
 
 			this._renderScreen();
@@ -397,44 +292,23 @@ export default {
 		},
 
 
-		renderToolTips:function(){
+		renderToolTips (){
 
-			this.addTooltip(this.home, "Click here to exit");
-			this.addTooltip(this.simulatorButton, "Start Simulation (No data will be stored)");
-
-
-			this.addTooltip(this.addScreenSection, "Add / Import Screens (S)", "vommondToolTipLeft");
-			this.addTooltip(this.addSection, "Add Widgets (W)", "vommondToolTipLeft");
-			this.addTooltip(this.importSection, "Importing screens", "vommondToolTipLeft");
-			this.addTooltip(this.editTool, "Edit mode", "vommondToolTipLeft");
-			this.addTooltip(this.moveTool, "Move Canvas (SPACE)", "vommondToolTipLeft");
-			this.addTooltip(this.commentBtn, "Add Comment", "vommondToolTipLeft");
-			this.addTooltip(this.selectBtn, "Start Selection Tool (A)", "vommondToolTipLeft");
-			this.addTooltip(this.hotspotTool, "Create Hotspot (H) over uploaded images", "vommondToolTipLeft");
-			this.addTooltip(this.textTool, "Create Text (T)", "vommondToolTipLeft");
-			this.addTooltip(this.rectangleTool, "Create Rectangle (R)", "vommondToolTipLeft");
-			this.addTooltip(this.addLogicSection, "Create Logic Element to split links", "vommondToolTipLeft");
-			this.addTooltip(this.addRestSection, "Web Service", "vommondToolTipLeft");
-			this.addTooltip(this.addScriptSection, "Script (BETA)", "vommondToolTipLeft");
-			this.addTooltip(this.addGPTSection, "Design GPT (BETA)", "vommondToolTipLeft");
-			
-			this.addTooltip(this.addVectorSection, "Vector Tools (Beta)", "vommondToolTipLeft");
-			this.addTooltip(this.distributeBtn, "Distribute (D) object equally");
-
-			this.addTooltip(this.undo, "Undo (CTRL+Z)");
-			this.addTooltip(this.redo, "Redo (CTRL+Shift+Z)");
-
-			this.addTooltip(this.copyBtn, "Copy (CTRL+C)");
-			this.addTooltip(this.pasteBtn, "Paste (CTRL+V)");
-			this.addTooltip(this.deleteBtn, "Remove (DELETE)");
-			this.addTooltip(this.copyStyleBtn, "Copy Style");
-			this.addTooltip(this.signupSection, "Sign Up for Free to save your changes...");
+			this.addTooltip(this.simulatorButton, this.getNLS("tooltip.simulate"));
+			this.addTooltip(this.addScreenBtn, this.getNLS("tooltip.screen"));
+	
+			this.addTooltip(this.editBtn, this.getNLS("tooltip.edit"));
+			this.addTooltip(this.moveBtn, this.getNLS("tooltip.move"));
+			this.addTooltip(this.commentBtn,this.getNLS("tooltip.comment"));
+			this.addTooltip(this.distributeBtn, this.getNLS("tooltip.distribute"));
+			this.addTooltip(this.groupBTN,this.getNLS("tooltip.group"));
+			this.addTooltip(this.ungroupBTN, this.getNLS("tooltip.ungroup"));
+			this.addTooltip(this.replicateBtn, this.getNLS("tooltip.clone"));
+			if (this.gridResizeBtn) {
+				this.addTooltip(this.gridResizeBtn, this.getNLS("tooltip.resizeGrid"));
+			}
 
 
-
-			this.addTooltip(this.groupBTN, "Create group (CTRL-G)");
-			this.addTooltip(this.ungroupBTN, "Remove group (CTRL-G)");
-			this.addTooltip(this.replicateBtn, "Clone selection (C)");
 		},
 
 
@@ -443,8 +317,25 @@ export default {
 		***************************************************************************/
 
 		async initIcons (){
-			let icons = await Services.getSymbolService().getIcons()
+			const icons = await Services.getSymbolService().getIcons()
 			this._onIconsLoaded(icons)
+			if (this.model.version >= 5) { 
+				const svgIcons = await Services.getSymbolService().getSVGIcons()
+				this._onSVGIconsLoaded(svgIcons)
+			}
+		},
+
+		_onSVGIconsLoaded (svgIcons){
+			this.logger.log(-2, "_onSVGIconsLoaded", "enter");
+			this._matcIcons;
+
+			if (this.createBTN){
+				this.createBTN.setSVGIcons(svgIcons);
+			}
+
+			if (this.dataWidget){
+				this.dataWidget.setSVGIcons(svgIcons);
+			}
 		},
 
 		_onIconsLoaded (icons){
@@ -463,6 +354,7 @@ export default {
 		_renderDesignTokens () {
 
 			var parent = this.createSection("");
+			css.add(parent, 'MatcToolbarSectionNoBorder')
 
 			var content = document.createElement("div");
 			css.add(content, "");
@@ -471,7 +363,7 @@ export default {
 			this.designTokenList = this.$new(DesignTokenList)
 			this.designTokenList.placeAt(content)
 			this.own(on(this.designTokenList, "change", lang.hitch(this, "changeDesignToken")));
-			this.own(on(this.designTokenList, "remove", lang.hitch(this, "removeDesignToken")));
+			this.own(on(this.designTokenList, "delete", lang.hitch(this, "deleteDesignToken")));
 			this.designTokenList.setFontFamilies(this._getFontFamilies());
 
 			this.properties.appendChild(parent);
@@ -522,7 +414,7 @@ export default {
 		****************************************************************************************************/
 
 		_renderGroupName (){
-			var parent = this.createSection("Group");
+			var parent = this.createSection("Name");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
@@ -620,80 +512,21 @@ export default {
 
 
 		_renderWidgetAlign (){
-
 			const content = document.createElement("div");
-			css.add(content, "MatcToolbarSectionContent");
+			css.add(content, "MatcToolbarSectionContent  MatcToolbarSectionBorder");
 
-		
-
-			this.alignButtons = {};
-			this.distButtons = {};
-
-
-			let values = [
-				{value: 'top', icon: 'mdi mdi-align-vertical-top'},
-				{value: 'bottom', icon: 'mdi mdi-align-vertical-bottom'},
-				{value: 'left', icon: 'mdi mdi-align-horizontal-left'},
-				{value: 'right', icon: 'mdi mdi-align-horizontal-right'},
-				{value: 'vertical', icon: 'mdi mdi-align-horizontal-center'},
-				{value: 'horizontal', icon: 'mdi mdi-align-vertical-center'}
-			];
-
-	
-			for(let i=0; i< values.length; i++){
-				const value = values[i].value;
-				const icon = values[i].icon
-				const a = document.createElement("a");
-				css.add(a,"MatcToolbarItem MatcToolbarAlignButton");
-				content.appendChild(a);
-
-				const span = document.createElement("span");
-				css.add(span, icon);
-				a.appendChild(span);
-
-				this.tempOwn(on(a, touch.press, lang.hitch(this,"onToolAlignElements", value)));
-				this.alignButtons[value] = a;
-
-				//this.addTooltip(a, "Align <b>" + value + "</b>. After click select element to align to", 'vommondToolTipRightBottom');
-			}
-
-
-			let icon = document.createElement("span");
-			css.add(icon, 'MatcToolbarSpacer');
-			content.appendChild(icon);
-
-
-			values = ["vertical", "horizontal"];
-
-			for (let i=0; i< values.length; i++){
-				let value = values[i];
-
-				let a = document.createElement("a");
-				css.add(a,"MatcToolbarItem MatcToolbarAlignButton");
-				content.appendChild(a);
-
-				let icon = document.createElement("span");
-				css.add(icon, 'MatcToolbarIcon-' + value);
-				a.appendChild(icon);
-
-				let bar = document.createElement("span");
-				css.add(bar, 'MatcToolbarIcon-' + value + "-bar");
-				icon.appendChild(bar);
-
-				this.tempOwn(on(a, touch.press, lang.hitch(this,"onToolDistributeElements", value)));
-
-				this.alignButtons[value] = a;
-				this.distButtons[value] = a;
-				//this.addTooltip(a, "Distribute <b>" + value + "</b>. ", 'vommondToolTipRightBottom');
-			}
+			this.alignmentBtn = this.$new(Alignment)
+			this.alignmentBtn.setModel(this.model)
+			this.alignmentBtn.placeAt(content)
+			this.alignmentBtn.on('align', (v,e) => this.onToolAlignElements(v,e))
+			this.alignmentBtn.on('dist', (v,e) => this.onToolDistributeElements(v,e))
 
 			this.properties.appendChild(content);
 			this.widgetAlignDiv = content;
 		},
 
-		_renderWidgetName (){
-
-			var parent = this.createSection("Widget");
+		_renderWidgetName () {
+			var parent = this.createSection("Name");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
@@ -702,6 +535,18 @@ export default {
 			this.widgetName = this.createInput(content, "Widget Name");
 			css.add(this.widgetName, "MatcToobarNameInput")
 			this.own(on(this.widgetName, "change", lang.hitch(this, "onWidgetNameChange")));
+
+			this.properties.appendChild(parent);
+			this.widgetNameDiv = parent;
+		},
+
+		_renderWidgetShape (){
+
+			var parent = this.createSection("Shape");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
 
 			let widgetSizeDiv = document.createElement("div");
 			content.appendChild(widgetSizeDiv)
@@ -719,7 +564,7 @@ export default {
 			this.radiusBox.placeAt(widgetSizeDiv)
 
 			this.properties.appendChild(parent);
-			this.widgetNameDiv = parent;
+			this.widgetShapeDiv = parent;
 			this.widgetSizeDiv = widgetSizeDiv
 		},
 
@@ -991,7 +836,7 @@ export default {
 
 			// background image
 			let row = document.createElement('div')
-			css.add(row, 'MatcToobarRowHover')
+		
 			content.append(row)
 			this.backgroundImage = this.$new(ToolbarImage, {mode:this.mode});
 			this.backgroundImage.setCanvas(this.canvas);
@@ -1005,7 +850,7 @@ export default {
 			content.append(imageDetailsDiv)
 
 			row = document.createElement('div')
-			css.add(row, 'MatcToobarRowHover')
+
 			imageDetailsDiv.append(row)
 			this.imageFilter = this.$new(Filter)
 			//this.imageFilter.setModel(this.model)
@@ -1017,7 +862,7 @@ export default {
 
 			// background image position
 			row = document.createElement('div')
-			css.add(row, 'MatcToobarRowHover')
+	
 			imageDetailsDiv.append(row)
 			this.backgroundImagePosition = this.$new(ToolbarImagePosition, {mode:this.mode});
 			this.backgroundImagePosition.setJwtToken(this.jwtToken);
@@ -1052,7 +897,7 @@ export default {
 			parent.appendChild(content);
 
 			let row = document.createElement("div");
-			css.add(row, 'MatcToobarRowHover')
+			//css.add(row, 'MatcToobarRowHover')
 			content.appendChild(row)
 
 			this.boxShadow = this.$new(BoxShadow);
@@ -1064,11 +909,11 @@ export default {
 
 
 			row = document.createElement("div");
-			css.add(row, 'MatcToobarRowHover')
+			//css.add(row, 'MatcToobarRowHover')
 			content.appendChild(row)
 			this.backdropFilter = this.$new(BackdropFilter)
 			this.backdropFilter.setModel(this.model)
-			this.backdropFilter.setCssProps(['boxShadow'])
+			this.backdropFilter.setCssProps(['backdropFilter'])
 			this.own(on(this.backdropFilter, "change", lang.hitch(this, "setWidgetStyle", "backdropFilter")));
 			this.own(on(this.backdropFilter, "changing", lang.hitch(this, "setTempWidgetStyle", "backdropFilter")));
 			this._placeAt(this.backdropFilter,row);
@@ -1125,12 +970,12 @@ export default {
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
 			
-			db.div("MatcToolbarGridFull MatcToolbarItem ").h(80)
+			db.div(" MatcToolbarItem ").h(80)
 				.span("", "This widget is inherited form a master screen. To change it, you have to enbale editing.")
 				.build(content);
 
 				const enable = db
-				.div("MatcToolbarGridFull MatcToolbarItem")
+				.div(" MatcToolbarItem")
 				.div("MatcToolbarButton MatcButton", "Enable Editing")
 				.build(content);
 
@@ -1225,7 +1070,7 @@ export default {
 		****************************************************************************************************/
 		_renderScreenName (){
 
-			var parent = this.createSection("Screen Name");
+			var parent = this.createSection("Name");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
@@ -1235,15 +1080,26 @@ export default {
 			css.add(this.screenName, "MatcToobarNameInput")
 			this.own(on(this.screenName, "change", lang.hitch(this, "onScreenNameChange")));
 
+			this.properties.appendChild(parent);
+			this.screenNameDiv = parent;
+		},
+
+		_renderScreenShape (){
+
+			var parent = this.createSection("Shape");
+
+			var content = document.createElement("div");
+			css.add(content, "MatcToolbarSectionContent");
+			parent.appendChild(content);
+
 
 			this.screenSize = this.$new(BoxSize, {mode:"widthAndHeight"});
 			this.own(on(this.screenSize, "change", lang.hitch(this, "setScreenSize")));
 			this.screenSize.placeAt(content);
 
 			this.properties.appendChild(parent);
-			this.screenNameDiv = parent;
+			this.screenShapeDiv = parent;
 		},
-
 
 		_renderScreenBackground (cssProps = ['background']){
 
@@ -1287,7 +1143,16 @@ export default {
 			this.own(on(this.screenBackgroundImage, "change", lang.hitch(this, "setScreenStyle", "backgroundImage")));
 			this._placeAt(this.screenBackgroundImage, content);
 
+			this.screenImageRepeat = this.$new(CheckBox);
+			this.screenImageRepeat.setLabel("Repeat Image");
+			css.add(this.screenImageRepeat.domNode, "MatcToolbarItem");
+			this.own(on(this.screenImageRepeat, "change", lang.hitch(this, "setScreenStyle", "backgroundImageRepeat")));
 
+			const screenImageRepeatDiv = document.createElement('div')
+			content.append(screenImageRepeatDiv)
+			this.screenImageRepeat.placeAt(screenImageRepeatDiv)
+
+			this.screenImageRepeatDiv = screenImageRepeatDiv
 			this.screenImageDiv = parent;
 			this.properties.appendChild(parent);
 		},
@@ -1335,8 +1200,8 @@ export default {
 			*/
 			var db = new DomBuilder();
 
-			var add = db.div("MatcToolbarGridFull MatcPointer MatcToolbarItem ").build(content);
-			db.span("MatcToolbarSmallIcon mdi mdi-video").build(add);
+			var add = db.div(" MatcPointer MatcToolbarItem MatcToolbarIconButton").build(content);
+			add.appendChild(iconDOM('Animation'))
 			db.span("MatcToolbarItemLabel", "Loading Animation").build(add);
 			this.tempOwn(on(add, touch.press, lang.hitch(this, "showAnimationDialog", "ScreenLoaded")));
 
@@ -1399,7 +1264,7 @@ export default {
 			this._placeAt(this.screenStart, content);
 
 			var item = document.createElement("div");
-			css.add(item, " MatcToolbarGridFull");
+			css.add(item, " ");
 			content.appendChild(item);
 
 
@@ -1411,7 +1276,7 @@ export default {
 			this.screenSegmentCheckbox.placeAt(item)
 
 			item = document.createElement("div");
-			css.add(item, " MatcToolbarGridFull");
+			css.add(item, " ");
 			content.appendChild(item);
 
 			this.screenOverlayCheckBox = this.$new(CheckBox);
@@ -1422,7 +1287,7 @@ export default {
 			this.screenOverlayCheckBox.placeAt(item)
 
 			item = document.createElement("div");
-			css.add(item, " MatcToolbarGridFull");
+			css.add(item, " ");
 			content.appendChild(item);
 
 			this.screenFixedOverlayCheckBox = this.$new(CheckBox);
@@ -1452,7 +1317,7 @@ export default {
 
 
 			//var db = new DomBuilder();
-			//var add = db.div("MatcToolbarGridFull MatcPointer MatcToolbarItem ").build(content);
+			//var add = db.div(" MatcPointer MatcToolbarItem ").build(content);
 			//db.span("MatcToolbarSmallIcon mdi mdi-video").build(add);
 			//db.span("MatcToolbarItemLabel", "Animations").build(add);
 			//this.tempOwn(on(add, touch.press, lang.hitch(this, "showAnimationDialog", "ScreenLoaded")));
@@ -1501,6 +1366,7 @@ export default {
 				css.add(this.canvas.scrollRight, "MatcCanvasScrollBarRightOpen");
 				css.add(this.canvas.scrollBottom, "MatcCanvasScrollBarBottomOpen");
 			}
+			//this.hasEditModeButton = hasEditModeButton
 			css.add(this.widgetViewSection, "MatcToobarViewSectionVisible");
 		},
 
@@ -1595,7 +1461,7 @@ export default {
 
 		createInput (content,placeholder){
 			var div = document.createElement("div");
-			css.add(div, " MatcToolbarItem MatcToolbarGridFull");
+			css.add(div, " MatcToolbarItem ");
 			content.appendChild(div);
 
 			let input = document.createElement("input");
@@ -1650,10 +1516,9 @@ export default {
 			}
 
 			if (settingsCallback){
-				let settings = document.createElement("span");
-				css.add(settings, "MatcToolbarSectionSettingsIcon mdi mdi-cog"); //mdi-tune-vertical
-				div.appendChild(settings);
-				this.own(on(settings, touch.press, lang.hitch(this, settingsCallback)));
+				const icon = iconDOM('SettingsCog', 'MatcToolbarSectionSettingsIcon')
+				div.appendChild(icon);
+				this.own(on(icon, touch.press, lang.hitch(this, settingsCallback)));
 			}
 
 			if (designTokenWidget) {
@@ -1679,17 +1544,6 @@ export default {
 			this.own(on(btn, "unlink", lang.hitch(this, "unlinkDesignToken")));
 			this.designTokenBtns.push(btn)
 			return btn
-		},
-
-		createSpacer (parent){
-			var span = document.createElement("span");
-			css.add(span,"MatcToolbarSeperator");
-			if(!parent){
-				this.properties.appendChild(span);
-			} else {
-				parent.appendChild(span);
-			}
-			return span;
 		},
 
 		createToolBarItem (label, callback, clazz, parent){
@@ -1743,6 +1597,7 @@ export default {
 				{ value:"Arial, sans-serif", label:"Arial", css:"MatchFont MatchFontArial"},
 				{ value: 'Arial Black, Gadget, sans-serif', label : "Arial Black", css:"MatchFont MatchFontArialBlack"},
 
+				{ value: 'Inter, sans-serif', label: "Inter",  css:"MatchFont MatchSourceInter"},
 				{ value: 'Source Sans Pro, sans-serif', label: "Source Sans Pro",  css:"MatchFont MatchSourceSansPro"},
 				{ value: 'Roboto, sans-serif', label: "Roboto",  css:"MatchFont MatchFontRoboto"},
 

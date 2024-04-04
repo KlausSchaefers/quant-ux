@@ -8,8 +8,8 @@
 		"_type" : "Widget",
 		"x" : 0,
 	    "y" : 0,
-	    "w" : 200,
-	    "h" : 40,
+        "w": "@form-width",
+        "h": "@form-height",
 	    "z" : 0,
 	    "props" : {
 	        "options" : ["Option 1", "Option 2", "Option 3"]
@@ -22,97 +22,43 @@
 		     "padding":true,
 		     "label":true
 	     },
-	     "style" : { 
-	    	 "borderTopRightRadius" : 3,
-	         "borderTopLeftRadius" : 3,
-	         "borderBottomRightRadius" : 3,
-	         "borderBottomLeftRadius" : 3,
-	         "borderTopWidth" : 1,
-	         "borderBottomWidth": 1,
-	         "borderRightWidth" : 1,
-	         "borderLeftWidth" : 1,
-	         "borderTopColor" : "#333333",
-	         "borderBottomColor" : "#333333",
-	         "borderRightColor" : "#333333",
-	         "borderLeftColor" : "#333333",
-	         "background" : "#ffffff",
-	         "popupBackground" : "#ffffff",
-		     "popupColor" : "#333333",
-	         "color":"#333333",
-	         "fontSize" : 18,
-		     "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		     "textAlign" : "left",
-		     "paddingTop" : 5,
-			 "paddingBottom" : 5,
-			 "paddingLeft" : 6,
-			 "paddingRight" : 6,
-			 "selectedOptionColor" : "#333333",
-		     "selectedOptionBackground": "#f2f2f2"		   
-	     },
-		 "error": {
-			"borderTopColor": "#cc0000",
-			"borderBottomColor": "#cc0000",
-			"borderRightColor": "#cc0000",
-			"borderLeftColor": "#cc0000",
-			"background": "#ffcaca",
-			"color": "#cc0000"
-		  }
-	},
+	     "style" : {  
 	
-	{
-		"id" : "DropDownBorderColor",
-		"type" : "DropDown",
-		"name" : "DropDown 2",
-		"subcategory" : "FormDropDown",
-		"category" : "WireFrame",
-		"_type" : "Widget",
-		 "_extends" : "DropDown",
-		"x" : 0,
-	    "y" : 0,
-	    "w" : 200,
-	    "h" : 40,
-	    "z" : 0,
-	    "props" : {
-	        "options" : ["Option 1", "Option 2", "Option 3"],
-	        "caretBorderColor" : true
-	     }
-	},
-	{
-		"id" : "HoverDropDown",
-		"type" : "HoverDropDown",
-		"name" : "Hover DropDown",
-		"subcategory" : "XFormDropDown",
-		"category" : "WireFrame",
-		"_type" : "Widget",
-		 "_extends" : "DropDown",
-		"x" : 0,
-	    "y" : 0,
-	    "w" : 200,
-	    "h" : 40,
-	    "z" : 0,
-	    "props" : {
-	        "options" : ["Option 1", "Option 2", "Option 3"],
-	        "event" : "hover"
-	     }
-	},
-	{
-		"id" : "HoverDropDown2",
-		"type" : "HoverDropDown",
-		"name" : "Hover DropDown",
-		"subcategory" : "XFormDropDown",
-		"category" : "WireFrame",
-		"_type" : "Widget",
-		 "_extends" : "DropDown",
-		"x" : 0,
-	    "y" : 0,
-	    "w" : 200,
-	    "h" : 40,
-	    "z" : 0,
-	    "props" : {
-	        "options" : ["Option 1", "Option 2", "Option 3"],
-	        "event" : "hover",
-	        "caretBorderColor" : true
-	     }
-	}
- 
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign" : "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+
+			"background": "@form-background",
+			"color": "@form-color",
+
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",	
+
+			"padding" : "@form-padding-horizontal",
+				
+			"popupBorderColor" : "@form-popup-border-color",
+			"popupBorderWidth" : "@form-popup-border-width",
+			"popupColor" : "@form-popup-color",
+			"popupBackground" : "@form-popup-background",
+			"popupShadow": "@box-shadow-m",
+		
+			"selectedOptionColor" : "@form-popup-color:hover",
+		    "selectedOptionBackground": "@form-popup-background:hover"
+
+	     },
+		 "hover": {
+			"borderColor": "@form-border-color:hover",	
+			"background": "@form-background:hover",
+			"color": "@form-color:hover"
+		 },
+		 "error": {
+			"borderColor": "@form-border-color:error",	
+			"background": "@form-background:error",
+			"color": "@form-color:error"
+		  }
+	} 
 ]

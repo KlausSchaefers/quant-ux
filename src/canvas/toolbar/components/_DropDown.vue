@@ -1,10 +1,10 @@
 
 <template>
      <div class="MatcToolbarItem ">
-		<div type="button" data-dojo-attach-point="button">
+		<div type="button" ref="button">
 			<label data-dojo-attach-point="label" class="">F</label>
 			<span class="caret" data-dojo-attach-point="caret"></span>
-			</div>
+		</div>
 			<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 		</div>
 	</div>
@@ -19,6 +19,7 @@ import topic from 'dojo/topic'
 import domGeom from 'dojo/domGeom'
 import Logger from 'common/Logger'
 import win from 'dojo/win'
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
     name: 'DropDown',
@@ -28,6 +29,7 @@ export default {
             reposition: false,
             isOpen: false,
             arrowSize: 10,
+			popupOffsetRight: 6,
             chevron: true,
 			isChildDropDown: false
         }
@@ -37,6 +39,7 @@ export default {
 		postCreate (){
 			this.logger = new Logger("_DropDown");
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));
+			this.button = this.$refs.button
 			this.setChevron()
 		},
 
@@ -61,6 +64,9 @@ export default {
 
 		},
 
+		setActiveButton (node) {
+			this.button = node
+		},
 
 		setPopupCss (cls){
 			css.add(this.popup, cls);
@@ -75,10 +81,17 @@ export default {
 			this.hideListener = fct;
 		},
 
-		renderRemovePopupFooter (msg, callback){
-			var div = document.createElement("div");
+		renderRemovePopupFooter (msg, callback, icon='Delete'){
+			const div = document.createElement("div");
 			css.add(div, "MatcToolbarPopupFooter");
-			div.innerHTML = '<span class="MatcToolbarPopupFooterIcon mdi mdi-close-circle"></span><span class="MatcToolbarPopupFooterLabel">' + msg + '</span>';
+
+			div.appendChild(iconDOM(icon))
+
+			const lbl = document.createElement("span")
+			lbl.innerHTML = msg
+			div.appendChild(lbl)
+
+	
 			this.own(on(div, touch.press, callback));
 			this.popup.appendChild(div)
 			this.popupFooter = div
@@ -135,6 +148,14 @@ export default {
 				return;
 			}
 
+			if (this.button) {
+				css.add(this.button, "MatcToolbarItemActive");
+			}
+
+			if (this.isChildDropDown) {
+				css.add(this.popup, "MatcToolbarPopUpChild");
+			}
+
 			css.add(this.popup, "MatcToolbarPopUpOpen");
 
 			this._mouseDownListener = on(win.body(),"mousedown", lang.hitch(this,"hideDropDown"));
@@ -149,7 +170,7 @@ export default {
 			this.onVisible();
 
 			if (this.reposition) {
-					this.teleportToBody(forceUpdatePosition)
+				this.teleportToBody(forceUpdatePosition)
 			}
 			this.renderArrow();
 			if(this.showListener){
@@ -194,6 +215,7 @@ export default {
 			if (!this.popupPos || forceUpdatePosition){
 				this.popupPos = domGeom.position(this.popup);
 			}
+			this.popupPos.h -=8
 
 			var h = win.getBox().h;
 			if(pos.y > h * 0.667){
@@ -206,7 +228,14 @@ export default {
 
 
 			this.popup.style.bottom = "auto";
-			this.popup.style.left = pos.x - this.popupPos.w -this.arrowSize+ "px";
+			if (this.repositionPosition === 'right') {
+				this.popup.style.left = "auto"
+				this.popup.style.left = pos.x + pos.w + this.popupOffsetRight + "px";
+			} else {
+				this.popup.style.right = "auto"
+				this.popup.style.left = pos.x - this.popupPos.w -this.popupOffsetRight+ "px";
+			}
+
 			return true
 		},
 
@@ -226,7 +255,7 @@ export default {
 					var pos = domGeom.position(this.getPopupRootNode());
 					var popupPos = domGeom.position(this.popup);
 					var y = Math.round(pos.y - popupPos.y +((pos.h-this.arrowSize)/2));
-					this.arrow.style.top = Math.min(y, popupPos.h-2*this.arrowSize) + "px";
+					this.arrow.style.top = Math.min(y, (popupPos.h-8) * this.arrowSize) + "px";
 				}
 			}
 		},
@@ -250,8 +279,14 @@ export default {
 				return;
 			}
 
+			if (this.button) {
+				css.remove(this.button, "MatcToolbarItemActive");
+			}
+
+
 			if(this.popup){
 				css.remove(this.popup, "MatcToolbarPopUpOpen");
+				
 			} else {
 				/**
 				 * FIXME: This is a stupid bug that happens all the time. Not sure why exactly, m

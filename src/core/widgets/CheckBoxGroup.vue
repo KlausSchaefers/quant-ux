@@ -74,6 +74,10 @@ export default {
       this._scaleX = scaleX;
       this._scaleY = scaleY;
 
+      if (this.mode === 'simulator' && model.props.randomize) {
+        this.shuffleArray(this.options)
+      }
+
       this.renderChildren(model.props.options);
 
       this.setStyle(style, model);

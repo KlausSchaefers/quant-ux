@@ -13,10 +13,10 @@
             
                 <div v-if="tab === 'settings'" class="MatcFlexDialogMain">
                   
-                        <div class="field">
+                        <div class="form-group">
                             <label>{{ getNLS('design-gpt.key-title') }}</label>
                             <form autocomplete="off">
-                                <input type="password" autocomplete="off" class="input" v-model="openAIKey" @change="onChangeOpenAIKey"/>
+                                <input type="password" autocomplete="off" class="form-control" v-model="openAIKey" @change="onChangeOpenAIKey"/>
                             </form>
                         </div>
 
@@ -59,7 +59,7 @@
                             <textarea 
                                 :placeholder="promptPlaceholder"
                                 type="text" 
-                                class="input" 
+                                class="form-control" 
                                 v-model="prompt" 
                                 @keyup="onKeyUp($event)" 
                                 ref="promptBox"></textarea>
@@ -73,12 +73,12 @@
 
                 <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'openai'">
                   
-                    <a class=" MatcButton" v-show="preview" @click.stop="onSave">{{ getNLS('btn.import') }}</a>
+                    <a class=" MatcButton MatcButtonPrimary" v-show="preview" @click.stop="onSave">{{ getNLS('btn.import') }}</a>
                     <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
                 </div>
 
                 <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'settings'">
-                    <a class=" MatcButton" @click.stop="tab = 'openai'">
+                    <a class=" MatcButton MatcButtonPrimary" @click.stop="tab = 'openai'">
                         {{getNLS('btn.save') }}
                     </a>
                     <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
@@ -95,8 +95,8 @@
 </template>
 <style lang="scss">
 
-@import '../../../style/scss/gpt_chat_dialog.scss';
-@import '../../../style/scss/flex_dialog.scss';
+@import '../../../style/components/gpt_chat_dialog.scss';
+@import '../../../style/components/flex_dialog.scss';
 
 
 .iframeCntr {
@@ -403,7 +403,7 @@ export default {
             s.scrollListenTarget = "parent";
             s.setHash(this.hash)     
             s.initParent = () => { };
-            s.setScrollContainer(scroller);
+            //s.setScrollContainer(scroller);
             scroller.wrap(s.domNode);
             cntr.appendChild(container);
             return s;

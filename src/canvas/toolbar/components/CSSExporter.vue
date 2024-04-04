@@ -1,11 +1,11 @@
 
 <template>
      <div class="MatcDownloader MatcCSSExporter">
-		<div data-dojo-attach-point="donwloadBtn" class=" MatcToolbarItem MatcToolbarGridFull MatcToolbarDropDownButton ">
-			<div class=" MatcToolbarItemIcon">
-				<span class="MatcToolbarSmallIcon mdi mdi-code-not-equal-variant"></span>
-				<span class="MatcToolbarItemLabel">Export Code (Beta)</span>
-			</div>
+		<div data-dojo-attach-point="donwloadBtn" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton">
+		
+			<QIcon icon="Code"/>
+			<span class="MatcToolbarItemLabel">Export Code</span>
+	
 		</div>
 	</div>
 </template>
@@ -22,7 +22,7 @@ import Code from 'common/Code'
 import Util from 'core/Util'
 import * as LowCodeUtil from 'core/code/LowCodeUtil'
 import CSSFactory from 'core/code/CSSFactory'
-
+import QIcon from 'page/QIcon'
 //const cli = require('quant-ux-cli')
 
 export default {
@@ -34,7 +34,9 @@ export default {
 					isResponsive: true
         }
     },
-    components: {},
+    components: {
+		'QIcon': QIcon
+	},
     methods: {
       postCreate (){
 				this.logger = new Logger("CSSExporter");
@@ -75,7 +77,7 @@ export default {
 				this.logger.log(-1, "download", "enter > " + this.screen);
 
 				var db = new DomBuilder();
-				var popup = db.div("MatcCSSDialog ").build();
+				var popup = db.div("MatcCSSDialog MatcDialog").build();
 
 				var cntr = db.div("MatcCSSDialogCntr").build(popup);
 
@@ -95,8 +97,8 @@ export default {
 				}
 
 
-				var write = db.div("MatcButtonBar")
-					.div("MatcButton MatcMarginTop", "Close")
+				var write = db.div("MatcButtonBar MatcMarginTop")
+					.div("MatcButton MatcButtonPrimary ", "Close")
 					.build(popup);
 
 				var d = new Dialog();

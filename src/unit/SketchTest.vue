@@ -23,8 +23,11 @@
   </div>
 </template>
 
+<style lang="scss">
+  @import "../style/matc.scss";
+</style>
 <style>
-  @import url("../style/matc.css");
+
   .MatcTReeCntr {
       background: #f2f2f2;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);

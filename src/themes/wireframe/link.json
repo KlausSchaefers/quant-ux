@@ -1,32 +1,24 @@
 [
 	{
-		 "id" : "Link",
-		 "type" : "Button",
-		 "_type" : "Widget",
-		 "category" : "WireFrame",
-		 "subcategory" : "AForm",
-		 "name" : "Link",
-		 "x" : 0,
-	    "y" : 0,
-	    "w" : 96,
-	    "h" : 32,
-	    "z" : 0,
-	    "props" : {
-	       "label" : "Click Me"
-	    },
-	    "has" : {
-	       "onclick" : true,
-	       "label" : true
-	    },
-	    "style" : { 
-	   	  "fontSize" : 14,
-	      "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-	      "textAlign" : "center",
-	      "letterSpacing" : 0,
-	      "lineHeight" : 1,
-	   	  "color" : "#333333",
-	   	  "textDecoration":"underline",
-	   	  "background":"transparent"
-	    }
+		"id": "Link",
+		"type": "Button",
+		"_type": "Widget",
+		"category": "Advanced",
+		"subcategory": "AForm",
+		"name": "Link",
+		"_extends": "Label",
+		"props": {
+			"label": "Click Me"
+		},
+		"has": {
+			"onclick": true,
+			"label": true
+		},
+		"style": {
+			"textDecoration": "underline"
+		},
+		"hover": {
+			"color": "@label-color:hover"
+		}
 	}
 ]

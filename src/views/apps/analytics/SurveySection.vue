@@ -3,7 +3,7 @@
   <div class="MatcSurveySection">
       <div class="level">
       <div class="level-left">
-        <h2 class="title level-item">
+        <h3 class="title level-item">
           <span data-nls="testSettingsTasks">{{$t('survey.header')}}</span>
           <HelpButton
             topic="survey.intro"
@@ -11,12 +11,13 @@
           />
 
        
-        </h2>
+        </h3>
       </div>
       <div class="level-right">
        
       
         <DropDownSelect
+          class="MatcButtonSecondary"
           v-if="isLoaded && table.rows.length > 0 && table.cols.length > 0"
           ref="dropDown"
           :options="tableOptions" :l="$t('survey.options')" 
@@ -30,10 +31,11 @@
      <div class="MatcSurveySectionTableCntr">
 
       <SurveyTable 
-          v-if="table.rows.length > 0 && table.cols.length > 0" 
+          v-if="table && table.rows.length > 0 && table.cols.length > 0" 
           :app="app"
           :pub="pub"
           :events="events"
+          :table="table"
           :viewOptions="viewOptions"
           :annotation="annotation"
           :test="test"/>
@@ -48,7 +50,7 @@
 	</div>
 </template>
 <style lang="scss">
-    @import '../../../style/survey_section.scss';
+    @import '../../../style/components/survey_section.scss';
 </style>
 <script>
 import Logger from 'common/Logger'
@@ -67,6 +69,7 @@ export default {
     data: function () {
         return {
           isLoaded: false,
+          table: {rows: {}, cols:{}},
           viewOptions:{
             showTasksSucess: false,
             showTaskDetails: false,
@@ -83,7 +86,12 @@ export default {
     },
     computed: {
       tableOptions () {
-        return [
+        const cols = this.table.cols.filter(c => c.type=== 'data').map(c => {
+            return {value: 'toggleColumn', label: c.label, check:true, selected: !c.hidden, callback: (selected) => this.toggleColumn(c, selected)}
+        })
+        
+        return cols.concat([
+            {css:"MatcDropDownButtonLine"},
             {value: 'showTasksSucess', label: this.$t('survey.taskSuccess'), check:true, selected: this.viewOptions.showTasksSucess},
             {value: 'showVideo', label: this.$t('survey.showVideo'), check:true, selected: this.viewOptions.showVideo},
             //{value: 'showId', label:this.$t('survey.ids'), check:true},
@@ -91,7 +99,7 @@ export default {
             //{value: 'fullscreen', label: this.$t('survey.fullscreen'), event:'fullscreen', icon:' mdi mdi-chart-bar'},
             {css:"MatcDropDownButtonLine"},
             {value: 'download', label: this.$t('survey.download'), event:'download', icon:'mdi mdi-download-outline'}
-          ]
+          ])
       },
       hasID () {
         return this.viewOptions.showId
@@ -99,45 +107,8 @@ export default {
       hasTasks () {
         return this.viewOptions.showTasksSucess || this.viewOptions.showTaskDetails
       },
-      summary () {
-        const result = []
-        const data = this.table
-        data.cols.forEach(col => {
-          if (data.meta[col].hidden !== true) {
-              let sum = 0
-              let count = 0
-              data.rows.forEach(row  => {
-                let value = row[col]
-                if (value !== '-') {
-                  /**
-                   * FIXME: We could check table.types and check for
-                   * the data types,.g. boolean, categorical etc.
-                   */
-                  if (!isNaN(value * 1)) {
-                    sum += value * 1
-                    count++
-                  }
-
-                }
-              })
-              if (count > 0) {
-                result.push(Math.round((sum / count) * 100) / 100)
-              } else {
-                result.push('-')
-              }
-          }
-        })
-        return result
-      },
-      table () {
-        const analytics = new Analytics();
-        const events = analytics.filterEvents(lang.clone(this.events), this.annotation)
-        return analytics.getSurveyAnswers(events, 
-          this.app, 
-          this.test, 
-          this.viewOptions
-        )
-      },
+     
+     
       downloadFileName () {
         if (this.app) {
           return this.app.name + '_survey.csv'
@@ -146,10 +117,22 @@ export default {
       }
     },
     methods: {
+      getTable () {
+        const analytics = new Analytics();
+        const events = analytics.filterEvents(lang.clone(this.events), this.annotation)
+        return analytics.getSurveyAnswers(events, 
+          this.app, 
+          this.test, 
+          this.viewOptions
+        )
+      },
       onFullScreen () {
         if (this.$refs.dialog && this.$refs.dropDown) {
           this.$refs.dialog.show(this.$refs.dropDown.$el)
         }
+      },
+      toggleColumn (col, selected) {
+          col.hidden = !selected
       },
       onChangeView (selection) {
         for (let key in selection) {
@@ -159,9 +142,9 @@ export default {
        downloadCVS () {
 
           const table = this.table
-          let csvContent = '#,' + table.cols.join(',') + "\n";
+          let csvContent = '#,' + table.cols.map(c => c.label).join(',') + "\n";
           csvContent += table.rows.map((row, r) => {
-            return r+ ',' + table.cols.map(c => row[c]).join(',')
+            return r+ ',' + table.cols.map(c => row[c.key]).join(',')
           }).join("\n")
 
           const blob = new Blob([csvContent], {
@@ -184,6 +167,7 @@ export default {
       if (this.test && this.test.tasks.length > 0) {
         //this.viewOptions.showTasksSucess = true
       }
+      this.table = this.getTable()
       this.isLoaded = true
     }
 }

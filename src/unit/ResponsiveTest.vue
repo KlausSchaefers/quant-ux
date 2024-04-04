@@ -8,9 +8,10 @@
   
     </div>
   </template>
-  
+  <style lang="scss">
+  @import "../style/matc.scss";
+</style>
   <style>
-    @import url("../style/matc.css");
     .max {
         width: 375px;
         height: 600px;
@@ -22,7 +23,7 @@
   
   <script>
   import DojoWidget from 'dojo/DojoWidget'
-  import app from '../../tests/unit/data/responsiveApp.json'
+  import app from '../../tests/unit/data/responsiveAppMax.json'
   import Simulator from 'core/Simulator'
   import DomBuilder from 'common/DomBuilder'
   import domGeom from 'dojo/domGeom'
@@ -45,11 +46,9 @@
     methods: {
         onResize () {
             const pos = domGeom.position(this.$refs.cntr)
-            console.debug('onResize', pos)
-         
+            console.debug(pos)
             const app = this.responsive.resize(pos.w, pos.h)
 
-            console.debug('onResize', app.screenSize)
             this.sim.destroy()
             this.$refs.cntr.innerHTML = ''
             this.createSim(app)
@@ -82,7 +81,8 @@
 
         this.db = new DomBuilder()
         this.createSim(this.app)
-        this.responsive = new ResponsiveLayout(this.app)
+        this.responsive = new ResponsiveLayout()
+        this.responsive.initApp(this.app)
     }
   };
   </script>

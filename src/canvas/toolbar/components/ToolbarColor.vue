@@ -1,12 +1,15 @@
 
 <template>
-	<div class="MatcDesignTokenMixin">
+	<div class="MatcDesignTokenMixin MatcToolbarPopUpCntr">
 		<DesignTokenView v-if="hasDesignToken" :designtoken="currentDesignToken"/>
-		<div v-show="!hasDesignToken" :class="[' MatcToolbarItem MatcToolbarColor', {'MatcToolbarGridFull': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}] ">
-			<div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
+		<div v-show="!hasDesignToken"  >
+			<div 
+				type="button" 
+				ref="button"
+				:class="['MatcToolbarColorButton MatcToolbarItem MatcToolbarIconButton MatcToolbarColor', {'': hex}, {'MatcToolbarLabeledColor': label}, {'MatcToolbarColorHexError': hexError}]">
 				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
 				<span v-if="label" class="MatcToolbarItemLabel">{{label}}</span>
-				<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInput" @mousedown.stop="" @click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput"/>
+				<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInputInlineEdit" @mousedown.stop="" @click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput"/>
 			</div>
 		</div>
 		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
@@ -134,7 +137,7 @@ export default {
 
 			init () {
 				this._renderColorWidgets(this.popup)
-				this.renderRemovePopupFooter("No Color", lang.hitch(this, "setTransparent"));
+				this.renderRemovePopupFooter("No Color", lang.hitch(this, "setTransparent"),'ColorTrans');
 			},
 
 			_renderColorWidgets (popup) {

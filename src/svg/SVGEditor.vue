@@ -200,8 +200,8 @@
   </div>
 </template>
 
-<style>
-  @import url("../style/qux-svg-editor.css");
+<style lang="scss">
+  @import "../style/components/qux-svg-editor.scss";
 </style>
 
 <script>

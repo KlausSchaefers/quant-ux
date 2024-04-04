@@ -9,8 +9,8 @@
 	</div>
 </template>
 
-<style>
- @import '../style/vommond.css';
+<style lang="scss">
+ @import '../style/vommond.scss';
 </style>
 
 <script>

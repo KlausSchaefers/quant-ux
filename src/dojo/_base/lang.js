@@ -1,5 +1,24 @@
 class lang {
 
+    listGroupBy (list, key) {
+        const result = {}
+        list.forEach(element => {
+            const value = element[key]
+            if (!result[value]) {
+                result[value] = []
+            }
+            result[value].push(element)
+        });
+        return result
+    }
+
+    stopEvent(e) {        
+        if (e && e.stopPropagation) {
+            e.stopPropagation();
+            e.preventDefault();
+        }    
+    }
+
     hitch (scope, method){
         if(arguments.length > 2){
             return this._hitchArgs.apply(scope, arguments); // Function

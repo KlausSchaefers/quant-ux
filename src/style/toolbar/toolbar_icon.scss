@@ -1,0 +1,109 @@
+
+.MatcMultiIcon {
+	position: relative;
+	height: 18px;
+}
+
+.MatcToolbar .MatcMultiIcon.MatcIconDanger:hover {
+	color: #f83a3a;
+}
+
+.MatcToolbar .MatcMultiIcon.MatcIconDanger .MatcTinyIcon.mdi {
+	opacity: 1;
+}
+
+.MatcToolbar .mdi,
+.MatcToolbar .ti,
+.MatcToolbar .ri {
+	font-size: 18px;
+	vertical-align: middle;
+	line-height: 1;
+}
+
+.MatcToolbar .MatcTinyIcon.mdi {
+	bottom: 6px;
+	font-size: 12px;
+	position: absolute;
+	right: 4px;
+	opacity: 1;
+}
+
+.MatcToolbar .MatcTinyIcon.MatcTinyIconAnimated.mdi {
+	opacity: 0;
+}
+
+.MatcToolbar .MatcToolbarItemActive .MatcTinyIcon.mdi {
+	opacity: 1;
+}
+
+
+.MatcToolbar .MatcTinyIcon.MatcTinyIconRemove.mdi {
+	opacity: 1;
+}
+
+.MatcToolbar .MatcMultiIcon:hover .MatcTinyIcon.mdi {
+	opacity: 1;
+}
+
+.MatcIconMirror:before {
+	transform: rotateY(180deg);
+}
+
+.MatcIcon45:before {
+	transform: rotate(45deg);
+}
+
+.MatcToolbarIconAddLogic.mdi:before {
+	transform: rotate(45deg);
+}
+
+.MatcToolbarItemIcon {
+    cursor: pointer;
+}
+
+.MatcIconCircle {
+    border-radius: 50%;
+    display: inline-block;
+    height: 16px;
+    vertical-align: middle;
+    width: 16px;
+}
+
+.MatcToolbarIcon-vertical {
+	height: 14px;
+	width: 14px;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	display: inline-block;
+	margin-top: 2px;
+}
+
+.MatcToolbarIcon-vertical-bar {
+	display: inline-block;
+	width: 14px;
+	height: 4px;
+	margin-top: 4px;
+	vertical-align: top;
+	background-color: #ddd;
+}
+
+.MatcToolbarIcon-horizontal {
+	height: 14px;
+	width: 14px;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	display: inline-block;
+	margin-top: 2px;
+}
+
+.MatcToolbarIcon-horizontal-bar {
+	display: inline-block;
+	height: 14px;
+	width: 4px;
+	vertical-align: top;
+	background-color: #ddd;
+}
+
+.MatcToolbar .MatcToolbarSectionSettingsIcon.mdi {
+	font-size: 14px;
+}

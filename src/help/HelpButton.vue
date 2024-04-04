@@ -1,9 +1,8 @@
 
 <template>
     <span :class="[{'MatcHelpIcon': !hasToolbar}, {'MatcToolbarItem MatcNotification': hasToolbar}]" @click="open">
-        <div type="button" data-dojo-attach-point="button"> 
-            <span class="mdi mdi-help-circle">
-            </span>
+        <div type="button"> 
+            <QIcon icon="Help" />        
             <span v-if="newNotifications" class="MatcNotificationBubble">{{newNotifications}}</span>
         </div>
         
@@ -15,6 +14,7 @@ import DomBuilder from 'common/DomBuilder'
 import Help from 'help/Help'
 import DojoWidget from 'dojo/DojoWidget'
 import Services from 'services/Services'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'HelpButton',
@@ -25,7 +25,7 @@ export default {
             newNotifications: 0
         }
     },
-    components: {},
+    components: {QIcon},
     methods: {
         show(topic, subtopic) {
            
@@ -39,7 +39,7 @@ export default {
                 let help = this.$new(Help, {hasNotifications: false})
                 help.placeAt(popup)
                 help.setTopic(topic)
-                help.setSupTopic(subtopic)
+                help.setSupTopic(subtopic, true)
             }, 300)
         },
         open () {
@@ -58,7 +58,7 @@ export default {
                 help.placeAt(popup)
                 if (this.topic) {
                     help.setTopic(this.topic)
-                    help.setSupTopic(this.subtopic)
+                    help.setSupTopic(this.subtopic, true)
                 }
             }, 300)
             

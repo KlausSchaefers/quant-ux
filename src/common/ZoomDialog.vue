@@ -6,7 +6,7 @@
                 {'ZoomDialogAnimation': step >= 2}]" 
         @mousedown="close">
         <div class="ZoomDialogContainer" ref="container" @click.stop="" @mousedown.stop="">
-            <div class="ZoomDialogWrapper" ref="wrapper">
+            <div :class="['ZoomDialogWrapper', {'ZoomDialogWrapperOverflow': overflow === 'visible'}]" ref="wrapper">
                 <div class="ZoomDialogContent" ref="content">
                     <slot></slot>
                 </div>
@@ -15,11 +15,12 @@
     </div>
 </template>
 <style lang="scss">
-    @import "../style/scss/zoom_dialog.scss";
+    @import "../style/components/zoom_dialog.scss";
 </style>
 <script>
 export default {
     name: "ZoomDialog",
+    props: ['overflow'],
     data: function () {
       return {
         visible: false,
@@ -68,7 +69,6 @@ export default {
                     node = document.getElementById(node)
                 }
                 const clientRect = node.getBoundingClientRect();
-                console.debug(clientRect.top)
                 const ret = {
                     x: clientRect.left, 
                     y: clientRect.top, 
@@ -79,7 +79,6 @@ export default {
                     ret.x += window.scrollX
                     ret.y += window.scrollY
                 }
-                console.debug(clientRect.top, ret.x)
                 return ret;
             }
             return {
@@ -87,8 +86,7 @@ export default {
             }	
         },
         shake () {
-            const wrapper = this.$refs.wrapper;
-         
+            const wrapper = this.$refs.wrapper;         
             setTimeout(() => {
                 wrapper.style.left = (50) + "px";
             }, 1);

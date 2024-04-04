@@ -1,0 +1,41 @@
+.MatcQIcon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+
+   .MatcQIconSVG{
+        stroke-width: 1.5;
+   }
+
+   &.MatcToolbarPopUpIcon{
+
+        .MatcQIconSVG{
+            width: 18px;
+            height: 18px;
+        }
+
+    }
+
+    svg {
+        path {
+            transform: translate(0.5,0.5)
+        }
+    }
+}
+
+.MatcToolbar .MatcQIcon{
+    height: 24px;
+    width: 24px;
+}
+
+.MatcToolbar .MatcToolbarIconButton .MatcQIcon{
+    justify-content: flex-start;
+    width: 18px;
+}
+
+.MatcToolbar .MatcToolbarToggleButton .MatcQIcon{
+    justify-content: center;
+}
+

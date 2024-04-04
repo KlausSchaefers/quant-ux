@@ -3,13 +3,13 @@
         "id": "LockSlider",
         "type": "LockSlider",
         "_type": "Widget",
-        "category": "WireFrame",
+        "category": "Advanced",
         "subcategory": "FormSpecialSlider",
         "name": "Lock Slider",
         "x": 0,
         "y": 0,
-        "w": 240,
-        "h": 64,
+		"w": "@box-width-xxl",
+		"h": "@box-height-m",
         "z": 0,
         "props": {
             "label": "Slide to unlock"
@@ -22,35 +22,37 @@
             "backgroundColor": true
         },
         "style": {
-            "fontSize": 14,
-            "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
-            "textAlign": "center",
-            "letterSpacing": 0,
-            "lineHeight": 1,
-            "color": "#333333",
+            "fontSize": "@font-size-xl",
+			"fontFamily": "@font-family",
+			"textAlign" : "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+
+			"background": "@form-background",
+			"color": "@form-color",
+
+			"borderRadius": "@border-radius-round",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",	
+
+			"padding": "@spacing-s",
+				
+			"popupBorderColor" : "@form-popup-border-color",
+			"popupBorderWidth" : "@form-popup-border-width",
+			"popupColor" : "@form-popup-color",
+			"popupBackground" : "@form-popup-background",
+			"popupShadow": "@box-shadow-m",
+
+      
             "textDecoration": "none",
-            "borderTopRightRadius": 48,
-            "borderTopLeftRadius": 48,
-            "borderBottomRightRadius": 48,
-            "borderBottomLeftRadius": 48,
-            "borderTopWidth": 1,
-            "borderBottomWidth": 1,
-            "borderRightWidth": 1,
-            "borderLeftWidth": 1,
-            "borderTopColor": "#333333",
-            "borderBottomColor": "#333333",
-            "borderRightColor": "#333333",
-            "borderLeftColor": "#333333",
-            "background": "#ffffff",
-            "foregroundColor": "#333333",
-            "paddingTop" : 3,
-            "paddingBottom" : 3,
-            "paddingLeft" : 3,
-            "paddingRight" : 3,
+       
+            "foregroundColor": "@form-border-color",
+       
             "icon": "mdi mdi-lock",
             "iconOpen": "mdi mdi-lock-open",
-            "iconColor": "#333333",
-            "handleColor": "#ffffff"
+            "iconColor": "@form-border-color",
+            "handleColor": "@form-background"
         }
     }
 ]

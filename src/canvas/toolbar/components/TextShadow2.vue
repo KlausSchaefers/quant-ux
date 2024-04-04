@@ -1,9 +1,8 @@
 
 <template>
-  <div class=" MatcToolbarItem MatcBoxShadow2 MatcTextShadow">
-      <div type="button" data-dojo-attach-point="button" class="MatcToolbarColorButton">
-        <span data-dojo-attach-point="lbl" class="MatcToolbarItemIcon mdi mdi-text-shadow"></span>
-
+  <div class=" MatcToolbarItem MatcBoxShadow2 MatcTextShadow" ref="button">
+      <div type="button" >
+        <QIcon icon="TextShadow"></QIcon>
       </div>
       <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
         <ShadowSettings ref="settings" @changing="onTempChange" @resize="onResize" type="textShadow"/>
@@ -17,6 +16,7 @@
 <script>
 
 import BoxShadow2 from './BoxShadow2'
+import QIcon from 'page/QIcon'
 
 export default {
   name: 'TextShadow2',
@@ -38,7 +38,9 @@ export default {
           arrowPosition: "right"
       }
   },
-  components: {},
+  components: {
+    'QIcon': QIcon
+  },
   methods: {
 
     onHide () {

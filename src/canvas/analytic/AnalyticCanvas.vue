@@ -2,25 +2,23 @@
 <template>
   <div class="MatcCanvas MatcAnalyticCanvas">
     <div class="MatcCanvasFrame" data-dojo-attach-point="frame">
-      <div class="MatcCanvasContainer MatcCanvasZoomable"  data-dojo-attach-point="container" >
+      <div class="MatcCanvasContainer MatcCanvasZoomable" data-dojo-attach-point="container">
         <div class="MatcCanvasContainer" data-dojo-attach-point="zoomContainer">
-          <div  data-dojo-attach-point="screenContainer" class="MatcCanvasLayer" ></div>
+          <div data-dojo-attach-point="screenContainer" class="MatcCanvasLayer"></div>
           <div data-dojo-attach-point="widgetContainer" class="MatcCanvasLayer"></div>
-					<div data-dojo-attach-point="svgContainer" class="MatcCanvasLayer MatcCanvasSVGLayer"></div>
+          <div data-dojo-attach-point="svgContainer" class="MatcCanvasLayer MatcCanvasSVGLayer"></div>
         </div>
         <div data-dojo-attach-point="dndContainer" class="MatcDnDLayer"></div>
       </div>
     </div>
     <div class="MatcCanvasScrollBar MatcCanvasScrollBarRight" data-dojo-attach-point="scrollRight">
-      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr" >
-        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"
-        ></div>
+      <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrRight" data-dojo-attach-point="scrollRightCntr">
+        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollRightHandler"></div>
       </div>
     </div>
-    <div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom" >
+    <div class="MatcCanvasScrollBar MatcCanvasScrollBarBottom" data-dojo-attach-point="scrollBottom" :style="'padding-left:' + this.layerListWidth + 'px'">
       <div class="MatcCanvasScrollBarCntr MatcCanvasScrollBarCntrBottom" data-dojo-attach-point="scrollBottomCntr" >
-        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"
-        ></div>
+        <div class="MatchCanvasScrollHandle" data-dojo-attach-point="scrollBottomHandler"></div>
       </div>
     </div>
     <div class="MatcMessage" data-dojo-attach-point="message"></div>
@@ -28,9 +26,12 @@
 </template>
 
 <style lang="css">
-  @import url("../../style/matc.css");
-  @import url("../../style/canvas/all.css");
-  @import url('../../style/toolbar/all.css');
+@import url("../../style/css/legacy.css");
+</style>
+<style lang="scss">
+@import "../../style/matc.scss";
+@import "../../style/canvas/all.scss";
+@import '../../style/toolbar/all.scss';
 </style>
 
 <script>
@@ -56,6 +57,7 @@ import DnD from "canvas/DnD";
 import Add from "canvas/Add";
 import Select from "canvas/Select";
 import Distribute from "canvas/Distribute";
+import GridResize from "canvas/GridResize";
 import Tools from "canvas/Tools";
 import Zoom from "canvas/Zoom";
 import Util from "core/Util";
@@ -77,6 +79,7 @@ import DataProcessing from './DataProcessing'
 
 export default {
   name: "AnalyticCanvas",
+  props:['viewport'],
   mixins: [
     DojoWidget,
     _DragNDrop,
@@ -88,6 +91,7 @@ export default {
     Add,
     Select,
     Distribute,
+    GridResize,
     Tools,
     Zoom,
     InlineEdit,
@@ -105,7 +109,7 @@ export default {
   data: function () {
     return {
       mode: "view",
-      zoom: 0.5,
+      zoom: 1,
       analyticMode: "HeatmapClick",
       resizeEnabled: false,
       renderDND: true,
@@ -116,7 +120,8 @@ export default {
       dropOffLineWidth: 25,
       dropOffLineColor: '#555',
       dropOffEventWidth: 40,
-      userJourneyEndColor: '#f03131'
+      userJourneyEndColor: '#f03131',
+      layerListWidth: 256
     };
   },
   components: {},
@@ -127,7 +132,7 @@ export default {
       this.cache = {};
       this.moveMode = "classic";
       this.domUtil = new FastDomUtil();
-			this.analyticLines = {}
+      this.analyticLines = {}
       this.analyticCircles = {}
 
       this.logger.log(2, "postCreate", "entry");
@@ -142,6 +147,7 @@ export default {
         w: this.canvasFlowWidth,
         h: this.canvasFlowHeight,
       };
+      this.initViewport()
       this.initContainerSize();
       this.setContainerPos();
 
@@ -150,7 +156,7 @@ export default {
        */
       this.initSelection()
       this.initRender();
-			this.initAnalyticSVG()
+      this.initAnalyticSVG()
       this.initZoom();
       this.initScrollBars();
       this.initComment();
@@ -158,6 +164,8 @@ export default {
       this.initWiring();
       this.initKeys();
       this.initMouseTracker()
+      this.initDarkModeListener()
+      this.initLayer()
 
       this.db = new DomBuilder();
 
@@ -176,18 +184,30 @@ export default {
       this.logger.log(2, "postCreate", "exit!!!");
     },
 
-    showError (msg){
-			if(this.message){
-				css.add(this.message, "MatcMessageError");
-				css.remove(this.message, "MatcMessageSuccess MatcMessageHint");
-				this.message.textContent = msg;
-				setTimeout(lang.hitch(this,"hideMessage"), 3000);
+    initLayer (){
+			this.logger.log(-2,"initLayer", "entry");
+			const w = localStorage.getItem('quxLayerListWidth')
+			if (w && !isNaN(w * 1)) {
+				this.setLayerListWidth( w * 1)				
 			}
 		},
 
 
-    XlineFunction (line) {
-    	return this.straightLineFunction(line)
+    setLayerListWidth (w) {
+      this.layerListWidth = w
+    },
+ 
+    showError(msg) {
+      if (this.message) {
+        css.add(this.message, "MatcMessageError");
+        css.remove(this.message, "MatcMessageSuccess MatcMessageHint");
+        this.message.textContent = msg;
+        setTimeout(lang.hitch(this, "hideMessage"), 3000);
+      }
+    },
+
+    XlineFunction(line) {
+      return this.straightLineFunction(line)
     },
 
     setPublic(isPublic) {
@@ -207,9 +227,9 @@ export default {
       this.onChangeCanvasViewConfig();
     },
 
-		setMouseListener (callback) {
-			this.mouseListenerCallback = callback
-		},
+    setMouseListener(callback) {
+      this.mouseListenerCallback = callback
+    },
 
     inlineEditInit() {
       this.logger.log(2, "inlineEditInit", "enter");
@@ -264,25 +284,25 @@ export default {
       }
     },
 
-		/**********************************************************************
+    /**********************************************************************
      * Lines
      **********************************************************************/
 
-		initAnalyticSVG (){
-			this.logger.log(3, "initAnalyticSVG", "entry");
-			let bodySelection = d3.select(this.svgContainer);
-			this.analyticSVG = bodySelection.append("svg").attr("width", this.canvasPos.h).attr("height",this.canvasPos.w);
-	  },
+    initAnalyticSVG() {
+      this.logger.log(3, "initAnalyticSVG", "entry");
+      let bodySelection = d3.select(this.svgContainer);
+      this.analyticSVG = bodySelection.append("svg").attr("width", this.canvasPos.h).attr("height", this.canvasPos.w);
+    },
 
-		cleanUpAnalyticLines () {
-			if (this.analyticSVG) {
-				this.analyticSVG.selectAll("*").remove();
-			}
-			this.analyticLines = {}
+    cleanUpAnalyticLines() {
+      if (this.analyticSVG) {
+        this.analyticSVG.selectAll("*").remove();
+      }
+      this.analyticLines = {}
       this.analyticCircles = {}
-		},
+    },
 
-    drawLine (id, line){
+    drawLine(id, line) {
       let color = this.defaultLineColor
       let width = this.defaultLineWidth
       if (this.model && this.model.lines && this.model.lines[id]) {
@@ -295,33 +315,33 @@ export default {
           color = this.mixColor(p)
         }
       }
-			return this.drawSVGLine(id, line, color, width, 1);
-		},
+      return this.drawSVGLine(id, line, color, width, 1);
+    },
 
-		drawAnalyticLine(id, line, color, width, opacity) {
-			const svg = this.analyticSVG.append("path")
-							.attr("d", this.lineFunction(line))
-							.attr("stroke", color)
-							.attr("stroke-width", width )
-							.attr("fill", "none")
-							.style("opacity", opacity);
+    drawAnalyticLine(id, line, color, width, opacity) {
+      const svg = this.analyticSVG.append("path")
+        .attr("d", this.lineFunction(line))
+        .attr("stroke", color)
+        .attr("stroke-width", width)
+        .attr("fill", "none")
+        .style("opacity", opacity);
 
-			this.analyticLines[id] = svg
-		},
+      this.analyticLines[id] = svg
+    },
 
 
-		drawStraightAnalyticLine(id, line, color, width, opacity) {
-			const svg = this.analyticSVG.append("path")
-							.attr("d", this.straightLineFunction(line))
-							.attr("stroke", color)
-							.attr("stroke-width", width )
-							.attr("fill", "none")
-							.style("opacity", opacity);
+    drawStraightAnalyticLine(id, line, color, width, opacity) {
+      const svg = this.analyticSVG.append("path")
+        .attr("d", this.straightLineFunction(line))
+        .attr("stroke", color)
+        .attr("stroke-width", width)
+        .attr("fill", "none")
+        .style("opacity", opacity);
 
-			this.analyticLines[id] = svg
-		},
+      this.analyticLines[id] = svg
+    },
 
-    
+
 
     /**********************************************************************
      * Wiring
@@ -349,9 +369,9 @@ export default {
      * Settings
      **********************************************************************/
 
-		afterUpdateDnd (zoomedModel) {
+    afterUpdateDnd(zoomedModel) {
       this.logger.log(1, "afterUpdateDnd", "enter > ", zoomedModel);
-		},
+    },
 
     initSettings() {
       this.logger.log(1, "initSettings", "enter > ");
@@ -430,20 +450,7 @@ export default {
         this.defaultLineWidth = s.lineWidth;
       }
       if (s.canvasTheme) {
-        if (this._lastCanvasTheme) {
-          css.remove(win.body(), this._lastCanvasTheme);
-        }
-        css.add(win.body(), s.canvasTheme);
-        this._lastCanvasTheme = s.canvasTheme;
-
-        /**
-         * FIXME: Kind of hack
-         */
-        if (s.canvasTheme == "MatcLight") {
-          this.defaultLineColor = "#777";
-        } else {
-          this.defaultLineColor = "#333";
-        }
+        this.setCanvasTheme(s.canvasTheme)
       }
 
       if (s.mouseWheelMode) {
@@ -453,6 +460,53 @@ export default {
       this.settings = s;
     },
 
+
+    setCanvasTheme(canvasTheme) {
+
+      if (canvasTheme === "MatcAuto") {
+        this.logger.log(-1, "setCanvasTheme", "enter > auto: " + canvasTheme + ' > OS: ' + this.isDarkModeOS())
+        if (this.isDarkModeOS()) {
+          canvasTheme = 'MatcDark'
+        } else {
+          canvasTheme = 'MatcLight'
+        }
+      }
+
+      if (this._lastCanvasTheme) {
+        css.remove(win.body(), this._lastCanvasTheme);
+      }
+
+      css.add(win.body(), canvasTheme)
+      this._lastCanvasTheme = canvasTheme;
+
+      if (canvasTheme == "MatcLight") {
+        this.defaultLineColor = "#49C0F0";
+      } else {
+        this.defaultLineColor = "#49C0F0";
+      }
+    },
+
+    initDarkModeListener() {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+      this.own(on(mediaQuery, 'change', () => {
+        this.logger.log(-1, "initDarkModeListener", "change");
+        if (this.settings.canvasTheme === 'MatcAuto') {
+          this.setCanvasTheme(this.settings.canvasTheme)
+        }
+      }))
+    },
+
+
+    isDarkModeOS() {
+      if (window.matchMedia) {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return true
+        } else {
+          return false
+        }
+      }
+      return true
+    },
     /**********************************************************************
      * DnD.js overwrites
      **********************************************************************/
@@ -478,9 +532,7 @@ export default {
       this.selectAnalyticDiv(null);
       if (this.toolbar) {
         this.toolbar.unselect();
-        if (this.analyticMode === "HeatmapClick") {
-          this.toolbar.reShowClickHeatMap();
-        }
+        this.toolbar.onCanvasSelected()
       }
     },
 
@@ -513,7 +565,7 @@ export default {
     afterRender() {
       this.logger.log(1, "afterRender", "entry > " + this.analyticMode);
       this.cleanUpAnalytics();
- 
+
       try {
         this._renderHeatMap();
       } catch (e) {
@@ -550,16 +602,16 @@ export default {
         this.defaultBlur = this.sourceModel.screenSize.w / 100;
       }
 
-      this.logger.log(0,"onScreenRendered", "adjust radios to " + this.defaultRadius);
+      this.logger.log(0, "onScreenRendered", "adjust radios to " + this.defaultRadius);
 
-      var screenGrouping = this.df.groupBy("screen");
+      const screenGrouping = this.df.groupBy("screen");
 
       this.heatmapDivs = {};
       for (var id in this.sourceModel.screens) {
-        var screen = this.sourceModel.screens[id];
+        const screen = this.sourceModel.screens[id];
 
-        var screenDF = screenGrouping.get(id);
-        var screenEvents = [];
+        const screenDF = screenGrouping.get(id);
+        let screenEvents = [];
         if (screenDF) {
           screenEvents = screenDF.as_array();
         }
@@ -568,17 +620,17 @@ export default {
           /**
            * create canvas
            */
-          var div = this.createBox(screen);
+          const div = this.createBox(screen);
           css.add(div, "MatcHeatMapScreen");
-          var cntr = this.db.div("MatcHeapMapContainer").build(div);
+          const cntr = this.db.div("MatcHeapMapContainer").build(div);
 
-          var canvas = this.db.canvas(screen.w, screen.h).build(cntr);
-          var ctx = canvas.getContext("2d");
+          const canvas = this.db.canvas(screen.w, screen.h).build(cntr);
+          const ctx = canvas.getContext("2d");
 
           this["_render_" + this.analyticMode](screenEvents, screen, ctx, div);
 
           if (this.hasSelect()) {
-            this.tempOwn(on(div,touch.press,lang.hitch(this, "onScreenDndClick", screen.id, div, null)));
+            this.tempOwn(on(div, touch.press, lang.hitch(this, "onScreenDndClick", screen.id, div, null)));
           }
 
           this.widgetContainer.appendChild(div);
@@ -599,7 +651,7 @@ export default {
       }
 
       if (this["_render_global_" + this.analyticMode]) {
-        this["_render_global_" + this.analyticMode](screenEvents,screen, ctx, div);
+        this["_render_global_" + this.analyticMode]();
       }
     },
 
@@ -610,6 +662,7 @@ export default {
        * or at least soft the events by screen
        */
       let mouseData = this.mouseData.filter((m) => m.screen === screen.id);
+      mouseData = this._filterSelectedSessions(mouseData)
       let data = this.computeMouseDistribution(mouseData, this.sourceModel);
       if (data[screen.id]) {
         let d = data[screen.id];
@@ -620,6 +673,9 @@ export default {
     _render_HeatmapClick(screenEvents, screen, ctx, div) {
       this.logger.log(2, "_render_HeatmapClick", "entry > ");
 
+      const events = this._filterSelectedSessions(this.events)
+
+      const df = new DataFrame(events)
       var numberOfClicks = -1;
       if (this.analyticParams) {
         numberOfClicks = this.analyticParams.numberOfClicks;
@@ -627,30 +683,37 @@ export default {
 
       if (numberOfClicks === "screenClicks") {
 
-        let screenClicks = this.getScreenClicksOnBackground();
+        let screenClicks = this.getScreenClicksOnBackground(df);
         screenClicks = screenClicks.as_array();
         this._render_pixel_screen_heatmap(screenClicks, screen, ctx, div);
 
       } else if (numberOfClicks === "missedClicks") {
 
-        let missedClicks = this.getMissedClicks();
+        let missedClicks = this.getMissedClicks(df);
         this._render_pixel_screen_heatmap(missedClicks, screen, ctx, div);
 
       } else if (numberOfClicks > 0) {
 
-        let firstNEvents = this.getFirstNClicksData(numberOfClicks);
+        let firstNEvents = this.getFirstNClicksData(events, numberOfClicks);
         this._render_pixel_screen_heatmap(firstNEvents, screen, ctx, div);
 
       } else {
 
-        /**
-         * Ignore Hover events...
-         */
-        let filtered = this.getClickEvents(new DataFrame(this.events));
+        let filtered = this.getClickEvents(new DataFrame(events));
         let actionEvents = filtered.as_array();
         this._render_pixel_screen_heatmap(actionEvents, screen, ctx, div);
-        
+
       }
+    },
+
+    _filterSelectedSessions(events) {
+      if (this.analyticParams && this.analyticParams.sessions) {
+        const sessions = this.analyticParams.sessions
+        return events.filter(e => {
+          return sessions[e.session] === true
+        })
+      }
+      return events
     },
 
     _render_pixel_screen_heatmap(actionEvents, screen, ctx) {
@@ -672,7 +735,7 @@ export default {
       } catch (err) {
         this.logger.error("_render_pixel_screen_heatmap", "Error > " + screen.name);
       }
-  
+
     },
 
     _render_HeatmapScrollView(screenEvents, screen, ctx) {
@@ -751,19 +814,19 @@ export default {
       }
     },
 
-   
 
-    drawDurationLine (session, line, defaultColor, maxDuration) {
-      for (let i = 0; i < line.length-1; i++) {
+
+    drawDurationLine(session, line, defaultColor, maxDuration) {
+      for (let i = 0; i < line.length - 1; i++) {
         let start = line[i]
-        let end = line[i+1]
+        let end = line[i + 1]
         let p = end.duration / maxDuration
         let width = Math.round(p * 6) + 2
         let color = defaultColor
         if (!defaultColor) {
           //color = this.mixColor(Math.min(1, p))
         }
-        this.drawStraightAnalyticLine(session,[start, end], color, width, this.taskLineOpacity);
+        this.drawStraightAnalyticLine(session, [start, end], color, width, this.taskLineOpacity);
       }
     },
 
@@ -835,13 +898,13 @@ export default {
 
 
     cleanUpAnalytics() {
-			this.cleanUpAnalyticLines()
+      this.cleanUpAnalyticLines()
 
-			this.cleanUpNode(this.widgetContainer)
+      this.cleanUpNode(this.widgetContainer)
       this.analyticsDivs = {};
     },
 
-   
+
 
     /**********************************************************************
      * DI
@@ -876,8 +939,9 @@ export default {
 
     setModel(model) {
       this.sourceModel = model;
+      this.model = model
       this.grid = this.sourceModel.grid;
-      this.loadComments();
+      this.setCommentView(this.showComments);
     },
 
     setEvents(events) {
@@ -918,7 +982,7 @@ export default {
     },
 
     setMode(mode, forceRender) {
-      this.logger.log( 2, "setMode", "enter > " + mode + " != " + this.mode + " > " + forceRender);
+      this.logger.log(2, "setMode", "enter > " + mode + " != " + this.mode + " > " + forceRender);
       if (mode != this.mode) {
         this.mode = mode;
         if (this.toolbar) {
@@ -928,6 +992,10 @@ export default {
       } else if (forceRender) {
         this.rerender();
       }
+    },
+
+    setSubMode () {
+
     },
 
     /***************************************************************************
@@ -956,11 +1024,11 @@ export default {
 
         if (!this._inlineEditStarted) {
           this.stopEvent(e);
-          if(this.getMode() != "move"){
-              this.setMode("move");
-              this.showHint("Move the mouse to move canvas...");
-              this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, this._lastMouseMoveEvent, true);
-            }
+          if (this.getMode() != "move") {
+            this.setMode("move");
+            this.showHint("Move the mouse to move canvas...");
+            this.onDragStart(this.container, "container", "onCanvasDnDStart", "onCanvasDnDMove", "onCanvasDnDEnd", null, this._lastMouseMoveEvent, true);
+          }
         }
 
         /**
@@ -991,9 +1059,9 @@ export default {
       }
     },
 
-    getMode (){
-			return this.mode;
-		},
+    getMode() {
+      return this.mode;
+    },
 
     onKeyUp(e) {
       var k = e.keyCode ? e.keyCode : e.which;
@@ -1010,7 +1078,7 @@ export default {
      ***************************************************************************/
 
     initMouseTracker() {
-      this.own(on(win.body(),"mousemove", lang.hitch(this,"onMouseMove")));
+      this.own(on(win.body(), "mousemove", lang.hitch(this, "onMouseMove")));
     },
 
     onMouseMove(e) {
@@ -1028,6 +1096,6 @@ export default {
       this.logger.log(4, "logPageView", "enter", url);
     },
   },
-  mounted() {},
+  mounted() { },
 };
 </script>

@@ -51,9 +51,9 @@ export default {
 			this.showProperties();
 			this.showWidgetTools();
 
+
 			if (this.widgetName){
-				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
-				css.add(this.widgetSizeDiv, "MatcToolbarSectionHidden")
+				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");	
 				if(model.name){
 					this.widgetName.value = model.name;
 				} else {
@@ -61,11 +61,12 @@ export default {
 				}
 				this.widgetName.blur();
 			}
-			var isLogicWidget = this.hasLogic2.indexOf(model.type) >= 0;
+
+			const isLogicWidget = this.hasLogic2.indexOf(model.type) >= 0;
 			css.remove(this.lineDiv, "MatcToolbarSectionHidden");
 			this.actionBTN.setValue(model, isLogicWidget);
 
-			var widgetViewMode = this.widgetViewModeBtn.getValue();
+			const widgetViewMode = this.widgetViewModeBtn.getValue();
 			if (widgetViewMode == "style") {
 				/**
 				 * Show data binding etc in prototypiung mode
@@ -189,6 +190,18 @@ export default {
 				this.color.setModel(this.model)
 				this.color.setBox(model)
 				this.color.setWidgetViewMode(widgetViewMode)
+			} else {
+				/**
+				 * Since 5.0.0 icons etc will have a color to use design tokens
+				 */
+				css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
+				if (this.hasColor.indexOf(model.type) >=0) {
+					this.color.setValue(style.color)
+					this.color.setModel(this.model)
+					this.color.setBox(model)
+					this.color.setWidgetViewMode(widgetViewMode)
+				}
+
 			}
 
 			if (this.hasPadding.indexOf(model.type) >=0) {
@@ -204,33 +217,20 @@ export default {
 					css.remove(this.responsiveDiv, "MatcToolbarSectionHidden")
 					this.responsiveWidget.setValue(model)
 				}
-				if(this.widgetAlignDiv){
+
+				if (this.widgetAlignDiv){
 					css.remove(this.widgetAlignDiv, "MatcToolbarSectionHidden");
 				}
 
-
-				if(this.hasData.indexOf(model.type) >=0 || model?.has?.data) {
+				if (this.hasData.indexOf(model.type) >=0 || model?.has?.data) {
 					css.remove(this.dataDiv,"MatcToolbarSectionHidden" );
 					this.dataWidget.setValue(model);
 				}
 
-				if(this.widgetName){
-					css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+				if (!isLogicWidget) {
+					css.remove(this.widgetShapeDiv, "MatcToolbarSectionHidden");
 					css.remove(this.widgetSizeDiv, "MatcToolbarSectionHidden")
-					if(model.name){
-						this.widgetName.value = model.name;
-					} else {
-						this.widgetName.value = "";
-					}
-					this.widgetName.blur();
 				}
-
-				/**
-				* Since 4.0.0 we do not show the prototyping properties in the deisgn view
-				*/
-				//css.remove(this.lineDiv, "MatcToolbarSectionHidden");
-				//this.actionBTN.setValue(model, isLogicWidget);
-
 			} 
 			
 			if (widgetViewMode == "style"){
@@ -310,8 +310,6 @@ export default {
 			* the flushing will work!
 			*/
 			if (this.widgetName){
-				css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
-				css.add(this.widgetSizeDiv, "MatcToolbarSectionHidden")
 				if(model.name){
 					this.widgetName.value = model.name;
 				} else {
@@ -319,6 +317,9 @@ export default {
 				}
 				this.widgetName.blur();
 			}
+			css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+			css.add(this.widgetSizeDiv, "MatcToolbarSectionHidden")
+				
 
 			if (this.hasValidation.indexOf(model.type) >= 0 || model.has.validation){
 				css.remove(this.validationDiv,"MatcToolbarSectionHidden" );
@@ -460,14 +461,16 @@ export default {
 			css.add(this.widgetSize.domNode, "hidden");
 			css.add(this.radiusBox.domNode, "hidden");
 
-			if(model.name){
-				this.widgetName.value = model.name;
-			} else {
-				this.widgetName.value = "";
+			if (this.widgetName) {
+				if(model.name){
+					this.widgetName.value = model.name;
+				} else {
+					this.widgetName.value = "";
+				}
+				this.widgetName.blur();
 			}
-			this.widgetName.blur();
 
-			css.remove(this.widgetNameDiv, "MatcToolbarSectionHidden");
+			css.remove(this.widgetShapeDiv, "MatcToolbarSectionHidden");
 			css.remove(this.inheritedWidgetDiv, "MatcToolbarSectionHidden");
 		}
 

@@ -1,14 +1,16 @@
 
 <template>
-     <div class="MatcToolbarRadius">
-		 <span class="MatcToolbarItemLabel" style="vertical-align: middle;">Radius</span>
-	</div>
+     <div class="MatcToolbarRadius ">
+		 <QIcon icon="BorderRadius"/>
+		</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
-import ToolbarSlider from './ToolbarSlider'
+//import ToolbarSlider from './ToolbarSlider'
+import InputDropDownButton from './InputDropDownButton'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'Radius',
@@ -20,11 +22,10 @@ export default {
             inputEvent: "change"
         }
     },
-    components: {},
+    components: {
+		'QIcon': QIcon
+	},
     methods: {
-        postCreate: function(){
-
-		},
 
 		render  (){
 			if(!this.rendered){
@@ -36,9 +37,11 @@ export default {
 		},
 
 		renderIntBox  (parent){
-			var input = this.$new(ToolbarSlider,{max:32});
+			const input = this.$new(InputDropDownButton);
+			input.setOptions([0, 2, 3, 4, 8, 16, 32, 48, 64, 128]);
+			input.reposition = true;
 			input.placeAt(parent);
-			input.render();
+			//input.render();
 			return input;
 		},
 

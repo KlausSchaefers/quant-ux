@@ -29,6 +29,8 @@ import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
 import ExportDialog from 'canvas/toolbar/dialogs/ExportDialog'
 import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
 
+import * as ScrollUtil from '../../../util/ScrollUtil'
+
 export default {
 	name: '_Dialogs',
 	mixins: [Plan, DojoWidget],
@@ -49,7 +51,7 @@ export default {
 			customFonts.setModel(this.model)
 			const row = db.div("row MatcMarginTop").build(popup);
 			const right = db.div("col-md-12 MatcButtonBar").build(row);
-			const save = db.div("MatcButton", "Save").build(right);
+			const save = db.div("MatcButton MatcButtonPrimary", "Save").build(right);
 			const close = db.div("MatcLinkButton", "Close").build(right);
 			const d = new Dialog();
 			d.own(on(close, touch.press, lang.hitch(d, "close")));
@@ -137,7 +139,7 @@ export default {
 			}
 
 			const db = new DomBuilder();
-			const popup = db.div("MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
+			const popup = db.div("MatcDialog MatcInfitationDialog MatcInfitationDialogLarge MatcPadding").build();
 			const cntr = db.div("container").build(popup);
 			let row = db.div("row").build(cntr);
 			let right = db.div("col-md-12").build(row);
@@ -151,7 +153,7 @@ export default {
 			row = db.div("row MatcMarginTop").build(cntr);
 			right = db.div("col-md-12 MatcButtonBar").build(row);
 
-			const write = db.div("MatcButton", "Close").build(right);
+			const write = db.div("MatcButton MatcButtonPrimary", "Close").build(right);
 
 			const d = new Dialog();
 			d.own(on(write, touch.press, lang.hitch(d, "close")));
@@ -164,6 +166,7 @@ export default {
 			const db = new DomBuilder();
 			const div = db.div("").build();
 			const exportDialog = this.$new(ExportDialog);
+			exportDialog.setCommentService(this.commentService)
 			exportDialog.setJwtToken(this.jwtToken);
 			exportDialog.placeAt(div);
 			setTimeout(() => {
@@ -186,7 +189,7 @@ export default {
 
 			const bar = db.div(" MatcMarginTop row").build(div);
 			const left = db.div("col-md-6 MatcButtonBar").build(bar);
-			const change = db.a("MatcButton", "Change").build(left);
+			const change = db.a("MatcButton MatcButtonPrimary", "Change").build(left);
 			const cancel = db.a("MatcLinkButton", "Close").build(left);
 
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
@@ -210,7 +213,7 @@ export default {
 			const dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			const bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-			const fix = db.div("MatcButton", "Keep local version").build(bar);
+			const fix = db.div("MatcButton MatcButtonPrimary", "Keep local version").build(bar);
 			const stay = db.a("MatcButton ", "Keep online version").build(bar);
 			dialog.own(on(fix, touch.press, () => {
 				dialog.close()
@@ -282,7 +285,7 @@ export default {
 			scroller.wrap(row);
 
 			const bar = db.div("MatcButtonBar MatcMarginTop").build(div);
-			const cancel = db.a("MatcButton", "Close").build(bar);
+			const cancel = db.a("MatcButton MatcButtonPrimary", "Close").build(bar);
 
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
 			d.popup(div, e.target);
@@ -313,7 +316,7 @@ export default {
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(div);
 
-			var save = db.a("MatcButton ", "Sign Up For Free").build(bar);
+			var save = db.a("MatcButton MatcButtonPrimary", "Sign Up For Free").build(bar);
 			var cancel = db.a(" MatcLinkButton ", "Cancel").build(bar);
 
 			d.own(on(d, "close", lang.hitch(this, "closeDialog")));
@@ -538,7 +541,7 @@ export default {
 			}
 
 			var bar = db.div("MatcButtonBar MatcMarginTop").build(div);
-			var cancel = db.a("MatcButton", "Close").build(bar);
+			var cancel = db.a("MatcButton MatcButtonPrimary", "Close").build(bar);
 			var d = new Dialog();
 			d.own(on(cancel, touch.release, lang.hitch(d, "close")));
 			d.popup(div, e.target);
@@ -550,21 +553,22 @@ export default {
 		 * Settings
 		 **********************************************************************/
 
-		onShowSettings: function () {
+		onShowSettings  () {
 
-			var db = new DomBuilder();
-			var popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
-			var cntr = db.div("").build(popup);
-			var settings = this.canvas.getSettings();
+			const db = new DomBuilder();
+			const popup = db.div("MatcDialog  MatcDialogM MatcPadding").build();
+			const cntr = db.div("").build(popup);
+			const settings = this.canvas.getSettings();
 
 			/**
 			 * Themes
 			 */
 			db.label("", "Theme :").build(cntr);
-			var themeList = this.$new(RadioBoxList);
+			const themeList = this.$new(RadioBoxList);
 			themeList.setOptions([
 				{ value: "MatcLight", label: "Light" },
-				{ value: "MatcDark", label: "Dark" }
+				{ value: "MatcDark", label: "Dark" },
+				{ value: "MatcAuto", label: "Auto" }
 			]);
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);
@@ -574,38 +578,38 @@ export default {
 			 */
 			db.label("MatcMarginTop", "Other:").build(cntr);
 
-			var selectMoveCntr = db.div("form-group").build(cntr);
-			var selectMoveBox = this.$new(CheckBox);
+			const selectMoveCntr = db.div("form-group").build(cntr);
+			const selectMoveBox = this.$new(CheckBox);
 			selectMoveBox.setLabel("Select to move");
 			selectMoveBox.setValue(settings.selectMove);
 			selectMoveBox.placeAt(selectMoveCntr);
 
-			var selectScreenCntr = db.div("form-group").build(cntr);
-			var selectScreenCheckBox = this.$new(CheckBox);
+			const selectScreenCntr = db.div("form-group").build(cntr);
+			const selectScreenCheckBox = this.$new(CheckBox);
 			selectScreenCheckBox.setLabel("Click on screen will select");
 			selectScreenCheckBox.setValue(settings.hasSelectOnScreen);
 			selectScreenCheckBox.placeAt(selectScreenCntr);
 
-			var qrCodeCheckBoxCntr = db.div("form-group").build(cntr);
-			var qrCodeCheckBox = this.$new(CheckBox);
+			const qrCodeCheckBoxCntr = db.div("form-group").build(cntr);
+			const qrCodeCheckBox = this.$new(CheckBox);
 			qrCodeCheckBox.setLabel("Show QR Code in simulator");
 			qrCodeCheckBox.setValue(settings.hasQRCode);
 			qrCodeCheckBox.placeAt(qrCodeCheckBoxCntr);
 
-			var colorCntr = db.div("form-group").build(cntr);
-			var colorPicker = this.$new(CheckBox);
+			const colorCntr = db.div("form-group").build(cntr);
+			const colorPicker = this.$new(CheckBox);
 			colorPicker.setLabel("Keep colorpicker open");
 			colorPicker.setValue(settings.keepColorWidgetOpen);
 			colorPicker.placeAt(colorCntr);
 
-			var zoomCntr = db.div("form-group").build(cntr);
-			var zoomChkBox = this.$new(CheckBox);
+			const zoomCntr = db.div("form-group").build(cntr);
+			const zoomChkBox = this.$new(CheckBox);
 			zoomChkBox.setLabel("Snapp on zoom");
 			zoomChkBox.setValue(settings.zoomSnapp);
 			zoomChkBox.placeAt(zoomCntr);
 
-			var designTokenCntr = db.div("form-group").build(cntr);
-			var designTokenCheckBox = this.$new(CheckBox);
+			const designTokenCntr = db.div("form-group").build(cntr);
+			const designTokenCheckBox = this.$new(CheckBox);
 			designTokenCheckBox.setLabel("Show Design Tokens");
 			designTokenCheckBox.setValue(settings.hasDesignToken);
 			designTokenCheckBox.placeAt(designTokenCntr);
@@ -614,25 +618,25 @@ export default {
 			/**
 			 * Since 3.0.43 we snapp by default to top left corner
 			 */
-			var gridSnapTopLeftCntr = db.div("form-group").build(cntr);
-			var gridSnapTopLeftChkBox = this.$new(CheckBox);
+			 const gridSnapTopLeftCntr = db.div("form-group").build(cntr);
+			 const gridSnapTopLeftChkBox = this.$new(CheckBox);
 			gridSnapTopLeftChkBox.setLabel("Snap grid to top left corner");
 			gridSnapTopLeftChkBox.setValue(settings.snapGridOnlyToTopLeft);
 			gridSnapTopLeftChkBox.placeAt(gridSnapTopLeftCntr);
 
 
-			var protoMotoCntr = db.div("form-group").build(cntr);
-			var protoMotoCheckBox = this.$new(CheckBox);
+			const protoMotoCntr = db.div("form-group").build(cntr);
+			const protoMotoCheckBox = this.$new(CheckBox);
 			protoMotoCheckBox.setLabel("Enable Beta Features");
 			protoMotoCheckBox.setValue(settings.hasProtoMoto);
 			protoMotoCheckBox.placeAt(protoMotoCntr);
 
-			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
+			const bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 
-			var save = db.a("MatcButton ", "Save").build(bar);
-			var cancel = db.a(" MatcLinkButton ", "Cancel").build(bar);
+			const save = db.a("MatcButton MatcButtonPrimary", "Save").build(bar);
+			const cancel = db.a(" MatcLinkButton ", "Cancel").build(bar);
 
-			var dialog = new Dialog();
+			const dialog = new Dialog();
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
@@ -720,7 +724,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-			var cancel = db.a("MatcButton ", "Close").build(bar);
+			var cancel = db.a("MatcButton MatcButtonPrimary", "Close").build(bar);
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 
 
@@ -736,7 +740,7 @@ export default {
 		 * Create Template
 		 **********************************************************************/
 
-		showTemplateCreateDialog: function (name) {
+		showTemplateCreateDialog (name) {
 			this.logger.log(0, "showTemplateCreateDialog", "entry");
 
 			var db = new DomBuilder();
@@ -754,7 +758,7 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-			var write = db.div("MatcButton", "Create").build(bar);
+			var write = db.div("MatcButton MatcButtonPrimary", "Create").build(bar);
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
@@ -773,7 +777,7 @@ export default {
 
 		},
 
-		_createTemplate: function (input, dialog) {
+		_createTemplate (input, dialog) {
 
 			dialog.hide(this.template);
 			this.closeDialog();
@@ -796,7 +800,7 @@ export default {
 		 * Save As
 		 **********************************************************************/
 
-		onSaveAs: function () {
+		onSaveAs  () {
 			this.logger.log(0, "onSaveAs", "entry");
 
 			var dialog = new Dialog();
@@ -808,7 +812,7 @@ export default {
 				 * FIXME: Show here the login screen?
 				 */
 				let cntr = db.div().build(popup);
-				db.h3("MatcDialogHeader", "Save as").build(cntr);
+				db.h3("MatcDialogHeader", "Duplicate").build(cntr);
 				db.div("MatcHint", "Register to create a copy of the prototype...").build(cntr);
 				dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 				let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
@@ -816,11 +820,11 @@ export default {
 				dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			} else {
 				let cntr = db.div().build(popup);
-				db.h3("MatcDialogHeader", "Save as").build(cntr);
+				db.h3("MatcDialogHeader", "Duplicate").build(cntr);
 				let inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", "Copy of " + this.model.name, "Name of the template").build(cntr);
 				dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 				let bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-				let write = db.div("MatcButton", "Save As").build(bar);
+				let write = db.div("MatcButton MatcButtonPrimary", "Save As").build(bar);
 				let cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
 				dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 				dialog.own(on(write, touch.press, lang.hitch(this, "_saveAs", inputName, dialog)));
@@ -855,8 +859,9 @@ export default {
 		 **********************************************************************/
 
 
+		 enableMouseZoom () {},
 
-		startSimilator() {
+		 startSimilator() {
 			this.logger.log(0, "startSimilator", "entry");
 
 			var pos = domGeom.position(win.body());
@@ -892,10 +897,10 @@ export default {
 
 		_showDesktopSimulator(model, pos, maxHeight) {
 
-			var dialog = document.createElement("div");
+			const dialog = document.createElement("div");
 			css.add(dialog, "MatchSimulatorDialog");
 
-			var container = document.createElement("div");
+			const container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 			dialog.appendChild(container);
 
@@ -907,22 +912,27 @@ export default {
 			}
 			container.style.width = Math.round(pos.w) + "px";
 			container.style.height = Math.round(pos.h) + "px";
-
-			var s = this.$new(Simulator, { mode: "debug", logData: false });
-			s.scrollListenTarget = "parent";
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container, false)
+		
+			const s = this.$new(Simulator, { mode: "debug", logData: false });
+			s.setScrollListenTarget(hasSimpleBar)
 			s.isDesktopTest = true
 			s.setHash(this.hash)
+			s.placeAt(container);
 
-			var scroller = this.$new(ScrollContainer, { canDestroy: true });
-			scroller.placeAt(container);
-			s.setScrollContainer(scroller);
+			s.setResizeListener(size => {
+				this.logger.log(-1,"renderMobileSimulator","resize", size.w + '/' + size.h);
+				container.style.height = size.h + 'px'
+				container.style.width = size.w + 'px'
+			})
 
+			// copy here the resize stuff of the TestPage. With SimpleBar we still have some weird overflow
 
-			var d = new Dialog();
+			const d = new Dialog();
 			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);
 
-			d.own(d.on("close", lang.hitch(this, "stopSimulator", s, scroller)));
+			d.own(d.on("close", lang.hitch(this, "stopSimulator", s)));
 			d.own(on(dialog, 'click', (e) => {
 				if (e.target === dialog) {
 					d.close()
@@ -933,10 +943,9 @@ export default {
 			 * Isn#t the model passed
 			 */
 			model = this.model;
-			var screen = this._getSimulatorScreen();
+			const screen = this._getSimulatorScreen();
 			s.setStartScreen(screen);
-			setTimeout(function () {
-				scroller.wrap(s.domNode);
+			setTimeout(() => {
 				s.setModel(model);
 			}, 500);
 
@@ -944,8 +953,11 @@ export default {
 			 * otherwise the mouse wheel listener will prevent
 			 * scrolling in the simulator!
 			 */
-			this.canvas.enableMouseZoom(false);
-			this.canvas.setState("simulate");
+			if (this.canvas) {
+				this.canvas.enableMouseZoom(false);
+				this.canvas.setState("simulate");
+			}
+	
 
 		},
 
@@ -965,6 +977,9 @@ export default {
 			const container = document.createElement("div");
 			css.add(container, "MatchSimulatorContainer");
 
+			// fixme. This is somehow different than the 
+			// pos calculated in the simualtor. Thus we need
+			// the setResizeListener :(
 			pos = this.getScaledSize(pos, "width", this.model);
 			if (pos.h > maxHeight) {
 				let factor = pos.h / maxHeight
@@ -974,21 +989,27 @@ export default {
 
 			container.style.width = Math.ceil(pos.w) + "px";
 			container.style.height = Math.ceil(pos.h) + "px";
+			const hasSimpleBar = ScrollUtil.addScrollIfNeeded(container, false)
 
 			wrapper.style.width = Math.ceil(pos.w) + "px";
 			wrapper.style.height = Math.ceil(pos.h) + "px";
 			css.add(wrapper, 'MatcSimulatorFadeOut')
 			wrapper.appendChild(container);
 
-			const scroller = this.$new(ScrollContainer, { canDestroy: true });
-			scroller.placeAt(container);
-
 			const s = this.$new(Simulator, { mode: "debug", logData: false });
-			s.scrollListenTarget = "parent";
 			s.isDesktopTest = true
-			s.setScrollContainer(scroller);
 			s.setHash(this.hash)
+			s.placeAt(container);
+			s.setScrollListenTarget(hasSimpleBar)
 
+			s.setResizeListener(size => {
+				this.logger.log(-1,"renderMobileSimulator","resize", size.w + '/' + size.h);
+				wrapper.style.height = size.h + 'px'
+				wrapper.style.width = size.w + 'px'
+
+				container.style.height = size.h + 'px'
+				container.style.width = size.w + 'px'
+			})
 
 			// sinde 4.1.03 the qr code can be hidden in the settings.
 			const settings = this.getSettings()
@@ -1005,8 +1026,6 @@ export default {
 				qrCodeWrapper.appendChild(img);
 			}
 
-
-
 			/**
 			 * FIXME: We have here some flickering. Because of the fixed
 			 * positions widgets we cannot use cssAniamtion because the scale(1,1)
@@ -1020,7 +1039,7 @@ export default {
 			d.hasCSSAnimation = false;
 			d.popup(dialog, this.simulatorButton);
 
-			d.on("close", lang.hitch(this, "stopSimulator", s, scroller));
+			d.on("close", lang.hitch(this, "stopSimulator", s));
 			d.own(on(dialog, 'click', (e) => {
 				if (e.target === dialog) {
 					d.close()
@@ -1035,7 +1054,6 @@ export default {
 			const screen = this._getSimulatorScreen();
 			s.setStartScreen(screen);
 			setTimeout(() => {
-				scroller.wrap(s.domNode);
 				s.setModel(model);
 				css.remove(wrapper, 'MatcSimulatorFadeOut')
 			}, 600);
@@ -1044,8 +1062,10 @@ export default {
 			 * otherwise the mouse wheel listener will prevent
 			 * scrolling in the simulator!
 			 */
-			this.canvas.enableMouseZoom(false);
-			this.canvas.setState("simulate");
+			if (this.canvas) {
+				this.canvas.enableMouseZoom(false);
+				this.canvas.setState("simulate");
+			}
 
 		},
 
@@ -1087,7 +1107,7 @@ export default {
 			//var right = db.div("col-md-9 MatcHint MatcPaddingTop", "* Only copied widgets and groups have the &quot;Transfrom&quot; animation").build(row);
 
 
-			var write = db.div("MatcButton", "Save").build(left);
+			var write = db.div("MatcButton MatcButtonPrimary", "Save").build(left);
 			var cancel = db.a("MatcLinkButton ", "Cancel").build(left);
 			d.own(on(cancel, touch.press, lang.hitch(d, "close")));
 			d.own(on(write, touch.press, lang.hitch(this, "_setScreenAnimation", composer, d, screen, type)));
@@ -1105,7 +1125,7 @@ export default {
 			this.canvas.setState("simulate");
 		},
 
-		_setScreenAnimation: function (composer, dialog, screen, type) {
+		_setScreenAnimation (composer, dialog, screen, type) {
 			var anim = composer.getValue();
 			composer.destroy();
 			dialog.close();
@@ -1114,16 +1134,19 @@ export default {
 		},
 
 
-		stopSimulator: function (s, scroller) {
-			this.canvas.enableMouseZoom(true);
-			this.canvas.setState(0);
+		stopSimulator (s) {
+			if (this.canvas) {
+				this.canvas.enableMouseZoom(true);
+				this.canvas.setState(0);
+			}
+
 			css.remove(win.body(), 'MatcCanvasSimulatorVisible')
 			if (s) {
 				s.destroy();
 			}
-			if (scroller) {
-				scroller.destroy();
-			}
+			// if (scroller) {
+			// 	scroller.destroy();
+			// }
 		}
 	},
 	mounted() {

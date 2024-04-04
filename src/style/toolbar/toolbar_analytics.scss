@@ -1,0 +1,67 @@
+.MatcAnalyticsToolbar .MatcToolbarTopLeftCntr {
+	gap: 16px;
+	display: flex;
+}
+
+.MatcToolbarAnalyticList .MatcToolbarLayerListCntr {
+	padding: 8px;
+	padding-top: 8px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+
+	.MatcToolbarSection {
+		height: 100%;		
+		.MatcToolbarSectionContent {
+			height: 100%;
+		}
+	}
+
+	.MatcToolbarSessionCntr {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		height: 60%;
+	}
+	.MatcToolbarSessionList {
+		flex-grow: 1;
+		overflow: auto;
+		//gap: 8px;
+		display: flex;
+		flex-direction: column;
+
+		.MatcToobarRow {
+			align-items: flex-start;
+			border-radius: 4px;
+			padding: 8px;
+			padding-right: 4px;
+			cursor: pointer;
+		}
+
+		.MatcToolbarSessionLabels {
+			flex-grow: 1;
+			
+			span {
+				display: inline-block;
+			}
+
+			input {
+				border: none;
+				padding: 0px;
+				margin: 0px;
+				line-height: inherit;
+			}
+		}
+	}
+
+	.MatcToolbarSessionListDetails{
+		opacity: 0.6;
+		display: flex;
+		gap: 16px;
+		div {
+			display: flex;
+			gap: 4px;
+			align-items: center;
+		}
+	}
+}

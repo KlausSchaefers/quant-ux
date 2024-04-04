@@ -3,6 +3,7 @@ import DataFrame from '../common/DataFrame'
 import Grouping from '../common/Grouping'
 import PerformanceMonitor from '../core/PerformanceMonitor'
 
+
 export default class {
 
 	filterEvents (events, anno) {
@@ -38,8 +39,8 @@ export default class {
 			ids: [],
 			rows: [],
 			cols: [],
-			tasks: [],
-			meta: {}
+			labels: [],
+			tasks: []
 		}
 
 		const eventsDF = new DataFrame(events);
@@ -57,58 +58,97 @@ export default class {
 		}
 
 
-		let widgetDataBindings = {}
+		let widgetColumnNames = {}
 		let widgetTypes = {}
+		let widgetColums = {}
 		Object.values(app.widgets).forEach(w => {
-			widgetTypes[w.id] = w.type
-			if (w.props && w.props.isSurveyElement && w.type !== 'Password') {
-				widgetDataBindings[w.id] = w.name
+
+			if (!widgetColumnNames[w.id]) {
+				widgetTypes[w.id] = w.type
+			
+				if (w.props && w.props.isSurveyElement && w.type !== 'Password') {
+					if (w.type === 'RadioTable') {
+						const data = w.props.data
+						if (data) {
+				
+							widgetColums[w.id] = []
+							data.forEach((row, i) => {
+								if (i > 0 && row[0]) {
+									const col = row[0]
+									widgetColums[w.id].push(col)
+
+									result.cols.push({
+										hidden: false,
+										key: col,
+										label: col,
+										group: w.name,
+										type: 'data',
+										id: w.id
+									})
+								}
+							})
+					
+						}	
+					} else {
+						widgetColumnNames[w.id] = w.name
+						result.cols.push({
+							hidden: false,
+							key: w.name,
+							label: w.name,
+							group: w.name,
+							type: 'data',
+							id: w.id
+						})
+					}
+				}
 			}
 		})
 
-		result.cols = Array.from(new Set(Object.values(widgetDataBindings)))
-		result.cols.sort((a, b) => {
-			return a.localeCompare(b)
-		})
-		
-		result.cols.forEach(col => {
-			result.meta[col] = {
-				type: 'data'
-			}
-		}) 
+        result.cols.sort((a,b) => {
+          a.group.localeCompare(b.group)
+        })
 
 		if (showId) {
-			result.cols.unshift('id')
-			result.meta['id'] = {
+			result.cols.unshift({
+				key: 'id',
+				label: 'ID',
 				type: 'id',
 				hidden: true,
-			}
+			})			
 		}
 
 		if (test.tasks) {
 			test.tasks.forEach(task => {
 				if (showTasksSucess) {
-					result.cols.push(task.name)
-					result.meta[task.name] = {
+					result.cols.push({
+						key: task.name,
+						label: task.name,
+						group: task.name,
 						type: 'task',
 						hidden: true,
-					}
+					})					
 				}
 				if (showTasksDuration) {
-					result.cols.push(task.name + '_Duration')
-					result.meta[task.name + '_Duration'] = {
+					const name = task.name + '_Duration'
+					result.cols.push({
+						key: name,
+						label: name,
+						group: task.name,
 						type: 'task',
 						hidden: true,
-						header: false
-					}
+					})	
+				
 				}
 				if (showTasksInteraction) {
-					result.cols.push(task.name + '_Interactions')
-					result.meta[task.name + '_Interactions'] = {
+					const name = task.name + '_Interactions'
+					result.cols.push({
+						key: name,
+						label: name,
+						group: task.name,
 						type: 'task',
 						hidden: true,
-						header: false
-					}
+					})	
+					result.cols.push(task.name + '_Interactions')
 				}
 			
 			})
@@ -120,8 +160,9 @@ export default class {
 		/**
 		 * sort by start??
 		 */
+		let id = 1
 		sessionGrouping.foreach((df, sessionID) => {
-			
+			let label = `Test ${id}`
 			const row = {}
 			const taskRow = []
 			result.cols.forEach(c => row[c] = '-')
@@ -131,22 +172,39 @@ export default class {
 			sessionEvents.forEach(e => {
 				delete e.user
 				if (app.widgets[e.widget]) {
-					if (e.widget && e.state && widgetDataBindings[e.widget]) {
-						const col = widgetDataBindings[e.widget]
+					if (e.widget && e.state && widgetColumnNames[e.widget]) {
+						const col = widgetColumnNames[e.widget]
+						
 						if (widgetTypes[e.widget] === 'Rating') {
 							row[col] = (e.state.value * 1) + 1
 						} else {
-							const value = e.state.value
+							let value = e.state.value
+							if (this.isObject(value)) {
+								value = Object.entries(value).map((e) => `${e[0]}: ${e[1]}`)
+							}
 							if (Array.isArray(value)) {
 								row[col] = value.join(', ')
 							} else {
-								row[col] = value
-							}
+								row[col] = value					
+							}				
 							
 						}
+					} else {
+						if (widgetColums[e.widget]) {
+							const keys = widgetColums[e.widget]
+							const value = e.state.value
+							keys.forEach(col => {
+								row[col] = value[col]
+							})
+						} 
 					}
 				}
 			})
+
+			const start = sessionEvents.find(e => e.type === 'SessionStart')
+			if (start && start.label) {
+			  label = start.label
+			}
 
 			if (showId) {
 				row['id'] = sessionID
@@ -169,13 +227,20 @@ export default class {
 					}
 				})
 			}
+			result.labels.push(label)
 			result.tasks.push(taskRow)
 			result.ids.push(sessionID)
 			result.rows.push(row)
 		})
 
+		console.debug(result.labels)
+
 		PerformanceMonitor.end('Analytics.getSurveyAnswers()')
 		return result
+	}
+
+	isObject(obj) {	
+		return typeof obj === 'object' && obj !== null && ! Array.isArray(obj)
 	}
 
 	nornalizeContainerChildEvents (events) {
@@ -475,7 +540,7 @@ export default class {
 			 * b: event from stream
 			 */
 			_match(a, b) {
-				if ((a.screen == b.screen && a.widget == b.widget && a.type == b.type)) {
+				if ((a && b && a.screen == b.screen && a.widget == b.widget && a.type == b.type)) {
 					if ((a.type == "ScreenGesture" && b.type == "ScreenGesture") ||
 						(a.type == "WidgetGesture" && b.type == "WidgetGesture")) {
 						if (a.gesture && b.gesture) {
@@ -1000,6 +1065,7 @@ export default class {
 					sessionCount: sessionCount,
 					value: 0,
 					p: 0,
+					startCount:0,
 					success: 0,
 					successRel: 0,
 					successAbs: 0,

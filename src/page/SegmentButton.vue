@@ -1,7 +1,7 @@
 
 <template>
 	<div class="MatcSegmentButton">
-		<div type="button" class="MatcSegmentButtonCntr" data-dojo-attach-point="button"> 
+		<div type="button" class="MatcSegmentButtonCntr" ref="button"> 
 		</div>
 	</div>
 </template>
@@ -37,7 +37,7 @@ export default {
 					css.add(icon, o.icon);
 					li.appendChild(icon);
 				}
-				this.button.appendChild(li);
+				this.$refs.button.appendChild(li);
 				this._lis[o.value] = li;
 				this.own(on(li, touch.press, lang.hitch(this, "onChange", o)));
 			}		

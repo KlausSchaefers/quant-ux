@@ -5,6 +5,9 @@ import MockModelService from './mocks/MockModelService'
 import lang from "../../src/dojo/_base/lang";
 
 export function createController (model) {
+
+    requestAnimationFrame = (callback => callback())
+
     model = lang.clone(model)
     const factory = new ModelFactory();
     factory.setModel(model);
@@ -32,7 +35,14 @@ export function createController (model) {
         },
         showSuccess () {
 
+        },
+        render () {
+            
+        },
+        unSelect(){
+
         }
+
     }
 
     return [controller, model]

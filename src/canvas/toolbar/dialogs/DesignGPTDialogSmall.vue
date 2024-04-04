@@ -13,10 +13,10 @@
 
             
             <div v-if="tab === 'settings'"  class="MatcFlexDialogMain">
-                <div class="field">
+                <div class="form-group">
                     <label>{{ getNLS('design-gpt.key-title') }}</label>
                     <form autocomplete="off">
-                        <input type="password" autocomplete="off" class="input" v-model="openAIKey" @change="onChangeOpenAIKey"/>
+                        <input type="password" autocomplete="off" class="form-control" v-model="openAIKey" @change="onChangeOpenAIKey"/>
                     </form>
                 </div>
 
@@ -28,7 +28,7 @@
                     {{ getNLS('design-gpt.key-hint-5') }}
                 </p>
 
-                <div class="field MatcMarginTop">
+                <div class="form-group MatcMarginTop">
                     <label>{{ getNLS('design-gpt.gpt-model') }}</label>
                     <div>
                         <RadioBoxList :qOptions="gptModels" :qValue="gptVersion" @change="onChangeModelType"/>
@@ -84,7 +84,7 @@
                         </div>
                     </div>
 
-                    <div class="MatchImportDialogCntrConfig">
+                    <div class="MatchImportDialogCntrConfig form-group">
 
                         <CheckBox 
                             :value="isWireFrame" 
@@ -109,7 +109,7 @@
             </div>
 
             <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'openai'">
-                <a class=" MatcButton" @click.stop="onCreatePreview"> {{getNLS('design-gpt.preview') }}</a>        
+                <a class=" MatcButton MatcButtonPrimary" @click.stop="onCreatePreview"> {{getNLS('design-gpt.preview') }}</a>        
                 <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
             </div>
 
@@ -118,12 +118,12 @@
             </div>
 
             <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'preview'">
-                <a class=" MatcButton" v-show="preview" @click.stop="onSave">{{ getNLS('btn.import') }} </a>       
+                <a class=" MatcButton MatcButtonPrimary" v-show="preview" @click.stop="onSave">{{ getNLS('btn.import') }} </a>       
                 <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
             </div>
 
             <div class="MatcButtonBar MatcMarginTop" v-if="tab === 'settings'">
-                <a class=" MatcButton" @click.stop="saveSettings"> {{getNLS('btn.save') }}</a>
+                <a class=" MatcButton MatcButtonPrimary" @click.stop="saveSettings"> {{getNLS('btn.save') }}</a>
                 <a class=" MatcLinkButton" @click.stop="onCancel">{{ getNLS('btn.cancel') }}</a>
             </div>
 
@@ -135,8 +135,8 @@
     </div>
 </template>
 <style lang="scss">
-@import '../../../style/scss/flex_dialog.scss';
-@import '../../../style/scss/gpt_dialog.scss';
+@import '../../../style/components/flex_dialog.scss';
+@import '../../../style/components/gpt_dialog.scss';
 
 
 .iframeCntr {
@@ -159,6 +159,7 @@ import * as StyleImporter from 'core/ai/StyleImporter'
 import RadioBoxList from 'common/RadioBoxList'
 import CheckBox from 'common/CheckBox'
 import AnimatedLabel from 'common/AnimatedLabel'
+import YAMLImporter from '../../../core/ai/YAMLImporter'
 
 export default {
     name: 'OpenAIDialog',
@@ -189,10 +190,12 @@ export default {
             isToggleWireFrameAndCustom: false,
             hasRobo: true,
             openAITemperature: 2,
-            gptVersion: 'gpt3',
+            gptVersion: 'gpt4-turbo-yaml',
             gptModels: [
-                {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
-                {value: 'gpt4', label: this.getNLS('design-gpt.gpt-model-gpt4')}   
+                // {value: 'gpt3', label: this.getNLS('design-gpt.gpt-model-gpt3')},
+                // {value: 'gpt4', label: this.getNLS('design-gpt.gpt-model-gpt4')},          
+                {value: 'gpt4-turbo-yaml', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo-yaml')},
+                {value: 'gpt4-turbo', label: this.getNLS('design-gpt.gpt-model-gpt4-turbo')}     
             ],
             robo: {
                 icon:'mdi mdi-robot-outline',
@@ -281,6 +284,8 @@ export default {
                 return
             }
 
+            localStorage.setItem('quxOpenAILastPrompt', this.prompt)
+
             this.promptHistory.push(this.prompt)
             this.tab = 'waiting'
             this.isRunningAI = true
@@ -292,9 +297,17 @@ export default {
                 this.hint = this.getNLS('design-gpt.no-preview'),
                 this.setError(result.error)
             } else {
-                this.html = result.html
-                console.debug(this.html)
-                this.buildApp(this.html)
+                if (result.html) {
+                    this.html = result.html
+                    this.yaml = ''
+                    this.buildAppHTML(this.html)
+                }
+                if (result.yaml) {
+                    this.yaml = result.yaml
+                    this.html = ''
+                    this.buildAppYAML(this.yaml)
+                }
+     
             }
         },
 
@@ -304,6 +317,15 @@ export default {
             if (this.gptVersion === 'gpt4') {
                 return aiService.runGPT4(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
             }
+            if (this.gptVersion === 'gpt4-turbo') {
+                return aiService.runGPT4Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
+            }
+            if (this.gptVersion === 'gpt4-turbo-yaml') {
+
+                //return aiService.runFakeYamlBug()
+                return aiService.runGPT4TurboYaml(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
+            }
+
             return aiService.runGPT35Turbo(this.prompt, this.openAIKey, this.model, {isCustomStyles: this.isCustomStyles})
         },
 
@@ -326,7 +348,7 @@ export default {
         
         getWaitingMessages () {
             const waitingMessages = []
-            for (let i = 1; i <= 4; i++) {
+            for (let i = 1; i <= 5; i++) {
                 waitingMessages.push({
                     hint: this.getNLS('design-gpt.hint-' + i),
                     prompt: this.getNLS('design-gpt.hint-' + i + '-prompt'),
@@ -345,22 +367,45 @@ export default {
             clearTimeout(this.updateTimeout)
         },
 
-
-        async buildApp (html) {
+        buildAppYAML (yaml) {
             this.tab = 'preview'
             const width = this.model.screenSize.w
             const height = this.model.screenSize.h
-            const importer = new HTMLImporter(this.model.lastUUID)
-            const result = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
+            const importer = new YAMLImporter(this.model.lastUUID)
+            const result = importer.yamlQuantUX(yaml, this.$refs.iframeCntr, width, height , {
                 isRemoveContainers: this.isMinimal,
-                customStyle: this.getCustomerStyles(html),
-                defaultStyle: this.getDefaultStyle()
+                isWireFrame: this.isWireFrame,
+                customStyle: this.getCustomerStyles()
             })
+
             if (result) {
                 this.preview = result
                 this.$nextTick(() => {
                     this.buildPreview(result)
                 })              
+            }
+        },
+
+        async buildAppHTML (html) {
+            this.tab = 'preview'
+            try {
+                const width = this.model.screenSize.w
+                const height = this.model.screenSize.h
+                const importer = new HTMLImporter(this.model.lastUUID)
+                const result = await importer.html2QuantUX(html, this.$refs.iframeCntr, width, height , {
+                    isRemoveContainers: this.isMinimal,
+                    customStyle: this.getCustomerStyles(),
+                    defaultStyle: this.getDefaultStyle()
+                })
+                if (result) {
+                    this.preview = result
+                    this.$nextTick(() => {
+                        this.buildPreview(result)
+                    })              
+                } 
+            } catch (err) {
+                this.hint = this.getNLS('design-gpt.no-preview'),
+                this.setError('design-gpt.error-yaml')
             }
         },
 
@@ -414,7 +459,7 @@ export default {
             s.scrollListenTarget = "parent";
             s.setHash(this.hash)     
             s.initParent = () => { };
-            s.setScrollContainer(scroller);
+            //s.setScrollContainer(scroller);
             scroller.wrap(s.domNode);
             cntr.appendChild(container);
             return s;
@@ -471,7 +516,10 @@ export default {
             localStorage.setItem('quxOpenAIIsMinimal', this.isMinimal)
             localStorage.setItem('quxOpenAIIsCustomStyles', this.isCustomStyles)
             if (this.html) {
-                this.buildApp(this.html)
+                this.buildAppHTML(this.html)
+            }
+            if (this.yaml) {
+                this.buildAppYAML(this.yaml)
             }
         },
 
@@ -493,9 +541,15 @@ export default {
         if (!this.openAIKey) {
             this.tab = 'settings'
         }
-        if (location.href.indexOf('localhost') > 0) {
-            this.prompt = 'Create a signup page with a funny message'
+        let lastPrompt =  localStorage.getItem('quxOpenAILastPrompt')
+        if (lastPrompt) {
+            this.prompt = lastPrompt
         }
+        // if (location.href.indexOf('localhost') > 0) {
+        //     this.prompt = `
+
+        //     `
+        // }
     }
 }
 </script>

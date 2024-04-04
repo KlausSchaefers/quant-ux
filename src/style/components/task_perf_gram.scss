@@ -1,0 +1,512 @@
+@import '../variables.scss';
+
+.MatcDashTaskPerfGramDialog {
+    width: 900px;
+    height: 600px;
+    padding: 20px;
+}
+
+.MatcDashTaskPerfGram {
+    width: 800px;
+
+
+    .MatcDashTaskPerfGramCntr {
+        background: #f5f5f5;
+    }
+
+    .MatcDashTaskPerfGramCanvas {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        overflow: hidden;
+        top: 0px;
+        left: 0px;
+    }
+
+
+    .MatcDashTaskPerfGram .MatcToolbarMatcScatterPlots a {
+        color: #333;
+        font-size: 18px;
+        margin-right: 20px;
+    }
+
+    .MatcDashTaskPerfGram .MatcToolbarMatcScatterPlots a:hover {
+        color: $primary_color;
+    }
+
+
+    .MatcDashTaskPerfGramCntr {
+        width: 100%;
+        height: 450px;
+        border: 1px solid #ccc;
+        margin-bottom: 30px;
+        margin-left: 30px;
+        margin-right: 30px;
+        position: relative;
+        transition: all 0.2s;
+    }
+
+    .MatxAxisLabel {
+        position: absolute;
+        color: #777;
+        font-size: 14px;
+    }
+
+    .MatxAxisLabel.xLabel {
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #999;
+    }
+
+    .MatxAxisLabel.yLabel {
+        top: 50%;
+        left: -22px;
+        transform: translateY(-50%) rotate(270deg);
+        color: #999;
+    }
+
+    .MatxAxisLabel.yLabelEast {
+        top: 50%;
+        right: -12px;
+        transform: translateY(-50%) rotate(270deg);
+        color: #999;
+    }
+
+    .MatxAxisLabel.minLabel {
+        top: 100%;
+        left: 0px;
+    }
+
+
+    .MatxAxisLabel.xMaxLabel {
+        top: 100%;
+        right: 0px;
+    }
+
+
+    .MatxAxisLabel.xMiddleLabel {
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: all 0.2s;
+    }
+
+    .MatxAxisLabel.yMiddleLabel {
+        bottom: 50%;
+        left: -5px;
+        transform: translateY(50%) translateX(-100%);
+        transition: all 0.2s;
+    }
+
+    .MatxAxisLabel.yMaxLabel {
+        top: 0px;
+        left: -5px;
+        transform: translateX(-100%);
+    }
+
+
+    .MatxAxisLabel.yMinLabel {
+        bottom: 10px;
+        left: -5px;
+        transform: translateX(-100%);
+    }
+
+
+
+    .MatxAxisLabel.yMaxLabelEast {
+        top: 0px;
+        right: -5px;
+        transform: translateX(100%);
+    }
+
+    .MatxAxisLabel.yMinLabelEast {
+        top: 100%;
+        right: 0px;
+    }
+
+    .MatxAxisLabel.bottom25Label {
+        bottom: 0px;
+        left: 25%;
+        transform: translateX(-50%);
+        color: #999;
+    }
+
+    .MatxAxisLabel.bottom75Label {
+        bottom: 0px;
+        left: 75%;
+        transform: translateX(-50%);
+        color: #999;
+    }
+
+
+
+    .MatxScatterPoint {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        transform: translateY(50%) translateX(-50%);
+        transition: all 0.2s;
+        background: #56A9FC;
+        opacity: 0.7;
+        border-radius: 100%;
+        cursor: pointer;
+        z-index: 10;
+
+		&:hover {
+			opacity: 1;
+			width: 16px;
+			height: 16px;
+		}
+    }
+
+    .MatxScatterPoint:hover {
+        background: #333;
+        opacity: 1;
+    }
+
+    .MatxAxisXLine {
+        position: absolute;
+        width: 0px;
+        height: 100%;
+        left: 0%;
+        bottom: -1%;
+        border-left: #ddd 1px dashed;
+        transition: all 0.2s;
+    }
+
+    .MatxAxisYLine {
+        position: absolute;
+        width: 100%;
+        height: 0px;
+        bottom: -1%;
+        left: 0%;
+        border-top: #ddd 1px dashed;
+        transition: all 0.2s;
+    }
+
+    .MatcDashTaskPerfGramCntrHover .MatxAxisYLine,
+    .MatcDashTaskPerfGramCntrHover .MatxAxisXLine {
+        border-color: #555;
+    }
+
+    .MatcDashTaskPerfGramCntrHover .yMiddleLabel,
+    .MatcDashTaskPerfGramCntrHover .xMiddleLabel {
+        color: #555;
+    }
+
+
+    .MatcDashTaskPerfGramBar {
+        position: absolute;
+        background-color: $primary_color;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        transition: all 0.2s;
+        text-align: right;
+        font-size: 12px;
+        color: #fff;
+        padding-right: 10px;
+        padding-top: 2px;
+        overflow: hidden;
+    }
+
+    .MatcDashTaskPerfGramBarLabel.MatxAxisLabel {
+        position: absolute;
+        right: 100%;
+        width: 200px;
+        text-align: right;
+        padding-right: 5px;
+
+        transition: all 0.2s;
+        overflow: hidden;
+    }
+
+
+
+
+    .MatcDashTaskPerfGramBoxPlotCntr {
+        position: absolute;
+        width: 20px;
+        border-top: 1px solid #999;
+        border-bottom: 1px solid #999;
+        transition: all 0.2s;
+    }
+
+    .MatcDashTaskPerfGramBoxPlotLine {
+        position: absolute;
+        width: 1%;
+        left: 49%;
+        top: 0px;
+        height: 100%;
+        border-right: 1px solid #999;
+
+    }
+
+    .MatcDashTaskPerfGramBoxPlot {
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        opacity: 0.6;
+    }
+
+    .MatcDashTaskPerfGramBoxPlotMean {
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        background: #000;
+        height: 2px;
+    }
+
+    /**
+    * Task List
+    */
+
+    .MatcDashTaskPerHintBar {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 48px;
+        display: flex;
+        justify-content: center;
+		gap: 8px;
+		align-items: center;
+    }
+
+    .MatcDashTaskPerfTaskCntr {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        width: 100px;
+        min-height: 30px;
+        max-height: 100px;
+        overflow: auto;
+        transition: all 0.2s;
+    }
+
+    .MatcDashTaskPerfTaskCntr:hover {
+        max-height: 300px;
+    }
+
+    .MatcDashTaskPerfTaskCntr div {
+        cursor: pointer;
+        height: 30px;
+        overflow: hidden;
+    }
+
+    .MatcDashTaskPerfTaskCntr span {
+        height: 16px;
+        width: 16px;
+        border-radius: 3px;
+        display: inline-block;
+        margin-right: 10px;
+        cursor: pointer;
+        vertical-align: middle;
+        border: 1px solid #777;
+        position: relative;
+    }
+
+    .MatcDashTaskPerfTaskCntr label {
+        color: #999;
+        font-size: 14px;
+        vertical-align: middle;
+        font-weight: 400;
+        cursor: pointer;
+        width: 70px;
+        height: 14px;
+    }
+
+    .MatcDashTaskPerfTaskCntr .MatcDashTaskPerfTaskSelected {
+
+		span {
+			border: none
+		}
+
+
+		span::after {
+            content: "";
+            height: 10px;
+            width: 6px;
+            border-bottom: 2px solid #fff;
+            border-right: 2px solid #fff;
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            transform: rotate(45deg);
+		}
+
+
+		label {
+			color: #777;
+		}
+	}
+
+    .MatcDashTaskPerfDropCntr {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        width: 160px;
+        min-height: 30px;
+        max-height: 100px;
+        overflow: auto;
+        transition: all 0.2s;
+        text-align: right;
+        padding-right: 8px;
+    }
+
+    .MatcDashTaskPerfDropCntr .VommondCheckBoxLabel {
+        color: #999;
+        font-size: 14px;
+    }
+
+    .MatcDashTaskPerfDropCntr .VommondCheckBox {
+        border-color: #999;
+    }
+
+
+    .MatcDashTaskPerfTaskCntr .MatcDashTaskPerfTaskSelected label {
+        color: #777;
+    }
+
+    .MatcDashTaskPerfTaskCntr div:hover label {
+        color: #777;
+    }
+
+
+
+    .MatcDashTaskPerfGramFunnelSVG {
+        position: top;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        transition: all 0.5s;
+    }
+
+    .MatcDashTaskPerfGramFunnelSVG.MatcDashTaskPerfGramFunnelSVGHidden {
+        opacity: 0.0;
+    }
+
+    .MatcDashTaskPerfGramFunnelStep {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: calc(100%);
+        width: 0px;
+        border-left: 1px dashed rgb(200, 200, 200);
+        transition: all 0.25s;
+    }
+
+    .MatcDashTaskPerfGramFunnelStepSmall {
+        transform: translateY(100%);
+        transform-origin: 100 100;
+    }
+
+    .MatcDashTaskPerfGramFunnelStepLabel {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        transform: translateX(-50%);
+        font-size: 14px;
+        max-width: 120px;
+        overflow: hidden;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .MatxAxisLabelCntr {
+        height: 20px;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+    }
+
+    .MatcDashTaskPerfGramFunnelStepPoint {
+        position: absolute;
+        height: 9px;
+        width: 9px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.5;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .MatcDashTaskPerfGramFunnelStepPointLabel {
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        background-color: #000;
+        color: #fff;
+        padding: 3px 8px;
+        border-radius: 3px;
+        opacity: 0;
+        font-size: 12px;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+
+    .MatcDashTaskPerfGramFunnelStepPoint:hover .MatcDashTaskPerfGramFunnelStepPointLabel {
+        opacity: 1;
+    }
+
+    .MatcDashTaskPerfGramFunnelStepPoint:hover {
+        opacity: 1;
+    }
+
+    .MatcDashTaskPerfGramFunnelStep .MatcDashTaskPerfGramBoxPlot {
+        opacity: 0.2;
+    }
+
+    .MatcDashTaskPerfGramFunnelStep .MatcDashTaskPerfGramBoxPlotCntr {
+        border: none;
+    }
+}
+
+
+.MatcDashTaskPerfGramDropOff .MatcDashTaskPerfGramCntr {
+    width: calc(100% - 170px);
+    margin-left: 200px;
+    position: relative;
+}
+
+.MatcDashTaskPerfGramBarLabelHidden,
+.MatcDashTaskPerfGramDropScatter .MatcDashTaskPerfGramBarLabel {
+    opacity: 0
+}
+
+.MatcDashTaskPerfGramDropOff .MatcDashTaskPerfGramDropOffHidden {
+    opacity: 0
+}
+
+.MatcDashTaskPerfGramScatter .MatcDashTaskPerfGramScatterHidden {
+    opacity: 0
+}
+
+.MatcDashTaskPerfScatternVisible {
+    opacity: 0
+}
+
+.MatcDashTaskPerfGramScatter .MatcDashTaskPerfScatternVisible {
+    opacity: 1;
+}
+
+.MatcDashTaskPerfGramDropOff .MatcDashTaskPerfGramDropOffHidden {
+    opacity: 0
+}
+
+
+.MatcDashTaskPerfDetailsVisible {
+    opacity: 0
+}
+
+.MatcDashTaskPerfGramDetails .MatcDashTaskPerfDetailsVisible {
+    opacity: 1;
+}
+
+
+.MatcDashTaskPerfGramHideTasks .MatcDashTaskPerfTaskCntr {
+    display: none;
+}
+
+.MatcDashTaskPerfGramHideDropoff .MatcDashTaskPerfDropCntr {
+    display: none;
+}

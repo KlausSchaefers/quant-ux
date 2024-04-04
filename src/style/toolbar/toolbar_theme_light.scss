@@ -1,0 +1,91 @@
+.MatcLight {
+   
+    $toolbar_background: #fff;
+    $toolbar_selected_background: rgba(0,0,0,0.1);
+    $toolbar_border: rgba(0,0,0,0.1); // rgba(255,255,255,0.08);
+ 
+    $toolbar_color: #333;
+    $toolbar_color_hover: #333;
+    $toolbar_color_passive: #777;
+
+    $toolbar_form_background: $toolbar_background;
+    $toolbar_form_active_background: rgba(0,0,0,0.1);
+    $toolbar_form_background_hover: rgba(0,0,0, .05);
+    $toolbar_form_background_focus: rgba(0,0,0,0.1);
+    $toolbar_form_border: $toolbar_border;
+    $toolbar_form_border_hover: $toolbar_border;
+    $toolbar_form_border_focus: rgba(0,0,0,0.15);
+    $toolbar_form_radius: 2px;
+
+    $toolbar_help_background: #d6e5f8;
+
+    $layerlist_background: #fff;
+    $layerlist_selected: $toolbar_selected_background;
+    $layerlist_chevron_color: #777;
+    $layerlist_chevron_color_hover: #333;
+
+    $create_element_background: #f2f2f2;
+
+    $popup_color: $toolbar_color;
+    $popup_border: transparent;
+    $popup_outer_border_color: transparent;
+    $popup_background: #fff;
+    $popup_radius: 4px;
+    $popup_shadow: 0 3px 25px rgba(0,0,0,.35);
+    $popup_line: rgba(0, 0, 0, 0.08);
+    $popup_child_border: none;
+    $popup_form_border: rgba(0, 0, 0, 0.25);
+    $popup_form_border_hover: rgba(0, 0, 0, 0.25);
+    $popup_form_border_focus: rgba(0, 0, 0, 0.35);
+
+    $color_picker_border: rgba(0,0,0, 0.25);
+    $color_picker_border-hover: rgba(0,0,0, 0.35);
+
+    $popup_form_background: $toolbar_form_background;
+    $popup_form_background_hover: $toolbar_form_background_hover;
+    $popup_form_background_focus: $toolbar_form_background_focus;
+
+    $toolbar_checkbox_background: $toolbar_form_background;
+    $toolbar_checkbox_border: $toolbar_form_border;
+    $toolbar_form_border_light: $toolbar_form_border;
+
+    $toolbar_checkbox_hover_background: $toolbar_form_background_hover;
+    $toolbar_checkbox_hover_border: $toolbar_form_border_hover;
+
+    @import './toolbar_theme.scss';
+    @import './toolbar_edit_mode.scss';
+
+
+    .MatcMultiActionDropDown .MatcToolbarItem.MatcToolbarIconButton .MatcToolbarItemLabel{
+        color: #fff;
+    }
+
+    .MatcToolbarArrowDropDown .MatcToolbarPopUp{
+        border: none;
+    }
+
+    .MatcToolbarEditMode {
+   
+    
+        .MatcToolbarEditModeCntr {
+            border: 1px solid transparent;
+            background: $toolbar_form_background_hover;
+     
+            &:hover {
+                background: $toolbar_form_background_focus;
+            }
+        }
+
+        .MatcToolbarEditModeHighlight {
+            background: $primary_color;
+        }
+   
+    
+        a.MatcToolbarEditModeActive {            
+            color: #fff;            
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+}

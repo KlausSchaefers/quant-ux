@@ -20,8 +20,11 @@
   </div>
 </template>
 
+<style lang="scss">
+  @import "../style/matc.scss";
+</style>
 <style>
-  @import url("../style/matc.css");
+
   .MatcToolbarRestSettings {
       background: white;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);

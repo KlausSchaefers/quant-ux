@@ -71,9 +71,9 @@ export default {
 
 			this.stopEvent(e);
 
-			var now = new Date().getTime();
+			const now = new Date().getTime();
 			if(e.metaKey || e.ctrlKey) {
-				if (Math.abs(this.lastMouseWheel -  now) > 10) {
+				if (Math.abs(this.lastMouseWheel -  now) > 5) {
 
 					this._preZoomRelPos = this.getRelCanvasMousePosition(e)
 					this._preZoomAbsPos = this.getCanvasMousePosition(e);
@@ -160,6 +160,7 @@ export default {
 				this.renderZoom()
 			}
 			this._lastZoom = this.zoom;
+			this.onViewportChange()
 		},
 
 

@@ -1,0 +1,65 @@
+.SVGStrokeIcon,
+.MatcToolbar .MatcQIcon.SVGStrokeIcon {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.SVGStrokeIconJointRound {
+    border: 2px solid currentColor;
+    border-right: 0px;
+
+}
+
+.SVGStrokeIconJointSquare{
+    border: 2px solid currentColor;
+    border-right: 0px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.SVGStrokeIconStyle {
+
+}
+
+.SVGStrokeIconArrowNone::before {
+    content: "";
+    height: 6px;
+    width: 100%;
+    border-bottom: 2px solid currentColor;
+    display: block; 
+}
+
+.SVGStrokeIconStyleSolid::before {
+    content: "";
+    height: 6px;
+    width: 100%;
+    border-bottom: 2px #555 solid;
+    display: block;
+}
+
+.SVGStrokeIconStyleDashSmall::before {
+    content: "";
+    height: 6px;
+    width: 100%;
+    border-bottom: 2px #555 dotted;
+    display: block;
+}
+
+.SVGStrokeIconStyleDashMedium::before {
+    content: "";
+    height: 6px;
+    width: 100%;
+    border-bottom: 2px #555 dashed;
+    display: block;
+}
+
+.SVGStrokeIconStyleDashLong::before {
+    content: "";
+    height: 6px;
+    width: 100%;
+    border-bottom: 2px #555 solid;
+    display: block;
+}

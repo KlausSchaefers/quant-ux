@@ -4,9 +4,13 @@
   </div>
 </template>
 
-<style lang="css">
-  @import url("../../style/matc.css");
-  @import url("../../style/test.css");
+<style class="css">
+	@import url("../../style/css/legacy.css");
+</style>
+
+<style lang="scss">
+  @import "../../style/matc.scss";
+  @import "../../style/test.scss";
 </style>
 <style lang="sass">
   @import "../../style/bulma.sass"
@@ -85,14 +89,12 @@ export default {
       }
 
       canvas.setController(controller);
+      canvas.setCommentService(Services.getCommentService())
       canvas.setRenderFactory(renderFactory);
       canvas.setModelFactory(factory);
       canvas.setModelService(service);
-      canvas.setCommentService(Services.getCommentService())
       canvas.setUser(this.user)
       canvas.setHash(this.$route.query.h);
-
-  
 
       var startScreen = null;
       for(var screenID in model.screens){

@@ -23,13 +23,18 @@ export default {
 				this.own(on(this.dndContainer, touch.out, (e) => this.dispatchOut(e)));
 				this.own(on(this.dndContainer, 'dblclick', (e) => this.dispatchDoubleClick(e)));
 				this.own(on(this.container, "mousedown", (e) => this.dispatchBackroundClick(e)));
+				this.own(on(this.dndContainer, "contextmenu", (e) => this.dispatchContextMenu(e)));
 			},
-
-			dispatchDoubleClick (e) {
-				this.logger.log(-1, "dispatchDoubleClick", "enter", this.mode);
 			
+			dispatchContextMenu (e) {
+				this.logger.log(-1, "dispatchContextMenu", "enter", this.mode);
 				const target = e.target
-				
+				this.onContextMenu(e, target._widgetID, target._screenID)
+				return false
+			},
+			dispatchDoubleClick (e) {
+				this.logger.log(-1, "dispatchDoubleClick", "enter", this.mode);			
+				const target = e.target				
 				if (this.mode === "svg") {
 					return
 				}
@@ -37,8 +42,8 @@ export default {
 					this.onWidgetDoubleClick(target._widgetID)
 					return
 				}
-				this.forceCompleteRender()
-				this.rerender()
+				// this.forceCompleteRender()
+				// this.rerender()
 			},
 
 			dispatchBackroundClick (e) {
@@ -121,7 +126,15 @@ export default {
 			},
 
 			dispatchMouseDown (e) {
-				let target = e.target
+				const target = e.target
+				const isCntrl = e.ctrlKey || e.metaKey;
+
+				/**
+				 * Since 5.0.0 we will show the context menu
+				 */
+				if (isCntrl) {
+					return false
+				}
 
 				/**
 				 * First dispatch tools
@@ -157,7 +170,7 @@ export default {
 				}
 
 				/**
-				 * Otherwise check selection on screen, widget or canbas
+				 * Otherwise check selection on screen, widget or canvas
 				 */
 				if (target._widgetID) {
 					this.dispatchMouseDownWidget(e, target._widgetID, target)
@@ -194,7 +207,11 @@ export default {
 			},
 
 			dispatchMouseDownComment (e, id, div) {
-				this.logger.log(-1,"dispatchMouseDownComment", "enter", id);
+				this.logger.log(1,"dispatchMouseDownComment", "enter", id);
+				// the event might come from a comment child
+				if (this.commentDivs[id]) {
+					div = this.commentDivs[id];
+				}				
 				this.onDragStart(div, id, "onCommentDndStart", "onCommntDndMove", "onCommentDndEnd", "onCommentDndClick", e);
 			},
 

@@ -1,0 +1,77 @@
+@import '../variables.scss';
+
+
+.MatcConditionalStyle {
+
+}
+
+.MatcConditionalStyleSettings{
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+
+    .MatcDialogStepCntr {
+        width: 120px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+     
+        border-right: 1px solid #cecece;
+
+        a.MatcLinkButton {
+            font-size: 14px;
+            font-weight: 400;
+            padding: 0px;
+      
+        }
+
+        .MatcDialogStep {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+
+            font-size: 14px;
+            font-weight: 400;
+            padding-right: 8px;
+
+          
+
+            &:hover{
+                color: $main_color;
+
+                .mdi{
+                    opacity: 1;
+                }
+            }
+
+            .mdi{
+                color: $color-passive;
+                opacity: 0;
+                transition: all 0.2s;
+                cursor: pointer;
+            }
+            .mdi:hover{
+                color: $color_danger;
+            }
+        }
+
+        .MatcDialogStepSelected {
+            color: $main_color;
+        }
+    }
+
+    .MatcDialogRuleCntr {
+        width: 300px;
+
+        .MatcToolbarItem {
+            padding: 0px;
+            width: 100%;
+            height: unset;
+
+            .MatcToolbarColorButton {
+                gap: 8px;
+            }
+        }
+    }
+    
+}

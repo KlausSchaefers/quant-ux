@@ -74,7 +74,7 @@ export default class ModelFactory {
 
 		const grid = 8;
 		const model = {
-			version: 2.1,
+			version: 4,
 			name: name,
 			description: des,
 			screenSize: type.screenSize,
@@ -86,7 +86,7 @@ export default class ModelFactory {
 			templates: {},
 			designtokens: {},
 			lastUUID: 10000,
-			lastUpdate: 0,
+			lastUpdate: new Date().getTime(),
 			created: 0,
 			startScreen: "",
 			grid: {

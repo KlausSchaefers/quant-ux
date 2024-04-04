@@ -22,12 +22,12 @@ export default {
     return {
       value: null,
       types: {
-        "IPhone X / 11 / 12": {
+        "IPhone 14 / 15": {
           type: "smartphone",
           screenSize: { w: 375, h: 812 },
           factor: 2
         },
-        "IPhone 11 / 12 Max": {
+        "IPhone 14 / 15 Max": {
           type: "smartphone",
           screenSize: { w: 414, h: 896 },
           factor: 2
@@ -68,7 +68,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this.logger = new Logger("ScreenSizeSelector");
       this.logger.log(2, "postCreate", "enter >" + this.mode);
 
@@ -122,10 +122,10 @@ export default {
       this._checks["custom"] = c;
       this._divs["custom"] = custom;
       this.cntr.appendChild(parent);
-      this.onTypePress("IPhone X / 11 / 12");
+      this.onTypePress("IPhone 14 / 15");
     },
 
-    onCustomSelected: function() {
+    onCustomSelected () {
       this.cleanup();
       this._checks["custom"].setValue(true);
       css.add(this._divs["custom"], "MatcScreenSizeItemSelected");
@@ -144,7 +144,7 @@ export default {
       this.$emit("change", this.getValue());
     },
 
-    onTypePress: function(type) {
+    onTypePress (type) {
       this.cleanup();
       this._checks[type].setValue(true);
       css.add(this._divs[type], "MatcScreenSizeItemSelected");
@@ -153,7 +153,7 @@ export default {
       this.$emit("change", this.getValue());
     },
 
-    setValue: function(m) {
+    setValue (m) {
       var selected = null;
       for (var id in this.types) {
         var type = this.types[id];
@@ -176,7 +176,7 @@ export default {
       }
     },
 
-    getValue: function() {
+    getValue () {
       if (this._isCustom) {
         // Fix for Jessica
         let type = 'smartphone'
@@ -194,7 +194,7 @@ export default {
       return this.value;
     },
 
-    cleanup: function() {
+    cleanup () {
       for (var t in this._checks) {
         this._checks[t].setValue(false);
         css.remove(this._divs[t], "MatcScreenSizeItemSelected");

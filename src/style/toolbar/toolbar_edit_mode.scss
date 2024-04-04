@@ -1,0 +1,52 @@
+.MatcToolbarEditMode {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 48px;
+	transition: none;
+	
+	.MatcToolbarEditModeCntr {
+		position: relative;
+		border: 1px solid $toolbar_form_border;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: $button_radius;
+		transition: none;
+	}
+
+
+	.MatcToolbarEditModeHighlight {
+		position: absolute;
+		background: $toolbar_form_background_focus;
+		height: 100%;
+		width: 50%;
+		top: 0px;
+		left: 0px;
+		border-radius: $button_radius;
+		z-index: 1;
+	}
+
+	a.MatcToolbarItem {
+		transition: none;
+		font-size: 14px;
+		display: inline-block;
+		//padding: 4px 16px;
+		height: auto;
+		transition: all 0.2s;
+		border: 1px solid transparent;
+		border-radius: 0px;
+		z-index: 2;
+		width: 88px;
+	}
+
+	a.MatcToolbarEditModeActive {
+		//background: $toolbar_form_background_focus;
+		color: #fff;
+		&:hover {
+			//background: $toolbar_form_background_focus;
+			color: #fff;
+		}
+	}
+}
+

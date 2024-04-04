@@ -1,0 +1,41 @@
+[
+	{
+		"id": "SurveyRadioGroup",
+		"type": "RadioGroup",
+		"name": "RadioGroup",
+		"category": "Survey",
+		"subcategory": "FormCheckBoxX",
+		"_type": "Widget",
+		"_extends": "SurveyCheckBoxGroup",
+		"z": 0,
+		"x" : 0,
+		"y" : 0,
+		"w": "@box-width-xxl",
+		"h": "@box-height-l",
+		"props": {
+			"options": [
+				"Option 1",
+				"Option 2",
+				"Option 3"
+			],
+			"selected": "",
+			"isSurveyElement": true
+		},
+		"has": {
+			"backgroundColor": true,
+			"onclick": true,
+			"border": true,
+			"label": true,
+			"data": true,
+			"random": true   
+		},
+		"style": {
+			"borderRadius": "@border-radius-round"
+		},
+		"error": {
+			"borderColor": "@form-border-color:error",
+			"background": "@form-background:error",
+			"colorButton": "@form-border-color:error"
+		}
+	}
+]

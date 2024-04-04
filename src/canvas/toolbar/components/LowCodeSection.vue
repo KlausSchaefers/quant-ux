@@ -4,7 +4,7 @@
 
         <div class="MatcToobarRow" v-if="isContainer">
             <ToolbarDropDownButton
-                class="MatcToolbarGridFull"
+                class=""
                 qPopupCSS="MatcActionAnimProperties"
                 qMaxLabelLength="40"
                 :qOptions="layoutOptions"
@@ -44,7 +44,7 @@
 
 
         <div class="MatcToobarRow" v-if="isCustom || !isContainer">
-            <div class="MatcToolbarItem MatcToolbarGridFull MatcToobarInputIconCntr" ref="tooltipCustom">
+            <div class="MatcToolbarItem  MatcToobarInputIconCntr" ref="tooltipCustom">
 
                 <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                     placeholder="Custom Component"

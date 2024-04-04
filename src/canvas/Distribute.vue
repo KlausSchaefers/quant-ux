@@ -41,25 +41,25 @@ export default {
             this._distributeEnabled = true;
         },
 
-        renderDistrubutionHandler (icon) {
+        // renderDistrubutionHandler (icon) {
 
-            var l = (this.resizeButtonSize *2) +1;
+        //     var l = (this.resizeButtonSize *2) +1;
 
-            var div = document.createElement("div");
-            div.style.width = l + "px";
-            div.style.height = l + "px";
-            this._addSizeHandlerTouch(div)
-            css.add(div, "MatcCutsomerHandler " + icon);
-            // var listener = on(div,"mousedown", lang.hitch(this,"onCustomHandlerStart", widget, uiWidget, div, handler));
+        //     var div = document.createElement("div");
+        //     div.style.width = l + "px";
+        //     div.style.height = l + "px";
+        //     this._addSizeHandlerTouch(div)
+        //     css.add(div, "MatcCutsomerHandler " + icon);
+        //     // var listener = on(div,"mousedown", lang.hitch(this,"onCustomHandlerStart", widget, uiWidget, div, handler));
 
-            this.dndContainer.appendChild(div);
-            this.distibutionHandlers.push({
-                div: div
-                // handler: handler,
-                // listener: listener,
-                // widget: widget
-            })
-        },
+        //     this.dndContainer.appendChild(div);
+        //     this.distibutionHandlers.push({
+        //         div: div
+        //         // handler: handler,
+        //         // listener: listener,
+        //         // widget: widget
+        //     })
+        // },
 
 		onDistributeEnd (){
 			this.logger.log(4, "onDistributeEnd", "enter");
@@ -71,7 +71,7 @@ export default {
         },
 
 
-         cleanUpDistributionHandlers () {
+        cleanUpDistributionHandlers () {
             if (this.distibutionHandlers) {
                 let list = this.distibutionHandlers
                 delete this.distibutionHandlers

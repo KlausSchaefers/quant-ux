@@ -33,7 +33,7 @@ export default class CollabService {
     }
 
     applyEvent (model, event) {
-      Logger.log(-1, 'CollabService.applyEvent() > enter', event)
+      Logger.log(1, 'CollabService.applyEvent() > enter', event)
       /**
        * Should we clone???
        */
@@ -48,7 +48,7 @@ export default class CollabService {
        * in useless changes
        */
       if (this.events.find(e => e.id === event.id) !== undefined) {
-        Logger.log(-1,'CollabService.applyEvent() > Event ignored, because it was already added')
+        Logger.log(1,'CollabService.applyEvent() > Event ignored, because it was already added')
         return model
       }
 

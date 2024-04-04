@@ -2,7 +2,9 @@
 <template>
   <div class="MatcWidgetTypeDropDown MatcWidgetTypeDateDropDown">
     <div data-dojo-attach-point="button" class="MatcWidgetTypeDropDownCntr">
-      <div data-dojo-attach-point="label" class="MatcWidgetTypeDateDropDownLabel"></div>
+      <div  class="MatcWidgetTypeDateDropDownLabel">
+        <span data-dojo-attach-point="label"></span>
+      </div>
     </div>
     <div >
       <div class="MatcWidgetTypeDropDownPopUp" role="menu" data-dojo-attach-point="popup"></div>

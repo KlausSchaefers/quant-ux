@@ -55,7 +55,7 @@ export default {
     },
 
     cleanUpRepeatScripts () {
-        this.logger.log(-2,"cleanUpRepeatScripts","enter" );
+        this.logger.log(2,"cleanUpRepeatScripts","enter" );
         if (this._repeatScriptIntervals) {
             this._repeatScriptIntervals.forEach(id => {
                 clearInterval(id)

@@ -1,37 +1,42 @@
 
 <template>
-     <div class="MatcToolbarDropDownButton MatcToolbarItem MatcToolbarViewConfig"
-        @mousedown.stop="showPopup" @mouseup.stop="">
-         <div>
-            <span class="mdi mdi-magnify" v-if="hasIcon"></span>
-            <label class="MatcToolbarLabel"> {{zoomFactor}} %</label>
-            <span class="caret" data-dojo-attach-point="caret"></span>
-         </div>
-         <div class="MatcToolbarPopUp MatcToolbarPopUpOpen MatcToolbarViewConfigPopup" role="menu" v-if="hasPopup"
-            @mouseup.stop=""
-            @mousedown.stop=""
-            >
-             <!--
-             <div class="MatcToolbarPopUpArrowCntr">
-                 <div class="MatcToolbarPopUpArrow"></div>
-            </div>
-            -->
-             <div class="MatcToolbarViewConfigCntr">
+    <div :class="['MatcToolbarDropDownButton MatcToolbarArrowDropDown MatcToolbarViewConfig']" @mousedown.stop="showPopup"
+        @mouseup.stop="">
+
+        <div :class="['MatcToolbarItem MatcToolbarPrimaryItem', { 'MatcToolbarItemActive': hasPopup }]" type="button"
+            ref="button">
+            <label class="MatcToolbarLabel"> {{ zoomFactor }} %</label>
+            <span class="caret"></span>
+        </div>
+
+        <div class=" MatcToolbarPopUp MatcToolbarPopUpOpen MatcToolbarViewConfigPopup" role="menu" v-if="hasPopup"
+            @mouseup.stop="" @mousedown.stop="">
+            <!--
+            <div class="MatcToolbarPopUpArrowCntr">
+                <div class="MatcToolbarPopUpArrow"></div>
+           </div>
+           -->
+            <div class=" MatcToolbarPopUpWrapper">
                 <div class="MatcToolbarViewConfigCntrSpace">
-                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn" @mouseup.stop="" @click.stop="" @mousedown.stop="onZoomMinus">
-                            Zoom out (-)
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn" @mouseup.stop="" @click.stop=""
+                        @mousedown.stop="onZoomMinus">
+                        Zoom out (-)
                     </div>
-                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoomPlus" @mouseup.stop="" @click.stop="">
-                            Zoom in (+)
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn" @mousedown.stop="onZoomPlus"
+                        @mouseup.stop="" @click.stop="">
+                        Zoom in (+)
                     </div>
-                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(3)" @mouseup.stop="" @click.stop="">
-                            Zoom to 50%
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn" @mousedown.stop="onZoom(3)"
+                        @mouseup.stop="" @click.stop="">
+                        50%
                     </div>
-                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(5)" @mouseup.stop="" @click.stop="">
-                            Zoom to 100%
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn" @mousedown.stop="onZoom(5)"
+                        @mouseup.stop="" @click.stop="">
+                        100%
                     </div>
-                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn"  @mousedown.stop="onZoom(6)" @mouseup.stop="" @click.stop="">
-                            Zoom to 200%
+                    <div class="MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn" @mousedown.stop="onZoom(6)"
+                        @mouseup.stop="" @click.stop="">
+                        200%
                     </div>
                 </div>
 
@@ -39,62 +44,57 @@
                 <div v-if="analytic == true">
 
                     <div class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Lines" :value="hasLines"  @change="onChangeLines"/>
+                        <CheckBox label="Lines" :value="hasLines" @change="onChangeLines" />
                     </div>
 
                     <div class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Comments" :value="hasComments"  @change="onChangeComments"/>
+                        <CheckBox label="Comments" :value="hasComments" @change="onChangeComments" />
                     </div>
 
                     <div class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Gray Scale" :value="hasBW"  @change="onChangeBW"/>
+                        <CheckBox label="Gray Scale" :value="hasBW" @change="onChangeBW" />
                     </div>
 
                 </div>
                 <div v-else>
                     <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Snapp to Grid" :value="hasGrid"  @change="onChangeGrid"/>
+                        <CheckBox label="Snapp to Grid" :value="hasGrid" @change="onChangeGrid" />
                     </div>
 
                     <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Show Grid" :value="hasVisibleGrid"  @change="onChangeVisibleGrid"/>
+                        <CheckBox label="Show Grid" :value="hasVisibleGrid" @change="onChangeVisibleGrid" />
                     </div>
 
-                     <div @mousedown="showGrid" class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow">
-                        <span class="mdi mdi-cog" style="margin-right:4px"/>
-                        <span class="MatcStatusItemLabel" >Configure Grid</span>
-                    </div>
-
-                    <div class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Layers" :value="hasLayers"  @change="onChangeLayer"/>
-                    </div>
-
-                    <!--
-                    <div class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Lines" :value="hasLines"  @change="onChangeLines"/>
-                    </div>
-                    -->
-
-                    <div class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Distance" :value="hasDistance"  @change="onChangeDistance"/>
+                    <div @mousedown="showGrid"
+                        class="MatcToolbarViewConfigCntrSpace MatcToolbarViewConfigCntrRow MatcToolbarViewConfigBtn">
+                        <QIcon icon="Settings" />
+                        <span class="MatcStatusItemLabel">Configure Grid</span>
                     </div>
 
                     <div class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Ruler" :value="hasRuler"  @change="onChangeRuler"/>
+                        <CheckBox label="Layers" :value="hasLayers" @change="onChangeLayer" />
                     </div>
 
                     <div class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Comments" :value="hasComments"  @change="onChangeComments"/>
+                        <CheckBox label="Distance" :value="hasDistance" @change="onChangeDistance" />
                     </div>
-                    <!--
+
                     <div class="MatcToolbarViewConfigCntrRow">
-                        <CheckBox label="Data" :value="hasData"  @change="onChangeData"/>
+                        <CheckBox label="Ruler" :value="hasRuler" @change="onChangeRuler" />
                     </div>
-                    -->
+
+                    <div class="MatcToolbarViewConfigCntrRow">
+                        <CheckBox label="Comments" :value="hasComments" @change="onChangeComments" />
+                    </div>
+                </div>
+            </div> <!-- end MatcToolbarPopUpWrapper-->
+
+            <div class="MatcToolbarPopUpArrowCntr">
+                <div class="MatcToolbarPopUpArrow">
                 </div>
             </div>
-		</div>
-	</div>
+        </div>
+    </div>
 </template>
 <script>
 
@@ -104,10 +104,11 @@ import topic from 'dojo/topic'
 import Logger from 'common/Logger'
 import win from 'dojo/win'
 import CheckBox from 'common/CheckBox'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'ViewConfig',
-    mixins:[],
+    mixins: [],
     props: ['value', 'analytic'],
     data: function () {
         return {
@@ -118,7 +119,7 @@ export default {
         }
     },
     computed: {
-        gridLabel () {
+        gridLabel() {
             if (this.value && this.value.grid) {
                 if (this.value.grid.type === 'grid') {
                     return `${this.value.grid.w} x ${this.value.grid.h}`
@@ -126,61 +127,61 @@ export default {
             }
             return ''
         },
-        zoomFactor () {
+        zoomFactor() {
             if (this.value && this.value.zoom) {
                 return Math.round(this.value.zoom * 100)
             }
             return '-'
         },
-        hasLines () {
+        hasLines() {
             if (this.value) {
                 return this.value.renderLines
             }
             return true
         },
-        hasDistance () {
+        hasDistance() {
             if (this.value) {
                 return this.value.showDistance
             }
             return true
         },
-        hasComments () {
+        hasComments() {
             if (this.value) {
                 return this.value.showComments
             }
             return true
         },
-        hasRuler () {
-             if (this.value) {
+        hasRuler() {
+            if (this.value) {
                 return this.value.showRuler
             }
             return true
         },
-        hasData () {
+        hasData() {
             if (this.value) {
                 return this.value.hasDataView
             }
             return true
         },
-        hasLayers () {
+        hasLayers() {
             if (this.value) {
                 return this.value.layerListVisible
             }
             return false
         },
-        hasBW () {
+        hasBW() {
             if (this.value) {
                 return this.value.isBlackAndWhite
             }
             return false
         },
-        hasGrid () {
+        hasGrid() {
             if (this.value) {
                 return this.value.hasGrid
             }
             return false
         },
-        hasVisibleGrid () {
+        hasVisibleGrid() {
             if (this.value) {
                 return this.value.hasVisibleGrid
             }
@@ -188,115 +189,119 @@ export default {
         }
     },
     components: {
-        'CheckBox': CheckBox
+        'CheckBox': CheckBox,
+        'QIcon': QIcon
     },
     methods: {
-        showGrid () {
+        showGrid() {
             this.$emit('change', 'showGrid', this.$el)
         },
 
-        onChangeVisibleGrid (value) {
+        onChangeVisibleGrid(value) {
             this.log.log(-1, 'onChangeVisibleGrid', 'enter', value)
             this.value.hasVisibleGrid = value
             //this.hideMaybe()
             this.$emit('change', 'hasVisibleGrid', value)
         },
 
-        onChangeGrid (value) {
+        onChangeGrid(value) {
             this.log.log(-1, 'onChangeGrid', 'enter', value)
             this.value.hasGrid = value
             //this.hideMaybe()
             this.$emit('change', 'hasGrid', value)
         },
 
-        onChangeBW (value) {
+        onChangeBW(value) {
             this.log.log(-1, 'onChangeBW', 'enter', value)
             this.value.isBlackAndWhite = value
             //this.hideMaybe()
             this.$emit('change', 'isBlackAndWhite', value)
         },
 
-        onChangeLayer (value) {
+        onChangeLayer(value) {
             this.log.log(-1, 'onChangeLayer', 'enter', value)
             this.value.layerListVisible = value
             //this.hideMaybe()
             this.$emit('change', 'layerListVisible', value)
         },
 
-        onChangeLines (value) {
+        onChangeLines(value) {
             this.log.log(-1, 'onChangeLines', 'enter', value)
             this.value.renderLines = value
             // this.hideMaybe()
             this.$emit('change', 'renderLines', value)
         },
 
-        onChangeDistance (value) {
+        onChangeDistance(value) {
             this.log.log(-1, 'onChangeDistance', 'enter', value)
             this.value.showDistance = value
             // this.hideMaybe()
             this.$emit('change', 'showDistance', value)
         },
 
-        onChangeRuler (value) {
+        onChangeRuler(value) {
             this.log.log(-1, 'onChangeRuler', 'enter', value)
             this.value.showRuler = value
             // this.hideMaybe()
             this.$emit('change', 'showRuler', value)
         },
 
-        onChangeComments (value) {
+        onChangeComments(value) {
             this.log.log(-1, 'onChangeRuler', 'enter', value)
             this.value.showComments = value
             // this.hideMaybe()
             this.$emit('change', 'showComments', value)
         },
 
-        onChangeData (value) {
+        onChangeData(value) {
             this.log.log(-1, 'onChangeData', 'enter', value)
             this.value.hasDataView = value
-           // this.hideMaybe()
+            // this.hideMaybe()
             this.$emit('change', 'hasDataView', value)
         },
 
-        onZoom (pos) {
+        onZoom(pos) {
             //this.hideMaybe()
             this.zoomLevelPos = pos
             this.value.zoom = this.zoomLevels[this.zoomLevelPos];
             this.$emit('change', 'zoom', this.value.zoom)
         },
 
-        onZoomMinus () {
+        onZoomMinus() {
             this.log.log(-1, 'onZoomMinus', 'enter')
             //if (this.zoomLevelPos >= 1){
-                this.zoomLevelPos--;
-                let zoom = Math.round((this.value.zoom - 0.05) * 100)
-                zoom -= zoom % 5
-                zoom = Math.max(2, zoom)
-                zoom /= 100
-                this.value.zoom = zoom
-                this.$emit('change', 'zoom', this.value.zoom)
+            this.zoomLevelPos--;
+            let zoom = Math.round((this.value.zoom - 0.05) * 100)
+            zoom -= zoom % 5
+            zoom = Math.max(2, zoom)
+            zoom /= 100
+            this.value.zoom = zoom
+            this.$emit('change', 'zoom', this.value.zoom)
             //}
-           // this.hideMaybe()
+            // this.hideMaybe()
             return false
-		},
+        },
 
-		onZoomPlus (){
+        onZoomPlus() {
             this.log.log(-1, 'onZoomPlus', 'enter')
             //if (this.zoomLevelPos < this.zoomLevels.length -1){
-                this.zoomLevelPos++;
-                let zoom = Math.round((this.value.zoom + 0.05) * 100)
-                zoom -= zoom % 5
-                zoom /= 100
-                console.debug(zoom)
-                this.value.zoom = zoom
-                this.$emit('change', 'zoom', this.value.zoom)
+            this.zoomLevelPos++;
+            let zoom = Math.round((this.value.zoom + 0.05) * 100)
+            zoom -= zoom % 5
+            zoom /= 100
+            console.debug(zoom)
+            this.value.zoom = zoom
+            this.$emit('change', 'zoom', this.value.zoom)
             //}
-           // this.hideMaybe()
+            // this.hideMaybe()
             return false
         },
 
 
-        showPopup () {
+        showPopup() {
+            if (this.hasPopup) {
+                return
+            }
             this.hasPopup = true
             /**
              * this will force all other popups to close
@@ -307,15 +312,15 @@ export default {
              */
             topic.publish("matc/toolbar/click", "");
 
-            this._mouseDownListener = on(win.body(),"mousedown", lang.hitch(this,"hidePopup"));
-        	this._topicListener = topic.subscribe("matc/canvas/click", lang.hitch(this,"onCanvasClick"));
-			this._escListener = topic.subscribe("matc/canvas/esc", lang.hitch(this,"hidePopup"));
-            this._dialogListner = topic.subscribe("vommond/dialog/open", lang.hitch(this,"hidePopup"));
+            this._mouseDownListener = on(win.body(), "mousedown", lang.hitch(this, "hidePopup"));
+            this._topicListener = topic.subscribe("matc/canvas/click", lang.hitch(this, "onCanvasClick"));
+            this._escListener = topic.subscribe("matc/canvas/esc", lang.hitch(this, "hidePopup"));
+            this._dialogListner = topic.subscribe("vommond/dialog/open", lang.hitch(this, "hidePopup"));
 
             this.ignoreHide = false
         },
 
-        onCanvasClick () {
+        onCanvasClick() {
             /**
              * A lot if the changes we trigger a rerender, which will as a result also
              * trigger a 'matc/canvas/click'. We want to be able to ignore this once!
@@ -327,38 +332,38 @@ export default {
             this.hidePopup()
         },
 
-        hideMaybe () {
+        hideMaybe() {
             // this.ignoreHide = true
             this.hidePopup()
         },
 
-        hidePopup () {
+        hidePopup() {
             this.hasPopup = false
-            if(this._mouseDownListener){
+            if (this._mouseDownListener) {
                 this._mouseDownListener.remove();
                 delete this._mouseDownListener;
-			}
-			if(this._topicListener){
+            }
+            if (this._topicListener) {
                 this._topicListener.remove();
                 delete this._topicListener;
-			}
-			if (this._escListener){
+            }
+            if (this._escListener) {
                 this._escListener.remove()
                 delete this._escListener;
             }
-            if (this._dialogListner){
+            if (this._dialogListner) {
                 this._dialogListner.remove();
                 delete this._dialogListner;
             }
         }
     },
     watch: {
-        value (v) {
+        value(v) {
             this.log.log(2, 'watch(value)', 'enter', v)
             this.value = v
         }
     },
-    mounted () {
+    mounted() {
         this.log = new Logger('ViewConfig')
     }
 }

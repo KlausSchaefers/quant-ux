@@ -42,8 +42,6 @@ export default {
         const isCntrl = e.ctrlKey || e.metaKey;
         const isShift = e.shiftKey
 
- 
-
         /**
          * Cancel listeners must be always fired.
          */
@@ -225,12 +223,13 @@ export default {
          */
         } else if(k == 68 && !isMeta){
           if(!this._inlineEditStarted  && !this._selectionToolStart){
-            if (this.getMultiSelection()) {
-              this.onDistribute();
+            if (this.getMultiSelection() || this.getSelectedGroup() || this.getSelectedScreen()) {
+              this.onGridResize()
+              //this.onDistribute();
               this.stopEvent(e);
               e.cancelBubble = true
             } else {
-              this.showHint("Select multiple widgets to distribute equally...");
+              this.showHint("Select multiple widgets to to start grid resizing");
             }
           }
         /**
@@ -265,7 +264,7 @@ export default {
         } else if(k == 83){
           if(!this._inlineEditStarted){
             if(this.toolbar){
-              this.toolbar.showScreenSelector();
+              this.toolbar.onToolCreateScreen();
             }
           }
 

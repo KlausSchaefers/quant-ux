@@ -1,0 +1,79 @@
+@import '../variables.scss';
+.MatcAutoTextArea {
+    width: 100%;
+    min-width: 96px;
+    min-height: 48px;
+    position: relative;
+  
+    > div {
+        box-sizing: border-box;
+        width: 100%;
+        border: none;
+        outline: none;
+        white-space: pre-wrap;
+        line-height: inherit;
+        font-size: inherit;
+        font-family: inherit;
+        opacity: 0;
+        padding: $form_padding;
+        border: 1px solid transparent ;
+        border-radius: $form_radius;
+    }
+
+    textarea {
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        border: none;
+        outline: none;
+        white-space: pre-wrap;
+        line-height: inherit;
+        font-size: inherit;
+        font-family: inherit;
+        padding: $form_padding;
+        border: 1px solid $form_border ;
+        border-radius: $form_radius;
+        
+
+        &:hover {
+            border: 1px solid $form_border_hover ; 
+        }
+        &:focus {
+            border: 1px solid $form_border_focus ; 
+        }
+    }
+
+    &.MatcAutoTextAreaInline {
+
+        > div {
+            padding: 8px 0px;
+            transition: all 0.05s;
+        }
+        textarea {
+            border: 1px dashed transparent ;
+            background: none;
+            padding: 8px 0px;
+            transition: all 0.05s;
+            &:hover {
+                border: 1px dashed $form_border_hover ; 
+            }
+            &:focus {
+                border: 1px solid $primary_color ; 
+            }
+        }
+    }
+
+
+    &.MatcAutoTextAreaFocus {
+        > div {
+            padding: 8px;
+        }
+        textarea {
+            padding: 8px;
+        }
+    }
+}
+

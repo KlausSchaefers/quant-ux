@@ -1,0 +1,220 @@
+
+
+.MatcDialog.MatchImportDialog.MatchImportOpenAIDialog {
+    width: 1200px;
+    height: 550px;  
+  
+    .MatchImportOpenAIDialogCntr {
+      display: flex;
+      gap:40px;
+      align-items: stretch;
+  
+      .MatchImportDialogCntr {
+        height: 340px;
+      }
+  
+      .MatchImportOpenAIDialogInput {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;    
+      }   
+    }
+  
+    .MatchImportOpenAIDialogSettingsCntr {
+      display: flex;
+      gap: 40px;
+     
+      .MatchImportOpenAIDialogSettings{
+        flex-grow: 1;
+      }
+  
+      .MatchImportOpenAIDialogSettingsHint{
+        width: 320px;
+      }
+  
+      .MatchImportOpenAIDialogHint {
+        padding: 16px;
+        background: #f9ed8371;
+        border: 1px solid #f9ed83;
+      }
+  
+    }
+  
+    textarea {
+      height: 260px;
+    }
+  
+    .VommondRadioBoxList > div {
+      display: flex;
+      flex-direction: column;
+  
+      .VommondRadioBoxListItem {
+        width: auto;
+      }
+    }
+  
+    .MatchImportDialogCntrConfig {
+      height: 48px;
+      display: flex;
+      gap: 32px;
+    }
+  
+    .MatchImportDialogPreviewCntr {
+      width: 300px;
+      border: transparent 1px dashed;
+      position: relative;
+  
+      .MatcHint {
+        color: $text_color_passive;
+        position: absolute;
+        width: 60%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: 0.2s all;
+        font-size: 24px;
+        text-align: center;
+      }
+  
+    }
+  
+    .MatchImportOpenAIDialogDesktop {
+        .MatchImportDialogPreviewCntr {
+          width: 520px;
+        }
+    }
+  
+  
+    .MatchImportDialogProgressCntr {
+      display: block;
+      margin-top: 24px;
+      opacity: 0;
+      width: 100%;
+      height: 8px;
+   
+      overflow: hidden;
+    }
+  
+    .MatchImportDialogProgress {
+      height: 100%;
+      width: 100%;
+      background: $main_color;
+      border-radius: 4px;
+    }
+  
+    .MatchImportDialogAIRunning {
+  
+      .MatcHint {
+        color: $main_color;
+        font-size: 16px;
+      }
+  
+      .MatchImportDialogProgressCntr {
+        opacity: 1;
+      }
+  
+      .MatchImportDialogProgress{
+        animation-name: aiRunning;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+  
+      .MatchImportOpenAIDialogSimulator {
+        border-color: $main_color;
+      }
+    }
+  
+  
+   
+    .MatchImportOpenAIDialogSimulator {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 4px;
+      border: 1px solid hsl(0deg, 0%, 86%);
+      position: absolute;
+    }
+  
+    .MatcDesignRoboCntr {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border: 0px dashed hsl(0deg, 0%, 86%);
+      border-radius: 4px;
+  
+      .MatcDesignRoboBubblez {
+        position: absolute;
+        width: calc(100% - 48px);
+   
+        height: calc(100% - 64px);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-end;
+        gap: 16px;
+        overflow: auto;
+        padding-left: 16px; 
+      }
+  
+      .MatcDesignRoboBubble {
+        border: 1px solid  $primary_color;
+        color: #333;
+        padding: 8px;
+        border-radius: 8px;
+        border-bottom-right-radius: 0px;
+        font-size: 14px;
+        background: rgba(55, 136, 242, 0.2549019608);
+        color: $primary_color;
+      }
+  
+      .MatcDesignRoboIcon {
+        position: absolute;
+        bottom: 0px;
+        right: 8px;
+  
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 32px;
+         
+        .mdi{
+          color: rgba(55, 136, 242, 0.8);
+          font-size: 48px;
+        }
+      }
+    }
+  
+    .MatcDesignRoboError {
+        .MatcDesignRoboBubble{
+          border: 1px solid  $color_danger;
+          color: $color_danger;
+          
+        }
+    }
+  
+  }
+  
+  
+  @keyframes rob1 {
+    0%   {transform: translate(0, 0);}
+    33%   {transform: translate(2px, 0px);}
+    66%   {transform: translate(2px, 2px);}
+    100%   {transform: translate(0px, 2px);}
+  }
+  
+  @keyframes robo {
+    0%   {transform: rotate(10deg);}
+    33%   {transform: rotate(0deg)}
+    66%   {transform: rotate(-10deg);}
+    100%   {transform: rotate(0deg);}
+  }
+  
+  
+  
+  
+  @keyframes aiRunning {
+    0%   {width: 1%;}
+    100% {width: 100%}
+  }
+  

@@ -24,20 +24,23 @@
                 <tbody>
 
 
-
-                <tr class="" v-for="(item, i) in items" :key="item.id" 
+                <tr v-for="(item, i) in items" :key="item.id" 
+                    :class="[{'MatcFormRowDNDHover': i === hoverRow}, {'MatcFormRowDNDSelect': i == dragRow}]"
                     :draggable="isDraggable"
                     @dragstart="onColDragStart($event, i)"
-                    @dragover="oColnDragOver($event, i)"
+                    @dragover="oColDragOver($event, i)"
+                    @dragleave="onColDragLeave($event, i)"
                     @drop="onColDrop($event, i)">
                 
                     <td>
-                        <div class="MatcFormRowDND">
-                            <span class="mdi mdi-drag-vertical" @mouseover="isDraggable = true" @mouseout="isDraggable = false"></span>
-                            <CheckBox
-                                :value="item.selected"
-                                @change="setSelected(item, $event)"
-                                label="" />
+                        <div class="">
+                            <div class="MatcFormRowDND">
+                                <QIcon icon="HandleDND"  @mouseover="isDraggable = true" @mouseout="isDraggable = false" ></QIcon>      
+                                <CheckBox
+                                    :value="item.selected"
+                                    @change="setSelected(item, $event)"
+                                    label="" />
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -67,7 +70,7 @@
                 <tr class="MatcFormRow">
                     <td></td>
                     <td>
-                        <span class="MatcButton MatcButtonActive" @click="addItem">Add Item</span>
+                        <span class="MatcButton MatcButtonXS" @click="addItem">Add Item</span>
                     </td>
               
                     <td></td>
@@ -82,7 +85,7 @@
     </div>
 </template>
 <style lang="scss">
-@import "../../../style/scss/navigation_editor.scss";
+@import "../../../style/components/navigation_editor.scss";
 </style>
 <style></style>
 <script>
@@ -91,6 +94,7 @@ import lang from 'dojo/_base/lang'
 import DropDownButton from 'page/DropDownButton'
 import IconTable from './IconTable.vue'
 import CheckBox from 'common/CheckBox'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'NavigationTable',
@@ -98,6 +102,8 @@ export default {
     props: ["options", "value"],
     data: function () {
         return {
+            dragRow: -1,
+			hoverRow: -1,
             hasSelect: true,
             isDraggable: false,
             tab: 'settings',
@@ -107,7 +113,7 @@ export default {
         }
     },
     components: {
-        DropDownButton, IconTable, CheckBox
+        DropDownButton, IconTable, CheckBox, QIcon
     },
     methods: {
         showSettings () {
@@ -142,10 +148,17 @@ export default {
         },
         onColDragStart(e, i) {
             e.dataTransfer.setData("text", i);
+            e.dataTransfer.effectAllowed = 'move';
+            this.dragRow = i
         },
-        oColnDragOver(e) {
+        oColDragOver(e,i) {
             e.preventDefault();
+            this.hoverRow = i
         },
+
+		onColDragLeave () {
+			this.hoverRow = -1
+		},
         onColDrop(e, i) {
             e.preventDefault();
             const data = e.dataTransfer.getData("text");
@@ -156,6 +169,8 @@ export default {
                 this.items[j] = temp
                 this.$forceUpdate()
             }
+            this.dragRow = -1
+			this.hoverRow = -1
         },
         onChange() {
 

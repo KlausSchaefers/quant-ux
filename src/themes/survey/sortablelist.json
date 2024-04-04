@@ -1,0 +1,107 @@
+[
+    {
+		"id" : "SortList",
+		 "type" : "SortableList",
+		 "name" : "Preference List",
+		 "category" : "Survey",
+		 "subcategory" : "FormCheckBox",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+		 "w": "300",
+		 "h": "180",
+	     "z" : 0,
+	     "props" : {
+	    	"options" : ["Option 1", "Option 2",  "Option 3", "Option 4"],
+			"isSurveyElement": true
+		 },
+	     "has" : {
+			"backgroundColor" : true,
+	        "onclick" : true,
+	        "border" : true,
+			"label" : true,
+	        "data" : true,
+			"random": true  
+	     },
+	     "style" : { 
+	    	"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"background": "@form-background",
+			"color": "@form-color",
+			"colorButton": "@background-active",
+			"buttonGap": 4,
+	        "boxHeight": "@form-height",
+	        "boxMarginRight": "@spacing-s",
+			"arrowColor": "@form-color",
+			"arrowColorHover": "@form-color:hover",
+			"arrowColorPassive": "#fff",
+			"padding": 4,
+			"buttonSize": 24,
+			"arrowWidth": 2
+	    },
+		"hover" : {
+			"borderColor": "@form-border-color:hover",
+			"background": "@form-background:hover"
+		}
+	},
+	{
+		"id" : "SortList2",
+		 "type" : "SortableList",
+		 "name" : "Preference List 2",
+		 "category" : "Survey",
+		 "subcategory" : "FormCheckBox",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+		 "w": "300",
+		 "h": "180",
+	     "z" : 0,
+	     "props" : {
+	    	"options" : ["Option 1", "Option 2",  "Option 3"],
+			"isSurveyElement": true
+		 },
+	     "has" : {
+			"backgroundColor" : true,
+	        "onclick" : true,
+	        "border" : true,
+			"label" : true,
+	        "data" : true,
+			"random": true  
+	     },
+	     "style" : {
+			"borderModel":"outline",
+	    	"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"background": "@form-background",
+			"color": "@form-color",
+			"colorButton": "@background-active",
+			"buttonGap": 4,
+	        "boxHeight": "@form-height",
+	        "boxMarginRight": "@spacing-s",
+			"arrowColor": "@form-border-color",
+			"arrowColorHover": "@form-color:hover",
+			"arrowColorPassive": "#fff",
+			"padding": 8,
+			"buttonSize": 24,
+			"arrowWidth": 2
+	    },
+		"hover" : {
+			"borderColor": "@form-border-color:hover",
+			"background": "@form-background:hover"
+		}
+	}
+]

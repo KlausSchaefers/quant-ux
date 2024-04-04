@@ -37,10 +37,7 @@ export default class Animation extends Core{
 			"borderRightColor": true,
 			"borderLeftColor": true,
 			"caretBackground": true,
-			"caretColor": true,
-			"popupBorderColor": true,
-			"popupColor": true,
-			"popupBackground": true,
+			"caretColor": true,		
 			"barColor": true,
 			"handleColor": true,
 			"handleBorderColor": true,
@@ -73,7 +70,10 @@ export default class Animation extends Core{
 			"fontWeight": true,
 			"backgroundImage": true,
 			"verticalAlign": true,
-			"labelFontWeight": true
+			"labelFontWeight": true,
+			"popupBackground": true,
+			"popupBorderColor": true,
+			"popupColor": true
 		}
 
 		this._shadowAttribs = {

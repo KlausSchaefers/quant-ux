@@ -1,0 +1,2147 @@
+.MatcWidgetTypeSVGIcon {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid transparent;
+	color: #333;
+
+	.MatcWidgetTypeSVGIconWrapper {
+		width:100%;
+		height: 100%;
+	}
+
+	.MatcWidgetTypeSVGIconSVG {
+		color: #333;
+	}
+
+
+    svg {
+        path {
+            transform: translate(0.5,0.5)
+        }
+    }
+}
+
+
+.MatcWidgetTypeRadioTable {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+
+	table {
+		height: 100%;
+		width: 100%;
+
+		.MatcWidgetTypeRadioTableLabel {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+
+			span{
+				display: block;
+				width: 100%;
+			}
+		}
+
+		.MatcWidgetTypeRadioCell {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+
+	table thead td{
+		text-align: center;
+	}
+}
+
+/*******************************
+ * Sortable List
+ *******************************/
+
+.MatcWidgetTypeSortableList{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+}
+
+.MatcWidgetTypeSortableListCntr{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+	width: 100%;
+}
+
+.MatcWidgetTypeSortableListItem {
+	display: flex;
+	align-items: center;
+	transition: transform 0.33s;
+}
+
+.MatcWidgetTypeSortableListItemBtn {
+	cursor: pointer;
+}
+
+
+.MatcWidgetTypeSortableListItemBtnPassive {
+	cursor: auto;
+}
+
+.MatcWidgetTypeSortableListItemLabel {
+	flex-grow: 1;
+}
+
+
+/*******************************
+ * Tooltip
+ *******************************/
+
+@keyframes tooltipFadeIn {
+	from {opacity: 0}
+	to {opacity: 1}
+}
+
+
+.MatcWidgetTooltip {
+	position: absolute;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid transparent;
+	padding: 2px 8px;
+    background: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+	animation-name: tooltipFadeIn;
+	animation-delay: 0.5s;
+	animation-duration: 0.25s;
+	animation-fill-mode: forwards;
+	opacity: 0;
+	line-height: 1;
+}
+/*******************************
+ * IFrame
+ *******************************/
+.MatcIFrameWidget {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+}
+
+.MatcIFrameWidgetCover {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	padding: 24px;
+}
+
+.MatcIFrameWidgetCover span {
+    font-size: 200%;
+    color:#ccc;
+	text-align: center;
+}
+.MatcIFrameWidgetCover .mdi {
+	line-height: 1;
+}
+
+
+.MatcSimulator .MatcIFrameWidgetCover {
+	display: none;
+}
+
+.MatcIFrameWidgetCover iframe {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+}
+
+/*******************************
+ * LockSlider
+ *******************************/
+.MatcWidgetTypeLockSlider {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid transparent;
+
+}
+
+.MatcWidgetTypeLockSliderCntr {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+}
+
+.MatcWidgetTypeLockSliderBar {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	border:none;
+}
+
+.MatcWidgetTypeLockSliderWrapper {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	transition: transform 0.3s;
+}
+
+.MatcWidgetTypeLockSliderMoving .MatcWidgetTypeLockSliderWrapper,
+.MatcPlayerPreview .MatcWidgetTypeLockSliderWrapper{
+	transition: none
+}
+
+.MatcWidgetTypeLockSliderForeground {
+	width: 200%;
+	height: 100%;
+	position: absolute;
+	top:0px;
+	right: 0px;
+}
+
+.MatcWidgetTypeLockSliderHandle {
+	border-radius: 50%;
+	border: 0px solid transparent;
+	position: absolute;
+	top:0px;
+	right: 0px;
+}
+
+.MatcWidgetTypeLockSliderIcon {
+	position: absolute;
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+}
+
+.MatcWidgetTypeLockSliderLabel {
+	position: absolute;
+	top:50%;
+	right:5%;
+	transform: translateY(-50%);
+}
+
+.MatcWidgetTypeLockSliderLabel:focus{
+	outline: none;
+}
+
+/*******************************
+ * Icon Toggle Button
+ *******************************/
+
+.MatcWidgetIconToggleButton {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+.MatcWidgetVisualPickerIcon {
+	position: relative;
+	width: 100%;
+	height: 70%;
+	cursor: pointer;
+	overflow: hidden;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+}
+
+.MatcWidgetIconToggleButtonLabel {
+	width: 100%;
+	height: 30%;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	overflow: hidden;
+}
+
+
+/*******************************
+ * VisualPicker
+ *******************************/
+
+ .MatcWidgetVisualPicker{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border: none;
+}
+
+
+
+.MatcWidgetVisualPickerIconCntr {
+	position: relative;
+	width: 100%;
+	height: 80%;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.MatcWidgetVisualPickerBorder {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	border: 0px solid rgba(0,0,0,0);
+}
+
+.MatcWidgetVisualPickerIconLabel {
+	width: 100%;
+	height: 20%;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	overflow: hidden;
+}
+
+.MatcWidgetVisualPickerPopOver {
+	position: absolute;
+	top: 0px;
+    left: 0px;
+	height: 100%;
+	width: 100%;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+
+}
+
+
+
+/*******************************
+ * Timeline
+ *******************************/
+ .MatcWidgetTypeTimeLine{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid rgba(0,0,0,0)
+}
+
+.MatcWidgetTypeTimeLineCntr{
+	min-height: 100%;
+}
+
+
+.MatcWidgetTypeTimeLineCntrAutoSpace{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.MatcWidgetTypeTimeLineBar{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	top:0px;
+	left:0px;
+}
+
+.MatcWidgetTypeTimeLineElement {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.MatcWidgetTypeTimeLineCircle{
+	display: inline-block;
+	border-radius: 50%;
+	border-style: solid;
+}
+
+.MatcWidgetTypeTimeLineLabel{
+	display: inline-block;
+  flex-grow: 1;
+}
+
+
+/*******************************
+ * Paging
+ *******************************/
+.MatcWidgetTypePaging{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid rgba(0,0,0,0);
+}
+
+.MatcWidgetTypePagingCntr{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	display: flex;
+    justify-content: space-between;
+
+}
+
+.MatcWidgetTypePagingElement {
+	border: 0px solid rgba(0,0,0,0);
+	position: relative;
+	cursor: pointer;
+}
+
+/*******************************
+ * Icon Button
+ *******************************/
+.MatchWidgetTypeIconButton{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid rgba(0,0,0,0);
+}
+
+.MatchWidgetTypeIconButtonIcon{
+	display: inline-block;
+}
+/*******************************
+ * Tree
+ *******************************/
+.MatcWidgetTypeTree{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: none;
+}
+
+.MatcWidgetTypeTreeNode{
+	border: 0px solid rgba(0,0,0,0);
+	cursor: pointer;
+}
+
+.MatcWidgetTypeTreeNodeIcon{
+	display: inline-block;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.MatcSimulator .MatcWidgetTypeTreeCntr{
+	overflow: auto;
+	height: 100%;
+}
+
+.MatcWidgetTypeTreeNodeCollapsed.MatcWidgetTypeTreeNodeIcon{
+	transform: rotate(270deg);
+	transition: all 0.2s
+}
+
+.MatcWidgetTypeTreeNodeCollapsed.MatcWidgetTypeTreeChildren{
+	display: none;
+}
+
+ /*******************************
+ * Link
+ *******************************/
+
+.MatcWidgetTypeWebLink{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border-style: solid;
+}
+
+/*******************************
+ * Progress Bar
+ *******************************/
+
+.MatcWidgetTypeProgressBar{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border-style: solid;
+}
+
+.MatcWidgetTypeProgressBarInner {
+	position: absolute;
+	height: 100%;
+	top:0px;
+	left:0px;
+}
+
+/*******************************
+ * Progress Segments
+ *******************************/
+
+ .MatcWidgetTypeProgressSegments{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border:none;
+}
+
+.MatcWidgetTypeProgressSegmentsCntr {
+
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+	justify-content: space-between;
+}
+
+.MatcWidgetTypeProgressSegmentsElement{
+	flex-grow: 1;
+	border: 0px solid #333;
+}
+
+/*******************************
+ * Image paging
+ *******************************/
+
+.MatcWidgetTypeImagePaging{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border:none;
+}
+
+.MatcWidgetTypeImagePagingCntr {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.MatcWidgetTypeImagePagingElement{
+	border: 0px solid #333;
+	cursor: pointer;
+	transition: all 0.25s;
+}
+
+/*******************************
+ * Upload / Camera
+ *******************************/
+
+
+.MatcWidgetTypeRest {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	text-align: center;
+}
+
+.MatcWidgetTypeRest .mdi {
+	color:#777;
+	position: absolute;
+	top:-20%;
+	left:50%;
+	transform: translateX(-50%);
+}
+
+.MatcWidgetTypeRest .MatcWidgetTypeRestLabel{
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom:0%;
+	outline: none;
+	color:#cecece;
+	font-size: 150%;
+	padding: 5px;
+	display: block;
+}
+
+.MatcLight .MatcWidgetTypeRest .MatcWidgetTypeRestLabel{
+	color:#555;
+}
+
+.MatcWidgetTypeUploadPreview{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	text-align: left;
+	outline: none;
+	border-style: solid;
+	background-size: 100% 100%;
+}
+
+.MatcWidgetTypeUploadPreview.MatcWidgetTypeUploadPreviewImage{
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+/*******************************
+ * Upload / Camera
+ *******************************/
+.MatcWidgetTypeUpload{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	text-align: left;
+	outline: none;
+}
+
+.MatcWidgetTypeUploadFile{
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 100%;
+	height: 100%;
+	border:1px solid orange;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.MatcWidgetTypeUploadLabel{
+	outline: none;
+}
+
+.MatcWidgetTypeUploadIcon{
+	position: absolute;
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%)
+}
+
+/*******************************
+ * Sketch
+ *******************************/
+
+.MatcWidgetTypeSketch{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	text-align: left;
+	border:1px olive dashed;
+}
+
+/*******************************
+ * Vector
+ *******************************/
+.MatcWidgetTypeVector{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	text-align: left;
+	background-size: 100% 100%;
+}
+
+/*******************************
+ * RadioGroup
+ *******************************/
+
+.MatcWidgetTypeRadioGroup{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	text-align: left;
+}
+
+.MatcWidgetTypeRadioGroup .MatcWidgetTypeRadioBox{
+	display: inline-block;
+	vertical-align: center;
+}
+
+/*******************************
+ * CheckBoxGroup
+ *******************************/
+
+.MatcWidgetTypeCheckBoxGroup{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	text-align: left;
+}
+
+
+.MatcWidgetTypeCheckBoxRow{
+	width: 100%;
+	position: absolute;
+}
+
+.MatcWidgetTypeCheckBoxRow .MatcWidgetTypeCheckBox{
+	display: inline-block;
+	vertical-align: center;
+}
+
+.MatcWidgetTypeCheckBoxLabel{
+	display: inline-block;
+	vertical-align: center;
+	cursor: pointer;
+}
+
+/*******************************
+ * Chart
+ *******************************/
+
+.MatcWidgetTypeChart{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	border-style: none;
+}
+
+.MatcWidgetTypeBarChart{
+	border-style: solid;
+}
+
+
+.MatcWidgetTypeBarChartCntr{
+	width:100%;
+	height: 100%;
+	position: relative;
+	background-size:100% 100%;
+	background-repeat: none;
+}
+
+.MatcWidgetTypeBarChartBar{
+	position: absolute;
+	bottom: 0px;
+}
+
+.MatcWidgetTypeBarChartGroup{
+	position: absolute;
+	bottom: 0px;
+	height: 100%;
+
+}
+
+
+.MatcWidgetTypeBarChartHorizontalGroup{
+	position: absolute;
+	left: 0px;
+	width: 100%;
+}
+
+.MatcWidgetTypeBarChartHorizontalBar{
+	position: absolute;
+	left: 0px;
+}
+
+
+
+.MatcWidgetTypeCountingStepper{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	border-style: solid;
+	display: flex;
+}
+
+.MatcWidgetTypeCountingStepper .MatcWidgetTypeStepperBtn{
+	width: 30%;
+	top:50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+}
+
+.MatcWidgetTypeStepperLblCntr{
+	height: 100%;
+	flex-grow: 1;
+	display: inline-block;
+	cursor: pointer;
+	text-align: center;
+	border-style: solid;
+	border-width: 0px;
+	overflow: hidden;
+	position: relative;
+}
+
+/*******************************
+ * Stepper
+ *******************************/
+
+.MatcWidgetTypeStepper{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	border-style: solid;
+}
+
+.MatcWidgetTypeStepperBtn{
+	height: 100%;
+	width: 50%;
+	display: inline-block;
+	cursor: pointer;
+	text-align: center;
+	border-style: solid;
+	border-width: 0px;
+	overflow: hidden;
+	position: relative;
+}
+
+.MatcWidgetTypeStepperLabel{
+	position: absolute;
+	top:50%;
+	transform: translateY(-55%);
+	-webkit-transform: translateY(-55%);
+	width: 100%;
+}
+
+
+
+
+
+
+/*******************************
+ * Image Carousel
+ *******************************/
+
+.MatcWidgetTypeImageCarousel{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	border: 0px solid #333;
+}
+
+.MatcWidgetTypeImageCarouselCntr{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	left:0px;
+	top:0px;
+}
+
+.MatcWidgetTypeImageCarouselBox{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	left:0px;
+	top:0px;
+	background-position : 0 0;
+	background-size : 100%;
+	background-repeat :no-repeat;
+	cursor: pointer;
+}
+
+.test .MatcWidgetTypeImageCarouselCntr{
+	border:1px dashed orange;
+}
+
+.test .MatcWidgetTypeImageCarouselBox{
+	border:1px solid blue;
+}
+
+.test .MatcWidgetTypeImageCarousel{
+	overflow: visible;
+}
+
+
+/*******************************
+ * Icon Toggle
+ *******************************/
+
+.MatcWidgetTypeIconToggle{
+	position: absolute;
+	width:100%;
+	height: 100%;
+}
+
+.MatcWidgetTypeIconToggleIcon{
+	display: inline-block;
+	top:0px;
+	cursor: pointer;
+}
+
+.MatcWidgetTypeIconToggle .mdi {
+	vertical-align: top;
+    line-height: 1;
+}
+
+.MatcWidgetTypeLabeledIconToggle {
+	cursor: pointer;
+}
+
+
+/*******************************
+ * Start Rating
+ *******************************/
+
+.MatcWidgetTypeRating,  .MatcWidgetTypeRatingCntr{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.MatcWidgetTypeRatingElement{
+	position: absolute;
+	bottom: 0;
+	border-style: none;
+	cursor: pointer;
+	height: 100%;
+	display: inline-block;
+	overflow: hidden;
+}
+
+.MatcWidgetTypeRatingElement .mdi,
+.MatcWidgetTypeRatingElement .mdi:before{
+	vertical-align: top;
+    line-height: 1;
+}
+
+
+/*******************************
+ *Volume
+ *******************************/
+
+.MatcWidgetTypeVolumeSlider, .MatcWidgetTypeVolumeSliderCntr{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.MatcWidgetTypeVolumeSliderElement{
+	position: absolute;
+	bottom: 0;
+	border-style: solid;
+	cursor: pointer;
+}
+
+
+/*******************************
+ * Poly Line & LogicOr
+ *******************************/
+
+.MatcWidgetTypeLogicOr, .MatcWidgetTypePolyLine{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	border:none;
+	cursor: pointer;
+
+	background-size:100% 100%;
+	background-repeat: none;
+}
+
+.MatcWidgetTypeLogicOrLabel{
+	position:absolute;
+	text-align: center;
+	 top:50%;
+	 transform: translateY(-50%);
+	 -webkit-transform: translateY(-50%);
+	 font-size: 200%;
+	 width: 100%;
+}
+
+/*******************************
+ * Toggle Button
+ *******************************/
+
+.MatcWidgetTypeToggleButton{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	border:none;
+	border-style: solid;
+	cursor: pointer;
+}
+
+/*******************************
+ * Segment Button
+ *******************************/
+.MatcWidgetTypeSegmentButton{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	border:none;
+}
+
+.MatcWidgetTypeSegmentButtonChild{
+	display: inline-block;
+	border-style: solid;
+	border-width: 0px;
+	overflow: hidden;
+	height: 100%;
+	cursor: pointer;
+	position: relative;
+}
+
+
+
+/*******************************
+ * Segment Picker
+ *******************************/
+ .MatcWidgetTypeSegmentPicker{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: visible;
+	border:0px solid #333;
+}
+
+
+.MatcWidgetTypeSegmentPicker .MatcWidgetTypeSegmentPickerChild{
+	border-style: solid;
+	border-width: 0px;
+	overflow: hidden;
+	height: 100%;
+	cursor: pointer;
+	position: relative;
+	transition: color 0.33s;
+}
+
+.MatcWidgetTypeSegmentPicker .MatcWidgetTypeSegmentPickerWrapper {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	left:0px;
+	top:0px;
+
+	display: flex;
+}
+
+.MatcWidgetTypeSegmentPicker .MatcWidgetTypeSegmentPickerHighlight {
+	border: none;
+	height: 100%;
+	position: absolute;
+	left:0px;
+	top:0px;
+	display: block;
+	min-width: 10px;
+
+	transition: left 0.33s;
+}
+
+
+/*******************************
+ * Table
+ *******************************/
+
+.MatcWidgetTypeTable{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: auto;
+}
+
+.MatcWidgetTypeTableBodyCntr {
+	overflow: auto;
+	flex-grow: 1;
+}
+
+.MatcWidgetTypeTable table{
+	width: 100%;
+	min-height: 100%;
+}
+
+.MatcWidgetTypeTableBodyCntr table{
+	height: 100%;
+}
+
+.MatcWidgetTypeTable table td{
+	border: 0px solid #333;
+	vertical-align: middle !important;
+	box-sizing: border-box;
+}
+
+.MatcWidgetTypeTable table.MatcWidgetTypeTableBorderCell td{
+	padding: 0px;
+	border-style:solid;
+}
+
+.MatcWidgetTypeTable table thead.MatcWidgetTypeTableSticky{
+	position: sticky;
+	top:0px;
+	z-index: 2;
+}
+
+.MatcWidgetTypeTable table td  .MatcWidgetTypeTableInput{
+	border: 0px solid #333000;
+	outline: none;
+	height: 100%;
+    width: 100%;
+	background: none;
+	font-size: inherit;
+    text-align: inherit;
+    font-style: inherit;
+    text-decoration: inherit;
+    font-family: inherit;
+}
+
+.MatcWidgetTypeTableAction {
+	text-decoration: none;
+	display: inline-block;
+}
+
+.MatcWidgetTypeTable table .MatcWidgetTypeTableActionCntr{
+	text-align: right;
+	padding: 0px;
+}
+
+.MatcWidgetTypeTableAction.MatcWidgetTypeTableActionOnlyHover{
+	opacity: 0;
+}
+
+.MatcWidgetTypeTableRowHover .MatcWidgetTypeTableAction.MatcWidgetTypeTableActionOnlyHover{
+	opacity: 1;
+}
+
+/*******************************
+ * Icon
+ *******************************/
+
+
+.MatchWidgetTypeIcon{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	cursor: default;
+	overflow: hidden;
+}
+
+.MatchWidgetTypeIcon .mdi {
+	vertical-align: top;
+	line-height:1;
+}
+
+.MatchWidgetTypeIconRotated .mdi {
+	display: block;
+}
+
+.MatchWidgetTypeIcon .mdi:before
+{
+	vertical-align: top;
+	line-height:1;
+}
+
+.MatchWidgetTypeIcon.MatcSimulatorClickable{
+	cursor: pointer;
+}
+
+
+/*******************************
+ * HSlider
+ *******************************/
+
+.MatcWidgetTypeHSlider{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	cursor: pointer;
+}
+
+.MatcWidgetTypeHSlider .VommondSlider{
+	position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.MatcWidgetTypeHSlider .VommondSliderHandle{
+	border:none;
+}
+
+.MatcWidgetTypeHSlider .VommondSliderHandle{
+	border-radius:0px;
+	display: flex;
+	justify-content: center; /* align horizontal */
+	align-items: center; /* align vertical */
+	}
+
+
+/*******************************
+ * Date DropDown
+ *******************************/
+
+.MatcWidgetTypeDateDropDown{
+
+
+}
+
+.MatcWidgetTypeDateDropDown.MatcWidgetTypeDropDownOpen .MatcWidgetTypeDropDownPopUp{
+	padding: 0px;
+	border-style: none;
+	border-width: 0px;
+	background-color: none;
+
+}
+
+.MatcWidgetTypeDateDropDownLabel{
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	flex-grow: 1;
+}
+
+.MatcWidgetTypeDateDropDownDefaultLabel{
+	opacity :0.5;
+}
+
+.MatcWidgetTypeDateDropDownIcon{
+
+	right:0px;
+}
+
+.MatcWidgetTypeDate td{
+	border-style: solid;
+	border-width: 0px;
+	border-color: transparent;
+}
+
+
+/*******************************
+ * HoverDropDown
+ *******************************/
+
+.MatcWidgetTypeHoverDropDownBackground{
+	position: absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height: 100%;
+	z-index: 10007;
+}
+
+
+.MatcWidgetTypeHoverDropDownOpen{
+	z-index: 10008;
+}
+/*******************************
+ * Date
+ *******************************/
+.MatcWidgetTypeDate{
+	overflow: hidden;
+	position: absolute;
+	width:100%;
+	height: 100%;
+	border-style: solid;
+}
+
+.MatcWidgetTypeDateHeader{
+	width: 100%;
+	height: 15%;
+	position: relative;
+	font-size: 120%;
+}
+
+.MatcWidgetTypeDateHeader span{
+	display: inline-block;
+}
+
+
+.MatcWidgetTypeDateBody{
+	width: 100%;
+	height: 15%;
+}
+
+.MatcWidgetTypeDateBody table,
+.MatcWidgetTypeDateBody table th td,
+.MatcWidgetTypeDateBody table tr td {
+	width:100%;
+	height: 100%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+
+.MatcWidgetTypeDateBody table td{
+	cursor: pointer;
+}
+
+.MatcWidgetTypeDateLabel{
+	text-align: center;
+	position: absolute;
+	left:0px;
+	height:100%;
+	width:100%;
+}
+
+.MatcWidgetTypeDateBack{
+	position: absolute;
+	left:0px;
+	height:100%;
+	width:10%;
+	text-align: center;
+	cursor: pointer;
+}
+
+.MatcWidgetTypeDateNext{
+	position: absolute;
+	right:0px;
+	height:100%;
+	width:10%;
+	text-align: center;
+	cursor: pointer;
+}
+
+
+
+
+
+/*******************************
+ * Spinner
+ *******************************/
+
+.MatcWidgetTypeSpinner{
+	overflow: hidden;
+	position: absolute;
+	width:100%;
+	height: 100%;
+	border-style: solid;
+}
+
+.MatcWidgetTypeSpinnerCntr{
+    position: relative;
+    width:100%;
+	height: 100%;
+}
+
+.MatcWidgetTypeSpinnerOption{
+	text-align: center;
+	opacity:0.5;
+	cursor: pointer;
+	height: 33.6%;
+}
+
+.MatcWidgetTypeSpinnerOptionSelected{
+	text-align: center;
+	opacity:1;
+}
+
+.MatcWidgetTypeSpinnerBorderBox{
+	position: absolute;
+	height: 33%;
+	width:100%;
+	border-style: solid;
+	border-width:1px 0px;
+	top:33%;
+}
+
+
+/*******************************
+ * Password
+ *******************************/
+
+.MatcWidgetTypeTextBoxInputCover{
+	 position:absolute;
+	 height: 100%;
+	 width: 100%;
+}
+
+.MatcWidgetTypePasswordClearTextLabel{
+	 position:absolute;
+	 display: inline-block;
+	 right:5%;
+	 font-size:80%;
+	 top:50%;
+	 transform: translateY(-50%);
+	 -webkit-transform: translateY(-50%);
+	 cursor: pointer;
+}
+
+
+/*******************************
+ * Drag and Drop
+ *******************************/
+
+.MatcWidgetDragNDrop{
+	border-style: solid;
+	width: 100%;
+	height:100%;
+	cursor: pointer;
+}
+
+.MatcWidgetDragNDropTarget{
+	border-style: solid;
+	width: 100%;
+	height:100%;
+	cursor: pointer;
+}
+
+.MatcWidgetDragNDropAnimated {
+	transition: all 0.25s;
+}
+
+.MatcWidgetDragNDropMove.MatcWidget{
+	cursor: move;
+	z-index: 2;
+}
+
+/*******************************
+ * DropDown
+ *******************************/
+
+
+
+.MatcWidgetTypeDropDown, .MatcWidgetTypeDropDownCntr{
+	width:100%;
+ 	height:100%;
+ 	position: absolute;
+ 	border-style:solid;
+ 	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+.MatchWidgetTypeDropDown{
+
+}
+
+.MatcWidgetTypeDropDown{
+	border-width: 0px;
+}
+
+
+.MatchWidgetTypeDropDownMobilePopupBackground{
+	position: absolute;
+	width:100%;
+	height:100%;
+	background: rgba(0,0,0,0.35);
+}
+
+.MatcWidgetTypeDropDownMobileOption{
+	cursor: pointer;
+	border-style: solid;
+	border-width: 0px;
+	position: relative;
+}
+
+.MatcWidgetTypeDropDownMobileRadio{
+	border:1px solid #333;
+	border-radius:50%;
+	position: absolute;
+	right:0px;
+	top:0px;
+}
+
+.MatcWidgetTypeDropDownMobileRadioCheck{
+	border-radius:50%;
+	background: #333;
+	border-radius: 50%;
+    height: 60%;
+    left: 20%;
+    position: absolute;
+    top: 20%;
+    width: 60%;
+    display: none;
+}
+
+.MatcWidgetTypeDropDownMobileOptionSelected .MatcWidgetTypeDropDownMobileRadioCheck{
+	display: inline-block;
+}
+
+
+.MatchWidgetTypeDropDownMobilePopup{
+	position:absolute;
+	top:0px;
+	width: 80%;
+	left:10%;
+	text-align: left;
+	overflow: hidden;
+	padding: 2%;
+}
+
+.MatchWidgetTypeDropDownMobilePopupShadow{
+	box-shadow:0 0 25px rgba(0,0,0,0.35);
+}
+
+.MatchWidgetTypeDropDownMobilePopupCntr{
+	height: 100%;
+
+}
+
+.MatchWidgetTypeDropDownMobilePopupScroll{
+	overflow: auto;
+}
+
+
+.MatcWidgetTypeDropDownLabel{
+	width:100%;
+	cursor: pointer;
+}
+
+.MatcWidgetTypeDropDownOption{
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+}
+
+.MatcWidgetTypeDropDownOptionRow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.MatcWidgetTypeDropDownOptionRow .MatcWidgetTypeDropDownOptionLabel{
+	flex-grow: 1;
+}
+
+.MatcWidgetTypeDropDownLabelCntr{
+	flex-grow: 1;
+}
+
+.MatcWidgetTypeDropDownOptionLabel{
+
+}
+
+.MatcWidgetTypeDropDownPopUp{
+	display: none;
+	width:100%;
+}
+
+.MatcWidgetTypeDropDownOpen .MatcWidgetTypeDropDownPopUp{
+	display: block;
+	position: absolute;
+	top:100%;
+	left:0%;
+	overflow: hidden;
+	border-style:solid;
+	z-index: 10007;
+}
+
+.MatcWidgetTypeDropDownOpen.MatcWidgetTypeDropDownPopOver .MatcWidgetTypeDropDownPopUp{
+	top:0%;
+}
+
+.MatcWidgetTypeDropDownOpen.MatcWidgetTypeDropDownPopUber .MatcWidgetTypeDropDownPopUp{
+	bottom: 100%;
+	top: auto;
+}
+
+.MatcWidgetTypeDropDownOpen.MatcWidgetTypeDropDownPositionBottomRight .MatcWidgetTypeDropDownPopUp{
+	top:100%;
+	left:auto;
+	right:0px;
+}
+
+.MatcWidgetTypeDropDownOpen.MatcWidgetTypeDropDownPositionVerticalMiddle .MatcWidgetTypeDropDownPopUp{
+	top:50%;
+	transform: translateY(-50%);
+	 -webkit-transform: translateY(-50%);
+}
+
+
+
+.MatcWidgetTypeDropDownIcon{
+	vertical-align: top;
+}
+
+.MatcWidgetTypeDropDownCarretCntr{
+	text-align: right;
+}
+
+.MatcWidgetTypeDropDownCarret{
+	border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid;
+    display: inline-block;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    width: 0;
+    // position: absolute;
+	// right:50%;
+	// top:50%;
+    // transform: translateY(-50%) translateX(50%);
+	cursor: pointer;
+}
+
+.MatcWidgetTypeDropDownCarretIcon{
+	width: 100%;
+	text-align: center;
+    display: inline-block;
+    width: 100%;
+    position: absolute;
+	right:5%;
+	top:50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+}
+
+
+.MatcWidgetTypeDropDownNoText .MatcWidgetTypeDropDownIcon{
+	width: 100%;
+	text-align: center;
+    display: inline-block;
+    height: 100%;
+    position: absolute;
+	left:50%;
+	top:50%;
+	transform: translate(-50%, -50%);
+	cursor: pointer;
+}
+
+.MatcWidgetTypeDropDownNoText .MatcWidgetTypeDropDownIcon.mdi{
+	line-height: 1;
+}
+
+.MatcWidgetTypeDropDownNoText .MatcWidgetTypeDropDownLabelCntr {
+	width: 100%;
+	height: 100%;
+}
+
+/*******************************
+ * Switch
+ *******************************/
+
+.MatcWidgetTypeSwitch{
+	width:100%;
+ 	height:100%;
+ 	position: relative;
+ 	border: none;
+ 	vertical-align: middle;
+ 	cursor: pointer;
+
+}
+
+.MatcWidgetTypeSwitchCntr{
+	width:100%;
+ 	height:100%;
+ 	position: relative;
+ 	border-style: solid;
+ 	overflow: hidden;
+}
+
+
+
+.MatcWidgetTypeSwitchForeground{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top:0px;
+	left:0%;
+	transition-duration: 0.3s;
+	transition-property: left;
+
+}
+
+.MatcWidgetTypeSwitchBackground{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top:0px;
+	right:100%;
+	transition-duration: 0.3s;
+	transition-property: right;
+}
+
+.MatcWidgetTypeSwitchThin .MatcWidgetTypeSwitchCntr{
+	height: 66%;
+	top:50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+}
+
+
+.MatcWidgetTypeSwitchHandle{
+	width: 50%;
+	height: 100%;
+	display: inline-block;
+	position: absolute;
+	border:0px solid #777;
+	left:-1px;
+	top:0px;
+	transition-duration: 0.3s;
+	transition-property: left;
+	overflow: visible;
+}
+
+
+.MatcWidgetTypeSwitchForeground{
+
+
+}
+
+.MatcWidgetTypeSwitchHandleBtn{
+	width: 100%;
+	height:100%;
+	display: block;
+	border:0px solid #777;
+}
+
+.MatcWidgetTypeSwitchChecked .MatcWidgetTypeSwitchForeground
+{
+	left:100%;
+}
+
+.MatcWidgetTypeSwitchChecked .MatcWidgetTypeSwitchBackground
+{
+	right:0%;
+}
+
+.MatcWidgetTypeSwitchChecked .MatcWidgetTypeSwitchHandle{
+	left:50%;
+}
+
+
+
+.MatcWidgetTypeSwitchFiori .MatcWidgetTypeSwitchHandle,
+.MatcWidgetTypeSwitchFiori .MatcWidgetTypeSwitchBackground,
+.MatcWidgetTypeSwitchFiori .MatcWidgetTypeSwitchForeground{
+	transition-duration: 0.1s;
+}
+
+
+
+/*******************************
+ * Radio Box
+ *******************************/
+
+.MatcWidgetTypeRadioBox{
+	width:100%;
+ 	height:100%;
+ 	position: relative;
+ 	border:1px solid #777;
+ 	vertical-align: middle;
+ 	cursor: pointer;
+}
+
+.MatcWidgetTypeRadioBoxCircle{
+	opacity:0;
+ 	transition-duration: 0.2s;
+	transition-property: all;
+	display: inline-block;
+
+    height: 60%;
+    width: 60%;
+    left: 20%;
+    top: 20%;
+    border-radius:50%;
+    position: absolute;
+    background: #A5CE00;
+}
+
+.MatcWidgetTypeRadioBoxChecked .MatcWidgetTypeRadioBoxCircle{
+	opacity:1;
+
+}
+
+/*******************************
+ * CheckBox
+ *******************************/
+
+ .MatcWidgetTypeCheckBox{
+  	width:100%;
+ 	height:100%;
+ 	position: relative;
+ 	border:1px solid #777;
+ 	vertical-align: middle;
+ 	cursor: pointer;
+ }
+
+
+.MatcWidgetTypeCheckBoxHook{
+ 	opacity:0;
+ 	transition-duration: 0.2s;
+	transition-property: opacity;
+ 	border-bottom: 3px solid #A5CE00;
+	border-right: 2px solid #A5CE00;
+	transform:rotate(45deg);
+	-ms-transform:rotate(45deg); /* IE 9 */
+	-webkit-transform:rotate(45deg); /* Opera, Chrome, and Safari */
+    display: inline-block;
+    height: 80%;
+    width: 40%;
+    left: 30%;
+    position: absolute;
+    opacity: 0;
+    top: 0;
+ }
+
+.MatcWidgetTypeCheckBoxChecked .MatcWidgetTypeCheckBoxHook{
+  	opacity:1;
+}
+
+
+.MatcWidgetTypeUiWidget{
+	width:100%;
+ 	height:100%;
+ 	position: relative;
+ 	cursor: pointer;
+}
+
+
+
+/*******************************
+ * Standard
+ *******************************/
+
+.MatcScreen{
+	background: #45484D;
+	transition-duration: 0.5s;
+	transition-property:opacity;
+
+}
+
+.MatcScreenBackground{
+	position: absolute;
+	height: 100%;
+	width:100%;
+}
+
+.MatcScreenImage{
+	background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+}
+
+.MatcScreenImageVertical{
+
+}
+
+.MatcScreenImageHorizontal{
+
+}
+
+.MatcScreenPassive{
+	opacity : 0.15;
+}
+
+
+.MatcVAlignCntr{
+	position:relative;
+	height: 100%;
+}
+
+.MatcVAlignCenter{
+	position:relative;
+	top: 50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+}
+
+
+.MatcWidget{
+	color:#ccc;
+	position: absolute;
+
+}
+
+
+.MatcEventedWidget{
+
+}
+
+
+
+
+.MatcBorderNode{
+	width: 100%;
+	height: 100%;
+	border-style: solid;
+	border-width: 0px;
+	text-decoration: inherit;
+
+}
+
+
+.MatchWidgetTypeBox{
+	height: 100%;
+    width: 100%;
+}
+
+.MatchWidgetTypeButton{
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	border-style: solid;
+	border-width: 0px;
+}
+
+.MatcSimulator .MatchWidgetTypeButton{
+
+}
+
+
+.MatchWidgetTypeLabel{
+	background: none;
+	border-radius:0px;
+}
+
+.MatcSimulator .MatchWidgetTypeLabel .MatcInlineEditable{
+	cursor: default;
+}
+
+.MatcSimulator .MatchWidgetTypeLabel.MatcSimulatorClickable .MatcInlineEditable{
+	cursor: pointer;
+}
+
+
+.MatcWidgetTypeLabelInlineEditable{
+	vertical-align: top;
+	width: 100%;
+	height: 100%;
+}
+
+
+
+
+.MatcBoxNoBackground{
+	background: none;
+	border: 1px dashed #cecece;
+	border-radius:0px;
+}
+
+.MatcWidgeValignMiddle{
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform: translateY(-50%) translateX(-50%);
+	-webkit-transform: translateY(-50%) translateX(-50%);
+}
+
+
+/*******************************
+ * VAlign
+ *******************************/
+.MatcWidgeValignBottom{
+	position:absolute;
+	bottom:0px;
+}
+
+.MatcInlineEditVAlign-top-left{
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+
+.MatcInlineEditVAlign-top-center{
+	position:absolute;
+	top:0%;
+	left:50%;
+	width:100%;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+}
+
+
+.MatcInlineEditVAlign-top-right{
+	position:absolute;
+	top:0px;
+	right:0px;
+}
+
+
+.MatcInlineEditVAlign-middle-left{
+	position:absolute;
+	top:50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+}
+
+.MatcInlineEditVAlign-middle-center{
+	position:absolute;
+	top:50%;
+	left:50%;
+	width:100%;
+	transform: translateY(-50%) translateX(-50%);
+	-webkit-transform: translateY(-50%) translateX(-50%);
+}
+
+.MatcInlineEditVAlign-middle-right{
+	position:absolute;
+	top:50%;
+	right:0px;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+}
+
+
+.MatcInlineEditVAlign-bottom-left{
+	position:absolute;
+	bottom:0px;
+	left:px;
+}
+
+.MatcInlineEditVAlign-bottom-center{
+	position:absolute;
+	bottom:0px;
+	left:50%;
+	width: 100%;
+	transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+}
+
+.MatcInlineEditVAlign-bottom-right{
+	position:absolute;
+	bottom:0px;
+	right:0px;
+}
+
+/*******************************
+ * Standard Types
+ *******************************/
+.MatcWidgetTypeSVGBox {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	outline: none;
+	border: 0px solid transparent;
+}
+
+.MatcWidgetTypeSVGBox svg{
+	position: absolute;
+	top:0px;
+	left:0px;
+}
+
+.MatcWidgetTypeSVGPaths {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border: 0px solid transparent;
+}
+
+.MatcWidgetTypeSVGPaths svg{
+	position: absolute;
+}
+/*******************************
+ * TextBox
+ *******************************/
+
+ .MatchWidgetTypeTextBox {
+
+ }
+
+ .MatcWidgetTypeTextBox {
+	height: 100%;
+ }
+ 
+.MatcWidgetTypeTextBoxPreview {
+	display: flex;
+	align-items: center;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+.MatcWidgetTypeTextAreaPreview {
+	height: 100%;
+}
+
+.MatcWidgetTypeTextBox .MatcWidgetTypeTextBoxInput{
+	background: none;
+	width: 100%;
+	height:100%;
+	position: absolute;
+	top :0px;
+	left:0px;
+	color:inherit;
+	border-style: solid;
+	outline: none;
+}
+
+.MatcWidgetTypeTextBoxInputForm{
+	width: 100%;
+	height:100%;
+	position: absolute;
+	top :0px;
+	left:0px;
+}
+/*******************************
+ * Standard Types
+ *******************************/
+
+
+
+.MatcSimulator input{
+	outline: none;
+}
+
+.MatcCanvas .MatchWidgetTypeTextBoxInput{
+	cursor: pointer;
+}
+
+.MatcSimulator .MatchWidgetTypeLabel, 
+.MatcSimulator .MatchWidgetTypeHotSpot,
+.MatcSimulator .MatchWidgetTypeImage{
+	border: none;
+}
+
+
+.MatchWidgetTypeImage{
+	border: none;
+	overflow: hidden;
+}
+
+.MatchWidgetTypeImageCntr {
+	background-size:100% 100%;
+	border: none;
+	border-radius:0px;
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 100%;
+	height: 100%;
+}
+
+
+.MatchWidgetTypeHotSpot{
+	background: none;
+	border: 1px dashed #ff353a;
+	border-radius:0px;
+}
+
+
+/*******************************
+ * Labeled CheckBox
+ *******************************/
+ .MatcLabeledCheckBox{
+	display: flex;
+	height: 100%;
+	width: 100%;
+	border: none;
+	gap: 8px;
+	cursor: pointer;
+}
+
+.MatcLabeledCheckBox .MatchWidgetTypeLabel{
+	position: relative;
+	flex-grow: 1;
+	height: 100%;
+	cursor: pointer;
+}
+
+.MatcLabeledCheckBox .MatchWidgetTypeLabel .MatcInlineEditable {
+	cursor: pointer;
+}
+

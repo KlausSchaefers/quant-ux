@@ -1,17 +1,17 @@
 
 <template>
-  <div :class="'TaskCreateDialog ' + model.type">
+  <div :class="'MatcDialog TaskCreateDialog ' + model.type">
     <div class="TaskCreateDialogCntr">
       <div class="FormCntr" >
 
-          <div class="field">
+          <div class="form-group">
             <label>Name</label>
-            <input  v-model="task.name" type="text" class="input" placeholder="Name"  />
+            <input  v-model="task.name" type="text" class="form-control" placeholder="Name"  />
           </div>
 
-          <div class="field">
+          <div class="form-group">
             <label>Description</label>
-            <textarea  v-model="task.description" type="text" class="input"  placeholder="An explaination for the users"  />
+            <textarea  v-model="task.description" type="text" class="form-control"  placeholder="An explaination for the users"  />
           </div>
 
 
@@ -51,7 +51,7 @@
           <p class="MatcHint">
             Select the next screen to show
           </p>
-          <div v-for="box in abScreens" :key="box.id" class="button is-primary" @click="selectABLine(box)">
+          <div v-for="box in abScreens" :key="box.id" class="MatcButton" @click="selectABLine(box)">
             {{box.name}}
           </div>
         </div>
@@ -61,15 +61,15 @@
     </div>
 
 
-    <div class="buttons mt-16">
-      <a class="button is-primary" @click="onSave">Save</a>
-      <a class="button is-text" @click="onCancel" >Cancel</a>
+    <div class="MatcButtonBar">
+      <a class="MatcButton MatcButtonPrimary" @click="onSave">Save</a>
+      <a class="MatcLinkButton" @click="onCancel" >Cancel</a>
     </div>
 
   </div>
 </template>
 <style lang="scss">
-  @import '../../../style/scss/task_create_dialog.scss';
+  @import '../../../style/components/task_create_dialog.scss';
 </style>
 <script>
 import DojoWidget from "dojo/DojoWidget";

@@ -2,13 +2,13 @@
 	"id" : "WireFrameVolumeSlider1",
 	"type" : "VolumeSlider",
 	"name" : "Volume",
-	"category" : "WireFrame",
+	"category" : "Advanced",
 	"subcategory" : "FormSpecial",
 	"_type" : "Widget",
 	"x" : 0,
 	"y" : 0,
-	"w" : 300,
-	"h" : 60,
+	"w": "@box-width-xl",
+	"h": "@box-height-m",
 	"z" : 0,
 	"props" : {
 		"elementCount" : 10,
@@ -19,34 +19,16 @@
 		"backgroundColor" : true
 	},
 	"style" : {
-		"borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
-		"borderTopWidth" : 1,
-		"borderBottomWidth" : 1,
-		"borderRightWidth" : 1,
-		"borderLeftWidth" : 1,
-		"borderTopColor" : "#333333",
-		"borderBottomColor" : "#333333",
-		"borderRightColor" : "#333333",
-		"borderLeftColor" : "#333333",
-		"background" : "#ffffff",
-		"color" : "#333333"
+		"borderRadius" : 0,
+		"borderWidth" : 1,
+		"borderColor": "@background-passive",		
+		"background": "@background-passive",
+		"color": "@form-color"
 	},
 	"active" : {
-		"borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
-		"borderTopWidth" : 2,
-		"borderBottomWidth" : 2,
-		"borderRightWidth" : 2,
-		"borderLeftWidth" : 2,
-		"borderTopColor" : "#333333",
-		"borderBottomColor" : "#333333",
-		"borderRightColor" : "#333333",
-		"borderLeftColor" : "#333333",
-		"background" : "#333333"
+		"borderRadius" : 0,
+		"borderWidth" : 1,
+		"borderColor": "@background-active",	
+		"background" : "@background-active"
 	}
 } ]

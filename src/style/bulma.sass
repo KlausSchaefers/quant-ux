@@ -5,7 +5,7 @@ $navbar-height: 4rem
 $tabs-border-bottom-color:  transparent
 $tabs-border-bottom-width: 2px
 $tabs-link-padding: 1rem 2rem
-$primary: #3787f2
+$primary: #365fff
 $info: $primary
 $light: #F3F5F6
 $red: #e53935
@@ -16,6 +16,7 @@ $textarea-min-height: 6em
 $footer-padding: 3rem 1.5rem
 $black: darken($primary, 45%)
 $input-focus-box-shadow-size: 0
+$box-shadow: 0 8px 24px rgba(0,0,0,0.04)
 
 @import "~bulma/sass/utilities/_all"
 @import "~bulma/sass/base/_all"
@@ -31,13 +32,11 @@ header
     background: $white
     border-bottom: 1px solid $grey-lighter
 body
-    background: $light
+  
+    font-family: 'Inter', 'Helvetica Neue', -apple-system, 'BlinkMacSystemFont', "Segoe UI", 'Helvetica', sans-serif
 
 .hero .title
     margin-bottom: 2rem!important
-
-.box.is-shadowless
-    box-shadow: $box-shadow!important
 
 .VommondDialogContent
     h3, h2, h1
@@ -87,14 +86,14 @@ body
 .navbar-item,
 .button,
 .tabs a
-    font-size: 0.875rem
+    font-size: 14px
     font-weight: 600
 
 a:hover
     text-decoration: none
 
 .project-nav
-    border-bottom: 1px solid $grey-lighter
+    border-bottom: 1px solid rgba(0,0,0,0.15)
     padding-bottom: 0
 
 .MatcApps
@@ -107,7 +106,6 @@ a:hover
         margin-left: 0
 
 .MatcDialog
-    padding: 2.5rem
     .form-group
         margin-bottom: 1em
 .VommondDialogBackground
@@ -116,14 +114,7 @@ a:hover
     box-shadow: $box-shadow
     border-radius: $box-radius
 
-.MatcTeamItem
-    width: 24px
-    height: 24px
-    .MatcUserImageCntr
-        width: 24px
-        height: 24px
-        &:hover
-            box-shadow: $box-shadow
+
 .MatcButtonGreen
     background-color: $green
 .team-settings
@@ -145,8 +136,6 @@ a:hover
 .MatcContent h2
     margin: unset
 
-.MatcAppListBox .MatcPreviewWrapper
-    box-shadow: $box-shadow
 .mt-16
     margin-top: 16px
 

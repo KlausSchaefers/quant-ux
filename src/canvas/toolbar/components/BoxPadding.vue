@@ -51,7 +51,7 @@ export default {
 					var cntrPos = {w : 150, h:75};
 					var inputPos= {w: 45, h : 24};
 
-					var options = [0,1,2,3,4,5,6,7,8,9,10,12,14,16,20,24,32];
+					var options = [0,4,8,12,16,24,32];
 
 					this.paddingTop = this.renderIntBox(this.cntr,options );
 					this.paddingTop.domNode.style.top = -1 * ((inputPos.h/2)-1)+"px";

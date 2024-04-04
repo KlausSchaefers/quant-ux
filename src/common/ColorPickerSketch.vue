@@ -25,11 +25,11 @@
 						</div>
 					</div>
 					<div class="VommondColorPickerSketchControlCntr">
-						<input class="VommondColorPickerHexInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputHex" />
-						<input class="VommondColorPickerNumberInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputR" value="0" />
-						<input class="VommondColorPickerNumberInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputG" value="0" />
-						<input class="VommondColorPickerNumberInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputB" value="0" />
-						<input class="VommondColorPickerNumberInput vommondLineInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputA" value="1" />
+						<input class="VommondColorPickerHexInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputHex" />
+						<input class="VommondColorPickerNumberInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputR" value="0" />
+						<input class="VommondColorPickerNumberInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputG" value="0" />
+						<input class="VommondColorPickerNumberInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputB" value="0" />
+						<input class="VommondColorPickerNumberInput MatcIgnoreOnKeyPress" data-dojo-attach-point="inputA" value="1" />
 					</div>
 					<div class="VommondColorPickerSketchControlLabels">
 						<span>Hex</span>
@@ -43,7 +43,8 @@
 					<div class="VommondColorPickerSketchPreview" data-dojo-attach-point="preview">
 					</div>
 					<div class="VommondColorPickerSketchEyeDropper" v-if="hasEyeDropper">
-						<span class="mdi mdi-eyedropper" @click.stop="openEyeDropper"/>
+						<QIcon icon="ColorPicker" @click.stop="openEyeDropper"></QIcon>
+			
 					</div>
 				</div>
 			</div>
@@ -51,8 +52,8 @@
 	</div>
 </template>
 
-<style>
-  @import url("../style/color_picker_sketch.css");
+<style lang="scss">
+  @import "../style/components/color_picker_sketch.scss";
 </style>
 
 <script>
@@ -63,6 +64,7 @@ import win from 'dojo/_base/win'
 import on from 'dojo/on'
 import touch from 'dojo/touch'
 import Color from 'dojo/_base/Color'
+import QIcon from 'page/QIcon'
 // import HSlider from 'common/HSlider'
 
 export default {
@@ -72,7 +74,9 @@ export default {
         return {
         }
     },
-    components: {},
+    components: {
+		'QIcon': QIcon
+	},
 	computed: {
 		hasEyeDropper () {
 			return "EyeDropper" in window

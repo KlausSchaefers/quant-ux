@@ -1,0 +1,57 @@
+/****************************************************
+ *  Status Bar
+ ****************************************************/
+
+ .MatcStatus{
+	position: fixed;
+	bottom: 0px;
+	left:0px;
+	font-size: 12px;
+	z-index:92000;
+	height: 25px;
+	width: 100%;
+	background:#242a30;
+
+}
+.MatcStatusCntr{
+	margin-left: 39px;
+}
+
+.MatcStatusItem{
+	display: inline-block;
+	padding: 0px 25px;
+	color:#cecece;
+	text-align: center;
+	border-left: 1px solid #5E5E5E;
+	transition-duration: 0.5s;
+	transition-property:color;
+}
+
+.MatcStatusItemActive{
+	background: #3b3d42;
+}
+
+.MatcStatusItem.MatcHidden{
+	display: none;
+}
+
+
+
+.MatcStatusItem:HOVER{
+	color:#fff;
+}
+
+.MatcStatusItemLabel{
+	min-width:50px;
+	display: inline-block;
+	padding: 0px 5px;
+}
+
+.MatcStatusButtom{
+	cursor: pointer;
+	padding: 3px;
+}
+
+.MatcStatusButtom:HOVER{
+	color: orange;
+}

@@ -1,0 +1,82 @@
+/****************************************************
+ * Home Section
+ ****************************************************/
+
+ .MatcToolbarDropDownButton.MatcToobarHomeSection {
+	transition-duration: 0.25s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+
+	.MatcToolbarItem{
+		width: 100%;
+		justify-content: flex-start;
+		gap: 16px;
+	}
+
+	.MatcToobarHomeSectionAppNameLabel {
+		width: calc(100% - 64px);
+		overflow: hidden;
+		display: block;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		text-align: left;
+	}
+
+	.MatcToobarHomeSectionAppNameInput {
+		width: 100%;
+		overflow: hidden;
+		display: block;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		text-align: left;
+		border: 0px;
+		background: none;
+		outline: none;
+		padding: 0px;
+	}
+}
+
+.MatcToobarHomeSection.MatcToobarHomeSectionBlue {
+	background: $primary_color;
+	margin: 0px;
+
+
+	.MatcToolbarPrimaryItem {
+		border: none;
+		&:hover{
+			background:  $primary_color_hover;
+		}
+	}
+
+	.MatcToolbarItem {
+		width: $toolbar_height;
+		height: $toolbar_height;
+	}
+
+	&:HOVER, 
+	.MatcToolbarItemActive{
+		background:  $primary_color_hover;
+	}
+
+
+	img{
+		width: 24px;
+		height: 24px;
+	}
+
+}
+
+.MatcToobarHomeSection img{
+    width: 16px;
+    height: 16px;
+}
+
+
+
+
+.MatcToobarHomeSection .MatcToolbarPopUp {
+	width: 100%;
+}
+

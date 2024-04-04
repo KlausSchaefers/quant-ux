@@ -27,8 +27,10 @@
     "simulator": {
       "welcome": {
           "title": "Willkommen",
-          "msg": 	"Sie wurden eingeladen den <b>{{name}}</b> Prototypen zu testen. Klicken Sie auf <b>Starten</b>, um den Test zu beginnen.",
-          "privacy": "Dies ist ein Usabilitytest und ihre Interaktionen werden gespeichert. Es werden <u>keine persönlichen Informationen</u> gespeichert. Sie finden mehr informationen auf unserer <a target='quxPrivacy' href='#/privacy.html'>Privacy Seite</a>.",
+          "msg": 	"Sie wurden eingeladen den <b>{{name}}</b> Prototypen zu testen. .",
+          "privacy": "Im Rahmen dieses Usabilitytests werden ihre Interaktionen zur Verbessung des Designs aufgezeichnet und gespeichert.",
+          "privacy1": "Es werden keine persönlichen Informationen gespeichert. Sie finden mehr informationen auf unserer <a target='quxPrivacy' href='#/privacy.html'>Privacy Seite</a>.",
+          "click-start": "",
           "start": "Starten",
           "showTasks": "Aufgaben zeigen"
       },

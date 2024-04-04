@@ -72,7 +72,7 @@ export default {
             }
           });
         } else {
-          console.warn('initDomNodes', this.domNode)
+          console.warn('initDomNodes', this)
         }
       } else {
         console.warn('no domnode for', this.name)
@@ -412,12 +412,12 @@ export default {
       }
 		},
 
-		_setStatus:function(key, value){
+		_setStatus (key, value){
       if (typeof(Storage) !== "undefined") {
         localStorage.setItem(key, JSON.stringify(value));
       }
     },
-    _getMousePosition: function(e){
+    _getMousePosition (e){
       // updated and synced with simulator
       // in case of error roll back and change mixin order in simulator
       let result = {x: 0, y: 0};

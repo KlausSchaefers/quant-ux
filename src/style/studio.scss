@@ -1,0 +1,582 @@
+@import './variables.scss';
+
+.MatcStudio {
+    width: 100vw;
+    height: 100vh;
+
+    .MatcStudioAction {
+        font-weight: 600;
+    }
+
+    .MatcCollapseViewMin {
+        
+        .MatcStudioNav {
+            padding: 16px 8px;
+            justify-content: center;
+            overflow: visible;
+
+            .MatcQIcon {
+                justify-content: center;
+            }
+
+            .MatcButton {
+                height: 24px;
+                width: 24px;
+                padding: 0px;
+            }
+        }
+
+        .MatcStudioLogo {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .MatcStudioNavRow {
+            display: flex;
+            justify-content: center;
+
+            a {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        .StudioNotificationBubble {
+            left:18px
+        }
+    }
+
+    .MatcStudioNav {
+        height: 100vh;
+        width: 100%;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 14px;
+        //background-color: $page_color_secondary;
+
+        .vommondToolTip {
+            left: -8px;
+        }
+
+
+        .MatcQIcon .MatcQIconSVG {
+            stroke-width: 2;
+        }
+
+        .MatcButtonSecondary {
+            justify-content: flex-start
+        }
+
+        .MatcQIcon {
+            justify-content: flex-start;
+        }
+
+
+        .MatcStudioLogo { 
+            display: flex;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            img{
+                height: 24px;
+                width: 24px;
+                border-radius: 0px;
+            }
+        }
+
+        .MatcButtonFullWidth {
+            width: 100%;
+            padding: 16px;
+            height: 40px;
+        }
+
+        a{  
+            cursor: pointer;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+
+            &:hover {
+                color: #000;
+            }
+
+            &:visited {
+                color: $text-color;
+            }
+        }
+
+        .MatcStudioAppList{
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-grow: 1;
+            overflow: auto;
+
+            padding-left: 8px;//20px;
+
+            .MatcStudioAppListLoading {
+                height: 40px;
+                display: flex;
+                align-items: center;
+                color:$text_color_passive;
+            }
+
+            .MatcStudioAppListSelected {
+                font-weight: 600;
+            }
+
+            a {
+      
+                .MatcStudioAppListLabel {
+                    text-overflow: ellipsis;
+                    text-wrap: nowrap;
+                    overflow: hidden;
+                    margin: 0;
+                    display: inline-block;
+                    width: calc(100% - 32px);
+                }
+
+                .MatcStudioAppListDot {
+                    display: block;
+                    width: 8px;
+                    height: 8px;
+                    background: $primary_color;
+                    border-radius: 50px;                
+                    flex-basis: 8px;
+                }
+
+
+            }
+
+
+        }
+    }
+}
+
+.StudioOverview {
+    width: 100%;
+    font-size: $font-size-s;
+    background-color: $page_color_secondary_dark;
+
+    .MatcAutoTextArea {
+        font-size: $font-size-xs;
+    }
+
+    h3, h4 {
+        font-size: $font-size-s;
+    }
+
+    .MatcScreenList {
+
+        // .MatcContentBox .MatcPreviewWrapper {
+        //         box-shadow: $page_drop_shadow_soft;
+        //         transition: box-shadow 0.2s;
+        //         height: 200px;
+        //         overflow: hidden;
+
+        //  }
+    }
+
+    .StudioOverviewTabContent {
+        display: flex;
+        gap: 32px;
+        flex-direction: column;
+    }
+
+    .MatcTeam {
+        border:none;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        padding: 0px 4px;
+        height: 32px;
+
+        .MatcUserAdd {
+            background: $button_secondary_background;
+            border: none;
+        }
+    }
+
+    section {
+        margin-bottom: 64px;
+    }
+
+
+    .StudioOverviewHeader {
+        //border-bottom: 1px solid $page_border;
+        gap: 24px;
+        display: flex;
+        flex-direction: column;
+        padding-top: 16px;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    .StudioOverviewHeaderRow {
+        padding: 0px 64px;
+        display: flex;
+        align-items: flex-start;
+        min-height: 34px;
+
+
+        .MatcFlexColumn {
+            position: relative;
+        }
+
+    
+        .StudioColorDropDown {
+            position: absolute;
+            left: -32px;
+            top: 8px;
+
+            .MatcDropDownPopUp {
+                left: 0px;
+                right: auto;
+                width: auto;
+            }
+     
+            .StudioColorDropDownDot {
+                height: 16px;
+                width: 16px;
+                border-radius: 50px;
+                background: $primary_color;
+                cursor: pointer;
+
+                &:hover {
+                    opacity: 0.8;
+                    box-shadow: 0px 0px 4px rgba($color: #000000, $alpha: 0.25);
+                }
+            }
+
+            .StudioColorDropDownCntr {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                column-gap: 16px;
+                row-gap: 16px;
+                padding: 16px;
+                cursor: default;
+            }
+        }
+
+        input {
+    		font-size: $font-size-m;
+            padding: 0;
+            border: none;
+            font-weight: 600;
+            width: 300px;
+            background: none;
+            transition: all 0.05s;
+            height: 32px;
+            border-radius: $form_radius;
+            display: block;
+            border: 1px solid transparent;
+        
+            &:hover{
+                border: 1px dashed $gray_3;
+       
+            }
+
+            &:focus{
+                border: 1px solid $primary_color;
+                padding: 0px 8px;
+            }
+        }
+    }
+
+    .StudioOverviewContent {
+        padding: 64px;
+        width: 100%;
+    }
+
+    .MatcTabs {
+        display: flex;
+        font-size: 14px;
+        gap: 8px;
+
+
+        a {
+            color: $text-color;
+            font-weight: 600;
+            padding: 4px 16px;
+            display: inline-block;
+            border-bottom: 2px solid transparent;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+   
+            &:hover{
+                color: $primary_color;
+            }
+          
+            &.MatcTabActive{
+                color: $primary_color;
+                border-bottom: 2px solid $primary_color;
+            }
+        }
+
+
+    }
+}
+
+.MatcStudioWelcome {
+    height: 100vh;
+    padding: 48px;
+    background: $page_color_secondary;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text_color_passive;
+
+    >div{
+        width: 240px;
+    }
+}
+
+.StudioDetails {
+    background: $page_color;
+    padding: 16px;
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+    min-height: 100%;
+
+
+    .StudioDetailsDescription {
+        font-size: 14px;
+
+        .MatcInlineEdit{
+            padding: 0px;
+        }
+    }
+
+    .StudioDetailsKPICntr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 16px;
+        row-gap: 16px;
+
+        .StudioDetailsKPI {
+            background: $kpi_background;
+            height: 102px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap:8px;
+            border-radius: $page_radius-l;
+
+            h4 {
+                font-size: 24px;
+            }
+
+            label {
+                font-size: 14px;
+                font-weight: 400;
+                text-align: center;
+            }
+        }
+    }
+
+
+    .StudioDetailsHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        a{
+            font-size: 14px;
+        }
+    }
+
+    .StudioDetailsComments {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+.StudioDetailsCommentsList {
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;     
+    overflow: auto; 
+    padding-bottom: 32px;
+}
+
+.StudioDetailsCommentsGrid {
+    display: flex;
+    gap: 16px;     
+    overflow: auto; 
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .StudioComment {
+        width: 256px;
+    }
+}
+
+.StudioComment{
+    background: $comment_background;
+    border: 1px solid $comment_border;
+    border-radius: $comment_radius;
+    box-shadow: $comment-shadow;
+    padding: 16px;
+    padding-top: 0px;
+    font-size: 14px;
+    display: flex;
+
+    flex-direction: column;
+
+    .StudioCommentResponse {
+        margin-top: 16px;
+    }
+
+    textarea {
+        background: $comment_input_background;
+        padding: $form_padding;
+        width: 100%;
+        height: 168px;
+        border: 1px solid $comment_input_border;
+        border-radius: 8px;
+
+
+        &:hover {
+            border: 1px solid $comment_input_border_hover;
+            outline: none;
+        }
+
+        &:focus {
+            border: 1px solid $comment_input_border_hover;
+            outline: none;
+        }
+    }
+
+ 
+    .StudioCommentReplyCntr {
+        margin-top: 16px;
+    }
+
+    .StudioCommentReply {
+        display: block;
+        color:transparent;
+        text-align: left;
+        font-size: 12px;
+
+        &:hover {
+            color:$primary_color;
+        }
+    }
+
+    &:hover {
+        .StudioCommentReply {
+            color:$primary_color;
+        }
+    }
+}
+
+
+@container (max-width: 250px) {
+    .StudioDetails .StudioDetailsKPICntr {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.StudioNotification {
+    position: relative;
+    .StudioNotificationBubble {
+        position: absolute;
+        height: 8px;
+        width: 8px;
+        border-radius: 8px;
+        background: $color_danger;
+        top: 2px;
+        left:12px
+    }
+
+    .StudioNotificationContainer {
+        margin-top: 32px;
+        height: 480px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap:16px;
+
+        .StudioNotificationItemHeader {
+            display: flex;
+            //flex-direction: column;
+            gap: 4px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+
+            span {
+                font-size: 14px;
+                color: $text_color_passive;
+                
+            }
+        }
+
+        li {
+            margin-bottom: 24px;
+        }
+  
+
+        .StudioNotificationItemSpacer {
+            display: flex;
+            gap: 8px;
+            margin-top: 24px;
+            align-items: center;
+            margin-bottom: 32px;
+            color: $gray_3;
+            
+            .StudioNotificationItemLine {
+                border-top: 1px solid $gray_3;
+                height: 1px;
+                flex-grow: 1;
+            }
+        }
+      
+
+        .StudioNotificationItem {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 16px;
+
+            h3 {
+                margin: 0;
+                font-size: 16px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            a {
+                display: inline;
+                color: $primary_color;
+            }
+
+            .StudioNotificationVideo {
+                display: flex;
+                justify-content: center;
+                margin-top: 16px;
+            }
+        }
+    }
+}
+
+.StudioContact {
+    textarea {
+        height: 128px;
+    }
+}

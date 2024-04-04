@@ -1,0 +1,165 @@
+
+.MatcToolbarArrowDropDown {
+
+}
+
+
+.MatcToolbarArrowDropDown {
+
+	.MatcToolbarItem {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+
+		.caret{
+			opacity: 1;
+		}
+	}
+
+}
+
+.MatcToolbarItemActive .caret{
+	opacity: 1;
+	transform: rotate(135deg);
+}
+
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUp {
+	top: calc(100% + 12px);
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpLabel {
+	min-width: 100px;
+	white-space: nowrap;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpWrapper {
+	z-index: 2;
+	position: relative;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpArrowCntr {
+	top: -8px;
+	left: 12px;
+	right: 100%;
+	height: 30px;
+	width: 30px;
+	z-index: 1;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow {
+	left: 0px;
+	top: 3px;
+}
+
+.MatcToolbarArrowDropDown li {
+	position: relative;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarDropDownButtonPopup ul {
+	overflow: visible;
+}
+
+
+.MatcToolbarArrowDropDown li .MatcToolbarPopUpSubMenu {
+	color: #333;
+	position: absolute;
+	left: calc(100% + 10px);
+	top: 0px;
+	background: #fff;
+	box-shadow: 0 3px 25px rgba(0, 0, 0, 0.35);
+	z-index: 4;
+    border-radius: $popup_radius;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpSubMenu .MatcToolbarPopUpArrowCntr {
+	left: -7px;
+	top: 6px;
+}
+
+.MatcToolbarArrowDropDown li.Seperator {
+	border-top: 1px solid #333;
+}
+
+.MatcToolbarArrowDropDown .MatcToolbarPopUpSubMenu .MatcToolbarPopUpArrowCntr .MatcToolbarPopUpArrow {
+	left: 3px
+}
+
+/****************************************************
+ * Item DropDown
+ ****************************************************/
+
+.MatcToolbarDropDownButtonItem {
+	border: 1px solid transparent;
+	transition: all 0.2s;
+	border-radius: 3px;
+}
+
+.MatcToolbarDropDownButtonItem:HOVER,
+.MatcCreateBtnElementSelected.MatcToolbarDropDownButtonItem {
+	border: 1px solid $primary_color;
+}
+
+.MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove {
+	background: $color_danger_light;
+	border-color: $color_danger;
+	color: $color_danger;
+}
+
+.MatcToolbarDropDownButtonItem.MatcToolbarDropDownButtonItemRemove:hover {
+	background: $color_danger;
+	border-color: $color_danger_hover;
+	color: #fff;
+}
+
+
+.MatcScreenImportAdd .MatcScreenAddCntr {
+	min-width: 600px;
+}
+
+.MatcScreenAddCntr .MatcHint {
+	margin-bottom: 20px;
+	font-size: 20px;
+}
+
+.MatcScreenAddCntr .MatcUploader {
+	margin-top: 30px;
+}
+
+
+
+
+.MatcToolbarMenuItem {
+
+	min-height: 32px;
+
+	&.MatcToolbarPopUpLine{
+		min-height: auto;
+	}
+
+	.MatcToolbarPopUpLabelShortCut {
+		opacity: 0.5;
+		white-space: nowrap;
+		text-align: right;
+		flex-grow: 1;
+		font-size: 12px;
+		margin-left: 24px;
+
+		&.MatcQIcon {
+			margin-right: -8px;
+		}
+	}
+}
+
+.MatcToolbarMenuItem:first-child {
+    border-top-left-radius: $popup_radius;
+    border-top-right-radius: $popup_radius;
+}
+
+.MatcToolbarMenuItem:last-child {
+    border-bottom-left-radius: $popup_radius;
+    border-bottom-right-radius: $popup_radius;
+}
+
+

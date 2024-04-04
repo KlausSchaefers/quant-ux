@@ -1,0 +1,42 @@
+
+/****************************************************
+* Help
+****************************************************/
+
+
+.MatcShortCutDialog {
+	width: 800px;
+	height: auto;
+}
+
+.MatcToolbarHelpKeyCntr {
+	min-height: 300px;
+	max-height: 800px;
+}
+
+.MatcToolbarHelpKeyCntr.container {
+	padding: 0px;
+}
+
+.MatcShortCutDialog .MatcToolbarHelpKeyCntr td {
+	margin-bottom: 16px;
+	text-align: right;
+}
+
+.MatcToolbarHelpKeyBlock {
+	border: 1px solid #777;
+	border-radius: 5px;
+	display: inline-block;
+	color: #333;
+	margin-right: 10px;
+	min-width: 40px;
+	padding: 5px;
+	text-align: center;
+
+}
+
+.MatcToolbarHelpKeyBlockTxt {
+	display: inline-block;
+	padding: 5px 5px 5px;
+	color: #333;
+}

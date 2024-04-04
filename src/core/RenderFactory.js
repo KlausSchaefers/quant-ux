@@ -57,8 +57,10 @@ import ImagePaging from 'core/widgets/ImagePaging'
 import LabeledRadioBox from 'core/widgets/LabeledRadioBox'
 import LabeledCheckBox from 'core/widgets/LabeledCheckBox'
 import LabeledTextBox from 'core/widgets/LabeledTextBox'
+import LabeledTextArea from 'core/widgets/LabeledTextArea'
 import Navigation from 'core/widgets/Navigation'
 import NavMenu from 'core/widgets/NavMenu'
+import SVGIcon from 'core/widgets/SVGIcon'
 
 import CountingStepper from 'core/widgets/CountingStepper'
 import Tree from 'core/widgets/Tree'
@@ -68,6 +70,8 @@ import Timeline from 'core/widgets/Timeline'
 import SVGBox from 'core/widgets/SVGBox'
 import SVGPaths from 'core/widgets/SVGPaths'
 import VisualPicker from 'core/widgets/VisualPicker'
+import SortableList from 'core/widgets/SortableList'
+import RadioTable from 'core/widgets/RadioTable'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -492,6 +496,30 @@ export default class RenderFactory extends Core {
 		this._uiWidgets[model.id] = widget;
 	}
 
+	_createSVGIcon(parent, model) {
+		const widget = this.$new(SVGIcon)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createRadioTable(parent, model) {
+		const widget = this.$new(RadioTable)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createSortableList(parent, model) {
+		const widget = this.$new(SortableList)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createLabeledTextArea(parent, model) {
+		const widget = this.$new(LabeledTextArea)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
 	_createProgessSegments(parent, model) {
 		const widget = this.$new(ProgessSegments)
 		widget.placeAt(parent);
@@ -689,6 +717,11 @@ export default class RenderFactory extends Core {
 	_createDragNDrop(parent, model) {
 		var widget = this.$new(DragNDrop);
 		widget.placeAt(parent);
+		if (this.zoomedModel){
+			widget.setZoomedModel(this.zoomedModel)
+		} else {
+			widget.setZoomedModel(this.model)
+		}
 		this._uiWidgets[model.id] = widget;
 	}
 
@@ -1586,6 +1619,10 @@ export default class RenderFactory extends Core {
 		}
 	}
 
+	_set_backgroundImageRepeat() {
+		// will be handled in _set_backgroundImage()
+	}
+
 	/**
 	 * background image
 	 */
@@ -1636,7 +1673,12 @@ export default class RenderFactory extends Core {
 				parent.style.backgroundPosition = "0 0"; // 100%
 			}
 
-			parent.style.backgroundRepeat = "no-repeat";
+			if (style.backgroundImageRepeat) {
+				parent.style.backgroundRepeat = "repeat";
+			} else {
+				parent.style.backgroundRepeat = "no-repeat";
+			}
+
 			parent.style.border = "none";
 		} else {
 			/**
@@ -1658,12 +1700,12 @@ export default class RenderFactory extends Core {
 				context.lineTo(w, h);
 				context.moveTo(w, n);
 				context.lineTo(n, h);
-				context.strokeStyle = "#333";
+				context.strokeStyle = "#000";
 				context.strokeWidth = 2;
 				context.imageSmoothingEnabled = false;
 				context.stroke();
 				parent.style.backgroundImage = "url(" + c.toDataURL("image/png") + ")";
-				parent.style.border = "1px solid #777";
+				parent.style.border = "1px solid #000";
 			}
 
 		}

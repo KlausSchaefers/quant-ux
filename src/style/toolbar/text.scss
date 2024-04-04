@@ -1,0 +1,98 @@
+.MatcTextProperties .MatcTextPropertiesFontFamily{
+  width: 140px;
+}
+
+.MatcTextPropertiesFontSize {
+  //width: 40px;
+}
+
+
+.MatcLight .MatcTextProperties .MatcToolbarItemActive:HOVER {
+  color: #333;
+}
+
+.MatcTextProperties .MatcToolbarSectionContent, 
+.MatcTextProperties .MatcToolbarSectionContent .MatcToolbarSelector{
+	display: flex;
+  flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.MatcToolbarItem.MatcTextShadow {
+	border: 1px solid transparent;
+}
+
+
+
+
+
+/****************************************************
+ * Font Selector
+ ****************************************************/
+
+ .MatcToolbarPopUp li.MatchFont{
+  width: 250px;
+  font-size: 16px;
+}
+
+ .MatcToolbarDropDownButtonLabel.MatchFont{
+  width: 100px;
+ }
+
+
+.MatchFontArial{
+ font-family: Arial;
+}
+
+.MatchFontArialBlack{
+ font-family: Arial Black, Gadget, sans-serif;
+}
+
+.MatchFontTimesNewRoman{
+ font-family: Times New Roman;
+}
+
+.MatchFontGeorgia{
+ font-family: Georgia, serif;
+}
+
+.MatchFontComic{
+ font-family: Comic Sans MS, cursive, sans-serif;
+}
+
+.MatchFontImpact{
+ font-family: Impact, Charcoal, sans-serif;
+}
+
+.MatchFontLucida{
+ font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+}
+
+.MatchFontTahoma{
+ font-family: Tahoma, Geneva, sans-serif;
+}
+
+.MatchFontCourier{
+ font-family: Courier New, Courier, monospace;
+}
+
+.MatchFontHelvetica{
+ font-family: 'Helvetica Neue','Helvetica',Arial,sans-serif;
+}
+
+.MatchFontPalatino{
+ font-family: Palatino Linotype, Book Antiqua, Palatino, serif;
+}
+
+.MatchFontRoboto{
+ font-family: Roboto, sans-serif;
+}
+
+.MatchSourceSansPro{
+ font-family: 'Source Sans Pro',sans-serif;
+}
+
+.MatchSourceInter{
+  font-family: 'Inter';
+ }

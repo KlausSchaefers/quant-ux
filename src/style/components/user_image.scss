@@ -1,0 +1,29 @@
+@import '../variables.scss';
+
+.MatcUser {
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    font-size: 32px;
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    .MatcUserAvatar{
+        background: $primary_color;
+        color:#fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+   
+        height: 100%;
+        width: 100%;
+    }
+
+    .MatcQIcon, .MatcQIconSVG {
+        height: 75%;
+        width: 78%;
+    }
+}

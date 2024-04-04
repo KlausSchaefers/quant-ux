@@ -1,0 +1,52 @@
+@import '../variables.scss';
+
+/****************************************************
+* Tab Container
+****************************************************/
+.MatcToolbarTabContainer{
+	padding: 8px;
+	padding-top: 0px;
+}
+
+.MatcToolbarTabs{
+	text-align: center;
+}
+
+.MatcToolbarTabs a{
+	margin-right: 5px;
+	font-size: 12px;
+	padding: 5px;
+	display: inline-block;
+	cursor: pointer;
+	text-decoration: none;
+	border-bottom: 1px solid transparent;
+
+}
+
+.MatcToolbarTabsBig.MatcToolbarTabs{
+	text-align: left;
+}
+
+.MatcToolbarTabsBig a{
+	margin-right: 5px;
+	font-size: 18px;
+	padding: 5px;
+	border-bottom-width: 2px;
+	color:$text_color;
+}
+
+.MatcToolbarTabs a.MatcToolbarTabActive{
+	border-bottom-color: $tab_color_active;
+}
+
+.MatcDialog .MatcToolbarTabs a {
+	font-size: 18px;
+	margin-right: 20px;
+    border-bottom: 2px solid transparent;
+	color: $dialog_color;
+}
+
+.MatcDialog .MatcToolbarTabs a.MatcToolbarTabActive {
+    border-bottom-width: 2px;
+	border-color: $dialog_color;
+}

@@ -6,7 +6,7 @@
           <div class="level-left"></div>
           <div class="level-right">
             <a
-              class="button is-success level-item"
+              class="MatcButton level-item"
               :href="`#/${urlPrefix}/${app.id}/analyze/workspace.html`"
             >Open Analytic Canvas</a>
           </div>
@@ -40,21 +40,6 @@
     
     <AnalyticPagePlugin  v-if="events && events.length === 0" :events="events" :model="app" />
 
-    <section class="section">
-      <div class="container">
-        <div class="box is-shadowless">
-          <h2 class="title">Comments</h2>
-          <Comment
-            v-if="app"
-            :appID="app.id"
-            type="overview_heat"
-            reference
-            contentID
-            insertPosition="top"
-          />
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 <script>
@@ -62,7 +47,6 @@ import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
 import Plan from "page/Plan";
 import Util from "core/Util";
-import Comment from "page/Comment";
 import HeatList from "dash/HeatList";
 import AnalyticPagePlugin from "../../../plugins/AnalyticPagePlugin"
 
@@ -77,7 +61,6 @@ export default {
     };
   },
   components: {
-    Comment: Comment,
     HeatList: HeatList,
     AnalyticPagePlugin: AnalyticPagePlugin
   },

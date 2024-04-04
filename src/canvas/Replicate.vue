@@ -20,6 +20,8 @@ export default {
       onReplicate (){
         this.logger.log(0,"onReplicate", "enter");
 
+        this.cleanUpGridResize()
+
         // toggle between states
         if (!this._resizeDnDEndHandler){
           this._resizeDnDMoveHandler = "onReplicateDnDMove";
@@ -36,8 +38,9 @@ export default {
           if (this.getMultiSelection()){
             this._selectCloneIds = this.getMultiSelection();
           }
-
+          this.setSubMode('replicate')
         } else {
+          this.setSubMode('')
           delete this._resizeDnDMoveHandler;
           delete this._resizeDnDEndHandler;
           css.remove(this.container, "MatcCanvasModeReplicate");
@@ -129,6 +132,7 @@ export default {
       },
 
       cleanUpReplicate (){
+        this.setSubMode('')
         //this.logger.log(0,"cleanUpReplicate", "enter");
         if (this._resizeCopyJobsDivs) {
           for(var i=0; i< this._resizeCopyJobsDivs.length; i++){

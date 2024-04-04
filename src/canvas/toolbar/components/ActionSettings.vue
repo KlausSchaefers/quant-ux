@@ -70,24 +70,17 @@ export default {
 				
 			var btn = this.$new(DropDownButton, {maxLabelLength:20});
 			btn.setOptions([
-                {value:null, label:"No Animation", icon:"mdi mdi-close"},
-                {value:"transform", label:"Transform", icon:"mdi mdi-auto-fix"},
+                {value:null, label:"No Animation", icon:"DeleteX"},
+                {value:"transform", label:"Transform", icon:"AnimationTransform"},
 
-                {value:"slideLeft", label:"Left Slide", icon:"mdi mdi-arrow-left"},
-                {value:"slideRight", label: "Right Slide", icon:"mdi mdi-arrow-right"},
-                {value:"slideUp", label: "Up Slide", icon:"mdi mdi-arrow-up"},
-                {value:"slideDown", label: "Down Slide", icon:"mdi mdi-arrow-down"},          
+                {value:"slideLeft", label:"Left Slide", icon:"AnimationLeft"},
+                {value:"slideRight", label: "Right Slide", icon:"AnimationRight"},
+                {value:"slideUp", label: "Up Slide", icon:"AnimationUp"},
+                {value:"slideDown", label: "Down Slide", icon:"AnimationDown"},          
                 
-                {value:"fadeIn", label: "Fade In", icon:"mdi mdi-blur"},
-                {value:"zoomIn", label:"Zoom In", icon:"mdi mdi-arrow-all"},            
-          	  	//{label: "", css:"MatcToolbarPopUpLine"},
-                {value:"slideLeftDown", label: "Down Left Slide", icon:"mdi mdi-arrow-bottom-left"},  
-                {value:"slideLeftUp", label: "Up Left Slide", icon:"mdi mdi-arrow-top-left"},  
-                {value:"slideRightDown", label: "Up Right Slide", icon:"mdi mdi-arrow-bottom-right"},  
-                {value:"slideRightUp", label: "Down Right Slide", icon:"mdi mdi-arrow-top-right"},  
-        
-                            
-                {value:"rotateInTopLeft", label:"Rotate (Top Left)", icon:"mdi mdi-screen-rotation"}
+                {value:"fadeIn", label: "Fade In", icon:"AnimationFadeIn"},
+                {value:"zoomIn", label:"Zoom In", icon:"AnimationZoom"}
+          	
             ]);
 			btn.setValue(line.animation);
 	
@@ -103,15 +96,15 @@ export default {
 				let row = this.db.div("form-group").build(parent);
 				let btn = this.$new(DropDownButton, {maxLabelLength:20});
 				btn.setOptions([
-	                {value:null, label:"Default Duration", icon:"mdi mdi-timer"},
-	                {value:100, label:"0.1 s", icon:"mdi mdi-timer"},
-	                {value:250, label: "0.25 s", icon:"mdi mdi-timer"},
-	                {value:333, label: "0.33 s", icon:"mdi mdi-timer"},
-	                {value:500, label: "0.5 s", icon:"mdi mdi-timer"},
-	                {value:750, label: "0.75 ms", icon:"mdi mdi-timer"},
-	                {value:1000, label: "1.0 s", icon:"mdi mdi-timer"},
-	                {value:1500, label: "1.5 s", icon:"mdi mdi-timer"},
-	                {value:2000, label: "2.0 s", icon:"mdi mdi-timer"}
+	                {value:null, label:"Default Duration", icon:"AnimationDuration"},
+	                {value:100, label:"0.1 s", icon:"AnimationDuration"},
+	                {value:250, label: "0.25 s", icon:"AnimationDuration"},
+	                {value:333, label: "0.33 s", icon:"AnimationDuration"},
+	                {value:500, label: "0.5 s", icon:"AnimationDuration"},
+	                {value:750, label: "0.75 ms", icon:"AnimationDuration"},
+	                {value:1000, label: "1.0 s", icon:"AnimationDuration"},
+	                {value:1500, label: "1.5 s", icon:"AnimationDuration"},
+	                {value:2000, label: "2.0 s", icon:"AnimationDuration"}
 	            ]);
 				btn.setValue(line.duration);
 				btn.updateLabel = true;
@@ -121,15 +114,15 @@ export default {
 				row = this.db.div("form-group").build(parent);
 				btn = this.$new(DropDownButton, {maxLabelLength:20});
 				btn.setOptions([
-	                {value:null, label:"Default Easing", icon:"mdi mdi-sigma"},
-	                {value:"linear", label:"Linear", icon:"mdi mdi-sigma"},
-	                {value:"easeInQuad", label: "Ease-In", icon:"mdi mdi-sigma"},
-	                {value:"easeOutQuad", label: "Ease-Out", icon:"mdi mdi-sigma"},
-	                {value:"easeInOutQuad", label: "Ease-In-Out", icon:"mdi mdi-sigma"},
-	                {value:"easeElasticIn" , label: "Ease-lastic-In", icon:"mdi mdi-sigma"},
-	                {value:"easeElasticOut", label: "Ease-Elastic-Out", icon:"mdi mdi-sigma"},
-	                {value:"easeBounceIn", label: "Ease-Bounce-In", icon:"mdi mdi-sigma"},
-	                {value:"easeBounceOut", label: "Ease-Bounce-Out", icon:"mdi mdi-sigma"}	                
+	                {value:null, label:"Default Easing", icon:"AnimationEasing"},
+	                {value:"linear", label:"Linear", icon:"AnimationEasing"},
+	                {value:"easeInQuad", label: "Ease-In", icon:"AnimationEasing"},
+	                {value:"easeOutQuad", label: "Ease-Out", icon:"AnimationEasing"},
+	                {value:"easeInOutQuad", label: "Ease-In-Out", icon:"AnimationEasing"},
+	                {value:"easeElasticIn" , label: "Ease-lastic-In", icon:"AnimationEasing"},
+	                {value:"easeElasticOut", label: "Ease-Elastic-Out", icon:"AnimationEasing"},
+	                {value:"easeBounceIn", label: "Ease-Bounce-In", icon:"AnimationEasing"},
+	                {value:"easeBounceOut", label: "Ease-Bounce-Out", icon:"AnimationEasing"}	                
 	            ]);
 				btn.setValue(line.easing);
 				btn.updateLabel = true;

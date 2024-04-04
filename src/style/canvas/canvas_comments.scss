@@ -1,0 +1,289 @@
+@import '../variables.scss';
+
+.MatcCanvasComment{
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    z-index: 999990;
+}
+
+.MatcCanvasCommentDialog {
+
+	display: flex;
+	flex-direction: column;
+
+	box-shadow: $page_drop_shadow_more;
+
+	.MatcCanvasCommentDialogContent {
+		padding: 16px;
+		padding-top: 8px;
+	}
+
+	.MatcCanvasCommentDialogHeader{
+		display: flex;
+		justify-content: flex-end;
+		border-bottom: 1px solid $form_border;
+
+		padding: 8px 16px;
+
+		.MatcQIcon {
+			cursor: pointer;
+			opacity: 0.5;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+
+	}
+
+	.MatcCanvasCommentDialogList {
+		flex-grow: 1;
+		margin-bottom: 16px;
+		display: flex;
+		flex-flow: column;
+		gap: 8px;
+	}
+
+	.Done .MatcCanvasCommentDialogMessage {
+		text-decoration: line-through;
+	}
+
+	.MatcCanvasCommentContent {
+		gap: 4px;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	}
+
+	.MatcCanvasCommentDialogReplyButton {
+		font-size: 14px;
+		height: $form_height;
+		padding: $form_padding;
+		border: 1px solid transparent;
+		border-radius: $form_radius;
+		width: 100%;
+		border: 1px solid $form_border;
+
+		&:hover {
+			border: 1px solid $form_border_hover;
+			outline: none;
+		}
+	}
+
+	.MatcCanvasCommentDialogMessage {
+		font-size: 14px;
+		padding: $form_padding;
+		height: 168px;
+		border-radius: $form_radius;
+		width: 100%;
+	}
+
+
+	
+}
+
+.MatcCanvasComment textarea{
+	border: 1px solid $form_border;
+	background: none;
+
+	&:hover {
+		border: 1px solid $form_border_hover;
+		outline: none;
+	}
+	&:focus {
+		border: 1px solid $form_border_focus;
+		outline: none;		
+	}
+}
+
+
+.MatcCanvasComment .MatcLinkButton{
+	font-size: 18px;
+}
+
+
+.MatcCanvasComment.MatcCanvasCommentLeft{
+	transform: translateX(-330px);
+}
+
+.MatcCanvasComment.MatcCanvasCommentTop{
+	transform: translateY(-230px);
+}
+
+.MatcCanvasComment.MatcCanvasCommentLeft.MatcCanvasCommentTop{
+	transform: translateY(-230px) translateX(-330px);
+}
+
+.MatcCanvasCommentIcon{
+ 	background: #ffbd21;
+  	border-radius:50%;
+	transition : box-shadow 0.3s, background 0.3s;
+	width: 25px;
+	height: 25px;
+	color:#fff;
+	font-size: 12px;
+	cursor: pointer;
+	z-index: 100000;
+	box-shadow: $comment-shadow;
+
+	&:hover {
+		z-index: 100001;
+	}
+
+	.MatcCanvasCommentLetters {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+
+
+	.MatcCanvasCommentPreview {
+		width: 0px;
+		height: 0px;
+		transition: opacity 0.2s;
+		overflow: hidden;
+		font-size: 12px;
+		opacity: 0;
+
+		.MatcCanvasCommentFooter {
+			margin-top: 8px;
+		}
+
+		.MatcCanvasCommentFooterDetails {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.MatcCanvasCommentUser {
+			font-weight: 600;
+		}
+
+		.MatcCanvasCommentDate {
+			font-size: 10px;
+			display: inline-block;
+		}
+	}
+
+	&:hover {
+
+		.MatcCanvasCommentLetters {
+			display: none;
+		}
+
+		box-shadow: none;
+		.MatcCanvasCommentPreview{
+			opacity: 1;
+			width: 200px;
+			min-height: 48px;
+			max-height: 160px;
+			height: auto;
+			background: inherit;
+			padding: 8px;
+			border-radius: 8px;
+			box-shadow: $comment-shadow;
+			text-align: left;
+
+			> div {
+				width: 186px;
+				text-align: left;
+			}
+
+			.MatcCanvasCommentMessage {
+				overflow: hidden;
+				white-space: normal;
+				text-overflow: ellipsis;
+				max-height: 128px;
+				height: auto;
+			}
+		}
+	}
+
+	&.Done {
+		background: $color_success;
+	}
+}
+
+
+.MatcCanvasCommentDnD .MatcCanvasCommentIcon{
+	box-shadow: 0 1px 7px #333;
+}
+
+.MatcCanvasCommentOpen{
+    box-shadow: $comment-shadow;
+	background: #fff;
+	border-radius: $popup_radius;
+	width: 360px;
+	height: auto;
+	z-index: 999991;
+	background: #fff;
+	// border: 1px solid $comment_border;
+	border-radius: $button_radius;
+
+
+	.MatcCommentRow {
+		display: flex;
+		gap: 24px;
+	}
+}
+
+.MatcCanvasComment .MatcCanvasCommentCntr{
+	display: none;
+}
+
+.MatcCanvasComment .MatcCanvasCommentDelete{
+	color:#ccc;
+	position: absolute;
+	top:10px;
+	right:10px;
+	font-size: 12px;
+	cursor:cointer;
+}
+
+.MatcCanvasComment .MatcCanvasCommentDelete:HOVER{
+	color:red;
+}
+
+.MatcCanvasCommentOpen .MatcCanvasCommentIcon{
+	display: none;
+}
+
+.MatcCanvasComment .MatcCommentMessage{
+	font-size: 14px;
+	min-height: 54px;
+	color: #333;
+}
+
+.MatcCanvasComment.MatcCanvasCommentOpen .MatcCanvasCommentCntr{
+	display: block;
+}
+
+.MatcTestCommentButton{
+ 	color:#333;
+ 	transition:all 0.3s;
+    border-radius: 50%;
+
+    font-size: 24px;
+    height: 50px;
+    right: 20px;
+    position: fixed;
+    text-align: center;
+    bottom: 20px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.MatcTestCommentButton:hover{
+	color: #fff;
+	background: #333 none repeat scroll 0 0;
+}
+
+.MatcCanvasCommentRemove{
+	position: absolute;
+	top:10px;
+	right:10px;
+}

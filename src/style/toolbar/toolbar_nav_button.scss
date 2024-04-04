@@ -1,0 +1,87 @@
+@import '../variables.scss';
+
+.MatcToolbarNavButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 48px;
+	transition: none;
+
+	
+	.MatcToolbarEditModeCntr {
+		position: relative;
+		border: 1px solid $toolbar_form_border;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: $button_radius;
+		transition: none;
+	}
+
+
+	.MatcToolbarEditModeHighlight {
+		position: absolute;
+		background: $primary_color;
+		height: 100%;
+		width: 50%;
+		top: 0px;
+		left: 0px;
+		border-radius: $button_radius;
+		//transition: all 0.25s;
+		z-index: 1;
+	}
+
+	a.MatcToolbarItem {
+		transition: none;
+		font-size: 14px;
+		display: inline-block;
+		padding: 3px 16px;
+		height: auto;
+		border: 1px solid transparent;
+		border-radius: 0px;
+		z-index: 2;
+		text-wrap: nowrap;
+		text-overflow: ellipsis;
+
+		&:hover {
+			background: $toolbar_selected_background;
+		}
+
+		&:last-child {
+			border-top-right-radius: $button_radius;
+			border-bottom-right-radius: $button_radius;
+		}
+		
+		&:first-child {
+			border-top-left-radius: $button_radius;
+			border-bottom-left-radius: $button_radius;
+		}
+	}
+
+	a.MatcToolbarItemIcon {
+		padding: 4px 8px;
+		display: flex;
+		justify-content: center;
+		.MatcQIcon {
+			width: 18px;
+			height: 18px;
+		}
+	}
+
+	a.MatcToolbarEditModeActive {
+		//background: $toolbar_form_background_focus;
+		color: #fff;
+		&:hover {
+			background: none;
+			//background: $toolbar_form_background_focus;
+			color: #fff;
+		}
+	}
+
+}
+
+.MatcToolbarEditModeAnimated .MatcToolbarEditModeHighlight{
+	transition: all 0.25s;
+}
+
+

@@ -1,0 +1,185 @@
+@import '../variables.scss';
+
+.MatcHelp {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 64px;
+
+
+    a {
+        display: inline-block;
+        width: 100%;
+        color: #555;
+        font-size: 16px;
+        margin-bottom: 8px;
+        margin-top: 8px;
+    }
+
+    caption {
+        display: block;
+        font-size: 14px;
+        font-style: italic;
+        color: #555;
+        text-align: center;
+        padding: 0px;
+        margin-bottom: 16px;
+    }
+
+    .MatcHelpTopicsCntr a{
+        font-weight: 600;
+    }
+
+    a.MatcHelpLink {
+        display: inline;
+        color: $primary_color;
+        font-size: 18px;
+        text-decoration: underline;
+    }
+
+    a.MatcHelpSubTopic {
+        padding-left: 20px;
+    }
+
+    a:hover {
+        color: #333;
+        text-decoration: none;
+    }
+
+    a.selected {
+        color: $primary_color;
+        text-decoration: none;
+
+        &:hover {
+            color: $primary_color_hover
+        }
+    }
+
+    a.MatcHelpTopicSpacer {
+        margin-top: 16px;
+    }
+
+
+    .MatcHelpContent {
+        display: inline-block;
+        min-width: 800px;
+        max-width: 1200px;
+        padding-right: 20px;
+        margin-right: 20px;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .MatcHelpContenImage {
+        border-radius: 4px;
+        width: 100%;
+        overflow: hidden;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+        margin: 16px 0px;
+    }
+
+    .MatcHelpExample {
+        margin-top: 12px;
+        margin-bottom: 12px;
+        padding: 16px;
+        background: #d6e5f86c;
+        border: 1px solid #d6e5f8;
+    }
+
+    .MatcHelpExample pre {
+        background: none;
+        border: none
+    }
+
+    .MatcHelpCallout {
+        margin-top: 12px;
+        margin-bottom: 12px;
+        padding: 16px;
+        background: #f9ed8371;
+        border: 1px solid #f9ed83;
+    }
+
+
+    .MatcHelpDialog .MatcHelpContent {
+        width: 960px;
+    }
+
+    .MatcHelpTopics {
+        width: 240px;
+        overflow: auto;
+    }
+
+
+    .MatcHelpContentVideo {
+        display: flex;
+        justify-content: center;
+    }
+
+    .MatcHelpContentCntr iframe {
+        margin-top: 24px;
+    }
+
+    .MatcHelpCode {
+        text-align: left;
+        border: none;
+        background: #333;
+        color: #fff;
+        border-radius: 8px;
+        width: 100%;
+        overflow: hidden;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+        margin: 16px 0px;
+    }
+
+    .MatcButton {
+        padding: 4px 4px;
+        font-size: 16px;
+        height: unset;
+        border-radius: 4px;
+        background: $primary_color;
+        border: none;
+    }
+
+
+    .MatcHelpContentParagraph {
+        margin-top: 24px;
+    }
+
+    .MatcHelpContentParagraphSpacer {
+        margin-top: 48px;
+        padding-top: 48px;
+    }
+
+    .MatcHelpContent .MatcButton {
+        background: $primary_color_hover;
+        color: #fff;
+        padding: 2px 4px;
+        font-size: 14px;
+    }
+
+    ol {
+        list-style: circle;
+        padding: 8px 32px;
+
+    }
+
+    ol li {
+        list-style-type: auto;
+        margin: 3px 10px;
+        padding: 0;
+    }
+
+}
+
+.MatcHelpDialog .MatcHelpContentCntr {
+    height: 620px;
+    padding-right: 60px;
+    overflow: auto;
+}
+
+.MatcHelpDialog .MatcHelpTopicsCntr {
+    overflow: auto;
+    height: 580px;
+}

@@ -3,34 +3,36 @@
      <div class="MatcBoxSize">
 
 		<div data-dojo-attach-point="layerX" class="MatcToolbarFlexCntr">
-			<div class="MatcToolbarItem MatcToolbarItemSmall " >
-				<span class="MatcBoxSizeLabel">X :</span>
-				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputX"/>
+			<div class=" MatcToolbarItemSmall " >
+				<span class="MatcBoxSizeLabel">X</span>
+				<input class="MatcIgnoreOnKeyPress MatcToobarInput" data-dojo-attach-point="inputX"/>
 			</div>
-			<div class="MatcToolbarItem MatcToolbarItemSmall" >
-				<span class="MatcBoxSizeLabel">Y :</span>
-				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputY"/>
+			<div class=" MatcToolbarItemSmall" >
+				<span class="MatcBoxSizeLabel">Y</span>
+				<input class="MatcIgnoreOnKeyPress MatcToobarInput" data-dojo-attach-point="inputY"/>
 			</div>
 
-			<div class=" MatcBoxSizeLink" >
+			<div class="" >
+				<span></span>
 			</div>
 		</div>
 
 		<div class="MatcToolbarFlexCntr" >
-			<div class="MatcToolbarItem MatcToolbarItemSmall" >
-				<span class="MatcBoxSizeLabel">W :</span>
-				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputW"/>
+			<div class=" MatcToolbarItemSmall" >
+				<span class="MatcBoxSizeLabel">W</span>
+				<input class="MatcIgnoreOnKeyPress MatcToobarInput" data-dojo-attach-point="inputW"/>
 			</div>
-			<div class="MatcToolbarItem MatcToolbarItemSmall" >
-				<span class="MatcBoxSizeLabel">H :</span>
-				<input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput" data-dojo-attach-point="inputH"/>
+			<div class=" MatcToolbarItemSmall" >
+				<span class="MatcBoxSizeLabel">H</span>
+				<input class="MatcIgnoreOnKeyPress MatcToobarInput" data-dojo-attach-point="inputH"/>
 			</div>
-			<div class=" MatcBoxSizeLink" @click="toggleLinked()">
+			<div class=" " @click="toggleLinked()">
 				<template v-if="mode == 'all'">
-					<span class=" mdi mdi-link" v-if="isLinked"></span>
-					<span class="mdi mdi-link-off" v-else></span>
+					<QIcon icon="LinkOff" v-if="isLinked"></QIcon>
+					<QIcon icon="Link" v-else></QIcon>
 				</template>
 			</div>
+	
 		</div>
 
 	</div>
@@ -41,6 +43,7 @@ import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import Util from 'core/Util'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'BoxSize',
@@ -55,7 +58,9 @@ export default {
 			isHoverParent: false
         }
     },
-    components: {},
+    components: {
+		'QIcon': QIcon
+	},
 	computed: {
 		isLinked () {
 			if (this.widgetId) {

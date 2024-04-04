@@ -1,7 +1,17 @@
 
 <template>
   <div class="MatcTeam">
-    <div class="MatcTeamContainer" data-dojo-attach-point="cntr"></div>
+    <div class="MatcTeamContainer" data-dojo-attach-point="cntr">
+
+        <TeamMember  v-for="user in team" :key="user.id" @click="showEdit(user, $event)" :user="user" />
+        <div class="MatcTeamItem" @click="showAdd($event)">
+            <div class="MatcUserAdd" >
+              <QIcon icon="Plus"/>
+            </div>
+        </div>
+    </div>
+    <TeamDialog ref="dialog" :appID="appID"></TeamDialog>
+  
   </div>
 </template>
 <script>
@@ -18,76 +28,57 @@ import Input from "common/Input";
 import RadioBoxList from "common/RadioBoxList";
 import Util from "core/Util";
 import Plan from "page/Plan";
+import QIcon from "page/QIcon";
+import TeamMember from './TeamMember'
+import TeamDialog from './TeamDialog'
 
 import Services from "services/Services";
 
 export default {
   name: "Team",
   mixins: [Util, Plan, _Tooltip, DojoWidget],
-  props: ["appID", "userID"],
+  props: ["appID", "userID", "qteam"],
   data: function () {
     return {
+      team:[],
       isSaving: false,
+      //team: []
     };
   },
-  components: {},
+  components: {
+    'QIcon': QIcon,
+    'TeamMember': TeamMember,
+    'TeamDialog': TeamDialog
+},
   methods: {
+    getUserImage (user) {
+      return "/rest/user/" + user.id + "/images/" + user.name + "_" + user.lastname + "/" + user.image
+    },
     postCreate () {
       this.logger = new Logger("Team");
       this.logger.log(4,"postCreate", "enter >" + this.appID + " > " + this.userID + " > " + this.reference);
       this.db = new DomBuilder();
       if (this.appID && this.userID) {
-        this.load();
+        //this.load();
       }
     },
 
     async load() {
-      let team = await Services.getModelService().findTeam(this.appID);
-      this.setTeamLoaded(team);
+        let team = await Services.getModelService().findTeam(this.appID);
+        this.setTeamLoaded(team);
     },
 
     setTeamLoaded (team) {
       this.team = team;
-      this.render();
     },
 
-    render  () {
-      try {
-        this.cleanUp();
-        var div = document.createElement("div");
-
-        this.plus = this.renderPlus(div);
-        this.tempOwn(on(this.plus, touch.press, lang.hitch(this, "showAdd", this.plus)));
-
-        for (var i = 0; i < this.team.length; i++) {
-          var user = this.team[i];
-          this.renderUser(div, user);
-        }
-
-        this.cntr.appendChild(div);
-      } catch (err) {
-        this.logger.sendError(err)
-      }
-
+    showDialog (e) {
+      this.$refs.dialog.show(this.team, e)
     },
 
-    renderPlus (div) {
-      var item = this.db.div("MatcTeamItem ").build(div);
-      var plus = this.db.div("MatcUserAdd").build(item);
-      this.db.span("mdi mdi-plus MatcMiddle").build(plus);
-      return plus;
-    },
 
-    renderUser  (div, user) {
-      var item = this.db.div("MatcTeamItem ").build(div);
-      var top = this.db.div("").build(item);
-      this.createUserImage(user, top);
-      this.tempOwn(on(item, touch.press, lang.hitch(this, "showEdit", top, user)));
-      this.addTooltip(top, this.getUserName(user))
-    },
-
-    async showAdd() {
-      var div = this.db.div("MatcTeamDialog MatcPadding").build();
+    async showAdd(event) {
+      var div = this.db.div("MatcTeamDialog MatcDialog MatcPadding").build();
 
       var cntr = this.db.div("container").build(div);
       var row = this.db.div("row").build(cntr);
@@ -98,24 +89,22 @@ export default {
 
       var email = this.$new(Input);
       email.setPlaceholder("Enter the email");
-      email.setCss("input");
+      email.setCss("form-control");
       email.placeAt(right);
 
       var error = this.db
-        .div("MatcErrorLabel MatcErrorLabelEmpty")
+        .div("MatcErrorLabel")
         .build(right);
 
-      var bar = this.db.div("buttons MatcMarginTop").build(cntr);
-
-      var write = this.db.div("button is-primary", "Add User").build(bar);
-
-      var cancel = this.db.a("button is-text", "Cancel").build(bar);
+      var bar = this.db.div("MatcButtonBar MatcMarginTopL").build(cntr);
+      var write = this.db.div("MatcButton MatcButtonPrimary", "Add User").build(bar);
+      var cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
 
       var d = new Dialog({ overflow: true });
       d.own( on(write, touch.press, lang.hitch(this, "addUser", email, error, d, bar)));
       d.own(on(cancel, touch.press, lang.hitch(d, "close")));
       d.own(on(d, "close", lang.hitch(email, "destroy")));
-      d.popup(div, this.plus);
+      d.popup(div, event.target);
 
       /**
        * Some kind of hack to male sure the focus is called.
@@ -131,7 +120,7 @@ export default {
       // this._doGet("rest/apps/" + this.appID + "/suggestions/team.json", lang.hitch(this, "setTeamSuggestions", email));
     },
 
-    setTeamSuggestions: function (email, data) {
+    setTeamSuggestions  (email, data) {
       var ids = {};
       for (let i = 0; i < this.team.length; i++) {
         ids[this.team[i].id] = true;
@@ -165,7 +154,7 @@ export default {
       email.setHints(hints);
     },
 
-    showEdit: function (item, user) {
+    showEdit  (user, event) {
       var popup = this.db
         .div("MatcTeamDialog MatcTeamDialogEdit MatcPadding MatcActionBox")
         .build();
@@ -199,22 +188,26 @@ export default {
 
       row = this.db.div("columns").build(cntr);
       left = this.db.div("column is-4").build(row);
-      right = this.db.div("column buttons").build(cntr);
+      right = this.db.div("MatcButtonBar MatcButtonBarCols").build(cntr);
 
       var d = new Dialog();
 
       if (user.permission != 3) {
-        let write = this.db.div("button is-primary", "Save").build(right);
-        let cancel = this.db.a("button is-text", "Cancel").build(right);
-        let remove = this.db.a("button is-text", "Remove").build(right);
+        let writeCntr = this.db.div("MatcButtonBarCol").build(right)
+        let write = this.db.div("MatcButton MatcButtonPrimary", "Save").build(writeCntr);
+        let cancel = this.db.a("MatcLinkButton", "Cancel").build(writeCntr);
+
+        let delCntr = this.db.div("MatcButtonBarCol").build(right)
+        let remove = this.db.a("MatcButton MatcButtonDanger ", "Remove").build(delCntr);
+
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
         d.own(on(write, touch.press, lang.hitch(this, "changePermission", user, radio, d)));
         d.own(on(remove, touch.press, lang.hitch(this, "removeUser", user, radio, d)));
       } else {
-        let cancel = this.db.div("button is-primary", "Close").build(right);
+        let cancel = this.db.div("MatcButton MatcButtonPrimary", "Close").build(right);
         d.own(on(cancel, touch.press, lang.hitch(d, "close")));
       }
-      d.popup(popup, item);
+      d.popup(popup, event.target);
     },
 
     async addUser(input, error, dialog, bar, e) {
@@ -253,11 +246,11 @@ export default {
       // var result = this._doPost("/rest/apps/" +this.appID + "/team/", user);
       if (result.type == "error") {
         if (result.errors[0] == "apps.team.member.add.error.email") {
-          css.remove(error, "MatcErrorLabelEmpty");
+          css.remove(error, "");
           error.innerHTML = "No user is registered with the email!";
         }
         if (result.errors[0] == "apps.team.member.add.error.read") {
-          css.remove(error, "MatcErrorLabelEmpty");
+          css.remove(error, "");
           error.innerHTML = "You can only read the app!";
         }
         dialog.shake();
@@ -290,11 +283,20 @@ export default {
       this.load();
     },
 
-    cleanUp: function () {
-      this.cleanUpTempListener();
-      this.cntr.innerHTML = "";
+    cleanUp  () {
+      //this.cleanUpTempListener();
+      //this.cntr.innerHTML = "";
     },
   },
-  mounted() {},
+  watch: {
+    qteam(t) {
+      this.setTeamLoaded(t)
+    }
+  },
+  mounted() {
+    if (this.qteam) {
+      this.setTeamLoaded(this.qteam)
+    }
+  },
 };
 </script>

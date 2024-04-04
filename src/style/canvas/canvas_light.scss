@@ -1,0 +1,160 @@
+.MatcLight {
+	.MatcDialogThemed {
+		background: #f2f2f2;
+	}
+
+	.MatcToobarPropertiesSection input, 
+	.MatcToobarPropertiesSection textarea{
+		color: #333;
+	}
+
+	.MatcCanvas {
+		background: #bbb;
+	}
+
+	.MatcCanvas.MatcCanvasImageUploadDND .MatcCanvasContainer {
+		background: #ddd;
+		transition: background 0.3s;
+	}
+
+
+	.MatcCanvas.MatcCanvasImageUploadDND .MatcScreenDnD {
+		background: rgba(255, 255, 255, 0.5);
+		transition: background 0.3s;
+	}
+
+	.MatcCanvasImageUploadDND .MatcScreenDnD.MatcScreenDragOver {
+		background: none;
+	}
+
+	.MatcCanvasContainer {
+		background: rgb(230, 230, 230);
+		box-shadow: none;
+		transition: background 0.3s;
+	}
+
+
+	.MatcCanvasFrame {
+		background: #bbb;
+	}
+
+
+
+	.MatcScreen {
+		Xbox-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+	}
+
+
+	/****************************************************
+ * VAlign
+ ****************************************************/
+
+
+
+	.MatcScreenGridHandlex {
+		border-color: #333 transparent transparent transparent;
+	}
+
+	.MatcScreenGridHandley {
+		border-color: transparent transparent transparent #333;
+	}
+
+	.MatcScreenGridHandleDel.MatcScreenGridHandlex {
+		border-color: red transparent transparent transparent;
+	}
+
+	.MatcScreenGridHandleDel.MatcScreenGridHandley {
+		border-color: transparent transparent transparent red;
+	}
+
+
+
+	.MatcToolbarResizeElement,
+	.MatcToolbarResizePreview {
+		background: #fff;
+		border: 1px solid #ddd;
+	}
+
+	.MatcToolbarResizePinLine {
+		background: #999;
+	}
+
+	.MatcToolbarResizeActive .MatcToolbarResizePinLine {
+		background: $primary_color;
+	}
+
+	.MatcToolbarResizePinCenter,
+	.MatcToolbarResizePinLeft,
+	.MatcToolbarResizePinRight,
+	.MatcToolbarResizePinUp,
+	.MatcToolbarResizePinDown {
+		border-color: #999;
+	}
+
+	.MatcToolbarResizeActive.MatcToolbarResizePinCenter,
+	.MatcToolbarResizeActive.MatcToolbarResizePinLeft,
+	.MatcToolbarResizeActive.MatcToolbarResizePinRight,
+	.MatcToolbarResizeActive.MatcToolbarResizePinUp,
+	.MatcToolbarResizeActive.MatcToolbarResizePinDown {
+		border-color: $primary_color;
+	}
+
+	.MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
+	.MatcToolbarResizeGrowHorizontal .MatcToolbarResizeGrowLine {
+		background: #999;
+	}
+
+	.MatcToolbarResizeActive.MatcToolbarResizeGrowVertical .MatcToolbarResizeGrowLine,
+	.MatcToolbarResizeActive.MatcToolbarResizeGrowHorizontal .MatcToolbarResizeGrowLine {
+		background: $primary_color;
+	}
+
+
+	.MatcToolbarLayerListScreenLabel {
+		font-weight: 700;
+	}
+
+	.MatcTreeItem {
+		color: #333;
+	}
+
+	.MatcToolbarColorIndicator {
+		border: 1px solid rgba(0, 0, 0, 0.15)
+	}
+
+	.MatcToolbarColorIndicator:hover {
+		border: 1px solid rgba(0, 0, 0, 0.35)
+	}
+
+	.MatcToolbarDetailLabel {
+		color: #777;
+	}
+
+
+
+	.MatcDesignTokenList .MatcDesignTokenListSection label {
+		color: #333;
+		background: none;
+		font-weight: 700;
+		padding: 0px 16px;
+	}
+
+	.MatcToolbarSectionMarker {
+		opacity: 0.5;
+	}
+
+	.MatcToobarHomeSection .MatcToolbarItem {
+		color: #fff;
+	}
+
+
+	// .MatcToolbar .VommondCheckBoxWrapper:hover .VommondCheckBox,
+	// .MatcToolbar .VommondCheckBoxChecked .VommondCheckBox {
+	// 	border: 1px solid rgba(0, 0, 0, 0.35)
+	// }
+
+	// .MatcToolbar .VommondCheckBox,
+	// .MatcToolbar .VommondRadioBox {
+	// 	border: 1px solid #ddd
+	// }
+}

@@ -1,0 +1,36 @@
+@import '../variables.scss';
+
+.MatcAccountButton{
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+
+  a {
+    color: $text_color;
+  }
+
+  .MatcUserImageCntr {
+    width: 24px;
+    height: 24px;
+  }
+
+  .MatcDropDownPopUp{
+    display: block;
+    left: auto;
+    right: 0px;
+    width: 150px;
+    overflow: hidden;
+
+    a {
+      padding: 10px;
+      display: block;
+      color: #363636;
+      cursor: pointer;
+
+      &:hover{
+        color: #fff;
+        background: $primary_color;
+      }
+    }
+  }
+}

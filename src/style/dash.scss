@@ -1,0 +1,1071 @@
+ 
+ /****************************************************
+ * BIIG Canvas
+ ****************************************************/
+
+.MatcDashBigTable div.row > div{
+	padding: 20px;
+	height: 70px;
+	padding-right: 15px;
+}
+
+
+
+.MatcDashBigTableHeader{
+	font-size: 18px;
+    font-weight: 700;
+}
+
+.MatcDashBigTableBorder{
+	border-left: 1px solid #ddd;
+}
+
+.MatcDashBigTableRowLabel{
+	text-align: left;
+}
+
+.MatcDashBigTable .VommondProgress {
+    height: 30px;
+    width: 100%;
+	margin-top: 8px;
+}
+
+.MatcDashBigTableDetails{
+	color:#777;
+	padding-left: 10px;
+}
+
+.MatcDashBigTable div.row > div.MatcDashBigTableSubRowLabel{
+
+}
+
+.MatcDashBigTable div.MatcDashBigTableRowSpacer > div{
+	margin-bottom: 100px;
+}
+
+.MatcSection:nth-child(2n) .MatcDashBigTableBorder{
+	border-left: 1px solid #ccc;
+}
+
+ /****************************************************
+ * Small Table
+ ****************************************************/
+
+.MatcDashLabel{
+	font-size: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+	height: 30px;
+}
+
+.MatcDashLabelHint{
+	font-size: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+	height: 30px;
+	 color: #777;
+    font-style: italic;
+}
+
+
+.MatcDashTable{
+	.MatcInlineEdit {
+		width: 120px;
+		padding: 4px 4px;
+		transform: translateX(-5px)
+	}
+}
+
+.MatcDashTableTdHint{
+	color: #777;
+    font-style: italic;
+    padding-left: 10px;
+}
+
+.table .MatcDashTableLabels{
+	padding-top: 10px;
+}
+
+.MatcDashTableMessage{
+	padding-right:10px;
+}
+
+.MatcDashTableTaskNameCntr{
+	width:150px;
+}
+
+.MatcDashTableTaskName{
+    margin-bottom: 5px;
+    padding: 3px 10px;
+    display: inline-block;
+    margin-left: 5px;
+    border-radius: 3px;
+    background: #bbb;
+    color: #fff;
+    font-size: 12px;
+}
+
+.tag {
+	padding: 2px 8px;
+	border-radius : 8px;
+}
+.MatchDashStatusSuccess{
+	background: $color_success;
+	color:#fff;
+	padding: 2px 8px;
+	border-radius : 8px;
+}
+
+.MatchDashStatusOK{
+	background:#ffae18;
+	color:#fff;
+	padding: 2px 8px;
+	border-radius : 8px;
+}
+
+.MatchDashStatusFailure{
+	background:$color_danger;
+	color:#fff;
+	padding: 2px 8px;
+	border-radius : 8px;
+}
+
+.MatchDashStatusDunno{
+	color:#ffa00e;
+}
+
+.MatchDashStatusError{
+	color:#777;
+}
+
+
+.VommondProgressContainer,
+.vommondBulletGraphContainer{
+	background: #ccc;
+}
+
+.VommondProgressBar{
+	background:#3787f2;
+}
+
+
+ /****************************************************
+ * Analytic Canvas
+ ****************************************************/
+
+.MatcAnalyticCanvas{
+
+}
+
+.MatcAnalyticCanvas .MatcResizeHandle{
+	display: none;
+}
+
+ /****************************************************
+ * TestSettings
+ ****************************************************/
+
+.MatcTestSettings .MatcContentBox{
+	height: 150px;
+}
+
+.TestSettingsTaskDescription{
+	height: 60px;
+	overflow: hidden;
+}
+
+
+.MatcTask .container{
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.DashTaskListChartBtn{
+	color: #777;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.DashTaskListChartBtn:hover{
+	color: $primary_color;
+}
+
+
+.DashTaskListDetailsDialog{
+	height: 340px;
+	padding: 40px;
+	padding-top: 10px;
+}
+
+.DashTaskListDialogHist{
+	width: 600px;
+	height: 200px;
+}
+
+
+.DashTaskListFunnelDialog{
+	padding: 40px;
+	padding-top: 10px;
+}
+
+.DashTaskListFunnel{
+	width: 600px;
+}
+
+
+
+.DashTaskListDetailsItem{
+	border-bottom:1px solid #ddd;
+	margin-bottom: 50px;
+	padding-bottom: 50px;
+}
+
+.DashTaskListDetailsItem:LAST-CHILD{
+	border-bottom:0px solid #ccc;
+}
+
+.DashTaskListDetailsHist{
+	height: 100px;
+	text-align: center;
+}
+
+.DashTaskListDetailsLabel{
+	color: #999;
+    font-weight: 300;
+
+}
+
+.DashTaskListDetailsHeader h2{
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.DashTaskListDetailsHeader{
+	margin-bottom: 30px;
+}
+
+.DashTaskListDetailsHeader .VommondProgress{
+	height: 40px;
+	width: 100%;
+}
+
+.MatcDashTable table thead,
+.MatcDashTable table thead a  {
+	color:#363636;
+	font-weight:700;
+}
+
+.MatcDashTable .table>tbody>tr>td{
+	vertical-align: middle;
+}
+
+.MatcDashTable .table>thead>tr>td{
+	vertical-align: baseline;
+}
+
+
+.MatcDashTable  tbody td.action{
+	opacity: 1;
+	transition: all 0.2s;
+}
+
+.MatcDashTable  tbody tr:hover td.action{
+	opacity: 1;
+}
+
+
+ /****************************************************
+ * A / B Testing
+ ****************************************************/
+
+.MatcDashCompareTable{
+
+	width: 100%;
+}
+
+.MatcDashCompareTable td{
+	vertical-align: top;
+}
+
+.MatcDashCompareTableGraph{
+	padding-bottom: 20px;
+	text-align: right;
+}
+
+.MatcDashCompareTableGraph .VommondProgress{
+	height: 25px;
+	width: 100%;
+}
+
+.MatcDashCompareTableLabel{
+    padding-right: 20px;
+    padding-bottom: 20px;
+   	width:140px;
+}
+
+.MatcDashCompareTableLabelSmall{
+	font-size: 16px;
+	padding-bottom: 5px;
+	color:#999;
+	font-weight:300;
+}
+
+ /****************************************************
+ * TaskRecorder
+ ****************************************************/
+
+ .MatcTaskRecorder{
+
+ }
+
+ .MatcTaskRecorder .MactCenter{
+
+	box-shadow: 0px 0px 16px rgba(0,0,0,0.15);
+ }
+
+
+.MatcTaskRecorderFlowList, .MatcTaskRecorderInfoBox{
+ 	width: 610px;
+ 	height: 400px;
+}
+
+
+.MatcTaskRecorderFlowList ul, .MatcTaskRecorderFlowListTable{
+ 	list-style: none;
+ 	overflow: auto;
+ 	padding: 0px;
+ 	background: rgb(242, 242, 242) none repeat scroll 0 0;
+    border: 1px solid #cecece;
+    border-radius:3px;
+    height: 350px;
+    width: 100%;
+
+}
+
+.MatcTaskRecorderFlowListTable table{
+	width: 100%;
+}
+
+.MatcTaskRecorderFlowListTable thead{
+	font-weight: bold;
+	background: rgb(230, 230, 230);
+	border-bottom: 1px solid #cecece;
+}
+
+.MatcTaskRecorderFlowList li, .MatcTaskRecorderFlowList tr{
+ 	border-bottom: 1px solid #cecece;
+}
+
+
+
+.MatcTaskRecorderFlowList li:HOVER, .MatcTaskRecorderFlowList tr:HOVER{
+	background: rgb(230, 230, 230)
+}
+
+.MatcTaskRecorderFlowList li span{
+	margin-right: 20px;
+}
+
+.MatcTaskRecorderFlowList td{
+	padding: 10px 20px;
+}
+
+.MatcTaskRecorderFlowListCheckCntr .VommondCheckBox{
+	width: 20px;
+    height: 20px;
+    margin-top: 10px;
+}
+
+.MatcTaskRecorderFlowListCheckCntr{
+	text-align: center;
+}
+
+.MatcTaskRecorderFlowListRemove{
+	text-align: right;
+	cursor: pointer;
+	color: #999;
+	opacity:0.7;
+}
+
+.MatcTaskRecorderFlowList tr:HOVER .MatcTaskRecorderFlowListRemove{
+	opacity:100;
+	color:#f83a3a;
+}
+
+ /****************************************************
+ * HeatMap
+ ****************************************************/
+
+.MatcHeapMapContainer{
+	position: absolute;
+	z-index: 10010;
+}
+
+.MatcAnalyticsScreen .MatcPreviewWrapper{
+	height: 300px;
+    width: 350px;
+}
+
+.MatcHeapMapContainer{
+
+}
+
+.MatcHeatMapScreen{
+
+}
+
+.MatcHeapMapWidget.MatcWidget{
+	z-index:10010;
+	transition:all 0.1s;
+}
+
+.MatcHeapMapWidget:HOVER{
+    border: 1px solid #49C0F0;
+    background: rgba(73,192,240,0.3);
+}
+
+
+
+.MatcHeapMapWidget.MatcHeapMapWidgetSelected, 
+.MatcWidgetDND.MatcHeapMapWidgetSelected, 
+.MatcHeapMapWidgetSelected {
+    border: 1px solid #49C0F0;
+    background: rgba(73,192,240,0.3);
+}
+
+.MatcHeatMapScreen.MatcHeapMapWidgetSelected{
+	border:none;
+}
+
+
+.MatcAnalyticsScreenHeatMapPreview .MatcPreviewWrapper{
+	display: inline-block;
+	width: 350px;
+	height: 217px;
+
+}
+
+.MatcAnalyticsScreenHeatMapPreview .MatcContentBox{
+	display: inline-block;
+}
+
+.MatcAnalyticsScreenLarge .MatcPreviewWrapper{
+    width: 90%;
+}
+
+
+
+ /****************************************************
+ * Test
+ ****************************************************/
+
+
+.MatcBashBoardTestDescription{
+	display: inline-block;
+	padding-left: 20px;
+	vertical-align: top;
+}
+
+.vommondTable{
+	font-size: 16px;
+}
+
+.vommondTable .session{
+	width:20%;
+}
+
+.vommondTable .duration{
+	width:20%;
+}
+
+.vommondTable .date{
+	width:20%;
+}
+
+.vommondTable .size{
+	width:20%;
+}
+
+.vommondTable .tableHeader{
+	color: #333;
+	font-weight: 700;
+}
+
+
+.vommondTable .tableHeader a{
+	color: #333;
+}
+.vommondTable .MatcIgnoreTest{
+	color:#777;
+	text-decoration: line-through;
+}
+
+
+ /****************************************************
+ * Progress Bar
+ ****************************************************/
+
+.VommondProgress{
+	width: 400px;
+	height: 10px;
+}
+
+.MatcDashScreenListWidgets .VommondProgress{
+	width: 200px;
+	height: 10px;
+}
+
+
+.MatcDashWidgetListWidgets .VommondProgress{
+	width: 100px;
+	height: 10px;
+}
+
+ /****************************************************
+ * Session Map
+ ****************************************************/
+
+.MatcSessionMapCntr{
+	position: relative;
+}
+
+
+/****************************************************
+ * DashNumber
+ ****************************************************/
+.MatcDashNumberContainer{
+	text-align: center;
+	display: inline-block;
+    text-align: center;
+    width: 200px;
+}
+
+.MatcDashNumber{
+	font-size: 80px;
+	padding-top: 20px;
+}
+
+
+ /****************************************************
+ * Session Replay
+ ****************************************************/
+
+ .MatcSessionDetails{
+	display: flex;
+	justify-content: space-between;
+	margin-top: $spacing-m;
+	align-items: center;
+	gap: 32px;
+	input {
+		width: 400px;
+	}
+	p {
+		flex-grow: 1;
+		text-align: right;
+	}
+ }
+
+
+.MatcPlayerDialog.MatcDialog{
+	width:1200px;
+	height:600px;
+	padding: 0px; /*  keep in sync with VideoPlayer.layout() method*/
+	background-color: $toolbar_form_background_focus;
+}
+
+
+.MatcPlayer{
+	background: none repeat scroll 0 0 $toolbar_form_background_focus;
+	display: flex;
+	flex-direction:row;
+}
+
+
+.MatcPlayerLeft{
+	display: inline-block;
+	vertical-align: top;
+	width: 860px;
+	flex-grow: 1;
+}
+
+.MatcPlayerView{
+	height:600px;
+	width: 100%;
+	text-align: center;
+	display: inline-block;
+	vertical-align: top;
+}
+
+
+
+.MatcPlayerEvents{
+	width: 320px;
+	vertical-align: top;
+	border-left: 1px solid #ffffff14;
+	overflow: auto;
+}
+
+.MatcPlayerEvent{
+	padding: 20px;
+	color: #cecece;
+	border-bottom: 1px solid #ffffff14;
+	font-size: 14px;
+	cursor: pointer;
+	position: relative;
+}
+
+.MatcPlayerEvent:hover{
+	background: #242a30
+}
+
+
+.MatcPlayerEvent.ValidationError, .MatcPlayerEvent.ValidationErrorLine{
+	color:red;
+}
+
+
+
+.MatcPlayerPreview{
+	display: inline-block;
+	overflow: hidden;
+}
+
+.MatcPlayerProgress{
+	height: 20px;
+}
+
+.MatcPlayerNav{
+	position: relative;
+}
+
+.MatcPlayerTasks {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	position: absolute;
+	bottom: 100%;
+	width: 100%;
+	opacity: 0;
+	transition: all 0.4s;
+	padding-top: 8px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.MatcPlayerNav:hover .MatcPlayerTasks{
+	opacity: 1;
+	gap: 4px;
+	background: rgba(0, 0, 0, 0.496);
+	overflow: visible;
+}
+
+.MatcPlayerTasks.MatcHidden {
+	display: none;
+}
+
+
+.MatcPlayerTasksBarCntr {
+	width: 100%;
+	position: relative;
+	height: 1px;
+
+	transition: all 0.2s;
+}
+
+.MatcPlayerNav:hover .MatcPlayerTasksBarCntr {
+	height: 20px;
+}
+
+.MatcPlayerTasksBar {
+	position: absolute;
+	background: #49c1f0;
+	height: 100%;
+	text-align: center;
+	color:#fff;
+	border-radius: 2px;
+
+    font-size: 12px;
+    color: #fff;
+	color: #113543;
+	Xborder-bottom: #fff 1px solid;
+
+}
+
+.XMatcPlayerTasksBar::after{
+	content: "";
+	height: 100%;
+	position: absolute;
+	top: 50%;
+	right: 0px;
+	width: 1px;
+	background: #fff;
+}
+
+.XMatcPlayerTasksBar::before{
+	content: "";
+	height: 100%;
+	position: absolute;
+	top: 50%;
+	left: 0px;
+	width: 1px;
+	background: #fff;
+}
+
+.MatcPlayerProgress .VommondSliderMarker {
+	background: #1a1f23;
+	min-width: 5px;
+	z-index: 3;
+}
+
+
+.MatcPlayerProgress .VommondSliderBar{
+ 	background: #f83a3a;
+}
+
+
+.MatcPlayerProgress .VommondSliderHandle{
+ 	height: 16px;
+ 	width: 16px;
+ 	border-radius:7px;
+ 	background-color: #f83a3a;
+ 	border: 1px solid #f83a3a;
+ 	top:-7px;
+ 	right:-7px;
+	 z-index: 4;
+ }
+
+.MatcPlayerButtonBar{
+	text-align: left;
+}
+
+.MatcPlayerButtonBar a{
+	display: inline-block;
+	color:#fff;
+	padding: 8px 20px;
+	cursor: pointer;
+	border-bottom: 2px solid transparent;
+}
+
+.MatcPlayerButtonBar a:HOVER{
+	border-bottom: 2px solid #f83a3a;
+	color:#fff;
+}
+
+.MatcPlayerButtonBar .mdi {
+	font-size: 24px;
+}
+
+.MatcPlayerTime{
+	display: inline-block;
+	padding: 8px 20px;
+	color: #FFF;
+	font-style: italic;
+}
+
+
+.MatcPlayerCommentCntr{
+	border-radius:4px;
+	background: #fff;
+	height: 150px;
+	width: 300px;
+	color:#333;
+	font-size: 14px;
+}
+
+.MatcPlayerTagEvent{
+	color:#f83a3a;
+}
+
+.MatcPlayerEventRemove{
+	position: absolute;
+	right:20px;
+	top:20px;
+	opacity:0;
+	color:#cecece;
+}
+
+.MatcPlayerEventRemove:hover{
+	color:#fff;
+}
+
+.MatcPlayerEvent:hover .MatcPlayerEventRemove{
+	opacity:1;
+}
+
+
+ /****************************************************
+ * Ring
+ ****************************************************/
+.MatcDashRing{
+	text-align: center;
+	position:relative;
+	width:200px;
+	height:250px;
+	display: inline-block;
+}
+
+.MatcDashRingCntr{
+	position: relative;
+	height: 200px;
+}
+
+.MatcDashRingValue{
+	position:absolute;
+	font-size: 45px;
+	display: block;
+	width:100%;
+}
+
+.MatcDashRingCanvas{
+	width:200px;
+	height:200px;
+}
+
+
+.MatcDashRingSmall{
+	width:100px;
+	height:100px;
+}
+
+.MatcDashRingSmall .MatcDashRingValue{
+	position:absolute;
+	font-size: 25px;
+	display: block;
+	width:100%;
+}
+
+.MatcDashRingSmall .MatcDashRingCntr{
+	height: 100px;
+}
+
+.MatcDashRingSmall .MatcDashLabel {
+	display: none;
+}
+
+.MatcDashRingActionIcon{
+	bottom: 0;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 15px;
+    left: 100%;
+    position: absolute;
+}
+
+
+ /****************************************************
+ * FunnelGram
+ ****************************************************/
+.MatcFunnelGram{
+	display: inline-block;
+	width:100%;
+}
+
+.MatcFunnelGramCntr{
+
+}
+
+
+.MatcFunnelGramTable{
+	width: 100%;
+}
+
+.MatcFunnelGramTable tr{
+	margin-bottom: 20px;
+}
+
+.MatcFunnelGramBar{
+	color:#fff;
+	height: 30px;
+ 	border-radius: 3px;
+ 	text-align: right;
+ 	padding: 3px;
+ 	padding-right: 10px;
+
+}
+
+.MatcFunnelGramTableLabel{
+    height: 30px;
+    padding-bottom: 20px;
+    padding-right: 10px;
+    padding-top: 20px;
+    text-align: right;
+    width: 300px;
+    border-right:1px solid #333;
+}
+
+.MatcFunnelGramTableBar{
+	padding-left: 10px;
+}
+
+ /****************************************************
+ * Histogram
+ ****************************************************/
+
+
+.MatcHelpHist{
+	width:300px;
+	height: 100px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	display: inline-block;
+}
+
+.MatcDashHistogram{
+	position: relative;
+	display: inline-block;
+	width:100%;
+	height: 100%;
+
+}
+
+
+.MatcDashHistogramCntr{
+	position: absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height: 100%;
+	border-left:1px solid #333;
+	border-bottom:1px solid #333;
+}
+
+.MatcDashHistogramBar{
+	position: absolute;
+	bottom:0px;
+	background-color: #0099cc;
+}
+
+.MatcDashHistogramBarMean{
+	position: absolute;
+	bottom:0px;
+	width:1px;
+	height:100%;
+	border-left: 1px dashed #333;
+}
+
+.MatcDashHistogramBarHover:HOVER{
+	background-color: #333;
+}
+
+.MatcDashHistogramLabel{
+	color : #999;
+	font-size: 12px;
+}
+
+.MatcDashHistogramLabelMax{
+	position: absolute;
+	top:0px;
+	right:101%;
+}
+
+.MatcDashHistogramLabelMean{
+	position: absolute;
+	top:100%;
+	left:0px;
+}
+
+.MatcDashHistogramLabelMean .MatcDashHistogramLabel{
+	width: 100px;
+	text-align: center;
+	color: #333;
+}
+
+.MatcDashHistogramLabelMin{
+	position: absolute;
+	bottom:0px;
+	right:101%;
+}
+
+.MatcDashHistogramLabelFrom{
+	position: absolute;
+	top:100%;
+	left:0px;
+}
+
+.MatcDashHistogramLabelTo{
+	position: absolute;
+	top:100%;
+	right:0px;
+}
+
+.MatcDashHistogramBar .vommondToolTip{
+	z-index: 100000;
+	width: 120px;
+	left:-60px;
+	text-align: center;
+}
+
+.MatcDashHistogramBar .vommondToolTipArrow{
+	left:52px;
+}
+
+.MatcDashHistogramBar.vommondToolTipCntr:HOVER > .vommondToolTip,
+.MatcDashHistogramBar .vommondToolTipCntrVisble > .vommondToolTip{
+ 	transition-delay: 0s;
+}
+
+ /****************************************************
+ * Bar Chart
+ ****************************************************/
+
+
+ .MatcDashBarLabel{
+ 	font-size: 18px;
+ 	text-align: center;
+ }
+
+ .MatcDashBarContainer{
+ 	vertical-align: bottom;
+ 	position: relative;
+ }
+
+ .MatcDashBarBar{
+ 	vertical-align: bottom;
+ 	position: absolute;
+ 	bottom: 0px;
+ 	background: rgb(73,192,240);
+ }
+
+ .MatcDashBarBarPopup{
+ 	display: none;
+ }
+
+ .MatcDashBarBar:hover .MatcDashBarBarPopup{
+ 	display: block;
+ 	width:100;
+ 	border-radius:3px;
+ 	position: absolute;
+ 	top:-40px;
+ 	left:-20px;
+ 	background: rgb(73,192,240);
+ 	color:#fff;
+ 	padding:5px;
+ }
+
+
+ .MatcDashBarAxis{
+  	position: relative;
+
+}
+
+.MatcDashBarAxisLabel{
+ 	height: 20px;
+ 	bottom:-20px;
+ 	position: absolute;
+ 	text-align: center;
+ 	color: #cecece;
+}
+
+.MatcTagCntr {
+	max-width: 200px;
+	display: flex;
+	align-items: center;
+}
+
+.MatcTagCntr .tag{
+	margin-left: 4px;
+	margin-bottom: 4px;
+	background: rgba(55, 136, 242, 0.2549019608);
+    color: $primary_color;
+}

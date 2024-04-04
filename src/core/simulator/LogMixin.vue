@@ -59,13 +59,16 @@ export default {
 			event.x = mouse.x,
 			event.y = mouse.y;
 
-
 			if(widgetEvent){
 				if(widgetEvent.type || widgetEvent.value){
 					event.state ={
 						type : widgetEvent.type,
 						value : widgetEvent.value,
 					};
+
+					if (widgetEvent.hidden) {
+						event.hidden = true
+					}
 
 					if(widgetEvent.children){
 						event.state.children = widgetEvent.children;

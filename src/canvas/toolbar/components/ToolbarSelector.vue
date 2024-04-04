@@ -1,14 +1,18 @@
 
 <template>
-     <div class="MatcToolbarSelector">						
+     <div class="MatcToolbarSelector">	
+		<a :class="['MatcToolbarItem MatcToolbarToggleButton', {'MatcToolbarItemActive' : o.value == value}]" v-for="o in visibleOptions" :key="o.value" @click="onChange(o.value)">
+			
+			<QIcon :icon="o.icon " v-if="o.icon"></QIcon>
+			<span v-if="o.label">{{ o.label }}</span>
+		
+		</a>
+		
 	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
-import css from 'dojo/css'
-import lang from 'dojo/_base/lang'
-import on from 'dojo/on'
-import touch from 'dojo/touch'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'ToolbarSelector',
@@ -16,94 +20,53 @@ export default {
 	props: ['options', 'selected'],
     data: function () {
         return {
-            value: false
+            value: false,
+			visibleOptions: [],
+			hidden: {}
         }
     },
-    components: {},
-    methods: {
-        postCreate (){			
-		},		
+    components: {
+		'QIcon':QIcon
+	},
+	computed: {
 		
+	},
+    methods: {
 		setOptions (list){
-			
-			this._nodes = {};
-			this.domNode.innerHTML="";
-			this.cleanUpTempListener();
-			
-			for(var i=0; i < list.length; i++){
-				
-				var o = list[i];
-				
-				var a = document.createElement("a");
-				css.add(a, "MatcToolbarItem MatcToolbarToggleButton");
-				
-				if(o.icon){
-					var span = document.createElement("span");
-					css.add(span, o.icon);
-					a.appendChild(span);
-				}
-			
-				
-				if(o.label){
-					a.innerHTML+= o.label;
-				}
-				
-				if(o.value == this.value){
-					css.add(a, "MatcToolbarItemActive");
-				}
-				
-				this.tempOwn(on(a, touch.press, lang.hitch(this, "onChange",  o.value)));
-				this.domNode.appendChild(a);
-				this._nodes[o.value] = a;
-			}
-
-			
-			
+			this.options = list
+			this.visibleOptions = list
 		},
 
-
-		
-		setValue:function(value){
-			for(var key in this._nodes){
-				var a = this._nodes[key];
-				if(key == value){
-					css.add(a, "MatcToolbarItemActive");
-				} else {
-					css.remove(a, "MatcToolbarItemActive");
-				}
-				
-			}
+		setValue (value){
 			this.value = value;
 		},
 		
-		hideOption:function(key){
-			var a = this._nodes[key];
-			if(a){
-				css.add(a, "hidden");
-			}
+		hideOption (value){
+			this.hidden[value] = true
+			this.setVisible()
+		},
+
+		setVisible () {
+			this.visibleOptions = this.options.filter(o => this.hidden[o.value] !== true)
 		},
 		
-		showOption:function(key){
-			var a = this._nodes[key];
-			if(a){
-			
-				css.remove(a, "hidden");
-			}
+		showOption (value){
+			this.hidden[value] = false
+			this.setVisible()
 		},
 		
-		getValue:function(){
+		getValue (){
 			return this.value;
 		},
 		
 		
-		onChange:function(value){
+		onChange (value){
 			this.setValue(value);
 			this.emit("change", value);
 		}
     }, 
     mounted () {
 		if (this.options) {
-			console.debug('mounted', this.options)
 			this.setOptions(this.options)
 		}
     }

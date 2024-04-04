@@ -1,0 +1,72 @@
+[
+    {
+		"id" : "RadioTable",
+		 "type" : "RadioTable",
+		 "name" : "Radio Table",
+		 "category" : "Survey",
+		 "subcategory" : "FormCheckBox",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+		 "w": "300",
+		 "h": "212",
+	     "z" : 0,
+	     "props" : {
+            "data" : [
+                [
+                  "",
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ],
+                [
+                  "Option 1"
+                ],
+                [
+                  "Option 2"
+                ],
+                [
+                  "Option 3"
+                ],
+                [
+                  "Option 4"
+                ],
+                [
+                  "Option 5"
+                ]
+              ],
+			"isSurveyElement": true
+		 },
+	     "has" : {
+			"backgroundColor" : true,
+	        "onclick" : true,
+	        "border" : true,
+			"label" : true,
+	        "data" : true,
+			"random": true  
+	     },
+	     "style" : { 
+	    	"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+            "borderRadius": "@border-radius-round",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"background": "@form-background",
+			"color": "@form-color",
+			"colorButton": "@background-active",
+	        "radioSize": 24,
+	        "boxMarginRight": "@spacing-s",
+			"labelWidth": 96
+	    },
+		"hover" : {
+			"borderColor": "@form-border-color:hover",
+			"background": "@form-background:hover"
+		}
+	}
+]

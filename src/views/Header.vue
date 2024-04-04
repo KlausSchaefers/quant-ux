@@ -1,35 +1,49 @@
 <template>
-      <div class="MatcMainMenu MatcMainMenuPublic" id="mainMenu">
-      <div class="MatcMainMenuHeader">
-        <div id="menuBar" class="MatcMenuBar">
-          <div class="container visible-md-block visible-lg-block">
+  <div class="MatcHeader" id="">
+ 
+      <div class="MatcHeaderLeft">
+     
+        <a href="#/" ref="myPrototype">
+          <img src="../style/img/QUXLogoBlack.svg" class="MatcHeaderLogo" ref="logo">
+          Quant-UX
+        </a>
 
-            <div class="row" v-if="user && user.role !== 'guest'">
-              <div class="col-md-7">
-                <a class="MatcMainMenuItem" href="#/">{{$t('header.my-prototypes')}}</a>
-                 <a class="MatcMainMenuItem" href="#/help.html">{{$t('header.documentation')}}</a>
-              </div>
-              <div class="col-md-5 MatcRight">
-                <a class="MatcMainMenuItem" href="#/my-account.html">{{$t('header.my-account')}}</a>
-                <a class="MatcMainMenuItem MatcRightMenuLast" @click="logout">{{$t('header.logout')}}</a>
-                <LanguagePicker @change="setLanguage"/>
-              </div>
-            </div> <!-- Logged in user -->
-          </div> <!-- Desktop -->
-          <div class="visible-sm-block visible-xs-block">
-             <div class="row" v-if="user && user.role !== 'guest'">
-                <div class="col-md-12">
-                  <a class="MatcMainMenuItem" href="#/apps/my-apps.html">{{$t('header.my-prototypes')}}</a>
-                </div>
-             </div>
-          </div>
+      </div>
+      <div class="container MatcHeaderCenter">
+        <div class="MatcHeaderCenterLeft">
+         
+      
+        </div>
+        <div class="MatcHeaderCenterRight">
+       
         </div>
       </div>
-    </div>
+      <div class="MatcHeaderRight">
+   
+          <LanguagePicker @change="setLanguage" />
+        <!--  
+          <a class="" href="#/help.html">
+            <QIcon icon="Book" :tooltip="$t('header.tooltip.documentation')"/>
+          </a>
+         <AccountButton :user="user"/> -->
+        <!-- <a class="" href="#/my-account.html">
+          <QIcon icon="Account"/>
+          {{ $t('header.my-account') }}
+        </a>
+        <a class="" href="#/logout.html">{{ $t('header.logout') }}</a>
+      -->
+       
+        <a class="" href="#/logout.html">
+          <QIcon icon="Logout"/>
+        </a>
+       
+      </div>
+
+</div>
 </template>
 
-<style>
-  @import url("../style/menu.css");
+<style lang="scss">
+@import "../style/components/menu.scss";
 </style>
 
 
@@ -39,31 +53,36 @@ import Services from 'services/Services'
 import Logger from 'common/Logger'
 import hash from "dojo/hash";
 import LanguagePicker from "page/LanguagePicker";
+// import AccountButton from 'page/AccountButton'
+import QIcon from 'page/QIcon'
+import _Tooltip from "common/_Tooltip";
 
 export default {
   name: "Header",
-  mixins: [],
+  mixins: [_Tooltip],
   props: ['user'],
-  data: function() {
+  data: function () {
     return {
     }
   },
   watch: {
-    'user' (v) {
+    'user'(v) {
       this.logger.log(6, 'watch', 'user >> ' + v.email)
       this.user = v
     }
   },
   components: {
-    'LanguagePicker': LanguagePicker
+    'LanguagePicker': LanguagePicker,
+    'QIcon': QIcon,
+    // 'AccountButton': AccountButton
   },
   methods: {
-    setLanguage (language) {
+    setLanguage(language) {
       this.logger.log(-1, "setLanguage", "entry", language);
       Services.getUserService().setLanguage(language)
       this.$root.$i18n.locale = language
-      this.$root.$emit('Success',  this.$i18n.t('common.language-changed'))
-   
+      this.$root.$emit('Success', this.$i18n.t('common.language-changed'))
+
     },
 
     logout() {
@@ -76,6 +95,9 @@ export default {
   async mounted() {
     this.logger = new Logger('Header')
     this.logger.log(7, 'mounted', 'exit >> ' + this.user.email)
+
+    this.addTooltip(this.$refs.logo, this.$t("header.tooltip.my-prototypes"))
+    this.addTooltip(this.$refs.myPrototype, this.$t("header.tooltip.my-prototypes"))
   }
 }
 </script>

@@ -1,0 +1,38 @@
+[
+	{
+		"id": "LabeledTextBox",
+		"type": "LabeledTextBox",
+		"_type": "Widget",
+		"category": "Survey",
+		"subcategory": "BFormInput",
+		"name": "Labeled Text Box",
+		"x": 0,
+		"y": 0,
+        "w": "@form-width",
+		"h": "@box-height-ms",
+		"z": 0,
+		"_extends": "SurveyTextBox",
+		"props": {
+			"label": "Enter a value",
+			"value": "",
+			"placeholderLabel": "",
+			"animated": false,
+			"isSurveyElement": true
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {		
+			"inputHeight": "@form-height",
+			"labelColor": "@form-color",
+			"labelFontSize": "@font-size-m",
+			"labelFontWeight": "",
+			"labelOffset": 0
+		}		
+	}
+]

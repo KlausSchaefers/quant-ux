@@ -1,45 +1,56 @@
 
 <template>
      <div class="MatcAlignment">	
-         <a :class="'MatcAlignmentElement ' + o" v-for="o in distOptions" :key="o.value" @click="onDist(o)">
-            <span class="MatcAlignmentLine1"/>
-            <span class="MatcAlignmentLine2"/>
-            <span class="MatcAlignmentBlock1"/>
-        </a>
-        <a :class="'MatcAlignmentElement ' + o" v-for="o in alignOptions" :key="o.value" @click="onAlign(o)">
-            <span class="MatcAlignmentLine1"/>
-            <span class="MatcAlignmentBlock1"/>
-            <span class="MatcAlignmentBlock2"/>
-        </a>
+        <QIcon icon="AlignTop" @click="onAlign('top', $event)"/>
+        <QIcon icon="AlignBottom" @click="onAlign('bottom', $event)"/>
+        <QIcon icon="AlignLeft" @click="onAlign('left', $event)"/>
+        <QIcon icon="AlignRight" @click="onAlign('right', $event)" />
+        <QIcon icon="AlignMiddle" @click="onAlign('horizontal', $event)"/>
+        <QIcon icon="AlignCenter" @click="onAlign('vertical', $event)"/>
+        <QIcon icon="AlignHorizontal" @click="onDist('vertical', $event)" :class="{'MatcQIconPassive': !hasVertical}"/>
+        <QIcon icon="AlignVertical" @click="onDist('horizontal', $event)" :class="{'MatcQIconPassive': !hasHorizontal}"/>
+        <QIcon icon="AlignGrid" @click="onDist('horizontal', $event)" :class="{'MatcQIconPassive': !hasHorizontal}" v-if="hasMulti"/>
 	</div>
 </template>
-<style lang="scss">
-	@import '../../../style/scss/toolbar_align.scss';
-</style>
+
 
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import _Tooltip from 'common/_Tooltip'
-
+import QIcon from 'page/QIcon'
+import * as DistributionUtil from 'core/DistributionUtil'
 
 export default {
     name: 'Alignment',
     mixins:[_Tooltip, DojoWidget],
     data: function () {
         return {
-            distOptions: ["vertical", "horizontal"],
-            alignOptions: [
-                "top", "bottom", "left", "right", "vertical", "horizontal"
-            ]
+            hasMulti: false,
+            hasHorizontal: false,
+            hasVertical: false
         }
     },
-    components: {},
+    components: {
+        'QIcon': QIcon
+    },
     methods: {
-        onDist (o) {
-            this.emit('dist', o)
+        hideDistribution () {
+            this.hasHorizontal = false
+            this.hasVertical = false
         },
-        onAlign (o) {
-            this.emit('align', o)
+        showDistribution (ids) {
+	        const matrix = DistributionUtil.getDistributionMatrix(this.model, ids, false)       
+            this.hasHorizontal = matrix.horizontal > 1
+            this.hasVertical = matrix.vertical > 1
+        },
+        setModel (m) {
+            this.model = m
+        },
+        onDist (o, e) {
+            this.emit('dist', o, e)
+        },
+        onAlign (o,e ) {
+            this.emit('align', o, e)
         }
     }, 
     mounted () {

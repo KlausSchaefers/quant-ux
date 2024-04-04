@@ -1,0 +1,214 @@
+.MatcToolbarRestSettings {
+    width: 800px;
+    height: 500px;
+}
+
+.MatcToolbarRestSettings .MatcButton span{
+    font-size: $button_font_size
+}
+
+.MatcToolbarRestSettings label {
+    font-size: 14px;
+}
+
+.MatcToolbarRestSettingsInputArea{
+    border-radius: 4px;
+    padding: 9.5px;
+}
+
+.MatcToolbarRestSettings textarea {
+    width: 100%;
+    height: 180px;
+}
+
+.MatcToolbarRestDataBindingRow {
+    margin-bottom: 10px;
+}
+
+.MatcToolbarRestDataBindingCntr{
+    height: 300px;
+    margin-bottom: 20px;
+    overflow: auto;
+}
+
+.MatcToolbarRestDataBindingCntr img {
+    width: 100%;
+    border:1px solid #555;
+}
+
+.MatcToolbarRestDataBindingRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.MatcToolbarRestDataBindingRow .MatcToolbarRestDataBindingRowLabel  {
+    width: 200px;
+    display: inline-block;
+    box-shadow: none;
+    border-radius: 3px;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    margin-right: 20px;
+}
+
+.MatcToolbarRestDataBindingRow .MatcToolbarRestDataBindingFile {
+    flex-grow: 1;
+    display: inline-block;
+    box-shadow: none;
+    border-radius: 3px;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+}
+
+.MatcToolbarRestDataBindingRow .MatcToolbarRestDataBindingIcon{
+    margin-left: 10px;
+}
+
+.MatcToolbarRestSettings .MatcError {
+
+}
+
+.MatcToolbarRestSettingsHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+}
+
+.MatcToolbarRestSettingsHeader input{
+    flex-grow: 1;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    &:hover, &:focus{
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+}
+
+.MatcToolbarRestSettingsHeader .MatcButton{
+    margin-left: 20px;
+}
+
+.MatcToolbarRestSettingsHeader .MatcDropDownButton{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-color: $button_background;
+    background: $button_background;
+    color:#fff;
+    min-width: 130px;
+    margin: 0px;
+}
+
+
+.MatcToolbarRestAuth {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+}
+
+.MatcToolbarRestAuth input{
+    flex-grow: 1;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 0px;
+}
+
+.MatcToolbarRestAuth .MatcButton.MatcDropDownButton{
+    width: 130px;
+    padding-top: 4px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    font-size: $form_font_size;
+}
+
+.MatcToolbarRestAuth .MatcDropDownButtonWidth{
+    margin: 0px;
+}
+
+.MatcToolbarRestOutputHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.MatcToolbarRestOutputHeader .MatcToolbarRestOutputHeaderVar{
+    flex-grow: 1;
+}
+
+
+.MatcToolbarRestOutputHeader .MatcToolbarRestOutputHeaderType{
+    margin-left: 20px;
+}
+
+.MatcToolbarRestSettings .MatcToolbarTabs{
+    margin-top: 24px;
+    border-bottom: 1px solid #ccc;
+}
+
+.MatcToolbarRestSettings .MatcToolbarTabs a{
+    margin-bottom: -1px;
+    color:#999;
+}
+.MatcToolbarRestSettings a.MatcToolbarTabActive{
+    color:#333;
+}
+
+.MatcToolbarRestSettings .ace_editor {
+    border:1px solid #ccc;
+}
+
+.MatcToolbarRestSettings .ace_editor .ace_gutter-cell.ace_error{
+    background: none;
+}
+
+.MatcVisualEditor .ace_editor.ace_autocomplete {
+    z-index: 90000000;
+}
+
+
+.MatcToolbarRestHeaderCntr {
+    margin-bottom: 8px;
+    max-height: 200px;
+}
+
+.MatcToolbarRestHeaderCntrLong {
+    overflow: auto;
+}
+
+.MatcToolbarRestHeaderRow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+    justify-content: space-between;
+}
+
+.MatcToolbarRestHeaderRow .mdi {
+    cursor: pointer;
+}
+
+.MatcToolbarRestHeaderRow .mdi:hover {
+    color: red;
+}
+
+.MatcToolbarRestHeaderRow input.form-control {
+    width: 380px;
+}
+

@@ -1,0 +1,54 @@
+@import '../variables.scss';
+
+.MatcDataBinding{
+    width: 800px;
+}
+
+.MatcDataBindingCheckCntr{
+    width: 30px;
+}
+
+.MatcDataBinding .MatcDialogTable {
+    overflow: auto;
+    height: 500px;
+}
+
+.MatcDataBindingVariableName {
+    height: 34px;
+    padding: 6px 12px;
+    display: block;
+}
+
+.MatcDataBindingNameCntr{
+    width: 600px;
+}
+
+.MatcDataBindingCheckCntr .mdi {
+    font-size: 24px;
+    color: #777
+}
+
+.MatcDialogTable tr:hover .MatcDataBindingCheckCntr .mdi {
+    color: $primary_color;
+}
+
+.MatcDataBinding .MatcDropDownButtonWidth{
+    min-width: 120px;
+}
+
+.MatcDataBinding .MatcDataBindingVariableDefault input{
+    background: none;
+    border-color: transparent;
+    font-style: italic;
+}
+
+.MatcDataBinding .MatcDataBindingVariableDefault input:hover{
+    border-color: $primary_color;
+    border-style: dashed;
+}
+
+.MatcDataBinding .MatcDataBindingVariableDefault input:focus{
+    border-color: $primary_color;
+    background: #fff;
+}
+

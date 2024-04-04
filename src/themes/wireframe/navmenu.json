@@ -1,75 +1,79 @@
 [
-	{
-		"id": "WireframeMenuDropDown",
-		"type": "NavMenu",
-		"name": "Navigation Menu ",
-		"category": "WireFrame",
-		"subcategory": "XNavigation",
-		"_type": "Widget",
-		"x": 0,
-		"y": 0,
-		"w": 200,
-		"h": 40,
-		"z": 0,
-		"props": {
-			"label": "Menu",
-			"navigation": [
-				{
-					"id": 1,
-					"label": "Home",
-					"icon": "",
-					"to": "",
-					"selected": true
-				},
-				{
-					"id": 2,
-					"label": "Search",
-					"icon": "",
-					"to": ""
-				},
-				{
-					"id": 3,
-					"label": "Account",
-					"icon": "",
-					"to": ""
-				}
-			]
-		},
-		"has": {
-			"onclick": true,
-			"border" : true,
-			"backgroundColor": true,
-			"data": true,
-			"padding": true,
-			"label": true,
-			"icon": true
-		},
-		"style": {
-			"borderTopRightRadius" : 3,
-			"borderTopLeftRadius" : 3,
-			"borderBottomRightRadius" : 3,
-			"borderBottomLeftRadius" : 3,
-			"borderTopWidth" : 1,
-			"borderBottomWidth": 1,
-			"borderRightWidth" : 1,
-			"borderLeftWidth" : 1,
-			"borderTopColor" : "#333333",
-			"borderBottomColor" : "#333333",
-			"borderRightColor" : "#333333",
-			"borderLeftColor" : "#333333",
-			"background" : "#ffffff",
-			"popupBackground" : "#ffffff",
-			"popupColor" : "#333333",
-			"color":"#333333",
-			"fontSize" : 18,
-			"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-			"textAlign" : "left",
-			"paddingTop" : 5,
-			"paddingBottom" : 5,
-			"paddingLeft" : 6,
-			"paddingRight" : 6,
-			"selectedOptionColor" : "#333333",
-			"selectedOptionBackground": "#f2f2f2"		   
-		}
-	}
+    {
+        "id": "WireframeMenuDropDown",
+        "type": "NavMenu",
+        "name": "Navigation Menu",
+        "category": "Advanced",
+		"subcategory": "AButtons",
+        "_type": "Widget",
+        "x": 0,
+        "y": 0,
+        "w": "@form-width",
+        "h": "@form-height",
+        "z": 0,
+        "props": {
+            "label": "Menu",
+            "navigation": [
+                {
+                    "id": 1,
+                    "label": "Home",
+                    "icon": "mdi mdi-home",
+                    "to": "",
+                    "selected": true
+                },
+                {
+                    "id": 2,
+                    "label": "Search",
+                    "icon": "mdi mdi-magnify",
+                    "to": ""
+                },
+                {
+                    "id": 3,
+                    "label": "Account",
+                    "icon": "mdi mdi-account-outline",
+                    "to": ""
+                }
+            ]
+        },
+        "has": {
+            "onclick": true,
+            "border": true,
+            "backgroundColor": true,
+            "data": true,
+            "padding": true,
+            "label": true,
+            "icon": true
+        },
+        "style": {
+            "fontSize": "@font-size-m",
+            "fontFamily": "@font-family",
+            "textAlign": "left",
+            "letterSpacing": "@letterSpacing",
+            "lineHeight": "@lineHeight",
+            "background": "@form-background",
+            "color": "@form-color",
+            "borderRadius": "@border-radius",
+            "borderWidth": "@border-width",
+            "borderStyle": "solid",
+            "borderColor": "@form-border-color",
+			"padding" : "@form-padding-horizontal",
+            "popupBorderColor": "@form-popup-border-color",
+            "popupBorderWidth": "@form-popup-border-width",
+            "popupColor": "@form-popup-color",
+            "popupBackground": "@form-popup-background",
+            "popupShadow": "@box-shadow-m",
+            "selectedOptionColor": "@form-popup-color:hover",
+            "selectedOptionBackground": "@form-popup-background:hover"
+        },
+        "hover": {
+            "borderColor": "@form-border-color:hover",
+            "background": "@form-background:hover",
+            "color": "@form-color:hover"
+        },
+        "error": {
+            "borderColor": "@form-border-color:error",
+            "background": "@form-background:error",
+            "color": "@form-color:error"
+        }
+    }
 ]

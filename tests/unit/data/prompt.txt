@@ -1,0 +1,7 @@
+This is a UI language in YAML which has the following elements:
+
+CONTAINER: An element that can have child elements. I container has an list of CHILDREN elements.
+LABEL: An Element that can show text. It has a CONTENT element.
+INPUT: An element to render a text field. 
+
+Please generate a login form and output the result as YAML in the defined langauge

@@ -1,10 +1,10 @@
 <template>
   <div class="Matc">
-    <Simulator mode="standalone"/>
+    <Simulator mode="standalone" hasPreload="true"/>
   </div>
 </template>
-<style>
-  @import url("../../style/sim.css");
+<style lang="scss">
+  @import "../../style/sim.scss";
 </style>
 <script>
 import Logger from 'common/Logger'

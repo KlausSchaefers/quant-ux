@@ -26,7 +26,7 @@ export default {
   },
   components: {},
   methods: {
-    postCreate: function() {
+    postCreate () {
       this.log = new Logger("VideoAnnotation");
 
       this.btn = this.$new(DropDownButton);
@@ -40,7 +40,7 @@ export default {
         {
           label: "Ignore this test",
           value: false,
-          css: "MatcButtonRed",
+          css: "MatcButtonDanger",
           icon: ""
         }
       ]);
@@ -49,7 +49,7 @@ export default {
       this.own(on(this.btn, "change", lang.hitch(this, "onChangeValid")));
 
       this.deleteBtn = document.createElement("a");
-      css.add(this.deleteBtn, "MatcButton MatcButtonRed MatcMarginLeft");
+      css.add(this.deleteBtn, "MatcButton MatcButtonDanger MatcMarginLeft");
       this.deleteBtn.innerHTML = "Delete Test";
       this.own(
         on(this.deleteBtn, touch.press, lang.hitch(this, "deleteSession"))
@@ -63,13 +63,13 @@ export default {
       this.render(this.value);
     },
 
-    render: function(value) {
+    render (value) {
       this.cleanUp();
       this.btn.setValue(value.isValid);
       this.renderDelete(value);
     },
 
-    renderDelete: function(value) {
+    renderDelete (value) {
       if (value.isValid) {
         css.add(this.deleteBtn, "hidden");
       } else {
@@ -77,11 +77,11 @@ export default {
       }
     },
 
-    cleanUp: function() {
+    cleanUp () {
       this.cleanUpTempListener();
     },
 
-    onChangeValid: function(value) {
+    onChangeValid (value) {
       this.log.log(0, "onChangeValid", "enter > " + value);
       this.value.isValid = value;
       this.sendUpdate();
@@ -112,7 +112,7 @@ export default {
       }
     },
 
-    deleteSession: function() {
+    deleteSession () {
       if (this.pub) {
         topic.publish(
           "App.Notification.Success",
@@ -140,7 +140,7 @@ export default {
       }
     },
 
-    onAnnotionAdded: function(a) {
+    onAnnotionAdded (a) {
       this.value = a;
       this.showSuccess("Updates saved!");
       this.$emit("change", a);

@@ -2,13 +2,13 @@
 	"id" : "HSlider",
 	"type" : "HSlider",
 	"_type" : "Widget",
-	"category" : "WireFrame",
-	"subcategory" : "Form",
+	"category" : "Advanced",
+	"subcategory" : "FormSlider",
 	"name" : "Slider",
 	"x" : 0,
 	"y" : 0,
-	"w" : 200,
-	"h" : 40,
+	"w": "@form-width",
+	"h": "@box-height-xs",
 	"z" : 0,
 	"props" : {
 		"value" : 50,
@@ -20,14 +20,12 @@
 	    "backgroundColor" : true
 	},
 	"style" : {
-		"borderTopRightRadius" : 15,
-        "borderTopLeftRadius" : 15,
-        "borderBottomRightRadius" : 15,
-        "borderBottomLeftRadius" : 15,
-        "background" : "#cecece",
-        "handleColor" : "#333",
-        "barColor" : "#333",
-        "handleWidth" : 40,
+		"borderRadius" : "@border-radius-round",
+        "background" : "@form-border-color",
+
+        "handleColor" : "@background-active",
+        "barColor" : "@background-active",
+        "handleWidth" : "@box-height-xs",
         "handleHeight" : 1,
         "barHeight": 0.3,
         "cntrHeight":0.3,
@@ -37,13 +35,13 @@
 	"id" : "HSliderLabel",
 	"type" : "HSlider",
 	"_type" : "Widget",
-	"category" : "WireFrame",
+	"category" : "Advanced",
 	"subcategory" : "FormSlider",
 	"name" : "Labeled Slider",
 	"x" : 0,
 	"y" : 0,
-	"w" : 200,
-	"h" : 40,
+	"w": "@form-width",
+	"h": "@box-height-xs",
 	"z" : 0,
 	"props" : {
 		"hasLabel": true,
@@ -57,23 +55,24 @@
 	  "backgroundColor" : true
 	},
 	"style" : {
-		"fontSize" : 24,
-		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-		"textAlign" : "center",
-		"letterSpacing" : 0,
-		"lineHeight" : 1,
-		"color" : "#ffffff",
-		"borderTopRightRadius" : 15,
-		"borderTopLeftRadius" : 15,
-		"borderBottomRightRadius" : 15,
-		"borderBottomLeftRadius" : 15,
-		"background" : "#cecece",
-		"handleColor" : "#333",
-		"barColor" : "#333",
-		"handleWidth" : 40,
-		"handleHeight" : 1,
-		"barHeight": 0.3,
-		"cntrHeight":0.3,
-		"handleRadius" : 50
+		"fontSize": "@font-size-l",
+		"fontFamily": "@font-family",
+		"textAlign": "center",
+		"letterSpacing": "@letterSpacing",
+		"lineHeight": "@lineHeight",
+		"background": "@form-border-color",
+		"color": "@form-background",
+		"borderRadius" : "@border-radius-round",
+
+
+        "handleColor" : "@background-active",
+        "barColor" : "@background-active",
+ 
+        "handleWidth" : "@box-height-xs",
+        "handleHeight" : 1,
+        "barHeight": 0.3,
+        "cntrHeight":0.3,
+        "handleRadius" : 50
+
 	}
 } ]

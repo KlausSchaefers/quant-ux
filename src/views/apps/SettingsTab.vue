@@ -4,10 +4,10 @@
       <div class="container">
         <div class="box is-shadowless">
           <h2 class="title">Prototype Name</h2>
-          <div class="field">
+          <div class="form-group">
             <input
               type="text"
-              class="input"
+              class="form-control"
               v-model="app.name"
               @change="setAppName"
               placeholder="Enter App name"
@@ -34,23 +34,23 @@
               <h2 class="title level-item">Sharing</h2>
             </div>
             <div class="level-right">
-              <a class="button is-primary is-outlined level-item" @click="resetShare">Reset</a>
+              <a class="MatcButton is-outlined level-item" @click="resetShare">Reset</a>
             </div>
           </div>
 
-          <div class="field">
+          <div class="form-group">
             <label>Test</label>
-            <input type="text" class="input" :value="`${base}/#/test.html?h=${hashes[1]}`" />
+            <input type="text" class="form-control" :value="`${base}/#/test.html?h=${hashes[1]}`" />
           </div>
 
-          <div class="field">
+          <div class="form-group">
             <label>Share and Comment</label>
-            <input type="text" class="input" :value="`${base}/#/share.html?h=${hashes[1]}`" />
+            <input type="text" class="form-control" :value="`${base}/#/share.html?h=${hashes[1]}`" />
           </div>
 
-          <div class="field">
+          <div class="form-group">
             <label>Code Generation</label>
-            <input type="text" class="input" :value="`${hashes[1]}`" />
+            <input type="text" class="form-control" :value="`${hashes[1]}`" />
           </div>
           <!--
               <div class="form-group">
@@ -66,21 +66,6 @@
         <a @click="showDeleteDialog" class="button is-fullwidth is-normal is-danger level-item" ><span ref="deleteBtn">Delete Prototype</span></a>
       </div>
     </section>
-    <section class="section">
-      <div class="container">
-        <div class="box is-shadowless">
-          <h2 class="title">Comments</h2>
-          <Comment
-            v-if="app"
-            :appID="app.id"
-            type="app_settings"
-            :reference="sessionID"
-            contentID
-            insertPosition="top"
-          />
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 <script>
@@ -88,7 +73,6 @@ import Logger from "common/Logger";
 import DojoWidget from "dojo/DojoWidget";
 import Team from "page/Team";
 import Services from "services/Services";
-import Comment from "page/Comment";
 import on from "dojo/on";
 import touch from "dojo/touch";
 import Dialog from "common/Dialog";
@@ -107,7 +91,6 @@ export default {
     };
   },
   components: {
-    Comment: Comment,
     Team: Team
   },
   computed: {
@@ -135,14 +118,14 @@ export default {
     async showDeleteDialog() {
 
       let db = new DomBuilder()
-      var div = db.div("box MatcDeleteDialog").build();
+      const div = db.div("box MatcDeleteDialog").build();
       db.h3("title is-4", 'Delete Prototype').build(div);
       db.p('', `Do you want to delete the '${this.app.name}' prototype?`).build(div)
-      var bar = db.div("buttons").build(div);
-      var write = db.a("button is-danger", this.getNLS("btn.delete")).build(bar);
-      var cancel = db.a("button is-text", this.getNLS("btn.cancel")).build(bar);
+      const bar = db.div("MatcButtonBar").build(div);
+      const write = db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
+      const cancel = db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
 
-      var d = new Dialog();
+      const d = new Dialog();
       d.own(on(write, touch.press, lang.hitch(this, "deleteApp", d)));
       d.own(on(cancel, touch.press, lang.hitch(d, "close")));
       d.popup(div, this.$refs.deleteBtn);

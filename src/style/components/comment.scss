@@ -1,0 +1,218 @@
+@import '../variables.scss';
+
+/****************************************************
+ * CanvasComment
+ ****************************************************/
+
+.MatcCanvasComment{
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    z-index: 999990;
+}
+
+.MatcCanvasComment textarea{
+	padding: 3px;
+	border: 1px solid transparent;
+}
+
+
+.MatcCanvasComment .MatcLinkButton{
+	font-size: 18px;
+}
+
+
+.MatcCanvasComment.MatcCanvasCommentLeft{
+	transform: translateX(-330px);
+}
+
+.MatcCanvasComment.MatcCanvasCommentTop{
+	transform: translateY(-230px);
+}
+
+.MatcCanvasComment.MatcCanvasCommentLeft.MatcCanvasCommentTop{
+	transform: translateY(-230px) translateX(-330px);
+}
+
+.MatcCanvasCommentIcon{
+ 	background: #ffbd21 none repeat scroll 0 0;
+  	border-radius:50%;
+	transition : box-shadow 0.3s, background 0.3s;
+	width: 25px;
+	height: 25px;
+	color:#fff;
+	font-size: 12px;
+	cursor: pointer;
+	z-index: 100000;
+	box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
+}
+
+
+.MatcCanvasCommentIcon:Hover{
+  	box-shadow: 0px 1px 5px #333;
+}
+
+
+.MatcCanvasCommentDnD .MatcCanvasCommentIcon{
+	box-shadow: 0 1px 7px #333;
+}
+
+
+.MatcCanvasComment .MatcCanvasCommentDelete{
+	color:#ccc;
+	position: absolute;
+	top:10px;
+	right:10px;
+	font-size: 12px;
+	cursor:cointer;
+}
+
+.MatcCanvasComment .MatcCanvasCommentDelete:HOVER{
+	color: $color_danger;
+}
+
+.MatcCanvasCommentOpen .MatcCanvasCommentIcon{
+	display: none;
+}
+
+.MatcCanvasComment .MatcCommentMessage{
+	font-size: 14px;
+	min-height: 54px;
+	color: #333;
+}
+
+.MatcCanvasComment.MatcCanvasCommentOpen .MatcCanvasCommentCntr{
+	display: block;
+}
+
+.MatcTestCommentButton{
+ 	color:#333;
+ 	transition:all 0.3s;
+    border-radius: 50%;
+    font-size: 24px;
+    height: 50px;
+    right: 20px;
+    position: fixed;
+    text-align: center;
+    bottom: 20px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.MatcTestCommentButton:hover{
+	color: #fff;
+	background: #333 none repeat scroll 0 0;
+}
+
+.MatcCanvasCommentRemove{
+	position: absolute;
+	top:10px;
+	right:10px;
+}
+
+
+
+.MatcDashCommentRow{
+	padding-left: 3px;
+	padding-right: 3px;
+	border-bottom-radius:3px;
+}
+
+
+
+.MatcCommentContainer{
+
+}
+
+.MatcCommentBar{
+	text-align: right;
+	font-size: 16px;
+	padding-right: 10px;
+	color:#999;
+}
+
+.MatcCommentBar span:HOVER{
+	color:#49c0f0
+}
+
+
+.MatcComment ul{
+   list-style: none;
+   padding: 0px;
+}
+
+.MatcComment li{
+   clear: both;
+}
+
+
+.MatcCommentRow{
+   clear: both;
+}
+
+.MatcCommentPic{
+   float: left;
+   margin-right: 20px;
+}
+
+.MatcCommentGuest{
+   background: none repeat scroll 0 0 #cecece;
+   font-size: 72px;
+
+   color: #999;
+}
+
+.MatcCommentGuest > span {
+   transform: translate(-7px, -18px);
+   display: inline-block;
+}
+
+.MatcCommentPic.MatcUserImageCntr{
+   border-radius:50%;
+}
+
+.MatcCommentPic .MatcUserImageNone{
+   background: none repeat scroll 0 0 $primary_color;
+ color: #fff;
+ font-size: 36px;
+}
+
+.MatcCommentText{
+   overflow: hidden;
+}
+
+.MatcCommentMeta{
+   font-size: 14px;
+}
+
+.MatcCommentMessage{
+
+}
+
+.MatcCommentBarLabel{
+   font-size: 12px;
+   padding-right: 10px;
+   vertical-align: top;
+}
+
+.MatcCommentNameLabel{
+   padding-right: 5px;
+}
+
+.MatcCommentTime{
+   color: $text_color_passive;
+}
+
+.MatcCommentActions{
+   display:inline-block;
+
+   opacity:0;
+   transition-duration:0.5s;
+   margin-left: 20px;
+}
+
+.MatcCommentRow:HOVER .MatcCommentActions{
+   opacity:1;
+}

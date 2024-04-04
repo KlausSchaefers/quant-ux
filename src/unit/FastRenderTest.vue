@@ -19,8 +19,11 @@
   </div>
 </template>
 
+<style lang="scss">
+  @import "../style/matc.scss";
+</style>
 <style>
-  @import url("../style/matc.css");
+
   .MatcBox{
 
   }

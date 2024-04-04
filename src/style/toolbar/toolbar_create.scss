@@ -1,0 +1,150 @@
+.MatcCreateSearch {
+	color: #333;
+	margin-bottom: 20px;
+}
+
+.MatcCreateSearch {
+	color: #333;
+}
+
+.MatcToolbar .MatcCreateSearchBtn,
+.MatcCreateSearchBtn {
+	font-size: 16px;
+	padding: 12px;
+	cursor: pointer;
+}
+
+.MatcCreateBtnLeft {
+	height: 600px;	
+	display: flex;
+	flex-direction: column;
+}
+
+.MatcCreateBtnRight {
+	height: 600px;
+}
+
+.MatcCreateSubCategory {}
+
+.MatcCreateImportCntr {
+	padding: 16px;
+	height: 540px;
+	overflow: auto;
+	font-size: 14px;
+	margin-bottom: 16px;
+	border: 1px solid transparent;
+	display: flex;
+    flex-wrap: wrap;
+
+	> div{
+		width: 400px;
+	}
+}
+
+.MatcCreateSubCategory h3 {
+	font-size: 18px;
+}
+
+
+
+.MatcCreateCatCntr {
+	flex-grow: 1;
+	overflow: auto;
+	ul {
+		flex-grow: 1;
+	}
+}
+
+
+
+
+.MatcCreateBtnCntr .container {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.MatcCreateBtnElementList {
+	overflow: auto;
+}
+
+.MatcCreateBtnElementList .MatcCreateBtnElement {
+	display: inline-block;
+	padding: 10px;
+	text-align: center;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	vertical-align: top;
+	cursor: pointer;
+	position: relative;
+}
+
+.MatcCreateBtnElementLabel {
+	color: #555;
+	transition: all 0.2;
+	height: 20px;
+	overflow: hidden;
+	width: 100%;
+	font-size: 12px;
+	margin-top: 16px;
+}
+
+
+.MatcCreateBtnElement:hover .MatcCreateBtnElementLabel {
+	opacity: 1;
+}
+
+.MatcCreateBtnCntr .MatcCreateBtnElementPreview input {
+	width: 100%;
+}
+
+.MatcCreateBtnElementPreview {
+	width: 160px;
+	height: 100px;
+	overflow: visible;
+	position: relative;
+}
+
+.MatcToolbar .MatcToolbarDropDownButton .MatcCreateBtnCntr li {
+	margin-bottom: 4px;
+	border: none;
+	border-bottom: 1px solid transparent;
+	padding-left: 0px;
+	font-size: $popup_font_size;
+}
+
+.MatcToolbarDropDownButton .MatcCreateBtnCntr li a {
+	color: #555;
+}
+
+.MatcToolbar .MatcToolbarDropDownButton .MatcCreateBtnCntr li:HOVER {
+	background: none;
+}
+
+.MatcToolbar .MatcToolbarDropDownButton .MatcCreateBtnCntr li:HOVER a {
+	color: $primary_color;
+}
+
+.MatcToolbarDropDownButton .MatcCreateBtnCntr li.MatcSelected a {
+	color: $primary_color;
+}
+
+.MatcToolbarDropDownButton .MatcCreateBtnCntr li.MatcSelected {
+	color: $primary_color;
+}
+
+.MatcCreateBtnCntr a:HOVER {
+	text-decoration: none;
+}
+
+
+.MatcCreateBtnRemove {
+	position: absolute;
+	display: none;
+	color: $color_danger;
+	top: 5px;
+	right: 5px;
+}
+
+.MatcCreateBtnElement:hover .MatcCreateBtnRemove {
+	display: block;
+}

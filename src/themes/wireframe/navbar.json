@@ -3,13 +3,13 @@
 		"id": "NavbarTop",
 		"type": "NavBar",
 		"_type": "Widget",
-		"category": "WireFrame",
-		"subcategory": "XNavigation",
-		"name": "Top Navigation",
+		"category": "Advanced",
+		"subcategory": "AButtons",
+		"name": "Top NavBar",
 		"x": 0,
         "y": 0,
         "w": "$100%",
-        "h": "40",
+        "h": "@box-height-s",
         "z": 0,
 		"props": {
 			"type": "Top",
@@ -28,61 +28,56 @@
 			"padding": true
 		},
 		"style": {
-			"borderTopRightRadius" : 0,
-			"borderTopLeftRadius" : 0,
-			"borderBottomRightRadius" : 0,
-			"borderBottomLeftRadius" : 0,
-			"borderTopWidth" : 0,
-			"borderBottomWidth": 0,
-			"borderRightWidth" : 0,
-			"borderLeftWidth" : 0,
-			"borderTopColor" : "#333333",
-			"borderBottomColor" : "#333333",
-			"borderRightColor" : "#333333",
-			"borderLeftColor" : "#333333",
-			"background" : "#ffffff",	
-
-			"color":"#777777",
-			"fontSize" : 14,
-			"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-			"textAlign" : "left",
-
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+		
 			"paddingBottom": 4,
 			"paddingTop": 4,
 			"paddingLeft": 16,
 			"paddingRight": 16,
 
+			"borderWidth": "@border-width-none",
+			"borderColor": "@form-border-color",
+			"borderStyle": "solid",
+
+			"background": "@button-primary-background",
+			"color": "@button-primary-color",
+
 			"gap": -1,
 			"itemGap": 8
 		},
 		"hover": {
-			"background": "#ffffff",
-			"color": "#333333"	
+			"background": "@button-primary-background:hover",
+			"color": "@button-primary-color:hover"	
 		},
 		"active": {
-			"background": "#ffffff",
-			"color": "#333333"	
+			"background": "@button-primary-background:hover",
+			"color": "@button-primary-color:hover"	
 		}
 	},
 	{
 		"id": "NavbarMobile",
 		"type": "NavBar",
 		"_type": "Widget",
-		"category": "WireFrame",
-		"subcategory": "XNavigation",
-		"name": "Bottom Navigation",
+		"category": "Advanced",
+		"subcategory": "AButtons",
+		"name": "NavBar Mobile",
 		"_extends":"NavbarTop",
 		"x": 0,
         "y": 0,
         "w": "$100%",
-        "h": 72,
+        "h": "@box-height-m",
         "z": 0,
 		"props": {
 			"type": "MobileBottom",
 			"navigation": [
 				{"id": 1, "label": "Home", "icon": "mdi mdi-home", "to": "", "selected": true},
 				{"id": 2, "label": "Search", "icon": "mdi mdi-magnify", "to": ""},
-				{"id": 3, "label": "Account", "icon": "mdi mdi-account-outline", "to": ""}				
+				{"id": 3, "label": "Account", "icon": "mdi mdi-account-outline", "to": ""}
+				
 			]
 		},
 		"style": {
@@ -91,22 +86,22 @@
 			"paddingTop": 4,
 			"paddingLeft": 16,
 			"paddingRight": 16,
-			"iconSize": 32,
+			"iconSize": 24,
 			"itemGap": 4,
-			"fontSize": 12
+			"fontSize": "@font-size-s"
 		}
 	},
 	{
 		"id": "NavbarSide",
 		"type": "NavBar",
 		"_type": "Widget",
-		"category": "WireFrame",
-		"subcategory": "XNavigation",
-		"name": "Side Navigation",
+		"category": "Advanced",
+		"subcategory": "AButtons",
+		"name": "Side NavBar",
 		"_extends":"NavbarTop",
 		"x": 0,
         "y": 0,
-        "w": 256,
+        "w": "@box-width-xxl",
         "h": "$100%",
         "z": 0,
 		"props": {

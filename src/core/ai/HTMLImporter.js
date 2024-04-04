@@ -90,6 +90,8 @@ export default class HTMLImporter {
         this.defaultStyle = false
         this.isParseTable = true
         this.grid = false
+        this.isFlattenLabels = true
+        this.z = 1
     }
 
     getUUID (){
@@ -132,7 +134,7 @@ export default class HTMLImporter {
      
         const scalledApp = this.scalledApp(app)
         const layedOutApp = this.layoutApp(scalledApp)
-        this.cleanUpModel(app)
+        this.cleanUpModel(layedOutApp)
         return layedOutApp
     }
 
@@ -306,6 +308,7 @@ export default class HTMLImporter {
         s.w = app.screenSize.w
         s.x = 0
         s.y = 0
+        delete s._type
         if (this.defaultStyle) {
             s.style = {
                 background: this.defaultStyle['Screen'].background
@@ -337,7 +340,9 @@ export default class HTMLImporter {
         delete w._parent
         delete w.children
         delete w._tag
+        delete w._type
         delete w._className
+        delete w._flexDirection
     }
 
 
@@ -355,7 +360,7 @@ export default class HTMLImporter {
     }
 
     isHiddenElement(widget) {
-
+        
         if (isInvisibleButton(widget)) {
             Logger.log(1, 'HTMLImporter.removeHiddenElements() > Invisble' , widget)
             return true
@@ -392,15 +397,19 @@ export default class HTMLImporter {
             app.widgets[child.id] = child
             scrn.children.push(child.id)
        
-            if (child.children.length === 1 && child.children[0].type === 'Label') {
-                Logger.log(1, 'HTMLImporter.flattenNode()' , child.children[0].props.label)
-                child.props.label = child.children[0].props.label
-                child.children = []
+            if (child.children.length === 1 && child.children[0].type === 'Label' && this.isFlattenLabels) {
+                this.flattenLabelIntoParent(child)
             } else {
                 this.flattenNode(scrn, app, child , prefx + "   ")
             }
 
         })
+    }
+
+    flattenLabelIntoParent (child) {
+        Logger.log(1, 'HTMLImporter.flattenNode()' , child.children[0].props.label)
+        child.props.label = child.children[0].props.label
+        child.children = []
     }
 
     cleanTree(node) {

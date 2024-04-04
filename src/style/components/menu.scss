@@ -1,0 +1,86 @@
+
+@import '../variables.scss';
+
+ /****************************************************
+ * Menu
+ ****************************************************/
+$menu_left_right_width: 256px;
+
+.MatcHeader {
+	max-width: 1152px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 16px 0px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 16px;
+	margin-bottom: $spacing-m;
+
+	a{
+		color: $text_color;
+	
+		&:hover {
+			color: $primary_color;
+		}
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.MatcHeaderLogo {
+		height: 24px;
+		width: 24px;
+	}
+
+	.MatcHeaderRight {
+		display: flex;
+		align-items: center;
+
+		justify-content: flex-end;
+		height: 100%;
+		padding: 0px $spacing-xl;
+		gap: 16px;
+		width: $menu_left_right_width;
+	}
+
+	.MatcHeaderCenter {
+		display: flex;
+		align-items: center;
+		height: 100%;
+		justify-content: space-between;
+
+		.MatcHeaderCenterLeft {
+			display: flex;
+			align-items: center;
+			height: 100%;
+			gap: 32px;
+			flex-grow: 1;
+		}
+
+		.MatcHeaderCenterRight {
+			display: flex;
+			align-items: center;
+			height: 100%;
+			gap: 32px;
+		}
+
+	}
+
+	.MatcHeaderLeft {
+		display: flex;
+		align-items: center;
+		height: 100%;
+		padding: 0px;
+		gap: 16px;
+		width: $menu_left_right_width;
+		font-size: 16px;
+	}
+
+	
+}
+
+$mobile_gap: 24px;
+
+
+

@@ -3,13 +3,13 @@
     "id": "WireFramePaging",
     "type": "Paging",
     "name": "Paging",
-    "subcategory": "FormSpecialPaging",
-    "category": "WireFrame",
+    "subcategory": "FormImageX",
+    "category": "Advanced",
     "_type": "Widget",
     "x": 0,
     "y": 0,
-    "w": 200,
-    "h": 48,
+    "w": "@form-width",
+    "h": "@form-height",
     "z": 0,
     "props": {
       "max": 10,
@@ -20,50 +20,35 @@
     "has": {
       "onclick": true,
       "border": true,
-      "label" : true,
+      "label": true,
       "backgroundColor": true,
       "data": true,
       "padding": false
     },
     "style": {
-      "borderTopRightRadius": 100,
-      "borderTopLeftRadius": 100,
-      "borderBottomRightRadius": 100,
-      "borderBottomLeftRadius": 100,
-      "borderTopWidth": 0,
-      "borderBottomWidth": 0,
-      "borderRightWidth": 0,
-      "borderLeftWidth": 0,
-      "paddingTop": 3,
-      "paddingBottom": 3,
-      "paddingLeft": 3,
-      "paddingRight": 3,
-      "borderTopColor": "#333333",
-      "borderBottomColor": "#333333",
-      "borderRightColor": "#333333",
-      "borderLeftColor": "#333333",
-      "background": "transparent",
-      "color": "#333333",
-      "fontSize": 24,
-      "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+      "fontSize": "@font-size-s",
+      "fontFamily": "@font-family",
+      "letterSpacing": "@letterSpacing",
+      "lineHeight": "@lineHeight",
       "textAlign": "center",
-      "verticalAlign": "middle"
+      "verticalAlign": "middle",
+      "borderRadius": "@border-radius-round",
+      "borderWidth": "0",
+      "borderStyle": "solid",
+      "padding": "@spacing-xs",
+      "background": "@background-passive",
+      "borderColor": "@background-passive",
+      "color": "@form-color"
     },
     "active": {
-        "borderTopColor": "#333333",
-        "borderBottomColor": "#333333",
-        "borderRightColor": "#333333",
-        "borderLeftColor": "#333333",
-        "background": "#333333",
-        "color": "#ffffff"
+      "background": "@background-active",
+      "borderColor": "@background-active",
+      "color": "@form-background"
     },
     "hover": {
-      "borderTopColor": "#333333",
-      "borderBottomColor": "#333333",
-      "borderRightColor": "#333333",
-      "borderLeftColor": "#333333",
-      "background": "#cccccc",
-      "color": "#333333"
-  }
+      "background": "@background-active",
+      "borderColor": "@background-active",
+      "color": "@form-color"
+    }
   }
 ]

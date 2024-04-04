@@ -7,7 +7,7 @@ import _ShowGroup from './_ShowGroup'
 import _ShowScreen from './_ShowScreen'
 import _ShowCanvas from './_ShowCanvas'
 import _ShowSVG from './_ShowSVG'
-import * as DistributionUtil from 'core/DistributionUtil'
+
 
 export default {
     name: '_Show',
@@ -50,29 +50,10 @@ export default {
 		* Twemplate properties
 		****************************************************************************************************/
 
-		showTemplate (model){
+		showTemplate (widget){
 			css.remove(this.templateDiv, "MatcToolbarSectionHidden");
-
-			if(model.template){
-						
-				if (model.isRootTemplate) {
-					this.templateDropBox.setOptions([
-						{value: "update", label: "Update all instances", icon:"mdi mdi-pencil"}, // show only when needed???
-						{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
-					]);
-				} else {
-					this.templateDropBox.setOptions([
-						{value: "remove", label: "Unlink Component", icon:"mdi mdi-minus-circle"}
-					]);
-				}
-
-				css.remove(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
-				css.add(this.template, "MatcToolbarItemDisbaled hidden");
-			} else {
-				css.remove(this.template, "MatcToolbarItemDisbaled hidden");
-				css.add(this.templateDropBox.domNode, "MatcToolbarItemDisbaled hidden");
-			}
-
+			const btn = this.$refs.templateBTN
+			btn.setWidget(widget)
 		},
 
 		showTemplateMerge () {
@@ -93,24 +74,30 @@ export default {
 		* tool properties
 		****************************************************************************************************/
 
+		showScreenTools () {
+			css.remove(this.toolsCntrDiv, "MatcToolbarSectionHidden");
+			css.remove(this.distributeBtn, "hidden");
+		},
+
 		showTools (){
 
 			css.remove(this.toolsDiv, "MatcToolbarSectionHidden");
 			css.remove(this.toolsCntrDiv, "MatcToolbarSectionHidden");
-			css.remove(this.distributeBtn, "hidden");
+			
 			css.remove(this.replicateBtn, "hidden");
 
 			if (this._selectedMulti || this._selectedGroup ) {
 				css.remove(this.groupDIV, "MatcToolbarSectionHidden");
+				css.remove(this.distributeBtn, "hidden");
 				if(this._selectedGroup){
 					css.add(this.groupBTN, "hidden");
 					css.remove(this.ungroupBTN, "hidden");
-					css.add(this.distributeBtn, "hidden");
 				} else {
 					css.remove(this.groupBTN, "hidden");
 					css.add(this.ungroupBTN, "hidden");
 				}
 			} else {
+				css.add(this.distributeBtn, "hidden");
 				css.add(this.groupDIV, "MatcToolbarSectionHidden");
 			}
 		},
@@ -156,19 +143,11 @@ export default {
 
 
 		hideDisButtons (){
-			for (let id in this.distButtons) {
-				css.add(this.distButtons[id], "MatcToolbarItemPassive");
-			}
+			this.alignmentBtn.hideDistribution()
 		},
 
 		showDistButtons (ids){
-			const matrix = DistributionUtil.getDistributionMatrix(this.model, ids, false)
-			this.logger.log(3,"showDistButtons", "entry", matrix);	
-			for (let id in this.distButtons) {
-				if (matrix[id] > 1) {
-					css.remove(this.distButtons[id], "MatcToolbarItemPassive");
-				}
-			}
+			this.alignmentBtn.showDistribution(ids)		
 		},
 
 		hideCopyPaste (){
@@ -188,53 +167,12 @@ export default {
 
 			try{
 				if (this.model && this.model.screens) {					
-					var screenCount = this.getObjectLength(this.model.screens);
-					if(screenCount > 0) {
-						this._removeCss(this.simulatorSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.undoSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.commentSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
-						this._removeCss(this.editTool,"MatcToolbarSectionHidden");
-					
-						this._removeCss(this.moveTool,"MatcToolbarSectionHidden");
-						this._removeCss(this.commentBtn,"MatcToolbarSectionHidden");
-						this._removeCss(this.selectBtn, "MatcToolbarSectionHidden");
-						this._removeCss(this.addSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.hotspotTool, "MatcToolbarSectionHidden");
-		
-						this._removeCss(this.rectangleTool, "MatcToolbarSectionHidden");
-						this._removeCss(this.textTool, "MatcToolbarSectionHidden");
-						this._removeCss(this.addLogicSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.addRestSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.addScriptSection, "MatcToolbarSectionHidden");
-						this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
-						this._removeCss(this.addVectorSection, "MatcToolbarSectionHidden");
-						
-						this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
-
+					const screenCount = this.getObjectLength(this.model.screens);
+					this.hasScreens = screenCount > 0
+					if(screenCount > 0) {					
+						//this._removeCss(this.layerListCntr, "MatcToolbarSectionHidden");
 					} else {
-						this._addCss(this.simulatorSection, "MatcToolbarSectionHidden");
-						this._addCss(this.commentSection, "MatcToolbarSectionHidden");
-						this._addCss(this.copyPasteDiv,"MatcToolbarSectionHidden");
-						this._addCss(this.editTool,"MatcToolbarSectionHidden");
-						this._addCss(this.moveTool,"MatcToolbarSectionHidden");
-						this._addCss(this.commentBtn,"MatcToolbarSectionHidden");
-						this._addCss(this.selectBtn, "MatcToolbarSectionHidden");
-						this._addCss(this.addSection, "MatcToolbarSectionHidden");
-						this._addCss(this.hotspotTool, "MatcToolbarSectionHidden");
-						this._addCss(this.rectangleTool, "MatcToolbarSectionHidden");
-						this._addCss(this.textTool, "MatcToolbarSectionHidden");
-						this._addCss(this.addLogicSection, "MatcToolbarSectionHidden");
-						this._addCss(this.addRestSection, "MatcToolbarSectionHidden");
-						this._addCss(this.addScriptSection, "MatcToolbarSectionHidden");
-						this._addCss(this.addVectorSection, "MatcToolbarSectionHidden");
-						if(!this.controller.canUndo()){
-							this._addCss(this.undoSection, "MatcToolbarSectionHidden");
-						}
-
-						this.screenCreateBtn.showDropDown();
-
-						this._addCss(this.layerListCntr, "MatcToolbarSectionHidden");
+						//this._addCss(this.layerListCntr, "MatcToolbarSectionHidden");
 					}
 				} else {
 					this.logger.error('hideNotNeededButtons', 'No screens', this.model)
@@ -273,6 +211,7 @@ export default {
 			if(this.screenDIV){
 				css.add(this.screenDIV, "MatcToolbarSectionHidden");
 			}
+			css.add(this.screenShapeDiv, "MatcToolbarSectionHidden")
 			css.add(this.screenNameDiv, "MatcToolbarSectionHidden");
 			css.add(this.screenBackDiv, "MatcToolbarSectionHidden");
 			css.add(this.screenParentsDiv, "MatcToolbarSectionHidden");
@@ -332,6 +271,7 @@ export default {
 			css.add(this.lineDiv,"MatcToolbarSectionHidden" );
 			css.add(this.toolsDiv, "MatcToolbarSectionHidden");
 			css.add(this.widgetNameDiv, "MatcToolbarSectionHidden");
+			css.add(this.widgetShapeDiv, "MatcToolbarSectionHidden")
 			css.add(this.groupDIV, "MatcToolbarSectionHidden");
 			css.add(this.groupNameDiv, "MatcToolbarSectionHidden");
 			css.add(this.groupActionDiv, "MatcToolbarSectionHidden");

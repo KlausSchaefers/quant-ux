@@ -1,0 +1,186 @@
+@import '../variables.scss';
+
+.MatcTree{
+  margin: 0px;
+  padding:0px;
+
+}
+
+.MatcTreeItem {
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  color: #555;
+}
+
+.MatcTreeItem.MatcTreeItemDragOver {
+  border-top-color: $primary_color;
+}
+
+.MatcTreeItemRow{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.MatcTree .MatcTreeItemEnd .MatcTreeItemRow {
+  height: 4px;
+}
+
+.MatcTree .MatcTreeItemEnd .MatcTreeIcon,
+.MatcTree .MatcTreeItemEnd .MatcTreeItemLabel{
+  display: none;
+}
+
+
+
+.MatcTreeItemRow:hover{
+  color: #111;
+}
+
+.MatcTreeItem.MatcTreeItemSelected,
+.MatcTreeItemSelected .MatcTreeItem{
+  background: #d6e5f8;
+
+}
+
+.MatcTreeItemSelected .MatcTreeItemRow:hover{
+
+}
+
+.MatcTreeItemLabel {
+  font-weight: 400;
+  font-size: 12px;
+  padding: 5px 0px 0px 10px;
+  cursor: pointer;
+}
+
+input.MatcTreeItemLabel {
+  width: calc(100% - 30px);
+}
+
+.MatcTree ul {
+  list-style: none;
+  margin: 0px;
+  padding:0px;
+}
+
+.MatcTree ul li{
+  width: calc(100%);
+  margin-left: 0px;
+}
+
+.MatcTree ul li ul{
+  margin-left: 0px;
+}
+
+.MatcTree .MatcTreeIcon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+.MatcTree .MatcTreeToggleChildrenIcon {
+  cursor: pointer;
+  color: #aaaaaa;
+}
+
+.MatcTree .MatcTreeToggleChildrenIcon:hover {
+  color: #555555;
+}
+
+.MatcTree .MatcTreeIcon.MatcTreeIconClosed {
+  transform:rotate(-90deg);
+  transform-origin: 50% 50%;
+  color:red;
+}
+
+.MatcTreeItemRow .MatcTreeItemOptions{
+  display: none;
+}
+
+.MatcTreeItemRow .MatcTreeItemOptions .mdi{
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.MatcTreeItemRow .MatcTreeItemOptions .MatcQIcon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+
+.MatcTreeItemRow:hover .MatcTreeItemOptions,
+.MatcTreeItemRow.MatcTreeItemOptionsVisible .MatcTreeItemOptions,
+.MatcTreeItemSelected .MatcTreeItemRow .MatcTreeItemOptions{
+  display: block;
+  position: absolute;
+  right: 4px;
+  top: 0px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.MatcTreeItemSelected .MatcTreeItemRow .MatcTreeItemOptions .mdi{
+ 
+}
+
+.MatcTree ul.MatcTreeItemLevel0{
+  margin-left: 0px;
+  padding-bottom: 2px;
+}
+
+.MatcTreeItemLevel1 .MatcTreeItemRow {
+  margin-left: 16px;
+}
+
+.MatcTreeItemLevel2 .MatcTreeItemRow {
+  margin-left: 32px;
+}
+
+
+.MatcTreeItemLevel3 .MatcTreeItemRow {
+  margin-left: 48px;
+}
+
+
+.MatcTreeItemLevel4 .MatcTreeItemRow {
+  margin-left: 64px;
+}
+
+.MatcTreeItemLevel5 .MatcTreeItemRow {
+  margin-left: 80px;
+}
+
+.MatcTreeItemLevel6 .MatcTreeItemRow {
+  margin-left: 96px;
+}
+
+.MatcTreeItemLevel7 .MatcTreeItemRow {
+  margin-left: 112px;
+}
+
+.MatcTreeItemLevel8 .MatcTreeItemRow {
+  margin-left: 120px;
+}
+
+.MatcTreeItemLevel8 .MatcTreeItemRow {
+  margin-left: 128px;
+}
+
+.MatcTreeItemLevel9 .MatcTreeItemRow {
+  margin-left: 132px;
+}
+
+.MatcTreeItemLevel10 .MatcTreeItemRow {
+  margin-left: 140px;
+}
+
+.MatcTreeTypeIcon.mdi {
+  opacity: 0.5;
+}
+
+.MatcTreeIconRoot.mdi {
+  opacity: 1;
+}

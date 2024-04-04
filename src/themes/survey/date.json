@@ -1,0 +1,186 @@
+[ {
+	"id" : "SureveyDate",
+	"type" : "Date",
+	"name" : "Calendar",
+	"category" : "Survey",
+	"subcategory" : "FormInputDate",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xxl",
+	"h": "@box-height-xxl",
+	"z" : 0,
+	"props" : {
+
+	},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true,
+		"data" : true,
+        "isSurveyElement": true
+	},
+	"style" : {
+		"fontSize": "@font-size-m",
+		"fontFamily": "@font-family",
+
+		"borderRadius": "@border-radius",
+		"borderWidth": "@border-width",
+		"borderStyle": "solid",
+		"borderColor": "transparent",
+		"background": "@screen-background",
+		"color": "@form-color",
+		"colorButton": "@form-border-color",
+
+		"headerColor" : "@form-color",
+		"headerBackground" : "transparent",
+
+		"selectedBackground" : "@background-active",
+		"selectedColor" : "@color-active",
+
+		"tableHeaderColor" : "@form-color",
+		"tableHeaderBackground" : "transparent",
+
+		"itemBorderRadius": "@calendar-item-radius"
+	}
+}, {
+	"id" : "SurveyDateRange",
+	"type" : "Date",
+	"name" : "Date Range",
+	"category" : "Survey",
+	"subcategory" : "FormInputDate",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xxl",
+	"h": "@box-height-xxl",
+	"z" : 0,
+	"props" : {
+		"range" : true,
+		"preselectRange" : true
+	},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true,
+		"data" : true,
+        "isSurveyElement": true
+	},
+	"style" : {
+		"fontSize": "@font-size-m",
+		"fontFamily": "@font-family",
+
+		"borderRadius": "@border-radius",
+		"borderWidth": "@border-width",
+		"borderStyle": "solid",
+		"borderColor": "transparent",
+		"background": "@screen-background",
+		"color": "@form-color",
+		"colorButton": "@form-border-color",
+
+		"headerColor" : "@form-color",
+		"headerBackground" : "transparent",
+
+		"selectedBackground" : "@background-active",
+		"selectedColor" : "@color-active",
+
+		"selectedInRangeBackground" : "@background-passive",
+		"selectedInRangeColor" : "@color-passive",
+
+		"tableHeaderColor" : "@form-color",
+		"tableHeaderBackground" : "transparent",
+
+		"itemBorderRadius": "@calendar-item-radius"
+	}
+}, {
+	"id" : "SurveyDateDropDown",
+	"type" : "DateDropDown",
+	"name" : "Date Picker",
+	"category" : "Survey",
+	"subcategory" : "FormInputDate",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w": "@form-width",
+	"h": "@form-height",
+	"z" : 0,
+	"props" : {
+		"label" : "Select Date",
+		"icon" : "mdi mdi-calendar"
+	},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true,
+		"data" : true,
+		"padding" : true,
+        "isSurveyElement": true
+	},
+	"style" : {
+		"fontSize": "@font-size-m",
+		"fontFamily": "@font-family",
+		"textAlign" : "left",
+
+		"background": "@form-background",
+		"color": "@form-color",
+
+		"boxShadow": "@box-shadow-m",
+
+		"borderRadius": "@border-radius",
+		"borderWidth": "@border-width",
+		"borderStyle": "solid",
+		"borderColor": "@form-border-color",	
+
+		"paddingBottom": "@form-padding-vertical",
+		"paddingTop": "@form-padding-vertical",
+		"paddingLeft": "@form-padding-horizontal",
+		"paddingRight": "@form-padding-horizontal",
+	
+		"headerColor" : "@form-color",
+		"headerBackground" : "@form-background",
+
+		"selectedBackground" : "@form-border-color",
+		"selectedColor" : "@form-background",
+
+		"selectedInRangeBackground" : "@background-passive",
+		"selectedInRangeColor" : "@color-passive",
+
+		"tableHeaderColor" : "@form-color",
+		"tableHeaderBackground" : "transparent",
+	
+		"popupBorderColor" : "@form-popup-border-color",
+		"popupBorderWidth" : "@form-popup-border-width",
+		"popupColor" : "@form-popup-color",
+		"popupBackground" : "@form-popup-background",
+
+		"itemBorderRadius": "@calendar-item-radius"
+	}
+},
+{
+	"id" : "SurveydateRangeDropDown",
+	"type" : "DateDropDown",
+	"name" : "Date Ranger Picker",
+	"category" : "Survey",
+	"subcategory" : "FormInputDate",
+	"_extends": "SurveyDateDropDown",
+	"_type" : "Widget",
+	"props" : {
+		"label" : "Select Range",
+		"icon" : "mdi mdi-calendar-week",
+		"range" : true,
+		"preselectRange" : true,
+        "isSurveyElement": true
+	},
+	"has" : {
+		"backgroundColor" : true,
+		"border" : true,
+		"label" : true,
+		"data" : true,
+		"padding" : true
+	},
+	"style" : {
+		"selectedInRangeBackground" : "@background-passive",
+		"selectedInRangeColor" : "@color-passive"
+	}
+}
+]

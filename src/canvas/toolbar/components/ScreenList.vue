@@ -1,6 +1,6 @@
 
 <template>
-     <div class="MatcToolbarScreenList">
+	<div class="MatcToolbarScreenList">
 	</div>
 </template>
 <script>
@@ -14,29 +14,30 @@ import DomBuilder from 'common/DomBuilder'
 import ScrollContainer from 'common/ScrollContainer'
 import Preview from 'page/Preview'
 import Util from 'core/Util'
+import {iconDOM} from 'page/QIconUtil'
 
 export default {
-    name: 'ScreenList',
-    mixins:[Util, DojoWidget],
-    data: function () {
-        return {
-            previewWidth: 150
-        }
-    },
-    components: {},
-    methods: {
-      postCreate: function(){
-				this.logger = new Logger("ScreenList");
-				this.db = new DomBuilder();
-			},
+	name: 'ScreenList',
+	mixins: [Util, DojoWidget],
+	data: function () {
+		return {
+			previewWidth: 150
+		}
+	},
+	components: {},
+	methods: {
+		postCreate() {
+			this.logger = new Logger("ScreenList");
+			this.db = new DomBuilder();
+		},
 
 
-		setModel:function(model){
+		setModel(model) {
 			this.model = model;
 		},
 
 
-		setScreen:function(screen){
+		setScreen(screen) {
 			this.screen = screen;
 			this.render(screen);
 		},
@@ -45,53 +46,54 @@ export default {
 			this.jwtToken = t
 		},
 
-		render:function(){ // screen param removed
+		render() { // screen param removed
 			this.cleanUp();
 			var cntr = this.db.div("").build();
 			var parents = this.getParents();
-			for(var i =0; i< parents.length; i++){
+			for (var i = 0; i < parents.length; i++) {
 				var screenID = parents[i];
-				if(this.model.screens[screenID]){
+				if (this.model.screens[screenID]) {
 					var screen = this.model.screens[screenID];
-					var div = this.db.div("MatcToolbarGridFull MatcToolbarItem MatcToobarActionCntr" ).build(cntr);
-					this.db.span("MatcToolbarSmallIcon mdi mdi-content-duplicate").build(div);
-					this.db.span("MatcToolbarItemLabel",  screen.name).build(div);
+					var div = this.db.div(" MatcToolbarItem MatcToobarActionCntr MatcToolbarIconButton").build(cntr);
+					div.appendChild(iconDOM("MasterScreen"))
+					this.db.span("MatcToolbarItemLabel", screen.name).build(div);
 					var btn = this.db.span("MatcToobarRemoveBtn ")
 						.tooltip("Remove Master", "vommondToolTipRightBottom")
-						.span("mdi mdi-close-circle-outline")
 						.build(div);
+					
+					btn.appendChild(iconDOM("DeleteX"))
 					this.tempOwn(on(btn, touch.press, lang.hitch(this, "onRemoveParent", i)));
 				} else {
 					console.warn("render() > no screen with id" + screenID);
 				}
 			}
 			this.domNode.appendChild(cntr);
-			var add = this.db.div("MatcToolbarGridFull MatcPointer  MatcToolbarItem").build();
-			this.db.span("MatcToolbarSmallIcon mdi mdi-plus-circle").build(add);
+			var add = this.db.div("MatcPointer  MatcToolbarItem MatcToolbarIconButton").build();
+			add.appendChild(iconDOM("Plus"))
 			this.db.span("MatcToolbarItemLabel", "Add Master Screen").build(add);
 			this.tempOwn(on(add, touch.press, lang.hitch(this, "showDialog")));
 			this.domNode.appendChild(add);
 		},
 
 
-		showDialog:function(){
+		showDialog() {
 
-			var d = new Dialog({overflow:true});
+			var d = new Dialog({ overflow: true });
 
 			var div = this.db.div("MatcToolbarScreenListDialog MatcPadding").build();
 			this.db.label("", "Select Parent Screen").build(div);
 			var cntr = this.db.div("MatcToolbarScreenListDialogCntr").build(div);
 			var list = this.db.div().build();
 
-			var height = Math.min(this.model.screenSize.h / (this.model.screenSize.w / this.previewWidth), 250) ;
+			var height = Math.min(this.model.screenSize.h / (this.model.screenSize.w / this.previewWidth), 250);
 
 			this.previews = [];
 			var parents = this.getParents();
-			for(var screenID in this.model.screens){
+			for (var screenID in this.model.screens) {
 				/**
 				 * Do not show the selected screen or any parents
 				 */
-				if(this.screen.id != screenID && (parents.indexOf(screenID) <0)){
+				if (this.screen.id != screenID && (parents.indexOf(screenID) < 0)) {
 					var screen = this.model.screens[screenID];
 					/**
 					 * Since 2.2.0 we have ScreenSegment
@@ -103,7 +105,7 @@ export default {
 						screenCntr.style.height = height + "px";
 						var preview = this.$new(Preview);
 						preview.setJwtToken(this.jwtToken);
-						preview.setScreenPos({w:this.previewWidth, h:height});
+						preview.setScreenPos({ w: this.previewWidth, h: height });
 						preview.setModel(this.model);
 						preview.setScreen(screenID);
 						preview.placeAt(screenCntr);
@@ -128,58 +130,57 @@ export default {
 			this.dialog = d;
 		},
 
-		onScreenSelected:function(screenID){
+		onScreenSelected(screenID) {
 			this.dialog.close()
 			var parents = this.getParents();
 			parents.push(screenID);
 			this.onChange(parents)
 		},
 
-		onRemoveParent:function(i){
+		onRemoveParent(i) {
 
 
 
 			var parents = this.getParents();
-			parents.splice(i,1);
+			parents.splice(i, 1);
 
 			this.onChange(parents)
 		},
 
-		getParents:function(){
+		getParents() {
 			var parents = [];
-			if(this.screen.parents){
+			if (this.screen.parents) {
 				parents = this.screen.parents;
 			}
 			return lang.clone(parents);
 		},
 
-		closeDialog:function(){
-			console.debug("closeDialog");
+		closeDialog() {
 
-			for(var i =0; i< this.previews.length; i++){
+			for (var i = 0; i < this.previews.length; i++) {
 				this.previews[i].destroy();
 			}
 			delete this.previews;
 		},
 
-		onChange:function(parents){
+		onChange(parents) {
 
 			this.emit("change", parents);
 		},
 
-		_getAbstract:function(string,max){
-			if(string.length > max){
+		_getAbstract(string, max) {
+			if (string.length > max) {
 				string = string.substring(0, max) + "...";
 			}
 			return string;
 		},
 
-		cleanUp:function(){
+		cleanUp() {
 			this.cleanUpTempListener();
-			this.domNode.innerHTML="";
+			this.domNode.innerHTML = "";
 		}
-    },
-    mounted () {
-    }
+	},
+	mounted() {
+	}
 }
 </script>

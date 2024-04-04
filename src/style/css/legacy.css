@@ -1,0 +1,27 @@
+@import './bootstrap/min.css';
+@import './material17/css/materialdesignicons.min.css';
+
+
+
+.MatcLogoNew{
+	background-image: url("../img/QUXLogoBlack.svg");
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+    background-position: bottom;
+    display: inline-block;
+    height: 128px;
+	width: 96px;
+	max-width:300px;
+}
+
+/* 
+.MatcSimulatorLoadingLogo{
+	background-image: url("../img/QUXLogoWhite.svg");
+	background-repeat: no-repeat;
+	background-size: 80% auto;
+	background-position: center center;
+	display: inline-block;
+	height: 80px;
+	width:100%;
+	max-width:300px;
+} */

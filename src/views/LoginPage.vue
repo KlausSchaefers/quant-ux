@@ -14,17 +14,20 @@
                                 <div class="MatcLoginPageForm">
                                     <div class=" form-group">
                                         <label class="">Email</label>
-                                        <input class=" form-control input-lg" placeholder="Your email" type="text" v-model="email">
+                                        <input class=" form-control" placeholder="Your email" type="text" v-model="email">
                                     </div>
 
                                     <div class=" form-group has-feedback">
                                         <label class="">Password</label>
-                                        <input class=" form-control input-lg" placeholder="Your password" type="password" v-model="password" @keyup.enter="login">
+                                        <input class=" form-control" placeholder="Your password" type="password" v-model="password" @keyup.enter="login">
                                     </div>
+                                    
+                                    <span class="MatcErrorLabel" v-show="errorMessage">{{errorMessage}}</span>
+
                                 </div>
-                                <span class="MatcErrorLabel" v-show="errorMessage">{{errorMessage}}</span>
+                          
                                 <div class="MatcButtonBar">
-                                    <a class="MatcButton" @click="login">Login</a>
+                                    <a class="MatcButton MatcButtonPrimary" @click="login">Login</a>
                                     <a class="MatcLinkButton" @click="requestPasswordReset" v-if="hasLoginError">Reset Password</a>
                                 </div>
                             </div>
@@ -37,20 +40,25 @@
                                 <div class="MatcLoginPageForm">
                                     <div class=" form-group">
                                         <label class="">Email</label>
-                                        <input class=" form-control input-lg" placeholder="Your email" type="text" v-model="email">
+                                        <input class=" form-control" placeholder="Your email" type="text" v-model="email">
                                     </div>
 
                                     <div class=" form-group has-feedback">
                                         <label class="">Password</label>
-                                        <input class=" form-control input-lg" placeholder="Your password" type="password" v-model="password" @keyup.enter="signup">
+                                        <input class=" form-control" placeholder="Your password" type="password" v-model="password" @keyup.enter="signup">
                                     </div>
                                     <div class=" form-group has-feedback" >
-                                        <CheckBox v-model="tos" label="I accept the term of service"/>
+                                        <div class="MatcCheckboxRow">
+                                        <CheckBox v-model="tos" label=""/>
+                                        <span @click="tos=true">I accept the <a href="#/tos.html" target="_blank">terms of service</a></span>
+                                        </div>
                                     </div>
+                                    <span class="MatcErrorLabel">{{errorMessage}}</span>
                                 </div>
-                                <span class="MatcErrorLabel">{{errorMessage}}</span>
+                                
                                 <div class="MatcButtonBar">
-                                    <a class="MatcButton" @click="signup">SignUp</a> 
+                                    <a class="MatcButton MatcButtonPrimary" @click="signup">SignUp</a> 
+                          
                                 </div>
                             </div>
                         </div> <!-- new -->
@@ -60,17 +68,17 @@
                                 <div class="MatcLoginPageForm">
                                     <div class=" form-group">
                                         <label class="">Email</label>
-                                        <input class=" form-control input-lg" placeholder="Your email" type="text" v-model="email">
+                                        <input class=" form-control" placeholder="Your email" type="text" v-model="email">
                                     </div>
 
                                     <div class=" form-group has-feedback">
                                         <label class="">New Password</label>
-                                        <input class=" form-control input-lg" placeholder="The new password" type="password" v-model="password">
+                                        <input class=" form-control" placeholder="The new password" type="password" v-model="password">
                                     </div>
                                 </div>
                                 <span class="MatcErrorLabel" >{{errorMessage}}</span>
                                 <div class="MatcButtonBar">
-                                    <a class="MatcButton MatcButtonRed" @click="resetPassword">Set new password</a>                                
+                                    <a class="MatcButton MatcButtonDanger" @click="resetPassword">Set new password</a>                                
                                 </div>
                             </div> 
                         </div><!-- reset-->
@@ -84,23 +92,24 @@
             
           
         </div> <!-- Dialog -->
+
+       
     </div>
+
 </template>
 
 
 <style lang="scss">
-    @import "../style/scss/login.scss";
+    @import "../style/components/login.scss";
+    @import '../style/toolbar/tab.scss';
 </style>
-<style lang="css">
-    @import '../style/toolbar/tab.css';
-</style>
+
 <script>
 
 
 import Services from 'services/Services'
 import Logger from 'common/Logger'
 import CheckBox from '../common/CheckBox.vue'
-
 
 export default {
   name: "Header",
@@ -242,7 +251,7 @@ export default {
     }
 
     this.config = Services.getConfig()
-    this.logger.log(-1,'mounted', 'exit > ', this.config.user)
+    this.logger.log(1,'mounted', 'exit > ')
   }
 }
 </script>

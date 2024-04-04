@@ -5,7 +5,6 @@ class Logger {
   }
 
   setLogLevel (l) {
-      console.debug('SetLogLevel', l)
       this.logLevel = l
   }
 
@@ -26,9 +25,9 @@ class Logger {
   log(level, msg, obj, obj2 = '') {
       if (level < this.logLevel) {
           if (obj !== undefined) {
-              console.debug(msg, obj, obj2)
+              console.info(msg, obj, obj2)
           } else {
-              console.debug(msg)
+              console.info(msg)
           }
       }
   }

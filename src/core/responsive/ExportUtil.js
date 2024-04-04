@@ -1,6 +1,12 @@
 import Logger from "../Logger";
 import {Layout} from './Const'
 
+export function round(x) {
+    return Math.round(x)
+    // FIXME: This causes some weird issues.
+    //return Math.round(x * 10) / 10
+}
+
 export function isLayoutWrap (e) {
     return e.layout && e.layout.type === Layout.Wrap
 }

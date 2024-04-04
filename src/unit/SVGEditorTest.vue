@@ -37,9 +37,13 @@
   </div>
 </template>
 
+<style lang="scss">
+  @import "../style/matc.scss";
+  @import "../style/components/qux-svg-editor.scss";
+</style>
 <style>
-  @import url("../style/matc.css");
-  @import url("../style/qux-svg-editor.css");
+
+
   .toolbar {
     margin-left: 30px;
     background: #eee;

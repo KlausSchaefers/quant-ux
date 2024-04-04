@@ -1,0 +1,464 @@
+@import '../variables.scss';
+
+/****************************************************
+ * List Widget
+ ****************************************************/
+.MatcAbsList{
+	position: relative;
+	border: 1px dotted #ccc;
+}
+
+
+.MatcAbsList .MatcListItem{
+	display: inline-block;
+	position: absolute;
+}
+
+/****************************************************
+ * List Widget
+ ****************************************************/
+
+.MatcList{
+
+}
+
+
+
+.MatcListFlexCntr {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 32px;
+	justify-content: space-between;
+
+	.MatcListPlaceHolder {
+		width: 230px;
+		height: 0px;
+	}
+}
+
+.MatcListContainer{
+	clear: both;
+}
+.MatcListRow{
+	clear: both;
+}
+
+.MatcListColumn{
+	display: inline-block;
+	vertical-align: top;
+}
+
+
+.MatcListItem{
+	vertical-align: top;
+	display: inline-block;
+}
+
+.MatcListLoading{
+	color: #ccc;
+    display: inline-block;
+    font-size: 50px;
+    height: 100%;
+    padding: 100px;
+    vertical-align: middle;
+    width: 300px;
+}
+
+.MatcListItemAnimated{
+	transition-duration:1.5s;
+}
+
+.MatcListItemHidden{
+	opacity:0;
+
+}
+
+.MactListItemTiny{
+	 -ms-transform: scale(0.1,0.1); /* IE 9 */
+    -webkit-transform: scale(0.1,0.1); /* Safari */
+    transform: scale(0.1,0.1);
+}
+
+.MatcAppListAdd{
+    width: 230px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: $gray_3;
+	background: #fff;
+
+	.MatcQIcon {
+		width: 32px;
+		height: 32px;
+	}
+}
+
+
+.MatcListSearchCntr{
+	text-align: right;
+	width: 240px;
+
+	.MatcSearchForm {
+		display: inline-block;
+		border-bottom: 1px solid transparent;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;		
+	}
+
+
+	.MatcQIcon{
+		display: inline-flex;
+		cursor: pointer;
+	}
+
+	input{
+		width: 0px;
+		opacity:0;
+		transition: all 0.3s;
+		margin-right: 10px;
+		border:0px;
+		padding:3px;
+		background: none;
+   }
+
+}
+
+.MatcListSearchVisible{
+	.MatcSearchForm{
+		border-bottom: 1px solid #ccc;
+	}
+	input{
+		width: 200px;
+		opacity:1;
+	}
+}
+
+
+
+
+.MatcAppListMobile{
+	text-align: center;
+}
+
+
+/****************************************************
+ * DashScreen List
+ ****************************************************/
+.MatcFluidListItem{
+	position: relative;
+	transition-duration: 0.5s;
+}
+
+.MatcFluidListItemRemoved{
+	opacity:0;
+}
+
+.MatcFluidListItemRemove{
+	position:absolute;
+	top:-12px;
+	right:0px;
+	cursor:pointer;
+	display:none;
+}
+
+.MatcFluidListItem:HOVER .MatcFluidListItemRemove{
+	display: block;
+}
+
+.MatcFluidListItemPopup{
+	width: 100%;
+	height: 100%;
+	opacity:0;
+	background: red;
+	position: absolute;
+	bottom:-100%;
+	left:0px;
+}
+
+.MatcFluidListItem:hover .MatcFluidListItemPopup{
+	left:0px;
+	bottom:0px;
+	opacity:0.8;
+}
+
+
+.FluidList .MatcListSearchCntr{
+	display: inline-block;
+	margin-right: 20px;
+}
+
+.MatcFluidListPaging {
+	text-align: center;
+	width: 100%;
+}
+
+.MatcFluidListPaging ul{
+	list-style: none;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    width:100%;
+}
+
+.MatcFluidListPaging ul li{
+	display: inline-block;
+	margin:0px 5px;
+	color: $primary_color;
+	cursor:pointer;
+	padding: 3px 10px;
+	border-radius:3px;
+}
+
+.MatcFluidListPaging ul li.active{
+	background: $primary_color;
+	color:#fff;
+}
+
+.MatcFluidListPaging ul li.active a{
+	color:#fff;
+}
+
+/****************************************************
+ * DashScreen List
+ ****************************************************/
+
+.MatcDashScreenListWidgets{
+	padding: 10px;
+	font-style: italic;
+    font-weight: 200;
+    color:#333;
+}
+
+.MatcDashScreenListWidgets span{
+	width: 100px;
+	display: inline-block;
+}
+
+/****************************************************
+ * Screen List
+ ****************************************************/
+
+
+.MatcAppListLoading .MatcPreviewWrapperLoadable{
+	background: #f2f2f2;
+}
+
+.MatcAppListLoading .MatcPreviewStatusMsg{
+	color:#ccc;
+	padding-top:100px;
+	display:inline-block;
+}
+
+ /****************************************************
+ * App List
+ ****************************************************/
+
+ .MatcListItem{
+	margin-bottom: 48px;
+}
+
+
+
+.MatcAppList {
+
+	.MatcContentBox {
+		background: #fff;
+		border-radius: $page_radius;
+		box-shadow: $page_drop_shadow_soft;
+		outline: 1px solid $page_border;
+		transition: box-shadow 0.2s;
+		border: none;
+
+		.MatcPreviewWrapper{
+			border-top-right-radius: $page_radius;
+			border-top-left-radius: $page_radius;
+			border:none;
+			height:180px;
+			position: relative;			
+		}
+		
+		&:hover {
+			box-shadow: $page_drop_shadow_more;
+		}
+
+		.MatcListItemDescription{
+			width: 240px;
+			height: 120px;
+			overflow:hidden;
+			font-size: 16px;
+			padding: 16px;
+			border-top: 1px solid $gray_1;
+			color: $text_color;
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+
+			.MatcListItemDescriptionTop {
+				display: flex;
+				gap: 16px;
+				justify-content: space-between;
+				align-items: flex-start;
+			}
+
+			.MatcListItemDescriptionMenu {
+				position: absolute;
+				background: $primary_color;
+				color: #fff;
+				top:0px;
+				left: 0px;
+				width: 0%;
+				height: 0%;
+				border-radius: $page_radius;
+				opacity: 0;
+				padding: 32px;
+
+
+				div{
+					padding: $button_padding;
+					border: 1px solid #fff;
+					border-radius: $button_radius;
+					width: 100%;
+					font-weight: 400;
+					text-align: center;
+
+					&:hover {
+						border: 1px solid #fff;
+						color: #fff;
+						background: rgba(255,255,255,0.2);
+					}
+				}
+			}
+
+			.MatcListItemDescriptionDots {
+				font-weight: 700;
+				margin-top: -8px;
+			}
+
+			.MatcListItemDescriptionDots:hover {
+				.MatcListItemDescriptionMenu {
+					display: flex;
+					opacity: 1;
+					transition: opacity 0.2s;
+					width: 100%;
+					height: 100%;
+					align-items: center;
+					justify-content: center;
+					flex-direction: column;
+					gap: 16px;
+				}
+			}
+
+			h3{
+				margin-bottom: 8px;
+				font-weight: 600;
+				font-size: 16px;
+				height: 40px;
+			}
+
+			p {		
+				font-weight: 400;
+				font-size: 12px;
+				color: $gray_3;
+			}
+		}
+
+		.MatcListItemName {
+			font-weight: 700;
+			font-size: 16px;
+		}
+	}
+} 
+
+.MatcScreenList {
+
+	.MatcContentBox {
+		box-shadow: none;
+		outline: none;
+		border: 1px solid $page_border;
+		background: #fff;
+		border-radius: $page_radius-l;
+		overflow: hidden;
+		transition: all 0.2s;
+		box-shadow: $page_drop_shadow_soft;
+		transition: box-shadow 0.2s;
+		width: 230px;
+
+		&:hover {
+			box-shadow: $page_drop_shadow_more;
+			border: 1px solid $page_border;
+		}
+
+		.MatcPreviewWrapper{
+			border:none;
+			height:180px;
+			position: relative;		
+		}
+		
+		
+
+		.MatcListItemDescription{
+			width: 230px;
+			height: 48px;
+			overflow:hidden;
+			font-size: 14px;
+			font-weight: 600;
+			color: $text-color;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+
+	&.desktop{
+
+		.MatcContentBox {
+			
+			.MatcPreviewWrapper {
+				height:180px;
+			}
+
+			.MatcListItemDescription {
+				//width: 320px;
+			}
+		}
+
+		
+	}
+} 
+
+
+
+.MatcListItem a:hover{
+	text-decoration: none;
+}
+
+.MatcAppListItem{
+	position: relative;
+	display: inline-block;
+}
+
+.MatcAppListItem:LAST-CHILD{
+	margin-right: 0px;
+}
+
+
+.MatcAppListStack{
+	width: 100%;
+	height:350px;
+	position: absolute;
+	background: #fff;
+	top:-8px;
+	left:8px;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+    border-radius:3px;
+    border:1px solid #ddd;
+    opacity:1;
+    transition: opacity 0.2s;
+}
+
+.MatcAppListLoading .MatcAppListStack{
+	opacity:0;
+}

@@ -1,0 +1,299 @@
+/****************************************************
+ * Animation Composer
+ ****************************************************/
+.MatcAnimationComposer {
+	overflow: hidden;
+	height: 100%;
+}
+
+.MatchAnimationDialog {
+	padding: 40px;
+	padding-bottom: 80px;
+}
+
+.MatchAnimationDialog .MatchSimulatorContainer {
+	border-radius: 0px;
+}
+
+.MatchAnimationDialog .MatchSimulatorContainer .MatcSimulator {}
+
+.MatchAnimationDialogCntr {
+	height: 100%;
+}
+
+.MatchAnimationDialogCntr .container-fluid {
+	max-width: none;
+}
+
+.MatchAnimationDialog .MatcButtonBar {
+	padding-top: 20px;
+}
+
+.MatcAnimationComposerColumn {
+	height: 100%;
+}
+
+.MatcAnimationComposerPreview {
+	border-right: 1px solid #cecece;
+}
+
+.MatcAnimationComposerTableCntr {
+	overflow: scroll;
+	height: 100%;
+}
+
+.MatcAnimationComposerTable {
+	width: 100%;
+	font-size: 14px;
+	color: #333;
+}
+
+.MatcAnimationComposerTable thead {
+	height: 20px;
+}
+
+.MatcAnimationComposerTable thead tr {
+	height: 20px;
+	border: none;
+}
+
+.MatcAnimationComposerTableSteps {
+	display: -webkit-flex;
+	display: flex;
+	width: 100%;
+	padding-right: 10px;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	font-size: 12px;
+}
+
+.MatcAnimationComposerTableSteps .MatcAnimationComposerTableStep {
+	color: #cecece;
+	width: 0px;
+	position: relative;
+	height: 20px;
+}
+
+.MatcAnimationComposerTableSteps .MatcAnimationComposerTableStep div {
+	position: absolute;
+	width: 30px;
+	height: 20px;
+	top: 0px;
+	left: -15px;
+	text-align: center;
+	display: inline-block;
+}
+
+.MatcAnimationComposerTableSteps .MatcAnimationComposerTableStep:last-child {
+	text-align: right;
+}
+
+.MatcAnimationComposerTableTicks {
+	display: -webkit-flex;
+	display: flex;
+	width: 100%;
+	padding-right: 10px;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	font-size: 12px;
+}
+
+.MatcAnimationComposerTableTick {
+	background: #cecece;
+	width: 0px;
+	height: 3px;
+	position: relative;
+}
+
+.MatcAnimationComposerTableTick div {
+	position: absolute;
+	top: 0px;
+	width: 1px;
+	left: 0px;
+	height: 5px;
+	background: #cecece;
+}
+
+.XMatcAnimationComposerTableTick:nth-child(10n) div,
+.XMatcAnimationComposerTableTick:first-child div {
+	height: 10px;
+	margin-top: -5px;
+}
+
+.MatcAnimationComposerTabelTime {
+	position: relative;
+}
+
+.MatcAnimationComposerTimeBar {
+	position: absolute;
+	top: 20px;
+	left: 0px;
+	width: 1px;
+	height: 1000px;
+	background: red;
+	display: none;
+}
+
+.MatcAnimationComposerAniamtionRunning .MatcAnimationComposerTimeBar {
+	display: block;
+}
+
+.MatcAnimationComposerTable tr {
+	height: 60px;
+
+}
+
+table.MatcAnimationComposerTable td.MatcAnimationComposerRowName {
+	width: 150px;
+	padding-top: 16px;
+	padding-right: 16px;
+	text-align: right;
+}
+
+.MatcAnimationComposerRowType {
+	width: 50px;
+}
+
+.MatcAnimationComposerRowEasing {
+	width: 50px;
+}
+
+.MatcAnimationComposerRowRange {
+	padding-right: 10px;
+}
+
+.MatcToolbarPopUp.MatcAnimationComposerActionPopUp {
+	z-index: 9999999;
+	width: 200px;
+}
+
+.MatcAnimationComposer .MatcToolbarItem,
+.MatcAnimationComposer .MatcToolbarDropDownButtonLabel {
+	color: #999;
+}
+
+.MatcAnimationComposer .MatcToolbarItem:hover,
+.MatcAnimationComposer .MatcToolbarItem:hover .MatcToolbarDropDownButtonLabel {
+	color: $primary_color;
+}
+
+.MatcAnimationComposer .MatcToolbarItem {
+	border: transparent 1px solid;
+}
+
+.MatcAnimationComposer .MatcToolbarItem:hover {
+	border: #cecece 1px solid;
+}
+
+.MatcAnimationComposer .VommondSlider {
+	height: 40px;
+	margin-top: 10px;
+
+}
+
+
+.MatcAnimationComposer .VommondSliderContainer {
+	height: 2px;
+	background-color: #cecece;
+}
+
+.MatcAnimationComposer .VommondSliderBar {
+	height: 6px;
+	top: -2px;
+}
+
+.MatcAnimationComposer .VommondSliderHandle {
+	height: 4px;
+	width: 4px;
+	border-radius: 0px;
+	background: red;
+	height: 2px;
+	width: 2px;
+	top: -1px;
+	background: none;
+	border: none;
+}
+
+.MatcAnimationComposer .VommondSliderHandleIcon {
+	background: $primary_color none repeat scroll 0 0;
+	border-radius: 0;
+	display: inline-block;
+	height: 10px;
+	left: -5px;
+	position: absolute;
+	top: -3px;
+	transform: rotate(45deg);
+	width: 10px;
+
+	transition: opacity 0.2s;
+}
+
+.MatcAnimationComposer tr:hover .VommondSliderHandleIcon {
+	opacity: 1;
+}
+
+.MatcAnimationComposer .VommondSliderHandleLabel {
+	color: #999;
+	display: inline-block;
+	font-size: 12px;
+	left: -25px;
+	position: absolute;
+	text-align: center;
+	top: 12px;
+	width: 50px;
+}
+
+.MatcAnimationComposer .VommondSliderBar,
+.MatcAnimationComposer .VommondSliderHandleIcon {
+	background: $primary_color;
+}
+
+.MatcIconBorderLeft {
+	border-left: 1px solid #333;
+}
+
+.MatcAnimationComposerSimulator {
+	position: relative;
+}
+
+.MatcAnimationComposerSimulatorRun {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50px);
+	background: rgba(255, 255, 255, 0.0);
+	opacity: 0;
+	transition: all 0.2s;
+	text-align: center;
+	cursor: pointer;
+	font-size: 100px;
+	color: #fff;
+	text-shadow: 0 0 24px rgba(0, 0, 0, 0.25);
+}
+
+.MatcAnimationComposerSimulatorCover {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+
+.MatcAnimationComposerColumn:hover .MatcAnimationComposerSimulatorRun {
+	opacity: 1;
+}
+
+.MatcAnimationComposerAniamtionRunning .MatcAnimationComposerSimulatorRun:HOVER {
+	opacity: 0;
+}
+
+.MatcSimulatorHighlightInner {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	background: rgba(73, 192, 240, 0.3);
+	outline: 1px solid #49C0F0;
+}

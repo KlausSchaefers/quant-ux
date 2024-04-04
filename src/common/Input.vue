@@ -1,6 +1,6 @@
 
 <template>
-     <div :class="['VommondInput', {'VommondInputOpenTop': top}]">
+     <div :class="['VommondInput ', {'VommondInputOpenTop': top}]">
 		<!-- removed form because entremight trigger reloead -->
 		<input
 			type="text"
