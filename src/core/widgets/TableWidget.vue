@@ -267,7 +267,7 @@ export default {
         this.cells[i] = [];
         let tr = db.element("tr", "MatcWidgetTypeTableRow").build(tbody);
         this.trs.push(tr)
-        this.renderRowBorder(tr, i, style, borderStyle, columns.length);
+        this.renderRowBorder(tr, i, style, borderStyle, rows.length);
 
         let start = style.checkBox ? -1 : 0
         for (let j = start; j < row.length; j++) {
