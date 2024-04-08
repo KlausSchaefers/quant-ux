@@ -67,7 +67,7 @@ export default {
 				.tooltip("Add Link to other screen")
 				.build(parent);
 
-			db.span("mdi mdi-link-variant MatcButtonIcon").build(btn);
+			btn.appendChild(iconDOM("Link"))
 			db.span("MatcButtonIconLabel", "Add Link").build(btn);
 			this.tempOwn(on(btn, touch.press, lang.hitch(this, "onNewLine")));
 
@@ -164,21 +164,15 @@ export default {
 					 * Thing set, show drop down
 					 */
 					let row = db.div("MatcToolbarItem").build(parent);
-					let btn = this.$new(ToolbarDropDownButton, { maxLabelLength: 20 });
-					btn.setLabel('<span class="mdi mdi-plus-circle-outline"></span><span class="MatcButtonIconLabel">Add Action</span>');
+					let btn = this.$new(ToolbarDropDownButton, { maxLabelLength: 20, icon: "Link" });
+					btn.setLabel('Add Link');
 					btn.updateLabel = false;
 					btn.setOptions(this.getLineTypes());
 					btn.setPopupCss("MatcMultiActionDropDownPopup");
 					btn.reposition = true;
 					css.add(btn.domNode, "MatcMultiActionDropDown MatcToolbarButton MatcButton");
 					btn.placeAt(row);
-					//    btn.setShowListener(() => {
-					// 	   topic.publish("matc/canvas/fadeout", {});
-					//    });
-					//    btn.setHideListener(() => {
-					// 	   topic.publish("matc/canvas/fadein", {});
-					//    });
-
+		
 				} else if (action) {
 
 					let actionCntr = db.div("MatcToobarActionSelector").build(parent);
