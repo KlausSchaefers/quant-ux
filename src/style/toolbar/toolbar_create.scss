@@ -137,13 +137,21 @@
 }
 
 
-.MatcCreateBtnRemove {
+.MatcCreateBtnCntr .mdi.MatcCreateBtnRemove {
 	position: absolute;
 	display: none;
-	color: $color_danger;
+	color: #333;
 	top: 5px;
 	right: 5px;
+	background: #fff;
+	border-radius: 50%;
+	font-size: 24px;
 }
+
+.MatcCreateBtnCntr .mdi.MatcCreateBtnRemove:hover {
+	color: $color_danger;
+}
+
 
 .MatcCreateBtnElement:hover .MatcCreateBtnRemove {
 	display: block;
