@@ -82,12 +82,6 @@ export default {
         if (div) {
           parent.appendChild(div)
         }
-      } else {
-        for (let j = 0; j < 5; j++) {
-          const item = document.createElement("div");
-          css.add(item, "MatcListPlaceHolder");      
-          parent.appendChild(item)   
-        }   
       }
 
 

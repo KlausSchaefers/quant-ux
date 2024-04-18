@@ -111,11 +111,9 @@
         .MatcStudioAppList{
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 4px;
             flex-grow: 1;
             overflow: auto;
-
-            padding-left: 8px;//20px;
 
             .MatcStudioAppListLoading {
                 height: 40px;
@@ -126,9 +124,17 @@
 
             .MatcStudioAppListSelected {
                 font-weight: 600;
+                background: $page_color_secondary_dark;
             }
 
             a {
+
+                &:hover {
+                    background: $page_color_secondary_dark;
+                }
+
+                padding: 6px 12px;
+                border-radius: 12px;
       
                 .MatcStudioAppListLabel {
                     text-overflow: ellipsis;

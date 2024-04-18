@@ -25,10 +25,9 @@
 
 
 .MatcListFlexCntr {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 32px;
-	justify-content: space-between;
+	display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-gap: 32px 32px;
 
 	.MatcListPlaceHolder {
 		width: 230px;
