@@ -279,6 +279,8 @@
             border-radius: $form_radius;
             display: block;
             border: 1px solid transparent;
+            padding: 0px 8px;
+            margin-left: -8px;
         
             &:hover{
                 border: 1px dashed $gray_3;
@@ -287,7 +289,7 @@
 
             &:focus{
                 border: 1px solid $primary_color;
-                padding: 0px 8px;
+         
             }
         }
     }

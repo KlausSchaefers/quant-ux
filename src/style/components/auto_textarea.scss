@@ -47,15 +47,16 @@
     }
 
     &.MatcAutoTextAreaInline {
+        margin-left: -8px;
 
         > div {
-            padding: 8px 0px;
+            padding: 8px;
             transition: all 0.05s;
         }
         textarea {
             border: 1px dashed transparent ;
             background: none;
-            padding: 8px 0px;
+            padding: 8px;
             transition: all 0.05s;
             &:hover {
                 border: 1px dashed $form_border_hover ; 
