@@ -261,9 +261,16 @@ export default {
 				{ value:"grid", icon:"Grid", label : "Grid"}
 			]);
 
-			this._renderCheck("Auto Fill",model.props.auto, "auto" );
+			this._renderInputDropDown("Visibile Items", model, [
+				{label: 'All', value: 0},
+				{label: '10', value: 10},
+				{label: '20', value: 20},
+				{label: '50', value: 50}
+			], "itemToShow", true);
 
-			if (model.props.auto === false) {
+			// this._renderCheck("Auto Fill",model.props.auto, "auto" );
+
+			// if (model.props.auto === false) {
 
 				let margin = [
 					{label: 'Auto', value: -1},
@@ -280,7 +287,7 @@ export default {
 				if (model.props.layout === "grid") {
 					this._renderInputDropDown("Horizontal Spacing", model, margin, "distanceX", true);
 				}
-			}
+			// }
 		},
 
 		_showVerticalNavigation() {

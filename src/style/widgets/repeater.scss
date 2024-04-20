@@ -22,13 +22,12 @@
 }
 
 .MatcWidgetTypeRepeaterGrid{
-
+    position: absolute;
 }
 
 .MatcWidgetTypeRepeaterElement{
-    outline: 1px dashed #ccc;
-    position: relative;
-    vertical-align: top;
+    position: absolute;
+    opacity: 0.5;
 }
 
 .MatcWidgetTypeRepeaterGrid .MatcWidgetTypeRepeaterElement{

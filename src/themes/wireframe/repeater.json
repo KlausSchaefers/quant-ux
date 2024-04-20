@@ -12,11 +12,9 @@
 	"z" : 0,
 	"props" : {
 		"data": [],
-		"auto": true,
-		"rows": -1,
-		"columns": -1,
-		"layout": "rows",
-		"distanceX": 8,
+		"auto": false,
+		"layout": "grid",
+		"distanceX": -1,
 		"distanceY": 8
 	},
 	"isContainer": true,
