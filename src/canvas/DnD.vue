@@ -295,7 +295,11 @@ export default {
 
         this.updateLines(widget);
       } else {
-        console.warn("Widget with ", widgetID, " doe snot exits");
+        if (widgetID[0] !== 'g') {
+          console.warn("_updateChildWidget() > Widget with ", widgetID, " does not exits");
+        } else {
+          //console.debug("_updateChildWidget() > NO DND for group", widgetID);
+        }
       }
     },
 
@@ -493,7 +497,17 @@ export default {
       if (selectedMulti) {
         if (selectedMulti.indexOf(id) > -1) {
           this.logger.log(1, "_addDnDChildren", "exit > Multi : " + selectedMulti);
-          this._dragNDropChildren = selectedMulti;
+          /**
+					 * Since 5.0.3 multi selections can have groups.
+					 * we just ignore
+					 */
+          const selectedWidgets = selectedMulti.filter(id => {
+            return this.model.widgets[id]
+          })
+          if (selectedWidgets.length < selectedMulti.length){
+            this.logger.log(-1, "_addDnDChildren", "exit > Removed groups ", selectedWidgets);
+          }
+          this._dragNDropChildren = selectedWidgets;
         }
         return
       }
@@ -824,7 +838,7 @@ export default {
             positions[widgetID] = widgetPos;
             hasCopies = hasCopies || this.isMasterWidget(widget);
           } else {
-            console.warn("No Widget", widgetID);
+            console.warn("getDnDEndPosittions() > No Widget", widgetID);
           }
         }
         return [positions, hasCopies]

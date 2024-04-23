@@ -134,7 +134,13 @@ export default {
 					fixed = fixed && widget.style.fixed === true;
 					wrap = wrap && widget.style.wrap === true;
 				} else {
-					console.warn("showMultiProperties() > No widget with id" , id)
+					/**
+					 * Since 5.0.3 multi selections can have groups.
+					 * we just ignore
+					 */
+					if (id[0] !== 'g') {
+						console.warn("showMultiProperties() > No widget with id" , id)
+					}
 				}
 
 			}

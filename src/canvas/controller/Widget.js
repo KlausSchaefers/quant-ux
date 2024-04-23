@@ -92,7 +92,17 @@ export default class Widget extends Snapp {
 	alignWidgets (direction, source, target, ignoreGroups = false) {
 		this.logger.log(-1, "alignWidgets", "enter > " + direction + ' > ignore: ' + ignoreGroups, target, ignoreGroups);
 
+		/**
+		 * Since 5.0.3 multi selections can have groups.
+		 * we just ignore
+		 */
+
+		// source = source.filter(id => {
+		// 	return this.model.widgets[id]
+		// })
+
 		const targetBox = this.getBoundingBox(target);
+		const sourceBoundBox = this.getBoundingBox(source)
 		const positions = {};
 
 		for (let i=0; i < source.length; i++){
@@ -107,14 +117,22 @@ export default class Widget extends Snapp {
 				let sourceBox = widgetPos
 				positions[widgetID] = widgetPos;
 				const offset = {x:0,y:0};
+				const groupOffset = {x:0, y:0}
 				/**
-				 * In case there is a group, we set an offset!
-				 *
+				 * In case there is a group, and all children of the group are selected,
+				 * we use an offset
 				 */
-				const group = this.getParentGroup(widgetID);
+				const group = this.getParentGroupIfInSelection(widgetID, source);
+	
 				if (group && !ignoreGroups){
+					
 					const boundingBox = this.getBoundingBox(group.children);
-					offset.x = widgetPos.x - boundingBox.x;
+					groupOffset.x = boundingBox.x - sourceBoundBox.x
+					groupOffset.y = boundingBox.y - sourceBoundBox.y
+
+					console.debug(group.name, groupOffset)
+
+					offset.x = widgetPos.x - boundingBox.x
 					offset.y = widgetPos.y - boundingBox.y;
 					/**
 					 * 2.1.7: We use the bounding box as source box
@@ -124,16 +142,16 @@ export default class Widget extends Snapp {
 
 				switch(direction) {
 					case "top":
-						widgetPos.y = (targetBox.y + offset.y);
+						widgetPos.y = (targetBox.y + offset.y) + groupOffset.y;
 						break;
 					case "bottom":
-						widgetPos.y = ((targetBox.y + targetBox.h) -sourceBox.h) + offset.y;
+						widgetPos.y = ((targetBox.y + targetBox.h) - sourceBox.h) + offset.y - groupOffset.y;
 						break;
 					case "left":
-						widgetPos.x = targetBox.x + + offset.x;
+						widgetPos.x = targetBox.x + offset.x + groupOffset.x;
 						break;
 					case "right":
-						widgetPos.x = ((targetBox.x + targetBox.w) -sourceBox.w) +  offset.x;
+						widgetPos.x = ((targetBox.x + targetBox.w) - sourceBox.w) + offset.x - groupOffset.x;
 						break;
 					case "horizontal": {
 						let m = (targetBox.y + targetBox.h / 2);
@@ -150,8 +168,8 @@ export default class Widget extends Snapp {
 						break;
 				}
 
-			} else {
-				console.error("alignWidgets() > No widget with id", widgetID);
+			} else {		
+				console.warn("alignWidgets() > No widget with id", widgetID);
 			}
 		}
 
@@ -159,6 +177,37 @@ export default class Widget extends Snapp {
 
 		this.render();
 		this.renderAlignEnd();
+	}
+
+	getParentGroupIfInSelection(widgetID, selection,) {
+		const group = this.getParentGroup(widgetID);
+		if (group) {
+			const allChildren = this.getAllGroupChildren(group)
+			if (allChildren.length > selection.length) {
+				this.logger.log(-3,"getParentGroupIfInSelection", "exit > Group has more children than selection");
+				return
+			}
+			const selectedIDs = {}
+			selection.forEach(id => {
+				selectedIDs[id] = true
+			})
+
+			let count = 0
+			for (let i=0; i< allChildren.length; i++) {
+				const childID = allChildren[i]
+				if (!selectedIDs[childID]) {
+					this.logger.log(-3,"getParentGroupIfInSelection", `exit > Group child not selected ${childID}`);
+					return
+				} else {
+					count++
+				}
+			}
+			if (count == selection.length) {
+				this.logger.log(-3,"getParentGroupIfInSelection", `exit > All group children selected`, widgetID);
+				//return
+			}
+		}
+		return group
 	}
 
 	incMultiWidgetPosition (ids, x, y){

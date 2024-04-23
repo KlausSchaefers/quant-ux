@@ -10,7 +10,196 @@ export function getDistributionMatrix(model, ids) {
     }
 }
 
-export function getDistributionSets (model, type, ids) {
+export function getBoxesInSelection(model, selection, ignoreGroups = false) {
+    Logger.log(-1, "DistributionUtil.getBoxesInSelection", "enter");
+
+    selection = selection.filter(id => model.widgets[id])
+    if (ignoreGroups) {
+        return selection.map(id => {
+            console.debug(id)
+            return model.widgets[id]
+        })
+    } else {
+        // sort in widgets and groups
+        const result = []
+
+        const widgets = []
+        const groups = {}
+        for (let i = 0; i < selection.length; i++) {
+            const id = selection[i]       
+            const widget = model.widgets[id]
+            const group = getParentGroupIfInSelection(model, id, selection);
+            if (group) {
+                groups[group.id] = group
+            } else {
+                widgets.push({
+                    id: id,
+                    name: widget.name,
+                    x: widget.x,
+                    y: widget.y,
+                    h: widget.h,
+                    w: widget.w,
+                    children: [id]
+                })
+                Logger.log(3, "DistributionUtil.getBoxesInSelection", "Add " + widget.name + "(" + widget.id + ")");
+            }
+        }
+
+        // sort out nested child groups
+        const childGroups = {}
+        for (let groupId in groups) {
+            const group = groups[groupId]
+            if (group.groups) {
+                group.groups.forEach(childGroupId => {
+                    childGroups[childGroupId] = true
+                })
+            }
+        }
+
+        // build bounding box for all non child groups
+        for (let groupId in groups) {
+            const group = groups[groupId]
+            if (!childGroups[groupId]) {
+                const children = ModelUtil.getAllGroupChildren(group, model)
+                const bbox = getBoundingBox(model, children)
+                delete bbox.ids
+                bbox.children = children
+                bbox.id = groupId
+                bbox.name = group.name
+                result.push(bbox)
+                Logger.log(3, "DistributionUtil.getBoxesInSelection", "Add " + group.name + "(" + group.id + ")");
+            } else {
+                Logger.log(3, "DistributionUtil.getBoxesInSelection", "Ignore " + group.name + "(" + group.id + ")");
+            }
+        }
+
+        return result.concat(widgets)
+    }
+
+}
+
+function getParentGroupIfInSelection(model, widgetID, selection) {
+    const group = ModelUtil.getParentGroup(model, widgetID);
+    if (group) {
+        const allChildren = ModelUtil.getAllGroupChildren(group, model)
+        if (allChildren.length > selection.length) {
+            Logger.log(-3, "DistributionUtil.getParentGroupIfInSelection", "exit > Group has more children than selection");
+            return
+        }
+        const selectedIDs = {}
+        selection.forEach(id => {
+            selectedIDs[id] = true
+        })
+
+        let count = 0
+        for (let i = 0; i < allChildren.length; i++) {
+            const childID = allChildren[i]
+            if (!selectedIDs[childID]) {
+                Logger.log(-3, "DistributionUtil.getParentGroupIfInSelection", `exit > Group child not selected ${childID}`);
+                return
+            } else {
+                count++
+            }
+        }
+        if (count == selection.length) {
+            Logger.log(-3, "DistributionUtil.getParentGroupIfInSelection", `exit > All group children selected`, widgetID);
+            return
+        }
+    }
+    return group
+}
+
+export function alignWidgets(model, direction, source, target, ignoreGroups = false) {
+    Logger.log(-1, "DistributionUtil.alignWidgets", "enter > " + direction + ' > ignore: ' + ignoreGroups, target, ignoreGroups);
+
+    /**
+     * Since 5.0.3 multi selections can have groups.
+     * we just ignore
+     */
+
+    // source = source.filter(id => {
+    // 	return this.model.widgets[id]
+    // })
+
+    const targetBox = getBoundingBox(target);
+    const sourceBoundBox = getBoundingBox(source)
+    const positions = {};
+
+    for (let i = 0; i < source.length; i++) {
+        const widgetID = source[i];
+        const widget = this.model.widgets[widgetID];
+
+        if (widget) {
+            /**
+             * We copy the old position
+             */
+            const widgetPos = { x: widget.x, y: widget.y, h: widget.h, w: widget.w };
+            let sourceBox = widgetPos
+            positions[widgetID] = widgetPos;
+            const offset = { x: 0, y: 0 };
+            const groupOffset = { x: 0, y: 0 }
+            /**
+             * In case there is a group, and all children of the group are selected,
+             * we use an offset
+             */
+            const group = getParentGroupIfInSelection(model, widgetID, source);
+
+            if (group && !ignoreGroups) {
+
+                const boundingBox = this.getBoundingBox(group.children);
+                groupOffset.x = boundingBox.x - sourceBoundBox.x
+                groupOffset.y = boundingBox.y - sourceBoundBox.y
+
+                console.debug(group.name, groupOffset)
+
+                offset.x = widgetPos.x - boundingBox.x
+                offset.y = widgetPos.y - boundingBox.y;
+                /**
+                 * 2.1.7: We use the bounding box as source box
+                 */
+                sourceBox = boundingBox
+            }
+
+            switch (direction) {
+                case "top":
+                    widgetPos.y = (targetBox.y + offset.y) + groupOffset.y;
+                    break;
+                case "bottom":
+                    widgetPos.y = ((targetBox.y + targetBox.h) - sourceBox.h) + offset.y - groupOffset.y;
+                    break;
+                case "left":
+                    widgetPos.x = targetBox.x + offset.x + groupOffset.x;
+                    break;
+                case "right":
+                    widgetPos.x = ((targetBox.x + targetBox.w) - sourceBox.w) + offset.x - groupOffset.x;
+                    break;
+                case "horizontal": {
+                    let m = (targetBox.y + targetBox.h / 2);
+                    widgetPos.y = Math.round(m - sourceBox.h / 2) + offset.y;
+                    break;
+                }
+                case "vertical": {
+                    let m = (targetBox.x + targetBox.w / 2);
+                    widgetPos.x = Math.round(m - sourceBox.w / 2) + offset.x;
+                    break;
+                }
+                default:
+                    console.error("alignWidgets() > No method for " + direction);
+                    break;
+            }
+
+        } else {
+            console.warn("alignWidgets() > No widget with id", widgetID);
+        }
+    }
+
+
+}
+
+
+
+
+export function getDistributionSets(model, type, ids) {
     Logger.log(1, 'DistributionUtil.getDistributionSets() > enter')
     /**
      * 1) get all subsets (rows or columns) depending on type
@@ -262,18 +451,18 @@ function _getDistributedPositions(type, boxes, boundingBox) {
 * Get widget positions and bounding boxes for groups...
 */
 function _getSelectionGroupPositions(model, ids) {
-   const groups = {};
-   for (let i = 0; i < ids.length; i++) {
+    const groups = {};
+    for (let i = 0; i < ids.length; i++) {
         const widgetID = ids[i];
         const widget = model.widgets[widgetID];
         const group = ModelUtil.getParentGroup(model, widgetID);
         if (group) {
             const bbx = ModelGeom.getBoundingBox(group.children, model);
             if (!groups[group.id]) {
-               bbx.children = {};
-               groups[group.id] = bbx;
+                bbx.children = {};
+                groups[group.id] = bbx;
             }
-           
+
             groups[group.id].children[widgetID] = {
                 x: widget.x,
                 y: widget.y,
@@ -282,93 +471,93 @@ function _getSelectionGroupPositions(model, ids) {
                 offSetX: widget.x - bbx.x,
                 offSetY: widget.y - bbx.y
             };
-            
-       } else {
-           groups[widgetID] = {
-               x: widget.x,
-               y: widget.y,
-               h: widget.h,
-               w: widget.w
-           };
-       }
-   }
 
-  
-   return ModelUtil.getArrayFromObject(groups, "id");
+        } else {
+            groups[widgetID] = {
+                x: widget.x,
+                y: widget.y,
+                h: widget.h,
+                w: widget.w
+            };
+        }
+    }
+
+
+    return ModelUtil.getArrayFromObject(groups, "id");
 }
 
 
 
-export function _distributedPositionsBak (model, type, widgets, boundingBox) {
+export function _distributedPositionsBak(model, type, widgets, boundingBox) {
     var positions = {};
 
     var temp = [];
     for (let i = 0; i < widgets.length; i++) {
-      let widgetID = widgets[i];
-      let widget = model.widgets[widgetID];
-      temp.push(widget);
+        let widgetID = widgets[i];
+        let widget = model.widgets[widgetID];
+        temp.push(widget);
     }
 
-    temp.sort(function(a, b) {
-      if (type == "vertical") {
-        return a.y - b.y;
-      } else {
-        return a.x - b.x;
-      }
+    temp.sort(function (a, b) {
+        if (type == "vertical") {
+            return a.y - b.y;
+        } else {
+            return a.x - b.x;
+        }
     });
 
     var sum = 0;
     for (let i = 0; i < widgets.length; i++) {
-      let widget = temp[i];
-      if (type == "vertical") {
-        sum += widget.h;
-      } else {
-        sum += widget.w;
-      }
+        let widget = temp[i];
+        if (type == "vertical") {
+            sum += widget.h;
+        } else {
+            sum += widget.w;
+        }
     }
     var last = temp[temp.length - 1];
     if (type == "vertical") {
-      sum = boundingBox.h - sum;
+        sum = boundingBox.h - sum;
     } else {
-      sum = boundingBox.w - sum;
+        sum = boundingBox.w - sum;
     }
 
     var space = sum / (widgets.length - 1);
     last = 0;
 
     for (let i = 0; i < temp.length; i++) {
-      let widget = temp[i];
-      var widgetPos = { x: widget.x, y: widget.y, h: widget.h, w: widget.w };
-      if (i == 0) {
-        if (type == "vertical") {
-          widgetPos.y = boundingBox.y;
-          last = widgetPos.y + widgetPos.h;
+        let widget = temp[i];
+        var widgetPos = { x: widget.x, y: widget.y, h: widget.h, w: widget.w };
+        if (i == 0) {
+            if (type == "vertical") {
+                widgetPos.y = boundingBox.y;
+                last = widgetPos.y + widgetPos.h;
+            } else {
+                widgetPos.x = boundingBox.x;
+                last = widgetPos.x + widgetPos.w;
+            }
+        } else if (i == temp.length - 1) {
+            if (type == "vertical") {
+                widgetPos.y = Math.round(boundingBox.y + boundingBox.h - widget.h);
+            } else {
+                widgetPos.x = Math.round(boundingBox.x + boundingBox.w - widget.w);
+            }
         } else {
-          widgetPos.x = boundingBox.x;
-          last = widgetPos.x + widgetPos.w;
+            if (type == "vertical") {
+                widgetPos.y = Math.round(last + space);
+                last = Math.round(widgetPos.y + widgetPos.h);
+            } else {
+                widgetPos.x = Math.round(last + space);
+                last = Math.round(widgetPos.x + widgetPos.w);
+            }
         }
-      } else if (i == temp.length - 1) {
-        if (type == "vertical") {
-          widgetPos.y = Math.round(boundingBox.y + boundingBox.h - widget.h);
-        } else {
-          widgetPos.x = Math.round(boundingBox.x + boundingBox.w - widget.w);
-        }
-      } else {
-        if (type == "vertical") {
-          widgetPos.y = Math.round(last + space);
-          last = Math.round(widgetPos.y + widgetPos.h);
-        } else {
-          widgetPos.x = Math.round(last + space);
-          last = Math.round(widgetPos.x + widgetPos.w);
-        }
-      }
-      positions[widget.id] = widgetPos;
+        positions[widget.id] = widgetPos;
     }
 
-    Logger.log(0,"DistrubtionUtil.calculateDistributedPositions", "enter > " +type +" > space : " + space);
+    Logger.log(0, "DistrubtionUtil.calculateDistributedPositions", "enter > " + type + " > space : " + space);
 
     return positions;
-  }
+}
 
 
 export function getLines(model, selection) {
@@ -398,8 +587,8 @@ export function getLines(model, selection) {
     }
 }
 
-function addLine (result, line, id, attach, max) {
-    if (line > 0 && line < max){
+function addLine(result, line, id, attach, max) {
+    if (line > 0 && line < max) {
         if (!result[line]) {
             result[line] = {
                 lines: []
@@ -410,24 +599,24 @@ function addLine (result, line, id, attach, max) {
             attach: attach
         })
     }
-    
+
 }
 
 
-function getBoundingBox (model, ids) {
-    var result = { x: 100000000, y: 100000000, w: 0, h: 0 , isBoundingBox: true, ids: ids};
+function getBoundingBox(model, ids) {
+    var result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true, ids: ids };
 
     for (var i = 0; i < ids.length; i++) {
-      var id = ids[i];
-      var box = getBoxById(model, id);
-      if (box) {
-        result.x = Math.min(result.x, box.x);
-        result.y = Math.min(result.y, box.y);
-        result.w = Math.max(result.w, box.x + box.w);
-        result.h = Math.max(result.h, box.y + box.h);
-      } else {
-        console.warn("getBoundingBox() > No box with id", id);
-      }
+        var id = ids[i];
+        var box = getBoxById(model, id);
+        if (box) {
+            result.x = Math.min(result.x, box.x);
+            result.y = Math.min(result.y, box.y);
+            result.w = Math.max(result.w, box.x + box.w);
+            result.h = Math.max(result.h, box.y + box.h);
+        } else {
+            console.warn("getBoundingBox() > No box with id", id);
+        }
     }
     result.h -= result.y;
     result.w -= result.x;
@@ -435,7 +624,7 @@ function getBoundingBox (model, ids) {
 }
 
 
-function getBoxById (model, id) {
+function getBoxById(model, id) {
     if (model.widgets[id]) {
         return model.widgets[id];
     }

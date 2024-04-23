@@ -25,7 +25,7 @@
 import DojoWidget from 'dojo/DojoWidget'
 import Logger from 'common/Logger'
 import Util from 'core/Util'
-import ModelUtil from 'core/ModelUtil'
+import ModelUtil from '../../core/ModelUtil'
 import Tree from 'common/Tree'
 import {onStartDND} from '../../util/DND'
 
@@ -162,8 +162,12 @@ export default {
 
 				if (screenIDs.length > 0) {
 					this.canvas.setSelectedScreens(screenIDs);
-				} else {				
-					this.canvas.onMutliSelected(ids, true);					
+				} else {	
+					/**
+					 * Since 5.0.3 multi selections can have groups.
+					 */
+					const explodedIDs = ModelUtil.explodeGroupSelection(this.model, ids, true)					
+					this.canvas.onMutliSelected(explodedIDs, true);					
 				}			
 			}
 		},

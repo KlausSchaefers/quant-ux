@@ -1398,10 +1398,15 @@ export default {
 				if (widget) {
 					const parentScreen = this.getParentScreen(widget);
 					if (parentScreen) {
+
+						/**
+						 * Groups can have multiple children
+						 */
+						const allChildren = this.getAllGroupChildren(this._selectedGroup)
 						if (ignoreGroups) {
-							this.controller.alignWidgets(value, this._selectedGroup.children, this._selectedGroup.children, true);
+							this.controller.alignWidgets(value, allChildren, allChildren, true);
 						} else {
-							this.controller.alignWidgets(value, this._selectedGroup.children, [parentScreen.id]);
+							this.controller.alignWidgets(value, allChildren, [parentScreen.id]), false;
 						}
 				
 					} else {

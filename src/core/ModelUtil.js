@@ -30,25 +30,7 @@ class ModelUtil {
     }
 
     
-    getAllGroupChildren (group, model) {
-        if (!group.children) {
-          return []
-        }
-        let result = group.children.slice(0)
-        if (group.groups) {
-          group.groups.forEach(subId => {
-            const sub = model.groups[subId]
-            if (sub) {
-              const children = this.getAllGroupChildren(sub, model)
-              result = result.concat(children)
-            } else {
-              console.warn('ModelUtil.getAllGroupChildren() No sub group', subId)
-            }
-          })
-        }
-        return result
-    }
-  
+
 
     scaleToSelection(box, pos, type = '') {
         // for top and bottom we scale by height, otherwise by width
@@ -743,6 +725,31 @@ class ModelUtil {
 		}
 	}
 
+    explodeGroupSelection(model, selection, includeGroupIds=false) {
+        const result = {}
+
+        if (model.groups) {
+            for (let i = 0; i < selection.length; i++){
+                const id = selection[i]
+                const group = model.groups[id]
+                if (group) {
+                    console.debug('explodeGroupSelection() > add group', group)
+                    const allChildren = this.getAllGroupChildren(group, model)
+                    allChildren.forEach(childId => {
+                        result[childId] = true
+                    })
+                    if (includeGroupIds) {
+                        result[id] = true
+                    }
+                } else {
+                    result[id] = true
+                }
+            }
+        }
+
+        return Object.keys(result)
+    }
+
     getParentGroup(model, widgetID) {
 
         if (model.groups) {
@@ -766,6 +773,69 @@ class ModelUtil {
         return null;
     }
 
+    getAllGroupChildren (group, model) {
+        if (!group.children) {
+          return []
+        }
+        let result = group.children.slice(0)
+        if (group.groups) {
+          group.groups.forEach(subId => {
+            const sub = model.groups[subId]
+            if (sub) {
+              const children = this.getAllGroupChildren(sub, model)
+              result = result.concat(children)
+            } else {
+              console.warn('ModelUtil.getAllGroupChildren() No sub group', subId)
+            }
+          })
+        }
+        return result
+    }
+  
+
+    getTopParentGroup(model, id) {
+        let group = this.getParentGroup(model, id)
+        if (group) {
+            let i = 0
+            while (group) {
+                let parent = this.getParentGroup(model, group.id)
+                if (parent) {
+                    group = parent
+                } else {
+                    /**
+                     * In contrast the the Layout copz of this, we do not add
+                     * all children... not sure it this is needed
+                     */
+                    return group
+                }
+                i++
+                if (i > 32) {
+                    console.error('ModelUtil.getTopParentGroup() > To deep recursion for widget : ' + id, group)
+                    return null    
+                }
+            }
+        }
+        return null
+    }
+
+    getAllChildGroups (model, group) {
+        let result = []
+        if (group.groups) {
+            group.groups.forEach(subId => {
+            const sub = model.groups[subId]
+            if (sub) {
+                result.push(sub)
+                const children = this.getAllChildGroups(model, sub)
+                result = result.concat(children)
+            } else {
+                console.warn('getAllGroupChildren() No sub group', subId)
+            }
+          })
+        }
+        return result
+    }
+
+ 
     getArrayFromObject(obj, key) {
         const result = [];
         for (let i in obj) {
