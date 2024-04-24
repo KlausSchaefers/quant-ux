@@ -670,9 +670,11 @@ export default {
 			let grid = lang.clone(this.model.grid)
 			grid.visible = value
 			if (grid.type === "columns"){
-				this.controller.setGrid2(grid, "rgba(0,0,0,0.25)", "line");
+				const color = grid.color ? grid.color : "rgba(0,0,0,0.25)"
+				this.controller.setGrid2(grid, color, "line");
 			} else {
-				this.controller.setGrid2(grid, "#cecece", "line");
+				const color = grid.color ? grid.color : "#cecece"
+				this.controller.setGrid2(grid, color, "line");
 			}
 		},
 
@@ -683,9 +685,11 @@ export default {
 				var grid = selector.getValue();
 				this.gridBackground = {}
 				if (grid.type === "columns"){
-					this.controller.setGrid2(grid, "rgba(0,0,0,0.25)", "line");
+					const color = grid.color ? grid.color : "rgba(0,0,0,0.25)"
+					this.controller.setGrid2(grid, color, "line");
 				} else {
-					this.controller.setGrid2(grid, "#cecece", "line");
+					const color = grid.color ? grid.color : "#cecece"
+					this.controller.setGrid2(grid, color, "line");
 				}
 				this.closeDialog();
 			} else {

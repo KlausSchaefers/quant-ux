@@ -834,6 +834,17 @@
 
 .MatcToolbarPopUpCntr{
 	position: relative;
+
+	.MatcToolbarPopUpBackDrop{
+		content: '';
+		position: fixed;
+		top:0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+		background: rgba(0, 0, 0, 0.05);
+		z-index: 9000000;
+	}
 }
 
 .MatcToolbarPopUp {
@@ -849,7 +860,11 @@
 	input {
 		border-radius: $toolbar_form_radius;
 	}
+
+
 }
+
+
 
 .MatcToolbarPopUp.MatcToolbarPopUpDialog {
 	z-index: 9000000;

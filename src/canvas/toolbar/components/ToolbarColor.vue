@@ -12,6 +12,7 @@
 				<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInputInlineEdit" @mousedown.stop="" @click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput"/>
 			</div>
 		</div>
+		<div class="MatcToolbarPopUpBackDrop" v-if="isDialog && isOpen" @click="hideDropDown"></div>
 		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
 		</div>
 	</div>

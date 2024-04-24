@@ -148,3 +148,15 @@
         gap: 8px;
     }
 }
+
+.MatcDialogColorPicker .MatcToolbarColorButton{
+    padding: 0px;
+    height: 24px;
+
+    .MatcToolbarColorIndicator {
+        height: 24px;
+        width: 24px;
+        border-radius: 3px;
+        border: 1px solid #dbdbdb;
+    }
+}

@@ -12,6 +12,7 @@ import Logger from 'common/Logger'
 import DomBuilder from 'common/DomBuilder'
 import CheckBox from 'common/CheckBox'
 import SegmentButton from 'page/SegmentButton'
+import ToolbarColor from '../canvas/toolbar/components/ToolbarColor'
 
 export default {
     name: 'GridSelector',
@@ -19,7 +20,8 @@ export default {
     data: function () {
         return {
             defaultGutter: 10,
-            defaultColumns: 12
+            defaultColumns: 12,
+			color: ''
         }
     },
     components: {},
@@ -73,6 +75,13 @@ export default {
 			this.gridSnap.setLabel("Snapp to Grid");
 			this.gridSnap.placeAt(cntr);
 
+			cntr = db.div(" form-group MatcDialogColorPicker").build(row);
+			this.gridColor = this.$new(ToolbarColor, {isDialog: true, qIsDropDown:true, label:'Color'});
+			this.gridColor.placeAt(cntr);
+			this.gridColor.on("change", c => {
+				this.color = c
+			})
+
 
 			this.makeInt(this.gridWidth);
 			this.makeInt(this.gridHeight);
@@ -88,7 +97,7 @@ export default {
 
 		},
 
-		setValue:function(model){
+		setValue (model){
 			var grid = model.grid;
 			if (grid.type === "columns") {
 				this.type.setValue("columns");
@@ -101,6 +110,8 @@ export default {
 			this.gridWidth.value = grid.w;
 			this.gridVisible.setValue(grid.visible);
 			this.gridSnap.setValue(grid.enabled);
+			this.gridColor.setValue(grid.color)
+			this.color = grid.color
 
 			/**
 			 * Set default values for old models:
@@ -141,9 +152,9 @@ export default {
 			return gutter >= 0 && count >= 0 && offset >=0 && width >= 0 && w >=0 && h >= 0;
 		},
 
-		getValue:function(){
+		getValue (){
 			return  {
-				h:this.gridHeight.value,
+				h:this.gridHeight.value,				
 				w:this.gridWidth.value,
 				columnCount:this.columnCount.value,
 				columnOffset: this.columnOffset.value,
@@ -151,7 +162,8 @@ export default {
 				columnWidth:this.columnWidth.value,
 				type: this.type.getValue(),
 				visible: this.gridVisible.getValue(),
-				enabled: this.gridSnap.getValue()
+				enabled: this.gridSnap.getValue(),
+				color: this.color
 			};
 		},
 

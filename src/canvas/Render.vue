@@ -621,7 +621,6 @@ export default {
 
 
 		renderGrid (backgroundDiv){
-
 			if(this.model.grid && this.model.grid.visible){
 
 				let z = '1'
@@ -630,6 +629,7 @@ export default {
 					const h = this.model.grid.h * 1
 					const w = this.model.grid.w * 1
 				
+
 					if (!this.gridBackground[z]){
 						const columnCount = this.model.grid.columnCount * 1;
 						const columnOffset = this.model.grid.columnOffset * 1;
