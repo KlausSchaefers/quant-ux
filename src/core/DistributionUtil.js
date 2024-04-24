@@ -16,8 +16,16 @@ export function getBoxesInSelection(model, selection, ignoreGroups = false) {
     selection = selection.filter(id => model.widgets[id])
     if (ignoreGroups) {
         return selection.map(id => {
-            console.debug(id)
-            return model.widgets[id]
+            const widget = model.widgets[id]
+            return {
+                id: id,
+                name: widget.name,
+                x: widget.x,
+                y: widget.y,
+                h: widget.h,
+                w: widget.w,
+                children: [id]
+            }
         })
     } else {
         // sort in widgets and groups

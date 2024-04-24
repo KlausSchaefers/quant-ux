@@ -1,6 +1,7 @@
 import Snapp from './Snapp'
 import lang from '../../dojo/_base/lang'
 import * as TextUtil from '../../core/TextUtil'
+import * as DistributionUtil from '../../core/DistributionUtil'
 
 export default class Widget extends Snapp {
 
@@ -71,11 +72,12 @@ export default class Widget extends Snapp {
 	 **********************************************************************/
 
 
-	distributeWidgets (type, widgets){
-		this.logger.log(-1,"distributeWidgets", "enter > " +type, widgets);
+	distributeWidgets (type, selectedIDs){
+		this.logger.log(-1,"distributeWidgets", "enter > " +type, selectedIDs);
 
-		const bbx = this.getBoundingBox(widgets);
-		const positions = this._distributedPositions(type, widgets, bbx).positions;
+		selectedIDs = selectedIDs.filter(id => this.model.widgets[id])
+		const bbx = this.getBoundingBox(selectedIDs);
+		const positions = this._distributedPositions(type, selectedIDs, bbx).positions;
 
 		this.updateMultiWidgetPosition(positions, true);
 
@@ -97,86 +99,103 @@ export default class Widget extends Snapp {
 		 * we just ignore
 		 */
 
-		// source = source.filter(id => {
-		// 	return this.model.widgets[id]
-		// })
-
-		const targetBox = this.getBoundingBox(target);
-		const sourceBoundBox = this.getBoundingBox(source)
+		source = source.filter(id => this.model.widgets[id])
 		const positions = {};
+		const targetBBox = this.getBoundingBox(target);
+		const sourceBBox = this.getBoundingBox(source)
+		/**
+		 * First, we get just all the main boxes
+		 */
+		const boxes = DistributionUtil.getBoxesInSelection(this.model, source)
+		for (let i=0; i < boxes.length; i++){
+			/**
+			 * Second, we align the box
+			 */
+			const box = boxes[i]
+			const newBox = { x: box.x, y : box.y, h: box.h, w: box.w}
+			let sourceOffset = {top:0,left:0, right:0, bottom:0};
+			
 
-		for (let i=0; i < source.length; i++){
-			const widgetID = source[i];
-			const widget = this.model.widgets[widgetID];
-
-			if (widget) {
-				/**
-				 * We copy the old position
-				 */
-				const widgetPos = { x: widget.x, y : widget.y, h: widget.h, w: widget.w};
-				let sourceBox = widgetPos
-				positions[widgetID] = widgetPos;
-				const offset = {x:0,y:0};
-				const groupOffset = {x:0, y:0}
-				/**
-				 * In case there is a group, and all children of the group are selected,
-				 * we use an offset
-				 */
-				const group = this.getParentGroupIfInSelection(widgetID, source);
-	
-				if (group && !ignoreGroups){
-					
-					const boundingBox = this.getBoundingBox(group.children);
-					groupOffset.x = boundingBox.x - sourceBoundBox.x
-					groupOffset.y = boundingBox.y - sourceBoundBox.y
-
-					console.debug(group.name, groupOffset)
-
-					offset.x = widgetPos.x - boundingBox.x
-					offset.y = widgetPos.y - boundingBox.y;
-					/**
-					 * 2.1.7: We use the bounding box as source box
-					 */
-					sourceBox = boundingBox
+			if (ignoreGroups) {
+				this.getAlignedPosition(direction, targetBBox, box, box, sourceOffset, newBox)
+			} else {
+				sourceOffset = {
+					top: box.y - sourceBBox.y,
+					bottom: (sourceBBox.h + sourceBBox.y) - (box.h + box.y),
+					left: box.x - sourceBBox.x,
+					right: (sourceBBox.w + sourceBBox.x) - (box.w + box.x)
 				}
-
-				switch(direction) {
-					case "top":
-						widgetPos.y = (targetBox.y + offset.y) + groupOffset.y;
-						break;
-					case "bottom":
-						widgetPos.y = ((targetBox.y + targetBox.h) - sourceBox.h) + offset.y - groupOffset.y;
-						break;
-					case "left":
-						widgetPos.x = targetBox.x + offset.x + groupOffset.x;
-						break;
-					case "right":
-						widgetPos.x = ((targetBox.x + targetBox.w) - sourceBox.w) + offset.x - groupOffset.x;
-						break;
-					case "horizontal": {
-						let m = (targetBox.y + targetBox.h / 2);
-						widgetPos.y = Math.round(m - sourceBox.h / 2) +  offset.y;
-						break;
-					}
-					case "vertical": {
-						let m = (targetBox.x + targetBox.w / 2);
-						widgetPos.x = Math.round(m -sourceBox.w / 2) + offset.x;
-						break;
-					}
-					default:
-						console.error("alignWidgets() > No method for " + direction);
-						break;
-				}
-
-			} else {		
-				console.warn("alignWidgets() > No widget with id", widgetID);
+				this.getAlignedPosition(direction, targetBBox, sourceBBox, box, sourceOffset, newBox)
 			}
+
+			// const dif = {
+			// 	x: box.x - newBox.x,
+			// 	y: box.y - newBox.y
+			// }
+			// console.debug('', box.name, sourceOffset.top, sourceOffset.bottom, '===', dif.y)
+			// //console.debug('', box.name, sourceOffset.left, sourceOffset.right, '===', dif.x)
+
+			/**
+			 * Third, we transpose all children relative to the box
+			 */
+			box.children.forEach(id => {
+				const widget = this.model.widgets[id]
+				if (widget) {		
+					const boxOffset = {
+						x: widget.x - box.x,
+						y: widget.y - box.y
+					}
+					//console.debug('  - ', id, boxOffset)
+
+					const widgetPos = { 
+						x: newBox.x + boxOffset.x, 
+						y: newBox.y + boxOffset.y, 
+						h: widget.h, 
+						w: widget.w
+					}
+					positions[id] = widgetPos;
+				} else {
+					console.error('alignWidgets() > no widget', id)
+				}
+			 })			
+
 		}
+
 
 		this.updateMultiWidgetPosition(positions, true);
 
 		this.render();
 		this.renderAlignEnd();
+	}
+
+	getAlignedPosition (direction, targetBox, sourceBox, box, offset, widgetPos) {
+		switch(direction) {
+			case "top":
+				widgetPos.y = (targetBox.y + offset.top);
+				break;
+			case "bottom":
+				console.debug('bottom')
+				widgetPos.y = (targetBox.y + targetBox.h) - box.h - offset.bottom;
+				break;
+			case "left":
+				widgetPos.x = targetBox.x + offset.left;
+				break;
+			case "right":
+				widgetPos.x = ((targetBox.x + targetBox.w) - box.w) - offset.right;
+				break;
+			case "horizontal": {
+				let m = (targetBox.y + targetBox.h / 2);
+				let y = m - (sourceBox.h / 2)
+				widgetPos.y = Math.round(y + (offset.top));
+				break;
+			}
+			case "vertical": {
+				let m = (targetBox.x + targetBox.w / 2);
+				let x = m - (sourceBox.w / 2)
+				widgetPos.x = Math.round(x + offset.left);
+				break;
+			}
+		}
 	}
 
 	getParentGroupIfInSelection(widgetID, selection,) {

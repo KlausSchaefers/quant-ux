@@ -54,6 +54,7 @@ export default {
         }
     }, 
     mounted () {
+        this.addTooltip(this.$el, "Hold SHIFT to align within groups")
     }
 }
 </script>

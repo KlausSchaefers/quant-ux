@@ -1374,7 +1374,7 @@ export default {
 				/**
 				 * in case we are in a selction we will align to the selection!
 				 */
-				this.controller.alignWidgets(value, this._selectedMulti, this._selectedMulti, ignoreGroups);
+				this.controller.alignWidgets(value, this._selectedMulti, this._selectedMulti, true);
 
 			} else if (this._selectedWidget) {
 				/**
