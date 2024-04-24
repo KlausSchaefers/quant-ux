@@ -1,5 +1,5 @@
 <template>
-    <div class="MatcCanvasCommentDialog" @click.stop @mousedown.stop @keyup.stop @keydown.stop @dblclick.stop>
+    <div class="MatcCanvasCommentDialog" @click.stop @mousedown.stop @keyup.stop @keydown.stop @dblclick.stop @click.right.stop>
         <div class="MatcCanvasCommentDialogHeader" v-if="!isNew">
             <QIcon icon="SVGChevronLeft" @click="onNext(-1, $event)" />
             <QIcon icon="SVGChevronRight" @click="onNext(1, $event)"/>

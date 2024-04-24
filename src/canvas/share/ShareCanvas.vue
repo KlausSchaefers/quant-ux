@@ -258,13 +258,13 @@ export default {
 			}, 400);
 
 
-			var lineButton = this.db.div("MatcTestQRButton MatcShareLine MatcAnimated MatcFadeOut").build(this.domNode);
-			this.db.span("mdi mdi-vector-line MatcMiddle").build(lineButton);
-			this.own(on(lineButton, "click", lang.hitch(this, "onTogggleLine")));
+			// var lineButton = this.db.div("MatcTestQRButton MatcShareLine MatcAnimated MatcFadeOut").build(this.domNode);
+			// this.db.span("mdi mdi-vector-line MatcMiddle").build(lineButton);
+			// this.own(on(lineButton, "click", lang.hitch(this, "onTogggleLine")));
 
-			setTimeout(function () {
-				css.remove(lineButton, "MatcFadeOut")
-			}, 500);
+			// setTimeout(function () {
+			// 	css.remove(lineButton, "MatcFadeOut")
+			// }, 500);
 
 		},
 

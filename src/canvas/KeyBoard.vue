@@ -63,7 +63,7 @@ export default {
         /**
          * IF we have a dialog open, we return
          */
-        if (this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog()) {
+        if (this.state == "simulate" || this.state == "dialog" || Dialog.getCurrentDialog() || this._commentWidget) {
           this.logger.log(1 ,"onKeyPress", "exit because of dialog");
           return;
         }
