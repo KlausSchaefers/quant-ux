@@ -3,11 +3,11 @@
 .MatcLoginPage {
   font-size: 14px;
   height: 100vh;
-  background: linear-gradient(30deg, $primary_color 0%, $primary_color_hover 100%);
+  #background: linear-gradient(30deg, $primary_color 0%, $primary_color_hover 100%);
 }
 
 .MatcLoginPageReset {
-  background: linear-gradient(30deg, $color_danger 0%, $color_danger_hover 100%);
+  #background: linear-gradient(30deg, $color_danger 0%, $color_danger_hover 100%);
 }
 
 .MatcLoginPageDialog {
@@ -23,7 +23,7 @@
 	background: #fefefe;
 	color: #333;
 	border-radius: 5px;
-	box-shadow: 0px 0px 24px rgba(0,0,0, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   overflow: hidden;
 
     .MatcToolbarTabs.MatcToolbarTabsBig{
