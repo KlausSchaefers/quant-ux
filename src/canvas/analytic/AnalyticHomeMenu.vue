@@ -43,7 +43,7 @@ export default {
             tools: [               
                 {value: 'onExit', icon: '', label: this.getNLS('toolbar.menu.exit')},
                 {value: 3, css:'MatcToolbarPopUpLine'},
-                {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.settings')},       
+                {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.mode')},       
                 {value: 'showHelp', icon: '', label: this.getNLS('toolbar.menu.help')},         
             ]
         }

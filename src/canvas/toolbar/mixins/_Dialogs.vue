@@ -8,7 +8,7 @@ import touch from 'dojo/touch'
 import hash from 'dojo/hash'
 import domGeom from 'dojo/domGeom'
 import win from 'dojo/win'
-import CheckBox from 'common/CheckBox'
+//import CheckBox from 'common/CheckBox'
 import Dialog from 'common/Dialog'
 import DomBuilder from 'common/DomBuilder'
 import Simulator from 'core/Simulator'
@@ -573,63 +573,63 @@ export default {
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);
 
-			/**
-			 * Keep color boxes open
-			 */
-			db.label("MatcMarginTop", "Other:").build(cntr);
+			// /**
+			//  * Keep color boxes open
+			//  */
+			// db.label("MatcMarginTop", "Other:").build(cntr);
 
-			const selectMoveCntr = db.div("form-group").build(cntr);
-			const selectMoveBox = this.$new(CheckBox);
-			selectMoveBox.setLabel("Select to move");
-			selectMoveBox.setValue(settings.selectMove);
-			selectMoveBox.placeAt(selectMoveCntr);
+			// const selectMoveCntr = db.div("form-group").build(cntr);
+			// const selectMoveBox = this.$new(CheckBox);
+			// selectMoveBox.setLabel("Select to move");
+			// selectMoveBox.setValue(settings.selectMove);
+			// selectMoveBox.placeAt(selectMoveCntr);
 
-			const selectScreenCntr = db.div("form-group").build(cntr);
-			const selectScreenCheckBox = this.$new(CheckBox);
-			selectScreenCheckBox.setLabel("Click on screen will select");
-			selectScreenCheckBox.setValue(settings.hasSelectOnScreen);
-			selectScreenCheckBox.placeAt(selectScreenCntr);
+			// const selectScreenCntr = db.div("form-group").build(cntr);
+			// const selectScreenCheckBox = this.$new(CheckBox);
+			// selectScreenCheckBox.setLabel("Click on screen will select");
+			// selectScreenCheckBox.setValue(settings.hasSelectOnScreen);
+			// selectScreenCheckBox.placeAt(selectScreenCntr);
 
-			const qrCodeCheckBoxCntr = db.div("form-group").build(cntr);
-			const qrCodeCheckBox = this.$new(CheckBox);
-			qrCodeCheckBox.setLabel("Show QR Code in simulator");
-			qrCodeCheckBox.setValue(settings.hasQRCode);
-			qrCodeCheckBox.placeAt(qrCodeCheckBoxCntr);
+			// const qrCodeCheckBoxCntr = db.div("form-group").build(cntr);
+			// const qrCodeCheckBox = this.$new(CheckBox);
+			// qrCodeCheckBox.setLabel("Show QR Code in simulator");
+			// qrCodeCheckBox.setValue(settings.hasQRCode);
+			// qrCodeCheckBox.placeAt(qrCodeCheckBoxCntr);
 
-			const colorCntr = db.div("form-group").build(cntr);
-			const colorPicker = this.$new(CheckBox);
-			colorPicker.setLabel("Keep colorpicker open");
-			colorPicker.setValue(settings.keepColorWidgetOpen);
-			colorPicker.placeAt(colorCntr);
+			// const colorCntr = db.div("form-group").build(cntr);
+			// const colorPicker = this.$new(CheckBox);
+			// colorPicker.setLabel("Keep colorpicker open");
+			// colorPicker.setValue(settings.keepColorWidgetOpen);
+			// colorPicker.placeAt(colorCntr);
 
-			const zoomCntr = db.div("form-group").build(cntr);
-			const zoomChkBox = this.$new(CheckBox);
-			zoomChkBox.setLabel("Snapp on zoom");
-			zoomChkBox.setValue(settings.zoomSnapp);
-			zoomChkBox.placeAt(zoomCntr);
+			// const zoomCntr = db.div("form-group").build(cntr);
+			// const zoomChkBox = this.$new(CheckBox);
+			// zoomChkBox.setLabel("Snapp on zoom");
+			// zoomChkBox.setValue(settings.zoomSnapp);
+			// zoomChkBox.placeAt(zoomCntr);
 
-			const designTokenCntr = db.div("form-group").build(cntr);
-			const designTokenCheckBox = this.$new(CheckBox);
-			designTokenCheckBox.setLabel("Show Design Tokens");
-			designTokenCheckBox.setValue(settings.hasDesignToken);
-			designTokenCheckBox.placeAt(designTokenCntr);
-
-
-			/**
-			 * Since 3.0.43 we snapp by default to top left corner
-			 */
-			 const gridSnapTopLeftCntr = db.div("form-group").build(cntr);
-			 const gridSnapTopLeftChkBox = this.$new(CheckBox);
-			gridSnapTopLeftChkBox.setLabel("Snap grid to top left corner");
-			gridSnapTopLeftChkBox.setValue(settings.snapGridOnlyToTopLeft);
-			gridSnapTopLeftChkBox.placeAt(gridSnapTopLeftCntr);
+			// const designTokenCntr = db.div("form-group").build(cntr);
+			// const designTokenCheckBox = this.$new(CheckBox);
+			// designTokenCheckBox.setLabel("Show Design Tokens");
+			// designTokenCheckBox.setValue(settings.hasDesignToken);
+			// designTokenCheckBox.placeAt(designTokenCntr);
 
 
-			const protoMotoCntr = db.div("form-group").build(cntr);
-			const protoMotoCheckBox = this.$new(CheckBox);
-			protoMotoCheckBox.setLabel("Enable Beta Features");
-			protoMotoCheckBox.setValue(settings.hasProtoMoto);
-			protoMotoCheckBox.placeAt(protoMotoCntr);
+			// /**
+			//  * Since 3.0.43 we snapp by default to top left corner
+			//  */
+			//  const gridSnapTopLeftCntr = db.div("form-group").build(cntr);
+			//  const gridSnapTopLeftChkBox = this.$new(CheckBox);
+			// gridSnapTopLeftChkBox.setLabel("Snap grid to top left corner");
+			// gridSnapTopLeftChkBox.setValue(settings.snapGridOnlyToTopLeft);
+			// gridSnapTopLeftChkBox.placeAt(gridSnapTopLeftCntr);
+
+
+			// const protoMotoCntr = db.div("form-group").build(cntr);
+			// const protoMotoCheckBox = this.$new(CheckBox);
+			// protoMotoCheckBox.setLabel("Enable Beta Features");
+			// protoMotoCheckBox.setValue(settings.hasProtoMoto);
+			// protoMotoCheckBox.placeAt(protoMotoCntr);
 
 			const bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
 
@@ -640,9 +640,10 @@ export default {
 			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
 			dialog.own(on(save, touch.press, lang.hitch(
-				this, "onSaveSettings", dialog, themeList, colorPicker, zoomChkBox,
-				protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox, selectScreenCheckBox,
-				qrCodeCheckBox
+				this, "onSaveSettings", dialog, themeList
+				// , colorPicker, zoomChkBox,
+				// protoMotoCheckBox, gridSnapTopLeftChkBox, selectMoveBox, designTokenCheckBox, selectScreenCheckBox,
+				// qrCodeCheckBox
 			)));
 
 			dialog.popup(popup, this.template);
@@ -653,18 +654,20 @@ export default {
 			this.logger.log(0, "onShowSettings", "exit > ");
 		},
 
-		onSaveSettings(dialog, themeList, colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox,
-			selectMoveBox, designTokenCheckBox, selectScreenCheckBox, qrCodeCheckBox) {
+		onSaveSettings(dialog, themeList, 
+			// colorPicker, zoomChkBox, protoMotoCheckBox, gridSnapTopLeftChkBox,
+			// selectMoveBox, designTokenCheckBox, selectScreenCheckBox, qrCodeCheckBox
+		) {
 			const settings = {
-				canvasTheme: themeList.getValue(),
-				keepColorWidgetOpen: colorPicker.getValue(),
-				zoomSnapp: zoomChkBox.getValue(),
-				hasProtoMoto: protoMotoCheckBox.getValue(),
-				snapGridOnlyToTopLeft: gridSnapTopLeftChkBox.getValue(),
-				selectMove: selectMoveBox.getValue(),
-				hasDesignToken: designTokenCheckBox.getValue(),
-				hasSelectOnScreen: selectScreenCheckBox.getValue(),
-				hasQRCode: qrCodeCheckBox.getValue()
+				canvasTheme: themeList.getValue()
+				// keepColorWidgetOpen: colorPicker.getValue(),
+				// zoomSnapp: zoomChkBox.getValue(),
+				// hasProtoMoto: protoMotoCheckBox.getValue(),
+				// snapGridOnlyToTopLeft: gridSnapTopLeftChkBox.getValue(),
+				// selectMove: selectMoveBox.getValue(),
+				// hasDesignToken: designTokenCheckBox.getValue(),
+				// hasSelectOnScreen: selectScreenCheckBox.getValue(),
+				// hasQRCode: qrCodeCheckBox.getValue()
 			};
 
 			this.canvas.setSettings(settings);

@@ -168,6 +168,7 @@
         "menu": {
             "start": "Start Simulator",
             "settings": "Settings",
+            "mode": "Light & Dark Mode",
             "shortcuts": "Keyboard Shortcuts",
             "share": "Share",
             "import": "Import",

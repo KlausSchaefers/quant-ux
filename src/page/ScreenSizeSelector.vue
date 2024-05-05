@@ -42,16 +42,6 @@ export default {
           screenSize: { w: 414, h: 736 },
           factor: 2
         },
-        "IPhone 5 / 6SE": {
-          type: "smartphone",
-          screenSize: { w: 320, h: 568 },
-          factor: 2
-        },
-        "Galaxy S6": {
-          type: "smartphone",
-          screenSize: { w: 360, h: 640 },
-          factor: 3
-        },
         "IPad (Vertical)": {
           type: "tablet",
           screenSize: { w: 768, h: 1024 },

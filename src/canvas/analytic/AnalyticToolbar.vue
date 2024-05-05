@@ -1112,17 +1112,17 @@ export default {
 			themeList.setValue(settings.canvasTheme);
 			themeList.placeAt(cntr);
 
-			/**
-			 * Mouse Wheel
-			 */
-			db.label("MatcMarginTop","Mouse Wheel / Touchpad Scroll :").build(cntr);
-			var mouseWheelList = this.$new(RadioBoxList);
-			mouseWheelList.setOptions([
-				{value:"scroll", label: "Scroll Canvas"},
-				{value:"zoom", label:"Zoom Canvas"}
-			]);
-			mouseWheelList.setValue(settings.mouseWheelMode);
-			mouseWheelList.placeAt(cntr);
+			// /**
+			//  * Mouse Wheel
+			//  */
+			// db.label("MatcMarginTop","Mouse Wheel / Touchpad Scroll :").build(cntr);
+			// var mouseWheelList = this.$new(RadioBoxList);
+			// mouseWheelList.setOptions([
+			// 	{value:"scroll", label: "Scroll Canvas"},
+			// 	{value:"zoom", label:"Zoom Canvas"}
+			// ]);
+			// mouseWheelList.setValue(settings.mouseWheelMode);
+			// mouseWheelList.placeAt(cntr);
 
 
 			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
@@ -1133,7 +1133,7 @@ export default {
 
 			var dialog = new Dialog();
 			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
-			dialog.own(on(save, touch.press, lang.hitch(this, "onSaveSettings", dialog, themeList, mouseWheelList)));
+			dialog.own(on(save, touch.press, lang.hitch(this, "onSaveSettings", dialog, themeList)));
 
 			dialog.popup(popup, e.target);
 
@@ -1143,10 +1143,10 @@ export default {
 			this.logger.log(0,"onShowSettings", "exit > ");
 		},
 
-		onSaveSettings(dialog, themeList,mouseWheelList){
+		onSaveSettings(dialog, themeList){
 			var settings = {
 				canvasTheme: themeList.getValue(),
-				mouseWheelMode : mouseWheelList.getValue()
+				// mouseWheelMode : mouseWheelList.getValue()
 			};
 
 			this.canvas.setSettings(settings);
