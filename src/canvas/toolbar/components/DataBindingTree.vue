@@ -11,9 +11,6 @@
          
             </div>
          <div v-if="model" class="MatcDialogTable">
-          
-    
-     
               <table>                  
                  <tbody>
                     <tr class="" v-for="variable in modelVariables" :key="variable.name">
@@ -117,7 +114,9 @@ export default {
         },
         modelVariables () {          
             const selectedVaribale = this.databinding[this.selectedVaribaleType]           
-			let result = this.variables.map(v => {
+			const result = this.variables.filter(v => {
+                return v.length > 0
+            }).map(v => {
                 return {
                     name: v,
                     selected: selectedVaribale === v,

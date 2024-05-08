@@ -81,7 +81,7 @@ export default {
 			var d = new Dialog({ overflow: true });
 
 			var div = this.db.div("MatcToolbarScreenListDialog MatcPadding").build();
-			this.db.label("", "Select Parent Screen").build(div);
+			this.db.label("", "Select Master Screen").build(div);
 			var cntr = this.db.div("MatcToolbarScreenListDialogCntr").build(div);
 			var list = this.db.div().build();
 
