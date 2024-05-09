@@ -73,7 +73,6 @@ export default {
 		},
 
 
-
 		update  (){
 
 		},
@@ -99,11 +98,11 @@ export default {
 		getDelta  (value){
 			var delta = {};
 			for(var key in value){
-				var o = this.orginalValue[key];
+				//var o = this.orginalValue[key];
 				var n = value[key];
-				if(o != n){
+				//if(o != n){
 					delta[key] = n;
-				}
+				//}
 			}
 			return delta;
 		},

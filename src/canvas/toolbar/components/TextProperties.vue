@@ -111,7 +111,7 @@ export default {
 
 
 	  this.fontSize = this.$new(InputDropDownButton);
-	  this.fontSize.setOptions(["Auto",10,12,14, 16, 20,24,28,32,40,50,60,70,80,100,120]);
+	  this.fontSize.setOptions(["Auto",8,10,12,14, 16, 20,24,28,32,40,48,64,96,128]);
 	  css.add(this.fontSize.domNode, 'MatcTextPropertiesFontSize')
 	  this.fontSize.reposition = true;
 	  this.fontSize.isChildDropDown = this.isChildDropDown
