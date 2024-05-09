@@ -3,22 +3,21 @@
 .MatcLoginPage {
   font-size: 14px;
   height: 100vh;
-  #background: linear-gradient(30deg, $primary_color 0%, $primary_color_hover 100%);
 }
 
 .MatcLoginPageReset {
-  #background: linear-gradient(30deg, $color_danger 0%, $color_danger_hover 100%);
+  background: linear-gradient(30deg, $color_danger 0%, $color_danger_hover 100%);
 }
 
 .MatcLoginPageDialog {
 	position: fixed;
-  transform: translateY(-50%) translateX(-200px);
+  transform: translateY(-50%) translateX(-240px);
 	top:50%;
 	left:50%;
 }
 
 .MatcLoginPageContainer {
-	width: 400px;
+	width: 480px;
 	text-align: left;
 	background: #fefefe;
 	color: #333;
@@ -47,6 +46,7 @@
     display: flex;
     gap: 16px;
     flex-direction: column;
+    height: 200px;
 
     .form-group {
       margin-bottom: 0px;
@@ -63,6 +63,11 @@
     display: block;
   }
 
+  .MatcLoginPageSection{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
   .MatcLoginWrapper {
     width: 300%;

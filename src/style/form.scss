@@ -156,6 +156,7 @@ input:focus {
 
 .MatcButtonFulLWidth {
 	width: 100%;
+	text-align: center;
 }
 
 .MatcButtonPrimary {
@@ -244,10 +245,6 @@ input:focus {
 	}
 }
 
-.MatcButtonFullWidth {
-	width: 100%;
-	text-align: center;
-}
 
 
 .MatcButtonIcon {
@@ -741,7 +738,7 @@ input:focus {
 .MatcFormCheckBox .VommondCheckBox {
 	height: 24px;
 	width: 24px;
-	border-radius: 3px;
+	border-radius: $form_radius;
 	background-image: none;
 }
 
