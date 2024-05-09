@@ -1,5 +1,5 @@
 <template>
-    <div class=" MatcCreateBtn MatcToolbarArrowDropDown MatcToolbarDropDownButton">
+    <div class=" MatcCreateBtn MatcToolbarArrowDropDown MatcToolbarDropDownButton vommondToolTipCntr">
 	<div type="button" ref="button" :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'add'}]">	
 			<QIcon icon="AddWidget" />		
 			<!-- <span class="caret"></span> -->

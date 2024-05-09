@@ -26,16 +26,16 @@
 						</div> 
 
 						<div class="MatcToolbarSection" v-show="!svgEditorVisible" >				
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit" v-show="hasScreens">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit" v-show="hasScreens">
 								<QIcon icon="Edit" />
 							</div> 
 
 
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove" v-show="hasScreens">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove" v-show="hasScreens">
 								<QIcon icon="EditMove" />
 							</div>
 						
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
 								<QIcon icon="DevicesAdd" />
 								<!-- <span class="MatcToolbarResponsiveLabel">Screen</span>    						 -->
 							</div>
@@ -46,7 +46,7 @@
 							<CreateVectorButton @add="onToolSVG" v-if="false" />	
 
 
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
 								<QIcon icon="Comment" />
 							</div>		
 							

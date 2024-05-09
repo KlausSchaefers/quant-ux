@@ -1,6 +1,6 @@
 
 <template>
-    <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton">
+    <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton vommondToolTipCntr">
 		<div type="button" ref="button" :class="[
             'MatcToolbarItem MatcToolbarPrimaryItem', 
             {'MatcToolbarItemSelected': (mode === 'addBox'|| mode=== 'addText' || mode === 'hotspot' || mode === 'addRest' || mode === 'addLogic' || mode === 'addScript')}

@@ -72,7 +72,7 @@ export default {
       this.value.hasDataView = false
       this.canvasViewMode = 'prototype'
       this.$emit('canvasViewMode', this.canvasViewMode)
-      this.$emit('change', 'hasDataView', false)
+      this.$emit('change', 'hasDataView', true)
       this.$emit('change', 'renderLines', true)
       this.setSelected(this.$refs.btnProto)
     },
