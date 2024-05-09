@@ -38,7 +38,7 @@ export default {
 
 		renderIntBox  (parent){
 			const input = this.$new(InputDropDownButton);
-			input.setOptions([0, 2, 3, 4, 8, 16, 32, 48, 64, 128]);
+			input.setOptions([0, 2, 3, 4, 8, 12, 16, 18, 24, 32, 64, 128]);
 			input.reposition = true;
 			input.placeAt(parent);
 			//input.render();
