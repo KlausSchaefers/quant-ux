@@ -31,11 +31,11 @@ export default {
             left: 0,
             top: 0,
             options: [
-                { value: 'undo', icon: 'Undo', label: 'Undo', shortcut: 'STRG + Z' },
-                { value: 'redo', icon: 'Redo', label: 'Redo', shortcut: 'STRG + SHIFT + Z' },
+                { value: 'undo', icon: 'Undo', label: 'Undo', shortcut: 'CTRL + Z' },
+                { value: 'redo', icon: 'Redo', label: 'Redo', shortcut: 'CTRL + SHIFT + Z' },
                 { value: 1, css: 'MatcToolbarPopUpLine' },
-                { value: 'copy', icon: 'Copy', label: 'Copy', shortcut: 'STRG + C' },
-                { value: 'paste', icon: 'Paste', label: 'Paste', shortcut: 'STRG + V' },
+                { value: 'copy', icon: 'Copy', label: 'Copy', shortcut: 'CTRL + C' },
+                { value: 'paste', icon: 'Paste', label: 'Paste', shortcut: 'CTRL + V' },
                 { value: 'remove', icon: 'Delete', label: 'Delete', shortcut: 'DEL' },
                 { value: 'copyStyle', icon: 'CopyStyle', label: 'Copy Style', shortcut: '' }
             ]

@@ -380,7 +380,7 @@ export default {
        */
       this.settings = {
         canvasTheme: "MatcLight",
-        lineColor: "#333",
+        lineColor: "#365fff",
         lineWidth: 1,
         storePropView: true,
         moveMode: "ps",
@@ -480,9 +480,9 @@ export default {
       this._lastCanvasTheme = canvasTheme;
 
       if (canvasTheme == "MatcLight") {
-        this.defaultLineColor = "#49C0F0";
+        this.defaultLineColor = "#365fff";
       } else {
-        this.defaultLineColor = "#49C0F0";
+        this.defaultLineColor = "#365fff";
       }
     },
 

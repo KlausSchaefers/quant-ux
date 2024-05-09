@@ -9,7 +9,7 @@ export default {
         return {
 			straightLineFunction: d3.line().x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }),
 			smoothLineFunction: d3.line().curve(d3.curveBasis).x(function(d) { return d.x-.5; }).y(function(d) { return d.y-.5; }), // basis
-			defaultLineColor : "#3787f2",
+			defaultLineColor : "#365fff",
 			defaultLineWidth: 2,
 			arrowCorrect : 3,
 			arrowSize : 8,

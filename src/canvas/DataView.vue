@@ -21,10 +21,10 @@ export default {
         setDataView (value) {
             this.logger.log(-1,"setDataView", "enter", value);
             if (value === true) {
-                css.add(this.container, "MatcCanvasDataView");
+                //css.add(this.container, "MatcCanvasDataView");
                 this.hasDataView = true
             } else {
-                css.remove(this.container, "MatcCanvasDataView");
+                // css.remove(this.container, "MatcCanvasDataView");
                 this.hasDataView = false
                 this.cleanDataView()
             }

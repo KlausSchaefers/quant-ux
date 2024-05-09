@@ -424,7 +424,7 @@ export default {
 			 */
 			this.settings = {
 				canvasTheme : "MatcAuto",
-				lineColor : "#3787f2",
+				lineColor : "#365fff",
 				lineWidth : 1,
 				storePropView : true,
 				moveMode : "ps",
@@ -599,10 +599,10 @@ export default {
 			css.add(win.body(), canvasTheme)
 			this._lastCanvasTheme = canvasTheme;
 		
-			if(canvasTheme=="MatcLight"){
-				this.defaultLineColor = "#49C0F0";
+			if(canvasTheme === "MatcLight"){
+				this.defaultLineColor = "#365fff";
 			} else {
-				this.defaultLineColor = "#49C0F0";
+				this.defaultLineColor = "#365fff";
 			}
 		},
 

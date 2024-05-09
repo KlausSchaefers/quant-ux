@@ -488,7 +488,7 @@ export default {
 			this.scroller = this.$new(ScrollContainer);
 			this.scroller.placeAt(this.rightCntr);
 
-			this.iconCntr = db.div("").build();
+			this.iconCntr = db.div("MatcCreateBtnIconCntr").build();
 			this.scroller.wrap(this.iconCntr);
 
 
@@ -661,6 +661,7 @@ export default {
 				this.iconCntr.innerHTML="";
 			}
 			this.iconCntr.appendChild(cntr);
+			this.scrollToTop()
 		},
 
 		renderIcons (query){
@@ -693,8 +694,10 @@ export default {
 				this.iconCntr.innerHTML="";
 			}
 			this.iconCntr.appendChild(cntr);
+			this.scrollToTop()
 		},
 
+		
 		onCreateIcon (icon, e){
 			this.stopEvent(e);
 
@@ -915,8 +918,17 @@ export default {
 			}
 
 			this.iconCntr.appendChild(cntr);
-
+			this.scrollToTop()
 		},
+
+		scrollToTop () {
+			setTimeout(() => {
+				if (this.iconCntr.parentNode) {
+					this.iconCntr.parentNode.scrollTop = 0
+				}
+			}, 30)
+		},
+
 
 		renderScreenAndWidget (app, preview, db, size, isTemplate, elementDiv){
 	
