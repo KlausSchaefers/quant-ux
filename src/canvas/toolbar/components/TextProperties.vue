@@ -105,6 +105,8 @@ export default {
 	  css.add(this.family.domNode, 'MatcTextPropertiesFontFamily')
 	  this.addTooltip(this.family.domNode, "Font Family");
 	  this.own(on(this.family, "change", lang.hitch(this, "setWidgetStyle", "fontFamily")));
+	  this.own(on(this.family, "changing", lang.hitch(this, "setTempWidgetStyle", "fontFamily")));
+	  
 	  this._placeAt(this.family, row1);
 
 
@@ -114,6 +116,7 @@ export default {
 	  this.fontSize.reposition = true;
 	  this.fontSize.isChildDropDown = this.isChildDropDown
 	  this.own(on(this.fontSize, "change", lang.hitch(this, "setWidgetStyle", "fontSize")));
+	  this.own(on(this.fontSize, "changing", lang.hitch(this, "setTempWidgetStyle", "fontSize")));
 	  this._placeAt(this.fontSize, row1);
 	  this.addTooltip(this.fontSize.domNode, "Font Size");
 

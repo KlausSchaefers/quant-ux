@@ -58,18 +58,18 @@ export default {
 		},
 
 		onInputChange (){
-			if(this._value != this.inputBox.value){
+			if(this.value != this.inputBox.value){
 				if(this.type =="float") {
 					if(this.isValidFloat(this.inputBox.value)){
 						this.onChange(this.inputBox.value);
 					} else {
-						this.inputBox.value=this._value;
+						this.inputBox.value=this.value;
 					}
 				} else if(this.type =="int"){
 					if(this.isValidInt(this.inputBox.value)){
 						this.onChange(this.inputBox.value);
 					} else {
-						this.inputBox.value=this._value;
+						this.inputBox.value=this.value;
 					}
 
 				} else {
@@ -84,6 +84,7 @@ export default {
 		},
 
 		setValue (value) {
+			this.tempValue = null
 			if(this._selectedLi){
 				css.remove(this._selectedLi, "MatcToolbarPopupSelected");
 			}
@@ -94,7 +95,7 @@ export default {
 			if(this.updateLabel){
 				this.setLabel(value);
 			}
-			this._value = value;
+			this.value = value;
 		},
 
 		isValidFloat (value) {

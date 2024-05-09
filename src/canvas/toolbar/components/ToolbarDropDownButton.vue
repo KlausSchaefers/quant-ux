@@ -139,13 +139,16 @@ export default {
 						this.tempOwn(on(li, touch.out, lang.hitch(this, "hideChildren")));
 					} else {
 						this.tempOwn(on(li, touch.press, lang.hitch(this, "onChange", o.value)));
+						this.tempOwn(on(li, "mouseover", lang.hitch(this, "onChanging", o.value)));
 					}
 					this._lis[o.value] = li;
 				} else {
 					li.innerHTML = o;
 					this._lis[o] = li;
 					this.tempOwn(on(li, touch.press, lang.hitch(this, "onChange", list[i])));
+					this.tempOwn(on(li, "mouseover", lang.hitch(this, "onChanging", list[i])));
 				}
+			
 				ul.appendChild(li);
 			}
 			return selectedValue
@@ -289,7 +292,7 @@ export default {
 		},
 
 		setValue(value) {
-
+			this.tempValue = null
 			if (this._selectedLi) {
 				css.remove(this._selectedLi, "MatcToolbarPopupSelected");
 			}
@@ -320,6 +323,12 @@ export default {
 			callback(e);
 		},
 
+		onChanging(value) {
+			console.debug('onChanging', value)
+			this.tempValue = value
+			this.emit("changing", value);
+		},
+
 		onChange(value, e) {
 			this.stopEvent(e);
 			this.hideDropDown();
@@ -328,6 +337,10 @@ export default {
 		},
 
 		onHide() {
+			if (this.tempValue !== null && this.tempValue != this.value) {
+				console.debug('onHide', this.tempValue, this.value)
+				this.emit("changing", this.value);
+			}
 			this.hideChildren();
 		},
 

@@ -81,10 +81,33 @@ export default {
 			this.own(on( this.inputH, "focus", function(e) {e.target.select()}));
 			this.own(on( this.inputW, "focus", function(e) {e.target.select()}));
 
+			// this will trigger some weird redran action thingy. We should call here
+			// something like changing
+			// this.own(on( this.inputX, 'keyup', (e) => this.onKeyUp(e, this.inputX)));
+			// this.own(on( this.inputY, 'keyup', (e) => this.onKeyUp(e, this.inputY)));
+			// this.own(on( this.inputH, 'keyup', (e) => this.onKeyUp(e, this.inputH)));
+			// this.own(on( this.inputW, 'keyup', (e) => this.onKeyUp(e, this.inputW)));
+
 			if(this.mode == "widthAndHeight"){
 				css.add(this.layerX, "hidden");
 				this.inputW.disabled = true;
 				css.add(this.inputW, "MatcToobarInlineEditDisabled");
+			}
+		},
+
+		onKeyUp (e, input) {
+			let value = input.value
+			if (!this.isValid(value)) {
+				return	
+			}
+		
+			if (e.key === 'ArrowUp') {
+				input.value = (value * 1) + 1	
+				this.update()			
+			}
+			if (e.key === 'ArrowDown') {
+				input.value = (value * 1) - 1	
+				this.update()		
 			}
 		},
 
