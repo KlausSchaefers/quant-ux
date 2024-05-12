@@ -25,7 +25,7 @@
         "gpt-temperature": "Randomness (Temperature)",
         "waiting-title": "Processing",
         "waiting-details": "Generating the design... This takes around 60 seconds.",
-        "tab-prompt": "Design GPT",
+        "tab-prompt": "AI Assistant",
         "tab-preview": "Preview",
         "tab-settings": "Settings",
         "key-title": "Your OpenAI API key",
@@ -191,7 +191,7 @@
             "curve": "Curve",
             "path": "Path",
             "triangle": "Triangle",
-            "gpt": "Design GPT"
+            "gpt": "AI Design Assistant"
         },
         "svgStop": "Stop Editing",
         "simulate": "Simulate",

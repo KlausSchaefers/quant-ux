@@ -168,6 +168,7 @@ export default {
 	  this.letterSpacing.updateLabel  =false;
 	  this.letterSpacing.isChildDropDown = this.isChildDropDown
 	  this.own(on(this.letterSpacing, "change", lang.hitch(this, "setWidgetStyle", "letterSpacing")));
+	  this.own(on(this.letterSpacing, "changing", lang.hitch(this, "setTempWidgetStyle", "letterSpacing")));
 	  this._placeAt(this.letterSpacing, row4);
 	  this.addTooltip(this.letterSpacing.domNode, "Letter Spacing");
 
@@ -178,6 +179,7 @@ export default {
 	  this.lineHeight.updateLabel  =false;
 	  this.lineHeight.isChildDropDown = this.isChildDropDown
 	  this.own(on(this.lineHeight, "change", lang.hitch(this, "setWidgetStyle", "lineHeight")));
+	  this.own(on(this.lineHeight, "changing", lang.hitch(this, "setTempWidgetStyle", "lineHeight")));
 	  this._placeAt(this.lineHeight, row4);
 	  this.addTooltip(this.lineHeight.domNode, "Line Height");
 

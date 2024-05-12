@@ -27,13 +27,8 @@ export const icons = {
         <path d="M9 11l.01 0"></path>
     `,
     'AI': `
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-        <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8"></path>
-        <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8"></path>
-        <path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5"></path>
-        <path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0"></path>
-        <path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5"></path>
-        <path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10"></path>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z" />
     `,
     'Edit': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

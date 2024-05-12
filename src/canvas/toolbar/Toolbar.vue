@@ -867,8 +867,8 @@ export default {
 				"type":"Script",
 				"x": 0,
 				"y": 0,
-				"w": 80,
-				"h": 90,
+				"w": 64,
+				"h": 64,
 				"props" : {
 					"script": ''
 				},
@@ -891,8 +891,8 @@ export default {
 				"type":"Rest",
 				"x": 0,
 				"y": 0,
-				"w": 80,
-				"h": 90,
+				"w": 64,
+				"h": 64,
 				"props" : {
 					"rest": {
 						"method": "GET",
@@ -932,8 +932,8 @@ export default {
 				"type":"LogicOr",
 				"x": 0,
 				"y": 0,
-				"w": 80,
-				"h": 80,
+				"w": 64,
+				"h": 64,
 				"props" : {
 					"label" : label,
 					"isRandom": isRandom

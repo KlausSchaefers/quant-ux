@@ -81,7 +81,7 @@ export default {
                     {value: 'triangle', icon: 'VectorTriangle', label: this.getNLS('toolbar.create.triangle'), type:'vector'}
                 ]},
                 {value: 2, css:'MatcToolbarPopUpLine'},
-                {value: 'designgpt', icon: 'Robot', label: this.getNLS('toolbar.create.gpt')},
+                {value: 'designgpt', icon: 'AI', label: this.getNLS('toolbar.create.gpt')},
             ]
         }
     },
