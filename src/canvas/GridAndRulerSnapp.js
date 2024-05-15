@@ -196,6 +196,8 @@ export default class GridAndRulerSnapp extends Core {
 			absPos.y = scalledPos.y
 		}
 
+
+
 		/**
 		 * When the user presses CTRL during dnd or resize
 		 * we ignore the snapping
@@ -310,6 +312,15 @@ export default class GridAndRulerSnapp extends Core {
 				absPos.snapp.scale = true;
 			}
 		}
+
+			
+		// if (e.altKey) {
+		// 	absPos.altKey = true
+		// 	console.debug('alt')
+		// 	ModelUtil.resizeSymmetric(this.selectedModel, absPos, this.activePoint)
+	
+		// }
+
 
 		/**
 		 * Ensure we do not have negative snapping

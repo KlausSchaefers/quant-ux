@@ -29,6 +29,28 @@ class ModelUtil {
         ].map(t => 'dt-' + t)
     }
 
+
+    resizeSymmetric(oldPos, newPos, type = '') {
+
+        // if (type === 'North') {
+
+        // }
+
+        // if (type === 'South') {
+
+        // }
+
+        // if (type === 'West') {
+
+        // }
+
+        if (type === 'East') {
+            const difX = newPos.w - oldPos.w
+            newPos.w += difX
+            newPos.x -= difX
+            console.debug(difX, newPos.w, oldPos.w)
+        }
+    }
     
 
 

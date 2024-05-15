@@ -5,6 +5,7 @@ export default class Snapp extends Screen {
 
 	correctPostion (id, pos, fromToolbar){
 		this.logger.log(4,"correctPostion", "enter > " , pos);
+		
 
 		const z = this._canvas.getZoomFactor()
 		// if (z === 1) {
@@ -38,6 +39,11 @@ export default class Snapp extends Screen {
 	snappResize (widget,screen, pos, snapp){
 		this.logger.log(0,"snappResize", "enter > " + snapp.type);
 		const type = snapp.type;
+
+		// if (pos.altKey) {
+		// 	console.debug('XXX', pos)
+		// 	ModelUtil.resizeSymmetric(widget, pos, type)
+		// }
 
 		if (snapp.x || snapp.y) {
 			/**
@@ -109,6 +115,8 @@ export default class Snapp extends Screen {
 			pos.x = scalledPos.x
 			pos.y = scalledPos.y
 		}
+
+	
 	}
 
 	snappAll (widget,screen, pos, snapp){
