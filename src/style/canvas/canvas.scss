@@ -212,7 +212,7 @@
 }
 
 .MatcCanvasModedistance.MatcCanvasSelection .MatcWidgetDND.MatcRulerDistanceBox:hover{
-	border:1px solid red;
+	border:1px solid $canvas_distance;
 }
 
 .MatcScreenBorder{
@@ -812,6 +812,9 @@
 			display: none;
 		}
 
+		.MatcWidgetDND {
+			display: none;
+		}
 
 		.MatcResizeBorderLeft{
 			border-left:1px dashed $canvas_selection_grid_resize;
@@ -890,7 +893,7 @@
 			left:0px;
 			transform: translateY(-32px);
 			color: $canvas_selection_grid_resize;
-			font-size: 12px;
+			font-size: 10px;
 			text-align: center;
 		}
 
@@ -900,7 +903,7 @@
 			left:0px;
 			transform: translateX(-32px);
 			color: $canvas_selection_grid_resize;
-			font-size: 12px;
+			font-size: 10px;
 			text-align: center;
 			display: flex;
 			align-items: center;
@@ -996,18 +999,18 @@
  }
 
  .MatcRulerBoxSelectedBorder{
- 	border:1px solid #92c500;
+ 	//border:1px solid $canvas_snapp;
  	background: rgba(255, 255, 255, 0.2);
  }
 
  .MatcRulerBoxSelectedMiddle{
- 	border:1px solid orange;
+ 	//border:1px solid $canvas_snapp_middle;
  	background: rgba(255, 255, 255, 0.2);
  }
 
  .MatcRulerLine{
  	position: absolute;
- 	background: red;
+ 	//background: $canvas_distance;
  	z-index: 90020;
  	width: 100px;
  	height:100px;
@@ -1035,7 +1038,7 @@
 
  .MatcRulerDistanceLine{
  	position: absolute;
- 	background: red;
+ 	background: $canvas_distance;
  	z-index: 90020;
  	width: 100px;
  	height:100px;
@@ -1044,17 +1047,20 @@
 
  .MatcRulerDistanceLineDottedX{
  	background: none;
- 	border-top:1px dotted red;
+ 	border-top:1px dotted $canvas_distance;
  }
 
  .MatcRulerDistanceLineDottedY{
  	background: none;
- 	border-left:1px dotted red;
+ 	border-left:1px dotted $canvas_distance;
  }
 
  .MatcRulerDistanceLabelY{
- 	color:red;
- 	font-size: 14px;
+	background:$canvas_distance;
+	color:#fff;
+	padding: 0px 3px;
+	border-radius: 4px;
+ 	font-size: 10px;
  	z-index: 90020;
  	position: absolute;
  	top:50%;
@@ -1064,8 +1070,11 @@
  }
 
 .MatcRulerDistanceLabelX{
-	color:red;
- 	font-size: 14px;
+	background:$canvas_distance;
+	color:#fff;
+	padding: 0px 3px;
+	border-radius: 4px;
+ 	font-size: 10px;
  	z-index: 90020;
  	position: absolute;
  	top:-21px;
@@ -1075,7 +1084,7 @@
 }
 
 .MatcRulerDistanceXEnd{
-	background: red;
+	background: $canvas_distance;
 	height: 11px;
 	width: 1px;
 	position:absolute;
@@ -1084,7 +1093,7 @@
 }
 
 .MatcRulerDistanceXStart{
-	background: red;
+	background: $canvas_distance;
 	height: 11px;
 	width: 1px;
 	position:absolute;
@@ -1093,7 +1102,7 @@
 }
 
 .MatcRulerDistanceYEnd{
-	background: red;
+	background: $canvas_distance;
 	height: 1px;
 	width: 11px;
 	position:absolute;
@@ -1102,7 +1111,7 @@
 }
 
 .MatcRulerDistanceYStart{
-	background: red;
+	background: $canvas_distance;
 	height: 1px;
 	width: 11px;
 	position:absolute;
@@ -1111,7 +1120,7 @@
 }
 
 .MatcRulerDistanceBox{
-	 border:1px solid red;
+	 border:1px solid $canvas_distance;
 }
 
 
@@ -1120,14 +1129,14 @@
 }
 
 .MatcRulerLineSelected{
-	background: #92c500;
+	background: $canvas_snapp;
 	opacity:1;
 }
 
 
 .MatcRulerLineSnappmiddleX.MatcRulerLineSelected,
 .MatcRulerLineSnappmiddleY.MatcRulerLineSelected{
-	background-color: orange;
+	background-color: $canvas_snapp_middle;
 	opacity:1;
 }
 
@@ -1143,7 +1152,7 @@
 .MatcTest .MatcRulerLineHidden{
 	display: block;
 	opacity:0.3;
-	color: red;
+	color: $canvas_distance;
 }
 
  /****************************************************
@@ -1449,10 +1458,10 @@
 }
 
 .MatcScreenGridHandleDel.MatcScreenGridHandlex{
-	border-color: red transparent transparent transparent;
+	border-color: $canvas_distance transparent transparent transparent;
 }
 .MatcScreenGridHandleDel.MatcScreenGridHandley{
-	border-color: transparent transparent transparent red;
+	border-color: transparent transparent transparent $canvas_distance;
 }
 
 .MatcScreenGridHandleDisbaled{
@@ -1531,7 +1540,7 @@
 }
 
 .Xdebug .MatcBoxSelected .MatcInlineEditable{
-	outline: 1px dashed red;
+	outline: 1px dashed $canvas_distance;
 }
 
 

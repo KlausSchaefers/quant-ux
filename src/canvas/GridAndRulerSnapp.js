@@ -1158,16 +1158,11 @@ export default class GridAndRulerSnapp extends Core {
 				const disLeft = overlaps.minLeft ? overlaps.minLeft.distance : 100000
 				const disRight = overlaps.minRight ? overlaps.minRight.distance : 100000
 
-
-
-			
 				if (left || disLeft < disRight) {
-					if (overlaps.minLeft && disLeft) {
+					if (overlaps.minLeft && disLeft) {					
 						let from = overlaps.minLeft.from;
 						let to = overlaps.minLeft.to;
-						let distance = overlaps.minLeft.distance;
-
-						
+						let distance = overlaps.minLeft.distance;						
 						let lbl = this.getDistanceLabel(overlaps.minLeft, useSourceLabel, 'x', 'left')
 						let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
 						if (overlaps.minLeft.left == 0) {
@@ -1188,12 +1183,16 @@ export default class GridAndRulerSnapp extends Core {
 				}
 
 				if (top || disTop < disBottom) {
-					if (overlaps.minTop && disTop) {
+					if (overlaps.minTop && disTop) {				
 						let from = overlaps.minTop.from;
 						let to = overlaps.minTop.to;
 						let distance = overlaps.minTop.distance;
-						let lbl = this.getDistanceLabel(overlaps.minTop, useSourceLabel, 'y', 'top')
+						let lbl = this.getDistanceLabel(overlaps.minTop, useSourceLabel, 'y', 'top')					
 						let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
+						// FIXME: we should substract 1 if we have aleft align
+						// if (overlaps.minRight && disRight) {
+						// 	xMiddle -= 1
+						// }
 						if (overlaps.minTop.top == 0) {
 							this._renderDistanceLineY(xMiddle, to.y, distance, lbl, "", true);
 						} else {
@@ -1202,7 +1201,7 @@ export default class GridAndRulerSnapp extends Core {
 					}
 
 				} else {
-					if (overlaps.minBottom && disBottom) {
+					if (overlaps.minBottom && disBottom) {		
 						let from = overlaps.minBottom.from;
 						let to = overlaps.minBottom.to;
 						let distance = overlaps.minBottom.distance;
