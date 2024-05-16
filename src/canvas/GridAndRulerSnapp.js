@@ -333,11 +333,11 @@ export default class GridAndRulerSnapp extends Core {
 			absPos.h = 1
 		}
 
-		this.renderSnappLines(absPos)
+		const snappLines = this.renderSnappLines(absPos)
 
 		if (this.showDndDistance && this.selectedType != "Xboundingbox") {
 			try {
-				this.renderNNDistance(absPos, showDistanceYTop, showDistanceXLeft);
+				this.renderNNDistance(absPos, showDistanceYTop, showDistanceXLeft, snappLines);
 			} catch (e) {
 				console.error(e);
 				console.error(e.stack);
@@ -364,12 +364,13 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	renderSnappLines (pos) {
+		const result = {x:-1, y: -1}
 		if (this.activePoint !== 'All') {
-			return
+			return result
 		}
 
 		if (this.grid.enabled) {
-			return
+			return result
 		}
 
 		const x1 = 'x' + pos.x
@@ -379,17 +380,23 @@ export default class GridAndRulerSnapp extends Core {
 
 
 		if (this._linesX[x1]) {
+			result.x = this._linesX[x1].x
 			this.showLine(this._linesX[x1], 'x', true)
 		}
 		if (this._linesX[x2]) {
+			result.x = this._linesX[x2].x
 			this.showLine(this._linesX[x2], 'x', true)
 		}
 		if (this._linesY[y1]) {
+			result.y = this._linesY[y1].y
 			this.showLine(this._linesY[y1], 'y', true)
 		}
 		if (this._linesY[y2]) {
+			result.y = this._linesY[y2].y
 			this.showLine(this._linesY[y2], 'y', true)
 		}
+
+		return result
 	}
 
 	renderDimension(pos, mouse) {
@@ -1129,6 +1136,8 @@ export default class GridAndRulerSnapp extends Core {
 			absPos.x -= this.boundingBoxOffsetX;
 		}
 
+		
+
 		if (this.boundingBoxOffsetY > 0) {
 			absPos.y -= this.boundingBoxOffsetY;
 		}
@@ -1164,7 +1173,10 @@ export default class GridAndRulerSnapp extends Core {
 						let to = overlaps.minLeft.to;
 						let distance = overlaps.minLeft.distance;						
 						let lbl = this.getDistanceLabel(overlaps.minLeft, useSourceLabel, 'x', 'left')
-						let yMiddle = SnappUtil.getOverlayYMiddle(from, to) - 1;
+						let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
+						if (from.y + from.h != to.y) {
+							yMiddle -=1
+						}
 						if (overlaps.minLeft.left == 0) {
 							this._renderDistanceLineX(to.x, yMiddle, distance, lbl, "", true);
 						} else {
@@ -1177,7 +1189,10 @@ export default class GridAndRulerSnapp extends Core {
 						let to = overlaps.minRight.to;
 						let distance = overlaps.minRight.distance;
 						let lbl = this.getDistanceLabel(overlaps.minRight, useSourceLabel, 'x', 'right')
-						let yMiddle = SnappUtil.getOverlayYMiddle(from, to) -1;
+						let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
+						if (from.y + from.h != to.y) {
+							yMiddle -=1
+						}
 						this._renderDistanceLineX(from.x + from.w, yMiddle, distance, lbl, "", true);
 					}
 				}
@@ -1188,11 +1203,10 @@ export default class GridAndRulerSnapp extends Core {
 						let to = overlaps.minTop.to;
 						let distance = overlaps.minTop.distance;
 						let lbl = this.getDistanceLabel(overlaps.minTop, useSourceLabel, 'y', 'top')					
-						let xMiddle = SnappUtil.getOverlayXMiddle(from, to) - 1;
-						// FIXME: we should substract 1 if we have aleft align
-						// if (overlaps.minRight && disRight) {
-						// 	xMiddle -= 1
-						// }
+						let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
+						if (from.x + from.w != to.x)  {		
+							xMiddle -= 1
+						} 
 						if (overlaps.minTop.top == 0) {
 							this._renderDistanceLineY(xMiddle, to.y, distance, lbl, "", true);
 						} else {
@@ -1206,7 +1220,10 @@ export default class GridAndRulerSnapp extends Core {
 						let to = overlaps.minBottom.to;
 						let distance = overlaps.minBottom.distance;
 						let lbl = this.getDistanceLabel(overlaps.minBottom, useSourceLabel, 'y', 'bottom')
-						let xMiddle = SnappUtil.getOverlayXMiddle(from, to) -1;
+						let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
+						if (from.x + from.w != to.x)  {		
+							xMiddle -= 1
+						} 
 						this._renderDistanceLineY(xMiddle, from.y + from.h, distance, lbl, "", true);
 					}
 				}

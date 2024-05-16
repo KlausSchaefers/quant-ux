@@ -643,34 +643,34 @@ export default class GridAndRuler extends Core {
 	getOverlayXMiddle(from, to) {
 		const xDif = to.x - from.x;
 		if (to.x >= from.x && to.x + to.w <= from.x + from.w) {
-			return to.x + Math.round(to.w / 2);
+			return to.x + Math.floor(to.w / 2);
 		} else if (from.x >= to.x && from.x + from.w <= to.x + to.w) {
-			return from.x + Math.round(from.w / 2);
+			return from.x + Math.floor(from.w / 2);
 		} else if (to.x <= from.x) {
 			let s = to.x - xDif;
 			let e = to.x + to.w;
-			return s + Math.round((e - s) / 2);
+			return s + Math.floor((e - s) / 2);
 		} else {
 			let s = from.x + xDif;
 			let e = from.x + from.w;
-			return s + Math.round((e - s) / 2);
+			return s + Math.floor((e - s) / 2);
 		}
 	}
 
 	getOverlayYMiddle(from, to) {
 		const yDif = to.y - from.y;
 		if (to.y >= from.y && to.y + to.h <= from.y + from.h) {
-			return to.y + Math.round(to.h / 2);
+			return to.y + Math.floor(to.h / 2);
 		} else if (from.y >= to.y && from.y + from.h <= to.y + to.h) {
-			return from.y + Math.round(from.h / 2);
+			return from.y + Math.floor(from.h / 2);
 		} else if (to.y <= from.y) {
 			let s = to.y - yDif;
 			let e = to.y + to.h;
-			return s + Math.round((e - s) / 2);
+			return s + Math.floor((e - s) / 2);
 		} else {
 			let s = from.y + yDif;
 			let e = from.y + from.h;
-			return s + Math.round((e - s) / 2);
+			return s + Math.floor((e - s) / 2);
 		}
 	}
 
