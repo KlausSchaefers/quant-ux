@@ -31,9 +31,10 @@
                     <span class="MatcHint" v-else>No steps </span>
                   </td>
                   <td class=" action">
-                    <div style="width: 100px; display: flex; justify-content: flex-end;">
-                    <a class="MatcButton MatcButtonXXS MatcButtonSecondary" @click="onEditTask(task, i, $event)"><QIcon icon="EditSquare"/></a>
-                    <a class="MatcButton MatcButtonXXS MatcButtonDanger MatcButtonSecondary" @click="onDelete(task, i, $event)"><QIcon icon="DeleteTrash"/></a>
+                    <div style="min-width: 100px; width:100%; ">
+                    <a class="MatcButton MatcButtonXXS MatcButtonSecondary" @click="onEditTask(task, i, $event)"><QIcon icon="EditSquare" tooltip="Edit" attachToParent="true"/></a>
+                    <a class="MatcButton MatcButtonXXS MatcButtonSecondary" @click="onCopyTask(task, i, $event)"><QIcon icon="Paste" tooltip="Duplicate" attachToParent="true"/></a>
+                    <a class="MatcButton MatcButtonXXS MatcButtonDanger MatcButtonSecondary" @click="onDelete(task, i, $event)"><QIcon icon="DeleteTrash" tooltip="Delete" attachToParent="true"/></a>
                     </div>
                   </td>
                 </tr>
@@ -197,6 +198,8 @@ export default {
       d.own(on(d, "close", function() { s.destroy(); }));
       d.own(on(s, "close", function() { d.close(); }));
       d.own(on(s, "save", lang.hitch(this, "createNewTask", s, d)));
+      s.focus()
+
     },
 
     async createNewTask(s, dialog) {
@@ -217,6 +220,25 @@ export default {
       this.save();
     },
 
+    onCopyTask (task, i, e) {
+
+      const copy = lang.clone(task)
+      copy.name += ' (Copy)'
+
+      var d = new Dialog();
+      var dialog = document.createElement("div");
+      css.add(dialog, "MatchTaskRecorderDialog");
+      var s = this.$new(TaskRecorder, { model: this.app, hash: this.hash, ignoreFirstEvent: true});
+      s.setValue(copy)
+      s.placeAt(dialog);
+      d.popup(dialog, e.target);
+      d.own(on(d, "close", function() { s.destroy(); }));
+      d.own(on(s, "close", function() { d.close(); }));
+      d.own(on(s, "save", lang.hitch(this, "createNewTask", s, d)));
+      s.focus()
+
+    },
+
     onEditTask(task, i, e) {
       var d = new Dialog();
       var dialog = document.createElement("div");
@@ -228,6 +250,8 @@ export default {
       d.own(on(d, "close", function() { s.destroy(); }));
       d.own(on(s, "close", function() { d.close(); }));
       d.own(on(s, "save", lang.hitch(this, "updateTask", s, d)));
+      s.focus()
+
     },
 
     updateTask(s, dialog) {

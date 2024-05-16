@@ -10,11 +10,9 @@
 }
 
 .MatcCanvasCommentDialog {
-
 	display: flex;
 	flex-direction: column;
-
-	box-shadow: $page_drop_shadow_more;
+	box-shadow: $page_drop_shadow_xxl;
 
 	.MatcCanvasCommentDialogContent {
 		padding: 16px;
@@ -25,18 +23,14 @@
 		display: flex;
 		justify-content: flex-end;
 		border-bottom: 1px solid $form_border;
-
 		padding: 8px 16px;
-
 		.MatcQIcon {
 			cursor: pointer;
 			opacity: 0.5;
-
 			&:hover {
 				opacity: 1;
 			}
 		}
-
 	}
 
 	.MatcCanvasCommentDialogList {

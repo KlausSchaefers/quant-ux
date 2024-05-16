@@ -78,7 +78,7 @@ export default {
 
       var db = new DomBuilder();
 
-      var table = db.table("table is-hoverable").build();
+      var table = db.table("vommondTable table is-hoverable").build();
 
       this.renderHeader(table, db);
 

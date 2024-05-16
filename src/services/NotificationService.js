@@ -130,12 +130,9 @@ class NotificationService extends AbstractService{
                 },
                 id:"WelcomeToDev",
                 more: `
-                    Welcome at the cutting-edge beta edition of Quant-UX!
-                    We are working hard to finish the new release. You can
-                    help us by trying out the new version. If you spot any bugs,
-                    or have ideas for improvements, please reach out to us via the
-                    "Contact" button or our <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a> 
-                    channel.
+                    Welcome to the latest version of Quant-UX! We've refined the design and made numerous improvements. 
+                    If you have any ideas for further enhancements, please get in touch with us via the 
+                    "Contact" button or join our <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a> channel.
                 `,
                 Xdetails: {
                     title: "What is new in Quant-UX 5",

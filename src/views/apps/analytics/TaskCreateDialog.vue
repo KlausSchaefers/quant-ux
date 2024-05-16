@@ -6,7 +6,7 @@
 
           <div class="form-group">
             <label>Name</label>
-            <input  v-model="task.name" type="text" class="form-control" placeholder="Name"  />
+            <input  v-model="task.name" type="text" class="form-control" placeholder="Name" ref="inputName"/>
           </div>
 
           <div class="form-group">
@@ -274,6 +274,13 @@ export default {
 
     setValue (task) {
       this.task = lang.clone(task)
+    },
+
+    focus() {
+      setTimeout(() => {
+        this.$refs.inputName.focus()
+        this.$refs.inputName.select()
+      }, 200)
     },
 
     cleanUp: function() {

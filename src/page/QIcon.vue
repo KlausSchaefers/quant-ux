@@ -28,7 +28,7 @@
   import {icons} from './QIconsSVG'
   export default {
     name: "QIcon",
-    props:['icon', 'tooltip', 'bubble'],
+    props:['icon', 'tooltip', 'bubble', 'attachToParent'],
     mixins: [DojoWidget, _Tooltip],
     data: function() {
       return {
@@ -49,7 +49,12 @@
     },
     mounted() {
       if (this.tooltip) {
-        this.addTooltip(this.$el, this.tooltip)
+        if (this.attachToParent && this.$el.parentNode) {
+          this.addTooltip(this.$el.parentNode, this.tooltip)
+        } else {
+          this.addTooltip(this.$el, this.tooltip)
+        }
+    
       }
 
     }

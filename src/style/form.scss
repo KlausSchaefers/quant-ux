@@ -235,8 +235,8 @@ input:focus {
 }
 
 .MatcButtonDanger.MatcButtonSecondary {
-	background-color: transparent;
-	border-color: transparent;
+	background-color: rgba($color_danger, 0.1);
+	border-color: rgba($color_danger, 0.0);
 	color: $color_danger;
 	&:hover {
 		background-color: $color_danger_hover;
@@ -802,4 +802,17 @@ textarea.MatcTextAreaMedium {
 
 .MatcForm .VommondRadioBoxMark {
 	background: $primary_color;
+}
+
+.vommondTable.table.is-hoverable tbody tr:not(.is-selected):hover{
+	background: none;
+}
+
+.table.is-hoverable tbody tr:not(.is-selected):hover .MatcInlineEdit{
+	border: 1px #cecece dashed;
+
+	&:focus {
+		border: 1px $primary_color dashed;
+		outline: none;
+	}
 }
