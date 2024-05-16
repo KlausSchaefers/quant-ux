@@ -1245,6 +1245,9 @@ export default class GridAndRulerSnapp extends Core {
 				let distance = overlaps.minTop.distance;
 				let lbl = this.getDistanceLabel(overlaps.minTop, useSourceLabel, 'y', 'top')
 				let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
+				if (from.x + from.w != to.x)  {		
+					xMiddle -= 1
+				} 
 				if (overlaps.minTop.top == 0) {
 					this._renderDistanceLineY(xMiddle, to.y, distance, lbl, "", true);
 				} else {
@@ -1257,6 +1260,9 @@ export default class GridAndRulerSnapp extends Core {
 				let distance = overlaps.minBottom.distance;
 				let lbl = this.getDistanceLabel(overlaps.minBottom, useSourceLabel, 'y', 'bottom')
 				let xMiddle = SnappUtil.getOverlayXMiddle(from, to);
+				if (from.x + from.w != to.x)  {		
+					xMiddle -= 1
+				} 
 				this._renderDistanceLineY(xMiddle, from.y + from.h, distance, lbl, "", true);
 			}
 			if (isLeftHandle && overlaps.minLeft) {
@@ -1265,6 +1271,9 @@ export default class GridAndRulerSnapp extends Core {
 				let distance = overlaps.minLeft.distance;
 				let lbl = this.getDistanceLabel(overlaps.minLeft, useSourceLabel, 'x', 'left')
 				let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
+				if (from.y + from.h != to.y) {
+					yMiddle -=1
+				}
 				if (overlaps.minLeft.left == 0) {
 					this._renderDistanceLineX(to.x, yMiddle, distance, lbl, "", true);
 				} else {
@@ -1277,6 +1286,9 @@ export default class GridAndRulerSnapp extends Core {
 				let distance = overlaps.minRight.distance;
 				let lbl = this.getDistanceLabel(overlaps.minRight, useSourceLabel, 'x', 'right')
 				let yMiddle = SnappUtil.getOverlayYMiddle(from, to);
+				if (from.y + from.h != to.y) {
+					yMiddle -=1
+				}
 				this._renderDistanceLineX(from.x + from.w, yMiddle, distance, lbl, "", true);
 			}
 

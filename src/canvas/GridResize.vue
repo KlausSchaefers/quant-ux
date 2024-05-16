@@ -161,6 +161,10 @@ export default {
                     const label = document.createElement("div")
                     css.add(label, "MatcCanvasModeGridResizeLabel MatcCanvasModeGridResizeLabelColumn")
                     this.dndContainer.appendChild(label);
+
+                    const lbl = document.createElement('span')
+                    label.appendChild(lbl)
+                
                     this._gridResizeHandlersColumnLabels[i] = label
                     this._gridResizeHandlersDivs.push(label)
                 })
@@ -219,6 +223,10 @@ export default {
                     const label = document.createElement("div")
                     css.add(label, "MatcCanvasModeGridResizeLabel MatcCanvasModeGridResizeLabelRow")
                     this.dndContainer.appendChild(label);
+
+                    const lbl = document.createElement('span')
+                    label.appendChild(lbl)
+
                     this._gridResizeHandlersRowLabels[i] = label
                     this._gridResizeHandlersDivs.push(label)
                 })
@@ -261,7 +269,7 @@ export default {
                     label.style.top = (this._gridResizeModel.y) + "px"
                     label.style.left = (this._gridResizeModel.x + col.v) + "px"
                     label.style.width = (col.l) + "px"
-                    label.innerText = Math.round(col.l / this.zoom)
+                    label.firstChild.innerText = Math.round(col.l / this.zoom)
                 }
             }) 
 
@@ -295,7 +303,7 @@ export default {
                     label.style.top = (this._gridResizeModel.y + row.v) + "px"
                     label.style.left = (this._gridResizeModel.x) + "px"
                     label.style.height = (row.l) + "px"
-                    label.innerText = Math.round(row.l / this.zoom)
+                    label.firstChild.innerText = Math.round(row.l / this.zoom)
                 }
             }) 
             

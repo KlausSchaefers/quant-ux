@@ -892,9 +892,16 @@
 			top:0px;
 			left:0px;
 			transform: translateY(-32px);
-			color: $canvas_selection_grid_resize;
+
 			font-size: 10px;
 			text-align: center;
+
+			span {
+				background: $canvas_selection_grid_resize;
+				color: #fff;
+				padding: 0px 3px;
+				border-radius: 4px;
+			}
 		}
 
 		.MatcCanvasModeGridResizeLabelRow {
@@ -902,11 +909,17 @@
 			top:0px;
 			left:0px;
 			transform: translateX(-32px);
-			color: $canvas_selection_grid_resize;
 			font-size: 10px;
 			text-align: center;
 			display: flex;
 			align-items: center;
+
+			span {
+				background: $canvas_selection_grid_resize;
+				color: #fff;
+				padding: 0px 3px;
+				border-radius: 4px;
+			}
 		}
 	
 }
