@@ -7,4 +7,14 @@
      background-size: 640px 640px;
      background-repeat: no-repeat;
      background-position: center;
+     animation: breath;
+     animation-duration: 2s;
+     animation-iteration-count: infinite;
 }
+
+@keyframes breath {
+     0%   {background-size: 640px 640px;}
+     50%  {background-size: 680px 680px;}
+     100% {background-size: 640px 640px}
+}
+   
