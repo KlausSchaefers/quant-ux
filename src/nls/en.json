@@ -21,6 +21,7 @@
         "gpt-model-gpt4": "GPT4: Slower and better",
         "gpt-model-gpt4-turbo": "GPT4 - Creative: Takes longer, but might surprise you.",
         "gpt-model-gpt4-turbo-yaml": "GPT4 - Boost: Fast and clean.",
+        "gpt-model-gpt4o": "GPT40 - Boost: Fast and clean.",
         "gpt-model": "Select the GPT model to use",
         "gpt-temperature": "Randomness (Temperature)",
         "waiting-title": "Processing",

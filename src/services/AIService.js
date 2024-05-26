@@ -250,11 +250,11 @@ export default class AIService extends AbstractService {
     }
 
     async runGPT4Turbo (message, key, app, options) {
-        return this.runChatHTML('gpt-4-1106-preview', message, key, app, options)       
+        return this.runChatHTML('gpt-4o', message, key, app, options)       
     }
 
     async runGPT4 (message, key, app, options) {
-        return this.runChatHTML('gpt-4', message, key, app, options)       
+        return this.runChatHTML('gpt-4o', message, key, app, options)       
     }
 
     async runGPT35Turbo(message, key, app, options) {
@@ -310,7 +310,7 @@ export default class AIService extends AbstractService {
             'openAIToken': key,
             'openAIOrgID': 'Klaus',
             'openAIPayload': {
-                "model": 'gpt-4-1106-preview',
+                "model": 'gpt-4o',
                 "messages": [
                     {"role": "system", "content": `
                         You are design GPT. You are really good at deisgn web sites and mobile apps.

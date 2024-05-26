@@ -266,7 +266,7 @@ export default {
                 this.errorMSG = this.getNLS('dialog.import.error-figma-url')
                 return false
             }
-            if (this.figmaUrl.indexOf('https://www.figma.com/file/') !== 0) {
+            if (this.figmaUrl.indexOf('https://www.figma.com') !== 0) {
                 this.errorMSG = this.getNLS('dialog.import.error-figma-url')
                 return false
             }
@@ -278,7 +278,7 @@ export default {
         },
 
         getFigmaFileKey (url) {
-            let parts = url.split('/')
+            const parts = url.split('/')
             if (parts.length >= 5) {
                 return parts[4]
             }
@@ -303,6 +303,7 @@ export default {
             localStorage.setItem('quxFigmaAccessKey', accessKey)
             localStorage.setItem('quxFigmaUrl', url)
             let fileId = this.getFigmaFileKey(url)
+            console.debug(fileId)
 
             try {
                 this.setProgress(0, 'dialog.import.figma-progress-file')
