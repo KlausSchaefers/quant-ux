@@ -11,10 +11,11 @@ import on from 'dojo/on'
 //import ToolbarSlider from './ToolbarSlider'
 import InputDropDownButton from './InputDropDownButton'
 import QIcon from 'page/QIcon'
+import _Tooltip from 'common/_Tooltip'
 
 export default {
     name: 'Radius',
-    mixins:[DojoWidget],
+    mixins:[DojoWidget, _Tooltip],
     data: function () {
         return {
             value: false,
@@ -41,6 +42,7 @@ export default {
 			input.setOptions([0, 2, 3, 4, 8, 12, 16, 18, 24, 32, 64, 128]);
 			input.reposition = true;
 			input.placeAt(parent);
+			this.addTooltip(input.domNode, "Border Radius");
 			//input.render();
 			return input;
 		},

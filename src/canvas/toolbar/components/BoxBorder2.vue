@@ -12,10 +12,12 @@ import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import topic from 'dojo/topic'
 import _Tooltip from 'common/_Tooltip'
-import ToolbarSlider from './ToolbarSlider'
+//import ToolbarSlider from './ToolbarSlider'
+import InputDropDownButton from './InputDropDownButton'
 import ToolbarColor from './ToolbarColor'
 import _DesignToken from './_DesignToken'
 import DesignTokenView from './DesignTokenView'
+//import {iconDOM} from 'page/QIconUtil'
 
 export default {
 	name: 'BoxBorder2',
@@ -53,15 +55,27 @@ export default {
 				this.width = this.renderIntBox(cntr);
 				this.own(on(this.width, "change", lang.hitch(this, "setWidth", "borderTopWidth")));
 				this.own(on(this.width, "changing", lang.hitch(this, "setTempWidth", "borderTopWidth")));
+				this.addTooltip(this.width.domNode, "Border Width");
+
+				// cntr.appendChild(iconDOM("Paste"))
+
+				// cntr.appendChild(iconDOM("Paste"))
+
+				// cntr.appendChild(iconDOM("Paste"))
+
+				// cntr.appendChild(iconDOM("Paste"))
+
 
 				this.rendered = true;
 			}
 		},
 
 		renderIntBox(parent) {
-			var input = this.$new(ToolbarSlider, { max: 16 });
+			var input = this.$new(InputDropDownButton, { max: 16 });
+			input.setOptions([0, 2, 3, 4, 5,6,7,8,10,12,16]);
 			input.placeAt(parent);
-			input.render();
+			input.reposition = true;
+			//input.render();
 			return input;
 		},
 
@@ -96,7 +110,7 @@ export default {
 				this.value[k] = value;
 			}
 			this.emit("changing", this.getDelta(this.value));
-			this.closeColor();
+			//this.closeColor();
 		},
 
 		setWidth(key, value) {
@@ -107,7 +121,7 @@ export default {
 				this.value[k] = value;
 			}
 			this.emit("change", this.getDelta(this.value));
-			this.closeColor();
+			//this.closeColor();
 		},
 
 		closeColor() {

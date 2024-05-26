@@ -1338,19 +1338,29 @@ input.MatcToobarInlineEditDisabled:focus {
 .MatcBoxBorder2 {
 	display: flex;
 	align-items: center;
+
+	.MatcToolbarItem.MatcToolbarDropDownButton.MatcToolbarInputDropDownButton{
+		padding: 0px;
+		height: 32px;
+		width: 48px;
+	}
+
+	.MatcToolbarInputDropDownButton input{
+		width: 32px;
+	}
 }
 
-.MatcBoxBorder2 .MatcToolbarInputDropDownButton input {
-	text-align: center;
-}
+// .MatcBoxBorder2 .MatcToolbarInputDropDownButton input {
+// 	text-align: center;
+// }
 
-.MatcBoxBorder2 .MatcToolbarSlider {
-	margin-left: 10px;
-}
+// .MatcBoxBorder2 .MatcToolbarSlider {
+// 	margin-left: 10px;
+// }
 
-.MatcBoxBorder2 .caret {
-	display: none;
-}
+// .MatcBoxBorder2 .caret {
+// 	display: none;
+// }
 
 
 .MatcToolbarBoxBorderSimple .MatcToolbarBoxBorderDetails {

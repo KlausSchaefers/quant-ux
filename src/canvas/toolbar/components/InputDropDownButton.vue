@@ -35,6 +35,7 @@ export default {
 		postCreate (){
 			this.own(on(this.domNode, touch.press, lang.hitch(this, "showDropDown")));
 			this.own(on(this.inputBox, "change", lang.hitch(this,"onInputChange")));
+			this.button = this.$refs.button
 		},
 
 		setLabel (value){
