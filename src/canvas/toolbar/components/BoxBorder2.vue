@@ -72,7 +72,7 @@ export default {
 
 		renderIntBox(parent) {
 			var input = this.$new(InputDropDownButton, { max: 16 });
-			input.setOptions([0, 2, 3, 4, 5,6,7,8,10,12,16]);
+			input.setOptions([0, 1, 2, 3, 4, 5,6,7,8,9,10,12,16]);
 			input.placeAt(parent);
 			input.reposition = true;
 			//input.render();
