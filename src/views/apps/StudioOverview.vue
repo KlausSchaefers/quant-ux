@@ -18,7 +18,7 @@
 
             <div class="MatcFlexColumn">
               <Team
-                v-if="app.id && user.id && appLoaded" 
+                v-if="app.id && user.id && appLoaded && !isPublic" 
                 :appID="app.id" 
                 :userID="user.id" 
                 :qteam="team"/>

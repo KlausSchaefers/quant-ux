@@ -31,6 +31,9 @@ class NotificationService extends AbstractService{
     }
 
     async getNotications () {
+        if ( this.user.id === -1) {
+            return []
+        }
         const notifications = await this._get('/rest/notifications.json')
         const user = await this._get('/rest/user/' + this.user.id + '.json')
         this.addUserJourneyNotifications(notifications, user)

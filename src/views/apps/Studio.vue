@@ -73,7 +73,7 @@
                     </div>
                     
 
-                    <div class="MatcStudioNavRow">
+                    <div class="MatcStudioNavRow"  v-if="!pub">
                         <a class="MatcLink" href="#/my-account.html" >
                             <QIcon icon="Account" v-if="!hasUserImage" ></QIcon>
                             <span class="MatcUserImageCntr " v-else>

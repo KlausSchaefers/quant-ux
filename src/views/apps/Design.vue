@@ -339,6 +339,7 @@ export default {
       renderFactory.setModel(model);
       renderFactory.setHash(hash)
 
+
       /**
        * Dependency injection
        */
@@ -356,7 +357,7 @@ export default {
       toolbar.setAnnotation(annotation);
       toolbar.setTest(test);
       toolbar.setCommentService(Services.getCommentService());
-      toolbar.setPublic(this.isPublic)
+      toolbar.setPublic(this.pub)
 
       canvas.setController(controller);
       canvas.setToolbar(toolbar);
