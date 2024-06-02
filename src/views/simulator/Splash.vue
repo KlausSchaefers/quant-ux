@@ -95,7 +95,7 @@
                         <div class="MatcLogoNew MatcSimulatorLoadingLogoAnimation"></div>
                     </transition>
                 </div>
-                <div class="MatcTestVersion">Quant-UX - v5.0.2</div>
+                <div class="MatcTestVersion">Quant-UX - v5.0.5  </div>
             </div>
     </template>
     <style>

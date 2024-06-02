@@ -1072,6 +1072,14 @@ export const icons = {
         <path d="M9 3a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
         <path d="M19 13a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
     `,
+    'AnimationScroll': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 11v8l3 -3m-6 0l3 3" />
+        <path d="M9 7l1 0" />
+        <path d="M14 7l1 0" />
+        <path d="M19 7l1 0" />
+        <path d="M4 7l1 0" />
+    `,
     'AnimationFadeIn': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M12 21a9.01 9.01 0 0 0 2.32 -.302a9 9 0 0 0 1.74 -16.733a9 9 0 1 0 -4.06 17.035z"></path>

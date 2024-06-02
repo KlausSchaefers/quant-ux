@@ -165,12 +165,12 @@ export default class FigmaService {
   }
 
   setLineTos (model) {
-    let widgetMapping = {}
+    const widgetMapping = {}
     Object.values(model.widgets).forEach(w => {
       widgetMapping[w.figmaId] = w.id
     })
 
-    let screenMapping = {}
+    const screenMapping = {}
     Object.values(model.screens).forEach(s => {
       screenMapping[s.figmaId] = s.id
     })
@@ -179,6 +179,10 @@ export default class FigmaService {
       if (widgetMapping[line.figmaFrom] && screenMapping[line.figmaTo]) {
         line.from = widgetMapping[line.figmaFrom]
         line.to = screenMapping[line.figmaTo]
+      } else if (widgetMapping[line.figmaFrom] && widgetMapping[line.figmaTo]) {
+        line.from = widgetMapping[line.figmaFrom]
+        line.to = widgetMapping[line.figmaTo]
+        line.scroll = true
       } else {
         Logger.error(-1, 'setLineTos() > Can NOT find', line.figmaFrom +' -> '+ line.figmaTo + ' = ', widgetMapping[line.figmaFrom] + ' ' + screenMapping[line.figmaTo])
       }
@@ -762,6 +766,30 @@ export default class FigmaService {
               Logger.log(0, 'addHotspots', 'cannot add hotspot for line', line)
           }
       })
+
+      Object.values(model.lines).forEach(line => {
+        let from = model.widgets[line.from]
+        let to = model.widgets[line.to]
+        if (from && to) {
+            let fromParent = widgetScreenMapping[from.id]
+            let toParent = widgetScreenMapping[to.id]
+            if (toParent && fromParent && fromParent.id === toParent.id) {
+                from.type = 'HotSpot'
+                from.style = {}
+                result[from.id] = from
+                toParent.children.push(from.id)
+
+                to.type = 'HotSpot'
+                to.style = {}
+                result[to.id] = to
+                toParent.children.push(to.id)
+
+                console.debug('ADD Scroll HOTSPOT', from.name, from.figmaId)
+            }
+        } else {
+            Logger.log(0, 'addHotspots', 'cannot add hotspot for line', line)
+        }
+    })
       Logger.log(2, 'addHotspots', 'exit', result)
       return result
   }

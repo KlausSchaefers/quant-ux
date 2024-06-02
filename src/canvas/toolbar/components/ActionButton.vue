@@ -279,7 +279,7 @@ export default {
 			/**
 			 * Move this and the timer options int
 			 */
-			if (!line.isTemplateTransition) {
+			if (!line.isTemplateTransition && !line.scroll === true) {
 				var scrollChkBox = this.$new(CheckBox);
 				scrollChkBox.setLabel("Keep scroll position");
 				css.add(scrollChkBox.domNode, "MatcToolbarItem");
@@ -484,7 +484,7 @@ export default {
 					result.label = "Rotate (Top Left)";
 					break;
 
-					case "slideLeftDown":
+				case "slideLeftDown":
 					result.icon = "mdi mdi-arrow-bottom-left";
 					result.label = "Down Left Slide";
 					break;
@@ -502,6 +502,11 @@ export default {
 				case "slideRightUp":
 					result.icon = "mdi mdi-arrow-top-right";
 					result.label = "Down Right Slide";
+					break;
+
+				case "scroll":
+					result.icon = "AnimationScroll";
+					result.label = "Scroll";
 					break;
 
 				default:

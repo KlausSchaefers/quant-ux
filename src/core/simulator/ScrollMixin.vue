@@ -225,6 +225,27 @@ export default {
 			this.logger.log(-1,"setScrollListenTarget","exit > " + this.scrollListenTarget);
 		},
 
+		scrollToY (y) {
+			/**
+			 * In 4.2.30: Cleaned this up to be related to scroll target
+			 */
+			 if (this.scrollListenTarget === "window") {
+				window.scrollTo(0, y);
+			} 
+			if (this.scrollListenTarget === 'parent'){
+				this.domNode.parentNode.scrollTop = y
+			}
+			if (this.scrollListenTarget === 'simpleBar') {
+				const parent = this.getSimpleBarScrollParent()
+				if (parent) {
+					parent.scrollTop = y
+				} else {
+					this.logger.error("scrollToTop","No simple bar");
+				}
+			}
+
+			this.onScroll(y)
+		},
 	
 
 		scrollToTop (){

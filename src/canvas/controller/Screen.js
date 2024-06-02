@@ -1424,6 +1424,15 @@ export default class Screen extends CopyPaste {
 					line.id = "l"+this.getUUID();
 					tempLines[line.id] = line
 					console.debug('ADD LINE' , line)
+				} else if (widgetIdMapping[line.from] && widgetIdMapping[line.to] ) {
+					console.debug("Scroll link")
+					line.from = widgetIdMapping[line.from]
+					line.to = widgetIdMapping[line.to]
+					line.id = "l"+this.getUUID();
+					line.animation = "scroll"
+					line.easing = 'easeOutQuad'
+					tempLines[line.id] = line
+					console.debug('ADD SCROLL LINE' , line)
 				} else {
 					console.error("Wooop Woopp, cannot map line", line);
 				}

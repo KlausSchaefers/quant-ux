@@ -636,7 +636,7 @@
 				  return;
 			  }
 			  if(this.canPerformTransition(line, screenID)){
-				  var screen = this.model.screens[line.to];
+				  const screen = this.model.screens[line.to];
 				  if(screen){
 					  /**
 					   * Store the screen because of onWidgetInit
@@ -656,7 +656,12 @@
 					  const widget = this.model.widgets[line.to];
 					  if(widget){
 						  this.logLine(line, screenID);
-						  this.executeLogic(screenID, widgetID, widget, line);
+						  if (line.scroll) {
+							this.executeScroll(screenID, widgetID, widget, line);
+						  } else {
+							this.executeLogic(screenID, widgetID, widget, line);
+						  }
+
 					  } else {
 						  console.warn("onTransition() > No screen or logic widget with id "+ line.to)
 					  }
@@ -664,6 +669,19 @@
 			  } else {
 				  this.log("ValidationErrorLine",screenID, widgetID);
 			  }
+		  },
+
+		  executeScroll (screenID, widgetID, widget, orginalLine) {
+			this.logger.log(1,"executeScroll","enter >  " + widget.id + ' '+ widget.type  + ' > ' + orginalLine.easing);
+			const screenY = this.currentOverlay ? this.currentOverlay.y : this.currentScreen.y
+			const scrollPos = widget.y - screenY
+			const anim = this.animationFactory.createAnimation()
+			anim.setDuration(orginalLine.duration)
+			anim.setEasing(orginalLine.easing)
+			anim.onRender(p => {
+				this.scrollToY(scrollPos * p)
+			})
+			anim.run()		
 		  },
   
 		  /**

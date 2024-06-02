@@ -56,6 +56,9 @@ export default {
     },
     show(e) {
       this.$refs.dialog.show(e.target)
+      setTimeout(() => {
+        this.$refs.inputName.focus()
+      },200)
     },
     setType(t) {
       this.type = t;
