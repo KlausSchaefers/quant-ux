@@ -143,7 +143,7 @@
             "msg2": "",
             "privacy-title": "Privacy",
             "privacy": "Your interactions, including clicks and text input, will be <b>recorded</b> to evaluate the app's performance and identify areas for improvement.",
-            "privacy1": "We do not store any personal information about you, expect the data you choose to enter. You can find more information on our <a target='quxPrivacy' href='#/privacy.html'>privacy page</a>.",
+            "privacy1": "We do not store any personal information about you, except the data you choose to enter. You can find more information on our <a target='quxPrivacy' href='#/privacy.html'>privacy page</a>.   ",
             "click-start": "If you agree, click on the <b>Start</b> button to beginn the test.",
             "start": "Start",
             "showTasks": "Show Tasks",

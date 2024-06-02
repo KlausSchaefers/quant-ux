@@ -444,7 +444,8 @@
 					  * we can wire stuff together
 					  */
 					  const children = cntrWidget.getChildren()
-					  children.forEach(child => {
+					  if (children) {
+						children.forEach(child => {
 						  this.wireWidget(child.widget, screen, screenId, child.div)
 						  /**
 						  * Extend here the model with the child elements,
@@ -453,7 +454,9 @@
 						  * method.
 						  */
 						  this.model.widgets[child.widget.id] = child.widget
-					  })
+					  	})
+					  }
+					 
   
 					  /**
 					   * Since 4.3.31 we also add data binding if needed.

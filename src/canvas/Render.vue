@@ -355,6 +355,13 @@ export default {
 
 		updateScalledModel () {
 			//console.time('updateScalledModel')
+			if (!this.sourceModel) {
+				// this can happen on slow connection when booting up. 
+				// the comments are returned beforethe model?
+				const timeSinceStart = new Date().getTime() - this._canvasStartTime
+				this.logger.error('updateScalledModel', 'Source model is null! > timeSinceStart: ' + timeSinceStart)
+				return
+			}
 			this.model = ModelUtil.createScalledModelFast(this.sourceModel, this.zoom, this.roundCoordinates)
 			//console.timeEnd('updateScalledModel')
 		},
@@ -399,7 +406,12 @@ export default {
 		 * for instance when widgets are moved.
 		 */
 		onWidgetPositionChange (sourceModel) {
-			this.logger.log(1,"onWidgetPositionChange", "enter", sourceModel);
+			if (!sourceModel) {
+				this.logger.sendError("onWidgetPositionChange", "No source model");
+				this.logger.sendError(new Error("onWidgetPositionChange() > No source model passed"));
+				return
+			}
+			this.logger.log(-1,"onWidgetPositionChange", "enter", sourceModel);
 			this.sourceModel = sourceModel;
 			this.updateScalledModel()
 			this.renderFactory.setZoomedModel(sourceModel);

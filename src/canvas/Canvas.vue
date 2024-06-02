@@ -114,6 +114,8 @@ export default {
     methods: {
 		postCreate (){
 
+			this._canvasStartTime = new Date().getTime()
+
 			this.logger = new Logger("Canvas")
 			this.logger.log(2,"postCreate", "entry");
 			this.domUtil = new FastDomUtil()
@@ -260,7 +262,7 @@ export default {
 		},
 
 		setCanvasViewConfig (key, value) {
-			this.logger.log(3, "setCanvasViewConfig", "enter > " + key, value);
+			this.logger.log(-3, "setCanvasViewConfig", "enter > " + key, value);
 			if (key === 'zoom') {
 				this.setZoomFactor(value)
 			}
