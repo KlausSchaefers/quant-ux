@@ -349,7 +349,13 @@ export default {
 		 **********************************************************************/
 
 		rerender (){
-			this.render(this.sourceModel);
+			if (this.sourceModel) {
+				this.render(this.sourceModel);
+			} else {
+				const timeSinceStart = new Date().getTime() - this._canvasStartTime
+				this.logger.error('rerender', 'Source model is null! > timeSinceStart: ' + timeSinceStart)
+			}
+
 		},
 
 

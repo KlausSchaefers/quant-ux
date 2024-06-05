@@ -203,7 +203,7 @@ export default {
 			    	{"value" : ">", label:"Bigger (>)"},
 					{"value" : "<", label:"Smaller (<)"},
 				  	{"value" : ">=", label:"Bigger Equals (>=)"},
-					{"value" : "<=", label:"Smaller Eqauls(<=)"}
+					{"value" : "<=", label:"Smaller Equals(<=)"}
 				]);
 				drpBox.setValue(rule.operator)
 				drpBox.placeAt(row);
@@ -318,7 +318,7 @@ export default {
 							result.push({"value" : ">", label:"Bigger (>)"});
 							result.push({"value" : "<", label:"Smaller (<)"});
 							result.push({"value" : ">=", label:"Bigger Equals (>=)"});
-							result.push({"value" : "<=", label:"Smaller Eqauls(<=)"});
+							result.push({"value" : "<=", label:"Smaller Equals(<=)"});
 			        break;
 			    case "options":
 							result.push({"value" : "==", label:"Equals"});
@@ -339,13 +339,13 @@ export default {
 								result.push({"value" : ">", label:"Bigger (>)"});
 								result.push({"value" : "<", label:"Smaller (<)"});
 								result.push({"value" : ">=", label:"Bigger Equals (>=)"});
-								result.push({"value" : "<=", label:"Smaller Eqauls(<=)"});
+								result.push({"value" : "<=", label:"Smaller Equals(<=)"});
 								break;
 						case "double":
 								result.push({"value" : ">", label:"Bigger (>)"});
 								result.push({"value" : "<", label:"Smaller (<)"});
 								result.push({"value" : ">=", label:"Bigger Equals (>=)"});
-								result.push({"value" : "<=", label:"Smaller Eqauls(<=)"});
+								result.push({"value" : "<=", label:"Smaller Equals(<=)"});
 								break;
 					  case "string":
 					      result.push({"value" : "contains", label:"Contains"})
