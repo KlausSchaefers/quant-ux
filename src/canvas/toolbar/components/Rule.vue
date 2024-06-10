@@ -145,6 +145,7 @@ export default {
 				input.setValue(rule.databinding)
 				input.setHints(options);
 				this.tempOwn(on(input, "change", lang.hitch(this, "setDataBinding")));
+				window.requestAnimationFrame(() => input.focus())
 			}
 		},
 
