@@ -14,7 +14,6 @@ RUN npm clean-install --omit=dev
 FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS builder
 USER node
 WORKDIR /home/node
-# RUN apk --no-cache add make python3 g++
 
 COPY --chown=node:node [".", "./"]
 COPY --chown=node:node --from=production-dependencies ["/home/node/node_modules", "node_modules/"]
