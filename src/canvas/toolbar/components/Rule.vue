@@ -212,9 +212,7 @@ export default {
 			}
 		},
 
-
 		renderValue (rule){
-			console.debug('renderValue', rule)
 			if (rule.widget && rule.operator && rule.operator != "isValid") {
 				let widget = this.model.widgets[rule.widget];
 				if (widget) {
@@ -241,7 +239,6 @@ export default {
 
 		renderValue_options (row, widget, rule){
 			this.db.label(null,"Value").build(row);
-
 			var drpBox = this.$new(DropDownButton,{maxLabelLength:25});
 			drpBox.setOptions(this.getOptions(widget));
 			drpBox.setValue(rule.value)

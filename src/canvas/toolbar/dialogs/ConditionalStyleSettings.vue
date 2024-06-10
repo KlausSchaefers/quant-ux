@@ -192,9 +192,7 @@ export default {
 				
 				return;
 			}
-			
 		},
-
 
 		renderValue (step){
 
