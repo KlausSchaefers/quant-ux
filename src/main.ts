@@ -5,10 +5,9 @@ import VueI18n from 'vue-i18n'
 
 import Services from 'services/Services'
 
-
 async function start() {
   await Services.initConfig()
-  let conf = await Services.getConfig()
+  const conf = await Services.getConfig()
   if (conf.auth === 'keycloak') {
     const keycloakService = Services.getUserService()
     await keycloakService.setConf(conf)

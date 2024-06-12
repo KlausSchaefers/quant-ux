@@ -34,9 +34,11 @@
   @import '../style/components/menu.scss';
 </style>
 
-<script>
+<script lang="ts">
 import Service from 'services/Services'
-export default {
+import Vue from 'vue'
+
+const NotFoundView = Vue.extend({
   name: "Page404",
   mixins: [],
    data: function() {
@@ -56,5 +58,7 @@ export default {
       }
   },
   mounted() {}
-};
+})
+
+export default NotFoundView;
 </script>
