@@ -22,3 +22,5 @@ yarn-error.log*
 *.sln
 *.sw?
 ai.js
+
+dist
