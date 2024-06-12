@@ -4,6 +4,8 @@ export default class AbstractService {
         this.token = null
     }
 
+    setConf() {}
+
     setToken (token) {
         this.token = token
     }

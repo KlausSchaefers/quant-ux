@@ -5,7 +5,6 @@ import VueI18n from 'vue-i18n'
 
 import Services from 'services/Services'
 
-
 async function start() {
   await Services.initConfig()
   const conf = await Services.getConfig()
