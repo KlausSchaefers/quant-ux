@@ -18,6 +18,8 @@
             "padding": true
         },
         "actions": {},
-        "style": {}
+        "style": {
+            "verticalAlign": "middle"
+        }
     }
 ]

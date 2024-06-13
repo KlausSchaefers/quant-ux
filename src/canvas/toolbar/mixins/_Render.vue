@@ -57,7 +57,7 @@ export default {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox", 'LockSlider',
 						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 
 						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea', 
-						'SortableList', 'RadioTable', 'DragNDropTarget'],
+						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload'],
 			
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",

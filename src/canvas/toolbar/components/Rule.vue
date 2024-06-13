@@ -145,7 +145,7 @@ export default {
 				input.setValue(rule.databinding)
 				input.setHints(options);
 				this.tempOwn(on(input, "change", lang.hitch(this, "setDataBinding")));
-				window.requestAnimationFrame(() => input.focus())
+				setTimeout(() => input.focus(), 100)
 			}
 		},
 
@@ -398,8 +398,6 @@ export default {
 							if(this.widgetOutputTypes[widget.type] && !_ids[widget.id]){
 								result.push({"value" : widget.id, label:widget.name});
 								_ids[widget.id] = true;
-							} else {
-								console.warn("getUIWidgets() > No widget with id : " , id);
 							}
 						}
 					} else {

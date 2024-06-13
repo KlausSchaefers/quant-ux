@@ -52,8 +52,12 @@ export default {
 
 		showTemplate (widget){
 			css.remove(this.templateDiv, "MatcToolbarSectionHidden");
-			const btn = this.$refs.templateBTN
-			btn.setWidget(widget)
+			setTimeout(() => {
+				const btn = this.$refs.templateBTN
+				if (btn) {
+					btn.setWidget(widget)
+				}
+			}, 30)
 		},
 
 		showTemplateMerge () {

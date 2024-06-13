@@ -185,7 +185,7 @@
             "hotspot": "Hotspot",
             "logic": "Logic",
             "rest": "Web Service",
-            "or": "Or Conenctor",
+            "or": "Or Connector", 
             "ab": "AB Test",
             "script": "Script",
             "vector": "Vector",
