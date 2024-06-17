@@ -9,15 +9,18 @@ export default class ScriptEngine {
         Logger.log(1, 'ScriptEngine.run()')
         this.isDone = false
         return new Promise((resolve, reject) => {
-
+          
             try {
                 // TDOD: we could compress the model and just remove everything like styles etc...
                 const start = new Date().getTime()
+                const viewModelClone = structuredClone(viewModel)
+                Logger.log(-11, 'ScriptEngine.run() > viewModelClone:', viewModelClone)
+
                 worker.onmessage = (m) => this.onMessage(m, resolve, reject, start, js)
                 worker.postMessage({
                     code: js, 
                     model: lang.clone(model), 
-                    viewModel: lang.clone(viewModel),
+                    viewModel: viewModelClone,
                     sourceEvent: sourceEvent
                 })
 
@@ -46,6 +49,23 @@ export default class ScriptEngine {
             Logger.log(1, 'ScriptEngine.run() > exit')
         })
     }
+
+    // replaceFiles (data) {
+    //     for (let key in data) {
+    //         const value = data[key]
+    //         if (value instanceof File) {
+    //             Logger.log(-11, 'ScriptEngine.replaceFiles() > replace: ', key)
+    //             data[key] = {
+    //                 name: value.name,
+    //                 size: value.size,
+    //                 type: value.type
+    //             }
+    //         } else if (typeof value === 'object' && !value.toLowerCase && !Array.isArray(value) && value !== null) {
+    //             this.replaceFiles(value)
+    //         }
+    //     }
+    //     return data
+    // }
 
     onMessage (message, resolve, reject, start) {
         const end = new Date().getTime()
