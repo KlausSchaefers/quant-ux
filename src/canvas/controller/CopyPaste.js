@@ -285,7 +285,7 @@ export default class CopyPaste extends Group{
 	}
 
 	onPasteClipBoard (clipBoard, pos) {
-		this.logger.log(2,"onPasteClipBoard", "enter > "+ pos);
+		this.logger.log(-2,"onPasteClipBoard", "enter > "+ pos);
 		this.startModelChange()
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
 
@@ -752,18 +752,19 @@ export default class CopyPaste extends Group{
 		/**
 		 * First copy recursive down
 		 */
-		const subGroups = []
+		const subGroupsSet = new Set()
 		if (group.groups) {
 			group.groups.forEach(subGroupId => {
-				let subGroup = this.model.groups[subGroupId]
+				const subGroup = this.model.groups[subGroupId]
 				if (subGroup) {
-					let subGroupCopy = this.createGroupCommands(subGroup, copyIds, command, targetScreen)
-					subGroups.push(subGroupCopy.id)
+					const subGroupCopy = this.createGroupCommands(subGroup, copyIds, command, targetScreen)
+					subGroupsSet.add(subGroupCopy.id)
 				} else {
 					this.logger.error("createGroupCommands", "could not find subgroup > " + subGroupId);
 				}
 			})
 		}
+		const subGroups = Array.from(subGroupsSet)
 
 		/**
 		 * Now create real group

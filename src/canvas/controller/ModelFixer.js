@@ -8,7 +8,25 @@ class ModelFixer {
 		this.logger = new Logger("ModelFixer")
 	}
 
-	
+	fixDoubleGroup(model) {
+		this.logger.log(2, "fixDoubleGroup", "enter")
+		let result = false
+
+		if (model.groups) {
+			for (let groupID in model.groups) {
+				const group = model.groups[groupID]
+				if (group.groups) {
+					const childGroupIDs = new Set(group.groups)
+					if (group.groups.length > childGroupIDs.size) {
+						this.logger.error("fixDoubleGroup", "fix" + group.name)
+						group.groups = Array.from(childGroupIDs)
+						result = true
+					}
+				}
+			}
+		}
+		return result
+	}
 
 	fixCommandStack(stack) {
 		this.logger.log(2, "fixCommandStack", "enter")
@@ -338,7 +356,7 @@ class ModelFixer {
 					if (Object.values(missing).length > 0) {
 						console.debug(JSON.stringify(group.groups))
 						group.groups = group.groups.filter(id => !missing[id])
-						this.logger.error("fixMissingSubgroups", "fix() > " + group.id)
+						this.logger.error("fixMissingSubgroups", "fix() > " + group.name)
 						console.debug(JSON.stringify(group.groups))
 					}
 				}

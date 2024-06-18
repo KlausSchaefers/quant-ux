@@ -84,6 +84,7 @@ export default class BaseController extends Core {
 		ModelFixer.fixModelCount(m);
 		ModelFixer.fixRecursiveGroups(this.model)
 		ModelFixer.fixMissingSubgroups(this.model)
+		ModelFixer.fixDoubleGroup(this.model)
 
 		this.initCanvas(screenID);
 
@@ -422,6 +423,7 @@ export default class BaseController extends Core {
 			ModelFixer.validateAndFixModel(this.model);
 			ModelFixer.fixRecursiveGroups(this.model)
 			ModelFixer.fixMissingSubgroups(this.model)
+			ModelFixer.fixDoubleGroup(this.model)
 			this.emit("notSavedWarningShow", this.model);
 		} else {
 			if (this._dirty){
@@ -433,6 +435,7 @@ export default class BaseController extends Core {
 					ModelFixer.validateAndFixModel(this.model);
 					ModelFixer.fixRecursiveGroups(this.model)
 					ModelFixer.fixMissingSubgroups(this.model)
+					ModelFixer.fixDoubleGroup(this.model)
 
 					/**
 					 * compute changes and send them to server

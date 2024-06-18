@@ -50,23 +50,6 @@ export default class ScriptEngine {
         })
     }
 
-    // replaceFiles (data) {
-    //     for (let key in data) {
-    //         const value = data[key]
-    //         if (value instanceof File) {
-    //             Logger.log(-11, 'ScriptEngine.replaceFiles() > replace: ', key)
-    //             data[key] = {
-    //                 name: value.name,
-    //                 size: value.size,
-    //                 type: value.type
-    //             }
-    //         } else if (typeof value === 'object' && !value.toLowerCase && !Array.isArray(value) && value !== null) {
-    //             this.replaceFiles(value)
-    //         }
-    //     }
-    //     return data
-    // }
-
     onMessage (message, resolve, reject, start) {
         const end = new Date().getTime()
         Logger.log(2, 'ScriptEngine.onMessage() > took',end - start)

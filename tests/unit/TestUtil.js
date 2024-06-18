@@ -14,6 +14,7 @@ export function createController (model) {
 
     const service = new MockModelService()
     const controller =  new Controller()
+    controller.debug = true
     controller.setPublic(true)
     controller.setModelService(service);
     controller.setModelFactory(factory);

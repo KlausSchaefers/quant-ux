@@ -1,0 +1,648 @@
+{
+    "_id" : "6670b06949ca5b7cfc0f5ea1",
+    "version" : 4,
+    "name" : "Group Copy Bug Reproduce",
+    "description" : "",
+    "screenSize" : {
+      "w" : 1280,
+      "h" : 720
+    },
+    "type" : "desktop",
+    "screens" : {
+      "s10288_80967" : {
+        "x" : 8796,
+        "y" : 600,
+        "h" : 1720,
+        "w" : 1280,
+        "name" : "Landing Page - Content",
+        "type" : "Screen",
+        "style" : {
+          "background" : "#ffffff"
+        },
+        "min" : {
+          "w" : -1,
+          "h" : -1
+        },
+        "has" : {
+          "image" : true
+        },
+        "props" : {
+          "start" : false
+        },
+        "children" : [ "w10146_99347", "w10141_87100", "w10142_33490", "w10143_17248", "w10137_13217", "w10138_45856", "w10139_68257", "w10133_55223", "w10134_70740", "w10135_44792", "w10130_68367", "w10131_8929", "w10132_5887" ],
+        "id" : "s10288_80967",
+        "designtokens" : {
+          "style" : {
+            "background" : "dt10002_43981"
+          }
+        },
+        "segment" : true,
+        "modified" : 1717797216074
+      }
+    },
+    "widgets" : {
+      "w10130_68367" : {
+        "id" : "w10130_68367",
+        "name" : "Box 1",
+        "w" : 194,
+        "h" : 269,
+        "x" : 8978,
+        "y" : 738,
+        "z" : 4,
+        "template" : "tw10014_16596",
+        "type" : "Button",
+        "props" : {
+          "label" : "",
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : 0,
+            "fixedVertical" : 0
+          }
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "style" : { },
+        "isRootTemplate" : true,
+        "created" : 1717792528308,
+        "modified" : 1717797216074
+      },
+      "w10131_8929" : {
+        "id" : "w10131_8929",
+        "name" : "Image",
+        "w" : 165,
+        "h" : 200,
+        "x" : 8993,
+        "y" : 757,
+        "z" : 5,
+        "template" : "tw10015_80068",
+        "type" : "Image",
+        "props" : {
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : false,
+            "fixedVertical" : false
+          }
+        },
+        "has" : {
+          "onclick" : true,
+          "backgroundImage" : true,
+          "borderRadius" : true
+        },
+        "style" : { },
+        "isRootTemplate" : true,
+        "created" : 1717792528308,
+        "modified" : 1717797216074
+      },
+      "w10132_5887" : {
+        "id" : "w10132_5887",
+        "name" : "Primary Text",
+        "w" : 165,
+        "h" : 21,
+        "x" : 8993,
+        "y" : 969,
+        "z" : 6,
+        "template" : "tw10016_24182",
+        "type" : "Label",
+        "props" : {
+          "label" : "Work Title\n"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : { },
+        "isRootTemplate" : true,
+        "created" : 1717792528308,
+        "modified" : 1717797216074
+      },
+      "w10133_55223" : {
+        "id" : "w10133_55223",
+        "name" : "Box 2",
+        "w" : 194,
+        "h" : 269,
+        "x" : 9219,
+        "y" : 738,
+        "z" : 7,
+        "template" : "tw10014_16596",
+        "type" : "Button",
+        "props" : {
+          "label" : "",
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : 0,
+            "fixedVertical" : 0
+          }
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "style" : { },
+        "created" : 1717792531188,
+        "modified" : 1717797216074,
+        "copyOf" : "w10130_68367"
+      },
+      "w10134_70740" : {
+        "id" : "w10134_70740",
+        "name" : "Image 1",
+        "w" : 165,
+        "h" : 200,
+        "x" : 9234,
+        "y" : 757,
+        "z" : 8,
+        "template" : "tw10015_80068",
+        "type" : "Image",
+        "props" : {
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : false,
+            "fixedVertical" : false
+          }
+        },
+        "has" : {
+          "onclick" : true,
+          "backgroundImage" : true,
+          "borderRadius" : true
+        },
+        "style" : { },
+        "created" : 1717792531188,
+        "modified" : 1717797216074,
+        "copyOf" : "w10131_8929"
+      },
+      "w10135_44792" : {
+        "id" : "w10135_44792",
+        "name" : "Primary Text 1",
+        "w" : 165,
+        "h" : 21,
+        "x" : 9234,
+        "y" : 969,
+        "z" : 9,
+        "template" : "tw10016_24182",
+        "type" : "Label",
+        "props" : {
+          "label" : "Work Title\n"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : { },
+        "created" : 1717792531188,
+        "modified" : 1717797216074,
+        "copyOf" : "w10132_5887"
+      },
+      "w10137_13217" : {
+        "id" : "w10137_13217",
+        "name" : "Box 3",
+        "w" : 194,
+        "h" : 269,
+        "x" : 9460,
+        "y" : 738,
+        "z" : 10,
+        "template" : "tw10014_16596",
+        "type" : "Button",
+        "props" : {
+          "label" : "",
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : 0,
+            "fixedVertical" : 0
+          }
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "style" : { },
+        "created" : 1717792533915,
+        "modified" : 1717797216074,
+        "copyOf" : "w10130_68367"
+      },
+      "w10138_45856" : {
+        "id" : "w10138_45856",
+        "name" : "Image 2",
+        "w" : 165,
+        "h" : 200,
+        "x" : 9475,
+        "y" : 757,
+        "z" : 11,
+        "template" : "tw10015_80068",
+        "type" : "Image",
+        "props" : {
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : false,
+            "fixedVertical" : false
+          }
+        },
+        "has" : {
+          "onclick" : true,
+          "backgroundImage" : true,
+          "borderRadius" : true
+        },
+        "style" : { },
+        "created" : 1717792533915,
+        "modified" : 1717797216074,
+        "copyOf" : "w10131_8929"
+      },
+      "w10139_68257" : {
+        "id" : "w10139_68257",
+        "name" : "Primary Text 2",
+        "w" : 165,
+        "h" : 21,
+        "x" : 9475,
+        "y" : 969,
+        "z" : 12,
+        "template" : "tw10016_24182",
+        "type" : "Label",
+        "props" : {
+          "label" : "Work Title\n"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : { },
+        "created" : 1717792533915,
+        "modified" : 1717797216074,
+        "copyOf" : "w10132_5887"
+      },
+      "w10141_87100" : {
+        "id" : "w10141_87100",
+        "name" : "Box 4",
+        "w" : 194,
+        "h" : 269,
+        "x" : 9701,
+        "y" : 738,
+        "z" : 13,
+        "template" : "tw10014_16596",
+        "type" : "Button",
+        "props" : {
+          "label" : "",
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : 0,
+            "fixedVertical" : 0
+          }
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "style" : { },
+        "created" : 1717792534211,
+        "modified" : 1717797216074,
+        "copyOf" : "w10130_68367"
+      },
+      "w10142_33490" : {
+        "id" : "w10142_33490",
+        "name" : "Image 3",
+        "w" : 165,
+        "h" : 200,
+        "x" : 9716,
+        "y" : 757,
+        "z" : 14,
+        "template" : "tw10015_80068",
+        "type" : "Image",
+        "props" : {
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : false,
+            "fixedVertical" : false
+          }
+        },
+        "has" : {
+          "onclick" : true,
+          "backgroundImage" : true,
+          "borderRadius" : true
+        },
+        "style" : { },
+        "created" : 1717792534211,
+        "modified" : 1717797216074,
+        "copyOf" : "w10131_8929"
+      },
+      "w10143_17248" : {
+        "id" : "w10143_17248",
+        "name" : "Primary Text 3",
+        "w" : 165,
+        "h" : 21,
+        "x" : 9716,
+        "y" : 969,
+        "z" : 15,
+        "template" : "tw10016_24182",
+        "type" : "Label",
+        "props" : {
+          "label" : "Work Title\n"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : { },
+        "created" : 1717792534211,
+        "modified" : 1717797216074,
+        "copyOf" : "w10132_5887"
+      },
+      "w10146_99347" : {
+        "id" : "w10146_99347",
+        "type" : "Label",
+        "name" : "Primary Text 4",
+        "x" : 8978,
+        "y" : 670,
+        "w" : 917,
+        "h" : 50,
+        "z" : 16,
+        "props" : {
+          "label" : "Popular"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 32,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : "@letterSpacin",
+          "lineHeight" : 1.5,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "created" : 1717792556423,
+        "modified" : 1717797216074
+      }
+    },
+    "lines" : { },
+    "groups" : {
+      "tg10129_17025" : {
+        "id" : "tg10129_17025",
+        "name" : "Work Card Small",
+        "template" : "tg10013_31712",
+        "children" : [ "w10130_68367", "w10131_8929", "w10132_5887" ],
+        "groups" : [ ],
+        "isRootTemplate" : true
+      },
+      "g10136_87287" : {
+        "id" : "g10136_87287",
+        "children" : [ "w10133_55223", "w10134_70740", "w10135_44792" ],
+        "groups" : [ ],
+        "copyOf" : "tg10129_17025",
+        "template" : "tg10013_31712",
+        "name" : "Work Card Small 1"
+      },
+      "g10140_38208" : {
+        "id" : "g10140_38208",
+        "children" : [ "w10137_13217", "w10138_45856", "w10139_68257" ],
+        "groups" : [ ],
+        "copyOf" : "tg10129_17025",
+        "template" : "tg10013_31712",
+        "name" : "Work Card Small 2"
+      },
+      "g10144_9552" : {
+        "id" : "g10144_9552",
+        "children" : [ "w10141_87100", "w10142_33490", "w10143_17248" ],
+        "groups" : [ ],
+        "copyOf" : "tg10129_17025",
+        "template" : "tg10013_31712",
+        "name" : "Work Card Small 3"
+      },
+      "g10145_16253" : {
+        "id" : "g10145_16253",
+        "children" : [ ],
+        "groups" : [ "g10144_9552", "g10144_9552", "g10140_38208", "g10140_38208", "g10136_87287", "g10136_87287", "tg10129_17025", "tg10129_17025" ],
+        "name" : "Group 4"
+      },
+      "g10147_44252" : {
+        "id" : "g10147_44252",
+        "children" : [ "w10146_99347" ],
+        "groups" : [ "g10145_16253", "g10145_16253" ],
+        "name" : "Group 5"
+      }
+    },
+    "templates" : {
+      "tg10013_31712" : {
+        "id" : "tg10013_31712",
+        "type" : "Group",
+        "templateType" : "Group",
+        "visible" : true,
+        "name" : "Work Card Small",
+        "children" : [ "tw10014_16596", "tw10015_80068", "tw10016_24182" ],
+        "groups" : [ ],
+        "w" : 194,
+        "h" : 269
+      },
+      "tw10014_16596" : {
+        "id" : "tw10014_16596",
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#b1b1b1",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "props" : {
+          "label" : "",
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : 0,
+            "fixedVertical" : 0
+          }
+        },
+        "w" : 194,
+        "h" : 269,
+        "z" : 0,
+        "x" : 0,
+        "y" : 0,
+        "templateType" : "Widget",
+        "type" : "Button",
+        "visible" : false,
+        "name" : "Box 1",
+        "modified" : 1717790740682,
+        "created" : 1717790740682
+      },
+      "tw10015_80068" : {
+        "id" : "tw10015_80068",
+        "style" : {
+          "backgroundImage" : null,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "has" : {
+          "onclick" : true,
+          "backgroundImage" : true,
+          "borderRadius" : true
+        },
+        "props" : {
+          "resize" : {
+            "right" : false,
+            "up" : false,
+            "left" : false,
+            "down" : false,
+            "fixedHorizontal" : false,
+            "fixedVertical" : false
+          }
+        },
+        "w" : 165,
+        "h" : 200,
+        "z" : 1,
+        "x" : 15,
+        "y" : 19,
+        "templateType" : "Widget",
+        "type" : "Image",
+        "visible" : false,
+        "name" : "Image",
+        "modified" : 1717790740682,
+        "created" : 1717790740682
+      },
+      "tw10016_24182" : {
+        "id" : "tw10016_24182",
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : "@letterSpacin",
+          "lineHeight" : 1.5,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "props" : {
+          "label" : "Work Title\n"
+        },
+        "w" : 165,
+        "h" : 21,
+        "z" : 2,
+        "x" : 15,
+        "y" : 231,
+        "templateType" : "Widget",
+        "type" : "Label",
+        "visible" : false,
+        "name" : "Primary Text",
+        "modified" : 1717790740682,
+        "created" : 1717790740682
+      }
+    },
+    "designtokens" : {
+      "dt10002_43981" : {
+        "id" : "dt10002_43981",
+        "modified" : 1717789375989,
+        "isComplex" : false,
+        "name" : "Default Background",
+        "type" : "color",
+        "value" : "#dedede"
+      }
+    },
+    "lastUUID" : 11215,
+    "lastUpdate" : 1718745833988,
+    "created" : 1718661225573,
+    "startScreen" : "",
+    "grid" : {
+      "w" : 8,
+      "h" : 8,
+      "style" : "line",
+      "color" : "#cecece",
+      "visible" : false,
+      "enabled" : false
+    },
+    "domain" : "Quant-UX.com",
+    "screenCount" : 1,
+    "widgetCount" : 13,
+    "sizeBackup" : 11166,
+    "sessionCount" : 0,
+    "lastCategory" : "WireFrame",
+    "isPublic" : false,
+    "parent" : "6670afc149ca5b7cfc0f5e86",
+    "id" : "6670b06949ca5b7cfc0f5ea1",
+    "isDirty" : true,
+    "lastBackup" : 1718661924753
+  }

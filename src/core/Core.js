@@ -1405,9 +1405,9 @@ export default class Core extends Evented {
     }
 
     getLines(box, deep) {
-        var result = [];
+        const result = [];
 
-        var _ids = {};
+        const _ids = {};
 
         for (let id in this.model.lines) {
             let line = this.model.lines[id];
@@ -1417,7 +1417,7 @@ export default class Core extends Evented {
             }
         }
 
-        if (box.children && deep) {
+        if (box && box.children && deep) {
             for (let i = 0; i < box.children.length; i++) {
                 let childID = box.children[i];
                 for (let id in this.model.lines) {
