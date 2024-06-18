@@ -12,6 +12,7 @@ async function start() {
   if (conf.auth === 'keycloak') {
     const keycloakService = Services.getUserService()
     await keycloakService.setConf(conf)
+    await keycloakService.init();
   }
 
   Vue.use(VueI18n)

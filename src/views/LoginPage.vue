@@ -235,10 +235,6 @@ export default {
             this.$root.$emit('UserLogin', user)
             this.logger.log(-1,'signup', 'exit with login', this.email)
         }
-      },
-      initKeyCloak (conf) {
-        const keycloakService = Services.getUserService()
-        keycloakService.init(conf)
       }
   },
   async mounted() {
