@@ -22,7 +22,7 @@ test('GroupCopyPasteBug.js - screenCopy', async () => {
    
     controller.onCopyScreen('s10000_33759', {x:0, y:0})
 
-    console.debug(model.groups)
+    //console.debug(model.groups)
 
   
 })

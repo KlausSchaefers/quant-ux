@@ -354,10 +354,9 @@ class ModelFixer {
 					})
 					
 					if (Object.values(missing).length > 0) {
-						console.debug(JSON.stringify(group.groups))
+						const groupIds = JSON.stringify(group.groups)
 						group.groups = group.groups.filter(id => !missing[id])
-						this.logger.error("fixMissingSubgroups", "fix() > " + group.name)
-						console.debug(JSON.stringify(group.groups))
+						this.logger.error("fixMissingSubgroups", "fix() > " + group.name + ' > ' + groupIds)
 					}
 				}
 			}

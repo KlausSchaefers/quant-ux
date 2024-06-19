@@ -960,14 +960,19 @@ export default class CopyPaste extends Group{
 					children.push(newWidget);
 					widgetIDMapping[widgetID] = newWidget.id;
 
-					const parentGroup = this.getParentGroup(widgetID);
-					if(parentGroup){
-						parentGroups[parentGroup.id] = parentGroup;
+					const allParentGroups = this.getGroupHierarchy(widgetID);
+					if (allParentGroups) {
+						allParentGroups.forEach(groupID => {
+							const parentGroup = this.model.groups[groupID]
+							if (parentGroup) {
+								parentGroups[parentGroup.id] = parentGroup;
+							}
+						})
 					}
 				})
 			}
 
-			
+
 			const groups = this.copyScreenGroups(parentGroups, widgetIDMapping)
 
 			/**
@@ -1011,6 +1016,8 @@ export default class CopyPaste extends Group{
 				const parentChildID = oldGroup.children[c];
 				if (widgetIDMapping[parentChildID]){
 					newGroup.children.push(widgetIDMapping[parentChildID]);
+				} else {
+					this.logger.error("copyScreenGroups", "No widget > " + parentChildID);
 				}
 			}
 			groups.push(newGroup);
@@ -1020,8 +1027,11 @@ export default class CopyPaste extends Group{
 		groups.forEach(newGroup => {	
 			if (newGroup.groups) {
 				newGroup.groups = newGroup.groups.map(oldChildId => {
-					console.debug(oldChildId, groupMapping[oldChildId])
-					return groupMapping[oldChildId]
+					if (!groupMapping[oldChildId]) {
+						this.logger.error("copyScreenGroups", "No group > " + oldChildId);
+					} else {
+						return groupMapping[oldChildId]
+					}
 				})
 			}
 		})
@@ -1029,36 +1039,39 @@ export default class CopyPaste extends Group{
 		return groups
 	}
 
-	copyScreenGroup (parentGroup, groups, widgetIDMapping) {
+	// is this used???
+	// copyScreenGroup (parentGroup, groups, widgetIDMapping) {
 
-		let subGroupIds = []
-		if (parentGroup.groups) {
-			parentGroup.groups.forEach(subGroupId => {
-				let subGroup = this.model.groups[subGroupId]
-				if (subGroup) {
-					let newSubGroup = this.copyScreenGroup(subGroup, groups, widgetIDMapping)
-					subGroupIds.push(newSubGroup.id)
-				} else {
-					this.logger.error("copyScreenGroup", "could not find subgroup > " + subGroupId);
-				}
-			})
-		}
+	// 	let subGroupIds = []
+	// 	if (parentGroup.groups) {
+	// 		parentGroup.groups.forEach(subGroupId => {
+	// 			let subGroup = this.model.groups[subGroupId]
+	// 			if (subGroup) {
+	// 				let newSubGroup = this.copyScreenGroup(subGroup, groups, widgetIDMapping)
+	// 				subGroupIds.push(newSubGroup.id)
+	// 			} else {
+	// 				this.logger.error("copyScreenGroup", "could not find subgroup > " + subGroupId);
+	// 			}
+	// 		})
+	// 	}
 
-		const newGroup = lang.clone(parentGroup);
-		newGroup.id = "g" + this.getUUID();
-		newGroup.copyOf = parentGroup.id;
-		newGroup.children = [];
-		newGroup.groups = subGroupIds
-		for (let c=0; c < parentGroup.children.length; c++) {
-			const parentChildID = parentGroup.children[c];
-			if (widgetIDMapping[parentChildID]){
-				newGroup.children.push(widgetIDMapping[parentChildID]);
-			}
-		}
-		groups.push(newGroup);
-		this.logger.log(3,"copyScreenGroup", "enter > ", newGroup);
-		return newGroup
-	}
+	// 	const newGroup = lang.clone(parentGroup);
+	// 	newGroup.id = "g" + this.getUUID();
+	// 	newGroup.copyOf = parentGroup.id;
+	// 	newGroup.children = [];
+	// 	newGroup.groups = subGroupIds
+	// 	for (let c=0; c < parentGroup.children.length; c++) {
+	// 		const parentChildID = parentGroup.children[c];
+	// 		if (widgetIDMapping[parentChildID]){
+	// 			newGroup.children.push(widgetIDMapping[parentChildID]);
+	// 		} else {
+	// 			this.logger.error("copyScreenGroup", "could not find parentChildID > " + parentChildID);
+	// 		}
+	// 	}
+	// 	groups.push(newGroup);
+	// 	this.logger.log(3,"copyScreenGroup", "enter > ", newGroup);
+	// 	return newGroup
+	// }
 
 	undoCopyScreen (command){
 		this.logger.log(3,"undoCopyScreen", "enter > " + command.id);

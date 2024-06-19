@@ -1639,25 +1639,25 @@ export default class BaseController extends Core {
 	 * Returns a unique group name within the screen!!
 	 */
 	getGroupName (screenID, name){
-		var names = {};
-		for (var id in this.model.groups){
-			var group =  this.model.groups[id];
+		const names = {};
+		for (let id in this.model.groups){
+			const group =  this.model.groups[id];
 			if (group) {
 				if (group.children.length > 0){
-					var widgetID = group.children[0];
-					var widget = this.model.widgets[widgetID];
+					const widgetID = group.children[0];
+					const widget = this.model.widgets[widgetID];
 					if (widget) {
-						var parentScreen = this.getParentScreen(widget);
+						const parentScreen = this.getParentScreen(widget);
 						if (parentScreen && parentScreen.id === screenID) {
 							names[group.name] = group.id;
 						}
 					}
 				}
+				// we are missung the sub groups here, or parent groups...
 			} else {
 				console.debug("getGroupName() > No group", id);
 			}
 		}
-
 		return this.getUniqueName(name, names);
 	}
 
