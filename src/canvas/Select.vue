@@ -181,9 +181,11 @@ import * as SelectionUtil from 'core/SelectionUtil'
 	
 	
 		onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
-			this.logger.log(1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
+			this.logger.log(-1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 
 			const now = new Date().getTime()
+
+			
 		
 			/**
 			 * Check here if the widget was select a second time. In this case
@@ -219,6 +221,10 @@ import * as SelectionUtil from 'core/SelectionUtil'
 						this.selectDnDBox(id);
 					}
 					this.controller.onWidgetSelected(id);
+
+					if ((now - this._inlineEditLastStop) < 300) {
+						this.inlineEditInit(this._selectWidget)	
+					}
 				} else {
 					console.warn("onWidgetSelected() > No widget with id", id);
 				}

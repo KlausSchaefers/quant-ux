@@ -439,6 +439,15 @@
 	pointer-events: none;
 }
 
+.MatcCanvasModeInlineEdit .MatcDnDLayer .MatcWidgetDND {
+	pointer-events: all;
+}
+
+.MatcCanvasModeInlineEdit .MatcDnDLayer .MatcDnDLayerSelectet {
+	pointer-events: none;
+}
+
+
 .MatcCanvasModeInlineEdit .MatcResizeBorderDown {
 	border-bottom: 1px dashed $canvas_selection;
 }

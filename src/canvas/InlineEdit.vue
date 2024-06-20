@@ -22,6 +22,12 @@ export default {
 				this._inlineEditDiv = div;
 				this._inlineEditResizeToWidth = resizeToWidth
 				this._inlineFocus(null, false, resizeToWidth);
+	
+				const dndDiv = this.widgetDivs[widget.id]
+				if (dndDiv) {
+					this._inlineEditDnDDiv = dndDiv
+					css.add(dndDiv, 'MatcDnDLayerSelectet')
+				}
 			}
 		},
 
@@ -57,7 +63,7 @@ export default {
 		},
 
 		inlineEditStop (){
-			this.logger.log(2,"inlineEditStop", "enter", this._inlineEditResizeToWidth);
+			this.logger.log(-2,"inlineEditStop", "enter", this._inlineEditResizeToWidth);
 
 			if(this._inlineEditWidget && this._inlineEditStarted){
 				const div = this.renderFactory.getLabelNode(this._inlineEditWidget);
@@ -75,6 +81,7 @@ export default {
 					txt = txt.replace(/%/g, "$perc;"); // Mongo cannot deal with % on undo
 
 					const resizeToWidth = this._inlineEditResizeToWidth
+					this._inlineEditLastStop = new Date().getTime()
 					
 					// only chnag ethe widget label when there was a real change, or
 					// we need to resize (because we a created a new widget with default message)
@@ -105,13 +112,15 @@ export default {
 						} else {
 							this.controller.updateWidgetProperties(id, {label : txt}, "props", true);
 						}
-
+					
 						return txt;
 					} else {
 						this.logger.log(3,"inlineEditStop", "exit > no chnage!");
 					}
+			
 				}
 			}
+	
 			this.cleanUpInlineEdit();
 			this.clearInlineEditSelections()
 		},
@@ -209,6 +218,10 @@ export default {
 				this._inlineCopyEventListener.remove()
 			}
 
+			if (this._inlineEditDnDDiv) {
+				css.remove(this._inlineEditDnDDiv, 'MatcDnDLayerSelectet')
+			}
+
 			if(this._inlineEditDiv){
 				domAttr.set(this._inlineEditDiv, "contenteditable", false);
 				this._inlineEditDiv.setAttribute("contentEditable", false);
@@ -226,9 +239,10 @@ export default {
 				this._inlineMouseUp.remove();
 				this._inlineMouseUp = null;
 			}
-
+			
 			this._inlineEditWidget = null;
 			this._inlineInnerHTML = null;
+			this._inlineEditDnDDiv = null
 			this._inlineEditStarted = false;
 			this._inlineEditResizeToWidth = false
 
