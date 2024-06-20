@@ -155,6 +155,8 @@ export default {
 			}
 
 			if(!this._inlineEditStarted && this._inlineEditDiv){
+				// on ESC cancel editing, BUT save
+				this.setCanvasCancelCallback('inlineEditStop')
 
 				if(!this._inlineEditWidget.props.label &&!doNotEmptyOnNull){
 				    this._inlineEditDiv.innerHTML = "";

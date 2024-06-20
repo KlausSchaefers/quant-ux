@@ -184,8 +184,7 @@ import * as SelectionUtil from 'core/SelectionUtil'
 			this.logger.log(-1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 
 			const now = new Date().getTime()
-
-			
+			const lastSelectedWidget = this._selectWidget ? this._selectWidget.id : null
 		
 			/**
 			 * Check here if the widget was select a second time. In this case
@@ -222,8 +221,14 @@ import * as SelectionUtil from 'core/SelectionUtil'
 					}
 					this.controller.onWidgetSelected(id);
 
+					// we continue the inline editing here, if another
+					// widget was in inline edit before
 					if ((now - this._inlineEditLastStop) < 300) {
-						this.inlineEditInit(this._selectWidget)	
+						// Check, because otherwise the ESC listener might
+						// throw us back to inline editing the same widget
+						if (lastSelectedWidget !== id) {
+							this.inlineEditInit(this._selectWidget)	
+						}
 					}
 				} else {
 					console.warn("onWidgetSelected() > No widget with id", id);
