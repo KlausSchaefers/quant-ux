@@ -33,14 +33,14 @@ class ModelFixer {
 		let result = false
 		if (stack.pos < 0) {
 			this.logger.warn("fixCommandStack", "Pos < 0 >> pos:" + stack.pos + ' > length:' + stack.stack.length )
-			this.logger.sendError(new Error("Controller.fixCommandStack() > pos is < 0" + stack.pos  + " > length: " + stack.stack.length))
+			this.logger.sendError(new Error("Controller.fixCommandStack() > pos is < 0 : " + stack.pos  + " > length: " + stack.stack.length))
 			stack.pos = stack.stack.length
 			result = true
 		}
 
 		if (stack.pos > stack.stack.length) {
 			this.logger.warn("fixCommandStack", "Pos too bug >> pos:" + stack.pos + ' > length:' + stack.stack.length )
-			this.logger.sendError(new Error("Controller.fixCommandStack() > pos is < 0" + stack.pos  + " > length: " + stack.stack.length))
+			this.logger.sendError(new Error("Controller.fixCommandStack() > pos is wrong > pos :" + stack.pos  + " > length: " + stack.stack.length))
 			stack.pos = stack.stack.length
 			result = true
 		}

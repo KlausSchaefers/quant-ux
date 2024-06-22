@@ -55,10 +55,10 @@ class NotificationService extends AbstractService{
   
         let addCount = 0
         const maxAdd = getDaysSinceLastNotification(user) > 1 ? 1 : 0
-        this.logger.log(-1, 'addUserJourneyNotifications', `> days since last ${getDaysSinceLastNotification(user)} > maxAdd: ${maxAdd} > Seen notifications:`, user.notifications )
+        this.logger.log(1, 'addUserJourneyNotifications', `> days since last ${getDaysSinceLastNotification(user)} > maxAdd: ${maxAdd} > Seen notifications:`, user.notifications )
         this.rules.forEach(rule => {
             if (user.notifications[rule.id]) {
-                this.logger.log(-1, 'addUserJourneyNotifications', 'Add OLD:', rule.id)
+                this.logger.log(1, 'addUserJourneyNotifications', 'Add OLD:', rule.id)
                 notifications.push({
                     id: rule.id,
                     type: 'UserJourney',
@@ -70,7 +70,7 @@ class NotificationService extends AbstractService{
                 })
             } else if (rule.matches(user)) {
                 if (addCount < maxAdd) {
-                    this.logger.log(-1, 'addUserJourneyNotifications', 'Add NEW:', rule.id)
+                    this.logger.log(1, 'addUserJourneyNotifications', 'Add NEW:', rule.id)
                     const lastUpdate = new Date().getTime()
                     notifications.push({
                         id: rule.id,
@@ -85,10 +85,10 @@ class NotificationService extends AbstractService{
                     isDirty = true
                     addCount++
                 } else {
-                    this.logger.log(-1, 'addUserJourneyNotifications', 'Ignored:', rule.id)
+                    this.logger.log(1, 'addUserJourneyNotifications', 'Ignored:', rule.id)
                 }
             } else {
-                this.logger.log(-1, 'addUserJourneyNotifications', 'No match:', rule.id)
+                this.logger.log(1, 'addUserJourneyNotifications', 'No match:', rule.id)
             }
         })
 
