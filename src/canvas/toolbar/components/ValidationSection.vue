@@ -348,6 +348,10 @@ export default {
 			]);
 		},
 
+		_showGeoLocation(model) {
+			this._renderDataBinding(model);
+		},
+
 
 		_showCheckBox (model){
 			this._renderDataBinding(model);

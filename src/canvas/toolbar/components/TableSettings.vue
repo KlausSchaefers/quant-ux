@@ -303,7 +303,7 @@ export default {
             this.model = m;
         },
         setData(data) {
-            this.logger.log(4, 'setData', "enter")
+            this.logger.log(-4, 'setData', "enter", data)
             this.props.data = data
         },
         setColumnName(i, name) {

@@ -72,6 +72,7 @@ import SVGPaths from 'core/widgets/SVGPaths'
 import VisualPicker from 'core/widgets/VisualPicker'
 import SortableList from 'core/widgets/SortableList'
 import RadioTable from 'core/widgets/RadioTable'
+import GeoLocation from 'core/widgets/GeoLocation'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -540,6 +541,12 @@ export default class RenderFactory extends Core {
 
 	_createImagePaging(parent, model) {
 		const widget = this.$new(ImagePaging)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createGeoLocation(parent, model) {
+		const widget = this.$new(GeoLocation)
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

@@ -545,9 +545,11 @@ export default {
 					table[r + r_offset][c + c_offset] = row[c];
 				}
 			}
+			console.debug(table)
 			this.dataDirty = true;
-			this.onChange()
 			this.renderData(table);
+			this.onChange()
+	
 		},
 
 		initWidths() {

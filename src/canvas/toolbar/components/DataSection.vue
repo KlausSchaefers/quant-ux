@@ -425,6 +425,11 @@ export default {
 			this._renderColor('Color','<span class="Color"></span>',model.style.iconColor, "iconColor", "onStyleChanged", true );
 		},
 
+		_showGeoLocation(model) {
+			this._setSectionLabel("Geo Location");
+			this._renderCheck("Auto load",model.props.autoLoad, "autoLoad" );
+		},
+
 		_showCheckBoxGroup (model){
 			this._setSectionLabel("CheckBox Group");
 

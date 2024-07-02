@@ -57,7 +57,7 @@ export default {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox", 'LockSlider',
 						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 
 						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea', 
-						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload'],
+						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload', 'GeoLocation'],
 			
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
@@ -65,7 +65,7 @@ export default {
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 'LockSlider', "StackedRingChart",
 						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 
 						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'NavBar', 
-						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget'],
+						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
@@ -75,7 +75,7 @@ export default {
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
 							'Table', 'Paging', 'Timeline', 'LabeledIconToggle', 'VisualPicker', 'LockSlider', 'IconToggleButton', 'ScreenSegment', 
 							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button', 'LabeledTextBox',
-							'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget'],
+							'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation'],
 
 			hasColor: ['Icon', 'SVGIcon'],
 
