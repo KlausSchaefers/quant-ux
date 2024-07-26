@@ -8,6 +8,37 @@ class ModelFixer {
 		this.logger = new Logger("ModelFixer")
 	}
 
+	fixCorruptedModel (model) {
+		if (model.screens) {
+			for (let screenID in model.screens) {
+				let screen = model.screens[screenID]
+				if (!screen.children) {
+					delete model.screens[screenID]
+				}
+			}
+		}
+
+		for (let widgetID in model.widgets) {
+			let widget = model.widgets[widgetID]
+			console.debug(widgetID)
+			if (!widget.style) {
+				console.error('fixCorruptedModel', widget)
+				delete model.widgets[widgetID]
+			}
+			if (widgetID.indexOf("+") >=0) {
+				
+				delete model.widgets[widgetID]
+				const newID = widgetID.replace('+', '').replace('.', '')
+				console.error('bad iD', widgetID, newID)
+				widget.id = newID
+				model.widgets[newID] = widget
+			}
+		}
+
+
+		console.debug(model)
+	}
+
 	fixDoubleGroup(model) {
 		this.logger.log(2, "fixDoubleGroup", "enter")
 		let result = false
@@ -151,12 +182,19 @@ class ModelFixer {
 					max = Math.max(max, i)
 				}
 			}
-			this.logger.log(4, "fixModelCount", "exit > " + max + " ?= " + m.lastUUID + " == " + (max > m.lastUUID))
-			if (max > m.lastUUID) {
-				errors.push({ msg: "lastUUID to small!" })
-				this.logger.error("fixModelCount", "fix > " + max + " ?= " + m.lastUUID)
-				this.logger.sendError(new Error("Controller.fixModelCount() > Some fuckup"))
-				m.lastUUID = max + 1
+			if (m.lastUUID > 1000000) {
+				m.lastUUID = 100000
+				errors.push({ msg: "lastUUID to to big!" })
+				this.logger.error("fixModelCount", "fix > too big lastUUID")
+				this.logger.sendError(new Error("Controller.fixModelCount() > Last UUID messed up"))
+			} else {
+				this.logger.log(4, "fixModelCount", "exit > " + max + " ?= " + m.lastUUID + " == " + (max > m.lastUUID))
+				if (max > m.lastUUID) {
+					errors.push({ msg: "lastUUID to small!" })
+					this.logger.error("fixModelCount", "fix > " + max + " ?= " + m.lastUUID)
+					this.logger.sendError(new Error("Controller.fixModelCount() > Some fuckup"))
+					m.lastUUID = max + 1
+				}
 			}
 		} catch (e) {
 			console.error("BaseController.fixModelCount() > Error", e)

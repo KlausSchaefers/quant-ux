@@ -114,8 +114,56 @@ export default {
 
       const screen = this.model.screens[id];
       this._addDNGroups(screen?.children, pos)
+      this._addDNDComments(id)
+     
 
       return screen;
+    },
+
+    _addDNDComments(id) {
+      if (this.comments && this.screenComments && this.screenComments["canvas"]) {
+
+        const canvasComments = this.screenComments["canvas"]
+        const id2Div = {}
+        canvasComments.forEach(pair => {
+          id2Div[pair.id] = pair.div
+        })
+
+        this._dragNDropBoxComments = []
+        const scrn = this.model.screens[id];
+        for (let cid in this.comments) {
+          const comment = this.comments[cid]
+          let pos = {
+              x: comment.x,
+              y: comment.y,
+              w: 1,
+              h: 1
+          };
+						
+					pos = this.getZoomedBox(pos, this.zoom, this.zoom);
+          if (this.isCommentInScreen(pos, scrn)) {
+            this._dragNDropBoxComments.push({
+              comment: comment,
+              pos: pos,
+              div: id2Div[cid]
+            })
+          }
+        }
+      }
+   
+      console.debug('_dragNDropBoxComments', this._dragNDropBoxComments)
+    },
+
+    isCommentInScreen(obj, parent) {
+        if (
+            obj.x < parent.x ||
+            parent.x + parent.w < obj.x ||
+            obj.y < parent.y ||
+            parent.y + parent.h < obj.y
+        ) {
+            return false;
+        }
+        return true;
     },
 
     onScreenDndMove (id, div, pos, dif) {
@@ -226,7 +274,27 @@ export default {
 
         this.updateGroupLines(pos)
 
+        this.updateScreenComments(pos, dif)
+
         return true;
+      }
+    },
+
+    updateScreenComments (pos, dif) {
+      if (this._dragNDropBoxComments) {
+        for (let i = 0; i < this._dragNDropBoxComments.length; i++) {
+          const c = this._dragNDropBoxComments[i]
+          const pos = c.pos
+          const div = c.div
+          const newPos = {
+            x: dif.x + pos.x,
+            y: dif.y + pos.y,
+            h: pos.h,
+            w: pos.w
+          }
+          c.newPos = newPos
+          this.domUtil.setPos(div, newPos)
+        }
       }
     },
 
@@ -343,6 +411,7 @@ export default {
       if (this._resizeCursor) {
         css.remove(this.container, this._resizeCursor);
       }
+      this.saveScreenComentsDND()
       this.cleanUpAlignment();
       this.cleanUpScreenDnD();
 
@@ -362,8 +431,30 @@ export default {
       this.setState(0);
     },
 
+    saveScreenComentsDND() {
+      if (this._dragNDropBoxComments) {
+          try {
+            for (let i = 0; i < this._dragNDropBoxComments.length; i++) {
+              const c = this._dragNDropBoxComments[i]
+              const comment = c.comment
+              const newPos = c.newPos
+              const pos = this.getUnZoomedBox(newPos, this.zoom, this.zoom);
+              const x = pos.x
+              const y = pos.y
+              comment.x = x;
+              comment.y = y;
+              comment.reference = 'canvas'
+              this.saveDNDChange(comment);		
+            }
+          } catch (err) {
+            this.logger.error("saveScreenComentsDND", "Could not save > " + err);
+          }
+      }
+    },
+
     cleanUpScreenDnD () {
       delete this._dragNDropLineGroups
+      delete this._dragNDropBoxComments
     },
 
     onScreenDndClick (id, div, pos, e) {

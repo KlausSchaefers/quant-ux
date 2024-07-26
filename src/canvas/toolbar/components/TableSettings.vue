@@ -99,7 +99,7 @@
                             :class="['MatcFormRow', { 'MatcFormRowDNDHover': i === hoverRow }, { 'MatcFormRowDNDSelect': i == dragRow }]"
                              v-for="(column, i) in props.columns" :key="i" :draggable="isDraggable"
                             @dragstart="onColDragStart($event, i)" @dragover="onColDragOver($event, i)"
-                            @drop="onColDrop($event, i)"  @dragleave="onCol($event, i)">
+                            @drop="onColDrop($event, i)"  @dragleave="onColDragLeave($event, i)">
 
                             <td>
                                 <div class="MatcFormRowDND">
@@ -242,8 +242,17 @@ export default {
                 const temp = this.props.columns[i]
                 this.props.columns[i] = this.props.columns[j]
                 this.props.columns[j] = temp
+                const data = this.props.data
+                if (data) {
+                    data.forEach(row => {
+                        const temp = row[i]
+                        row[i] = row[j]
+                        row[j] = temp
+                    })
+                }
                 this.$forceUpdate()
             }
+
             this.dragRow = -1
             this.hoverRow = -1
         },
@@ -354,6 +363,12 @@ export default {
         },
         removeColumn(i) {
             this.$delete(this.props.columns, i)
+            const data = this.props.data
+            if (data) {
+                data.forEach(row => {
+                    this.$delete(row, i)
+                })
+            }
         },
         onChangeActionColor(action, key, color) {
             this.$set(action, key, color)

@@ -1,0 +1,5675 @@
+{
+    "_id" : "669574f50e4dfe5f1863a203",
+    "stack" : [ {
+      "timestamp" : 1721677917165,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "background" : "#d1d1d1"
+        },
+        "o" : {
+          "background" : "#ff0000"
+        }
+      },
+      "modelId" : "w10190_40700",
+      "element" : "active",
+      "id" : "c1275"
+    }, {
+      "timestamp" : 1721677923674,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "background" : "#cccccc"
+        },
+        "o" : {
+          "background" : "#d1d1d1"
+        }
+      },
+      "modelId" : "w10190_40700",
+      "element" : "active",
+      "id" : "c1276"
+    }, {
+      "timestamp" : 1721678029119,
+      "type" : "WidgetName",
+      "o" : "DragNDrop 1",
+      "n" : "Button 2",
+      "modelId" : "w10190_40700",
+      "id" : "c1277"
+    }, {
+      "timestamp" : 1721678039348,
+      "type" : "WidgetName",
+      "o" : "Text Area",
+      "n" : "Button 2",
+      "modelId" : "w10198_66569",
+      "id" : "c1279"
+    }, {
+      "timestamp" : 1721678048942,
+      "type" : "RemoveWidget",
+      "model" : {
+        "id" : "w10197_80270",
+        "type" : "Icon",
+        "name" : "Icon",
+        "x" : 9244,
+        "y" : 1162,
+        "w" : 122,
+        "h" : 122,
+        "z" : 3,
+        "props" : { },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#ff0800",
+          "icon" : "mdi mdi-invert-colors"
+        },
+        "created" : 1721467060447,
+        "modified" : 1721467161392
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w10197_80270",
+      "id" : "c1280"
+    }, {
+      "timestamp" : 1721678110370,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l10459_30904",
+        "from" : "w10190_40700",
+        "to" : "s10194_24421",
+        "points" : [ {
+          "x" : 7356,
+          "y" : 772,
+          "w" : 4,
+          "h" : 4
+        }, {
+          "x" : 7716,
+          "y" : 752,
+          "w" : 4,
+          "h" : 4
+        }, {
+          "x" : 7536,
+          "y" : 1016,
+          "w" : 4,
+          "h" : 4
+        } ],
+        "event" : "click",
+        "animation" : "transform",
+        "duration" : 500
+      },
+      "id" : "c1281"
+    }, {
+      "timestamp" : 1721678133458,
+      "type" : "RemoveLine",
+      "model" : {
+        "id" : "l10459_30904",
+        "from" : "w10190_40700",
+        "to" : "s10194_24421",
+        "points" : [ {
+          "x" : 7356,
+          "y" : 772,
+          "w" : 4,
+          "h" : 4
+        }, {
+          "x" : 7716,
+          "y" : 752,
+          "w" : 4,
+          "h" : 4
+        }, {
+          "x" : 7792,
+          "y" : 904,
+          "box" : { }
+        } ],
+        "event" : "click",
+        "animation" : "transform",
+        "duration" : 500
+      },
+      "id" : "c1285"
+    }, {
+      "timestamp" : 1721678143521,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "fontSize" : 32
+        },
+        "o" : {
+          "fontSize" : 14
+        }
+      },
+      "modelId" : "w10460_38625",
+      "element" : "style",
+      "id" : "c1286",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678148773,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "h" : 53,
+          "w" : 569,
+          "type" : "widget",
+          "source" : "w10460_38625",
+          "snapp" : {
+            "type" : "RightDown",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "w10214_69167",
+              "type" : "Widget",
+              "pos" : "right",
+              "_sourceV" : 9089
+            },
+            "y" : {
+              "id" : "w10221_12385",
+              "type" : "Widget",
+              "pos" : "bottom",
+              "_sourceV" : 1627
+            }
+          }
+        },
+        "o" : {
+          "h" : 32,
+          "w" : 196,
+          "type" : "DateDropDown"
+        }
+      },
+      "modelId" : "w10460_38625",
+      "id" : "c1288",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678172336,
+      "type" : "RemoveWidget",
+      "model" : {
+        "id" : "w10211_14575",
+        "type" : "Icon",
+        "name" : "Icon 4",
+        "x" : 8373,
+        "y" : 1552,
+        "w" : 96,
+        "h" : 96,
+        "z" : 62,
+        "props" : { },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#000000",
+          "icon" : "mdi mdi-clock-time-four-outline"
+        },
+        "created" : 1721469317948,
+        "modified" : 1721529198635
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w10211_14575",
+      "id" : "c1289",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678175514,
+      "type" : "CopyWidget",
+      "model" : {
+        "type" : "Label",
+        "name" : "Label 4",
+        "x" : 8421,
+        "y" : 1606,
+        "w" : 245,
+        "h" : 53,
+        "z" : 83,
+        "props" : {
+          "label" : "Étudiants :"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 48,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "id" : "w10461_49334",
+        "created" : 1721529090142,
+        "modified" : 1721529180481,
+        "copyOf" : "w10222_65728"
+      },
+      "id" : "c1290",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678177409,
+      "type" : "RemoveWidget",
+      "model" : {
+        "type" : "Label",
+        "name" : "Label 2",
+        "x" : 8488,
+        "y" : 1574,
+        "w" : 32,
+        "h" : 53,
+        "z" : 71,
+        "props" : {
+          "label" : ":"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 48,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "id" : "w10221_12385",
+        "created" : 1721529039421,
+        "modified" : 1721529141441,
+        "copyOf" : "w10215_93890"
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w10221_12385",
+      "id" : "c1291",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678186296,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 8275,
+          "y" : 1574,
+          "type" : "widget",
+          "source" : "w10461_49334",
+          "snapp" : {
+            "type" : "All",
+            "left" : false,
+            "top" : true,
+            "x" : {
+              "id" : "w10215_93890",
+              "type" : "Widget",
+              "pos" : "right",
+              "_sourceV" : 8520
+            },
+            "y" : {
+              "id" : "w10460_38625",
+              "type" : "Widget",
+              "pos" : "top",
+              "_sourceV" : 1574
+            }
+          }
+        },
+        "o" : {
+          "x" : 8421,
+          "y" : 1606,
+          "type" : "Label"
+        }
+      },
+      "modelId" : "w10461_49334",
+      "id" : "c1292",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678195958,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "label" : "Date :"
+        },
+        "o" : {
+          "label" : "Étudiants :"
+        }
+      },
+      "modelId" : "w10461_49334",
+      "element" : "props",
+      "id" : "c1293",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678203771,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w10463_91935",
+        "name" : "Script",
+        "type" : "Script",
+        "x" : 7094,
+        "y" : 929,
+        "w" : 64,
+        "h" : 64,
+        "props" : {
+          "script" : ""
+        },
+        "has" : {
+          "script" : true
+        },
+        "style" : {
+          "background" : "#777"
+        },
+        "z" : 84
+      },
+      "id" : "c1287",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678201082,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "label" : "&nbsp; &nbsp; &nbsp; &nbsp;Date :"
+        },
+        "o" : {
+          "label" : "Date :"
+        }
+      },
+      "modelId" : "w10461_49334",
+      "element" : "props",
+      "id" : "c1294",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678205606,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678205606,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1573
+          },
+          "o" : {
+            "y" : 1574
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678205606,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1573
+          },
+          "o" : {
+            "y" : 1574
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1296",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678205944,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678205944,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1572
+          },
+          "o" : {
+            "y" : 1573
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678205944,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1572
+          },
+          "o" : {
+            "y" : 1573
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1297",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678206103,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678206103,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1571
+          },
+          "o" : {
+            "y" : 1572
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678206103,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1571
+          },
+          "o" : {
+            "y" : 1572
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1298",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678206238,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678206238,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1570
+          },
+          "o" : {
+            "y" : 1571
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678206238,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1570
+          },
+          "o" : {
+            "y" : 1571
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1299",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678206499,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678206499,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1569
+          },
+          "o" : {
+            "y" : 1570
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678206499,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1569
+          },
+          "o" : {
+            "y" : 1570
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1300",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678206633,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678206633,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1568
+          },
+          "o" : {
+            "y" : 1569
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678206633,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1568
+          },
+          "o" : {
+            "y" : 1569
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1301",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678206794,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678206794,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1567
+          },
+          "o" : {
+            "y" : 1568
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678206794,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1567
+          },
+          "o" : {
+            "y" : 1568
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1302",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678206928,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678206928,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1566
+          },
+          "o" : {
+            "y" : 1567
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678206928,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1566
+          },
+          "o" : {
+            "y" : 1567
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1303",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678207189,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678207189,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1565
+          },
+          "o" : {
+            "y" : 1566
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678207189,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1565
+          },
+          "o" : {
+            "y" : 1566
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1304",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678207349,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678207349,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1564
+          },
+          "o" : {
+            "y" : 1565
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678207349,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1564
+          },
+          "o" : {
+            "y" : 1565
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1305",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678207484,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678207484,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1563
+          },
+          "o" : {
+            "y" : 1564
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678207484,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1563
+          },
+          "o" : {
+            "y" : 1564
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1306",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678207644,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678207644,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1562
+          },
+          "o" : {
+            "y" : 1563
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678207644,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1562
+          },
+          "o" : {
+            "y" : 1563
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1307",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678207804,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678207804,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1561
+          },
+          "o" : {
+            "y" : 1562
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678207804,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1561
+          },
+          "o" : {
+            "y" : 1562
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1308",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678207939,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678207939,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1560
+          },
+          "o" : {
+            "y" : 1561
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678207939,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1560
+          },
+          "o" : {
+            "y" : 1561
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1309",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678208124,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678208124,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1559
+          },
+          "o" : {
+            "y" : 1560
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678208124,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1559
+          },
+          "o" : {
+            "y" : 1560
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1310",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678208284,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678208284,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1558
+          },
+          "o" : {
+            "y" : 1559
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678208284,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1558
+          },
+          "o" : {
+            "y" : 1559
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1311",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678208445,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678208445,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1557
+          },
+          "o" : {
+            "y" : 1558
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678208445,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1557
+          },
+          "o" : {
+            "y" : 1558
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1312",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678208655,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678208655,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1556
+          },
+          "o" : {
+            "y" : 1557
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678208655,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1556
+          },
+          "o" : {
+            "y" : 1557
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1313",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678208815,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678208815,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1555
+          },
+          "o" : {
+            "y" : 1556
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678208815,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1555
+          },
+          "o" : {
+            "y" : 1556
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1314",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678208976,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678208976,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1554
+          },
+          "o" : {
+            "y" : 1555
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678208976,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1554
+          },
+          "o" : {
+            "y" : 1555
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1315",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678209110,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678209110,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1553
+          },
+          "o" : {
+            "y" : 1554
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678209110,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1553
+          },
+          "o" : {
+            "y" : 1554
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1316",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678209271,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678209271,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1552
+          },
+          "o" : {
+            "y" : 1553
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678209271,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1552
+          },
+          "o" : {
+            "y" : 1553
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1317",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678209431,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678209431,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1551
+          },
+          "o" : {
+            "y" : 1552
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678209431,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1551
+          },
+          "o" : {
+            "y" : 1552
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1318",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678209641,
+      "type" : "MultiCommand",
+      "label" : "UpdateMultiWidgetPos",
+      "children" : [ {
+        "timestamp" : 1721678209641,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1550
+          },
+          "o" : {
+            "y" : 1551
+          }
+        },
+        "modelId" : "w10461_49334"
+      }, {
+        "timestamp" : 1721678209641,
+        "type" : "WidgetPosition",
+        "delta" : {
+          "n" : {
+            "y" : 1550
+          },
+          "o" : {
+            "y" : 1551
+          }
+        },
+        "modelId" : "w10460_38625"
+      } ],
+      "id" : "c1319",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678217668,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l10466_53133",
+        "from" : "w10463_91935",
+        "to" : "s10123_43432",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1295",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678431086,
+      "type" : "WidgetName",
+      "o" : "Button 2",
+      "n" : "Activite1",
+      "modelId" : "w10190_40700",
+      "id" : "c1321",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678437960,
+      "type" : "WidgetName",
+      "o" : "DragNDrop",
+      "n" : "Activite3",
+      "modelId" : "w10189_18749",
+      "id" : "c1322",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678443838,
+      "type" : "WidgetName",
+      "o" : "DragNDrop 2",
+      "n" : "Activite2",
+      "modelId" : "w10191_88503",
+      "id" : "c1323",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678445367,
+      "type" : "ChangeLayer",
+      "o" : {
+        "w10190_40700" : 4,
+        "w10191_88503" : 5,
+        "w10193_20994" : 6,
+        "w10219_99772" : 7,
+        "w10220_57545" : 8,
+        "w10186_86335" : 2,
+        "w10126_97111" : 1,
+        "w10189_18749" : 3
+      },
+      "n" : { },
+      "og" : [ ],
+      "ng" : [ ],
+      "id" : "c1324",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678446633,
+      "type" : "ChangeLayer",
+      "o" : {
+        "w10190_40700" : 4,
+        "w10191_88503" : 5,
+        "w10193_20994" : 6,
+        "w10219_99772" : 7,
+        "w10220_57545" : 8,
+        "w10186_86335" : 2,
+        "w10126_97111" : 1,
+        "w10189_18749" : 3
+      },
+      "n" : {
+        "w10191_88503" : 4,
+        "w10190_40700" : 5
+      },
+      "og" : [ ],
+      "ng" : [ ],
+      "id" : "c1325",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678474538,
+      "type" : "ScreenName",
+      "o" : "Screen 2",
+      "n" : "ListeActivite",
+      "modelId" : "s10123_43432",
+      "id" : "c1326",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678493725,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l10590_97309",
+        "from" : "w10219_99772",
+        "to" : "s10110_64917",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1320",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678500625,
+      "type" : "RemoveAction",
+      "model" : {
+        "type" : "back"
+      },
+      "modelID" : "w10219_99772",
+      "isGroup" : false,
+      "id" : "c1328",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678547625,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet widget = screen.getWidget('Activite1') "
+        },
+        "o" : {
+          "script" : ""
+        }
+      },
+      "modelId" : "w10463_91935",
+      "element" : "props",
+      "id" : "c1327",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678695388,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\n\nactivite1.onClick = function(event) {\n    activite1.hide()\n}"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet widget = screen.getWidget('Activite1') "
+        }
+      },
+      "modelId" : "w10463_91935",
+      "element" : "props",
+      "id" : "c1330",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678711301,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "type" : "widget",
+          "source" : "w10463_91935"
+        },
+        "o" : {
+          "type" : "Script"
+        }
+      },
+      "modelId" : "w10463_91935",
+      "id" : "c1331",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678797498,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\n// Obtenir l'écran actuel\nlet screen = qux.getScreen('ListeActivite')\n\n// Vérifier que l'écran a bien été obtenu\nif (screen) {\n    // Obtenir le widget 'Activite1'\n    let activite1 = screen.getWidget('Activite1')\n    \n    // Vérifier que le widget a bien été obtenu\n    if (activite1) {\n        // Ajouter un événement de clic sur le widget\n        activite1.onClick = function(event) {\n            // Cacher le widget lorsqu'il est cliqué\n            activite1.hide()\n        }\n    } else {\n        // Afficher un message d'erreur dans la console\n        console.error('Widget Activite1 non trouvé')\n    }\n} else {\n    // Afficher un message d'erreur dans la console\n    console.error('Écran ListeActivite non trouvé')\n}\n"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\n\nactivite1.onClick = function(event) {\n    activite1.hide()\n}"
+        }
+      },
+      "modelId" : "w10463_91935",
+      "element" : "props",
+      "id" : "c1332",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678935493,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 3536,
+          "y" : 1118,
+          "type" : "widget",
+          "source" : "w10115_23207",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true
+          }
+        },
+        "o" : {
+          "x" : 3520,
+          "y" : 1105,
+          "type" : "Button"
+        }
+      },
+      "modelId" : "w10115_23207",
+      "id" : "c1329",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721678981288,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\n\nactivite1.onClick = function(event) {\n    console.log(123)\n    activite1.hide()\n}\n\n\n"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\n// Obtenir l'écran actuel\nlet screen = qux.getScreen('ListeActivite')\n\n// Vérifier que l'écran a bien été obtenu\nif (screen) {\n    // Obtenir le widget 'Activite1'\n    let activite1 = screen.getWidget('Activite1')\n    \n    // Vérifier que le widget a bien été obtenu\n    if (activite1) {\n        // Ajouter un événement de clic sur le widget\n        activite1.onClick = function(event) {\n            // Cacher le widget lorsqu'il est cliqué\n            activite1.hide()\n        }\n    } else {\n        // Afficher un message d'erreur dans la console\n        console.error('Widget Activite1 non trouvé')\n    }\n} else {\n    // Afficher un message d'erreur dans la console\n    console.error('Écran ListeActivite non trouvé')\n}\n"
+        }
+      },
+      "modelId" : "w10463_91935",
+      "element" : "props",
+      "id" : "c1333",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721678989650,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "type" : "widget",
+          "source" : "w10463_91935"
+        },
+        "o" : {
+          "type" : "Script"
+        }
+      },
+      "modelId" : "w10463_91935",
+      "id" : "c1335",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679001131,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w10591_26614",
+        "type" : "Icon",
+        "name" : "Icon 2",
+        "x" : 4009,
+        "y" : 1144,
+        "w" : 40,
+        "h" : 40,
+        "z" : 85,
+        "props" : { },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#333333",
+          "icon" : "mdi mdi-filter"
+        }
+      },
+      "id" : "c1334",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679002529,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 4010,
+          "y" : 1160,
+          "type" : "widget",
+          "source" : "w10591_26614",
+          "snapp" : {
+            "type" : "All",
+            "left" : false,
+            "top" : false,
+            "y" : {
+              "id" : "w10185_13496",
+              "type" : "Widget",
+              "pos" : "bottom",
+              "_sourceV" : 1200
+            }
+          }
+        },
+        "o" : {
+          "x" : 4009,
+          "y" : 1144,
+          "type" : "Icon"
+        }
+      },
+      "modelId" : "w10591_26614",
+      "id" : "c1337",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679027228,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w10592_89410",
+        "type" : "IconToggleButton",
+        "name" : "Icon Toggle Button",
+        "x" : 4160,
+        "y" : 1118,
+        "w" : 96,
+        "h" : 96,
+        "z" : 86,
+        "props" : {
+          "label" : "Click Me"
+        },
+        "has" : {
+          "data" : true,
+          "backgroundColor" : true,
+          "onclick" : true,
+          "label" : true,
+          "border" : true
+        },
+        "style" : {
+          "fontSize" : 18,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : "@letterSpacin",
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "icon" : "mdi mdi-heart",
+          "iconSize" : 48,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "active" : {
+          "color" : "#FFFFFF",
+          "background" : "#000000"
+        }
+      },
+      "id" : "c1338",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679037660,
+      "type" : "RemoveWidget",
+      "model" : {
+        "id" : "w10592_89410",
+        "type" : "IconToggleButton",
+        "name" : "Icon Toggle Button",
+        "x" : 4160,
+        "y" : 1118,
+        "w" : 96,
+        "h" : 96,
+        "z" : 86,
+        "props" : {
+          "label" : "Click Me"
+        },
+        "has" : {
+          "data" : true,
+          "backgroundColor" : true,
+          "onclick" : true,
+          "label" : true,
+          "border" : true
+        },
+        "style" : {
+          "fontSize" : 18,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : "@letterSpacin",
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "icon" : "mdi mdi-heart",
+          "iconSize" : 48,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "active" : {
+          "color" : "#FFFFFF",
+          "background" : "#000000"
+        },
+        "created" : 1721679027228
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w10592_89410",
+      "id" : "c1339",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679039849,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 4004,
+          "y" : 1152,
+          "type" : "widget",
+          "source" : "w10591_26614",
+          "snapp" : {
+            "type" : "All",
+            "left" : false,
+            "top" : true,
+            "y" : {
+              "id" : "w10185_13496",
+              "type" : "Widget",
+              "pos" : "middleY",
+              "_sourceV" : 1172,
+              "middle" : true
+            }
+          }
+        },
+        "o" : {
+          "x" : 4010,
+          "y" : 1160,
+          "type" : "Icon"
+        }
+      },
+      "modelId" : "w10591_26614",
+      "id" : "c1340",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679051939,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "label" : ""
+        },
+        "o" : {
+          "label" : "⚙"
+        }
+      },
+      "modelId" : "w10185_13496",
+      "element" : "props",
+      "id" : "c1341",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679054662,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 3933,
+          "type" : "widget",
+          "source" : "w10591_26614",
+          "snapp" : {
+            "type" : "All",
+            "left" : false,
+            "top" : false,
+            "x" : {
+              "id" : "w10185_13496",
+              "type" : "Widget",
+              "pos" : "middleX",
+              "_sourceV" : 3953,
+              "middle" : true
+            },
+            "y" : {
+              "id" : "w10185_13496",
+              "type" : "Widget",
+              "pos" : "middleY",
+              "_sourceV" : 1172,
+              "middle" : true
+            }
+          }
+        },
+        "o" : {
+          "x" : 4004,
+          "type" : "Icon"
+        }
+      },
+      "modelId" : "w10591_26614",
+      "id" : "c1342",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679105967,
+      "type" : "RemoveWidget",
+      "model" : {
+        "id" : "w10245_71811",
+        "type" : "DateDropDown",
+        "name" : "Date Picker",
+        "x" : 7554,
+        "y" : 2746,
+        "w" : 736,
+        "h" : 126,
+        "z" : 75,
+        "props" : {
+          "label" : "Select Date",
+          "icon" : "mdi mdi-calendar"
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "data" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "boxShadow" : null,
+          "paddingBottom" : 2,
+          "paddingTop" : 2,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "headerColor" : "#000000",
+          "headerBackground" : "#FFFFFF",
+          "selectedBackground" : "#000000",
+          "selectedColor" : "#FFFFFF",
+          "selectedInRangeBackground" : "#CCCCCC",
+          "selectedInRangeColor" : "",
+          "tableHeaderColor" : "#000000",
+          "tableHeaderBackground" : "transparent",
+          "popupBorderColor" : "#000000",
+          "popupBorderWidth" : 1,
+          "popupColor" : "#000000",
+          "popupBackground" : "#FFFFFF",
+          "itemBorderRadius" : 8,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "created" : 1721669957042,
+        "modified" : 1721669959669
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w10245_71811",
+      "id" : "c1343",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679108866,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 16019,
+          "y" : 10294,
+          "type" : "widget",
+          "source" : "w10405_69724"
+        },
+        "o" : {
+          "x" : 21319,
+          "y" : 12544,
+          "type" : "Button"
+        }
+      },
+      "modelId" : "w10405_69724",
+      "id" : "c1344",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679126868,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21319,
+          "y" : 12544,
+          "type" : "widget",
+          "source" : "w10405_69724",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "s10404_91840",
+              "type" : "Screen",
+              "pos" : "left",
+              "_sourceV" : 21319
+            },
+            "y" : {
+              "id" : "s10404_91840",
+              "type" : "Screen",
+              "pos" : "top",
+              "_sourceV" : 12544
+            }
+          }
+        },
+        "o" : {
+          "x" : 16019,
+          "y" : 10294,
+          "type" : "Button"
+        }
+      },
+      "modelId" : "w10405_69724",
+      "id" : "c1345",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721679142047,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : { },
+        "o" : { }
+      },
+      "modelId" : "w10463_91935",
+      "element" : "props",
+      "id" : "c1336",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679320006,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\nlet activite2 = screen.getWidget('Activite2')\n\nactivite1.onClick = function(event) {\n    console.log(123)\n    activite2.hide()\n}\n\n\n"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\n\nactivite1.onClick = function(event) {\n    console.log(123)\n    activite1.hide()\n}\n\n\n"
+        }
+      },
+      "modelId" : "w10463_91935",
+      "element" : "props",
+      "id" : "c1347",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679320964,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "type" : "widget",
+          "source" : "w10126_97111",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "s10123_43432",
+              "type" : "Screen",
+              "pos" : "left",
+              "_sourceV" : 5620
+            },
+            "y" : {
+              "id" : "s10123_43432",
+              "type" : "Screen",
+              "pos" : "top",
+              "_sourceV" : 1105
+            }
+          }
+        },
+        "o" : {
+          "type" : "Button"
+        }
+      },
+      "modelId" : "w10126_97111",
+      "id" : "c1348",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679408641,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w10730_45455",
+        "type" : "DragNDropTarget",
+        "name" : "DragNDrop Target",
+        "x" : 6988,
+        "y" : 1328,
+        "w" : 200,
+        "h" : 200,
+        "z" : 86,
+        "props" : {
+          "label" : "Drop here",
+          "layout" : null
+        },
+        "has" : {
+          "padding" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "backgroundImage" : true,
+          "label" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "textAlign" : "center",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "borderTopColor" : "#999999",
+          "borderBottomColor" : "#999999",
+          "borderRightColor" : "#999999",
+          "borderLeftColor" : "#999999",
+          "borderTopStyle" : "dashed",
+          "borderBottomStyle" : "dashed",
+          "borderRightStyle" : "dashed",
+          "borderLeftStyle" : "dashed",
+          "background" : "#ffffff",
+          "color" : "#999999",
+          "paddingTop" : 16,
+          "paddingBottom" : 16,
+          "paddingLeft" : 16,
+          "paddingRight" : 16,
+          "gap" : 16,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4
+        },
+        "hover" : {
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333"
+        }
+      },
+      "id" : "c1349",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679410484,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "h" : 159,
+          "w" : 193,
+          "type" : "widget",
+          "source" : "w10730_45455",
+          "snapp" : {
+            "type" : "RightDown",
+            "left" : false,
+            "top" : true,
+            "y" : {
+              "id" : "w10190_40700",
+              "type" : "Widget",
+              "pos" : "bottom",
+              "_sourceV" : 1487
+            }
+          }
+        },
+        "o" : {
+          "h" : 200,
+          "w" : 200,
+          "type" : "DragNDropTarget"
+        }
+      },
+      "modelId" : "w10730_45455",
+      "id" : "c1350",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679412150,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "y" : 1370,
+          "h" : 117,
+          "w" : 198,
+          "type" : "widget",
+          "source" : "w10730_45455",
+          "snapp" : {
+            "type" : "RightUp",
+            "left" : false,
+            "top" : true,
+            "y" : {
+              "id" : "w10190_40700",
+              "type" : "Widget",
+              "pos" : "top",
+              "_sourceV" : 1370
+            }
+          }
+        },
+        "o" : {
+          "y" : 1328,
+          "h" : 159,
+          "w" : 193,
+          "type" : "DragNDropTarget"
+        }
+      },
+      "modelId" : "w10730_45455",
+      "id" : "c1351",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679441217,
+      "type" : "WidgetName",
+      "o" : "DragNDrop Target",
+      "n" : "Activite2",
+      "modelId" : "w10730_45455",
+      "id" : "c1352",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679466840,
+      "type" : "WidgetName",
+      "o" : "Activite2",
+      "n" : "DragTarget",
+      "modelId" : "w10730_45455",
+      "id" : "c1353",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679566073,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "ignoreStateOnPageLoad" : true
+        },
+        "o" : {
+          "ignoreStateOnPageLoad" : null
+        }
+      },
+      "modelId" : "w10730_45455",
+      "element" : "props",
+      "id" : "c1354",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679566551,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "ignoreStateOnPageLoad" : false
+        },
+        "o" : {
+          "ignoreStateOnPageLoad" : true
+        }
+      },
+      "modelId" : "w10730_45455",
+      "element" : "props",
+      "id" : "c1355",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679585705,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 6273,
+          "type" : "widget",
+          "source" : "w10190_40700",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "w10191_88503",
+              "type" : "Widget",
+              "pos" : "left",
+              "_sourceV" : 6273
+            },
+            "y" : {
+              "id" : "w10730_45455",
+              "type" : "Widget",
+              "pos" : "top",
+              "_sourceV" : 1370
+            }
+          }
+        },
+        "o" : {
+          "x" : 6272,
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10190_40700",
+      "id" : "c1356",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679592239,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "hidden" : true
+        },
+        "o" : {
+          "hidden" : null
+        }
+      },
+      "modelId" : "w10730_45455",
+      "element" : "props",
+      "id" : "c1357",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679592754,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "hidden" : false
+        },
+        "o" : {
+          "hidden" : true
+        }
+      },
+      "modelId" : "w10730_45455",
+      "element" : "props",
+      "id" : "c1358",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679598832,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "hidden" : true
+        },
+        "o" : {
+          "hidden" : null
+        }
+      },
+      "modelId" : "w10191_88503",
+      "element" : "props",
+      "id" : "c1359",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679601427,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l14825_56678",
+        "from" : "w10463_91935",
+        "to" : "w10463_91935",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1360",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679607398,
+      "type" : "RemoveLine",
+      "model" : {
+        "id" : "l14825_56678",
+        "from" : "w10463_91935",
+        "to" : "w10463_91935",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1361",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679616980,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\nlet activite2 = screen.getWidget('Activite2')\n\nactivite1.onClick = function(event) {\n    console.log(123)\n    activite2.show()\n}\n\n\n"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\nlet activite2 = screen.getWidget('Activite2')\n\nactivite1.onClick = function(event) {\n    console.log(123)\n    activite2.hide()\n}\n\n\n"
+        }
+      },
+      "modelId" : "w10463_91935",
+      "element" : "props",
+      "id" : "c1362",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679641450,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "hidden" : false
+        },
+        "o" : {
+          "hidden" : true
+        }
+      },
+      "modelId" : "w10191_88503",
+      "element" : "props",
+      "id" : "c1363",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679650366,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\nlet activite2 = screen.getWidget('Activite2')\n\nactivite1.onClick = function(event) {\n    console.log(123)\n    //activite2.show()\n}\n\n\n"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\nlet activite2 = screen.getWidget('Activite2')\n\nactivite1.onClick = function(event) {\n    console.log(123)\n    activite2.show()\n}\n\n\n"
+        }
+      },
+      "modelId" : "w10463_91935",
+      "element" : "props",
+      "id" : "c1364",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679656641,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "hidden" : true
+        },
+        "o" : {
+          "hidden" : false
+        }
+      },
+      "modelId" : "w10191_88503",
+      "element" : "props",
+      "id" : "c1365",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679662068,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "hidden" : false
+        },
+        "o" : {
+          "hidden" : true
+        }
+      },
+      "modelId" : "w10191_88503",
+      "element" : "props",
+      "id" : "c1366",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679823777,
+      "type" : "RemoveWidget",
+      "model" : {
+        "id" : "w10385_56413",
+        "type" : "Icon",
+        "name" : "Icon",
+        "x" : 24902,
+        "y" : 12601,
+        "w" : 122,
+        "h" : 122,
+        "z" : 3,
+        "props" : { },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#ff0800",
+          "icon" : "mdi mdi-invert-colors"
+        },
+        "created" : 1721467060447,
+        "modified" : 1721676226043,
+        "copyOf" : "w10197_80270"
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w10385_56413",
+      "id" : "c1367",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721679836996,
+      "type" : "RemoveWidget",
+      "model" : {
+        "id" : "w10730_45455",
+        "type" : "DragNDropTarget",
+        "name" : "DragTarget",
+        "x" : 6988,
+        "y" : 1370,
+        "w" : 198,
+        "h" : 117,
+        "z" : 86,
+        "props" : {
+          "label" : "Drop here",
+          "layout" : null,
+          "ignoreStateOnPageLoad" : false,
+          "hidden" : false
+        },
+        "has" : {
+          "padding" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "backgroundImage" : true,
+          "label" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "textAlign" : "center",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "borderTopColor" : "#999999",
+          "borderBottomColor" : "#999999",
+          "borderRightColor" : "#999999",
+          "borderLeftColor" : "#999999",
+          "borderTopStyle" : "dashed",
+          "borderBottomStyle" : "dashed",
+          "borderRightStyle" : "dashed",
+          "borderLeftStyle" : "dashed",
+          "background" : "#ffffff",
+          "color" : "#999999",
+          "paddingTop" : 16,
+          "paddingBottom" : 16,
+          "paddingLeft" : 16,
+          "paddingRight" : 16,
+          "gap" : 16,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4
+        },
+        "hover" : {
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333"
+        },
+        "created" : 1721679408641,
+        "modified" : 1721679592754
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w10730_45455",
+      "id" : "c1368",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680603274,
+      "type" : "RemoveScreen",
+      "screen" : {
+        "x" : 7732,
+        "y" : 1105,
+        "h" : 1080,
+        "w" : 1920,
+        "name" : "Screen 3",
+        "type" : "Screen",
+        "style" : {
+          "background" : "#ffffff"
+        },
+        "min" : {
+          "w" : 1920,
+          "h" : 1080
+        },
+        "has" : {
+          "image" : true
+        },
+        "props" : {
+          "start" : false
+        },
+        "children" : [ "w10214_69167", "w10218_23877", "w10217_55162", "w10215_93890", "w10222_65728", "w10196_77619", "w10195_59548", "w10207_18717", "w10205_362", "w10206_73426", "w10203_5415", "w10198_66569", "w10461_49334", "w10461_49334", "w10461_49334" ],
+        "id" : "s10194_24421"
+      },
+      "lines" : [ {
+        "id" : "l10274_86304",
+        "from" : "w10193_20994",
+        "to" : "s10194_24421",
+        "points" : [ ],
+        "event" : "click"
+      } ],
+      "groups" : [ ],
+      "widgets" : [ {
+        "type" : "Label",
+        "name" : "Label 1",
+        "x" : 8197,
+        "y" : 1149,
+        "w" : 991,
+        "h" : 135,
+        "z" : 2,
+        "props" : {
+          "label" : "Nouvelle activité"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 128,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null,
+          "textDecoration" : "underline"
+        },
+        "id" : "w10196_77619",
+        "created" : 1721466999838,
+        "modified" : 1721529187649,
+        "copyOf" : "w10186_86335"
+      }, {
+        "id" : "w10198_66569",
+        "type" : "TextArea",
+        "name" : "Button 2",
+        "x" : 8295,
+        "y" : 1706,
+        "w" : 794,
+        "h" : 276,
+        "z" : 4,
+        "props" : {
+          "label" : "Enter a value",
+          "placeholder" : true,
+          "isSurveyElement" : true
+        },
+        "has" : {
+          "label" : true,
+          "backgroundColor" : true,
+          "border" : true,
+          "editable" : true,
+          "onclick" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 32,
+          "fontFamily" : "Inter, sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#0A0A0B",
+          "paddingBottom" : 2,
+          "paddingTop" : 2,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#c9c9c9",
+          "borderBottomColor" : "#c9c9c9",
+          "borderRightColor" : "#c9c9c9",
+          "borderLeftColor" : "#c9c9c9",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "focus" : {
+          "background" : "#F4F4F5",
+          "color" : "#365fff",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#365fff",
+          "borderBottomColor" : "#365fff",
+          "borderRightColor" : "#365fff",
+          "borderLeftColor" : "#365fff"
+        },
+        "hover" : {
+          "background" : "#F4F4F5",
+          "color" : "#0A0A0B",
+          "borderTopColor" : "#c9c9c9",
+          "borderBottomColor" : "#c9c9c9",
+          "borderRightColor" : "#c9c9c9",
+          "borderLeftColor" : "#c9c9c9"
+        },
+        "error" : {
+          "background" : "#efc5c5",
+          "color" : "#f43535",
+          "borderTopColor" : "#f43535",
+          "borderBottomColor" : "#f43535",
+          "borderRightColor" : "#f43535",
+          "borderLeftColor" : "#f43535"
+        },
+        "created" : 1721467196792,
+        "modified" : 1721678038055
+      }, {
+        "id" : "w10203_5415",
+        "type" : "Icon",
+        "name" : "Icon 1",
+        "x" : 8477,
+        "y" : 2048,
+        "w" : 56,
+        "h" : 52,
+        "z" : 9,
+        "props" : { },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#ffffff",
+          "icon" : "mdi mdi-delete"
+        },
+        "created" : 1721467506191,
+        "modified" : 1721677785496
+      }, {
+        "id" : "w10205_362",
+        "type" : "Icon",
+        "name" : "Icon 3",
+        "x" : 8861,
+        "y" : 2049,
+        "w" : 51,
+        "h" : 51,
+        "z" : 12,
+        "props" : { },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#ffffff",
+          "icon" : "mdi mdi-check-circle"
+        },
+        "created" : 1721467777550,
+        "modified" : 1721677769490
+      }, {
+        "id" : "w10206_73426",
+        "type" : "Button",
+        "name" : "Button",
+        "x" : 8379,
+        "y" : 2031,
+        "w" : 251,
+        "h" : 85,
+        "z" : 8,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "onclick" : true,
+          "label" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#ffffff",
+          "paddingTop" : 6,
+          "paddingBottom" : 6,
+          "paddingLeft" : 6,
+          "paddingRight" : 6,
+          "borderTopRightRadius" : 5,
+          "borderTopLeftRadius" : 5,
+          "borderBottomRightRadius" : 5,
+          "borderBottomLeftRadius" : 5,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#4cd964",
+          "borderBottomColor" : "#4cd964",
+          "borderRightColor" : "#4cd964",
+          "borderLeftColor" : "#4cd964",
+          "verticalAlign" : "middle",
+          "background" : "#ff0800"
+        },
+        "created" : 1721468542799,
+        "modified" : 1721677785496
+      }, {
+        "id" : "w10207_18717",
+        "type" : "Button",
+        "name" : "Button 1",
+        "x" : 8760,
+        "y" : 2031,
+        "w" : 251,
+        "h" : 85,
+        "z" : 10,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "onclick" : true,
+          "label" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#ffffff",
+          "paddingTop" : 6,
+          "paddingBottom" : 6,
+          "paddingLeft" : 6,
+          "paddingRight" : 6,
+          "borderTopRightRadius" : 5,
+          "borderTopLeftRadius" : 5,
+          "borderBottomRightRadius" : 5,
+          "borderBottomLeftRadius" : 5,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#4cd964",
+          "borderBottomColor" : "#4cd964",
+          "borderRightColor" : "#4cd964",
+          "borderLeftColor" : "#4cd964",
+          "verticalAlign" : "middle",
+          "background" : "#03a600"
+        },
+        "created" : 1721468613884,
+        "modified" : 1721677767324,
+        "copyOf" : "w10206_73426"
+      }, {
+        "type" : "Button",
+        "name" : "Box 1",
+        "x" : 7732,
+        "y" : 1105,
+        "w" : 1920,
+        "h" : 1080,
+        "z" : 1,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#00fffa",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w10195_59548",
+        "created" : 1721468792226,
+        "modified" : 1721529293433,
+        "copyOf" : "w10126_97111"
+      }, {
+        "id" : "w10214_69167",
+        "type" : "TextArea",
+        "name" : "Text Area 1",
+        "x" : 8520,
+        "y" : 1316,
+        "w" : 569,
+        "h" : 59,
+        "z" : 64,
+        "props" : {
+          "label" : "Enter a value",
+          "placeholder" : true,
+          "isSurveyElement" : true
+        },
+        "has" : {
+          "label" : true,
+          "backgroundColor" : true,
+          "border" : true,
+          "editable" : true,
+          "onclick" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 32,
+          "fontFamily" : "Inter, sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#0A0A0B",
+          "paddingBottom" : 2,
+          "paddingTop" : 2,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#c9c9c9",
+          "borderBottomColor" : "#c9c9c9",
+          "borderRightColor" : "#c9c9c9",
+          "borderLeftColor" : "#c9c9c9",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "focus" : {
+          "background" : "#F4F4F5",
+          "color" : "#365fff",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#365fff",
+          "borderBottomColor" : "#365fff",
+          "borderRightColor" : "#365fff",
+          "borderLeftColor" : "#365fff"
+        },
+        "hover" : {
+          "background" : "#F4F4F5",
+          "color" : "#0A0A0B",
+          "borderTopColor" : "#c9c9c9",
+          "borderBottomColor" : "#c9c9c9",
+          "borderRightColor" : "#c9c9c9",
+          "borderLeftColor" : "#c9c9c9"
+        },
+        "error" : {
+          "background" : "#efc5c5",
+          "color" : "#f43535",
+          "borderTopColor" : "#f43535",
+          "borderBottomColor" : "#f43535",
+          "borderRightColor" : "#f43535",
+          "borderLeftColor" : "#f43535"
+        },
+        "created" : 1721528543856,
+        "modified" : 1721528719986,
+        "copyOf" : "w10198_66569"
+      }, {
+        "type" : "Label",
+        "name" : "Label",
+        "x" : 8373,
+        "y" : 1322,
+        "w" : 147,
+        "h" : 53,
+        "z" : 65,
+        "props" : {
+          "label" : "Nom :"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 48,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "id" : "w10215_93890",
+        "created" : 1721528655614,
+        "modified" : 1721529136850
+      }, {
+        "id" : "w10217_55162",
+        "type" : "Button",
+        "name" : "Button 3",
+        "x" : 7917,
+        "y" : 1191,
+        "w" : 120,
+        "h" : 78,
+        "z" : 67,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "onclick" : true,
+          "label" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 17,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "paddingTop" : 6,
+          "paddingBottom" : 6,
+          "paddingLeft" : 6,
+          "paddingRight" : 6,
+          "borderTopRightRadius" : 14,
+          "borderTopLeftRadius" : 14,
+          "borderBottomRightRadius" : 14,
+          "borderBottomLeftRadius" : 14,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#F2F2F7",
+          "borderBottomColor" : "#F2F2F7",
+          "borderRightColor" : "#F2F2F7",
+          "borderLeftColor" : "#F2F2F7",
+          "background" : "#F2F2F7",
+          "verticalAlign" : "middle"
+        },
+        "created" : 1721528829243,
+        "modified" : 1721528963584,
+        "action" : {
+          "type" : "back"
+        }
+      }, {
+        "id" : "w10218_23877",
+        "type" : "Icon",
+        "name" : "Button 14",
+        "x" : 7957,
+        "y" : 1210,
+        "w" : 40,
+        "h" : 40,
+        "z" : 68,
+        "props" : {
+          "tooltipText" : "Retour"
+        },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#333333",
+          "icon" : "mdi mdi-reply"
+        },
+        "created" : 1721528932740,
+        "modified" : 1721677712216,
+        "action" : {
+          "type" : "back"
+        },
+        "designtokens" : {
+          "style" : {
+            "tooltipBackground" : "dt10035_44560",
+            "tooltipColor" : "dt10035_44560",
+            "tooltipFontSize" : "dt10035_44560"
+          }
+        }
+      }, {
+        "type" : "Label",
+        "name" : "Label 3",
+        "x" : 8275,
+        "y" : 1432,
+        "w" : 245,
+        "h" : 53,
+        "z" : 72,
+        "props" : {
+          "label" : "Étudiants :"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 48,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "id" : "w10222_65728",
+        "created" : 1721529090142,
+        "modified" : 1721529180481,
+        "copyOf" : "w10215_93890"
+      }, {
+        "type" : "Label",
+        "name" : "Label 4",
+        "x" : 8275,
+        "y" : 1550,
+        "w" : 245,
+        "h" : 53,
+        "z" : 83,
+        "props" : {
+          "label" : "&nbsp; &nbsp; &nbsp; &nbsp;Date :"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 48,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "id" : "w10461_49334",
+        "created" : 1721678175515,
+        "modified" : 1721678209641,
+        "copyOf" : "w10222_65728"
+      } ],
+      "modelId" : "s10194_24421",
+      "id" : "c1369",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680606847,
+      "type" : "RemoveScreen",
+      "screen" : {
+        "x" : 5620,
+        "y" : 1105,
+        "h" : 1080,
+        "w" : 1920,
+        "name" : "ListeActivite",
+        "type" : "Screen",
+        "style" : {
+          "background" : "#ffffff"
+        },
+        "min" : {
+          "w" : 1920,
+          "h" : 1080
+        },
+        "has" : {
+          "image" : true
+        },
+        "props" : {
+          "start" : false
+        },
+        "children" : [ "w10191_88503", "w10193_20994", "w10219_99772", "w10220_57545", "w10186_86335", "w10189_18749", "w10126_97111", "w10190_40700", "w10190_40700", "w10190_40700" ],
+        "id" : "s10123_43432"
+      },
+      "lines" : [ {
+        "id" : "l10275_70239",
+        "from" : "w10182_53619",
+        "to" : "s10123_43432",
+        "points" : [ ],
+        "event" : "click"
+      }, {
+        "id" : "l10466_53133",
+        "from" : "w10463_91935",
+        "to" : "s10123_43432",
+        "points" : [ ],
+        "event" : "click"
+      }, {
+        "id" : "l10590_97309",
+        "from" : "w10219_99772",
+        "to" : "s10110_64917",
+        "points" : [ ],
+        "event" : "click"
+      } ],
+      "groups" : [ ],
+      "widgets" : [ {
+        "type" : "Button",
+        "name" : "Box",
+        "x" : 5620,
+        "y" : 1105,
+        "w" : 1920,
+        "h" : 1080,
+        "z" : 1,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#00fffa",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w10126_97111",
+        "created" : 1721315485793,
+        "modified" : 1721679320964
+      }, {
+        "type" : "Label",
+        "name" : "Label",
+        "x" : 6313,
+        "y" : 1167,
+        "w" : 535,
+        "h" : 151,
+        "z" : 2,
+        "props" : {
+          "label" : "Activités"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 128,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "id" : "w10186_86335",
+        "created" : 1721465477476,
+        "modified" : 1721529303449
+      }, {
+        "id" : "w10189_18749",
+        "type" : "DragNDrop",
+        "name" : "Activite3",
+        "x" : 6273,
+        "y" : 1813,
+        "w" : 615,
+        "h" : 117,
+        "z" : 3,
+        "props" : {
+          "label" : "Musculation",
+          "dndY" : false,
+          "dndX" : true
+        },
+        "has" : {
+          "padding" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "backgroundImage" : true,
+          "data" : true,
+          "label" : true
+        },
+        "style" : {
+          "fontSize" : 48,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "background" : "#007aff",
+          "color" : "#000000",
+          "boxShadow" : {
+            "v" : 0,
+            "h" : 0,
+            "b" : 0,
+            "s" : 0,
+            "c" : "rgba(0, 0, 0, 0)",
+            "i" : false
+          },
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "boxShadow" : {
+            "v" : 0,
+            "h" : 0,
+            "b" : 0,
+            "s" : 0,
+            "c" : "rgba(0, 0, 0, 0)",
+            "i" : false
+          }
+        },
+        "active" : {
+          "background" : "#CCCCCC",
+          "boxShadow" : {
+            "v" : 4,
+            "h" : 0,
+            "b" : 16,
+            "s" : 0,
+            "c" : "rgba(0, 0, 0, 0.25)",
+            "i" : false
+          }
+        },
+        "created" : 1721465935865,
+        "modified" : 1721677868843
+      }, {
+        "id" : "w10190_40700",
+        "type" : "DragNDrop",
+        "name" : "Activite1",
+        "x" : 6273,
+        "y" : 1370,
+        "w" : 615,
+        "h" : 117,
+        "z" : 5,
+        "props" : {
+          "label" : "Natation",
+          "dndY" : false,
+          "dndX" : true
+        },
+        "has" : {
+          "padding" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "backgroundImage" : true,
+          "data" : true,
+          "label" : true
+        },
+        "style" : {
+          "fontSize" : 48,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "background" : "#05ff00",
+          "color" : "#000000",
+          "boxShadow" : {
+            "v" : 0,
+            "h" : 0,
+            "b" : 0,
+            "s" : 0,
+            "c" : "rgba(0, 0, 0, 0)",
+            "i" : false
+          },
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "boxShadow" : {
+            "v" : 0,
+            "h" : 0,
+            "b" : 0,
+            "s" : 0,
+            "c" : "rgba(0, 0, 0, 0)",
+            "i" : false
+          }
+        },
+        "active" : {
+          "background" : "#cccccc",
+          "boxShadow" : {
+            "v" : 4,
+            "h" : 0,
+            "b" : 16,
+            "s" : 0,
+            "c" : "rgba(0, 0, 0, 0.25)",
+            "i" : false
+          }
+        },
+        "created" : 1721465963451,
+        "modified" : 1721679585705,
+        "copyOf" : "w10189_18749"
+      }, {
+        "id" : "w10191_88503",
+        "type" : "DragNDrop",
+        "name" : "Activite2",
+        "x" : 6273,
+        "y" : 1587,
+        "w" : 615,
+        "h" : 117,
+        "z" : 4,
+        "props" : {
+          "label" : "Jogging",
+          "dndY" : false,
+          "dndX" : true,
+          "hidden" : false
+        },
+        "has" : {
+          "padding" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "backgroundImage" : true,
+          "data" : true,
+          "label" : true
+        },
+        "style" : {
+          "fontSize" : 48,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "background" : "#fa00ff",
+          "color" : "#000000",
+          "boxShadow" : {
+            "v" : 0,
+            "h" : 0,
+            "b" : 0,
+            "s" : 0,
+            "c" : "rgba(0, 0, 0, 0)",
+            "i" : false
+          },
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "boxShadow" : {
+            "v" : 0,
+            "h" : 0,
+            "b" : 0,
+            "s" : 0,
+            "c" : "rgba(0, 0, 0, 0)",
+            "i" : false
+          }
+        },
+        "active" : {
+          "background" : "#CCCCCC",
+          "boxShadow" : {
+            "v" : 4,
+            "h" : 0,
+            "b" : 16,
+            "s" : 0,
+            "c" : "rgba(0, 0, 0, 0.25)",
+            "i" : false
+          }
+        },
+        "created" : 1721466005034,
+        "modified" : 1721679662069,
+        "copyOf" : "w10189_18749"
+      }, {
+        "id" : "w10193_20994",
+        "type" : "Button",
+        "name" : "Button",
+        "x" : 6536,
+        "y" : 2021,
+        "w" : 89,
+        "h" : 89,
+        "style" : {
+          "background" : "#026100",
+          "borderBottomColor" : "#ffffff",
+          "borderTopColor" : "#ffffff",
+          "borderLeftColor" : "#ffffff",
+          "borderRightColor" : "#ffffff",
+          "borderBottomLeftRadius" : 500,
+          "borderTopLeftRadius" : 500,
+          "borderBottomRightRadius" : 500,
+          "borderTopRightRadius" : 500,
+          "borderBottomWidth" : 0,
+          "borderTopWidth" : 0,
+          "paddingBottom" : 10,
+          "paddingLeft" : 10,
+          "paddingRight" : 10,
+          "paddingTop" : 10,
+          "textAlign" : "center",
+          "fontFamily" : "Roboto, sans-serif",
+          "fontSize" : 96,
+          "fontStyle" : "normal",
+          "fontWeight" : "500",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#ffffff",
+          "textDecoration" : "none",
+          "boxShadow" : {
+            "v" : 2,
+            "h" : 0,
+            "b" : 2,
+            "s" : 0,
+            "c" : "rgba(0,0,0,0.24)",
+            "i" : false
+          },
+          "valign" : "middle"
+        },
+        "props" : {
+          "label" : "+"
+        },
+        "has" : {
+          "onclick" : true,
+          "label" : true,
+          "padding" : false,
+          "backgroundColor" : true,
+          "border" : true
+        },
+        "z" : 6,
+        "created" : 1721466162681,
+        "modified" : 1721466298790
+      }, {
+        "id" : "w10219_99772",
+        "type" : "Button",
+        "name" : "Button 3",
+        "x" : 5899,
+        "y" : 1201,
+        "w" : 120,
+        "h" : 78,
+        "z" : 7,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "onclick" : true,
+          "label" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 17,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "paddingTop" : 6,
+          "paddingBottom" : 6,
+          "paddingLeft" : 6,
+          "paddingRight" : 6,
+          "borderTopRightRadius" : 14,
+          "borderTopLeftRadius" : 14,
+          "borderBottomRightRadius" : 14,
+          "borderBottomLeftRadius" : 14,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#F2F2F7",
+          "borderBottomColor" : "#F2F2F7",
+          "borderRightColor" : "#F2F2F7",
+          "borderLeftColor" : "#F2F2F7",
+          "background" : "#F2F2F7",
+          "verticalAlign" : "middle"
+        },
+        "created" : 1721528975679,
+        "modified" : 1721529011400,
+        "copyOf" : "w10217_55162",
+        "action" : null
+      }, {
+        "id" : "w10220_57545",
+        "type" : "Icon",
+        "name" : "Icon 5",
+        "x" : 5939,
+        "y" : 1220,
+        "w" : 40,
+        "h" : 40,
+        "z" : 8,
+        "props" : {
+          "tooltipText" : "Retour"
+        },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#333333",
+          "icon" : "mdi mdi-reply"
+        },
+        "created" : 1721528975679,
+        "modified" : 1721673279038,
+        "copyOf" : "w10218_23877",
+        "designtokens" : {
+          "style" : {
+            "tooltipBackground" : "dt10276_4583",
+            "tooltipColor" : "dt10276_4583",
+            "tooltipFontSize" : "dt10276_4583"
+          }
+        },
+        "action" : {
+          "type" : "back"
+        }
+      } ],
+      "modelId" : "s10123_43432",
+      "id" : "c1370",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680607951,
+      "type" : "RemoveWidget",
+      "model" : {
+        "id" : "w10463_91935",
+        "name" : "Script",
+        "type" : "Script",
+        "x" : 7094,
+        "y" : 929,
+        "w" : 64,
+        "h" : 64,
+        "props" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('ListeActivite')\nlet activite1 = screen.getWidget('Activite1')\nlet activite2 = screen.getWidget('Activite2')\n\nactivite1.onClick = function(event) {\n    console.log(123)\n    //activite2.show()\n}\n\n\n"
+        },
+        "has" : {
+          "script" : true
+        },
+        "style" : {
+          "background" : "#777"
+        },
+        "z" : 84,
+        "created" : 1721678203771,
+        "modified" : 1721679650367
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w10463_91935",
+      "id" : "c1371",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680666496,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l16796136_18483",
+        "from" : "w10455_67118",
+        "to" : "s10404_91840",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1372",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680674446,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l33581547_94466",
+        "from" : "w10410_41730",
+        "to" : "s10382_84320",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1373",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680680778,
+      "type" : "AddAction",
+      "model" : {
+        "type" : "back"
+      },
+      "modelID" : "w10399_35210",
+      "isGroup" : false,
+      "id" : "c1374",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680683406,
+      "type" : "AddAction",
+      "model" : {
+        "type" : "back"
+      },
+      "modelID" : "w10400_17376",
+      "isGroup" : false,
+      "id" : "c1375",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680688513,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "tooltipText" : "Retour"
+        },
+        "o" : {
+          "tooltipText" : null
+        }
+      },
+      "modelId" : "w10400_17376",
+      "element" : "props",
+      "id" : "c1376",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680703033,
+      "type" : "AddAction",
+      "model" : {
+        "type" : "back"
+      },
+      "modelID" : "w10412_86780",
+      "isGroup" : false,
+      "id" : "c1377",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680712977,
+      "type" : "RemoveAction",
+      "model" : {
+        "type" : "back"
+      },
+      "modelID" : "w10411_76263",
+      "isGroup" : false,
+      "id" : "c1378",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680720353,
+      "type" : "AddAction",
+      "model" : {
+        "type" : "back"
+      },
+      "modelID" : "w10411_76263",
+      "isGroup" : false,
+      "id" : "c1379",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680740031,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "dndY" : false
+        },
+        "o" : {
+          "dndY" : true
+        }
+      },
+      "modelId" : "w10408_32164",
+      "element" : "props",
+      "id" : "c1380",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680741893,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "dndY" : false
+        },
+        "o" : {
+          "dndY" : true
+        }
+      },
+      "modelId" : "w10409_2753",
+      "element" : "props",
+      "id" : "c1381",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680743086,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "dndY" : false
+        },
+        "o" : {
+          "dndY" : true
+        }
+      },
+      "modelId" : "w10407_51785",
+      "element" : "props",
+      "id" : "c1382",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680805343,
+      "type" : "WidgetName",
+      "o" : "DragNDrop 1",
+      "n" : "activite1",
+      "modelId" : "w10408_32164",
+      "id" : "c1383",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680810666,
+      "type" : "WidgetName",
+      "o" : "DragNDrop 2",
+      "n" : "activite2",
+      "modelId" : "w10409_2753",
+      "id" : "c1384",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680816759,
+      "type" : "WidgetName",
+      "o" : "DragNDrop",
+      "n" : "activite3",
+      "modelId" : "w10407_51785",
+      "id" : "c1385",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680818269,
+      "type" : "ChangeLayer",
+      "o" : {
+        "w10406_34757" : 2,
+        "w10407_51785" : 3,
+        "w10408_32164" : 4,
+        "w10409_2753" : 5,
+        "w10410_41730" : 6,
+        "w10411_76263" : 7,
+        "w10412_86780" : 8,
+        "w10405_69724" : 1
+      },
+      "n" : {
+        "w10409_2753" : 4,
+        "w10408_32164" : 5
+      },
+      "og" : [ ],
+      "ng" : [ ],
+      "id" : "c1386",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680838626,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w550024358374_39044",
+        "name" : "Script",
+        "type" : "Script",
+        "x" : 22432,
+        "y" : 12396,
+        "w" : 64,
+        "h" : 64,
+        "props" : {
+          "script" : ""
+        },
+        "has" : {
+          "script" : true
+        },
+        "style" : {
+          "background" : "#777"
+        },
+        "z" : 86
+      },
+      "id" : "c1387",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680844824,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "w" : 196,
+          "type" : "widget",
+          "source" : "w550024358374_39044"
+        },
+        "o" : {
+          "w" : 64,
+          "type" : "Script"
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "id" : "c1388",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680853572,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "y" : 12496,
+          "h" : 1128,
+          "type" : "widget",
+          "source" : "w10405_69724",
+          "snapp" : {
+            "type" : "North",
+            "left" : false,
+            "top" : false
+          }
+        },
+        "o" : {
+          "y" : 12544,
+          "h" : 1080,
+          "type" : "Button"
+        }
+      },
+      "modelId" : "w10405_69724",
+      "id" : "c1389",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680857227,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "y" : 12544,
+          "h" : 1080,
+          "type" : "widget",
+          "source" : "w10405_69724",
+          "snapp" : {
+            "type" : "North",
+            "left" : false,
+            "top" : true,
+            "y" : {
+              "id" : "s10404_91840",
+              "type" : "Screen",
+              "pos" : "top",
+              "_sourceV" : 12544
+            }
+          }
+        },
+        "o" : {
+          "y" : 12496,
+          "h" : 1128,
+          "type" : "Button"
+        }
+      },
+      "modelId" : "w10405_69724",
+      "id" : "c1390",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680859856,
+      "type" : "WidgetName",
+      "o" : "Script",
+      "n" : "activite3",
+      "modelId" : "w550024358374_39044",
+      "id" : "c1391",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680862115,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l17600779135525_12365",
+        "from" : "w550024358374_39044",
+        "to" : "s10404_91840",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1392",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721680876047,
+      "type" : "ScreenName",
+      "o" : "Screen 9",
+      "n" : "listeActivites",
+      "modelId" : "s10404_91840",
+      "id" : "c1393",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681035737,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nconsole.log(activite1.qModel.x)\nactivite1.qModel.x = 0"
+        },
+        "o" : {
+          "script" : ""
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "element" : "props",
+      "id" : "c1394",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681051101,
+      "type" : "WidgetName",
+      "o" : "activite3",
+      "n" : "scriptListeActivites",
+      "modelId" : "w550024358374_39044",
+      "id" : "c1395",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681071323,
+      "type" : "WidgetName",
+      "o" : "scriptListeActivites",
+      "n" : "activite3",
+      "modelId" : "w550024358374_39044",
+      "id" : "c1396",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681072816,
+      "type" : "WidgetName",
+      "o" : "activite3",
+      "n" : "activite3Activite2",
+      "modelId" : "w550024358374_39044",
+      "id" : "c1397",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681079949,
+      "type" : "WidgetName",
+      "o" : "activite3Activite2",
+      "n" : "activite2",
+      "modelId" : "w550024358374_39044",
+      "id" : "c1398",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681092321,
+      "type" : "WidgetName",
+      "o" : "activite2",
+      "n" : "scriptListeActivites",
+      "modelId" : "w550024358374_39044",
+      "id" : "c1399",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681382876,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nconsole.log(activite1)\nactivite1.qModel.x = 0"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nconsole.log(activite1.qModel.x)\nactivite1.qModel.x = 0"
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "element" : "props",
+      "id" : "c1400",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681389401,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l9011598911909348_63248",
+        "from" : "w10408_32164",
+        "to" : "w550024358374_39044",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1401",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681445123,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nactivite1.hide()"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nconsole.log(activite1)\nactivite1.qModel.x = 0"
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "element" : "props",
+      "id" : "c1402",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681448877,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : { },
+        "o" : { }
+      },
+      "modelId" : "w550024358374_39044",
+      "element" : "props",
+      "id" : "c1403",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681583229,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "click",
+        "n" : "swipeLeft"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1404",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681583234,
+      "type" : "LineProperties",
+      "key" : "animation",
+      "delta" : {
+        "n" : "slideLeft"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1406",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681583239,
+      "type" : "LineProperties",
+      "key" : "duration",
+      "delta" : {
+        "n" : 250
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1408",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681587251,
+      "type" : "RemoveLine",
+      "model" : {
+        "id" : "l17600779135525_12365",
+        "from" : "w550024358374_39044",
+        "to" : "s10404_91840",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1406",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681589582,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 22428,
+          "y" : 12404,
+          "type" : "widget",
+          "source" : "w550024358374_39044"
+        },
+        "o" : {
+          "x" : 22432,
+          "y" : 12396,
+          "type" : "Script"
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "id" : "c1407",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681591086,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21812,
+          "y" : 12418,
+          "type" : "widget",
+          "source" : "w550024358374_39044"
+        },
+        "o" : {
+          "x" : 22428,
+          "y" : 12404,
+          "type" : "Script"
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "id" : "c1408",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681630962,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21767,
+          "y" : 12819,
+          "type" : "widget",
+          "source" : "w10408_32164",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true
+          }
+        },
+        "o" : {
+          "x" : 21971,
+          "y" : 12809,
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10408_32164",
+      "id" : "c1409",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681636927,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21973,
+          "type" : "widget",
+          "source" : "w10408_32164",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "w10406_34757",
+              "type" : "Widget",
+              "pos" : "middleX",
+              "_sourceV" : 22280,
+              "middle" : true
+            }
+          }
+        },
+        "o" : {
+          "x" : 21767,
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10408_32164",
+      "id" : "c1410",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681651904,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "swipeLeft",
+        "n" : "click"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1411",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681666554,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "click",
+        "n" : "hover"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1412",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681680656,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "hover",
+        "n" : "swipeLeft"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1413",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681680659,
+      "type" : "LineProperties",
+      "key" : "animation",
+      "delta" : {
+        "o" : "slideLeft",
+        "n" : "slideLeft"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1415",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681680662,
+      "type" : "LineProperties",
+      "key" : "duration",
+      "delta" : {
+        "o" : 250,
+        "n" : 250
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1417",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681808123,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nactivite1.onSwipeLeft = function(event) {\n    activite1.hide()\n};"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nactivite1.hide()"
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "element" : "props",
+      "id" : "c1416",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681822422,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nactivite1.onSwipeLeft = function(event) {\n    activite1.hide()\n};\n"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nactivite1.onSwipeLeft = function(event) {\n    activite1.hide()\n};"
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "element" : "props",
+      "id" : "c1417",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681825794,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "swipeLeft",
+        "n" : "click"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1418",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681866614,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w295292073145094100000_77840",
+        "type" : "Icon",
+        "name" : "Icon",
+        "x" : 22526,
+        "y" : 12757,
+        "w" : 40,
+        "h" : 40,
+        "z" : 87,
+        "props" : { },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#333333",
+          "icon" : "mdi mdi-gesture-swipe-right"
+        }
+      },
+      "id" : "c1419",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681876604,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w590584146290188200000_92799",
+        "type" : "Icon",
+        "name" : "Icon 1",
+        "x" : 21990,
+        "y" : 12757,
+        "w" : 40,
+        "h" : 40,
+        "z" : 88,
+        "props" : { },
+        "has" : {
+          "onclick" : true,
+          "data" : true
+        },
+        "actions" : { },
+        "style" : {
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333",
+          "color" : "#333333",
+          "icon" : "mdi mdi-gesture-swipe-left"
+        }
+      },
+      "id" : "c1420",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681904951,
+      "type" : "WidgetProperties",
+      "delta" : {
+        "n" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nactivite1.hide()\n"
+        },
+        "o" : {
+          "script" : "/* \nUse the \"data\" property to read and write data:\ndata.sum = data.a + data.b\n\nUse the \"event\" property to get the source widget:\ndata.message = event.widget + 'was clicked'\n\nThe \"qux\" object let's you manipulate the prototype styles:\nlet screen = qux.getScreen('myScreen')\nlet widget = screen.getWidget('myWidget') \nif (widget.isHidden()) {    \n    widget.show()\n} else {\n    widget.hide()\n}\nwidget.setStyle({color:'red'})\n\nThe \"qux\" object can also trigger (phone) vibrations\nqux.vibrate([100, 30, 100])\n\nTo navigate to a screen, return the name:\nreturn \"myScreen\"\n*/\n\nlet screen = qux.getScreen('listeActivites')\nlet activite1 = screen.getWidget('activite1')\nactivite1.onSwipeLeft = function(event) {\n    activite1.hide()\n};\n"
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "element" : "props",
+      "id" : "c1421",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681919787,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "click",
+        "n" : "swipeLeft"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1422",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681919791,
+      "type" : "LineProperties",
+      "key" : "animation",
+      "delta" : {
+        "o" : "slideLeft",
+        "n" : "slideLeft"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1424",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681919794,
+      "type" : "LineProperties",
+      "key" : "duration",
+      "delta" : {
+        "o" : 250,
+        "n" : 250
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1426",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681936150,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w4.724673170321506e+21_78462",
+        "type" : "DragNDropTarget",
+        "name" : "DragNDrop Target",
+        "x" : 21576,
+        "y" : 12777,
+        "w" : 200,
+        "h" : 200,
+        "z" : 89,
+        "props" : {
+          "label" : "Drop here",
+          "layout" : null
+        },
+        "has" : {
+          "padding" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "backgroundImage" : true,
+          "label" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "textAlign" : "center",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "borderTopColor" : "#999999",
+          "borderBottomColor" : "#999999",
+          "borderRightColor" : "#999999",
+          "borderLeftColor" : "#999999",
+          "borderTopStyle" : "dashed",
+          "borderBottomStyle" : "dashed",
+          "borderRightStyle" : "dashed",
+          "borderLeftStyle" : "dashed",
+          "background" : "#ffffff",
+          "color" : "#999999",
+          "paddingTop" : 16,
+          "paddingBottom" : 16,
+          "paddingLeft" : 16,
+          "paddingRight" : 16,
+          "gap" : 16,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4
+        },
+        "hover" : {
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333"
+        }
+      },
+      "id" : "c1425",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681963406,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l9.449346340643012e+21_25924",
+        "from" : "w4.724673170321506e+21_78462",
+        "to" : "s10404_91840",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1426",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681974046,
+      "type" : "RemoveLine",
+      "model" : {
+        "id" : "l9.449346340643012e+21_25924",
+        "from" : "w4.724673170321506e+21_78462",
+        "to" : "s10404_91840",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1427",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721681986845,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l3.779738536257205e+22_57587",
+        "from" : "w4.724673170321506e+21_78462",
+        "to" : "w550024358374_39044",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1428",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682055593,
+      "type" : "RemoveLine",
+      "model" : {
+        "id" : "l3.779738536257205e+22_57587",
+        "from" : "w4.724673170321506e+21_78462",
+        "to" : "w550024358374_39044",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1429",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682057236,
+      "type" : "RemoveWidget",
+      "model" : {
+        "id" : "w4.724673170321506e+21_78462",
+        "type" : "DragNDropTarget",
+        "name" : "DragNDrop Target",
+        "x" : 21576,
+        "y" : 12777,
+        "w" : 200,
+        "h" : 200,
+        "z" : 89,
+        "props" : {
+          "label" : "Drop here",
+          "layout" : null
+        },
+        "has" : {
+          "padding" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "backgroundImage" : true,
+          "label" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "textAlign" : "center",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "borderTopColor" : "#999999",
+          "borderBottomColor" : "#999999",
+          "borderRightColor" : "#999999",
+          "borderLeftColor" : "#999999",
+          "borderTopStyle" : "dashed",
+          "borderBottomStyle" : "dashed",
+          "borderRightStyle" : "dashed",
+          "borderLeftStyle" : "dashed",
+          "background" : "#ffffff",
+          "color" : "#999999",
+          "paddingTop" : 16,
+          "paddingBottom" : 16,
+          "paddingLeft" : 16,
+          "paddingRight" : 16,
+          "gap" : 16,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4
+        },
+        "hover" : {
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333"
+        },
+        "created" : 1721681936151
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w4.724673170321506e+21_78462",
+      "id" : "c1430",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682070940,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "swipeLeft",
+        "n" : "swipeLeft"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1431",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682070944,
+      "type" : "LineProperties",
+      "key" : "animation",
+      "delta" : {
+        "o" : "slideLeft",
+        "n" : "slideLeft"
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1433",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682070948,
+      "type" : "LineProperties",
+      "key" : "duration",
+      "delta" : {
+        "o" : 250,
+        "n" : 250
+      },
+      "modelId" : "l9011598911909348_63248",
+      "id" : "c1435",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682229207,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w6.047581658011527e+23_6396",
+        "type" : "DragNDropTarget",
+        "name" : "DragNDrop Target",
+        "x" : 21558,
+        "y" : 12797,
+        "w" : 200,
+        "h" : 200,
+        "z" : 89,
+        "props" : {
+          "label" : "Drop here",
+          "layout" : null
+        },
+        "has" : {
+          "padding" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "backgroundImage" : true,
+          "label" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "textAlign" : "center",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "borderTopColor" : "#999999",
+          "borderBottomColor" : "#999999",
+          "borderRightColor" : "#999999",
+          "borderLeftColor" : "#999999",
+          "borderTopStyle" : "dashed",
+          "borderBottomStyle" : "dashed",
+          "borderRightStyle" : "dashed",
+          "borderLeftStyle" : "dashed",
+          "background" : "#ffffff",
+          "color" : "#999999",
+          "paddingTop" : 16,
+          "paddingBottom" : 16,
+          "paddingLeft" : 16,
+          "paddingRight" : 16,
+          "gap" : 16,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4
+        },
+        "hover" : {
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333"
+        }
+      },
+      "id" : "c1434",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682242708,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21540,
+          "y" : 12778,
+          "type" : "widget",
+          "source" : "w6.047581658011527e+23_6396",
+          "snapp" : {
+            "type" : "All",
+            "left" : false,
+            "top" : true,
+            "y" : {
+              "id" : "w10408_32164",
+              "type" : "Widget",
+              "pos" : "middleY",
+              "_sourceV" : 12878,
+              "middle" : true
+            }
+          }
+        },
+        "o" : {
+          "x" : 21558,
+          "y" : 12797,
+          "type" : "DragNDropTarget"
+        }
+      },
+      "modelId" : "w6.047581658011527e+23_6396",
+      "id" : "c1435",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682245782,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "w" : 398,
+          "type" : "widget",
+          "source" : "w6.047581658011527e+23_6396",
+          "snapp" : {
+            "type" : "East",
+            "left" : false,
+            "top" : false
+          }
+        },
+        "o" : {
+          "w" : 200,
+          "type" : "DragNDropTarget"
+        }
+      },
+      "modelId" : "w6.047581658011527e+23_6396",
+      "id" : "c1436",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682247439,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "h" : 158,
+          "type" : "widget",
+          "source" : "w6.047581658011527e+23_6396",
+          "snapp" : {
+            "type" : "South",
+            "left" : false,
+            "top" : true,
+            "y" : {
+              "id" : "w10408_32164",
+              "type" : "Widget",
+              "pos" : "bottom",
+              "_sourceV" : 12936
+            }
+          }
+        },
+        "o" : {
+          "h" : 200,
+          "type" : "DragNDropTarget"
+        }
+      },
+      "modelId" : "w6.047581658011527e+23_6396",
+      "id" : "c1437",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682248812,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "y" : 12819,
+          "h" : 117,
+          "type" : "widget",
+          "source" : "w6.047581658011527e+23_6396",
+          "snapp" : {
+            "type" : "North",
+            "left" : false,
+            "top" : true,
+            "y" : {
+              "id" : "w10408_32164",
+              "type" : "Widget",
+              "pos" : "top",
+              "_sourceV" : 12819
+            }
+          }
+        },
+        "o" : {
+          "y" : 12778,
+          "h" : 158,
+          "type" : "DragNDropTarget"
+        }
+      },
+      "modelId" : "w6.047581658011527e+23_6396",
+      "id" : "c1438",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682250594,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21368,
+          "w" : 570,
+          "type" : "widget",
+          "source" : "w6.047581658011527e+23_6396",
+          "snapp" : {
+            "type" : "West",
+            "left" : true,
+            "top" : false
+          }
+        },
+        "o" : {
+          "x" : 21540,
+          "w" : 398,
+          "type" : "DragNDropTarget"
+        }
+      },
+      "modelId" : "w6.047581658011527e+23_6396",
+      "id" : "c1439",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682269248,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21972,
+          "type" : "widget",
+          "source" : "w10408_32164",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "w10407_51785",
+              "type" : "Widget",
+              "pos" : "left",
+              "_sourceV" : 21972
+            },
+            "y" : {
+              "id" : "w6.047581658011527e+23_6396",
+              "type" : "Widget",
+              "pos" : "top",
+              "_sourceV" : 12819
+            }
+          }
+        },
+        "o" : {
+          "x" : 21973,
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10408_32164",
+      "id" : "c1440",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682313591,
+      "type" : "ChangeLayer",
+      "o" : {
+        "w10406_34757" : 2,
+        "w10407_51785" : 3,
+        "w10409_2753" : 4,
+        "w10410_41730" : 6,
+        "w10411_76263" : 7,
+        "w10412_86780" : 8,
+        "w10405_69724" : 1,
+        "w295292073145094100000_77840" : 87,
+        "w590584146290188200000_92799" : 88,
+        "w6.047581658011527e+23_6396" : 89,
+        "w10408_32164" : 5
+      },
+      "n" : {
+        "w6.047581658011527e+23_6396" : 3,
+        "w10407_51785" : 4,
+        "w10409_2753" : 5,
+        "w10408_32164" : 6,
+        "w10410_41730" : 7,
+        "w10411_76263" : 8,
+        "w10412_86780" : 9,
+        "w295292073145094100000_77840" : 10,
+        "w590584146290188200000_92799" : 11
+      },
+      "og" : [ ],
+      "ng" : [ ],
+      "id" : "c1441",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682328233,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21990,
+          "type" : "widget",
+          "source" : "w10408_32164",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "w590584146290188200000_92799",
+              "type" : "Widget",
+              "pos" : "left",
+              "_sourceV" : 21990
+            },
+            "y" : {
+              "id" : "w6.047581658011527e+23_6396",
+              "type" : "Widget",
+              "pos" : "top",
+              "_sourceV" : 12819
+            }
+          }
+        },
+        "o" : {
+          "x" : 21972,
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10408_32164",
+      "id" : "c1442",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682332789,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21972,
+          "type" : "widget",
+          "source" : "w10408_32164",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "w10407_51785",
+              "type" : "Widget",
+              "pos" : "left",
+              "_sourceV" : 21972
+            },
+            "y" : {
+              "id" : "w6.047581658011527e+23_6396",
+              "type" : "Widget",
+              "pos" : "top",
+              "_sourceV" : 12819
+            }
+          }
+        },
+        "o" : {
+          "x" : 21990,
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10408_32164",
+      "id" : "c1443",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682335101,
+      "type" : "WidgetName",
+      "o" : "activite1",
+      "n" : "DragNDrop Target",
+      "modelId" : "w10408_32164",
+      "id" : "c1444",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682351606,
+      "type" : "WidgetName",
+      "o" : "DragNDrop Target",
+      "n" : "activite1",
+      "modelId" : "w10408_32164",
+      "id" : "c1445",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682637306,
+      "type" : "RemoveWidget",
+      "model" : {
+        "id" : "w6.047581658011527e+23_6396",
+        "type" : "DragNDropTarget",
+        "name" : "DragNDrop Target",
+        "x" : 21368,
+        "y" : 12819,
+        "w" : 570,
+        "h" : 117,
+        "z" : 3,
+        "props" : {
+          "label" : "Drop here",
+          "layout" : null
+        },
+        "has" : {
+          "padding" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "backgroundImage" : true,
+          "label" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "textAlign" : "center",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "borderTopColor" : "#999999",
+          "borderBottomColor" : "#999999",
+          "borderRightColor" : "#999999",
+          "borderLeftColor" : "#999999",
+          "borderTopStyle" : "dashed",
+          "borderBottomStyle" : "dashed",
+          "borderRightStyle" : "dashed",
+          "borderLeftStyle" : "dashed",
+          "background" : "#ffffff",
+          "color" : "#999999",
+          "paddingTop" : 16,
+          "paddingBottom" : 16,
+          "paddingLeft" : 16,
+          "paddingRight" : 16,
+          "gap" : 16,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4
+        },
+        "hover" : {
+          "borderTopColor" : "#333333",
+          "borderBottomColor" : "#333333",
+          "borderRightColor" : "#333333",
+          "borderLeftColor" : "#333333"
+        },
+        "created" : 1721682229208,
+        "modified" : 1721682250594
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w6.047581658011527e+23_6396",
+      "id" : "c1446",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682643622,
+      "type" : "WidgetName",
+      "o" : "activite2",
+      "n" : "activite1",
+      "modelId" : "w10409_2753",
+      "id" : "c1447",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682648933,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l9.908357788486086e+27_60089",
+        "from" : "w10409_2753",
+        "to" : "w550024358374_39044",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1448",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682652457,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "click",
+        "n" : "swipeLeft"
+      },
+      "modelId" : "l9.908357788486086e+27_60089",
+      "id" : "c1449",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682652460,
+      "type" : "LineProperties",
+      "key" : "animation",
+      "delta" : {
+        "n" : "slideLeft"
+      },
+      "modelId" : "l9.908357788486086e+27_60089",
+      "id" : "c1451",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682652463,
+      "type" : "LineProperties",
+      "key" : "duration",
+      "delta" : {
+        "n" : 250
+      },
+      "modelId" : "l9.908357788486086e+27_60089",
+      "id" : "c1453",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682655441,
+      "type" : "AddLine",
+      "model" : {
+        "id" : "l3.963343115394435e+28_11728",
+        "from" : "w10407_51785",
+        "to" : "w550024358374_39044",
+        "points" : [ ],
+        "event" : "click"
+      },
+      "id" : "c1451",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682657790,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21566,
+          "y" : 12374,
+          "type" : "widget",
+          "source" : "w550024358374_39044"
+        },
+        "o" : {
+          "x" : 21812,
+          "y" : 12418,
+          "type" : "Script"
+        }
+      },
+      "modelId" : "w550024358374_39044",
+      "id" : "c1452",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682660931,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "click",
+        "n" : "swipeLeft"
+      },
+      "modelId" : "l3.963343115394435e+28_11728",
+      "id" : "c1453",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682660934,
+      "type" : "LineProperties",
+      "key" : "animation",
+      "delta" : {
+        "n" : "slideLeft"
+      },
+      "modelId" : "l3.963343115394435e+28_11728",
+      "id" : "c1455",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682660937,
+      "type" : "LineProperties",
+      "key" : "duration",
+      "delta" : {
+        "n" : 250
+      },
+      "modelId" : "l3.963343115394435e+28_11728",
+      "id" : "c1457",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682664753,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21973,
+          "y" : 13233,
+          "type" : "widget",
+          "source" : "w10407_51785",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : false,
+            "x" : {
+              "id" : "w10406_34757",
+              "type" : "Widget",
+              "pos" : "middleX",
+              "_sourceV" : 22280,
+              "middle" : true
+            }
+          }
+        },
+        "o" : {
+          "x" : 21972,
+          "y" : 13243,
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10407_51785",
+      "id" : "c1456",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682667926,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "type" : "widget",
+          "source" : "w10407_51785",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "w10406_34757",
+              "type" : "Widget",
+              "pos" : "middleX",
+              "_sourceV" : 22280,
+              "middle" : true
+            }
+          }
+        },
+        "o" : {
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10407_51785",
+      "id" : "c1457",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682669992,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "type" : "widget",
+          "source" : "w10407_51785",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : false,
+            "x" : {
+              "id" : "w10406_34757",
+              "type" : "Widget",
+              "pos" : "middleX",
+              "_sourceV" : 22280,
+              "middle" : true
+            }
+          }
+        },
+        "o" : {
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10407_51785",
+      "id" : "c1458",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682672067,
+      "type" : "LineProperties",
+      "key" : "event",
+      "delta" : {
+        "o" : "swipeLeft",
+        "n" : "click"
+      },
+      "modelId" : "l3.963343115394435e+28_11728",
+      "id" : "c1459",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682686526,
+      "type" : "WidgetName",
+      "o" : "activite1",
+      "n" : "activite2",
+      "modelId" : "w10409_2753",
+      "id" : "c1460",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682689401,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21678,
+          "y" : 12831,
+          "type" : "widget",
+          "source" : "w10408_32164",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "w10412_86780",
+              "type" : "Widget",
+              "pos" : "right",
+              "_sourceV" : 21678
+            }
+          }
+        },
+        "o" : {
+          "x" : 21972,
+          "y" : 12819,
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10408_32164",
+      "id" : "c1461",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721682700717,
+      "type" : "WidgetPosition",
+      "delta" : {
+        "n" : {
+          "x" : 21972,
+          "y" : 12821,
+          "type" : "widget",
+          "source" : "w10408_32164",
+          "snapp" : {
+            "type" : "All",
+            "left" : true,
+            "top" : true,
+            "x" : {
+              "id" : "w10409_2753",
+              "type" : "Widget",
+              "pos" : "left",
+              "_sourceV" : 21972
+            }
+          }
+        },
+        "o" : {
+          "x" : 21678,
+          "y" : 12831,
+          "type" : "DragNDrop"
+        }
+      },
+      "modelId" : "w10408_32164",
+      "id" : "c1462",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721684277310,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w2.0292316750819505e+31_86930",
+        "type" : "NavMenu",
+        "name" : "Navigation Menu",
+        "x" : 2305,
+        "y" : 1295,
+        "w" : 196,
+        "h" : 32,
+        "z" : null,
+        "props" : {
+          "label" : "Menu",
+          "navigation" : [ {
+            "id" : 1,
+            "label" : "Home",
+            "icon" : "mdi mdi-home",
+            "to" : "",
+            "selected" : true
+          }, {
+            "id" : 2,
+            "label" : "Search",
+            "icon" : "mdi mdi-magnify",
+            "to" : ""
+          }, {
+            "id" : 3,
+            "label" : "Account",
+            "icon" : "mdi mdi-account-outline",
+            "to" : ""
+          } ]
+        },
+        "has" : {
+          "onclick" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "data" : true,
+          "padding" : true,
+          "label" : true,
+          "icon" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "popupBorderColor" : "#000000",
+          "popupBorderWidth" : 1,
+          "popupColor" : "#000000",
+          "popupBackground" : "#FFFFFF",
+          "popupShadow" : null,
+          "selectedOptionColor" : "#000000",
+          "selectedOptionBackground" : "#CCCCCC",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "paddingTop" : 8,
+          "paddingBottom" : 8,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "color" : "#000000",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "error" : {
+          "background" : "#efc5c5",
+          "color" : "#f43535",
+          "borderTopColor" : "#f43535",
+          "borderBottomColor" : "#f43535",
+          "borderRightColor" : "#f43535",
+          "borderLeftColor" : "#f43535"
+        }
+      },
+      "id" : "c1463",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721684282284,
+      "type" : "AddWidget",
+      "model" : {
+        "type" : "Button",
+        "name" : "Box 1",
+        "x" : 2242,
+        "y" : 1185,
+        "w" : 149,
+        "h" : 101,
+        "z" : null,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#000000",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w2.0292316750819505e+31_74794"
+      },
+      "id" : "c1464",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721684291510,
+      "type" : "AddWidget",
+      "model" : {
+        "id" : "w2.0292316750819505e+31_31897",
+        "type" : "NavMenu",
+        "name" : "Navigation Menu",
+        "x" : 8500,
+        "y" : 8400,
+        "w" : 196,
+        "h" : 32,
+        "z" : null,
+        "props" : {
+          "label" : "Menu",
+          "navigation" : [ {
+            "id" : 1,
+            "label" : "Home",
+            "icon" : "mdi mdi-home",
+            "to" : "",
+            "selected" : true
+          }, {
+            "id" : 2,
+            "label" : "Search",
+            "icon" : "mdi mdi-magnify",
+            "to" : ""
+          }, {
+            "id" : 3,
+            "label" : "Account",
+            "icon" : "mdi mdi-account-outline",
+            "to" : ""
+          } ]
+        },
+        "has" : {
+          "onclick" : true,
+          "border" : true,
+          "backgroundColor" : true,
+          "data" : true,
+          "padding" : true,
+          "label" : true,
+          "icon" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "popupBorderColor" : "#000000",
+          "popupBorderWidth" : 1,
+          "popupColor" : "#000000",
+          "popupBackground" : "#FFFFFF",
+          "popupShadow" : null,
+          "selectedOptionColor" : "#000000",
+          "selectedOptionBackground" : "#CCCCCC",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "paddingTop" : 8,
+          "paddingBottom" : 8,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "color" : "#000000",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "error" : {
+          "background" : "#efc5c5",
+          "color" : "#f43535",
+          "borderTopColor" : "#f43535",
+          "borderBottomColor" : "#f43535",
+          "borderRightColor" : "#f43535",
+          "borderLeftColor" : "#f43535"
+        }
+      },
+      "id" : "c1465",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721684390432,
+      "type" : "AddWidget",
+      "model" : {
+        "type" : "Button",
+        "name" : "Box",
+        "x" : 4300,
+        "y" : 5300,
+        "w" : 9250,
+        "h" : 9050,
+        "z" : null,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#000000",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w2.0292316750819505e+31_6134"
+      },
+      "id" : "c1466",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721684392787,
+      "type" : "AddScreen",
+      "model" : {
+        "x" : 10350,
+        "y" : 6250,
+        "h" : 1080,
+        "w" : 1920,
+        "name" : "Screen 7",
+        "type" : "Screen",
+        "style" : {
+          "background" : "#ffffff"
+        },
+        "min" : {
+          "w" : 1920,
+          "h" : 1080
+        },
+        "has" : {
+          "image" : true
+        },
+        "props" : {
+          "start" : false
+        },
+        "children" : [ ],
+        "id" : "s2.0292316750819505e+31_21629"
+      },
+      "id" : "c1466",
+      "userID" : "669578990e4dfe5f1863a61a"
+    }, {
+      "timestamp" : 1721684400507,
+      "type" : "AddWidget",
+      "model" : {
+        "type" : "Button",
+        "name" : "Box",
+        "x" : 1200,
+        "y" : 3900,
+        "w" : 0,
+        "h" : 300,
+        "z" : null,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#000000",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w2.0292316750819505e+31_61924"
+      },
+      "id" : "c1467",
+      "userID" : "669574db0e4dfe5f1863a1ec"
+    }, {
+      "timestamp" : 1721771355586,
+      "type" : "AddWidget",
+      "model" : {
+        "type" : "Button",
+        "name" : "Box 1",
+        "x" : 1686,
+        "y" : 1424,
+        "w" : 124,
+        "h" : 160,
+        "z" : 87,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#000000",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w2.0292316750819505e+31_84952"
+      },
+      "id" : "c1469",
+      "userID" : "56460040ee1a411d1648065e"
+    }, {
+      "timestamp" : 1721771356435,
+      "type" : "RemoveWidget",
+      "model" : {
+        "type" : "Button",
+        "name" : "Box 1",
+        "x" : 1686,
+        "y" : 1424,
+        "w" : 124,
+        "h" : 160,
+        "z" : 87,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#000000",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w2.0292316750819505e+31_84952",
+        "created" : 1721771355587
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w2.0292316750819505e+31_84952",
+      "id" : "c1470",
+      "userID" : "56460040ee1a411d1648065e"
+    }, {
+      "timestamp" : 1721771368678,
+      "type" : "RemoveWidget",
+      "model" : {
+        "type" : "Button",
+        "name" : "Box 1",
+        "x" : 1686,
+        "y" : 1424,
+        "w" : 124,
+        "h" : 160,
+        "z" : 87,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 0,
+          "borderTopLeftRadius" : 0,
+          "borderBottomRightRadius" : 0,
+          "borderBottomLeftRadius" : 0,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#000000",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w2.0292316750819505e+31_84952",
+        "created" : 1721771355587
+      },
+      "lines" : [ ],
+      "group" : null,
+      "refs" : [ ],
+      "modelId" : "w2.0292316750819505e+31_84952",
+      "id" : "c1471",
+      "userID" : "56460040ee1a411d1648065e"
+    } ],
+    "pos" : 179,
+    "lastUUID" : 1472,
+    "appID" : "669574f40e4dfe5f1863a1fc",
+    "id" : "669574f50e4dfe5f1863a203",
+    "userID" : "669578990e4dfe5f1863a61a",
+    "lastUpdate" : 1721678141114
+  }

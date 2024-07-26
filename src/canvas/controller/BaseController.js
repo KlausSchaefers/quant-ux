@@ -79,6 +79,7 @@ export default class BaseController extends Core {
 		 * Apply model fixes here that might happen
 		 * due to this crappy software
 		 */
+		//ModelFixer.fixCorruptedModel(this.model)
 		ModelFixer.fixNegativeCoords(m);
 		ModelFixer.fixZValues(m);
 		ModelFixer.fixModelCount(m);
