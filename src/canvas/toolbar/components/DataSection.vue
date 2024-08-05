@@ -783,11 +783,11 @@ export default {
 			this._renderImagesDropDown(model,"images");
 			this._renderDropDown(model,"vertical",[
 						{ value:false, icon:"ScrollHorizontal", label : "Horizontal Scrolling"},
-						{ value:true, icon:"ScrollVertical", label : "Vertical Scrolling"}
+						{ value:true, icon:"ScrollVertical", label : "Vertical Scrolling"},
+						{ value:'none', icon:"DeleteX", label : "No Animation"}
 				]);
 			this._renderReferenceButton(model,"backButton", "No Back Button", "Reference", "ReferenceNone");
 			this._renderReferenceButton(model,"nextButton", "No Next Button", "Reference", "ReferenceNone");
-
 		},
 
 		_showIconToggle (model){

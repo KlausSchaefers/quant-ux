@@ -43,8 +43,13 @@ export default {
 
     onDndStart(e) {
       this.stopEvent(e);
-
       this.cleanUp();
+
+      if (this._noAnimation) {
+        const pos = this.value + 1
+        this.onSlideDone(pos, e, "widgetID", 0)
+        return
+      }
 
       this.dndStartPos = this.getMouse(e);
 
@@ -84,7 +89,8 @@ export default {
 
     onDndEnd(e) {
       this.stopEvent(e);
-
+      
+   
       var pos = this.getMouse(e);
       this.emitMouseMove(e);
       var delta = {
@@ -200,7 +206,8 @@ export default {
       this.style = style;
       this._scaleX = scaleX;
       this._scaleY = scaleY;
-      this._vertical = this.model.props.vertical;
+      this._vertical = this.model.props.vertical === true;
+      this._noAnimation = this.model.props.vertical === 'none';
 
       const db = new DomBuilder();
       this.elements = [];
@@ -259,6 +266,10 @@ export default {
 
     onBack(widgetID, e) {
       const pos = this.value - 1;
+      if (this._noAnimation) {
+        this.onSlideDone(pos, e, widgetID, -2)
+        return
+      }
       const anim = new Animation().createAnimation();
       anim.duration = this.animationDuration;
       anim.onRender(lang.hitch(this, "renderSlideLeft", 0));
@@ -270,6 +281,11 @@ export default {
 
     onNext(widgetID, e) {
       const pos = this.value + 1;
+      if (this._noAnimation) {
+        this.onSlideDone(pos, e, widgetID, 0)
+        return
+      }
+
       const anim = new Animation().createAnimation();
       anim.duration = this.animationDuration;
       anim.onRender(lang.hitch(this, "renderSlideRight", 0));
