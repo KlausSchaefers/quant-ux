@@ -52,6 +52,9 @@
   font-size: 12px;
   padding: 5px 0px 0px 10px;
   cursor: pointer;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  overflow: hidden;
 }
 
 input.MatcTreeItemLabel {
@@ -175,6 +178,10 @@ input.MatcTreeItemLabel {
 
 .MatcTreeItemLevel10 .MatcTreeItemRow {
   margin-left: 140px;
+}
+
+.MatcTreeTypeIcon, .MatcTreeIcon{
+  flex-shrink: 0;
 }
 
 .MatcTreeTypeIcon.mdi {
