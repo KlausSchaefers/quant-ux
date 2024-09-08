@@ -86,6 +86,10 @@ export default {
 			this.tooltipSettings.setBox(model)
 
 			this.showDesignTokenBtns(model, 'widget')
+
+
+			this.callbackSection.setValue(model)
+			css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
 		},
 
 		showWidgetDesignProperties (model) {

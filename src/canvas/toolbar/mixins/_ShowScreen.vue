@@ -68,6 +68,9 @@ export default {
 				if(this.screenAnimationDiv){
 					css.remove(this.screenAnimationDiv, "MatcToolbarSectionHidden")
 				}
+
+				css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
+				this.callbackSection.setValue(model, 'screen')
 		},
 
 		showScreenDesignProperties (model) {

@@ -616,7 +616,7 @@ export default {
 			/**
 			* Callbacks
 			*/
-			parent = this.createSection("Callbacks", true);
+			parent = this.createSection("Low Code Callbacks", true);
 			content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);

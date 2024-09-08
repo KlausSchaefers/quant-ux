@@ -7,7 +7,7 @@
                 placeholder="Click callback"
                 :value="callbacks.click"
                 @change="onClickChange"/>
-            <span class="mdi mdi-cursor-default MatcToobarInputIcon" />
+                <QIcon icon="EventClick"/>
 
          </div>
         <div class="MatcToolbarItem MatcToobarInputIconCntr" v-show="!isScreen && isInput" ref="tooltipChange">
@@ -16,7 +16,7 @@
                 placeholder="Change callback"
                 :value="callbacks.change"
                 @change="onChangeChange"/>
-            <span class="mdi mdi-database MatcToobarInputIcon" />
+                <QIcon icon="EventData"/>
 
          </div>
          <div class="MatcToolbarItem MatcToobarInputIconCntr" v-show="isScreen" ref="tooltipLoad">
@@ -25,11 +25,11 @@
                 placeholder="Load callback"
                 :value="callbacks.load"
                 @change="onLoadChange"/>
-              <span class="mdi mdi-backup-restore MatcToobarInputIcon" />
+                <QIcon icon="EventLoaded"/>
 
          </div>
 
-          <div class="MatcToolbarItem MatcToobarInputIconCntr" ref="tooltipRender">
+          <!-- <div class="MatcToolbarItem MatcToobarInputIconCntr" ref="tooltipRender">
 
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                 placeholder="Render callback"
@@ -37,14 +37,14 @@
                 @change="onRenderChange"/>
               <span class="mdi mdi-format-paint MatcToobarInputIcon" />
 
-         </div>
+         </div> -->
 	</div>
 </template>
 <script>
 
 import DojoWidget from 'dojo/DojoWidget'
 import _Tooltip from 'common/_Tooltip'
-
+import QIcon from 'page/QIcon'
 export default {
     name: 'LowCodeSection',
     mixins:[_Tooltip, DojoWidget],
@@ -66,6 +66,7 @@ export default {
         }
     },
     components: {
+        'QIcon': QIcon
     },
     methods: {
         onWrapChange (value){

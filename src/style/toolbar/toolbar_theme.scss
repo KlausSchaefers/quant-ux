@@ -276,6 +276,10 @@
             border-color: $toolbar_form_border_focus;
             background: $toolbar_form_background_focus;
         }
+
+        &::placeholder {
+            color: $toolbar_color_passive;
+        }
     }
     
     .MatcToobarInputInlineEdit{
