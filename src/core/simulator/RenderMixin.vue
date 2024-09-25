@@ -42,7 +42,7 @@
 		  * The default method to show a screen without any animation
 		  */
 		  renderScreen (screen, line){
-			  this.logger.log(-1,"renderScreen","enter > " + screen.id + " / " + screen.name);
+			  this.logger.log(-4,"renderScreen","enter > " + screen.id + " / " + screen.name);
   
 			  this.setSystemVariable('screen', screen.name)
   
@@ -70,8 +70,7 @@
 				  * append to DOM without any animation..
 				  */
 				  this.addScreen(screen, div, line);
-  
-				  this.setScreenBackground(screen);
+
   
 				  if(this.qr){
 					  hash(`#/simulate.html?qr=${this.qr}&h=${this.hash}&s=${screen.id}&log=${this.logData}&live=${this.live}&ln=${this.getLanguage()}`);
@@ -662,6 +661,8 @@
 					  me.removeScreen(oldScreenDiv)
 				  });
 			  }
+			    
+			  this.setScreenBackground(screen);
 		  },
   
 		  removeScreen (div){
