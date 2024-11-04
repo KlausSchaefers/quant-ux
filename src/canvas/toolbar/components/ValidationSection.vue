@@ -352,6 +352,9 @@ export default {
 			this._renderDataBinding(model);
 		},
 
+		_showImageGrid(model){
+			this._renderDataBinding(model, false);
+		},
 
 		_showCheckBox (model){
 			this._renderDataBinding(model);

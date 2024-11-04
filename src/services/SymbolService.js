@@ -126,6 +126,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/navbar.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/navmenu.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/geolocation.json'),
+            //import(/* webpackChunkName: "themes" */ 'themes/wireframe/imagegrid.json'),
 
             import(/* webpackChunkName: "themes" */ 'themes/survey/textbox.json'),
             // import(/* webpackChunkName: "themes" */ 'themes/survey/labeledtextbox.json'),

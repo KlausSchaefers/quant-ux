@@ -38,6 +38,7 @@ class QSS {
     }
 
     replaceBorderVariables (widget) {
+      
         if (widget.style) {
             this.replaceSingleBorderVariable(widget.style)
         }
@@ -56,9 +57,14 @@ class QSS {
         if (widget.checked) {
             this.replaceSingleBorderVariable(widget.checked)
         }
+
+        if (widget.type === 'ImageGrid')
+            console.debug('replaceBorderVariables', widget.name, widget.style)
     }
 
     replaceSingleBorderVariable(style) {
+
+
         if (style.borderWidth !== undefined) {
             const value = style.borderWidth
             style.borderTopWidth = value

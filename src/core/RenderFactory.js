@@ -73,6 +73,7 @@ import VisualPicker from 'core/widgets/VisualPicker'
 import SortableList from 'core/widgets/SortableList'
 import RadioTable from 'core/widgets/RadioTable'
 import GeoLocation from 'core/widgets/GeoLocation'
+import ImageGrid from 'core/widgets/ImageGrid'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -529,6 +530,12 @@ export default class RenderFactory extends Core {
 
 	_createIFrameWidget(parent, model) {
 		const widget = this.$new(IFrameWidget)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createImageGrid(parent, model) {
+		const widget = this.$new(ImageGrid)
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

@@ -1586,5 +1586,14 @@ export const icons = {
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
         <path d="M9 4l0 16" />
-    `
+    `,
+    'SingleSelect': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M5 12l5 5l10 -10" />
+    `,
+    'MultiSelect': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M7 12l5 5l10 -10" />
+        <path d="M2 12l5 5m5 -5l5 -5" />
+    `,
 }

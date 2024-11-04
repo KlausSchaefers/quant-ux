@@ -214,10 +214,8 @@ export default {
 
 		onThemesLoaded (themes){
 			this.rightCntr.innerHTML="";
-			var categories = {};
-			var temp = {};
-
-
+			const categories = {};
+			const temp = {};
 
 			/**
 			 * sort into categories

@@ -1,3 +1,60 @@
+
+/*******************************
+ * ImageGrid
+ *******************************/
+ .MatcWidgetTypeImageGrid {
+	position: absolute;
+	width:100%;
+	height: 100%;
+
+	outline: none;
+	border: 0px solid #333;
+ }
+
+ .MatcWidgetTypeImageGridCntr {
+	display: grid;
+	flex-wrap: wrap;
+	overflow: hidden;
+	width:100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+ }
+
+ .MatcWidgetTypeImageGridCntr.rows {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: column;
+	
+ }
+
+ .MatcWidgetTypeImageGridImage {
+	background-size: 100%;
+	background-repeat: no-repeat;
+	position: relative;
+ }
+
+ .MatcWidgetTypeImageGridPlaceholder {
+	border:1px solid #333
+ }
+
+.MatcWidgetTypeImageGridCntrHook {
+	position: absolute;
+	top:8px;
+	right: 8px;
+	border-bottom: 2px solid #333;
+	border-right: 3px solid #333;
+	width: 6px;
+	height: 12px;
+	transform: rotate(45deg);
+	transition: opacity 0.2s;
+}
+
+/*******************************
+ * GeoLocation
+ *******************************/
+
+
 .MatchWidgetTypeGeoLocation {
 	position: absolute;
 	width:100%;

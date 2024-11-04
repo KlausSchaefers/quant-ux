@@ -1,0 +1,45 @@
+
+[
+    {
+        "id" : "ImageGrid",
+        "type" : "ImageGrid",
+        "category" : "Advanced",
+        "subcategory" : "FormImage",
+        "_type" : "Widget",
+        "name" : "Image Grid",
+        "sidebar": true,
+        "x" : 0,
+        "y" : 0,
+        "w": "320",
+        "h": "320",
+        "z" : 0,
+        "props" : {
+            "layout": "grid",
+            "imageWidth": 96,
+            "imageHeight": 96,
+            "gap": 16,
+            "images": [],
+            "descriptions": [],
+            "selectionMode": "multi"
+        },
+        "has" : {
+           "onclick" : true,
+           "borderRadius" : true,
+           "backgroundColor": true,
+           "border": true
+        },
+        "actions":{},
+        "style" : {
+           "borderRadius": 0,
+           "borderWidth": "",
+           "borderStyle": "solid",
+           "borderColor": "@form-border-color",	
+           "backgroundImage" : null,
+           "paddingBottom":0,
+           "paddingLeft": 0,
+           "paddingRight": 0,
+           "paddingTop": 0,
+           "selectColor": "@button-primary-background"
+        }
+    }
+]

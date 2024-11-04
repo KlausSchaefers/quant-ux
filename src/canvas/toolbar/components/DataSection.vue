@@ -790,6 +790,46 @@ export default {
 			this._renderReferenceButton(model,"nextButton", "No Next Button", "Reference", "ReferenceNone");
 		},
 
+		_showImageGrid (model){
+			this._setSectionLabel("Image Gird");
+			
+			this._renderImagesDropDown(model,"images");
+
+			this._renderInputDropDown("Image Width", model, [
+				{label: '64', value: 64},
+				{label: '96', value: 96},
+				{label: '128', value: 128},
+				{label: '256', value: 256}
+			], "imageWidth", true);
+
+			this._renderInputDropDown("Image Height", model, [
+				{label: '64', value: 64},
+				{label: '96', value: 96},
+				{label: '128', value: 128},
+				{label: '256', value: 256}
+			], "imageHeight", true);
+
+		
+
+			let margin = [
+				{label: '0', value: 0},
+				{label: '8', value: 8},
+				{label: '16', value: 16},
+				{label: '24', value: 24},
+				{label: '30', value: 32}
+			];
+
+			this._renderInputDropDown("Spacing ", model, margin, "gap", true);
+
+			this._renderColor('Select Color','<span class="mdi mdi-border-color"></span>',model.style.selectColor, "selectColor" ,"onStyleChanged", true);
+			this._renderLabelDropDown("Normal", model,"selectionMode",[
+				{ value: "single", icon:"SingleSelect", label : "Single Selection"},
+				{ value:"multi", icon:"MultiSelect", label : "Multi Selection"}
+			]);
+
+			//this._renderCheck("Loading Animation",model.props.loadingAnimation, "loadingAnimation" );
+		},
+
 		_showIconToggle (model){
 			this._setSectionLabel("Icon Toggle");
 			this._renderCheck("Active",model.props.active, "active" );

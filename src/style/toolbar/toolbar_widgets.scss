@@ -1234,8 +1234,9 @@ input.MatcToobarInlineEditDisabled:focus {
 	cursor: pointer;
 }
 
-.MatcImageUploadPreviewSelected {
-	border: 1px solid #999;
+.MatcToolbarDropDownButtonItem.MatcImageUploadPreview.MatcImageUploadPreviewSelected {
+	border: 1px solid $primary_color;
+	background-color: #d6e5f8;
 }
 
 .MatcImageUploadPreview:Hover {
