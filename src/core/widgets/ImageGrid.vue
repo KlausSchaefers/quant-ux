@@ -11,9 +11,12 @@
               'grid-template-columns': 'repeat(auto-fill, ' +imageW+ 'px)',
               'grid-auto-rows': imageH + 'px'
             }">
-            <div v-for="(img,i) in images" :key="i" ref="imageNodes" >
-                <div
-                @click.stop="onImageClick(img, $event)"
+            <div v-for="(img,i) in images" :key="i" >
+                <div 
+                  ref="imageNodes" 
+                  @mouseover="onImageHover(img, i, $event)"
+                  @mouseout="onImageOut(img, i, $event)"
+                  @click.stop="onImageClick(img, i, $event)"
                   :style="{
                     'background-image': img.src, 
                     'width': img.w +'px', 
@@ -66,7 +69,8 @@
         borderWidth: '',
         backgroundColor: '',
         borderStyle: 'solid',
-        selectColor: ''
+        selectColor: '',
+        selection:[]
       };
     },
     components: {},
@@ -80,23 +84,77 @@
   
       wireEvents() {
         this.wired = true;
-        
-        // this.tempOwn(
-        //   this.addTouchStart(this.domNode, lang.hitch(this, "onDndStart"))
-        // );
-        this.wireHover()
+        console.debug('wireEvents', this.wired)
       },
 
-      onImageClick (img, e) {
+      onImageClick (img, i, e) {
         if (!this.wired) {
           return
         }
-        img.selected = true
-        //this.emit("change", this.value );
+
+        if (this.model?.props?.selectionMode === 'none') {
+            this.value = img.src
+            this.emitDataBinding(this.value);
+            this.emitClick(e);
+        }
+       
+        if (this.model?.props?.selectionMode === 'single') {
+          this.images.forEach(i => {
+            i.selected = false
+          })
+        }
+   
+        img.selected = !img.selected 
+        this.value = this.images.filter(i => i.selected).map(i => i.src)
+        if (this.model?.props?.selectionMode === 'single') {
+          this.value = this.value[0]
+        }
+        this.emitDataBinding(this.value);
         this.emitClick(e);
-        this.$forceUpdate()
+
+        this.selection = this.images.filter(i => i.selected).map(i => i.i)
+        this.emit("change", this.selection);
       },
   
+      onImageHover (img, i) {
+        if (!this.wired) {
+          return
+        }
+        if (!this.borderColorHover) {
+          return
+        }
+        this.resetStyles()
+        const node = this.$refs.imageNodes[i]
+        if (node) {
+          node.style.borderColor = this.borderColorHover
+          node.style.boxShadow = this.boxShadowHover
+        }
+      },
+
+      onImageOut () {
+        if (!this.wired) {
+          return
+        }
+        this.resetStyles()
+      },
+
+      resetStyles () {
+        if (!this.$refs.imageNodes) {
+          return
+        }
+        for (let i=0; i < this.images.length; i++) {
+            const node = this.$refs.imageNodes[i]
+            const img = this.images[i]
+            if (node) {
+              if (img.selected) {
+                node.style.borderColor = this.selectColor
+              } else {
+                node.style.borderColor = this.borderColor
+              }
+              node.style.boxShadow = this.boxShadow
+            }
+        }
+      },
         
       resize(box) {
         if (this.model.props.images && this.model.props.images.length) {
@@ -114,28 +172,32 @@
         this._scaleY = scaleY;
         this._vertical = this.model.props.vertical;
     
-        const w = (this.model.props.imageWidth || 128) * scaleX
-        const h = (this.model.props.imageHeight || 128) * scaleX
+        const w = Math.floor((this.model.props.imageWidth || 128) * scaleX)
+        const h = Math.floor((this.model.props.imageHeight || 128) * scaleX)
         this.imageW = w
         this.imageH = h
         
-        this.gap = this.model.props.gap
+        this.gap = Math.round(this.model.props.gap * scaleX)
         this.layout = this.model.props.layout
-        this.borderRadius = style.borderBottomLeftRadius  * scaleX
-        this.borderWidth = style.borderTopWidth * scaleX
+        this.borderRadius = Math.round(style.borderBottomLeftRadius  * scaleX)
+        this.borderWidth = Math.round(style.borderTopWidth * scaleX)
   
         this.borderColor = style.borderTopColor
         this.boxShadow = this.getBoxShadow(style)
         this.backgroundColor = style.background
         this.selectColor = style.selectColor
 
-      
+        if (this.model.hover) {
+            this.borderColorHover = this.model.hover.borderTopColor
+            this.boxShadowHover = this.getBoxShadow(this.model.hover)
+        }
 
         if (this.model.props.images && this.model.props.images.length) {
-          this.images = this.model.props.images.map(url => {
+          this.images = this.model.props.images.map((url,i) => {
             return {
-              src: this.getImageURL(url),
+              src: this.getImageSRC(url),
               selected: false,
+              i: i,
               w: w,
               h: h 
             }
@@ -148,7 +210,6 @@
 
         this.setStyle(style);
         this.resize(this.model);
-        this.setValue(0);
       },
 
       getBoxShadow(style) {
@@ -163,7 +224,7 @@
         }
       },
 
-      getImageURL(image) {
+      getImageSRC(image) {
         if (this.hash) {
           return "url(/rest/images/" + this.hash + "/" + image + ")";
 
@@ -173,8 +234,6 @@
       },
 
       setPlaceholders(box, w, h) {
-
- 
         const cols = Math.floor(box.w / w)
         const rows = Math.floor(box.h / h)
         this.images = []
@@ -213,19 +272,8 @@
         return this.value;
       },
   
-      setValue(pos) {
-        //console.debug("setValue", pos);
-  
-        // if (this.mode == "edit") {
-        //   this.setImage(0, this.getImage(pos));
-        // } else {
-        //   this.setImage(0, this.getImage(pos - 1));
-        //   this.setImage(1, this.getImage(pos));
-        //   this.setImage(2, this.getImage(pos + 1));
-        //   this.setCntrPos(-1);
-        // }
-  
-        this.value = pos;
+      setValue(v) {
+        this.value = v
       },
   
       getMouse(e) {
@@ -238,12 +286,23 @@
       getState() {
         return {
           type: "select",
-          value: this.value,
+          value: this.selection,
         };
       },
   
-      setState() {       
-        
+      setState(state) {       
+        if (state.type === 'select') {
+          const selection = new Set(state.value)
+          for (let i=0; i < this.images.length; i++) {
+              const img = this.images[i]
+              if (selection.has(i)) {
+                img.selected = true
+              } else {
+                img.selected = false
+              }
+          }
+          this.resetStyles()
+        }
       },
 
       cleanUp () {

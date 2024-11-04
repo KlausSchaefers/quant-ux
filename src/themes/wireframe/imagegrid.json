@@ -40,6 +40,9 @@
            "paddingRight": 0,
            "paddingTop": 0,
            "selectColor": "@button-primary-background"
-        }
+        },
+        "hover": {
+			"borderColor": "@button-primary-background"
+		}
     }
 ]

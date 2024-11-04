@@ -57,9 +57,6 @@ class QSS {
         if (widget.checked) {
             this.replaceSingleBorderVariable(widget.checked)
         }
-
-        if (widget.type === 'ImageGrid')
-            console.debug('replaceBorderVariables', widget.name, widget.style)
     }
 
     replaceSingleBorderVariable(style) {

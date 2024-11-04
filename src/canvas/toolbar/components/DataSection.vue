@@ -823,6 +823,7 @@ export default {
 
 			this._renderColor('Select Color','<span class="mdi mdi-border-color"></span>',model.style.selectColor, "selectColor" ,"onStyleChanged", true);
 			this._renderLabelDropDown("Normal", model,"selectionMode",[
+				{ value: "none", icon:"EventClick", label : "No Selection"},
 				{ value: "single", icon:"SingleSelect", label : "Single Selection"},
 				{ value:"multi", icon:"MultiSelect", label : "Multi Selection"}
 			]);

@@ -31,10 +31,14 @@ export default {
       src () {
           if (this.value) {
             /**
-             * Vale was set by data binding! 
+             * Value was set by data binding! 
              */
-            let url = 'url(' + this.value + ')';
-            return url
+            if (this.value.indexOf('url(') === 0) {
+              return this.value
+            } else {
+              let url = 'url(' + this.value + ')';
+              return url
+            }
           } else if (this.model) {
             if (this.model.style && this.model.style.backgroundImage) {
               /**
@@ -107,11 +111,12 @@ export default {
     /**
      * Can be overwritten by children to have proper type conversion
      */
-    _setDataBindingValue (v) {        
+    _setDataBindingValue (v) {   
+        console.debug(v)     
         /**
          * We can have normal urls and data ulrs
          */
-        if (v.substring && (v.indexOf('data:image') === 0 || v.indexOf('http') === 0)) {
+        if (v.substring && (v.indexOf('data:image') === 0 || v.indexOf('http') === 0 || v.indexOf('url(') === 0)) {
             this.setValue(v);
             this.renderBorder()
             return;
