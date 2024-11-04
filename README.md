@@ -135,6 +135,11 @@ You can deploy an instance of Quant UX with few clicks and minimal configuration
  
 [![Deploy on Elestio](https://elest.io/images/logos/deploy-to-elestio-btn.png)](https://elest.io/open-source/quant-ux)
 
+### RepoCloud.io
+You can deploy an instance of Quant UX with one click on RepoCloud.
+ 
+[![Deploy](https://d16t0pc4846x52.cloudfront.net/deploylobe.svg)](https://repocloud.io/details/?app_id=302)
+
 ## Kubernets
 
 You can find a kubernets configuration here https://github.com/engmsilva/quant-ux-k8s/tree/master/k8s
