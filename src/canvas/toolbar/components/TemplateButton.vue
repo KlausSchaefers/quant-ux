@@ -3,11 +3,11 @@
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton" v-if="!hasTemplate" @click="onCreate">
         <div class="MatcToolbarItem MatcToolbarPrimaryItem" type="button">
             <label class="">
-                <QIcon icon="Component" />
+                <QIcon :icon="icon" />
             </label>
         </div>
     </div>
-    <ArrowDropDown v-else @select="onSelect" :options="options" icon="Component" css="MatcToolbarPrimaryItem"></ArrowDropDown>
+    <ArrowDropDown v-else @select="onSelect" :options="options" :icon="icon" css="MatcToolbarPrimaryItem"></ArrowDropDown>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
@@ -21,6 +21,7 @@ export default {
     mixins: [Util, DojoWidget,_Tooltip],
     data: function () {
         return {
+            icon: 'Component',
             widget: null,
             options: []
         }
@@ -48,8 +49,10 @@ export default {
         },
         setWidget(widget) {
             this.widget = widget
+            this.icon = 'Component'
             if (widget.template) {
                 if (widget.isRootTemplate) {
+                    this.icon = "ComponentRoot"
                     this.options = [
                         { value: "update", label: "Update all instances", icon: "ComponentUpdate" }, // show only when needed???
                         { value: "remove", label: "Unlink Component", icon: "ComponentUnlink" }

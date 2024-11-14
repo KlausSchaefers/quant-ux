@@ -630,9 +630,9 @@ export default {
 			
 			if (box.template) {
 				if (box.isRootTemplate) {
-					return "mdi mdi-view-grid-outline MatcIcon45";
+					return "mdi mdi mdi-view-grid  MatcIcon45";
 				} else {
-					return "mdi mdi-border-all-variant  MatcIcon45"; // return "mdi mdi mdi-border-all-variant MatcIcon45";
+					return "mdi mdi-view-grid-outline MatcIcon45"; // return "mdi mdi mdi-border-all-variant MatcIcon45";
 				}
 			}
 

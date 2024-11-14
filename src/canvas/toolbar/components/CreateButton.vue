@@ -59,6 +59,7 @@ import QIcon from 'page/QIcon'
 import {wrapIcon} from 'page/QIconUtil'
 import QSS from 'core/qss/QSS'
 import _Tooltip from 'common/_Tooltip'
+import PerformanceMonitor from '../../../core/PerformanceMonitor'
 
 export default {
     name: 'CreateButton2',
@@ -665,6 +666,7 @@ export default {
 		renderIcons (query){
 			this.renderFactory.cleanUp();
 
+			PerformanceMonitor.start("CreateButton.renderIcons()")
 			if (!query) {
 				this.cleanUpTempListener();
 			}
@@ -692,6 +694,7 @@ export default {
 				this.iconCntr.innerHTML="";
 			}
 			this.iconCntr.appendChild(cntr);
+			PerformanceMonitor.end("CreateButton.renderIcons()")
 			this.scrollToTop()
 		},
 
