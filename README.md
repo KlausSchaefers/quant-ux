@@ -8,30 +8,55 @@ This repo contains the front end. You can find a working demo at https://quant-u
 ![Alt text](docs/preview.jpg?raw=true "Quant-UX preview")
 
 ## Develpment setup
+### Prerequisite
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+
+### Running Locally on the Host Machine
+
+#### Compiles and hot-reloads for development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+#### Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Run your unit tests
+#### Run your unit tests
 ```
 npm run test:unit
 ```
 
-### Lints and fixes files
+#### Lints and fixes files
 ```
 npm run lint
 ```
 
+### Developing inside a Docker Container
+If you wish to develop by running the service exclusively through Docker, you can build a development image using:
+```bash
+make build-dev
+```
+This will create a Docker Image tagged under `quant-ux`. You can then replace the `klausenschaefersinho/quant-ux` inside your docker-compose file with the newly build `quant-ux` image. Don't forget to mount the source code after replacing the image.
+
+If you're using the provided `docker/docker-compose.yml`, you can simply add the following volume mount to the qux-fe service:
+```yml
+    volumes:
+      - ../src:/home/node/src
+```
+
+You can then make use of the following Makefile rules for quick docker environment setup and teardown:
+```bash
+# docker compose up - targets docker/docker-compose.yml
+make up
+
+# docker compose down - targets docker/docker-compose.yml
+make down
+```
 
 # Installation
 
