@@ -26,6 +26,9 @@
       </a>
     </div>
 
+    <div class="MatcMarginTopL MatcShareRow form-group">
+      <CheckBox v-model="doNotStore" label="Do not store test data" />
+    </div>
 
     <div class="MatcMarginTop MatcShareRow MatcSharePasswordRow" v-if="hasPassword">
       <CheckBox v-model="needPassword" label="Require Password" />
@@ -79,6 +82,7 @@ export default {
       needPassword: false,
       hasPassword: false,
       language: 'en',
+      doNotStore: false,
       languageOptions: [
         {value: 'en', label: 'English'},
         {value: 'de', label: 'German'},
@@ -115,7 +119,8 @@ export default {
     },
     testLink() {
       let testURL = this.base + "/#/test.html?h=" + this.passwortedHash;
-      if (this.isPublic) {
+      console.debug('testLink', this.doNotStore)
+      if (this.isPublic || this.doNotStore) {
         testURL += "&log=false";
       }
       if (this.language) {
