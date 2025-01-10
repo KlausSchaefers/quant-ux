@@ -91,7 +91,19 @@ export default class CollabService {
          * For some values we support isInc function!
          */
         if (value._isInc && value.inc) {
-          model[change.id] = model[change.id]  + value.inc
+          const o = model[change.id] * 1
+          const v = value.inc * 1
+          if (!isNaN(v) && !isNaN(o)) {
+            model[change.id] = o  + v
+            Logger.log(-2, 'CollabService.applyInRoot() >  inc ' + change.id, o  + v)
+          } else {
+            Logger.error('CollabService.applyInRoot() > Something wrong with INC > ' + value + " + " + model[change.id] )
+            if (value.value) {
+              model[change.id] = value.value
+            } else {
+              Logger.error('CollabService.applyInRoot() > INC is complete messed')
+            }
+          }
         } else {
           model[change.id] = change.value
         }

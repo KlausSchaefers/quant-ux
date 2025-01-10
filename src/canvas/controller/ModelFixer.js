@@ -20,7 +20,6 @@ class ModelFixer {
 
 		for (let widgetID in model.widgets) {
 			let widget = model.widgets[widgetID]
-			console.debug(widgetID)
 			if (!widget.style) {
 				console.error('fixCorruptedModel', widget)
 				delete model.widgets[widgetID]

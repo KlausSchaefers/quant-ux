@@ -455,7 +455,7 @@ export default {
          * FIXME: if the widget is fixed (style.fixed) we should also we should
          * add them later to not use z-level in the css.
          */
-        if (widget.style.fixed) {
+        if (widget?.style.fixed) {
           this._fixedWidgets.push(w);
         } else {
           div.appendChild(w);
