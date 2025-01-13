@@ -27,13 +27,15 @@
 				  this.renderScreen(start,0);
 			  } else {
 				  let start = this.getStartScreen();
+
 				  if(start){
 					  this.domNode.innerHTML="";
 					  //this.log("SessionStart",start.id, null, null);
 					  this.logSessionStart(start.id)
 					  this.renderScreen(start,0);
 				  } else {
-					  this.domNode.innerHTML = "No Start Screen!";
+					this.logger.error("render"," No start screen");
+					  this.domNode.innerHTML =`<p class="MatcSimulatorError">No Start Screen!</p>`;
 				  }
 			  }
 		  },

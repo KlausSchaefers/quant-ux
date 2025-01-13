@@ -12,6 +12,7 @@
  	display: inline-block;
 	overflow: hidden;
 	text-align: left;
+	color: $text_color;
 
    -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -19,6 +20,13 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+	.MatcSimulatorError {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
 	.MatcTestLogoCntr{
 		width: 60%;
