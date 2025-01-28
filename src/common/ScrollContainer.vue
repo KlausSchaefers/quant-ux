@@ -35,7 +35,7 @@ export default {
   methods: {
     wrap (node, offset) {
       if (!this.debug) {
-        if (has("android") || has("ios") || has("mac")) {
+        if (has("android") || has("ios") || has("mac") || this.mustDestroy) {
           /**
            * The default behavior for *cool* OSes is to remove and use native scrolling.
            * However the stupid simulator has a bug, so we have to trick a litte to make the native work

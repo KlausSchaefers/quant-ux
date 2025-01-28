@@ -15,10 +15,22 @@
     height: 540px;
     width: 940px;
 
+    .ace-editor {
+        width: 100%;
+        height: 100%;
+    }
+
+    .ace-holder {
+        width: 100%;
+        height: 100%;
+    }
+
     .ace_editor,
     .MatcScriptEditorConsole {
         border: 1px solid #ccc;
         overflow: auto;
+        width: 100%;
+        height: 100%;
     }
 
     .MatcScriptColumns {

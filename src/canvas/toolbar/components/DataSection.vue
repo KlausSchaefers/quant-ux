@@ -1537,10 +1537,12 @@ export default {
 				this.canvas.setState(0);
 			}));
 			d.onOpen(() => {
+			
 				settings.placeAt(cntr);
 				settings.setHash(this.hash);
 				settings.setWidget(this.widget);
 				settings.setModel(this.model);
+			
 			})
 			if (e && e.target) {
 				d.popup(popup, e.target);

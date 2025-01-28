@@ -159,6 +159,7 @@ return "myScreen"
                 enableSnippets: false,
                 enableLiveAutocompletion: false
             });
+            editor.setAutoScrollEditorIntoView(true);
 
             setTimeout(()=> {
                 editor.focus()
@@ -200,12 +201,14 @@ return "myScreen"
             pos.w -=30;
             pos.h = domPos.h;
 
+            console.debug("ScriptEditor.renderSimulator", pos, domPos);
+
             const container = db.div("MatchSimulatorContainer MatcAnimationComposerSimulator")
                 .h(pos.h)
                 .w(pos.w)
                 .build();
 
-            const scroller = this.$new(ScrollContainer, {canDestroy:true});
+            const scroller = this.$new(ScrollContainer, {canDestroy:true, mustDestroy:true});
             scroller.placeAt(container);
 
             const s = this.$new(Simulator, {mode : "debug", logData : false, runTimerLinesOnScreenLoad : false, isDesktopTest:true, isWiringEvents:true});
