@@ -1,6 +1,6 @@
 
 <template>
-    <div :class="['MatcIconDropDown', {'MatcIconDropDownVisible': isVisible}]">
+    <div :class="['MatcIconDropDown', {'MatcIconDropDownVisible': isVisible}, {'MatcIconDropDownWide' : size == 'L'}]">
        <QIcon @click.stop="open" :icon="icon"/>
 
        <div class="MatcDropDownPopUp" role="menu" data-dojo-attach-point="popup" v-if="isVisible">
@@ -26,7 +26,7 @@
 
   export default {
     name: "QIconDropDown",
-    props: ['icon', 'options'],
+    props: ['icon', 'options', 'size'],
     mixins: [],
     data: function () {
       return {

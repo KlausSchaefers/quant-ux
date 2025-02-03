@@ -34,7 +34,7 @@
               <a class="MatcButton MatcButtonXS MatcButtonSecondary MatcButtonIcon MatcRoundButton" @click="showShareDialog" ref="shareButton">
                 <QIcon icon="Share"></QIcon>
               </a>
-              <QIconDropDown icon="Dots" :options="dotOptions"/>
+              <QIconDropDown size="L" icon="Dots" :options="dotOptions"/>
             </div>
 
           </div>
@@ -177,7 +177,8 @@ export default {
         {label: 'Rename', callback: (o, e) => this.onRename(e), icon: "EventKeykoard"},
         {label: 'Duplicate', callback: (o, e) => this.onDuplicate(e), icon: "Duplicate"},
         {label: 'Change Test Link', callback: (o, e) => this.onChangeHash(e), icon: "Key"},
-        {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "Delete"}
+        {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "Delete"},
+        {label: 'Download Test Data', callback: (o, e) => this.onDownload(e), icon: "Download"}
       ],
       testSettings: {},
       events: [],
@@ -233,6 +234,45 @@ export default {
     onTestChange(testSettings) {
       this.logger.info("onTestChange", "enter > ", testSettings);
       this.testSettings = testSettings;
+    },
+    onDownload () {
+      this.logger.log(-1, "onDownload", "enter > ", this.events);
+
+      const events = structuredClone(this.events)
+      const id2Name = {}
+      Object.values(this.app.screens).forEach(s => {
+        id2Name[s.id] = s.name
+      })
+      Object.values(this.app.widgets).forEach(w => {
+        id2Name[w.id] = w.name
+      })
+      events.forEach(e => {
+          if (e.widget) {
+            const id = e.widget.split("@")[0]
+            e.widgetName = id2Name[id]
+          }
+          if (e.screen) {
+            e.screenName = id2Name[e.screen]
+          }
+          delete e.user
+          delete e.id
+          delete e._id
+      })
+    
+      const contnet = JSON.stringify(events, null, 2)
+      const blob = new Blob([contnet], {
+        type: "application/json"
+      });
+      if (window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveBlob(blob, "events.json");
+      } else {
+        const elem = window.document.createElement("a");
+        elem.href = window.URL.createObjectURL(blob);
+        elem.download = "events.json";
+        document.body.appendChild(elem);
+        elem.click();
+        document.body.removeChild(elem);
+      }
     },
     onAnnotationChange(annos) {
       this.logger.info("onAnnotationChange", "enter > ", annos);
