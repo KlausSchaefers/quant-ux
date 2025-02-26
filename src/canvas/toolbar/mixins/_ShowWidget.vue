@@ -87,9 +87,10 @@ export default {
 
 			this.showDesignTokenBtns(model, 'widget')
 
-
+			this.lowCodeSection.setValue(model)
 			this.callbackSection.setValue(model)
 			css.remove(this.callBackDiv, "MatcToolbarSectionHidden")
+			css.remove(this.lowCodeDiv, "MatcToolbarSectionHidden")	
 		},
 
 		showWidgetDesignProperties (model) {

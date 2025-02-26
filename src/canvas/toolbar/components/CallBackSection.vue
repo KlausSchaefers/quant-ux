@@ -1,7 +1,7 @@
 
 <template>
      <div class="MatcToolbarLowCode">
-         <div class="MatcToolbarItem MatcToobarInputIconCntr" v-show="!isScreen" ref="tooltipClick">
+         <div class="MatcToobarInputL MatcToobarInputIconCntr" v-show="!isScreen" ref="tooltipClick">
 
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                 placeholder="Click callback"
@@ -10,7 +10,7 @@
                 <QIcon icon="EventClick"/>
 
          </div>
-        <div class="MatcToolbarItem MatcToobarInputIconCntr" v-show="!isScreen && isInput" ref="tooltipChange">
+        <div class="MatcToobarInputL MatcToobarInputIconCntr" v-show="!isScreen && isInput" ref="tooltipChange">
 
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                 placeholder="Change callback"
@@ -19,7 +19,7 @@
                 <QIcon icon="EventData"/>
 
          </div>
-         <div class="MatcToolbarItem MatcToobarInputIconCntr" v-show="isScreen" ref="tooltipLoad">
+         <div class="MatcToobarInputL MatcToobarInputIconCntr" v-show="isScreen" ref="tooltipLoad">
 
              <input class="MatcIgnoreOnKeyPress MatcToobarInlineEdit MatcToobarInput"
                 placeholder="Load callback"

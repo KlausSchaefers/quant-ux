@@ -1,7 +1,7 @@
 
 <template>
      <div class="MatcTooltipSection">
-        <div class="MatcToolbarItem MatcToolBarTextArea">
+        <div class=" MatcToolBarTextArea">
             <textarea 
                 class="MatcIgnoreOnKeyPress MatcToobarInput" 
                 placeholder="Enter tooltip text" 

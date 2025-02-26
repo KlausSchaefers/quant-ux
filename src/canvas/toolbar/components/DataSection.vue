@@ -2480,7 +2480,7 @@ export default {
 		_renderTextArea (model, property, tt, placeholder=""){
 
 			const row = this.db
-				.div("MatcToolBarTextArea MatcToolbarItem  ")
+				.div("MatcToolBarTextArea   ")
 				.build(this.cntr);
 			
 			const textarea = this.db

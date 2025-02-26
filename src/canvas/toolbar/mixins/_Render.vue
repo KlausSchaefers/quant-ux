@@ -598,7 +598,7 @@ export default {
 			/**
 			* LowCode
 			*/
-			let parent = this.createSection("Rendering", true);
+			let parent = this.createSection("Low Code - Rendering", true);
 			let content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);
@@ -616,7 +616,7 @@ export default {
 			/**
 			* Callbacks
 			*/
-			parent = this.createSection("Low Code Callbacks", true);
+			parent = this.createSection("Low Code - Callbacks", true);
 			content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");
 			parent.appendChild(content);

@@ -82,11 +82,25 @@
 	position: relative;
 }
 
-.MatcToobarInputIconCntr .MatcToobarInputIcon {
+.MatcToobarInputIconCntr .MatcToobarInputIcon{
 	position: absolute;
 	top: 8px;
 	right: 10px;
 	font-size: 16px;
+}
+
+.MatcToolbar .MatcToobarInputIconCntr .MatcQIcon {
+	position: absolute;
+	top: 8px;
+	right: 4px;
+	height: 16px;
+	width: 16px;
+}
+
+.MatcToobarInputL .MatcToobarInput {
+	padding: 8px 8px;
+    height: auto;
+    min-height: auto;
 }
 
 /****************************************************
