@@ -48,7 +48,7 @@ test('GroupChildRemove.spec.spec.js - remove child group in group', async () => 
     expect(parent.children).toEqual(expect.arrayContaining(['w1', 'w2', 'w3', 'w4']));
     expect(model.groups.child).toBeUndefined()
 
-    controller.undo()
+    await controller.undo()
     console.debug(model.groups)
 
     const child = model.groups.child

@@ -3,12 +3,13 @@ import * as TestUtil from './TestUtil'
 import lang from "../../src/dojo/_base/lang";
 import subgroup from './data/subgroup.json'
 
-test('Group.spec.js - add sub group', async () => {
+test('Group.spec.js - add sub group to exisitng group', async () => {
    
     const [controller, model] = TestUtil.createController(TestUtil.clone(subgroup))
 
     const parentId = "g10041_54802"
     const selection = ["w10037_85005", "w10038_24151"]
+    
     
     const newSubGroup = controller.addGroup(selection)
     expect(Object.values(model.groups).length).toBe(2)
@@ -23,7 +24,7 @@ test('Group.spec.js - add sub group', async () => {
         expect(newSubGroup.children.indexOf(id)).toBeGreaterThan(-1)
     })
 
-    controller.undo()
+    await controller.undo()
 
     expect(Object.values(model.groups).length).toBe(1)
 
@@ -33,7 +34,7 @@ test('Group.spec.js - add sub group', async () => {
     expect(parentGroup2.groups.length).toBe(0)
     expect(parentGroup2.children.length).toBe(4)
     selection.forEach(id => {
-        expect(parentGroup.children.indexOf(id)).toBeGreaterThan(-1)
+        expect(parentGroup2.children.indexOf(id)).toBeGreaterThan(-1)
     })
 
 })
@@ -55,7 +56,7 @@ test('Group.spec.js - add wrapper', async () => {
     expect(wrapperGroup.groups[0]).toBe(parentId)
 
 
-    controller.undo()
+    await controller.undo()
     expect(Object.values(model.groups).length).toBe(1)
     
    

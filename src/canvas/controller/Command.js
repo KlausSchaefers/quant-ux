@@ -32,7 +32,7 @@ export default class Command extends BaseController{
 	addChangeStack (modelChanges){
         this.logger.log(1,"addChangeStack", "entry > " + modelChanges.length);
 
-		console.debug('addChangeStack', JSON.stringify(modelChanges, null, 2))
+		//console.debug('addChangeStack', JSON.stringify(modelChanges, null, 2))
 
 		if(this.commandChangeStack.pos + 1 < this.commandChangeStack.stack.length){		
 			this.commandChangeStack.stack = this.commandChangeStack.stack.slice(0, this.commandChangeStack.pos + 1);
