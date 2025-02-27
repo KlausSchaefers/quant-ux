@@ -643,7 +643,7 @@ export default class Group extends Layer {
 	}
 
 
-	modelAddGroup (group, ignoreModelUpdate, line, parentGroupId){
+	modelAddGroup (group, ignoreModelUpdate, line){
 
 		if(!this.model.groups){
 			this.model.groups = {};

@@ -50,15 +50,16 @@
 .MatcTreeItemLabel {
   font-weight: 400;
   font-size: 12px;
-  padding: 5px 0px 0px 10px;
+  padding: 2px 2px 2px 4px;
   cursor: pointer;
   text-overflow: ellipsis;
   text-wrap: nowrap;
   overflow: hidden;
+  margin: 0px;
 }
 
 input.MatcTreeItemLabel {
-  width: calc(100% - 30px);
+  width: calc(100% - 24px);
 }
 
 .MatcTree ul {
