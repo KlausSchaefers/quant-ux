@@ -54,8 +54,8 @@ class NotificationService extends AbstractService{
         }
   
         let addCount = 0
-        const maxAdd = getDaysSinceLastNotification(user) > 1 ? 1 : 0
-        this.logger.log(1, 'addUserJourneyNotifications', `> days since last ${getDaysSinceLastNotification(user)} > maxAdd: ${maxAdd} > Seen notifications:`, user.notifications )
+        const maxAdd = getDaysSinceLastNotification(user) > 1 ? 1 : 1
+        this.logger.log(-1, 'addUserJourneyNotifications', `> days since last ${getDaysSinceLastNotification(user)} > maxAdd: ${maxAdd} > Seen notifications:`, user.notifications )
         this.rules.forEach(rule => {
             if (user.notifications[rule.id]) {
                 this.logger.log(1, 'addUserJourneyNotifications', 'Add OLD:', rule.id)
@@ -169,6 +169,17 @@ class NotificationService extends AbstractService{
                      <a href="https://github.com/KlausSchaefers/quant-ux" target="github">Quant-UX on GitHub</a> 
                 `,
                 title: 'Give us a star at GitHub'
+            },
+            {
+                matches () {
+                    return true
+                },
+                id:"NewUndoRedo",
+                more: `
+                    We have rewritten the complete <b>Undo-Redo</b> functionality to eliminate the last bugs. If you still face issues, 
+                    please contact us. 
+                `,
+                title: 'New Undo-Redo '
             },
             {
                 matches (user) {
