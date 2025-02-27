@@ -653,17 +653,6 @@ export default class Group extends Layer {
 		if(line){
 			this.model.lines[line.id] = line;
 		}
-		if (parentGroupId) {
-			const parentGroup = this.model.groups[parentGroupId]
-			if (parentGroup) {
-				parentGroup.groups.push(group.id)
-				parentGroup.children = parentGroup.children.filter( childID => {
-					return !group.children.includes(childID)
-				})
-			} else {
-				this.logger.error('modelAddGroup', 'error > No parent group with id' + parentGroupId)
-			}
-		}
 
 		if(!ignoreModelUpdate){
 			this.onModelChanged([{type: 'group', action:"change", id: group.id}])

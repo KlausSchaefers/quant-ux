@@ -40,7 +40,7 @@ test('GroupChildRemove.spec.spec.js - remove child group in group', async () => 
    
   
     controller.removeGroup('child')
-    console.debug(model.groups)
+    console.debug(JSON.stringify(model.groups, null, 2))
 
     let parent = model.groups.parent
     expect(parent.groups.length).toBe(0)

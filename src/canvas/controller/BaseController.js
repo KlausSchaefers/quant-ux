@@ -285,10 +285,12 @@ export default class BaseController extends Core {
 	}
 
 	commitModelChange (updateChangeStack=true) {
-		this.logger.log(1,"commitModelChange", "enter  >  changes: " + this._modelHasChanged);
+		this.logger.log(-1,"commitModelChange", "enter  >  changes: " + this._modelHasChanged + " > " + updateChangeStack);
 		const inheritedModel = this.getInheritedModel(this.model)
 
-		if (this._modelHasChanged) {
+		// if we do not update the command stack, it was and undo redo,
+		// so we have to compute tall the changes and send to server
+		if (this._modelHasChanged || !updateChangeStack) {
 			if (this.toolbar){
 				this.toolbar.updatePropertiesView();
 			}
@@ -355,7 +357,7 @@ export default class BaseController extends Core {
 	 ***************************************************************************************/
 
 	setDirty (saveCommandStack=true){
-		this.logger.log(1,"setDirty", "enter > ");
+		this.logger.log(-1,"setDirty", "enter > ", this._dirty);
 		this._dirty = true;
 		if (this.debug){
 			this.saveModelChanges(saveCommandStack);
@@ -396,7 +398,7 @@ export default class BaseController extends Core {
 			// this might be different changes from the 
 			// command stack changes
 			const changes = CollabUtil.getModelDelta(this.oldModel, this.model);
-			
+
 			this.logger.log(4,"saveModelChanges", "Save changes " + changes.length);
 			if (changes.length > 0) {
 				/**
@@ -554,6 +556,9 @@ export default class BaseController extends Core {
 		 * 1) Apply changes and set the model as the old model to 
 		 * avoid recursve calls or double saves
 		 * 2) Render
+		 * 
+		 * we do not commit model changes, as we expect
+		 * they other to have done this
 		 */
 		this.model = this.collabService.applyEvent(this.model, event)
 		this.setOldModel(this.model)

@@ -19,6 +19,7 @@ export class CommandService extends AbstractService {
       this.stacks = {}
     }
 
+
     // we keep only 2 stacks in local storage to ensure
     // we don't get some issue with using to much memory.
     this.stacks = this.pruneStacks(this.stacks)

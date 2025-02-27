@@ -17,7 +17,6 @@ export default class Command extends BaseController{
         if (changeStack && Array.isArray(changeStack.stack)) {
             this.logger.log(1,"initChangeStack", "loaded", id);
             this.commandChangeStack = changeStack
-			console.debug('initChangeStack', this.commandChangeStack)
         } else {
             this.logger.log(1,"initChangeStack", "create fresh", id);
             this.commandChangeStack = {
