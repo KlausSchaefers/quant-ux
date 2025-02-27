@@ -18,12 +18,22 @@ export default class MockModelService{
        
     }
 
-    updateApp (model, changes) {
-       
+    async updateApp (model, changes) {
+       return new Promise(resolve => {
+            resolve()
+       })
     }
+
+    
 
     deleteApp (model) {
        
+    }
+
+    updateDataByApp () {
+        return new Promise(resolve => {
+            resolve('')
+        })
     }
 
     findPublicSummaries () {

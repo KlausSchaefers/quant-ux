@@ -7,6 +7,7 @@ import HelpService from './HelpService'
 import ImageService from './ImageService'
 import WebSocketService from './WebSocketService'
 import KeyCloakService from './KeyCloakService'
+import CommandService from './CommandService'
 import NotificationService from './NotificationService'
 import AIService from './AIService'
 
@@ -111,6 +112,11 @@ class Services {
     getCommentService () {
         CommentService.setToken(this.getUserService().getToken())
         return CommentService
+    }
+
+    getCommandService () {
+        CommandService.setToken(this.getUserService().getToken())
+        return CommandService
     }
 
 }

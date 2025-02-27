@@ -225,7 +225,7 @@ export default {
       /**
        * model factory
        */
-       const factory = new ModelFactory();
+      const factory = new ModelFactory();
       factory.setModel(model);
 
       /**
@@ -241,6 +241,7 @@ export default {
       controller.setModelService(service);
       controller.setToolbar(toolbar);
       controller.setModelFactory(factory);
+      controller.setCommandService(this.commandService);
       if (this.pub) {
         controller.setPublic(true);
         canvas.setPublic(true);
@@ -344,6 +345,7 @@ export default {
        * Dependency injection
        */
       controller.setModelService(service)
+   
       controller.setToolbar(toolbar);
       controller.setModelFactory(factory);
 
@@ -408,7 +410,8 @@ export default {
     css.add(win.body(), "MatcVisualEditor");
     this.user = await Services.getUserService().load();
     this.modelService = Services.getModelService(this.$route);
-
+    this.commandService = Services.getCommandService();
+    
     const mode = this.getModeFromRoute()
     this.load(mode);
 

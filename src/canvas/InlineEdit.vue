@@ -63,7 +63,7 @@ export default {
 		},
 
 		inlineEditStop (){
-			this.logger.log(-2,"inlineEditStop", "enter", this._inlineEditResizeToWidth);
+			this.logger.log(2,"inlineEditStop", "enter", this._inlineEditResizeToWidth);
 
 			if(this._inlineEditWidget && this._inlineEditStarted){
 				const div = this.renderFactory.getLabelNode(this._inlineEditWidget);

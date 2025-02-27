@@ -1,9 +1,10 @@
-import BaseController from './BaseController'
+
 import lang from '../../dojo/_base/lang'
 import ModelUtil from '../../core/ModelUtil'
 import ModelGeom from '../../core/ModelGeom'
+import Command from './Command';
 
-export default class Templates extends BaseController{
+export default class Templates extends Command{
 
 
 	/**********************************************************************

@@ -181,7 +181,7 @@ import * as SelectionUtil from 'core/SelectionUtil'
 	
 	
 		onWidgetSelected (id, forceSelection = false, ignoreParentGroups = null){
-			this.logger.log(-1,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
+			this.logger.log(2,"onWidgetSelected", "enter > "+ id + " > ignoreParentGroups : "+ ignoreParentGroups);
 
 			const now = new Date().getTime()
 			const lastSelectedWidget = this._selectWidget ? this._selectWidget.id : null
