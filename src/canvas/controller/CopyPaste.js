@@ -564,7 +564,7 @@ export default class CopyPaste extends Group{
 			this.modelWidgetPropertiesUpdate(target, props, "props");
 
 			this.renderWidget(to);
-			this.commitModelChange(false, true)
+			this.commitModelChange()
 		} else {
 			this.logger.error("onCopyWidgetStyle", "Could not copy > " +source + " > " + target);
 		}

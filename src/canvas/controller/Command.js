@@ -32,7 +32,7 @@ export default class Command extends BaseController{
 	addChangeStack (modelChanges){
         this.logger.log(1,"addChangeStack", "entry > " + modelChanges.length);
 
-		//console.debug('addChangeStack', JSON.stringify(modelChanges, null, 2))
+		console.debug('addChangeStack', JSON.stringify(modelChanges, null, 2))
 
 		if(this.commandChangeStack.pos + 1 < this.commandChangeStack.stack.length){		
 			this.commandChangeStack.stack = this.commandChangeStack.stack.slice(0, this.commandChangeStack.pos + 1);
@@ -49,7 +49,6 @@ export default class Command extends BaseController{
 
     undoChangeStack() {
         this.logger.log(-1,"undoChangeStack", "entry");
-		console.debug('undoChangeStack', this.commandChangeStack)
         if ( this.commandChangeStack.pos < 0) {
             this.logger.log(-1,"undoChangeStack", "pos is < 0");
 			this.showError("No undo available");
@@ -63,7 +62,7 @@ export default class Command extends BaseController{
 			if (modelChanges) {
 				for (let i = 0; i < modelChanges.length; i++) {
 					const c = modelChanges[i]
-					console.debug('undoChangeStack', c)
+					console.debug(' - undoChangeStack', c)
 					this.applyUndoChange(c, this.model)
 				}
 			}

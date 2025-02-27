@@ -5,7 +5,6 @@ import Core from '../../core/Core'
 import CoreUtil from '../../core/CoreUtil'
 import Logger from '../../common/Logger'
 import PerformanceMonitor from '../../core/PerformanceMonitor'
-//import ModelDB from './ModelDB'
 import * as CollabUtil from './CollabUtil'
 import CollabService from './CollabService'
 import ModelFixer from './ModelFixer'
@@ -26,7 +25,6 @@ export default class BaseController extends Core {
 		this.transactions = {}
 		this._modelRenderJobs = {}
 		this._modelChanges = []
-		//this.modelDB = new ModelDB()
 		this.collabService = new CollabService()
 		this.logger.log(1,"constructor", "entry > " + this.mode);
 		this.commandStack =  {stack : [], pos : 0, id:0};
@@ -374,7 +372,7 @@ export default class BaseController extends Core {
 			return
 		} 
 	
-		if (this.mode == "public"){
+		if (this.mode == "public" && !this.debug){
 			this.showSuccess("Please register to save changes...");
 			ModelFixer.validateAndFixModel(this.model);
 			ModelFixer.fixRecursiveGroups(this.model)
@@ -594,8 +592,10 @@ export default class BaseController extends Core {
 		 *  - Check on reload if there are open changes and fire and apply them again?
 		 *  - We should in this case also save the entire model.... check the last update???
 		 */
-		this.logger.log(3, "startTransaction", "enter " + id);
-		setTimeout(() => this.checkTransaction(id, 0), 3000)
+		if (!this.debug) {
+			this.logger.log(3, "startTransaction", "enter " + id);
+			setTimeout(() => this.checkTransaction(id, 0), 3000)
+		}
 		return id
 	}
 
@@ -902,7 +902,7 @@ export default class BaseController extends Core {
 		};
 		this.addCommand(command);
 		this.modelRemoveAction(widgetID, action, isGroup);
-		this.commitModelChange(false, false)
+		this.commitModelChange()
 	}
 
 	modelRemoveAction (widgetID, action, isGroup){
@@ -954,7 +954,7 @@ export default class BaseController extends Core {
 		};
 		this.addCommand(command);
 		this.modelUpdateAction(widgetID, action, isGroup);
-		this.commitModelChange(false, false)
+		this.commitModelChange()
 	}
 
 	getActionById (id, isGroup) {

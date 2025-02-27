@@ -22,7 +22,7 @@ export default class SVGController extends DesignToken {
         };
         this.addCommand(command);
         this.modelSVGPathLayer(widgetID, fromPathId, toPathId, 'top');
-		this.commitModelChange(true, true)
+		this.commitModelChange()
     }
 
     modelSVGPathLayer (widgetID, fromPathId, toPathId, direction) {
@@ -98,7 +98,7 @@ export default class SVGController extends DesignToken {
         };
         this.addCommand(command);
         this.modelSVGPathProps(widgetID, pathID,key, value);
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	modelSVGPathProps (widgetID, pathID, key, value){
@@ -162,7 +162,7 @@ export default class SVGController extends DesignToken {
 			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
 			// FIXME: calling this.renderWidget(widget, 'props') will not update the bounding box
 			this.render()
-			this.commitModelChange(true, true)
+			this.commitModelChange()
 			return widget
 		}
 	}

@@ -86,7 +86,7 @@ export default class Group extends Layer {
 
 			this.modelUpdateGroup(id, type, key, value)
 			this.addCommand(command);
-			this.commitModelChange(false, true)
+			this.commitModelChange()
 		} else {
 			this.logger.warn("updateGroup", "could not find group > " + id);
 		}
@@ -471,7 +471,7 @@ export default class Group extends Layer {
 				 * do the model update
 				 */
 				this.modelGroupName(id, value);
-				this.commitModelChange(false, true)
+				this.commitModelChange()
 			}
 
 		} else {
@@ -597,7 +597,7 @@ export default class Group extends Layer {
 		// console.debug("Group.add() ", JSON.stringify(this.model.groups, null, 2))
 
 		this.render();
-		this.commitModelChange(false, true)
+		this.commitModelChange()
 
 		this.showSuccess("Group was created!");
 
@@ -726,7 +726,7 @@ export default class Group extends Layer {
 		this.modelWidgetLayers(newZ)
 
 		this.render();
-		this.commitModelChange(false, true)
+		this.commitModelChange()
 
 		this.showSuccess("Sub Group was created!");
 
@@ -810,7 +810,7 @@ export default class Group extends Layer {
 			this.unSelect();
 			this.modelRemoveGroup(group, command.line);
 			this.render();
-			this.commitModelChange(false, true)
+			this.commitModelChange()
 		} else {
 			console.debug(this.model.groups);
 			console.warn("Could not remove group with " , id);
@@ -944,7 +944,7 @@ export default class Group extends Layer {
 			this.unSelect();
 			this.onModelChanged([]);
 			this.render();
-			this.commitModelChange(true, true)
+			this.commitModelChange()
 		}
 	}
 }

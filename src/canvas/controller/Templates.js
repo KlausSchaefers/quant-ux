@@ -821,7 +821,7 @@ export default class Templates extends Command{
 		this.modelAddTemplate([template],[widget.id]);
 		this.updateCreateWidget();
 		this.onLayerListChange()
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 		this.showSuccess("The template "  + name + " was created. You can find it in the Create menu");
 	}
 
@@ -1005,7 +1005,7 @@ export default class Templates extends Command{
 		this.modelAddTemplate(command.models,command.widgets,command.group, command.groupID);
 		this.updateCreateWidget();
 		this.onLayerListChange()
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	_createSubGroupTemplates (template, group, parentID, name, template2Widget) {
@@ -1316,7 +1316,7 @@ export default class Templates extends Command{
 		this.addCommand(command);
 
 		this.render()
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	modelUnlinkTemplate (id, isGroup = false, childrenTemplateIds, childGroupTemplateIds) {
@@ -1509,7 +1509,7 @@ export default class Templates extends Command{
 		this.modelRemoveAndUnlinkTemplate(command.templates)
 		this.addCommand(command);
 		this.render()
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	createRemoveAndUnlinkTemplateCommand (id) {

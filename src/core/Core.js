@@ -12,8 +12,6 @@ export default class Core extends Evented {
         super()
     }
 
-
-
     /**
      * Gets all teh widgets that are in the container! The method
      * takes the order into account

@@ -63,7 +63,7 @@ export default class Widget extends Snapp {
 
 		this.modelAddWidget(newWidget);
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 		return newWidget;
 	}
 
@@ -295,7 +295,7 @@ export default class Widget extends Snapp {
 
 		this.addCommand(command);
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 
 		//console.debug('updateWidgetDataBinding() > exit', JSON.stringify(this.model.widgets, null, 2))
 	}
@@ -488,7 +488,7 @@ export default class Widget extends Snapp {
 			return {type: 'widget', action:"change", "prop": "position", id: id}
 		}))
 
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 
 		return positions
 	}
@@ -528,7 +528,7 @@ export default class Widget extends Snapp {
 		
 		this.addCommand(command);
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	/**********************************************************************
@@ -564,7 +564,7 @@ export default class Widget extends Snapp {
 			 * do the model update
 			 */
 			this.modelWidgetName(id, value);
-			this.commitModelChange(false, true)
+			this.commitModelChange()
 		}
 
 	}
@@ -623,7 +623,7 @@ export default class Widget extends Snapp {
 			this.render();
 
 			this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'props', action:'change'}])
-			this.commitModelChange(true, true)	
+			this.commitModelChange()	
 			return command;
 		} else {
 			this.logger.log(-1,"updateWidgetLabel", "no widget: ", id);
@@ -711,7 +711,7 @@ export default class Widget extends Snapp {
 		}
 
 		this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'position', action:'change'}])
-		this.commitModelChange(true, true)		
+		this.commitModelChange()		
 		return pos;
 	}
 
@@ -854,7 +854,7 @@ export default class Widget extends Snapp {
 		}
 
 		this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	createWidgetPropertiesCommand (id, props, type, inlineLabel){
@@ -963,7 +963,7 @@ export default class Widget extends Snapp {
 				this.showError("Great! A new widget was added, but is does not belong to any screen! It will not be shown in the simulator.");
 			}
 		}
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 		return widget;
 	}
 
@@ -1062,7 +1062,7 @@ export default class Widget extends Snapp {
 			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'remove'}])
 			this.modelRemoveWidgetAndLines(command.model, command.lines, command.refs, false, command.group);
 			this.render();
-			this.commitModelChange(true, true)
+			this.commitModelChange()
 		}
 		
 	}
@@ -1307,7 +1307,7 @@ export default class Widget extends Snapp {
 		this.addCommand(command);
 
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	/**********************************************************************
@@ -1337,7 +1337,7 @@ export default class Widget extends Snapp {
 		this.addCommand(command);
 		this.modelWidgetLayers(zValues);
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	modelWidgetLayers (zValues){

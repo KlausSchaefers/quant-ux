@@ -32,7 +32,7 @@ export default class Screen extends CopyPaste {
 				this.addCommand(command);
 				this.modelScreenRulerPropsUpdate(screenID, rulerID, props);
 				this.render();
-				this.commitModelChange(true, true)
+				this.commitModelChange()
 			}
 		}
 	}
@@ -84,7 +84,7 @@ export default class Screen extends CopyPaste {
 				this.addCommand(command);
 				this.modelScreenRulerUpdate(screenID, rulerID, v);
 				this.render();
-				this.commitModelChange(true, true)
+				this.commitModelChange()
 			}
 		}
 	}
@@ -115,7 +115,7 @@ export default class Screen extends CopyPaste {
 				};
 				this.addCommand(command);
 				this.modelScreenRulerUpdate(screenID, ruler.id, v);
-				this.commitModelChange(true, true)
+				this.commitModelChange()
 				return this.getInheredRulers(screen)
 			}
 		}
@@ -180,7 +180,7 @@ export default class Screen extends CopyPaste {
 			};
 			this.addCommand(command);
 			this.modelScreenRulerRemove(screenID, ruler);
-			this.commitModelChange(true, true)
+			this.commitModelChange()
 			return this.getInheredRulers(screen)
 		} else {
 			this.logger.error("removeScreenRuler", "enter > No screen : " + screenID + " > " + ruler.type);
@@ -228,7 +228,7 @@ export default class Screen extends CopyPaste {
 			};
 			this.addCommand(command);
 			this.modelScreenRulerAdd(screenID, ruler);
-			this.commitModelChange(true, true)
+			this.commitModelChange()
 			return this.getInheredRulers(screen)
 		}
 	}
@@ -309,7 +309,7 @@ export default class Screen extends CopyPaste {
 			};
 			this.addCommand(command);
 			this.modelScreenAnimation(screenID, eventType, animation);
-			this.commitModelChange(false, true)
+			this.commitModelChange()
 		}
 	}
 	modelScreenAnimation (screenID, eventType, animation){
@@ -369,7 +369,7 @@ export default class Screen extends CopyPaste {
 
 		this.addCommand(command);
 		this.modelScreenSize(newScreenSize, newScreenHeights);
-		this.commitModelChange(false, true)
+		this.commitModelChange()
 	}
 
 	modelScreenSize (value, screenHeights = {}){
@@ -443,7 +443,7 @@ export default class Screen extends CopyPaste {
 			this.modelScreenName(id, value);
 
 			this.renderScreen(screen);
-			this.commitModelChange(true, true)
+			this.commitModelChange()
 		}
 	}
 
@@ -527,7 +527,7 @@ export default class Screen extends CopyPaste {
 			 * do the model update
 			 */
 			this.modelScreenUpdate(id, pos, isMove);
-			this.commitModelChange(true, true)
+			this.commitModelChange()
 		}
 	}
 
@@ -572,7 +572,7 @@ export default class Screen extends CopyPaste {
 		this.modelScreenUpdate(id, pos, false);
 
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	modelScreenUpdate (id, pos, updateChildren){
@@ -670,7 +670,7 @@ export default class Screen extends CopyPaste {
 			};
 			this.addCommand(command);
 			this.modelMultiScreenUpdate(ids, dif, true);
-			this.commitModelChange(true, true)
+			this.commitModelChange()
 		}
 	}
 
@@ -742,7 +742,7 @@ export default class Screen extends CopyPaste {
 		this.modelScreenSegement(id, isSegment);
 		this.onModelChanged([{type: 'screen', action:"change", id: id}])
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	modelScreenSegement (id, isSegment) {
@@ -793,7 +793,7 @@ export default class Screen extends CopyPaste {
 		};
 		this.addCommand(command);
 		this.modelScreenParentUpdate(id, parents);
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	modelScreenParentUpdate (id, parents){
@@ -840,7 +840,7 @@ export default class Screen extends CopyPaste {
 		if(type == "style"){
 			this.renderScreen(screen);
 		}
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	modelScreenPropertiesUpdate (id, props, type){
@@ -899,7 +899,7 @@ export default class Screen extends CopyPaste {
 
 		this.addCommand(command);
 		this.modelScreenStartUpdate(id, props.start);
-		this.commitModelChange(false, true)
+		this.commitModelChange()
 	}
 
 	modelScreenStartUpdate (id,start){
@@ -1015,7 +1015,7 @@ export default class Screen extends CopyPaste {
 		}
 		this.addCommand(command);
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	/**********************************************************************
@@ -1218,7 +1218,7 @@ export default class Screen extends CopyPaste {
 		this.modelAddAndUpdateScreenAndWidgets(app, updateWidgets,updateScreens,updateGroups );
 
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	modelAddAndUpdateScreenAndWidgets (app, updateWidgets,updateScreens, updateGroups ){
@@ -1331,7 +1331,7 @@ export default class Screen extends CopyPaste {
 		this.addCommand(command);
 		this.modelAddScreenAndWidgets(app);
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 
@@ -1604,7 +1604,7 @@ export default class Screen extends CopyPaste {
 		 * update model
 		 */
 		this.modelAddScreen(screen);
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 
 		return screen;
 	}
@@ -1680,7 +1680,7 @@ export default class Screen extends CopyPaste {
 	
 		this.unSelect();
 		this.addCommand(command);
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 		this.render();
 	}
 
@@ -1726,7 +1726,7 @@ export default class Screen extends CopyPaste {
 		this.unSelect();
 		this.modelRemoveScreenAndWidgetAndLines(screen, widgets, lines, groups);
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 
@@ -1852,7 +1852,7 @@ export default class Screen extends CopyPaste {
 		this.addCommand(command);
 		this.onModelChanged(changes);
 		this.render();
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	modelRemoveImportedChanges (changes) {

@@ -16,7 +16,7 @@ export default class Layer extends Templates {
 		this.addCommand(command)
 		this.onModelChanged([]); // FIXME
 		this.render()
-		this.commitModelChange(true, true)
+		this.commitModelChange()
 	}
 
 	createNormalizeZValuesCommand (model) {
@@ -78,7 +78,7 @@ export default class Layer extends Templates {
 
 		const changes = this.getLayerChanges(command.n, command.ng)
 		this.checkTemplateAutoUpdate(changes)
-		this.commitModelChange(false, true)
+		this.commitModelChange()
 	}
 
 	createChangeLayerCommand (from, to){
