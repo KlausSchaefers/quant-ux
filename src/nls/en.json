@@ -3,6 +3,12 @@
     "scatter": {
         "no-data": "No test data was recorded."
     },
+    "sim-user": {
+        "tab-prompt": "AI Simulator",
+        "tab-preview": "Preview",
+        "tab-settings": "Settings",
+        "prompt-placeholder":"Descripe the task that the user should fullfill"
+    },
     "design-gpt": {
         "error-server": "Something went wrong on the server",
         "error-no-model": "No model. Please reload the page",
@@ -228,7 +234,8 @@
         "analyics-user": "Show the user journey",
         "analyics-task": "Show task completion, outliers and drop-offs",
         "analyics-screen": "Show screen statstics such as scroll maps or dwell time",
-        "app-color": "Change the app color"
+        "app-color": "Change the app color",
+        "simuser": "Simulate how users would use the app with AI (Beta)"
     },
     "table-action": "Action X",
     "btn": {

@@ -15,18 +15,13 @@
 
 			<div class="MatcToolbarTopCntr" :style="'width:calc(100% - '+ layerListWidth +'px)'" >
 				<div class="MatcToolbarSection MatcToolbarTopLeft">
-<!-- 
-					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'edit'} ]" data-dojo-attach-point="editBtn"  @click="onEdit">
-						<QIcon icon="Edit" />
-					</div> 
-
-					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'move'} ]" data-dojo-attach-point="moveBtn"  @click="onMove">
-						<QIcon icon="EditMove" />
-					</div> -->
 
 					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment">
 						<QIcon icon="Comment" />
-					</div>	
+					</div>
+					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="simuUserBtn"  @click="onSimUser" v-show="isBeta">
+						<QIcon icon="AI" />
+					</div>		
 				</div>
 		
 				<div class="MatcToolbarTopCenterCntr">
@@ -89,6 +84,7 @@ import AnalyticViewModeButton from './AnalyticViewModeButton'
 import AnalyticToolbarRender from './AnalyticToolbarRender'
 import {onStartDND} from '../../util/DND'
 import HeatmapToggleButton from '../toolbar/components/HeatmapToggleButton.vue'
+import SimUserDialog from '../toolbar/dialogs/SimUserDialog.vue'
 
 export default {
     name: 'AnalyticToolbar',
@@ -104,7 +100,8 @@ export default {
 			analyticMode: "HeatmapClick",
 			analyticHeatMapClicks: -1,
 			canvasViewConfig: {},
-			layerListWidth: 256
+			layerListWidth: 256,
+			isBeta: location.href.indexOf('localhost') > -1,
         }
     },
     components: {
@@ -136,6 +133,20 @@ export default {
 		onEdit (e){
 			this.stopEvent(e);
 			this.canvas.setMode("edit");
+		},
+
+		onSimUser (e){
+			this.logger.log(-1,"onSimUser", "entry");
+			this.stopEvent(e);
+
+			let dialog = new Dialog()
+			var db = new DomBuilder();
+			let popup = db.div("MatcDialog MatchImportDialog MatcPadding MatchImportOpenAIDialog").build();
+			dialog.popup(popup, e.target);
+			let simUser = this.$new(SimUserDialog)
+			simUser.setModel(this.model)
+			simUser.placeAt(popup)
+			simUser.on('cancel', () => dialog.close())
 		},
 
 	

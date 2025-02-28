@@ -65,6 +65,7 @@ class NotificationService extends AbstractService{
                     title: rule.title,
                     more: rule.more,
                     video: rule.video,
+                    img: rule.img,
                     details: rule.details,
                     lastUpdate: user.notifications[rule.id]
                 })
@@ -78,6 +79,7 @@ class NotificationService extends AbstractService{
                         title: rule.title,
                         more: rule.more,
                         video: rule.video,
+                        img: rule.img,
                         details: rule.details,
                         lastUpdate: lastUpdate
                     })
@@ -132,38 +134,25 @@ class NotificationService extends AbstractService{
                     return true
                 },
                 id:"WelcomeToDev",
+                img: 'Welcome.png',
                 more: `
-                    Welcome to the latest version of Quant-UX! We've refined the design and made numerous improvements. 
-                    If you have any ideas for further enhancements, please get in touch with us via the 
-                    "Contact" button or join our <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a> channel.
-                `,
-                Xdetails: {
-                    title: "What is new in Quant-UX 5",
-                    body: `
-                      <ul>
-                        <li>
-                            <b>Project Overview</b>: After you login, you will not see a list of thumbnails. Instead 
-                            you will see the new studio. You can select the recent prototypes on the left side. The 
-                            selected prototype is show in the center. On the right side we show you the most important
-                            indicators, e.g. how many test you habe run, or the avergae success rate.
-                        </li>
-                        <li>
-                            <b>New Design</b>: We have completey redesigned the canvas. 
-                        </li>
-                      <ul>
-                    
-                    `
-                },
-                title: 'Quant-UX 5! 🚀 '
+                    Welcome to Quant-UX! We hope you enjoy using our tool!
+                    If you have any questions or ideas for further enhancements, please get in touch with us via the 
+                    "Contact" button or join our <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a>
+                    or <a href="https://www.youtube.com/@quant-ux8332" target="github">YouTube</a>
+                    channels.
+                `,              
+                title: 'Welcome! '
             },
             {
                 matches (user) {
                     return user.loginCount >= 2
                 },
                 id:"GiveUsAStar",
+                img: 'Github.png',
                 more: `
-                    If Quant-UX has been lighting up your projects and you're part of the GitHub community, 
-                    we'd be over the moon if you could shower us with a ⭐️ star ⭐️! Simply hop over to 
+                    If you like Quant-UX and you're part of the GitHub community, 
+                    pleaese give us a ⭐️ star ⭐️! Simply hop over to 
                     our GitHub project page and hit that star button to show your support. 
                     Together, let's keep the momentum going! Give us a star right here
                      <a href="https://github.com/KlausSchaefers/quant-ux" target="github">Quant-UX on GitHub</a> 
@@ -175,9 +164,10 @@ class NotificationService extends AbstractService{
                     return true
                 },
                 id:"NewUndoRedo",
+                img: 'UndoRedo.png',
                 more: `
-                    We have rewritten the complete <b>Undo-Redo</b> functionality to eliminate the last bugs. If you still face issues, 
-                    please contact us. 
+                    We have rewritten the complete <b>Undo-Redo</b> functionality to eliminate the last bugs. If you face issues, 
+                    please let us know and contact us. 
                 `,
                 title: 'New Undo-Redo '
             },
@@ -186,6 +176,7 @@ class NotificationService extends AbstractService{
                     return getDays(user) > 2
                 },
                 id:"Discord",
+                img: 'Discord.png',
                 more: `
                     We have a <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a>
                     channel! You can reach us there or discuss with other users.
@@ -197,6 +188,7 @@ class NotificationService extends AbstractService{
                     return getDays(user) > 1
                 },
                 id:"Youtube",
+                img: 'Youtube.png',
                 more: `
                     hey there, do you know that we have a <a href="https://www.youtube.com/@quant-ux8332" target="github">YouTube</a>
                     channel?  Dive into a treasure trove of tutorials and sneak peeks that'll supercharge your learning journey.
@@ -204,43 +196,60 @@ class NotificationService extends AbstractService{
                 `,
                 title: 'YouTube'
             },
-            {
-                matches (user) {
-                    return getDays(user) > 3 && !user.image
-                },
-                id:"ProfilePic",
-                more: `
-                    Boost the collaboration with your team! You can upload a profile picture in your 
-                    <a href="#/my-account.html" target="account">Account Settings</a>. This will
-                    make it easier for others to distinguish your account.
+            // {
+            //     matches (user) {
+            //         return getDays(user) > 3 && !user.image
+            //     },
+            //     id:"ProfilePic",
+            //     img: 'Youtube.png',
+            //     more: `
+            //         Boost the collaboration with your team! You can upload a profile picture in your 
+            //         <a href="#/my-account.html" target="account">Account Settings</a>. This will
+            //         make it easier for others to distinguish your account.
                    
-                `,
-                title: 'Add a profile picture'
-            },
+            //     `,
+            //     title: 'Add a profile picture'
+            // },
             {
                 matches (user) {
-                    return user.loginCount >= 5 && !user.name
+                    return user.loginCount >= 2
                 },
                 id:"UserName",
+                img: 'Profile.png',
                 more: `
-                    If you add your name and lastname in the
-                    <a href="#/my-account.html" target="account">Account Settings</a>,
-                    other users can better collaborate with you.
+                    Addd your name and lastname a,d profile picture to your 
+                    <a href="#/my-account.html" target="account">Account</a>, 
+                    so other users can better collaborate with you.
                    
                 `,
-                title: 'Add your name and lastname'
+                title: 'Fill out your Profiles'
             },
             {
                 matches (user) {
                     return getDays(user) > 4
                 },
                 id:"CollaborativeWork",
+                img: 'Team.png',
                 more: `
                     Do you know that you can invite other Quant-UX members to collaborate 
                     on a prototype? You can even work in realtime in the same canvas with them!
                    
                 `,
                 title: 'Work with others'
+            },
+            {
+                matches (user) {
+                    return getDays(user) > 5
+                },
+                id:"Luisa",
+                img: 'Luisa.png',
+                more: `
+                    Quant-UX has a sister project, called <a href="https://luisa.cloud" target="luisa">Luisa</a>.
+                    With Luisa you can turn your prototypes into real apps, add your own data and logic.
+                    Check it out!
+                   
+                `,
+                title: 'Turn prototypes into real apps'
             }
             
         ]

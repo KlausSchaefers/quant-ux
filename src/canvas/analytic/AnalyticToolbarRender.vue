@@ -90,6 +90,10 @@ export default {
             this.showHeatMapProperties();
             this.showClickHeatMap()
 
+            this.addTooltip(this.commentBtn,this.getNLS("tooltip.comment"));
+            this.addTooltip(this.simuUserBtn,this.getNLS("tooltip.simuser"));
+
+
             this.logger.log(3, "render", "exit");
         },
 

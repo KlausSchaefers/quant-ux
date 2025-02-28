@@ -7,44 +7,47 @@
         </span>
 
         <ZoomDialog ref="dialog">
-            <div class="MatcDialogM MatcDialog" @click.stop>
+            <div class="MatcDialogXL MatcDialog" @click.stop>
                 <template v-if="tab === 'all'">
                     <h1> {{ $t('app.notifications') }}</h1>
                     <div class="StudioNotificationContainer MatcScrollContainer" ref="cntr">
                         <div v-for="n in filteredNewNotifications" :key="n.id" class="StudioNotificationItem">
-                            <div class="StudioNotificationItemHeader">
-                                <h3>{{n.title}}</h3>
-                                <span>{{formatDate(n.lastUpdate)}}</span>
-                            </div>
-            
-                            <p v-html="n.body">
-                            </p>
-                            <a v-if="n.details" @click="showMore(n)">More...</a>
-                                
+                            <img class="StudioNotificationItemImage" :src="'/notification/' + n.img">
+                            <div class="StudioNotificationItemBody">
+                                <div class="StudioNotificationItemHeader">
+                                    <h3>{{n.title}}</h3>
+                                    <span>{{formatDate(n.lastUpdate)}}</span>
+                                </div>
+                
+                                <p v-html="n.body">
+                                </p>
+                                <a v-if="n.details" @click="showMore(n)">More...</a>
+                            </div> 
                         </div>
 
-                        <div v-if="filteredNewNotifications.length === 0" class="StudioNotificationItem">
+                        <!-- <div v-if="filteredNewNotifications.length === 0" class="StudioNotificationItem">
                             <p>
                                 {{ $t('app.notifications-none') }}
                             </p>
-                        </div>
+                        </div> -->
 
-                        <div v-if="filteredOldNotifications.length > 0" class="StudioNotificationItemSpacer">
+                        <!-- <div v-if="filteredOldNotifications.length > 0" class="StudioNotificationItemSpacer">
                             <div class="StudioNotificationItemLine"></div>
                             <div> {{ $t('app.oldnotifications') }}</div>
                             <div class="StudioNotificationItemLine"></div>
-                        </div>
+                        </div> -->
 
                         <div v-for="n in filteredOldNotifications" :key="n.id" class="StudioNotificationItem">
-                            <div class="StudioNotificationItemHeader">
-                                <h3>{{n.title}}</h3>
-                                <span>{{formatDate(n.lastUpdate)}}</span>
+                            <img class="StudioNotificationItemImage" :src="'/notification/' + n.img">
+                            <div class="StudioNotificationItemBody">
+                                <div class="StudioNotificationItemHeader">
+                                    <h3>{{n.title}}</h3>
+                                    <span>{{formatDate(n.lastUpdate)}}</span>
+                                </div>                
+                                <p v-html="n.body">
+                                </p>
+                                <a v-if="n.details" @click="showMore(n)">More...</a>
                             </div>
-            
-                            <p v-html="n.body">
-                            </p>
-                            <a v-if="n.details" @click="showMore(n)">More...</a>
-                              
                         </div>
                     </div>
                 </template>
@@ -163,6 +166,10 @@ export default {
                     "src": url
                 }
             }
+            if (n.img) {
+                result.img = n.img
+            }
+            console.log(result)
             return result
         },
     },

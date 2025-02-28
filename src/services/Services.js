@@ -10,6 +10,7 @@ import KeyCloakService from './KeyCloakService'
 import CommandService from './CommandService'
 import NotificationService from './NotificationService'
 import AIService from './AIService'
+import AISimService from './AISimService'
 
 class Services {
 
@@ -77,6 +78,13 @@ class Services {
         aiService.setToken(UserService.getToken())
         return aiService   
     }
+
+    getAISimService () {
+        const aiSimService = new AISimService()
+        aiSimService.setToken(UserService.getToken())
+        return aiSimService   
+    }
+    
 
     getUserService () {
         if (this.config.auth === 'keycloak') {

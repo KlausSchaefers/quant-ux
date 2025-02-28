@@ -519,7 +519,7 @@
         overflow: auto;
         display: flex;
         flex-direction: column;
-        gap:16px;
+        gap:32px;
 
         .StudioNotificationItemHeader {
             display: flex;
@@ -531,8 +531,7 @@
 
             span {
                 font-size: 14px;
-                color: $text_color_passive;
-                
+                color: $gray_3;                
             }
         }
 
@@ -559,9 +558,26 @@
 
         .StudioNotificationItem {
             display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-bottom: 32px;
+            gap: 32px;
+            padding-bottom: 32px; 
+            border-bottom: 1px solid $gray_1;
+            align-items: center;
+            
+
+            .StudioNotificationItemImage {
+                height: 128px;
+                width: 128px;
+                background: #ccc;
+                flex-shrink: 0;
+                border-radius: $form_radius;
+            }
+
+            .StudioNotificationItemBody {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                padding-right: 16px;
+            }
 
             h3 {
                 margin: 0;
@@ -582,6 +598,10 @@
                 justify-content: center;
                 margin-top: 16px;
             }
+        }
+
+        .StudioNotificationItem:last-child {
+            border-bottom: none;
         }
     }
 }

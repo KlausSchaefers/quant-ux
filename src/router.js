@@ -220,6 +220,10 @@ export default new VueRouter({
     {
       path: '/test/Chat.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/ChatHelpTest.vue')
+    },
+    {
+      path: '/test/SimUser.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/SimUserTest.vue')
     }
   ]
 })
