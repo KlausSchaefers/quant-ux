@@ -19,8 +19,14 @@
 					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment">
 						<QIcon icon="Comment" />
 					</div>
-					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="simuUserBtn"  @click="onSimUser" v-show="isBeta">
+					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="simuUserBtn"  @click="onSimUser" v-show="isBeta && !hasAIEvents">
 						<QIcon icon="AI" />
+					</div>	
+					<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem']"  @click="fakeAI" v-show="isBeta">
+						<QIcon icon="DeleteX" />
+					</div>	 -->
+					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="removeAIEventsButton"  @click="removeAIEvents" v-show="isBeta && hasAIEvents">
+						<QIcon icon="Undo" />
 					</div>		
 				</div>
 		
@@ -102,6 +108,7 @@ export default {
 			canvasViewConfig: {},
 			layerListWidth: 256,
 			isBeta: location.href.indexOf('localhost') > -1,
+			hasAIEvents: false
         }
     },
     components: {
@@ -135,22 +142,179 @@ export default {
 			this.canvas.setMode("edit");
 		},
 
+		fakeAI () {
+			const fake = [
+				{
+					"screen": "s10000_29014",
+					"widget": null,
+					"type": "SessionStart",
+					"session": "S1741990215325",
+					"time": 1741990215325,
+					"isAI": true
+				},
+				{
+					"screen": "s10000_29014",
+					"type": "ScreenLoaded",
+					"session": "S1741990215325",
+					"time": 1741990216325,
+					"isAI": true
+				},
+				{
+					"screen": "s10000_29014",
+					"type": "WidgetChange",
+					"widget": "w10001_64477",
+					"value": "Margaret",
+					"x": 0.333,
+					"y": 0.173,
+					"state": {
+					"type": "text",
+					"value": "Margaret"
+					},
+					"session": "S1741990215325",
+					"time": 1741990217325,
+					"isAI": true
+				},
+				{
+					"screen": "s10000_29014",
+					"type": "WidgetChange",
+					"widget": "w10002_30949",
+					"value": "Smith",
+					"x": 0.861,
+					"y": 0.258,
+					"state": {
+					"type": "text",
+					"value": "Smith"
+					},
+					"session": "S1741990215325",
+					"time": 1741990218325,
+					"isAI": true
+				},
+				{
+					"screen": "s10000_29014",
+					"type": "WidgetChange",
+					"widget": "w10003_51842",
+					"value": "margaret.smith@example.com",
+					"x": 0.576,
+					"y": 0.338,
+					"state": {
+					"type": "text",
+					"value": "margaret.smith@example.com"
+					},
+					"session": "S1741990215325",
+					"time": 1741990219325,
+					"isAI": true
+				},
+				{
+					"screen": "s10000_29014",
+					"type": "WidgetChange",
+					"widget": "w10010_17694",
+					"value": "78",
+					"x": 0.203,
+					"y": 0.495,
+					"state": {
+					"type": "text",
+					"value": "78"
+					},
+					"session": "S1741990215325",
+					"time": 1741990220325,
+					"isAI": true
+				},
+				{
+					"screen": "s10000_29014",
+					"type": "WidgetChange",
+					"widget": "w10012_11360",
+					"value": "2",
+					"x": 0.6,
+					"y": 0.48,
+					"state": {
+					"type": "text",
+					"value": "2"
+					},
+					"session": "S1741990215325",
+					"time": 1741990221325,
+					"isAI": true
+				},
+				{
+					"screen": "s10000_29014",
+					"type": "WidgetClick",
+					"widget": "w10004_76983",
+					"value": null,
+					"x": 0.896,
+					"y": 0.577,
+					"session": "S1741990215325",
+					"time": 1741990222325,
+					"isAI": true
+				},
+				{
+					"screen": "s10016_72856",
+					"type": "ScreenLoaded",
+					"session": "S1741990215325",
+					"time": 1741990223325,
+					"isAI": true
+				},
+				{
+					"screen": "s10016_72856",
+					"type": "WidgetClick",
+					"widget": "w10022_34720",
+					"value": null,
+					"x": 0.381,
+					"y": 0.446,
+					"session": "S1741990215325",
+					"time": 1741990224325,
+					"isAI": true
+				}
+				]
+
+			this.setAIEvents(fake)
+		},
+
 		onSimUser (e){
 			this.logger.log(-1,"onSimUser", "entry");
 			this.stopEvent(e);
 
-			let dialog = new Dialog()
-			var db = new DomBuilder();
-			let popup = db.div("MatcDialog MatchImportDialog MatcPadding MatchImportOpenAIDialog").build();
+			const dialog = new Dialog()
+			const db = new DomBuilder();
+			const popup = db.div("MatcDialog MatchImportDialog MatcPadding MatchImportOpenAIDialog").build();
 			dialog.popup(popup, e.target);
-			let simUser = this.$new(SimUserDialog)
+			const simUser = this.$new(SimUserDialog)
 			simUser.setModel(this.model)
 			simUser.placeAt(popup)
 			simUser.on('cancel', () => dialog.close())
 			simUser.on('done', (events) => {
-				console.debug('onSimUser() > exit', events)
+				//console.debug('onSimUser() > exit', JSON.stringify(events, null, 2))
 				dialog.close()
+				this.setAIEvents(events)
 			})
+		},
+
+		removeAIEvents () {
+
+			this.setEvents(this.humanEvents)
+			this.hasAIEvents = false
+			this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
+			this.sessionListWidget.setSessions(this.sessionList)
+			this.sessionListWidget.setAIEvents(false)
+			this.reRenderAnalyticMode()
+		},
+
+		setEvents(events){
+			this.logger.log(2,"setEvents", "enter > # " + events.length);
+			this.events = events;
+			this.humanEvents = events
+			this.canvas.setEvents(events)
+		},
+
+		setAIEvents(events){
+			this.logger.log(-2,"setAIEvents", "enter > # " + events.length);
+			this.events = events;
+			this.aiEvents = events;
+			this.canvas.setEvents(events)
+			this.hasAIEvents = true
+
+			this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
+			this.sessionListWidget.setSessions(this.sessionList)
+			this.sessionListWidget.setAIEvents(true)
+			this.reRenderAnalyticMode()
 		},
 
 	
@@ -827,10 +991,7 @@ export default {
 			this.testSettings = t;
 		},
 
-		setEvents(events){
-			this.logger.log(2,"setEvents", "enter > # " + events.length);
-			this.events = events;
-		},
+		
 
 		setMode(mode){
 			this.logger.log(2,"setMode", "entry > '" + mode + "'");

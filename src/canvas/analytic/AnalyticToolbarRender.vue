@@ -92,6 +92,7 @@ export default {
 
             this.addTooltip(this.commentBtn,this.getNLS("tooltip.comment"));
             this.addTooltip(this.simuUserBtn,this.getNLS("tooltip.simuser"));
+            this.addTooltip(this.removeAIEventsButton,this.getNLS("tooltip.removeSimuser"));
 
 
             this.logger.log(3, "render", "exit");
@@ -603,7 +604,7 @@ export default {
 
             let id = 1;
             for (let sessionID in sessions) {
-                let label = `Test ${id}`
+                let label = this.hasAIEvents ? `AI Simulation ${id}` : `Test ${id}`
                 let session = sessions[sessionID];
                 let date = this.formatDate(session.min("time"), true);
 

@@ -367,7 +367,7 @@ export default {
       canvas.setModelFactory(factory);
       canvas.setCommentService(Services.getCommentService())
       canvas.setUser(this.user)
-      canvas.setEvents(events);
+      //=canvas.setEvents(events);
       canvas.setAnnotation(annotation);
       canvas.setTest(test);
 

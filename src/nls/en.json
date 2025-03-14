@@ -235,7 +235,8 @@
         "analyics-task": "Show task completion, outliers and drop-offs",
         "analyics-screen": "Show screen statstics such as scroll maps or dwell time",
         "app-color": "Change the app color",
-        "simuser": "Simulate how users would use the app with AI (Beta)"
+        "simuser": "Simulate how users would use the app with AI (Beta)",
+        "removeSimuser": "Remove the AI events"
     },
     "table-action": "Action X",
     "btn": {

@@ -51,7 +51,8 @@ export default {
       sessions: [],
       selected: {},
       order: 'date',
-      selectedSession: ''
+      selectedSession: '',
+      hasAiEvents: false
     };
   },
   components: {
@@ -76,6 +77,9 @@ export default {
     }
   },
   methods: {
+    setAIEvents (hasAiEvents) {
+      this.hasAiEvents = hasAiEvents
+    },
     onChangeSessionLabel (s, e) {
       const label = e.target.value.trim()
       s.label = label
@@ -83,6 +87,9 @@ export default {
       this.emit("label", s.session, label)
     },
     onEdit (s) {
+      if (this.hasAiEvents) {
+        return
+      }
       this.selectedSession = s.session
       setTimeout(() => {
         const input = this.$refs.sessionInput[0]

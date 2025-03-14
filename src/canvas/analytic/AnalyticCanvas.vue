@@ -945,7 +945,8 @@ export default {
     },
 
     setEvents(events) {
-      this.logger.log(1, "setEvents", "enter > # " + events.length);
+      this.logger.log(-1, "setEvents", "enter > # " + events.length);
+      this.cache = {};
       var analytics = new Analytics();
       this.events = analytics.nornalizeContainerChildEvents(events);
       this.df = new DataFrame(events);
