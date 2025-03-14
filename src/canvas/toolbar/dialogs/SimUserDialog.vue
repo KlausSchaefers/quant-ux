@@ -85,6 +85,7 @@ export default {
         return {
             tab: 'openai',
             isDesktop: false,
+            persona: 'You are an average person with some background in IT. You can use the browsxer and gmail and write simeple mails in word',
             errorMSG:'',
             prompt: '',
             promptPlaceholder: this.getNLS('sim-user.prompt-placeholder'),
@@ -102,9 +103,15 @@ export default {
             localStorage.setItem('quxOpenSimUserLastPrompt', this.prompt)
 
             const aiService = Services.getAISimService()
-            const events = await aiService.run(this.openAIKey, this.openAIKey, this.prompt)
+            const events = await aiService.run(
+                this.prompt, 
+                this.persona, 
+                this.openAIKey,
+                this.model
+            )
 
             this.emit('done', events)
+            this.$emit('done', events)
         },
         setModel (model) {
             this.model = model   

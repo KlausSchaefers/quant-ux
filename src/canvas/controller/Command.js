@@ -243,6 +243,10 @@ export default class Command extends BaseController{
 
 	async addCommand (command){
 
+		if (this._useChangeStack) {
+			return
+		}
+
 		// Since 4.0.60: Create a copy. Some commands are sloppy and contain 
 		// live objects which will be messed up by later editing on the command 
 		// stack

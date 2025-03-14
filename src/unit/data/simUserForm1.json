@@ -1,0 +1,1024 @@
+{
+    "_id" : "67c4cead7fc6116a193a64fd",
+    "version" : 4,
+    "name" : "Sim Agent Test",
+    "description" : "",
+    "screenSize" : {
+      "w" : 375,
+      "h" : 812
+    },
+    "type" : "smartphone",
+    "screens" : {
+      "s10000_29014" : {
+        "x" : 1438,
+        "y" : 1054,
+        "h" : 812,
+        "w" : 375,
+        "name" : "Signup Screen",
+        "type" : "Screen",
+        "style" : {
+          "background" : "#ffffff"
+        },
+        "min" : {
+          "w" : 375,
+          "h" : 812
+        },
+        "has" : {
+          "image" : true
+        },
+        "props" : {
+          "start" : true
+        },
+        "children" : [ "w10006_81388", "w10001_64477", "w10002_30949", "w10003_51842", "w10008_11642", "w10007_46877", "w10009_97724", "w10014_22271", "w10010_17694", "w10011_20434", "w10012_11360", "w10013_2978", "w10015_2153", "w10005_24005", "w10004_76983" ],
+        "id" : "s10000_29014"
+      },
+      "s10016_72856" : {
+        "x" : 2001,
+        "y" : 1054,
+        "h" : 812,
+        "w" : 375,
+        "name" : "Welcome",
+        "type" : "Screen",
+        "style" : {
+          "background" : "#ffffff"
+        },
+        "min" : {
+          "w" : 375,
+          "h" : 812
+        },
+        "has" : {
+          "image" : true
+        },
+        "props" : { },
+        "children" : [ "w10024_82494", "w10022_34720", "w10033_23059" ],
+        "id" : "s10016_72856",
+        "modified" : 1741985835691
+      }
+    },
+    "widgets" : {
+      "w10001_64477" : {
+        "id" : "w10001_64477",
+        "type" : "TextBox",
+        "name" : "Text Box",
+        "x" : 1480,
+        "y" : 1223,
+        "w" : 293,
+        "h" : 32,
+        "z" : 3,
+        "props" : {
+          "label" : "Firstname",
+          "placeholder" : true
+        },
+        "has" : {
+          "label" : true,
+          "backgroundColor" : true,
+          "border" : true,
+          "editable" : true,
+          "onclick" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "paddingBottom" : 2,
+          "paddingTop" : 2,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "focus" : {
+          "background" : "#FEFEFE",
+          "color" : "#000000",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "color" : "#000000",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "error" : {
+          "background" : "#efc5c5",
+          "color" : "#f43535",
+          "borderTopColor" : "#f43535",
+          "borderBottomColor" : "#f43535",
+          "borderRightColor" : "#f43535",
+          "borderLeftColor" : "#f43535"
+        },
+        "created" : 1740951225452,
+        "modified" : 1741982805389
+      },
+      "w10002_30949" : {
+        "id" : "w10002_30949",
+        "type" : "TextBox",
+        "name" : "Text Box 1",
+        "x" : 1480,
+        "y" : 1297,
+        "w" : 293,
+        "h" : 32,
+        "z" : 4,
+        "props" : {
+          "label" : "Lastname",
+          "placeholder" : true
+        },
+        "has" : {
+          "label" : true,
+          "backgroundColor" : true,
+          "border" : true,
+          "editable" : true,
+          "onclick" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "paddingBottom" : 2,
+          "paddingTop" : 2,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "focus" : {
+          "background" : "#FEFEFE",
+          "color" : "#000000",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "color" : "#000000",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "error" : {
+          "background" : "#efc5c5",
+          "color" : "#f43535",
+          "borderTopColor" : "#f43535",
+          "borderBottomColor" : "#f43535",
+          "borderRightColor" : "#f43535",
+          "borderLeftColor" : "#f43535"
+        },
+        "created" : 1740951226568,
+        "copyOf" : "w10001_64477",
+        "modified" : 1741982805389
+      },
+      "w10003_51842" : {
+        "id" : "w10003_51842",
+        "type" : "TextBox",
+        "name" : "Text Box 2",
+        "x" : 1480,
+        "y" : 1371,
+        "w" : 293,
+        "h" : 32,
+        "z" : 5,
+        "props" : {
+          "label" : "Email",
+          "placeholder" : true
+        },
+        "has" : {
+          "label" : true,
+          "backgroundColor" : true,
+          "border" : true,
+          "editable" : true,
+          "onclick" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "paddingBottom" : 2,
+          "paddingTop" : 2,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "focus" : {
+          "background" : "#FEFEFE",
+          "color" : "#000000",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "color" : "#000000",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "error" : {
+          "background" : "#efc5c5",
+          "color" : "#f43535",
+          "borderTopColor" : "#f43535",
+          "borderBottomColor" : "#f43535",
+          "borderRightColor" : "#f43535",
+          "borderLeftColor" : "#f43535"
+        },
+        "created" : 1740951246409,
+        "copyOf" : "w10002_30949",
+        "modified" : 1741982805389
+      },
+      "w10004_76983" : {
+        "id" : "w10004_76983",
+        "type" : "Button",
+        "name" : "Primary Button",
+        "x" : 1648,
+        "y" : 1602,
+        "w" : 143,
+        "h" : 32,
+        "z" : 6,
+        "props" : {
+          "label" : "Signup"
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "onclick" : true,
+          "label" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "background" : "#000000",
+          "color" : "#FFFFFF",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "hover" : {
+          "background" : "#000000",
+          "color" : "#FFFFFF",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "created" : 1740951256900,
+        "modified" : 1741982836180
+      },
+      "w10005_24005" : {
+        "id" : "w10005_24005",
+        "type" : "Button",
+        "name" : "Secondary Button",
+        "x" : 1457,
+        "y" : 1603,
+        "w" : 144,
+        "h" : 32,
+        "z" : 7,
+        "props" : {
+          "label" : "Cancel"
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "onclick" : true,
+          "label" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "hover" : {
+          "background" : "#000000",
+          "color" : "#FFFFFF",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "created" : 1740951264867,
+        "modified" : 1741982834668
+      },
+      "w10006_81388" : {
+        "type" : "Label",
+        "name" : "Label",
+        "x" : 1480,
+        "y" : 1114,
+        "w" : 293,
+        "h" : 35,
+        "z" : 8,
+        "props" : {
+          "label" : "Signup"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : "Auto",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "id" : "w10006_81388",
+        "created" : 1740951269419,
+        "modified" : 1741982805389
+      },
+      "w10007_46877" : {
+        "type" : "Label",
+        "name" : "Label 1",
+        "x" : 1480,
+        "y" : 1198,
+        "w" : 293,
+        "h" : 25,
+        "z" : 9,
+        "props" : {
+          "label" : "Firstname"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 16,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null,
+          "fontWeight" : "bold"
+        },
+        "id" : "w10007_46877",
+        "created" : 1740951311434,
+        "modified" : 1741982805389
+      },
+      "w10008_11642" : {
+        "type" : "Label",
+        "name" : "Label 2",
+        "x" : 1480,
+        "y" : 1272,
+        "w" : 293,
+        "h" : 25,
+        "z" : 10,
+        "props" : {
+          "label" : "Lastname"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 16,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null,
+          "fontWeight" : "bold"
+        },
+        "id" : "w10008_11642",
+        "created" : 1740951321805,
+        "modified" : 1741982805389,
+        "copyOf" : "w10007_46877"
+      },
+      "w10009_97724" : {
+        "type" : "Label",
+        "name" : "Label 3",
+        "x" : 1480,
+        "y" : 1346,
+        "w" : 293,
+        "h" : 25,
+        "z" : 11,
+        "props" : {
+          "label" : "Email"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 16,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null,
+          "fontWeight" : "bold"
+        },
+        "id" : "w10009_97724",
+        "created" : 1740951333920,
+        "modified" : 1741982805389,
+        "copyOf" : "w10008_11642"
+      },
+      "w10010_17694" : {
+        "id" : "w10010_17694",
+        "type" : "TextBox",
+        "name" : "Text Box 3",
+        "x" : 1480,
+        "y" : 1520,
+        "w" : 130,
+        "h" : 32,
+        "z" : 12,
+        "props" : {
+          "label" : "age",
+          "placeholder" : true
+        },
+        "has" : {
+          "label" : true,
+          "backgroundColor" : true,
+          "border" : true,
+          "editable" : true,
+          "onclick" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "paddingBottom" : 2,
+          "paddingTop" : 2,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "focus" : {
+          "background" : "#FEFEFE",
+          "color" : "#000000",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "color" : "#000000",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "error" : {
+          "background" : "#efc5c5",
+          "color" : "#f43535",
+          "borderTopColor" : "#f43535",
+          "borderBottomColor" : "#f43535",
+          "borderRightColor" : "#f43535",
+          "borderLeftColor" : "#f43535"
+        },
+        "created" : 1740951346561,
+        "copyOf" : "w10003_51842",
+        "modified" : 1741982805389
+      },
+      "w10011_20434" : {
+        "type" : "Label",
+        "name" : "Label 4",
+        "x" : 1480,
+        "y" : 1495,
+        "w" : 130,
+        "h" : 25,
+        "z" : 13,
+        "props" : {
+          "label" : "How old are you"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 16,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null,
+          "fontWeight" : "bold"
+        },
+        "id" : "w10011_20434",
+        "created" : 1740951346561,
+        "modified" : 1741982805389,
+        "copyOf" : "w10009_97724"
+      },
+      "w10012_11360" : {
+        "id" : "w10012_11360",
+        "type" : "TextBox",
+        "name" : "Text Box 4",
+        "x" : 1643,
+        "y" : 1520,
+        "w" : 130,
+        "h" : 32,
+        "z" : 14,
+        "props" : {
+          "label" : "Number",
+          "placeholder" : true
+        },
+        "has" : {
+          "label" : true,
+          "backgroundColor" : true,
+          "border" : true,
+          "editable" : true,
+          "onclick" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "background" : "#FFFFFF",
+          "color" : "#000000",
+          "paddingBottom" : 2,
+          "paddingTop" : 2,
+          "paddingLeft" : 8,
+          "paddingRight" : 8,
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "focus" : {
+          "background" : "#FEFEFE",
+          "color" : "#000000",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "hover" : {
+          "background" : "#CCCCCC",
+          "color" : "#000000",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "error" : {
+          "background" : "#efc5c5",
+          "color" : "#f43535",
+          "borderTopColor" : "#f43535",
+          "borderBottomColor" : "#f43535",
+          "borderRightColor" : "#f43535",
+          "borderLeftColor" : "#f43535"
+        },
+        "created" : 1740951381126,
+        "copyOf" : "w10010_17694",
+        "modified" : 1741982805389
+      },
+      "w10013_2978" : {
+        "type" : "Label",
+        "name" : "Label 5",
+        "x" : 1643,
+        "y" : 1495,
+        "w" : 130,
+        "h" : 25,
+        "z" : 15,
+        "props" : {
+          "label" : "How many pets"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 16,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null,
+          "fontWeight" : "bold"
+        },
+        "id" : "w10013_2978",
+        "created" : 1740951381126,
+        "modified" : 1741982805389,
+        "copyOf" : "w10011_20434"
+      },
+      "w10014_22271" : {
+        "type" : "Button",
+        "name" : "PersonalDetails",
+        "x" : 1457,
+        "y" : 1174,
+        "w" : 334,
+        "h" : 250,
+        "z" : 2,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 8,
+          "borderTopLeftRadius" : 8,
+          "borderBottomRightRadius" : 8,
+          "borderBottomLeftRadius" : 8,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#dadada",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w10014_22271",
+        "created" : 1741982789075,
+        "modified" : 1741982819215
+      },
+      "w10015_2153" : {
+        "type" : "Button",
+        "name" : "NumberDetails",
+        "x" : 1457,
+        "y" : 1479,
+        "w" : 334,
+        "h" : 99,
+        "z" : 1,
+        "props" : {
+          "label" : ""
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "label" : true,
+          "padding" : true,
+          "onclick" : true
+        },
+        "actions" : { },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.4,
+          "color" : "#ffffff",
+          "borderTopRightRadius" : 8,
+          "borderTopLeftRadius" : 8,
+          "borderBottomRightRadius" : 8,
+          "borderBottomLeftRadius" : 8,
+          "borderTopWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "background" : "#dadada",
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "textShadow" : null
+        },
+        "id" : "w10015_2153",
+        "created" : 1741982801054,
+        "modified" : 1741982830702,
+        "copyOf" : "w10014_22271"
+      },
+      "w10022_34720" : {
+        "id" : "w10022_34720",
+        "type" : "Button",
+        "name" : "Primary Button",
+        "x" : 2043,
+        "y" : 1395,
+        "w" : 143,
+        "h" : 32,
+        "z" : 6,
+        "props" : {
+          "label" : "Next"
+        },
+        "has" : {
+          "backgroundColor" : true,
+          "border" : true,
+          "onclick" : true,
+          "label" : true,
+          "padding" : true
+        },
+        "style" : {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle",
+          "background" : "#000000",
+          "color" : "#FFFFFF",
+          "borderTopWidth" : 1,
+          "borderBottomWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderTopRightRadius" : 4,
+          "borderTopLeftRadius" : 4,
+          "borderBottomRightRadius" : 4,
+          "borderBottomLeftRadius" : 4,
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000",
+          "borderTopStyle" : "solid",
+          "borderBottomStyle" : "solid",
+          "borderRightStyle" : "solid",
+          "borderLeftStyle" : "solid"
+        },
+        "hover" : {
+          "background" : "#000000",
+          "color" : "#FFFFFF",
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        },
+        "created" : 1740951256900,
+        "modified" : 1741985866575,
+        "copyOf" : "w10004_76983"
+      },
+      "w10024_82494" : {
+        "type" : "Label",
+        "name" : "Label",
+        "x" : 2043,
+        "y" : 1114,
+        "w" : 293,
+        "h" : 35,
+        "z" : 8,
+        "props" : {
+          "label" : "Welcome"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : "Auto",
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "id" : "w10024_82494",
+        "created" : 1740951269419,
+        "modified" : 1741985841035,
+        "copyOf" : "w10006_81388"
+      },
+      "w10033_23059" : {
+        "type" : "Label",
+        "name" : "Label 1",
+        "x" : 2043,
+        "y" : 1184,
+        "w" : 271,
+        "h" : 137,
+        "z" : 16,
+        "props" : {
+          "label" : "Great that you are here!"
+        },
+        "has" : {
+          "label" : true,
+          "padding" : true,
+          "advancedText" : true
+        },
+        "style" : {
+          "fontSize" : 24,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "left",
+          "letterSpacing" : 0,
+          "lineHeight" : 1,
+          "color" : "#000000",
+          "textShadow" : null
+        },
+        "id" : "w10033_23059",
+        "created" : 1741985868553,
+        "modified" : 1741985886323
+      }
+    },
+    "lines" : {
+      "l10032_33865" : {
+        "id" : "l10032_33865",
+        "from" : "w10004_76983",
+        "to" : "s10016_72856",
+        "points" : [ ],
+        "event" : "click"
+      }
+    },
+    "groups" : { },
+    "templates" : { },
+    "designtokens" : { },
+    "lastUUID" : 10034,
+    "lastUpdate" : 1741985886327,
+    "created" : 1740951213972,
+    "startScreen" : "",
+    "grid" : {
+      "w" : 8,
+      "h" : 8,
+      "style" : "line",
+      "color" : "#cecece",
+      "visible" : false,
+      "enabled" : false
+    },
+    "domain" : "Quant-UX.com",
+    "screenCount" : 2,
+    "widgetCount" : 18,
+    "isDirty" : true,
+    "lastCategory" : "WireFrame",
+    "lastBackup" : 1741984378153,
+    "sizeBackup" : 7674,
+    "id" : "67c4cead7fc6116a193a64fd",
+    "sessionCount" : 0
+  }

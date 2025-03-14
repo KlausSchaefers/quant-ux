@@ -147,6 +147,10 @@ export default {
 			simUser.setModel(this.model)
 			simUser.placeAt(popup)
 			simUser.on('cancel', () => dialog.close())
+			simUser.on('done', (events) => {
+				console.debug('onSimUser() > exit', events)
+				dialog.close()
+			})
 		},
 
 	

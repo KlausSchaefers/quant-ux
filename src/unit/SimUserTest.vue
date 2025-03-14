@@ -2,7 +2,11 @@
     <div class="MatcLight">
       <h1>SimUserDialog Test</h1>
       <div class="MatcDialog MatchOpenAIChatDialog MatcPadding">
-        <SimUserDialog ref="importDialog"/>
+        <SimUserDialog ref="importDialog" @done="showResult"/>
+      </div>
+
+      <div class="Preview">
+         {{result}}
       </div>
     </div>
   </template>
@@ -12,6 +16,18 @@
 </style>
   <style>
 
+  .Preview {
+    position: absolute;
+    top:0px;
+    right: 0px;
+    width: 300px;
+    height: 100%;
+    background: orange;
+    font-size: 8px;
+    white-space: pre;
+    word-wrap: normal;
+    padding: 8px;
+  }
 
     .MatcDialog {
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2), 0px 0px 2px rgba(0, 0, 0, 0.2);
@@ -34,7 +50,7 @@
   <script>
   
   import SimUserDialog from 'canvas/toolbar/dialogs/SimUserDialog.vue'
-  import app from './data/export_snack.json'
+  import app from './data/simUserForm1.json'
   
   export default {
     name: "FigmaTest",
@@ -45,6 +61,7 @@
           previews: [],
           model: null,
           accessKey: '',
+          result: ''
       };
     },
     components: {
@@ -71,6 +88,10 @@
       }
     },
     methods: {
+        showResult (events) {
+          this.result = JSON.stringify(events, null, 2)
+
+        },
         getPreview() {
         },
         onSelect (d) {
