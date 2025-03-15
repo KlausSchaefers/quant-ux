@@ -19,15 +19,18 @@
 					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment">
 						<QIcon icon="Comment" />
 					</div>
-					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="simuUserBtn"  @click="onSimUser" v-show="isBeta && !hasAIEvents">
+					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="simuUserBtn"  @click="onSimUser" v-show="!hasAIEvents">
 						<QIcon icon="AI" />
 					</div>	
+					<div class="MatcToolbarItem" v-if="hasAIEvents"  data-dojo-attach-point="removeAIEventsButton" >
+						<div class="MatcToobarPrimaryButton" @click="removeAIEvents" >
+							{{$t('toolbar.removeAIEvents')}}
+						</div>
+					</div>
 					<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem']"  @click="fakeAI" v-show="isBeta">
 						<QIcon icon="DeleteX" />
 					</div>	 -->
-					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="removeAIEventsButton"  @click="removeAIEvents" v-show="isBeta && hasAIEvents">
-						<QIcon icon="Undo" />
-					</div>		
+
 				</div>
 		
 				<div class="MatcToolbarTopCenterCntr">
@@ -53,6 +56,7 @@
 		</div>
 
 		<div class="MatcToobarPropertiesSection MatcToolbarSectionHidden" data-dojo-attach-point="propertiesCntr">
+	
 		</div>
 
 	</div>
@@ -287,16 +291,6 @@ export default {
 			})
 		},
 
-		removeAIEvents () {
-
-			this.setEvents(this.humanEvents)
-			this.hasAIEvents = false
-			this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
-			this.sessionListWidget.setSessions(this.sessionList)
-			this.sessionListWidget.setAIEvents(false)
-			this.reRenderAnalyticMode()
-		},
-
 		setEvents(events){
 			this.logger.log(2,"setEvents", "enter > # " + events.length);
 			this.events = events;
@@ -307,6 +301,7 @@ export default {
 		setAIEvents(events){
 			this.logger.log(-2,"setAIEvents", "enter > # " + events.length);
 			this.events = events;
+			// or should we add here???
 			this.aiEvents = events;
 			this.canvas.setEvents(events)
 			this.hasAIEvents = true
@@ -314,9 +309,20 @@ export default {
 			this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
 			this.sessionListWidget.setSessions(this.sessionList)
 			this.sessionListWidget.setAIEvents(true)
+
+			this.sessionOrderBrn.setLabel("AI Sessions")
 			this.reRenderAnalyticMode()
 		},
 
+		removeAIEvents () {
+			this.setEvents(this.humanEvents)
+			this.hasAIEvents = false
+			this.sessionList = this._getTestList(this.events, this.annotation, this.testSettings);
+			this.sessionListWidget.setSessions(this.sessionList)
+			this.sessionListWidget.setAIEvents(false)
+			this.reRenderAnalyticMode()
+			this.sessionOrderBrn.setLabel("Test Sessions")
+		},
 	
 		showHelpDialog(helpID){
 			if (this.$refs.helpBtn) {

@@ -22,7 +22,6 @@
 
       .MatcHintCntr {
         width: 80%;
-   
       }
 
       .MatcHint {
@@ -32,7 +31,7 @@
       .MatchImportDialogProgressCntr {
         display: block;
         width: 100%;
-        height: 10px;
+        height: 16px;
         overflow: hidden;
         
       }
@@ -52,8 +51,9 @@
       .MatchImportOpenAIDialogHint {
         border-radius: 4px;
         padding: 32px;
-        background: #d6e5f86c;
-        border: 1px solid #d6e5f8;
+        background: $toolbar_help_background;
+        border: 1px solid $toolbar_help_border;
+        color: $toolbar_help_color;
         width: 100%;
 
   

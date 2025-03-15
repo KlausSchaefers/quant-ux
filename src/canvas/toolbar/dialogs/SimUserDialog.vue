@@ -11,6 +11,12 @@
             </div>
 
             <div v-if="tab === 'settings'"  class="MatcFlexDialogMain">
+
+                <div class="form-group">
+                    <label>{{ getNLS('sim-user.rounds') }}</label>
+                    <input type="text" class="form-control MatcIgnoreOnKeyPress" v-model="rounds" placeholder="Simulation Rounds" />
+                </div>
+
                 <div class="form-group">
                     <label>{{ getNLS('design-gpt.key-title') }}</label>
                     <form autocomplete="off">
@@ -29,17 +35,35 @@
             </div>
 
             <div v-show="tab === 'openai'"  class="MatcFlexDialogMain">
-                            
-                <textarea 
-                    :placeholder="promptPlaceholder"
-                    type="text" 
-                    class="form-control MatcIgnoreOnKeyPress" 
-                    v-model="prompt" 
-                    @keyup.stop
-                    ref="promptBox"></textarea>
-                            
+
+                      
+                <div class="form-group MatcFlexGrow">
+                    <label>{{ getNLS('sim-user.task') }}</label>
+                    <textarea 
+                        :placeholder="promptPlaceholder"
+                        type="text" 
+                        class="form-control MatcIgnoreOnKeyPress" 
+                        v-model="prompt" 
+                        @keyup.stop
+                        ref="promptBox"></textarea>
+                </div>
+
              </div>
             
+            <div v-show="tab === 'running'"  class="MatcFlexDialogMain">
+
+                <div class="MatchDialogProgress">            
+                        <div class="MatchDialogProgressCntr " >
+                            <div class="MatctDialogProgressBar"></div>
+                        </div>
+
+                        <div class="MatcHint MatcMarginTop">
+                            <p>{{ getNLS('sim-user.waiting-details') }} {{currentRound}} / {{rounds}}</p>
+                        </div>
+                
+                </div>
+            </div>
+
 
              <div class="MatcError">
                 <span>{{errorMSG}}</span>
@@ -90,7 +114,9 @@ export default {
             prompt: '',
             promptPlaceholder: this.getNLS('sim-user.prompt-placeholder'),
             preview: false,
-            openAIKey: ''     
+            openAIKey: '',
+            rounds: 5,
+            currentRound: 0,
         }
     },
     components: {},
@@ -102,13 +128,25 @@ export default {
             Logger.log(-1, 'SimUserDialog.run()', this.prompt)
             localStorage.setItem('quxOpenSimUserLastPrompt', this.prompt)
 
+            this.tab = 'running'
+            this.currentRound = 1
+
             const aiService = Services.getAISimService()
+            aiService.onProgress(e => {
+                this.updateProgress(e)
+            })
             const events = await aiService.run(
                 this.prompt, 
                 this.persona, 
                 this.openAIKey,
-                this.model
+                this.model,
+                this.rounds
             )
+            aiService.destroy()
+
+
+            this.tab = 'openai'
+            this.currentRound = 0
 
             this.emit('done', events)
             this.$emit('done', events)
@@ -123,8 +161,13 @@ export default {
         onChangeOpenAIKey () {
         },
 
+        updateProgress() {
+            this.currentRound += 1
+        },
+
         saveSettings() {
             localStorage.setItem('quxOpenAIKey', this.openAIKey)
+            localStorage.setItem('quxOpenSimUserLastRounds', this.rounds)
             this.tab = 'openai'
         }
     },
@@ -139,6 +182,11 @@ export default {
         let lastPrompt =  localStorage.getItem('quxOpenSimUserLastPrompt')
         if (lastPrompt) {
             this.prompt = lastPrompt
+        }
+
+        let rounds = localStorage.getItem('quxOpenSimUserLastRounds')
+        if (rounds) {
+            this.rounds = rounds * 1
         }
    
     }

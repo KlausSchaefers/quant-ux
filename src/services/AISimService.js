@@ -19,7 +19,16 @@ export default class AISimService extends AbstractService {
         this.messages = []
     }
 
-    async run(task, persona, key, app, screenId) {
+    onProgress (listener) {
+        this.progressListener = listener
+    }
+
+    destroy() {
+        delete this.progressListener
+    }
+
+    async run(task, persona, key, app, repeats, screenId) {
+        this.logger.log(-5, 'run()', repeats, screenId)
         if (!screenId) {
             const startScreen = Object.values(app.screens).find(s => s?.props.start === true)
             if (startScreen) {
@@ -38,22 +47,35 @@ export default class AISimService extends AbstractService {
         const conf = Config.getDefault()
         const treeModel = Flat2Tree.transform(app, conf)
 
-        const result = []
-        result.push({
-            screen: screenId,
-            widget: null,
-            type: "SessionStart"
-        })
-        await this.runScreen(result, task, persona, key, app, treeModel, screenId)
+        let result = []
+        for (let i = 0; i < repeats; i++) {
+            this.logger.log(-5, 'run()', 'start > ' + i)
+            const temp = []
+            temp.push({
+                screen: screenId,
+                widget: null,
+                type: "SessionStart"
+            })
+            await this.runScreen(temp, task, persona, key, app, treeModel, screenId)
+    
+    
+            let now = new Date().getTime()
+            const sessionID = `S${i}_${now}`
+            for (const event of temp) {
+                event.session = sessionID
+                event.time = now
+                now += 1000
+                event.isAI = true
+            }
 
+            result = result.concat(temp)
 
-        let now = new Date().getTime()
-        const sessionID = "S" + now
-        for (const event of result) {
-            event.session = sessionID
-            event.time = now
-            now += 1000
-            event.isAI = true
+            if (this.progressListener) {
+                this.progressListener({
+                    events: result,
+                    round: i
+                })
+            }
         }
 
         return result
@@ -135,33 +157,57 @@ export default class AISimService extends AbstractService {
         }
 
         const events = await this.runPrompt(data)
-        console.debug('runScreen() > events', events)
         result.push({
             screen: screenId,
             type: "ScreenLoaded"
         })
         const scrn = app.screens[screenId]
-        console.debug('runScreen() > scrn', scrn)
         for (const event of events) {
             const line = this.getClickTarget(app, event.id)
             const widget = app.widgets[event.id]
             if (widget) {   
                 const pos = this.getPos(scrn, widget)
-                const e = {
-                    screen: screenId,
-                    type: event.type === 'input' ? 'WidgetChange' : 'WidgetClick',
-                    widget: event.id,
-                    value: event.value,
-                    x: pos.x,
-                    y: pos.y
-                }
+
                 if (event.type === 'input') {
-                    e.state = {
-                        "type" : "text",
-                        "value" : e.value
+                    const click = {
+                        screen: screenId,
+                        type: 'WidgetClick',
+                        widget: event.id,
+                        x: pos.x,
+                        y: pos.y,
+                        scrollTop: 0
                     }
+                    result.push(click)
+
+                    const change = {
+                        screen: screenId,
+                        type: 'WidgetChange',
+                        widget: event.id,
+                        value: event.value,
+                        x: -1,
+                        y: -1,
+                        scrollTop: 0,
+                        state: {
+                            "type" : "text",
+                            "value" : event.value
+                        }
+                    }
+                    result.push(change)
                 }
-                result.push(e)
+
+                if (event.type === 'click') {
+                    const click = {
+                        screen: screenId,
+                        type: 'WidgetClick',
+                        widget: event.id,
+                        x: pos.x,
+                        y: pos.y,
+                        scrollTop: 0
+                    }
+                    result.push(click)
+                }
+
+
                 if (line && line.to) {
                     await this.runScreen(result, task, persona, key, app, treeModel, line.to)
                     return result
@@ -175,8 +221,8 @@ export default class AISimService extends AbstractService {
 
     getPos(srcn, widget) {
         const pos = {
-            x: widget.x - srcn.x + Math.round(widget.w * Math.random()),
-            y: widget.y - srcn.y + Math.round(widget.h * Math.random())
+            x: widget.x - srcn.x + (widget.w * 0.2) + Math.round(widget.w * 0.6 * Math.random()),
+            y: widget.y - srcn.y + (widget.h * 0.2) + Math.round(widget.h * 0.6 * Math.random())
         }
 
         return {
@@ -197,7 +243,7 @@ export default class AISimService extends AbstractService {
             const start = Date.now()
             const res = await this._post('/ai/openai.json', data)
             const end = Date.now()
-            this.logger.error('runPrompt() > API took ', end-start)
+            this.logger.log(3, 'runPrompt() > API took ', end-start)
 
             if (res.choices && res.choices.length > 0) {
                 const choice = res.choices[0]
@@ -263,7 +309,7 @@ export default class AISimService extends AbstractService {
     }
 
     convertBoxToJSON (box, parent = {type: 'screen', children:[]}) {
-        this.logger.log(-5, "convertBoxToJSON", box.name)
+        this.logger.log(5, "convertBoxToJSON", box.name)
 
         if (box.children) {
             box.children.sort((a,b) => a.y - b.y)

@@ -169,7 +169,6 @@ export default {
             if (n.img) {
                 result.img = n.img
             }
-            console.log(result)
             return result
         },
     },

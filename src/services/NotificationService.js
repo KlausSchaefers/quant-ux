@@ -163,6 +163,25 @@ class NotificationService extends AbstractService{
                 matches () {
                     return true
                 },
+                id:"AiSimUser",
+                img: 'AiSimUser.png',
+                more: `
+                    You can now simulate user interactions with your application in the Analytic Canvas. 
+                    Simply describe your user and their task, and the AI will generate a simulation, 
+                    including heatmaps and other insights [<a href="https://www.youtube.com/watch?v=Uwr-ig1gxc4" target="yt">Video</a>].
+                    
+                    <p class="MatcHint MatcMarginTop">
+                    Please note that this feature is still in development and we would love to receive your feedback!
+                    Just click on contact and share your thoughts.
+                    </p>
+
+                `,
+                title: 'AI Tests - Simulate UX tests with AI '
+            },
+            {
+                matches () {
+                    return true
+                },
                 id:"NewUndoRedo",
                 img: 'UndoRedo.png',
                 more: `

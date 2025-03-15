@@ -23,8 +23,24 @@
           </div>
         </div>
         <div class="MatcToobarRowRightIcon">
-          <QIcon icon="PlayVideo" @click.stop="onPlay(s, $event)"/>
+          <QIcon icon="PlayVideo" @click.stop="onPlay(s, $event)" v-show="!hasAiEvents"/>
         </div>
+      </div>
+
+      <div v-if="sortedSession.length == 0" class="MatcToolbarHelpSection MatcToolbarLabel">
+        No one has tested this prototype yet. 
+        
+        <ol>
+        <li>
+          Test your prototype with real users, by clicking the 
+          "Share" button in the toolbar.
+        </li>
+
+        <li>
+          Click on the AI icon (<QIcon icon="AI" class="MatcQIconInline"/>) in
+          the toolbar to simulate tests with AI.
+        </li>
+        </ol>
       </div>
     </div>
 

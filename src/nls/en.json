@@ -7,7 +7,12 @@
         "tab-prompt": "AI Simulator",
         "tab-preview": "Preview",
         "tab-settings": "Settings",
-        "prompt-placeholder":"Descripe the task that the user should fullfill"
+        "rounds": "Number of simulated test sessions",
+        "task": "Task Description",
+        "waiting-details": "Simulating sessions",
+        "prompt-placeholder":"Descripe the task that the user should fullfill",
+        "beta1": "This feature is experimental. We appreciate",
+        "beta2": "feedback"
     },
     "design-gpt": {
         "error-server": "Something went wrong on the server",
@@ -201,6 +206,7 @@
             "gpt": "AI Design Assistant"
         },
         "svgStop": "Stop Editing",
+        "removeAIEvents": "Stop AI",
         "simulate": "Simulate",
         "group": "Group",
         "sign-up": "Sign Up To Save",
