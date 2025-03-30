@@ -5,7 +5,7 @@
 Quant UX is a research, usability and prototyping tool to quickly test your designs and get data driven insights. 
 This repo contains the front end. You can find a working demo at https://quant-ux.com/#/
 
-![Alt text](docs/preview.jpg?raw=true "Quant-UX preview")
+![Alt text](docs/preview.png?raw=true "Quant-UX preview")
 
 ## Develpment setup
 ### Prerequisite
