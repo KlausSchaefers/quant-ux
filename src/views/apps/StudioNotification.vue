@@ -1,5 +1,5 @@
 <template>
-    <a class="MatcLink StudioNotification" @click="showDialog" @click.right="reset">
+    <a class="MatcLink MatcStudioNavItem StudioNotification" @click="showDialog" @click.right="reset">
         <span class="StudioNotificationBubble" v-if="newNotifications > 0"></span>
         <QIcon icon="Notification" />
         <span class="MatcCollapseViewMinHidden">
@@ -8,8 +8,22 @@
 
         <ZoomDialog ref="dialog">
             <div class="MatcDialogXL MatcDialog" @click.stop>
-                <template v-if="tab === 'all'">
-                    <h1> {{ $t('app.notifications') }}</h1>
+
+                <h1> {{ $t('app.notifications') }}</h1>
+                <div class="MatcToolbarTabs MatcToolbarTabsSmall">
+                    <a @click="tab = 'new'" :class="{ 'MatcToolbarTabActive': tab === 'new' }">
+                        <QIcon icon="Notification"></QIcon>
+                        {{$t('app.newnotifications')}}
+                    </a>
+                    <a @click="tab = 'all'" :class="{ 'MatcToolbarTabActive': tab === 'all' }">
+                        <QIcon icon="NotificationAll"></QIcon>
+                        {{$t('app.allnotifications')}}
+                    
+                    </a>
+                </div>
+
+                <template v-if="tab === 'new'">
+
                     <div class="StudioNotificationContainer MatcScrollContainer" ref="cntr">
                         <div v-for="n in filteredNewNotifications" :key="n.id" class="StudioNotificationItem">
                             <img class="StudioNotificationItemImage" :src="'/notification/' + n.img">
@@ -19,38 +33,35 @@
                                     <span>{{formatDate(n.lastUpdate)}}</span>
                                 </div>
                 
-                                <p v-html="n.body">
-                                </p>
+                                <p v-html="n.body"></p>
                                 <a v-if="n.details" @click="showMore(n)">More...</a>
                             </div> 
                         </div>
 
-                        <!-- <div v-if="filteredNewNotifications.length === 0" class="StudioNotificationItem">
-                            <p>
-                                {{ $t('app.notifications-none') }}
-                            </p>
-                        </div> -->
+                        <div v-if="filteredNewNotifications.length === 0" class="MatcHint">
+                            {{ $t('app.notifications-none') }}
+                        </div>
+                    </div>
+                </template>
 
-                        <!-- <div v-if="filteredOldNotifications.length > 0" class="StudioNotificationItemSpacer">
-                            <div class="StudioNotificationItemLine"></div>
-                            <div> {{ $t('app.oldnotifications') }}</div>
-                            <div class="StudioNotificationItemLine"></div>
-                        </div> -->
-
-                        <div v-for="n in filteredOldNotifications" :key="n.id" class="StudioNotificationItem">
+                <template v-if="tab === 'all'">
+                    <div class="StudioNotificationContainer MatcScrollContainer" ref="cntr">
+        
+                        <div v-for="n in allNotifcations" :key="n.id" class="StudioNotificationItem">
                             <img class="StudioNotificationItemImage" :src="'/notification/' + n.img">
                             <div class="StudioNotificationItemBody">
                                 <div class="StudioNotificationItemHeader">
                                     <h3>{{n.title}}</h3>
                                     <span>{{formatDate(n.lastUpdate)}}</span>
                                 </div>                
-                                <p v-html="n.body">
-                                </p>
+                                <p v-html="n.body"></p>
                                 <a v-if="n.details" @click="showMore(n)">More...</a>
                             </div>
                         </div>
                     </div>
+
                 </template>
+
                 <template v-if="tab === 'more'">
                     <h1> {{ selectedNotification.details.title }}</h1>
                     <div class="StudioNotificationContainer MatcScrollContainer" ref="cntr">
@@ -60,13 +71,14 @@
                     </div>
                 </template>
        
+                <div class="StudioNotificationItemLine"></div>
 
-                <div class="MatcButtonBar MatcMarginTop">
-                    <button class="MatcButton MatcButtonPrimary" @click="close" v-if="tab === 'all'">
+                <div class="MatcButtonBar MatcButtonBarSpaceBetween MatcMarginTop">
+   
+                    <CheckBox :value="isAutoOpen" :label="$t('app.notification_no_auto')" @change="setAutoOpen"/>
+
+                    <button class="MatcButton MatcButtonPrimary" @click="close">
                         {{$t('common.close')}}
-                    </button>
-                    <button v-else class="MatcButton MatcButtonPrimary" @click="tab = 'all'">
-                        {{$t('btn.back')}}
                     </button>
                 </div>
 
@@ -74,6 +86,10 @@
         </ZoomDialog>
     </a>
 </template>
+
+<style lang="scss">
+    @import "../../style/toolbar/tab.scss";
+</style>
   
 
 <script>
@@ -82,22 +98,26 @@ import Services from 'services/Services'
 import QIcon from "page/QIcon";
 import ZoomDialog from 'common/ZoomDialog'
 import * as UIUtil from '../../util/UIUtil'
+import CheckBox from 'common/CheckBox'
 
 export default {
     name: "StudioNotification",
     mixins: [],
+    props: ['user'],
     data: function () {
         return {
             videoScaleFactor: 1,
             selectedNotification: null,
             newNotifications: 0,
             notifications: [],
-            tab:'all'
+            tab:'new',
+            isAutoOpen: true
         };
     },
     components: {
         'QIcon': QIcon,
-        'ZoomDialog': ZoomDialog
+        'ZoomDialog': ZoomDialog,
+        'CheckBox': CheckBox
     },
     computed: {
         pub() {
@@ -108,6 +128,13 @@ export default {
                 return 'public'
             }
             return 'private'
+        },
+        allNotifcations () {
+            return this.notifications
+                .map(n => this.convertNotification(n))
+                .toSorted((a,b) => {
+                    return a.lastUpdate - b.lastUpdate
+                })
         },
         filteredNewNotifications () {
             return this.notifications
@@ -122,7 +149,7 @@ export default {
                 .map(n => this.convertNotification(n))
                 .filter(n => !n.isNew)
                 .toSorted((a,b) => {
-                    return b.lastUpdate - a.lastUpdate
+                    return a.lastUpdate - b.lastUpdate
                 })
         }
     },
@@ -146,6 +173,9 @@ export default {
             if (location.href.indexOf('localhost') > 0) {
                 this.notifcationService.reset()
             }
+        },
+        setAutoOpen (value) {
+            this.notifcationService.setAutoOpen(value)
         },
         convertNotification (n) {
             const result = {
@@ -171,11 +201,23 @@ export default {
             }
             return result
         },
+        showAutoDialog () {
+            if (this.newNotifications && this.isAutoOpen) {  
+                setTimeout(() => {
+                    this.showDialog()
+                }, 500)
+            }
+        }
     },
     async mounted() {
         this.notifcationService = Services.getNotificationService()
         this.notifications = await this.notifcationService.getNotications()
+        this.isAutoOpen = await this.notifcationService.getAutoOpen()
         this.newNotifications = this.notifications.filter(n => n.isNew).length
+        if (!this.newNotifications) {
+            this.tab = 'all'
+        }
+        this.showAutoDialog()        
     }
 };
 </script>

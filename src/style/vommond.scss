@@ -1131,6 +1131,7 @@ tr:hover .VommondInputListRemove {
 	height: 16px;
 	position: relative;
 	border: 1px solid $form_border;
+	border-radius: $toolbar_form_radius;
 	background: #fff;
 	vertical-align: middle;
 	cursor: pointer;

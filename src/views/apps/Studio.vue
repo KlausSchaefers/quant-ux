@@ -19,13 +19,13 @@
                     </div>
 
                     <div class="MatcStudioNavRow MatcMarginTop MatcCollapseViewMinVisible" @click="showNewDialog">
-                        <a class="MatcLink">
+                        <a class="MatcLink MatcStudioNavItem">
                             <QIcon icon="Plus" :tooltip="$t('app.create')" ></QIcon>
                         </a>
                     </div>
 
                     <div class="MatcStudioNavRow MatcMarginTop MatcCollapseViewMinVisible">
-                        <a class="MatcLink" @click="showAppsDialog">
+                        <a class="MatcLink MatcStudioNavItem" @click="showAppsDialog">
                             <QIcon icon="Projects" :tooltip="$t('app.recent-projects')"></QIcon>
                         </a>
                     </div>
@@ -37,13 +37,13 @@
                     <div class="MatcStudioAppList MatcMarginBottom MatcScrollContainer">
                         <a v-for="app in filteredAppList" 
                             :key="app.id" :href="'#/' + urlPrefix +'/' + app.id + '.html'" 
-                            :class="['MatcLink MatcCollapseViewMinHidden', {'MatcStudioAppListSelected' : selectedApp === app.id}]">
+                            :class="['MatcLink MatcStudioNavItem MatcCollapseViewMinHidden', {'MatcStudioAppListSelected' : selectedApp === app.id}]">
                             <span class="MatcStudioAppListDot" :style="{'background': app.previewColor}"/>
                             <span class="MatcStudioAppListLabel">
                                 {{app.name}}
                             </span>                                      
                         </a>
-                        <a v-if="hasMore" @click="showAppsDialog" class="MatcActionLink MatcCollapseViewMinHidden">
+                        <a v-if="hasMore" @click="showAppsDialog" class="MatcActionLink MatcStudioNavItem MatcCollapseViewMinHidden">
                             <span class="MatcStudioAppListDot" style="opacity: 0;"/>
                             <span class="MatcStudioAppListLabel MatcStudioAction ">
                                 {{$t('app.more')}}
@@ -56,11 +56,11 @@
                     </div>
 
                     <div class="MatcStudioNavRow">
-                        <StudioNotification />
+                        <StudioNotification :user="user"/>
                     </div>
 
                     <div class="MatcStudioNavRow">
-                        <a class="MatcLink" href="#/help.html">
+                        <a class="MatcLink MatcStudioNavItem" href="#/help.html">
                             <QIcon icon="Book"/>
                             <span class="MatcCollapseViewMinHidden">
                                 {{ $t('app.help') }}
@@ -74,7 +74,7 @@
                     
 
                     <div class="MatcStudioNavRow"  v-if="!pub">
-                        <a class="MatcLink" href="#/my-account.html" >
+                        <a class="MatcLink MatcStudioNavItem" href="#/my-account.html" >
                             <QIcon icon="Account" v-if="!hasUserImage" ></QIcon>
                             <span class="MatcUserImageCntr " v-else>
                                 <img class="MatcUserImage" :src="userImage">

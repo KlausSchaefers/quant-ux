@@ -12,25 +12,27 @@
 	text-align: center;
 }
 
-.MatcToolbarTabs a{
-	margin-right: 5px;
+.MatcToolbarTabs a,
+.MatcDialog .MatcToolbarTabs a{
+	margin-right: 4px;
 	font-size: 12px;
-	padding: 5px;
+	padding: 4px;
 	display: inline-block;
 	cursor: pointer;
 	text-decoration: none;
 	border-bottom: 1px solid transparent;
-
 }
 
-.MatcToolbarTabsBig.MatcToolbarTabs{
+.MatcToolbarTabsBig.MatcToolbarTabs,
+.MatcToolbarTabsSmall.MatcToolbarTabs{
 	text-align: left;
 }
 
+
 .MatcToolbarTabsBig a{
-	margin-right: 5px;
+	margin-right: 4px;
 	font-size: 18px;
-	padding: 5px;
+	padding: 4px;
 	border-bottom-width: 2px;
 	color:$text_color;
 }
@@ -49,4 +51,12 @@
 .MatcDialog .MatcToolbarTabs a.MatcToolbarTabActive {
     border-bottom-width: 2px;
 	border-color: $dialog_color;
+}
+
+.MatcDialog .MatcToolbarTabsSmall a {
+	font-size: 14px;
+	padding: 4px;
+	display: inline-flex;
+	gap: 2px;
+	align-items: center;
 }

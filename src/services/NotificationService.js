@@ -54,7 +54,10 @@ class NotificationService extends AbstractService{
         }
   
         let addCount = 0
-        const maxAdd = getDaysSinceLastNotification(user) > 1 ? 1 : 1
+        let maxAdd = getDaysSinceLastNotification(user) > 1 ? 1 : 0
+        if (location.href.indexOf('localhost') > 0) {
+            maxAdd = 1
+        }
         this.logger.log(-1, 'addUserJourneyNotifications', `> days since last ${getDaysSinceLastNotification(user)} > maxAdd: ${maxAdd} > Seen notifications:`, user.notifications )
         this.rules.forEach(rule => {
             if (user.notifications[rule.id]) {
@@ -109,10 +112,24 @@ class NotificationService extends AbstractService{
         }
     }
 
+    async getAutoOpen() {
+        const user = await this._get('/rest/user/' + this.user.id + '.json')
+        this.logger.log(-1, 'getAutoOpen', 'exit', user.isAutoOpenNotifcations)
+        return user.isAutoOpenNotifcations !== false
+    }
+
+    setAutoOpen(isAutoOpen) {
+        this.logger.log(-1, 'setAutoOpen', 'enter', isAutoOpen)
+        this._post('rest/user/' + this.user.id + ".json", {
+            isAutoOpenNotifcations: isAutoOpen
+        })
+    }
+
     reset () {
         this.logger.warn('reset', 'enter')
         this._post('rest/user/' + this.user.id + ".json", {
-            notifications: {}
+            notifications: {},
+            lastNotification: 1
         })
     }
 
@@ -125,24 +142,34 @@ class NotificationService extends AbstractService{
         return this._get('/rest/user/notification/last.json')
     }
 
-
-
     initRules () {
         return [
             {
                 matches () {
                     return true
                 },
-                id:"WelcomeToDev",
+                id:"Welcome",
                 img: 'Welcome.png',
                 more: `
-                    Welcome to Quant-UX! We hope you enjoy using our tool!
-                    If you have any questions or ideas for further enhancements, please get in touch with us via the 
-                    "Contact" button or join our <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a>
-                    or <a href="https://www.youtube.com/@quant-ux8332" target="github">YouTube</a>
-                    channels.
+                    We're excited to have you on board! Quant-UX is your all-in-one platform to design, test, and analyze UX prototypes with ease. 
+                    Whether you're wireframing your next big idea or diving into user behavior, 
+                    Quant-UX helps you bring it all together in one seamless workflow.
+
+                    <p>
+                        To help you get started, check out our <a href="https://www.youtube.com/@quant-ux8332" target="github">YouTube</a> channel where we share tutorials, feature overviews, 
+                        and pro tips to make the most of the platform.
+                    </p>
+                    <p>                                     
+                        And if you’d like to connect with other designers, get support, or share your feedback, join our <a href="https://discord.gg/TQBpfAAKmU" target="github">Discord</a> 
+                        community — we would love to have you there.
+                    </p>
+                    <p>     
+                        Let's build better experiences together! 🚀
+                    </p>
+
+
                 `,              
-                title: 'Welcome! '
+                title: 'Welcome to Quant-UX!'
             },
             {
                 matches (user) {
@@ -154,7 +181,7 @@ class NotificationService extends AbstractService{
                     If you like Quant-UX and you're part of the GitHub community, 
                     pleaese give us a ⭐️ star ⭐️! Simply hop over to 
                     our GitHub project page and hit that star button to show your support. 
-                    Together, let's keep the momentum going! Give us a star right here
+                    Together, let's keep the momentum going! Give us a star right here:
                      <a href="https://github.com/KlausSchaefers/quant-ux" target="github">Quant-UX on GitHub</a> 
                 `,
                 title: 'Give us a star at GitHub'
@@ -169,14 +196,8 @@ class NotificationService extends AbstractService{
                     You can now simulate user interactions with your application in the Analytic Canvas. 
                     Simply describe your user and their task, and the AI will generate a simulation, 
                     including heatmaps and other insights [<a href="https://www.youtube.com/watch?v=Uwr-ig1gxc4" target="yt">Video</a>].
-                    
-                    <p class="MatcHint MatcMarginTop">
-                    Please note that this feature is still in development and we would love to receive your feedback!
-                    Just click on contact and share your thoughts.
-                    </p>
-
                 `,
-                title: 'AI Tests - Simulate UX tests with AI '
+                title: 'AI Tests - Simulate UX tests with AI (Beta)'
             },
             {
                 matches () {
@@ -236,12 +257,11 @@ class NotificationService extends AbstractService{
                 id:"UserName",
                 img: 'Profile.png',
                 more: `
-                    Addd your name and lastname a,d profile picture to your 
-                    <a href="#/my-account.html" target="account">Account</a>, 
-                    so other users can better collaborate with you.
+                    Don't forget to add your name, surname, and a profile picture to your account — it helps others recognize you and makes collaboration smoother and more personal! Visit your
+                    <a href="#/my-account.html" target="account">Account</a> to add your personal details.
                    
                 `,
-                title: 'Fill out your Profiles'
+                title: 'Complete your profile'
             },
             {
                 matches (user) {
@@ -250,8 +270,13 @@ class NotificationService extends AbstractService{
                 id:"CollaborativeWork",
                 img: 'Team.png',
                 more: `
-                    Do you know that you can invite other Quant-UX members to collaborate 
-                    on a prototype? You can even work in realtime in the same canvas with them!
+                    Did you know you can invite other Quant-UX members to collaborate on the same prototype? 
+                    You can even work together in real time on the same canvas and watch updates happen live — just like magic.
+
+                    <p>                                   
+                        And with comments, you can capture insights, give feedback, and keep the
+                        conversation flowing with your team — all right where the work is happening.
+                    </p>
                    
                 `,
                 title: 'Work with others'

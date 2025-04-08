@@ -359,10 +359,12 @@ body {
 .MatcScreenSizeItemSelected:hover,
 .MatcScreenSizeItemSelected{
 	border: 1px solid $form_border;
-	background: #fff;
+	background: rgba(0, 0, 0, 0.05);
+
 }
 
 .MatcScreenSizeItemSelected{
+
 	.VommondCheckBoxHook {
 		border-color: $primary_color;
 	}

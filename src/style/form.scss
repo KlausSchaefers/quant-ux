@@ -150,8 +150,9 @@ input:focus {
 }
 
 .MatcButtonXXS {
-	height: 32px;
+	height: 28px;
 	padding: 4px 8px;
+	font-size: 14px;
 }
 
 .MatcButtonFulLWidth {
@@ -361,6 +362,10 @@ input:focus {
 		flex-grow: 1;
 		justify-content: flex-end;
 	}	
+
+	&.MatcButtonBarSpaceBetween {
+		justify-content: space-between;
+	}
 }
 
 .MatcButtonBarCols {

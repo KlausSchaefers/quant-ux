@@ -1,5 +1,5 @@
 <template>
-    <a class="MatcLink StudioContact" @click="showDialog">
+    <a class="MatcLink MatcStudioNavItem StudioContact" @click="showDialog">
         <QIcon icon="Mail" />
         <span class="MatcCollapseViewMinHidden">
             {{ $t('app.contact') }}

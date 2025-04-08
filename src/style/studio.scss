@@ -96,7 +96,7 @@
             border-radius: $button_radius-l;
         }
 
-        a{  
+        a.MatcStudioNavItem{  
             cursor: pointer;
             display: flex;
             gap: 8px;
@@ -513,6 +513,12 @@
         left:12px
     }
 
+    .StudioNotificationItemLine {
+        padding-top: 16px;
+        border-bottom: 1px solid #CFCFCF;
+        margin-bottom: 16px;
+    }
+    
     .StudioNotificationContainer {
         margin-top: 32px;
         height: 480px;
@@ -520,6 +526,9 @@
         display: flex;
         flex-direction: column;
         gap:32px;
+
+
+
 
         .StudioNotificationItemHeader {
             display: flex;
@@ -548,11 +557,7 @@
             margin-bottom: 32px;
             color: $gray_3;
             
-            .StudioNotificationItemLine {
-                border-top: 1px solid $gray_3;
-                height: 1px;
-                flex-grow: 1;
-            }
+     
         }
       
 
@@ -560,13 +565,13 @@
             display: flex;
             gap: 32px;
             padding-bottom: 32px; 
-            border-bottom: 1px solid $gray_1;
-            align-items: center;
+
+            align-items: flex-start;
             
 
             .StudioNotificationItemImage {
-                height: 128px;
-                width: 128px;
+                height: 80px;
+                width: 80px;
                 background: #ccc;
                 flex-shrink: 0;
                 border-radius: $form_radius;
@@ -586,6 +591,7 @@
 
             p {
                 font-size: 16px;
+                margin-top: 8px;
             }
 
             a {

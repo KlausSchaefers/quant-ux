@@ -191,7 +191,7 @@ class ModelFixer {
 				if (max > m.lastUUID) {
 					errors.push({ msg: "lastUUID to small!" })
 					this.logger.error("fixModelCount", "fix > " + max + " ?= " + m.lastUUID)
-					this.logger.sendError(new Error("Controller.fixModelCount() > Some fuckup"))
+					this.logger.sendError(new Error("Controller.fixModelCount() > Some fuckup :" + max + " ?= " + m.lastUUID))
 					m.lastUUID = max + 1
 				}
 			}
