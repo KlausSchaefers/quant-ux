@@ -89,25 +89,29 @@
     },
     "test": {
         "welcome": {
-            "headline": "Welcome!",
+            "headline": "Willkommen!",
             "intro": {
-                "1": "You were invited for a usability test of the",
-                "2": "application.",
-                "tasks": "You can try out the prototype and perform certain tasks. When you click on <b>Show Tasks</b> button, you will receive detailed instructions.",
-                "no-tasks": "You can try out the prototype by clicking on the <b>Start Prototype</b> button. ",
-                "privacy": "Please be aware that your interaction will be recored to make the design better. We do not store any personal information about you."
+                "1": "Sie wurden zu einem Usability-Test der",
+                "2": "Anwendung eingeladen.",
+                "tasks": "Sie können den Prototyp ausprobieren und bestimmte Aufgaben erledigen. Wenn Sie auf den <b>Aufgaben anzeigen</b> Button klicken, erhalten Sie detaillierte Anweisungen.",
+                "no-tasks": "Sie können den Prototyp ausprobieren, indem Sie auf den <b>Prototyp starten</b> Button klicken."
             },
-            "next": "Show Tasks",
-            "start": "Start Prototype",
-            "privacy": "This is a usability test and your interaction will be stored to make the design better. We do not store any personal information about you."
+            "next": "Aufgaben anzeigen",
+            "start": "Prototyp starten"
         },
         "task": {
-            "headline": "Tasks",
-            "description": "In the scope of this usability test you are kindly requested to perform the tasks listed below. Don't worry if you can not fulfill all tasks. This is just a sign that the prototype needs further improvements. The tasks are:",
-            "footer": "You can try out the prototype by clicking on the <b>Start Prototype</b> button."
+            "headline": "Aufgaben",
+            "description": "Im Rahmen dieses Usability-Tests werden Sie gebeten, die unten aufgeführten Aufgaben zu erledigen. Keine Sorge, wenn Sie nicht alle Aufgaben erfüllen können. Dies ist nur ein Hinweis darauf, dass der Prototyp noch Verbesserungen benötigt. Die Aufgaben sind:",
+            "footer": "Sie können den Prototyp ausprobieren, indem Sie auf den <b>Prototyp starten</b> Button klicken.",
+            "success-title": "Herzlichen Glückwunsch!",
+            "success-message": "Sie haben alle Aufgaben abgeschlossen. Sie können die Seite jetzt schließen."
         },
         "qr": {
-            "headline": "Scan the QR code with your mobile device."
+            "headline": "Scannen Sie den QR-Code mit Ihrem mobilen Gerät."
+        },
+        "splash": {
+            "upload": "Splash-Bild hochladen",
+            "uploading": "Wird hochgeladen..."
         }
     },
   

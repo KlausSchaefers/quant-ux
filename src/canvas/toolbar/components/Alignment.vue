@@ -2,11 +2,13 @@
 <template>
      <div class="MatcAlignment">	
         <QIcon icon="AlignTop" @click="onAlign('top', $event)"/>
-        <QIcon icon="AlignBottom" @click="onAlign('bottom', $event)"/>
-        <QIcon icon="AlignLeft" @click="onAlign('left', $event)"/>
-        <QIcon icon="AlignRight" @click="onAlign('right', $event)" />
         <QIcon icon="AlignMiddle" @click="onAlign('horizontal', $event)"/>
+        <QIcon icon="AlignBottom" @click="onAlign('bottom', $event)" style="margin-right: 8px;"/>
+        <QIcon icon="AlignLeft" @click="onAlign('left', $event)"/>
         <QIcon icon="AlignCenter" @click="onAlign('vertical', $event)"/>
+        <QIcon icon="AlignRight" @click="onAlign('right', $event)" style="margin-right: 8px;" />
+
+  
         <QIcon icon="AlignHorizontal" @click="onDist('vertical', $event)" :class="{'MatcQIconPassive': !hasVertical}"/>
         <QIcon icon="AlignVertical" @click="onDist('horizontal', $event)" :class="{'MatcQIconPassive': !hasHorizontal}"/>
         <QIcon icon="AlignGrid" @click="onDist('horizontal', $event)" :class="{'MatcQIconPassive': !hasHorizontal}" v-if="hasMulti"/>
