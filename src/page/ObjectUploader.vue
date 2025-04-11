@@ -36,7 +36,7 @@ export default {
 	methods: {
 		
 		_sendFiles() {
-			console.debug('_send')
+		
 			if (this.mode == "public") {
 				console.debug("Upload not allowed in public")
 				this.emit("uploadPublicError", []);

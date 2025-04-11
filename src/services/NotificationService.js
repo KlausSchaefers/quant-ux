@@ -294,6 +294,19 @@ class NotificationService extends AbstractService{
                    
                 `,
                 title: 'Turn prototypes into real apps'
+            },
+            {
+                matches (user) {
+                    return getDays(user) > 6
+                },
+                id:"Audio",
+                img: 'Audio.png',
+                more: `
+                    We're excited to announce that Quant-UX now supports audio player elements in your prototypes!
+                    Whether you're designing a podcast app, a meditation experience, or anything that needs sound, 
+                    you can now bring your ideas to life with built-in audio playback. Drag. Drop. Play. It's that simple.
+                `,
+                title: 'New Audio Player Widget'
             }
             
         ]

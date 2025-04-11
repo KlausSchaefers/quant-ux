@@ -2,8 +2,8 @@
 <template>
 	<div class=" MatcToolbarPopUpCntr MatcToolbarImage ">
 		<div type="button" ref="button" class="MatcToolbarItem MatcToolbarIconButton">
-			<QIcon icon="Audio"/>
-	
+			<QIcon :icon="icon"/>
+
 			<span class="MatcToolbarItemLabel">{{ btnLabel }}</span>
 		</div>
 		<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
@@ -54,6 +54,12 @@ export default {
 				return 'File'
 			}
 			return 'No File'
+		},
+		icon () {
+			if (this.file) {
+				return 'Audio'
+			}
+			return 'AudioPlus'
 		}
 	},
 	methods: {
@@ -264,7 +270,7 @@ export default {
 			} else {
 				this.footer.appendChild(iconDOM('Delete'))
 				var lbl = document.createElement("span")
-				lbl.innerHTML = 'No Background Image'
+				lbl.innerHTML = 'No Audio file'
 				this.footer.appendChild(lbl)
 				this.tempOwn(on(this.footer, touch.press, lang.hitch(this, "_removeImage")));
 			}

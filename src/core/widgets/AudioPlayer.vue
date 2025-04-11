@@ -178,7 +178,10 @@ export default {
             try {
                 if (this.$refs.audio) {
                     this.$refs.audio.pause()
-                    this.$refs.audio.currentTime = 0;
+                    setTimeout(() => {
+                        this.$refs.audio.currentTime = 0;
+                    }, 500)
+
                 }
             } catch (e) {
                 console.error("stop", e)
