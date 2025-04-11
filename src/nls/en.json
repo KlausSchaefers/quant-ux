@@ -195,6 +195,7 @@
             "text": "Text",
             "hotspot": "Hotspot",
             "logic": "Logic",
+            "audio": "Audio",
             "rest": "Web Service",
             "or": "Or Connector", 
             "ab": "AB Test",

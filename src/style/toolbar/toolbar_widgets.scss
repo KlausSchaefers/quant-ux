@@ -1234,6 +1234,30 @@ input.MatcToobarInlineEditDisabled:focus {
 	cursor: pointer;
 }
 
+.MatcAudioUploadPreview {
+	align-items: center;
+	justify-content: center;
+	display: inline-flex;
+	flex-direction: column;
+	padding: 8px;
+	.MatcQIcon {
+		width: 64px;
+		height: 64px;
+		svg {
+			width: 80px;
+			height: 80px;
+			stroke-width: 1px;
+		}
+	}
+
+	span {
+		font-size: 12px;
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
+
 .MatcToolbarDropDownButtonItem.MatcImageUploadPreview.MatcImageUploadPreviewSelected {
 	border: 1px solid $primary_color;
 	background-color: #d6e5f8;

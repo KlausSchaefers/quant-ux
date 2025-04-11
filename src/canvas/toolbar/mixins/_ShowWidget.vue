@@ -199,12 +199,14 @@ export default {
 				/**
 				 * Since 5.0.0 icons etc will have a color to use design tokens
 				 */
-				css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
-				if (this.hasColor.indexOf(model.type) >=0) {
-					this.color.setValue(style.color)
-					this.color.setModel(this.model)
-					this.color.setBox(model)
-					this.color.setWidgetViewMode(widgetViewMode)
+				if (!isLogicWidget) {
+					css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
+					if (this.hasColor.indexOf(model.type) >=0) {
+						this.color.setValue(style.color)
+						this.color.setModel(this.model)
+						this.color.setBox(model)
+						this.color.setWidgetViewMode(widgetViewMode)
+					}
 				}
 
 			}

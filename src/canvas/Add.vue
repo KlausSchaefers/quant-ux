@@ -496,6 +496,9 @@ export default {
 					if (widget.type === "Script") {
 						this._addLineActionTargets.push(widget)
 					}
+					if (widget.type === "AudioLogic") {
+						this._addLineActionTargets.push(widget)
+					}
 				}
 			}
 
@@ -676,7 +679,7 @@ export default {
 						//} else {
 						//	this.showError("You cannot connect two logic nodes!");
 						//}
-					} else if (this.hasRest(widget) || this.hasScript(widget)) {
+					} else if (this.hasRest(widget) || this.hasScript(widget) || this.hasAudio(widget)) {
 						let model = this._addLineModel;
 						model.to = widget.id;
 						this.controller.addLine(model, e);

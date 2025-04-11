@@ -65,7 +65,7 @@ export default {
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 'LockSlider', "StackedRingChart",
 						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 
 						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'NavBar', 
-						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation', 'ImageGrid'],
+						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation', 'ImageGrid', 'AudioPlayer', 'AudioLogic'],
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",
@@ -79,7 +79,7 @@ export default {
 
 			hasColor: ['Icon', 'SVGIcon'],
 
-			hasLogic2: ["LogicOr", "Rest", "Script"],
+			hasLogic2: ["LogicOr", "Rest", "Script", "AudioLogic"],
 
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", 
 								"TypeAheadTextBox", "CheckBoxGroup", "RadioGroup", 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'LabeledTextArea'],
@@ -88,12 +88,12 @@ export default {
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 
-								'Paging', 'Upload', 'IconToggleButton', 'NavBar', 'DragNDrop'],
+								'Paging', 'Upload', 'IconToggleButton', 'NavBar', 'DragNDrop', 'AudioPlayer'],
 			
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton', 
 								'DragNDropTarget', 'LabeledTextBox', 'NavBar', 'TextBox', 'LabeledTextBox', 'NavMenu', 
-								"DropDown", 'LabeledTextArea', 'SortableList', 'RadioTable', 'Icon', 'SVGIcon', 'ImageGrid'],
+								"DropDown", 'LabeledTextArea', 'SortableList', 'RadioTable', 'Icon', 'SVGIcon', 'ImageGrid', 'AudioPlayer'],
 								
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown", 'NavMenu'],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", 

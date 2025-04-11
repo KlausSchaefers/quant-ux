@@ -11,6 +11,7 @@ import CommandService from './CommandService'
 import NotificationService from './NotificationService'
 import AIService from './AIService'
 import AISimService from './AISimService'
+import UploadService from './UploadService'
 
 class Services {
 
@@ -57,6 +58,11 @@ class Services {
     getImageService () {
         ImageService.setToken(this.getUserService().getToken())
         return ImageService
+    }
+
+    getUploadService() {
+        UploadService.setToken(this.getUserService().getToken())
+        return UploadService
     }
 
     getNotificationService() {

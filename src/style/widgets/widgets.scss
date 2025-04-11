@@ -1,5 +1,29 @@
 
 /*******************************
+ * AudioPlayer
+ *******************************/
+ .MatcWidgetTypeAudioPlayer {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border: 0px solid #333;
+ }
+
+ .MatcWidgetTypeAudioPlayerIcon {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	overflow: hidden;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	line-height: 1;
+}
+
+
+/*******************************
  * ImageGrid
  *******************************/
  .MatcWidgetTypeImageGrid {

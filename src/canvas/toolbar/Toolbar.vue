@@ -834,6 +834,11 @@ export default {
 				return
 			}
 
+			if (v.value === 'audio') {
+				this.onNewAudioObject(e)
+				return
+			}
+
 
 		},
 
@@ -881,6 +886,31 @@ export default {
 			};
 			this.emit("onNewScriptObject", {"obj" : obj, "event":e});
 		},
+
+		onNewAudioObject (e) {
+			this.logger.log(-1,"onNewAudioObject", "entry > ");
+
+			var obj = {
+				"id" : "AudioLogic",
+				"name" : "Audio",
+				"type":"AudioLogic",
+				"x": 0,
+				"y": 0,
+				"w": 64,
+				"h": 64,
+				"props" : {
+					"file": ''
+				},
+				"has" :{
+					"script" : true
+				},
+				"style" : {
+			        "background": "#777"
+				}
+			};
+			this.emit("onNewScriptObject", {"obj" : obj, "event":e});
+		},
+
 
 		onNewRestObject (e) {
 			this.logger.log(-1,"onNewLogicObject", "entry > ");

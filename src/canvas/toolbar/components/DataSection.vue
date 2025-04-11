@@ -22,6 +22,7 @@ import InputDropDownButton from './InputDropDownButton'
 import ToolbarDropDownButton from './ToolbarDropDownButton'
 import ToolbarSlider from './ToolbarSlider'
 import ToolbarImage from './ToolbarImage'
+import ToolbarUpload from './ToolbarUpload'
 import Table from './Table'
 import DataBinding from './DataBindingTree'
 import RestSettings from './RestSettings'
@@ -203,6 +204,22 @@ export default {
 			this._renderButton(lbl, "Settings", "_showFormGroupDialog");
 		},
 
+		_showAudioPlayer(model) {
+			this._setSectionLabel("Audio Player");
+
+			this._renderAudioDropDown(model);
+			
+			// this._renderCheck("Auto Play",model.props.autoPlay, "autoPlay" );
+			this._renderInputDropDown("Icon Size", model, [8,12,16,24,32,40, 48, 64, 96, 128], "iconSize", false);
+
+			// this._renderButton("Play Icon", "Settings", (e) => this._renderIconDialog(e, 'playIcon'));
+			// this._renderButton("Stop Icon", "Settings", (e) => this._renderIconDialog(e, 'stopIcon'));
+		},
+
+		_showAudioLogic(model) {
+			this._setSectionLabel("Audio");
+			this._renderAudioDropDown(model);
+		},
 		
 		_showIconToggleButton(model) {
 			this._setSectionLabel("Icon Toggle Button");
@@ -2404,6 +2421,23 @@ export default {
 
 			drpDwn.placeAt(row);
 			this._addChildWidget(drpDwn);
+		},
+
+		_renderAudioDropDown (widget){
+
+			var row = this.db.div("MatcToobarRow").build(this.cntr);
+
+			var imageDrpDwn = this.$new(ToolbarUpload, {mode:this.mode});
+			css.add(imageDrpDwn.domNode, "")
+			imageDrpDwn.setJwtToken(this.jwtToken)
+			imageDrpDwn.setModel(this.model);
+			imageDrpDwn.setCanvas(this.canvas);
+			imageDrpDwn.setValue(widget.props.file);
+			imageDrpDwn.placeAt(row);
+			this.tempOwn(on(imageDrpDwn, "change", lang.hitch(this, "onProperyChanged", "file")));
+
+			this._addChildWidget(imageDrpDwn);
+
 		},
 
 		_renderImagesDropDown (widget){

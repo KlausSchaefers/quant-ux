@@ -71,7 +71,8 @@ export default {
                     {value: 'rest', icon: 'Cloud', label: this.getNLS('toolbar.create.rest')},
                     {value: 'logic', icon: 'OR', label: this.getNLS('toolbar.create.or')},
                     {value: 'ab', icon: 'AB', label: this.getNLS('toolbar.create.ab')},
-                    {value: 'script', icon: 'JS', label: this.getNLS('toolbar.create.script')}
+                    {value: 'script', icon: 'JS', label: this.getNLS('toolbar.create.script')},
+                    {value: 'audio', icon: 'Audio', label: this.getNLS('toolbar.create.audio')}
                 ]},
 
                 {value: 'vector', icon: 'VectorBezier', label: this.getNLS('toolbar.create.vector'), icon2:'SVGChevronRight', children:[

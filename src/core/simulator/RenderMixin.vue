@@ -76,6 +76,8 @@
   
 				  if(this.qr){
 					  hash(`#/simulate.html?qr=${this.qr}&h=${this.hash}&s=${screen.id}&log=${this.logData}&live=${this.live}&ln=${this.getLanguage()}`);
+				  } else {
+					//hash(`#/test.html?h=${this.hash}&s=${screen.id}&log=${this.logData}&live=${this.live}&ln=${this.getLanguage()}`);
 				  }
   
 				  if(oldScreen){
@@ -284,7 +286,6 @@
 				  const lines = this.getFromLines(screen);
 				  if(lines && lines.length > 0){
 					  const line = this.getLineForGesture(lines, "timer");
-					  console.debug('lines', lines)
 					  if(line){
 						  this.logger.log(0,"afterScreenCreated","Found timer");
 						  var delay = Math.round(line.timer * 1000);

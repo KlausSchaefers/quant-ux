@@ -29,6 +29,7 @@
   import ScrollMixin from 'core/simulator/ScrollMixin'
   import AnimationMixin from 'core/simulator/AnimationMixin'
   import MouseMixin from 'core/simulator/MouseMixin'
+  import AudioMixin from 'core/simulator/AudioMixin'
   import DataBindingMixin from 'core/simulator/DataBindingMixin'
   import EventMixin from 'core/simulator/EventMixin'
   import TemplateMixin from 'core/simulator/TemplateMixin'
@@ -47,7 +48,7 @@
 	  props: ['mode', 'app', 'hasPreload'],
 	  mixins:[
 		  Layout, Gestures, RestMixin, LogMixin, RenderMixin, EventMixin,ScriptMixin, TooltipMixin,
-		  ScrollMixin, AnimationMixin, MouseMixin, DataBindingMixin, TemplateMixin, DojoWidget
+		  ScrollMixin, AnimationMixin, MouseMixin, DataBindingMixin, TemplateMixin, AudioMixin, DojoWidget
 	  ],
 	  data: function () {
 		  return {
@@ -703,6 +704,16 @@
 				  await this.executeScript(widget.id, orginalLine)
 				  return
 			  }
+
+
+			   /**
+			   * Audio are fired and then we return
+			   */
+			   if (widget.type === 'AudioLogic') {
+				  await this.executeAudio(widget.id, orginalLine)
+				  return
+			  }
+  
   
 		  
 			  /** 
@@ -814,6 +825,7 @@
 		  },
   
 		  excuteMatchedLine (matchedLine, screenID, orginalLine) {
+			console.debug('excuteMatchedLine', matchedLine)
 			  if (matchedLine){
 				  const screen = this.model.screens[matchedLine.to];
 				  if(screen){
@@ -835,6 +847,7 @@
 					   * Since 2.1.4 we support chaining of logic widgets
 					   */
 					  const widget = this.model.widgets[matchedLine.to];
+					  console.debug('excuteMatchedLine', widget)
 					  if(widget){
 						  this.logLine(matchedLine, screenID);
 						  this.executeLogic(screenID, matchedLine.from, widget, matchedLine);
@@ -843,7 +856,7 @@
 					  }
 				  }
 			  } else {
-				  console.warn("executeLogic() > Could not match any line");
+				  console.warn("executeLogic() > Could not match any line", matchedLine);
 			  }
 		  },
   

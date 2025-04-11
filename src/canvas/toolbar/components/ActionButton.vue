@@ -293,7 +293,7 @@ export default {
 
 		getLineTypes() {
 			let result = [
-				{ value: false, label: "Link to other screen", shortcut:'L', icon: "Link", callback: lang.hitch(this, "onNewLine") },
+				{ value: false, label: "Link to screen or logic", shortcut:'L', icon: "Link", callback: lang.hitch(this, "onNewLine") },
 				{ value: true, label: "Navigate Back", icon: "NavigateBack", callback: lang.hitch(this, "onActionBack") },
 				{ value: true, label: "Animation", icon: "Animation", callback: lang.hitch(this, "onNewTransfromLine") }
 				//{value:true, label:"Simple Formuala", icon:"mdi mdi-flask-empty-plus-outline", callback:lang.hitch(this, "onActionWorkflow")}

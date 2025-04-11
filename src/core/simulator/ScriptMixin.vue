@@ -113,9 +113,6 @@ export default {
         return new Promise(async(resolve) => {
             const engine = new ScriptEngine()
             let result = await engine.run(script, this.model, this.dataBindingValues, event).then()
-
-
-    
             if (result.status === 'ok') {     
                 requestAnimationFrame( () => {
                     this.vibrate(result)

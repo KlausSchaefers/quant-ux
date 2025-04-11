@@ -631,6 +631,13 @@ export default {
       return false;
     },
 
+    hasAudio: function(box) {
+      if (box) {
+        return box.type == "AudioLogic";
+      }
+      return false;
+    },
+
 
     hasScript: function(box) {
       if (box) {

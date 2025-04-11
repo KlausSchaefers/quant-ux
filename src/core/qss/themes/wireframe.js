@@ -34,7 +34,7 @@ export default {
    "@screen-background": {"value": "#FFFFFF", "type": "color"},
 
    // checkboxes and co
-   "@background-passive": {"value": "#CCCCCC", "type": "color"},
+   "@background-passive": {"value": "#e2e2e2", "type": "color"},
    "@background-passive:hover": {"value": "#000000", "type": "color"},
    "@color-passive": {"value": "", "type": "color"},
    "@color-passive:hover": {"value": "#FFFFFF", "type": "color"},
@@ -91,7 +91,7 @@ export default {
 
    "@form-border-color:hover": {"value": "#000000", "type": "color"},
    "@form-color:hover": {"value": "#000000", "type": "color"},
-   "@form-background:hover": {"value": "#CCCCCC", "type": "color"},
+   "@form-background:hover": {"value": "#e2e2e2", "type": "color"},
 
    "@form-border-color:focus": {"value": "#000000", "type": "color"},
    "@form-color:focus": {"value": "#000000", "type": "color"},
@@ -107,7 +107,7 @@ export default {
    "@form-popup-backgrop": {"value": "rgba(0,0,0,0.8)", "type": "color"},
    "@form-popup-border-width": {"value": 1, "type": "borderWidth"},
    "@form-popup-color:hover": {"value": "#000000", "type": "color"},
-   "@form-popup-background:hover": {"value": "#CCCCCC", "type": "color"},
+   "@form-popup-background:hover": {"value": "#e2e2e2", "type": "color"},
 
    // buttons
 
@@ -132,11 +132,11 @@ export default {
    "@button-danger-background:hover": {"value": "#f60404", "type": "color"},
    "@button-danger-color:hover": {"value": "#FFFFFF", "type": "color"},
 
-   "@button-passive-border-color": {"value": "#CCCCCC", "type": "color"},
-   "@button-passive-background": {"value": "#CCCCCC", "type": "color"},
+   "@button-passive-border-color": {"value": "#e2e2e2", "type": "color"},
+   "@button-passive-background": {"value": "#e2e2e2", "type": "color"},
    "@button-passive-color": {"value": "#000000", "type": "color"},
-   "@button-passive-border-color:hover": {"value": "#CCCCCC", "type": "color"},
-   "@button-passive-background:hover": {"value": "#CCCCCC", "type": "color"},
+   "@button-passive-border-color:hover": {"value": "#e2e2e2", "type": "color"},
+   "@button-passive-background:hover": {"value": "#e2e2e2", "type": "color"},
    "@button-passive-color:hover": {"value": "#FFFFFF", "type": "color"},
 
    // panels

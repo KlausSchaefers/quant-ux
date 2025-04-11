@@ -108,7 +108,7 @@ class ModelUtil {
     }
 
     isLogicWidget(widget) {
-        return widget && (widget.type === 'LogicOr' || widget.type === "Rest" || widget.type === 'Script')
+        return widget && (widget.type === 'LogicOr' || widget.type === "Rest" || widget.type === 'Script' || widget.type === 'AudioLogic')
     }
 
     inlineAllTemplateVariants (model) {

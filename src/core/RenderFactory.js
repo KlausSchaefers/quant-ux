@@ -74,6 +74,8 @@ import SortableList from 'core/widgets/SortableList'
 import RadioTable from 'core/widgets/RadioTable'
 import GeoLocation from 'core/widgets/GeoLocation'
 import ImageGrid from 'core/widgets/ImageGrid'
+import AudioPlayer from 'core/widgets/AudioPlayer'
+import AudioLogic from 'core/widgets/AudioLogic'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -645,6 +647,19 @@ export default class RenderFactory extends Core {
 		upload.placeAt(parent);
 		this._uiWidgets[model.id] = upload;
 	}
+
+	_createAudioPlayer (parent, model) {
+		const widget = this.$new(AudioPlayer);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createAudioLogic (parent, model) {
+		const widget = this.$new(AudioLogic);
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
 
 	_createProgressBar(parent, model) {
 		const upload = this.$new(ProgressBar);

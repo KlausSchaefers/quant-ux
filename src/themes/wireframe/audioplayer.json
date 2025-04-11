@@ -1,0 +1,50 @@
+[
+    {
+        "id": "AudioPlayer",
+        "type": "AudioPlayer",
+        "category": "Advanced",
+        "subcategory": "XXXXBox",
+        "_type": "Widget",
+        "name": "Audio Player",
+        "x": 0,
+        "y": 0,
+        "w": "@box-width-s",
+        "h": "@box-height-s",
+        "z": 0,
+        "props": {},
+        "has": {
+            "backgroundColor": true,
+            "border": true
+        },
+        "actions": {},
+        "style": {
+		            	
+            "fontSize": "@font-size-l",
+            "fontFamily": "@font-family",
+            "textAlign" : "left",
+            "letterSpacing": "@letterSpacin",
+            "lineHeight": "@lineHeight",
+    
+            "background": "@form-background",
+            "color": "@form-color",
+    
+            "borderRadius": "128",
+            "borderWidth": "@border-width",
+            "borderStyle": "solid",
+            "borderColor": "@form-border-color",	
+    
+            "playIcon": "mdi mdi-play",
+            "stopIcon": "mdi mdi-stop",
+
+            "iconSize": 32
+		},
+		"hover": {
+			"background": "@button-passive-background"
+		},
+        "active" : {
+            "background": "@form-background",
+            "color": "@button-danger-border-color",
+            "borderColor": "@button-danger-border-color"
+        }
+    }
+]
