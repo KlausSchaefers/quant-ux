@@ -209,7 +209,7 @@ export default {
 
 			this._renderAudioDropDown(model);
 			
-			// this._renderCheck("Auto Play",model.props.autoPlay, "autoPlay" );
+			this._renderCheck("Animated",model.props.animated, "animated" );
 			this._renderInputDropDown("Icon Size", model, [8,12,16,24,32,40, 48, 64, 96, 128], "iconSize", false);
 
 			// this._renderButton("Play Icon", "Settings", (e) => this._renderIconDialog(e, 'playIcon'));
@@ -466,7 +466,7 @@ export default {
 
 			this._renderColor('Foreground','<span class="Color"></span>',model.style.foreground, "foreground" ,"onStyleChanged", true);
 			this._renderColor('Background','<span class="Color"></span>',model.style.background, "background", "onStyleChanged",true );
-			this._renderInputDropDown("Progress", model, [10,20,30,40,50,60, 70, 80, 90, 100], "value", true);
+			this._renderInputDropDown("Progress", model, [0,10,20,30,40,50,60, 70, 80, 90, 100], "value", true);
 		},
 
 		_showProgessSegments (model) {

@@ -10,6 +10,15 @@
 	border: 0px solid #333;
  }
 
+ .MatcWidgetTypeAudioPlayerIconBack, .MatcWidgetAudioPlayer {
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border: 0px solid #333;
+	background-size: 100%;
+ }
+
  .MatcWidgetTypeAudioPlayerIcon {
 	position: relative;
 	width: 100%;

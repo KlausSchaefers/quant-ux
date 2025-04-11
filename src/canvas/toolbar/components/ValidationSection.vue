@@ -174,6 +174,11 @@ export default {
 			this._renderDataBinding(model);
 		},
 
+		_showAudioPlayer (model){
+			this._renderDataBinding(model, false);
+		},
+
+
 		_showToggleButton (model){
 			this._renderDataBinding(model);
 		},

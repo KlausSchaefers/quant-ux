@@ -75,7 +75,7 @@ export default {
 							'RingChart', 'BarChart', 'PieChart', 'MultiRingChart', 'CountingStepper', 'Tree', 'VerticalNavigation',
 							'Table', 'Paging', 'Timeline', 'LabeledIconToggle', 'VisualPicker', 'LockSlider', 'IconToggleButton', 'ScreenSegment', 
 							'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'Button', 'LabeledTextBox',
-							'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation', 'ImageGrid'],
+							'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation', 'ImageGrid', 'AudioPlayer'],
 
 			hasColor: ['Icon', 'SVGIcon'],
 

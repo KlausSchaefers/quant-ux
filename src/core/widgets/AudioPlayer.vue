@@ -1,12 +1,13 @@
 <template>
-    <div class="MatcWidgetIconToggleButton">
-        <div class="MatcWidgetTypeAudioPlayerIcon">
-            <span :class="icon" ref="iconNode" />
+    <div class="MatcWidgetAudioPlayer">
+        <div class="MatcWidgetTypeAudioPlayerIconBack" ref="backCntr">
+            <div class="MatcWidgetTypeAudioPlayerIcon">
+                <span :class="icon" ref="iconNode" />
+            </div>
+            <audio ref="audio" >
+                <source :src="source" type="audio/mpeg">
+            </audio>
         </div>
-        <audio ref="audio" >
-            <source :src="source" type="audio/mpeg">
-        </audio>
-
     </div>
 </template>
 <style></style>
@@ -27,7 +28,10 @@ export default {
             model: {},
             isWired: false,
             isPlaying: false,
-            topic: "MatcWidgetIconToggleButton"
+            duration: 0,
+            progress: 0,
+            currentTime: 0,
+            backgroundImage: ''
         };
     },
     components: {},
@@ -82,8 +86,17 @@ export default {
             this.own(this.addClickListener(this.domNode, lang.hitch(this, 'onChange')));
             this.wireHover(touch.enter, touch.leave)
             if (this.$refs.audio) {
-                this.$refs.audio.addEventListener("ended", () => {
-                    this.setValue(false)
+                const audioElement = this.$refs.audio
+                audioElement.addEventListener("ended", () => {
+                    this.setValue(false)            
+                })
+                audioElement.addEventListener("loadeddata", () => {
+                    this.duration = audioElement.duration;
+                });
+                audioElement.addEventListener("timeupdate", () => {
+                    this.currentTime = audioElement.currentTime
+                    const p = Math.round((audioElement.currentTime / this.duration ) * 100)
+                    this.setProgress(p)     
                 })
             }
         },
@@ -91,6 +104,52 @@ export default {
         onDomMouseOut () {
             this.setBtnStyle();
         },
+
+        setProgress (p) {
+            if (p !== this.progress) {
+                this.progress = p
+                this.emitDataBinding(this.progress)
+            }
+            if (this.model?.props?.animated) {
+                this.renderProgress(p)
+            }
+        },
+
+        renderProgress(p) {
+                
+            const w = this.model.w * 2;
+			const h = this.model.h * 2;
+			const x = Math.round(Math.min(w,h) / 2) 
+            const lineWidth = Math.max(4,this._getBorderWidth(this.style.borderTopWidth * 2));
+            const radisuOffset = this.style.borderTopWidth > 1 ? 1 : 0
+
+            const canvas = document.createElement("canvas");
+			canvas.width=w;
+			canvas.height=h;
+
+	 	    const ctx = canvas.getContext("2d")
+            const s = this._degreesToRadians(0)
+			const e = this._degreesToRadians(360 * (p / 100))  
+			const r = (w/2 - lineWidth/2) + radisuOffset
+            ctx.lineWidth = lineWidth
+    
+            if (this.value && this.model.active) {
+                ctx.strokeFill = this.model.active.borderTopColor
+                ctx.strokeStyle = this.model.active.borderTopColor
+            } else {
+                ctx.strokeColor = this.model.style.borderTopColor
+                ctx.strokeStyle = this.model.style.borderTopColor
+            }
+
+            ctx.beginPath()
+            ctx.arc(x,x, r, s, e) 
+            ctx.stroke()       
+			this.$refs.backCntr.style.backgroundImage = "url(" + canvas.toDataURL("image/png")  + ")";
+        },
+
+        _degreesToRadians(degrees) {
+			return (degrees * (Math.PI / 180)) - Math.PI / 2;
+		},
 
         onChange(e) { 
             this.setValue(!this.value);
@@ -138,15 +197,6 @@ export default {
             this._scaleY = scaleY;
 
             this.setStyle(style, model);
-            if (model.props && model.props.autoPlay !== undefined) {
-                // fire auto play only in simulator
-                setTimeout(() => {
-                    if (!this.isWired) {
-                        return
-                    }
-                    this.setValue(model.props.autoPlay);
-                }, 200)       
-            }
         },
 
         _set_iconSize(parent, style) {
