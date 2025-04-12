@@ -37,7 +37,7 @@ export default class Snapp extends Screen {
 	}
 
 	snappResize (widget,screen, pos, snapp){
-		this.logger.log(0,"snappResize", "enter > " + snapp.type);
+		this.logger.log(-1,"snappResize", "enter > " + snapp.type);
 		const type = snapp.type;
 
 		// if (pos.altKey) {
@@ -53,17 +53,24 @@ export default class Snapp extends Screen {
 			 */
 			if(snapp.x){
 				const line = snapp.x;
+				const padding = line.padding ? line.padding : 0
 				const x = this.getSnappXValue(line, screen);
-
+	
 				if (type === "RightDown" || type === "RightUp" || type === "East") {
 					pos.w = x - widget.x;
+					pos.w += padding
 					/**
 					 * Snapp pos.x to old x to avoid jumps
 					 */
 					pos.x = widget.x;
 				} else if (type === "LeftUp" || type === "LeftDown" || type === "West"){
-					pos.w = widget.w+ (widget.x -x);
+					pos.w = widget.w + (widget.x -x);
 					pos.x = x;
+					if (padding > 0) {
+						pos.x += padding
+						pos.w -= padding
+					}
+	
 				} else {
 					console.warn("snappResize() : X with unsupported type", type, snapp.x);
 				}
@@ -73,19 +80,28 @@ export default class Snapp extends Screen {
 
 			if(snapp.y){
 				const line = snapp.y;
+				const padding = line.padding ? line.padding : 0
 				const y = this.getSnappYValue(line, screen);
 				if (type === "RightDown" || type === "South" || type === "LeftDown") {
-					pos.h = y - widget.y;
+					pos.h = y - widget.y
+					pos.h += padding
 					/**
 					 * Snapp pos.y to old y to avoid jumps
 					 */
 					pos.y = widget.y;
 				} else if (type === "LeftUp" || type === "RightUp" || type === "North") {
-					pos.h = widget.h+ (widget.y -y);
+					pos.h = widget.h + (widget.y -y);
 					pos.y = y;
+
+					if (padding > 0) {
+						pos.y += padding
+						pos.h -= padding					
+					}
+				
 				} else {
 					console.warn("snappResize() : X with unsupported type", type, snapp.x);
 				}
+
 			}
 		}
 
@@ -120,12 +136,13 @@ export default class Snapp extends Screen {
 	}
 
 	snappAll (widget,screen, pos, snapp){
-		this.logger.log(1,"snappAll", "enter > ", snapp, pos);
+		this.logger.log(-1,"snappAll", "enter > ", snapp, pos);
 
 		if(snapp.x){
 			pos.x = widget.x;
 			pos.w = widget.w;
 			let line = snapp.x;
+			let padding = line.padding ? line.padding : 0
 			let x = this.getSnappXValue(line, screen, pos);
 			if (x > 0) {
 				if(snapp.x.middle){
@@ -139,6 +156,8 @@ export default class Snapp extends Screen {
 				} else {
 					pos.x = x - pos.w;
 				}
+
+				pos.x += padding
 			} else {
 				this.logger.error("snappAll", " getSnappXValue return 0");
 			}
@@ -146,6 +165,7 @@ export default class Snapp extends Screen {
 
 		if(snapp.y){
 			let line = snapp.y;
+			let padding = line.padding ? line.padding : 0
 			pos.y = widget.y;
 			pos.h = widget.h;
 			let y = this.getSnappYValue(line, screen, pos);
@@ -160,6 +180,7 @@ export default class Snapp extends Screen {
 				} else {
 					pos.y = y - pos.h;
 				}
+				pos.y += padding
 			} else {
 				this.logger.error("snappAll", " getSnappYValue return 0");
 			}

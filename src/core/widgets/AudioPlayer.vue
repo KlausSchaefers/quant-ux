@@ -180,7 +180,7 @@ export default {
                     this.$refs.audio.pause()
                     setTimeout(() => {
                         this.$refs.audio.currentTime = 0;
-                    }, 500)
+                    }, 100)
 
                 }
             } catch (e) {

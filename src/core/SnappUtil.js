@@ -84,12 +84,19 @@ export function isSimilar(a, b) {
 }
 
 
-export function getCloseLines(min, lines, key, vales, ignoreType = false, lineType) {
+export function getCloseLines(min, lines, key, vales, ignoreType = false, lineType, absPos) {
 
     let result = null;
 
     for (let id in lines) {
         const line = lines[id];
+        // if we have a padding line, we only consider it, 
+        // if it the current pos is in the element
+        if (absPos && line?.snapp?._paddingBox) {
+            if (!_isBoxChild(absPos, line.snapp._paddingBox)) {
+                continue
+            }
+        }
         if (!ignoreType || ignoreType != line.type) {
             line.dist = 1000;
             for (let i = 0; i < vales.length; i++) {
@@ -107,6 +114,18 @@ export function getCloseLines(min, lines, key, vales, ignoreType = false, lineTy
     }
 
     return result;
+}
+
+function _isBoxChild (obj, parent) {
+    if (
+        obj.x + obj.w < parent.x ||
+        parent.x + parent.w < obj.x ||
+        obj.y + obj.h < parent.y ||
+        parent.y + parent.h < obj.y
+    ) {
+        return false;
+    }
+    return true;
 }
 
 

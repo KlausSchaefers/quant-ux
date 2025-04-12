@@ -28,6 +28,7 @@ export default class GridAndRulerSnapp extends Core {
 		this.yMovements = [];
 		this.mousePositions = []
 		this.selectedIDs = {};
+		this.snappPadding = true
 		this.isDebug = location.href.indexOf('debug=true') >= 0
 	}
 
@@ -221,8 +222,8 @@ export default class GridAndRulerSnapp extends Core {
 		 * now compare all lines. For grid we just take to top left corner
 		 */
 		const corners = this.getCorners(absPos, this.grid.enabled);
-		const closeXLine = SnappUtil.getCloseLines(this.showDistance, this._linesX, "x", corners.x, false, 'corner');
-		const closeYLine = SnappUtil.getCloseLines(this.showDistance, this._linesY, "y", corners.y, false, 'corner');
+		const closeXLine = SnappUtil.getCloseLines(this.showDistance, this._linesX, "x", corners.x, false, 'corner', absPos);
+		const closeYLine = SnappUtil.getCloseLines(this.showDistance, this._linesY, "y", corners.y, false, 'corner', absPos);
 
 	
 		/**
@@ -250,8 +251,8 @@ export default class GridAndRulerSnapp extends Core {
 		let closeXMiddle = null
 		let closeYMiddle = null
 		if (!this.grid.enabled) {
-			closeXMiddle = SnappUtil.getCloseLines(this.showDistance, this._linesXMiddle, "x", corners.mx, "Grid", 'middle');
-			closeYMiddle = SnappUtil.getCloseLines(this.showDistance, this._linesYMiddle, "y", corners.my, "Grid", 'middle');
+			closeXMiddle = SnappUtil.getCloseLines(this.showDistance, this._linesXMiddle, "x", corners.mx, "Grid", 'middle', absPos);
+			closeYMiddle = SnappUtil.getCloseLines(this.showDistance, this._linesYMiddle, "y", corners.my, "Grid", 'middle', absPos);
 		}
 
 
@@ -288,6 +289,7 @@ export default class GridAndRulerSnapp extends Core {
 		 * Determine which lines to snapp too and correct X and Y values
 		 */
 		const diff = {x: 0, y: 0};
+
 		const minLineX = SnappUtil.getMinLine([closeXLine, closeXMiddle, closeXPattern])
 		if (minLineX) {			
 			this.correctX(absPos, diff, minLineX);
@@ -333,7 +335,7 @@ export default class GridAndRulerSnapp extends Core {
 			absPos.h = 1
 		}
 
-		const snappLines = this.renderSnappLines(absPos)
+		const snappLines = this.renderSnappLines(absPos, minLineX, minLineY)
 
 		if (this.showDndDistance && this.selectedType != "Xboundingbox") {
 			try {
@@ -363,38 +365,53 @@ export default class GridAndRulerSnapp extends Core {
 		return absPos;
 	}
 
-	renderSnappLines (pos) {
+	renderSnappLines (pos, minLineX, minLineY) {
+		// is this menthod actually needed???
+		// the correctX() and correctY() also call
+		// showLine()
 		const result = {x:-1, y: -1}
 		if (this.activePoint !== 'All') {
 			return result
 		}
 
+
 		if (this.grid.enabled) {
 			return result
 		}
 
-		const x1 = 'x' + pos.x
-		const x2 = 'x' + (pos.x + pos.w)
-		const y1 = 'y' + pos.y
-		const y2 = 'y' + (pos.y + pos.h)
+		// do not show padding lines. The will be shown
+		// in correctX() and correctY()
+		if (minLineX && minLineX?.snapp?._paddingBox) {
+			return
+		}
+
+		if (minLineY && minLineY?.snapp?._paddingBox) {
+			return
+		}
 
 
-		if (this._linesX[x1]) {
-			result.x = this._linesX[x1].x
-			this.showLine(this._linesX[x1], 'x', true)
-		}
-		if (this._linesX[x2]) {
-			result.x = this._linesX[x2].x
-			this.showLine(this._linesX[x2], 'x', true)
-		}
-		if (this._linesY[y1]) {
-			result.y = this._linesY[y1].y
-			this.showLine(this._linesY[y1], 'y', true)
-		}
-		if (this._linesY[y2]) {
-			result.y = this._linesY[y2].y
-			this.showLine(this._linesY[y2], 'y', true)
-		}
+		// const x1 = 'x' + pos.x
+		// const x2 = 'x' + (pos.x + pos.w)
+		// const y1 = 'y' + pos.y
+		// const y2 = 'y' + (pos.y + pos.h)
+
+
+		// if (this._linesX[x1]) {
+		// 	result.x = this._linesX[x1].x
+		// 	this.showLine(this._linesX[x1], 'x', true)
+		// }
+		// if (this._linesX[x2]) {
+		// 	result.x = this._linesX[x2].x
+		// 	this.showLine(this._linesX[x2], 'x', true)
+		// }
+		// if (this._linesY[y1]) {
+		// 	result.y = this._linesY[y1].y
+		// 	this.showLine(this._linesY[y1], 'y', true)
+		// }
+		// if (this._linesY[y2]) {
+		// 	result.y = this._linesY[y2].y
+		// 	this.showLine(this._linesY[y2], 'y', true)
+		// }
 
 		return result
 	}
@@ -1931,6 +1948,11 @@ export default class GridAndRulerSnapp extends Core {
 					if (box) {
 						var addMiddle = this.canShowMiddleLines(box);
 						this.addLines(box, "Widget", addMiddle, onlyX, onlyY, true);
+
+						/**
+						 * Add for Box elements also padding
+						 */
+						this.addPaddingLines(box, 'Widget', onlyX, onlyY)
 					} else {
 						console.debug("No child box", parent, id);
 					}
@@ -2209,6 +2231,68 @@ export default class GridAndRulerSnapp extends Core {
 
 	}
 
+	addPaddingLines (box, type, addX, addY) {
+		if (!this.snappPadding) {
+			return
+		}
+		if (box?.props?.paddingSnap) {
+			const sourceBox = this.getSourceBox(box)
+			if (!sourceBox) {
+				console.warn('addPaddingLines() > no source box')
+				return
+			}
+			const style = sourceBox.style
+			if (addX && style.paddingLeft > 0) {
+				const p = Math.round(style.paddingLeft * this.zoom)
+
+				this.addXLine(box.x + p, {
+					id: box.id,
+					type: type,
+					pos: "left",
+					padding:style.paddingLeft,
+					_sourceV: sourceBox.x + style.paddingLeft,
+					_paddingBox: box
+				}, type, box, 0);
+			}
+
+			if (addX && style.paddingRight > 0) {
+				const p = Math.round(style.paddingRight * this.zoom)
+				this.addXLine(box.x + box.w - p, {
+					id: box.id,
+					type: type,
+					pos: "right",
+					padding: style.paddingRight * -1, 
+					_sourceV: sourceBox.x + sourceBox.w - style.paddingRight,	
+					_paddingBox: box
+				}, type, box, -1);
+			}
+
+			if (addY && style.paddingTop > 0) {
+				const p = Math.round(style.paddingTop * this.zoom)
+				this.addYLine(box.y + p, {
+					id: box.id,
+					type: type,
+					pos: "top",
+					padding: style.paddingTop, 
+					_sourceV: sourceBox.y + style.paddingTop,
+					_paddingBox: box
+				}, type, box, 0);
+			}
+
+			if (addY && style.paddingBottom > 0) {
+				const p = Math.round(style.paddingBottom * this.zoom)
+				this.addYLine(box.y + box.h - p, {
+					id: box.id,
+					type: type,
+					pos: "bottom",
+					padding: style.paddingBottom * -1, 
+					_sourceV: sourceBox.y + sourceBox.h - style.paddingBottom,
+					_paddingBox: box
+				}, type, box, -1);
+			}
+		}
+	}
+
 	addLines(box, type, addMiddle, addX, addY, addPadding) {
 		const sourceBox = this.getSourceBox(box)
 		if (addX) {
@@ -2387,6 +2471,30 @@ export default class GridAndRulerSnapp extends Core {
 						}
 					}
 				}
+
+				const div = this._linesDivs[line.id]
+				if (line?.snapp?._paddingBox) {
+					css.add(div, "MatcRulerLinePadding");
+					if (line.x) {
+						div.style.top = line?.snapp?._paddingBox.y + "px"
+						div.style.height = line?.snapp?._paddingBox.h + "px"
+					}
+					if (line.y) {
+						div.style.left = line?.snapp?._paddingBox.x + "px"
+						div.style.width = line?.snapp?._paddingBox.w + "px"
+					}
+				} else {
+					css.remove(this._linesDivs[line.id], "MatcRulerLinePadding");
+					if (line.x) {
+						div.style.height = "100%";
+						div.style.top = "0px";
+					}
+					if (line.y) {
+						div.style.left = "0px"
+						div.style.width = "100%"
+					}
+				}
+			
 			}
 		}
 	}

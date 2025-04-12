@@ -299,51 +299,52 @@ export default {
 
 			if (pos)	{
 
-				var widget = {
+				const widget = {
 					"type" : "Button",
 					"name" : "Box",
 					"x" : pos.x,
-						"y" : pos.y,
-						"w" : pos.w,
-						"h" : pos.h,
-						"z" : 0,
-						"props" : {
-							"label" : ""
-						},
-						"has" : {
-								"backgroundColor" : true,
-								"border" : true,
-								"label" : true,
-								"padding" : true,
-								"onclick" : true
-						},
-						"actions":{},
-						"style" : {
-							"fontSize" : 14,
-							"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-							"textAlign" : "left",
-							"letterSpacing" : 0,
-							"lineHeight" : 1.4,
-							"color" : "#ffffff",
-							"borderTopRightRadius" : 0,
-								"borderTopLeftRadius" : 0,
-								"borderBottomRightRadius" : 0,
-								"borderBottomLeftRadius" : 0,
-								"borderTopWidth" : 0,
-								"borderBottomWidth" : 0,
-								"borderRightWidth" : 0,
-								"borderLeftWidth" : 0,
-								"borderTopColor" : "#000000",
-								"borderBottomColor" : "#000000",
-								"borderRightColor" : "#000000",
-								"borderLeftColor" : "#000000",
-								"background" : "#000000",
-								"paddingTop" : 0,
-								"paddingBottom" : 0,
-								"paddingLeft" : 0,
-								"paddingRight" : 0,
-								"textShadow": null
-						}
+					"y" : pos.y,
+					"w" : pos.w,
+					"h" : pos.h,
+					"z" : 0,
+					"props" : {
+						"label" : "",
+						"paddingSnap": true
+					},
+					"has" : {
+						"backgroundColor" : true,
+						"border" : true,
+						"label" : true,
+						"padding" : true,
+						"onclick" : true
+					},
+					"actions":{},
+					"style" : {
+						"fontSize" : 14,
+						"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+						"textAlign" : "left",
+						"letterSpacing" : 0,
+						"lineHeight" : 1.4,
+						"color" : "#ffffff",
+						"borderTopRightRadius" : 0,
+						"borderTopLeftRadius" : 0,
+						"borderBottomRightRadius" : 0,
+						"borderBottomLeftRadius" : 0,
+						"borderTopWidth" : 0,
+						"borderBottomWidth" : 0,
+						"borderRightWidth" : 0,
+						"borderLeftWidth" : 0,
+						"borderTopColor" : "#000000",
+						"borderBottomColor" : "#000000",
+						"borderRightColor" : "#000000",
+						"borderLeftColor" : "#000000",
+						"background" : "#000000",
+						"paddingTop" : 0,
+						"paddingBottom" : 0,
+						"paddingLeft" : 0,
+						"paddingRight" : 0,
+						"textShadow": null
+					}
 				};
 
 
