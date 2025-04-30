@@ -5,7 +5,7 @@
             :style="{ 'top': top + 'px', 'left': left + 'px' }" role="menu" ref="popup" @mousedown.stop>
             <div class="MatcToolbarPopUpWrapper">
                 <ul class="" role="menu">
-                    <li v-for="i in options" :key="i.value" @click.stop="onSelect(i, $event)" :class="i.css"
+                    <li v-for="i in selectedOptions" :key="i.value" @click.stop="onSelect(i, $event)" :class="i.css"
                         class="MatcToolbarMenuItem">
                         <QIcon class="MatcToolbarPopUpIcon" :icon="i.icon" v-if="i.icon" />
                         <label class="MatcToolbarPopUpLabel">{{ i.label }}</label>
@@ -28,6 +28,8 @@ export default {
     data: function () {
         return {
             isVisible: false,
+            hasSelectedGroup: false,
+            hasMultiSelection: false,
             left: 0,
             top: 0,
             options: [
@@ -38,8 +40,29 @@ export default {
                 { value: 'paste', icon: 'Paste', label: 'Paste', shortcut: 'CTRL + V' },
                 { value: 'remove', icon: 'Delete', label: 'Delete', shortcut: 'DEL' },
                 { value: 'copyStyle', icon: 'CopyStyle', label: 'Copy Style', shortcut: '' }
+            ],
+            groupOptions: [
+                { value: 2, css: 'MatcToolbarPopUpLine' },
+                { value: 'group', icon: 'Group', label: 'Group', shortcut: 'CTRL + G' },
+            ],
+            unGroupOptions: [
+                { value: 2, css: 'MatcToolbarPopUpLine' },
+                { value: 'ungroup', icon: 'UnGroup', label: 'UnGroup', shortcut: 'CTRL + G' },
             ]
         }
+    },
+    computed: {
+        selectedOptions () {
+            let result = this.options
+            if (this.hasMultiSelection) {
+                result = result.concat(this.groupOptions)
+            } else {
+                if (this.hasSelectedGroup) {
+                    result = result.concat(this.unGroupOptions)
+                }
+            }
+            return result
+        },
     },
     components: {
         'QIcon': QIcon
@@ -48,9 +71,11 @@ export default {
         close() {
             this.isVisible = false
         },
-        show(e, hasSelection) {
+        show(e, hasSelection, selectMulti=false, selectedGroup=false) {
             this.isVisible = true
             this.hasSelection = hasSelection
+            this.hasSelectedGroup = selectedGroup
+            this.hasMultiSelection = selectMulti
             this.$nextTick(() => {
                 const pos = this.getMousePosition(e)
                 const popupSize = domGeom.position(this.$refs.popup)

@@ -28,6 +28,7 @@ export default {
 			
 			dispatchContextMenu (e) {
 				this.logger.log(-1, "dispatchContextMenu", "enter", this.mode);
+				this.stopEvent(e)
 				const target = e.target
 				this.onContextMenu(e, target._widgetID, target._screenID)
 				return false
@@ -126,8 +127,14 @@ export default {
 			},
 
 			dispatchMouseDown (e) {
+			
 				const target = e.target
 				const isCntrl = e.ctrlKey || e.metaKey;
+
+				// right mouse click
+				if (e.button === 2){
+					return false
+				}
 
 				/**
 				 * Since 5.0.0 we will show the context menu

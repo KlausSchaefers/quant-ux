@@ -769,7 +769,7 @@ import * as SelectionUtil from 'core/SelectionUtil'
 				}
 			}
 			if (this.$refs.contextMenu) {
-				this.$refs.contextMenu.show(e, this.hasSelection())
+				this.$refs.contextMenu.show(e, this.hasSelection(), this._selectMulti, this._selectGroup)
 			}
 			return false;
 		},

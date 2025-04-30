@@ -37,7 +37,17 @@ export default {
 			if (option.value === 'undo') {
 				this.controller.undo(); 
 			}
+
+			if (this.toolbar) {
+				if (option.value === 'group') {
+					this.toolbar.onToolGroup()
+				}
+				if (option.value === 'ungroup') {
+					this.toolbar.onToolGroup()
+				}
+			}
 			
+
 			
 		},
 		startEyeDropper (isShift, isCntrl) {
