@@ -76,7 +76,8 @@ export default {
 			categoryNames : {
 				"Bootstrap" : "Bootstrap 3",
 				"Bootstrap4" : "Bootstrap 4",
-				"OpenUI": "OpenUI5"
+				"OpenUI": "OpenUI5",
+				"Composite" : "Templates",
 			},
 			previewSizes : {
 				default : {
@@ -86,6 +87,10 @@ export default {
 				Screen : {
 					w : 160,
 					h : 200
+				},
+				Composite : {
+					w : 160,
+					h : 140
 				}
 			},
 			tab: 'widgets',
@@ -113,7 +118,7 @@ export default {
 			this.renderFactory = new RenderFactory();
 			this.renderFactory.setModel(m);
 			this.renderFactory.setSymbol(true);
-			this.categoriesList = ["WireFrame", "Advanced", "Survey", "Material", "IOS", "Charts" ];
+			this.categoriesList = ["WireFrame", "Advanced", "Composite", "Survey", "Material", "IOS", "Charts" ];
 			this.categoryToQSS = {
 				WireFrame: QSS.getTheme("wireframe"),
 				Advanced: QSS.getTheme("wireframe"),
@@ -880,6 +885,7 @@ export default {
 				for (let i =0; i < elements.length; i++) {
 					let child = elements[i];
 					let size = this._getPreviewSize(child);
+				
 
 					let div = db.div("MatcCreateBtnElement MatcToolbarDropDownButtonItem").build(cntr);
 					if (elements.length === 1) {
@@ -1131,6 +1137,9 @@ export default {
 			let type = child.type
 			if(this.previewSizes[type]){
 				return this.previewSizes[type];
+			}
+			if (child.category == 'Composite') {
+				return this.previewSizes['Composite'];
 			}
 			return this.previewSizes["default"];
 		},

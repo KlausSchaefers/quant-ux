@@ -1943,19 +1943,20 @@ export default class GridAndRulerSnapp extends Core {
 			let id = screen.children[i];
 			const snappToBox = !this.ignoreIds || this.ignoreIds.indexOf(id) < 0 || this.copyReferenceID
 			if (snappToBox) {
-				if (!ignore[id]) {
-					const box = this.model.widgets[id];
-					if (box) {
-						var addMiddle = this.canShowMiddleLines(box);
+				const box = this.model.widgets[id];
+				if (box) {
+					if (!ignore[id] || box?.props?.paddingSnap) {
+					
+						const addMiddle = this.canShowMiddleLines(box);
 						this.addLines(box, "Widget", addMiddle, onlyX, onlyY, true);
 
 						/**
 						 * Add for Box elements also padding
 						 */
 						this.addPaddingLines(box, 'Widget', onlyX, onlyY)
-					} else {
-						console.debug("No child box", parent, id);
 					}
+				} else {
+					console.debug("No child box", parent, id);
 				}
 			}
 		}

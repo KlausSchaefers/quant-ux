@@ -4,7 +4,7 @@
 	"category" : "Material",
 	"subcategory" : "XBoxes",
 	"_type" : "Widget",
-	"name" : "Dialog",
+	"name" : "Dialog Container",
 	"x" : 0,
 	"y" : 0,
 	"w" : "$75%",
