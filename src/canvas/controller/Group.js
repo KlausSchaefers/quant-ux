@@ -235,6 +235,7 @@ export default class Group extends Layer {
 		const group ={
 			id : "g"+this.getUUID(),
 			children : [],
+			groups:[],
 			name : themedGroup.name
 		};
 
@@ -243,6 +244,7 @@ export default class Group extends Layer {
 		 */
 		const z = this.getMaxZValue(this.model.widgets);
 		const children = themedGroup.children;
+		const childGroups = {}
 		for (let i=0; i< children.length; i++){
 			/**
 			 * we just assume the object was already cloned.
@@ -255,11 +257,27 @@ export default class Group extends Layer {
 			widget.y +=  pos.y;
 			widget.z = z + 1 + i;
 
+			if (widget._childGroup) {
+				if (!childGroups[widget._childGroup]) {
+					const childGroup ={
+						id : "g"+this.getUUID(),
+						children : [],
+						groups:[],
+						name : widget._childGroup
+					};
+					this.modelAddGroup(childGroup, true);
+					childGroups[widget._childGroup] = childGroup
+					group.groups.push(childGroup.id)
+				}	
+				childGroups[widget._childGroup].children.push(widget.id)
+				delete widget._childGroup
+			} else {
+				group.children.push(widget.id);
+			}
 			/**
 			 * do not forget to add to group
 			 */
-			group.children.push(widget.id);
-
+	
 			let child = this._createAddWidgetCommand(widget);
 			command.children.push(child);
 
