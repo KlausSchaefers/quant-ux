@@ -188,7 +188,8 @@ export default class CopyPaste extends Group{
 			widgets: [],
 			screens: [],
 			groups: [],
-			designtokens: []
+			designtokens: [],
+			templates:[]
 		};
 		if (selectWidget) {
 
@@ -253,6 +254,24 @@ export default class CopyPaste extends Group{
 			this.logger.log(-1, "_setCligBoard", `Copied ${designtokenIdSet.size} design tokens`);
 		}
 
+		if (this.model.templates) {
+			const templateIDSet = new Set()
+			clipBoard.widgets.forEach(w => {
+				if (w.template) {
+					const template = this.model.templates[w.template]
+					if (template) {
+						templateIDSet.add(w.template)
+					}
+				}
+			})
+
+			templateIDSet.forEach(id => {
+				const template = this.model.templates[id]
+				clipBoard.templates.push(template)
+			})
+
+			this.logger.log(-1, "_setCligBoard", `Copied ${templateIDSet.size} templates`);
+		}
 
 		/**
 		 * Clone before we change the offset! Otherwise
@@ -400,6 +419,18 @@ export default class CopyPaste extends Group{
 				}
 			})
 		}
+		if (clipBoard.templates) {
+			if (!this.model.templates) {
+				this.model.templates = {}
+			}
+			clipBoard.templates.forEach(template => {
+				if (!this.model.templates[template.id]) {
+					this.model.templates[template.id] = template
+				} else {
+					this.logger.warn('modelPasteClipBoard', "Template exists")
+				}
+			})
+		}
 		this.onModelChanged([]);
 		this.render();
 	}
@@ -420,6 +451,11 @@ export default class CopyPaste extends Group{
 		if (clipBoard.designtokens && this.model.designtokens) {
 			clipBoard.designtokens.forEach(dst => {
 				delete this.model.designtokens[dst.id]
+			})
+		}
+		if (clipBoard.templates && this.model.templates) {
+			clipBoard.templates.forEach(template => {
+				delete this.model.templates[template.id]
 			})
 		}
 		this.onModelChanged([]);
