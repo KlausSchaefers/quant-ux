@@ -61,7 +61,6 @@ export default class Command extends BaseController{
 			if (modelChanges) {
 				for (let i = 0; i < modelChanges.length; i++) {
 					const c = modelChanges[i]
-					console.debug(' - undoChangeStack', c)
 					this.applyUndoChange(c, this.model)
 				}
 			}
