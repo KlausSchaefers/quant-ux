@@ -115,33 +115,30 @@ export default {
 
 		addThemedGroup(params) {
 			this.logger.log(1, "addThemedGroup", "enter");
-
 			this._createAddCommand("addThemedGroup", params);
+			const group = params.obj;
+			const z = this.getZoomFactor();
 
-			var group = params.obj;
-
-			var z = this.getZoomFactor();
-
+	
 			/**
 			 * create div
 			 */
-			var boundingBox = this.getBoundingBoxByBoxes(group.children);
+			let boundingBox = this.getBoundingBoxByBoxes(group.children);
 			boundingBox = this.getZoomedBox(boundingBox, z, z);
 
-			var div = this.createBox(boundingBox);
+			const div = this.createBox(boundingBox);
 			css.add(div, "MatcAddBox")
 
-			var children = group.children;
-			for (var i = 0; i < children.length; i++) {
-				var child = children[i];
+			const children = group.children;
+			for (let i = 0; i < children.length; i++) {
+				const child = children[i];
 				/**
 				 * Create a copy and resize it...Otherwise
 				 * the zoomed model arrives in the controller..
 				 */
-				var widget = this.getZoomedBox(lang.clone(child), z, z);
-				var widgetDIV = this.createWidget(widget);
+				const widget = this.getZoomedBox(lang.clone(child), z, z);
+				const widgetDIV = this.createZoomedWidget(widget);
 				div.appendChild(widgetDIV);
-
 			}
 
 			if (!this._alignmentToolInited) {
