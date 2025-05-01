@@ -9,6 +9,7 @@ class ModelFixer {
 	}
 
 	fixCorruptedModel (model) {
+
 		if (model.screens) {
 			for (let screenID in model.screens) {
 				let screen = model.screens[screenID]
@@ -24,8 +25,7 @@ class ModelFixer {
 				console.error('fixCorruptedModel', widget)
 				delete model.widgets[widgetID]
 			}
-			if (widgetID.indexOf("+") >=0) {
-				
+			if (widgetID.indexOf("+") >=0) {				
 				delete model.widgets[widgetID]
 				const newID = widgetID.replace('+', '').replace('.', '')
 				console.error('bad iD', widgetID, newID)
@@ -33,9 +33,6 @@ class ModelFixer {
 				model.widgets[newID] = widget
 			}
 		}
-
-
-		console.debug(model)
 	}
 
 	fixDoubleGroup(model) {
@@ -181,11 +178,11 @@ class ModelFixer {
 					max = Math.max(max, i)
 				}
 			}
-			if (m.lastUUID > 1000000) {
-				m.lastUUID = 100000
+			if (m.lastUUID > 10000000) {
+				m.lastUUID = 1000000
 				errors.push({ msg: "lastUUID to to big!" })
-				this.logger.error("fixModelCount", "fix > too big lastUUID")
-				this.logger.sendError(new Error("Controller.fixModelCount() > Last UUID messed up"))
+				this.logger.error("fixModelCount", "fix > too big lastUUID: " + m.lastUUID)
+				this.logger.sendError(new Error("Controller.fixModelCount() > Last UUID messed up" +  m.lastUUID))
 			} else {
 				this.logger.log(4, "fixModelCount", "exit > " + max + " ?= " + m.lastUUID + " == " + (max > m.lastUUID))
 				if (max > m.lastUUID) {

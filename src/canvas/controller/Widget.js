@@ -1261,8 +1261,41 @@ export default class Widget extends Snapp {
 	 * Add Multi Widgets (from uplaod)
 	 **********************************************************************/
 
-	addMultiImageWidgets (widgets, parentScreen){
-		this.logger.log(0,"addMultiImageWidgets", "enter > " + parentScreen.name);
+	addMultiWidgets (widgets){
+		this.logger.log(0,"addMultiImageWidgets", "enter > ");
+
+		this.startModelChange()
+		const command = {
+			timestamp : new Date().getTime(),
+			type : "MultiCommand",
+			label : "addMultiImageWidgets",
+			children :[]
+		};
+
+		const z = this.getMaxZValue(this.model.widgets) + 1;
+		for (let i=0; i< widgets.length; i++){
+			const widget = widgets[i];
+			widget.id = "w"+this.getUUID();
+			widget.z = z + 1 + i
+			const child = {
+				timestamp : new Date().getTime(),
+				type : "AddWidget",
+				model : widget
+			};
+			command.children.push(child);
+			this.modelAddWidget(widget);
+			console.debug('addMultiWidgets', widget)
+		}
+
+		this.addCommand(command);
+
+		this.render();
+		this.commitModelChange()
+	}
+
+
+	addMultiImageWidgets (widgets){
+		this.logger.log(0,"addMultiImageWidgets", "enter > ");
 
 		this.startModelChange()
 		const command = {

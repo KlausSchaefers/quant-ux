@@ -1928,6 +1928,21 @@ export default class GridAndRulerSnapp extends Core {
 		}
 	}
 
+	isPaddingBox(box) {
+		if(box?.props?.paddingSnap && box.style) {
+			const sourceBox = this.getSourceBox(box)
+			if (sourceBox) {
+				const style = sourceBox.style
+				return style.paddingBottom > 0 ||
+					style.paddingLeft > 0 ||
+					style.paddingTop > 0 ||
+					style.paddingRight > 0
+			}
+
+		}
+		return false
+	}
+
 	initScreen(screen, onlyX, onlyY) {
 
 		
@@ -1945,7 +1960,7 @@ export default class GridAndRulerSnapp extends Core {
 			if (snappToBox) {
 				const box = this.model.widgets[id];
 				if (box) {
-					if (!ignore[id] || box?.props?.paddingSnap) {
+					if (!ignore[id] || this.isPaddingBox(box)) {
 					
 						const addMiddle = this.canShowMiddleLines(box);
 						this.addLines(box, "Widget", addMiddle, onlyX, onlyY, true);

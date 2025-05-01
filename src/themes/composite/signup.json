@@ -62,7 +62,7 @@
             "type": "Button",
             "name": "Save",
             "x": 224,
-            "y": 257,
+            "y": 256,
             "w": 64,
             "h": 32,
             "props": {
@@ -130,7 +130,7 @@
             "type": "Button",
             "name": "Cancel",
             "x": 144,
-            "y": 257,
+            "y": 256,
             "w": 64,
             "h": 32,
             "props": {
