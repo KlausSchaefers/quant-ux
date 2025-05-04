@@ -89,8 +89,8 @@ export default {
 					h : 200
 				},
 				Composite : {
-					w : 160,
-					h : 140
+					w : 140,
+					h : 100
 				}
 			},
 			tab: 'widgets',

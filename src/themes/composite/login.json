@@ -4,7 +4,7 @@
     "_type": "Group",
     "name": "Login",
     "category": "Composite",
-    "subcategory": "XXX",
+    "subcategory": "B",
     "children": [
       {
         "type": "Button",

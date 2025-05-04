@@ -61,3 +61,76 @@ export function createController (model, data={}) {
 export function clone(obj) {
     return JSON.parse(JSON.stringify(obj))
 }
+
+
+export function printTree(screen, fct = false) {
+    let res = []
+    printElement(res, screen, '', fct)
+    if (screen.fixedChildren && screen.fixedChildren.length > 0) {
+        res.push('--------------')
+        screen.fixedChildren.forEach(c => {
+            printElement(res, c, '*  ', fct)
+        })
+    }
+    return res.join('\n')
+}
+
+function printElement(res, e, space='', fct) {
+    let actions =''
+    if (fct) {
+        actions = fct(e)
+    }
+    //let parent = e.parent ? e.parent.name + ' '  + e.parent._id :  "null"
+    let l = e.layout ? e.layout.type : '?'
+    res.push(`${space}${e.name} - (${l}) ${actions} `)
+    if (e.children) {
+        e.children.forEach(c => {
+            printElement(res, c, space + '  ', fct)
+        });
+    }
+}
+
+export function findScreen (app, name, result = []) {
+    if (app.screens) {
+        app.screens.forEach(c => {
+            if (c.name === name) {
+                result.push(c)
+            }
+            findElementsByName(c, name, result)
+        })
+    }
+    return result[0]
+}
+
+
+export function findElementsByName (e, name, result = []) {
+    if (e.children) {
+        e.children.forEach(c => {
+            if (c.name === name) {
+                result.push(c)
+            }
+            findElementsByName(c, name, result)
+        })
+    }
+    return result
+}
+
+export function findOneElementsByName (e, name, result = []) {
+    if (e.children) {
+        e.children.forEach(c => {
+            if (c.name === name) {
+                result.push(c)
+            }
+            findElementsByName(c, name, result)
+        })
+    }
+    if (e.fixedChildren) {
+        e.fixedChildren.forEach(c => {
+            if (c.name === name) {
+                result.push(c)
+            }
+            findElementsByName(c, name, result)
+        })
+    }
+    return result[0]
+}

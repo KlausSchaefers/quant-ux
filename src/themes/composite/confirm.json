@@ -1,0 +1,210 @@
+[{
+    "id": "Confirm",
+    "type": "Group",
+    "_type": "Group",
+    "name": "Confirm",
+    "category": "Composite",
+    "subcategory": "A",
+    "children": [
+      {
+        "type": "Button",
+        "name": "Background",
+        "x": 0,
+        "y": 0,
+        "w": 320,
+        "h": 176,
+        "props": {
+          "label": "",
+          "paddingSnap": true
+        },
+        "has": {
+          "backgroundColor": true,
+          "border": true,
+          "label": true,
+          "padding": true,
+          "onclick": true
+        },
+        "actions": {},
+        "style": {
+          "fontSize": 14,
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign": "left",
+          "letterSpacing": 0,
+          "lineHeight": 1.4,
+          "color": "#ffffff",
+          "borderTopRightRadius": 8,
+          "borderTopLeftRadius": 8,
+          "borderBottomRightRadius": 8,
+          "borderBottomLeftRadius": 8,
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1,
+          "borderRightWidth": 1,
+          "borderLeftWidth": 1,
+          "borderTopColor": "#dedede",
+          "borderBottomColor": "#dedede",
+          "borderRightColor": "#dedede",
+          "borderLeftColor": "#dedede",
+          "background": "#ffffff",
+          "paddingTop": 56,
+          "paddingBottom": 56,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "textShadow": null,
+          "boxShadow": {
+            "v": 5,
+            "h": 0,
+            "b": 16,
+            "s": 0,
+            "c": "rgba(0, 0, 0, 0.25)"
+          }
+        },
+        "id": "Confirm0",
+        "_type": "Widget",
+        "z": null,
+        "template": null
+      },
+      {
+        "id": "Confirm1",
+        "type": "Button",
+        "name": "Button",
+        "x": 240,
+        "y": 128,
+        "w": 64,
+        "h": 32,
+        "props": {
+          "label": "Confirm",
+          "resize": {
+            "right": true,
+            "up": false,
+            "left": false,
+            "down": true,
+            "fixedHorizontal": true,
+            "fixedVertical": true
+          }
+        },
+        "has": {
+          "backgroundColor": true,
+          "border": true,
+          "onclick": true,
+          "label": true,
+          "padding": true
+        },
+        "style": {
+          "fontSize": 14,
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign": "center",
+          "letterSpacing": 0,
+          "lineHeight": 1.5,
+          "verticalAlign": "middle",
+          "background": "#000000",
+          "color": "#FFFFFF",
+          "borderTopWidth": 1,
+          "borderBottomWidth": 1,
+          "borderRightWidth": 1,
+          "borderLeftWidth": 1,
+          "borderTopRightRadius": 4,
+          "borderTopLeftRadius": 4,
+          "borderBottomRightRadius": 4,
+          "borderBottomLeftRadius": 4,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "borderTopColor": "#000000",
+          "borderBottomColor": "#000000",
+          "borderRightColor": "#000000",
+          "borderLeftColor": "#000000",
+          "borderTopStyle": "solid",
+          "borderBottomStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderLeftStyle": "solid"
+        },
+        "hover": {
+          "background": "#000000",
+          "color": "#FFFFFF",
+          "borderTopColor": "#000000",
+          "borderBottomColor": "#000000",
+          "borderRightColor": "#000000",
+          "borderLeftColor": "#000000"
+        },
+        "_type": "Widget",
+        "z": null,
+        "template": null
+      },
+      {
+        "type": "Label",
+        "name": "Header",
+        "x": 16,
+        "y": 16,
+        "w": 246,
+        "h": 29,
+        "props": {
+          "label": "Confirm",
+          "resize": {
+            "right": false,
+            "up": true,
+            "left": true,
+            "down": false,
+            "fixedHorizontal": false,
+            "fixedVertical": false
+          }
+        },
+        "has": {
+          "label": true,
+          "padding": true,
+          "advancedText": true
+        },
+        "style": {
+          "fontSize": 24,
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign": "left",
+          "letterSpacing": 0,
+          "lineHeight": 1,
+          "color": "#000000",
+          "textShadow": null
+        },
+        "id": "Confirm2",
+        "_type": "Widget",
+        "z": null,
+        "template": null
+      },
+      {
+        "type": "Label",
+        "name": "Text",
+        "x": 16,
+        "y": 56,
+        "w": 287,
+        "h": 48,
+        "props": {
+          "label": "Are you sure? Deleting the item can't be undone.",
+          "resize": {
+            "right": true,
+            "up": true,
+            "left": true,
+            "down": true,
+            "fixedHorizontal": false,
+            "fixedVertical": false
+          }
+        },
+        "has": {
+          "label": true,
+          "padding": true,
+          "advancedText": true
+        },
+        "style": {
+          "fontSize": 16,
+          "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign": "left",
+          "letterSpacing": 0,
+          "lineHeight": 1,
+          "color": "#000000",
+          "textShadow": null
+        },
+        "id": "Confirm3",
+        "_type": "Widget",
+        "z": null,
+        "template": null
+      }
+    ]
+  }
+]

@@ -5,7 +5,7 @@
         "_type": "Group",
         "name": "Signup",
         "category": "Composite",
-        "subcategory": "XXX",
+        "subcategory": "C",
         "children": [
           {
             "type": "Button",
