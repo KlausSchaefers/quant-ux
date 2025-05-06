@@ -49,14 +49,7 @@
           "paddingBottom": 56,
           "paddingLeft": 16,
           "paddingRight": 16,
-          "textShadow": null,
-          "boxShadow": {
-            "v": 5,
-            "h": 0,
-            "b": 16,
-            "s": 0,
-            "c": "rgba(0, 0, 0, 0.25)"
-          }
+          "textShadow": null
         },
         "id": "Confirm0",
         "_type": "Widget",

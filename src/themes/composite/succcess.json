@@ -1,0 +1,196 @@
+[
+    {
+        "id": "Success",
+        "type": "Group",
+        "_type": "Group",
+        "name": "Success",
+        "category": "Composite",
+        "subcategory": "XXX",
+        "children": [
+          {
+            "type": "Button",
+            "name": "LoginForm 1",
+            "x": 0,
+            "y": 0,
+            "w": 296,
+            "h": 56,
+            "props": {
+              "label": "",
+              "paddingSnap": true
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "center",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#FFFFFF",
+              "borderTopRightRadius": 4,
+              "borderTopLeftRadius": 4,
+              "borderBottomRightRadius": 4,
+              "borderBottomLeftRadius": 4,
+              "borderTopWidth": 1,
+              "borderBottomWidth": 1,
+              "borderRightWidth": 1,
+              "borderLeftWidth": 1,
+              "borderTopColor": "#3dde85",
+              "borderBottomColor": "#3dde85",
+              "borderRightColor": "#3dde85",
+              "borderLeftColor": "#3dde85",
+              "background": "#3dde85",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "textShadow": null,
+              "verticalAlign": "middle"
+            },
+            "id": "Success0",
+            "hover": {
+              "background": "#f60404",
+              "color": "#FFFFFF",
+              "borderTopColor": "#f60404",
+              "borderBottomColor": "#f60404",
+              "borderRightColor": "#f60404",
+              "borderLeftColor": "#f60404"
+            },
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "type": "Label",
+            "name": "Label 2",
+            "x": 40,
+            "y": 16,
+            "w": 208,
+            "h": 24,
+            "props": {
+              "label": "This is a success",
+              "resize": {
+                "right": true,
+                "up": false,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "label": true,
+              "padding": true,
+              "advancedText": true
+            },
+            "style": {
+              "fontSize": 20,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1,
+              "color": "#ffffff",
+              "textShadow": null,
+              "fontWeight": "",
+              "verticalAlign": "top"
+            },
+            "id": "Success1",
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "id": "Success2",
+            "type": "Icon",
+            "name": "Icon 2",
+            "x": 264,
+            "y": 16,
+            "w": 24,
+            "h": 24,
+            "props": {
+              "resize": {
+                "right": true,
+                "up": true,
+                "left": false,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "onclick": true,
+              "data": true
+            },
+            "actions": {},
+            "style": {
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "color": "#ffffff",
+              "icon": "mdi mdi-close"
+            },
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "id": "Success3",
+            "type": "Icon",
+            "name": "Icon 2",
+            "x": 8,
+            "y": 16,
+            "w": 24,
+            "h": 24,
+            "props": {
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "onclick": true,
+              "data": true
+            },
+            "actions": {},
+            "style": {
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "color": "#ffffff",
+              "icon": "mdi mdi-information-outline"
+            },
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          }
+        ]
+      }
+]
