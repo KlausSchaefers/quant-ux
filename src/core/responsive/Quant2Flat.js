@@ -88,15 +88,8 @@ function createGroupCntr(group, model, createdGroups, order, screen) {
 			h: boundingBox.h,
 			style: group.style ? group.style : {},
 			props: {
-				resize: group.props && group.props.resize ? group.props.resize : {
-                    right: false,
-                    up: false,
-                    left: false,
-                    down: false,
-                    fixedHorizontal: false,
-                    fixedVertical: false,
-                }
-			},
+				resize: getGroupResize(group, allGroupChildren, model)
+			}
 		}
 
 		/**
@@ -122,6 +115,44 @@ function createGroupCntr(group, model, createdGroups, order, screen) {
 		 */
 		order.push(groupCntr)
 	}
+}
+
+
+function getGroupResize(group, allGroupChildren, model) {
+	if (group.props && group.props.resize) {
+		return group.props.resize 
+	}
+
+	const resize =  {
+		right: false,
+		up: false,
+		left: false,
+		down: false,
+		fixedHorizontal: false,
+		fixedVertical: false,
+	}
+
+
+	// here we check of ALL of the children
+	// are fixed. If so, we will fix also the group
+	const responsiveResize = []
+	for (let id of allGroupChildren) {
+		const w = model.widgets[id]
+		if (w && w.props.resize) {
+			const other = w.props.resize
+			responsiveResize.push(other)
+		}
+	}
+
+	// if (responsiveResize.length > 0) {
+	// 	resize.fixedHorizontal = true
+	// 	resize.fixedVertical = true
+	// 	for (let other of responsiveResize) {
+	// 		resize.fixedHorizontal = resize.fixedHorizontal && other.fixedHorizontal 
+	// 		resize.fixedVertical = resize.fixedVertical && other.fixedVertical 
+	// 	}
+	// }
+	return resize
 }
 
 function getWidgets(screen, model) {

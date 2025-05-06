@@ -44,13 +44,13 @@ export class CommandService extends AbstractService {
   }
 
   storeChangeStack(appID, stack) {
-    this.logger.log(21, 'storeChangeStack', 'enter', stack)
+    this.logger.log(3, 'storeChangeStack', 'enter', stack)
     setTimeout(() => {
       try {
         stack.modified = new Date().getTime()
         this.stacks[appID] = stack
         localStorage.setItem('quxCommandStack', JSON.stringify(this.stacks))
-        this.logger.log(-1, 'storeChangeStack', 'enter saved')
+        this.logger.log(2, 'storeChangeStack', 'enter saved')
       } catch (e) {
         this.logger.error('storeChangeStack', 'Could not save', e)
       }

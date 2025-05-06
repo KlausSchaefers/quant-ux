@@ -107,35 +107,35 @@ export default class ResponsiveLayout {
         return boundingBox.style
     }
 
-    createGroupWrapper (element, group, model) {
+    // createGroupWrapper (element, group, model) {
 
-        let boundingBox = ExportUtil.getBoundingBoxByIds(group.children, model)
+    //     let boundingBox = ExportUtil.getBoundingBoxByIds(group.children, model)
     
-        const wrapper = {
-            id: `w${element.id}`,
-            name: group.name + 'Wrapper',
-            groupId: group.id,
-            isGroup: true,
-            type: "Box",
-            x: 0,
-            y: 0,
-            w: boundingBox.w,
-            h: boundingBox.h,
-            style: element.style ? element.style : {},
-            props: {
-                resize: element.props && element.props.resize ? element.props.resize : {
-                    right: false,
-                    up: false,
-                    left: false,
-                    down: false,
-                    fixedHorizontal: false,
-                    fixedVertical: false,
-                }
-            }
-        }
+    //     const wrapper = {
+    //         id: `w${element.id}`,
+    //         name: group.name + 'Wrapper',
+    //         groupId: group.id,
+    //         isGroup: true,
+    //         type: "Box",
+    //         x: 0,
+    //         y: 0,
+    //         w: boundingBox.w,
+    //         h: boundingBox.h,
+    //         style: element.style ? element.style : {},
+    //         props: {
+    //             resize: element.props && element.props.resize ? element.props.resize : {
+    //                 right: false,
+    //                 up: false,
+    //                 left: false,
+    //                 down: false,
+    //                 fixedHorizontal: false,
+    //                 fixedVertical: false,
+    //             }
+    //         }
+    //     }
     
-        return wrapper
-    }
+    //     return wrapper
+    // }
 
     resize(width, height) {
         Logger.log(1, 'ResponsiveLayout.resize() > width: ' + width + ' > height:',  height )
@@ -207,8 +207,21 @@ export default class ResponsiveLayout {
             if (widget) {
                 const newPos = newNestedPositions[child.id]
                 if (newPos) {
-                    widget.w = newPos.w
-                    widget.h = newPos.h
+                    // in some cases fixed elements would be stretched,
+                    // because the align with pinned one. 
+                    // we prevent this here explicitly
+                    if (child?.props?.resize?.fixedVertical) {
+                        //widget.h = widget.h
+                    } else {
+                        widget.h = newPos.h
+                    }
+                    if (child?.props?.resize?.fixedHorizontal) {
+                        //widget.w = widget.w
+                    } else {
+                        widget.w = newPos.w
+                    }
+                    
+               
                     widget.x = newPos.x + offsetX
                     widget.y = newPos.y + offsetY
                     this.updateModel(newNestedPositions, app, child, offsetX, offsetY, indent+ '    ')
