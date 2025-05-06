@@ -140,10 +140,11 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/composite/toast_error.json'),
             import(/* webpackChunkName: "themes" */ 'themes/composite/toast_success.json'),
             import(/* webpackChunkName: "themes" */ 'themes/composite/card_l.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/composite/card_l_space.json'),
             import(/* webpackChunkName: "themes" */ 'themes/composite/card_s_l.json'),
             import(/* webpackChunkName: "themes" */ 'themes/composite/card_s_r.json'),
             import(/* webpackChunkName: "themes" */ 'themes/composite/card_user.json'),
-
+            import(/* webpackChunkName: "themes" */ 'themes/composite/card_xl_button.json'),
 
             import(/* webpackChunkName: "themes" */ 'themes/survey/textbox.json'),
             // import(/* webpackChunkName: "themes" */ 'themes/survey/labeledtextbox.json'),
