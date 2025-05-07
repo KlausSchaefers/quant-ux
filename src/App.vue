@@ -59,17 +59,22 @@ data: function() {
 	},
 
 	handler4xx (url, res) {
+		if (this.logoutMessageShow) {
+			return
+		}
 		if (res.status === 401) {
 			alert('Something is wrong. Please login again!')
 			Services.getUserService().logout()
 			this.$router.push('/')
 			this.$root.$emit('MatcLogout', Services.getUserService().GUEST)
+			this.logoutMessageShow = true
 		}
 		if (res.tokenTimedOut) {
 			alert('Your session has expired. Please login again')
 			Services.getUserService().logout()
 			this.$router.push('/')
 			this.$root.$emit('MatcLogout', Services.getUserService().GUEST)
+			this.logoutMessageShow = true
 		}
 	},
 	initNLS () {

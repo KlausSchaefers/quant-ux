@@ -286,11 +286,15 @@ export default class RenderFactory extends Core {
 				this._set_icon(null, widget.style, m);
 			}
 			if (widget && "Image" == widget.type) {
+				if (widget.has.iconPlaceholder) {
+					const div = this.getWidgetNodeByID(widget.id);
+					this.renderImageIcon(pos, div)
+				}
 				if (widget.style.backgroundPosition) {
 					let m = lang.clone(widget);
 					m.h = pos.h;
 					m.w = pos.w;
-					var div = this.getWidgetNodeByID(widget.id);
+					const div = this.getWidgetNodeByID(widget.id);
 					if (div) {
 						this._set_backgroundImage(div, widget.style, m);
 					}
@@ -1671,6 +1675,8 @@ export default class RenderFactory extends Core {
 		let img = style.backgroundImage;
 		css.add(parent, "MatcScreenImage");
 		if (img) {
+			css.remove(parent, 'MatcImageIconPlaceholder');
+			parent.innerText = ""
 			if (img.w > img.h) {
 				css.add(parent, "MatcScreenImageHorizontal");
 			} else {
@@ -1715,31 +1721,50 @@ export default class RenderFactory extends Core {
 			 * so the browser can smooth a little too
 			 */
 			if (model.type == "Image") {
-				var w = model.w * 2;
-				var h = model.h * 2;
-				var c = document.createElement("canvas");
-				var context = c.getContext("2d");
-				c.width = w;
-				c.height = h;
-				h += 0.5;
-				w += 0.5;
-				var n = 0.5;
-				context.moveTo(n, n);
-				context.lineTo(w, h);
-				context.moveTo(w, n);
-				context.lineTo(n, h);
-				context.strokeStyle = "#000";
-				context.strokeWidth = 2;
-				context.imageSmoothingEnabled = false;
-				context.stroke();
-				parent.style.backgroundImage = "url(" + c.toDataURL("image/png") + ")";
-				parent.style.border = "1px solid #000";
+				if (model.has.iconPlaceholder) {
+					this.renderImageIcon(model, parent)
+				} else {
+					this.renderImagePlaceholder(model, parent);
+				}
+				
 			}
 
 		}
 
 	}
 
+	renderImageIcon(model, parent) {
+		const icon = document.createElement("div");
+		css.add(parent, 'MatcImageIconPlaceholder');
+		css.add(icon, 'mdi mdi-image-outline');
+		parent.innerText = ""
+		parent.appendChild(icon)
+		parent.style.backgroundImage = ""
+		const s = Math.round(Math.min(model.w, model.h) * 0.3)
+		icon.style.fontSize = s + 'px'
+	}
+
+	renderImagePlaceholder(model, parent) {
+		let w = model.w * 2;
+		let h = model.h * 2;
+		const c = document.createElement("canvas");
+		const context = c.getContext("2d");
+		c.width = w;
+		c.height = h;
+		h += 0.5;
+		w += 0.5;
+		const n = 0.5;
+		context.moveTo(n, n);
+		context.lineTo(w, h);
+		context.moveTo(w, n);
+		context.lineTo(n, h);
+		context.strokeStyle = "#000";
+		context.strokeWidth = 2;
+		context.imageSmoothingEnabled = false;
+		context.stroke();
+		parent.style.backgroundImage = "url(" + c.toDataURL("image/png") + ")";
+		parent.style.border = "1px solid #000";
+	}
 
 	_set_css(parent, style) {
 		css.add(parent, style.css);
