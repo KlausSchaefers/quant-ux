@@ -55,12 +55,12 @@
             },
             "id": "Success0",
             "hover": {
-              "background": "#f60404",
+              "background": "#27c86f",
               "color": "#FFFFFF",
-              "borderTopColor": "#f60404",
-              "borderBottomColor": "#f60404",
-              "borderRightColor": "#f60404",
-              "borderLeftColor": "#f60404"
+              "borderTopColor": "#27c86f",
+              "borderBottomColor": "#27c86f",
+              "borderRightColor": "#27c86f",
+              "borderLeftColor": "#27c86f"
             },
             "_type": "Widget",
             "z": null,

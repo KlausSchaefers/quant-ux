@@ -44,7 +44,7 @@
         "borderTopColor": "#dedede",
         "borderBottomColor": "#dedede",
         "borderRightColor": "#dedede",
-        "borderLeftColor": "#3dde85",
+        "borderLeftColor": "#27c86f",
         "background": "#ffffff",
         "paddingTop": 16,
         "paddingBottom": 16,
@@ -136,7 +136,7 @@
         "borderBottomColor": "#333333",
         "borderRightColor": "#333333",
         "borderLeftColor": "#333333",
-        "color": "#3dde85",
+        "color": "#27c86f",
         "icon": "mdi mdi-information-outline",
         "backgroundImageRotation": 0
       },
