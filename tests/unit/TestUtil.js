@@ -62,6 +62,13 @@ export function clone(obj) {
     return JSON.parse(JSON.stringify(obj))
 }
 
+export function printRows(element){
+    let rows = element.grid.rows.map((r, i) => {
+        return `${r.v}, ${r.l}, ${r.fixed} >> s:${r.start} - e:${r.end}`
+    })
+    return rows
+}
+
 
 export function printTree(screen, fct = false) {
     let res = []
@@ -74,6 +81,7 @@ export function printTree(screen, fct = false) {
     }
     return res.join('\n')
 }
+
 
 function printElement(res, e, space='', fct) {
     let actions =''

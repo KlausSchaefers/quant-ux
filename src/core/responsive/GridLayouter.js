@@ -5,6 +5,7 @@ export function addGridToElements(parent) {
   
 	const grid = computeGrid(parent)
 
+
 	if (grid) {
 		parent.grid = grid
 		if (parent.children && parent.children.length > 0) {
@@ -166,18 +167,28 @@ export function setFixedGirdRowsAndColumns(parent, columns, rows) {
 		}
 
 		if (Util.isPinnedUp(e)) {
-			rows.forEach((row) => {
-				if (row.v < e.y) {
-					row.fixed = true
-				}
-			})
+			// Just fix the one before
+			let before = rows.filter((row) => row.v < e.y)
+			if (before.length > 0) {
+				before[before.length - 1].fixed = true
+			}
+			// rows.forEach((row) => {
+			// 	if (row.v < e.y) {
+			// 		row.fixed = true
+			// 	}
+			// })
 		}
 		if (Util.isPinnedDown(e)) {
-			rows.forEach((row) => {				
-				if (row.v >= e.y + e.h) {
-					row.fixed = true
-				}
-			})
+			//	Just fix the one after
+			let after = rows.filter((row) => row.v >= e.y + e.h)
+			if (after.length > 0) {
+				after[0].fixed = true
+			}
+			// rows.forEach((row) => {				
+			// 	if (row.v >= e.y + e.h) {
+			// 		row.fixed = true
+			// 	}
+			// })
 		}
 	})
 }

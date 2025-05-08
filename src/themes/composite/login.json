@@ -195,6 +195,7 @@
       {
         "id": "Login3",
         "type": "TextBox",
+        "_childGroup": "Email Group",
         "name": "Text Box",
         "x": 16,
         "y": 45,
@@ -284,6 +285,7 @@
       {
         "type": "Label",
         "name": "Label",
+        "_childGroup": "Email Group",
         "x": 16,
         "y": 24,
         "w": 272,
@@ -322,6 +324,7 @@
       {
         "type": "Label",
         "name": "Label 1",
+        "_childGroup": "Password Group",
         "x": 16,
         "y": 101,
         "w": 272,
@@ -359,6 +362,7 @@
       },
       {
         "id": "Login6",
+        "_childGroup": "Password Group",
         "type": "Password",
         "name": "Password  (Hide & Show)",
         "x": 16,

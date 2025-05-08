@@ -64,7 +64,7 @@ function createGroupCntr(group, model, createdGroups, order, screen) {
 		/**
 		 * 1) check if we need to create parent group. If so we go up hierachy
 		 */
-		let parentGroup = Util.getParentGroup(group.id, model)
+		const parentGroup = Util.getParentGroup(group.id, model)
 		if (parentGroup) {
 			createGroupCntr(parentGroup, model, createdGroups, order, screen)
 		}
@@ -72,11 +72,11 @@ function createGroupCntr(group, model, createdGroups, order, screen) {
 		/**
 		 * 2) Now create the group cntr
 		 */
-		let allGroupChildren = Util.getAllGroupChildren(group, model)
+		const allGroupChildren = Util.getAllGroupChildren(group, model)
 
-		let boundingBox = Util.getBoundingBoxByIds(allGroupChildren, model)
+		const boundingBox = Util.getBoundingBoxByIds(allGroupChildren, model)
 
-		let groupCntr = {
+		const groupCntr = {
 			id: `gc${group.id}`,
 			name: group.name,
 			groupId: group.id,
@@ -88,7 +88,7 @@ function createGroupCntr(group, model, createdGroups, order, screen) {
 			h: boundingBox.h,
 			style: group.style ? group.style : {},
 			props: {
-				resize: getGroupResize(group, allGroupChildren, model)
+				resize: getGroupResize(group, group.children, model)
 			}
 		}
 
@@ -144,14 +144,14 @@ function getGroupResize(group, allGroupChildren, model) {
 		}
 	}
 
-	// if (responsiveResize.length > 0) {
-	// 	resize.fixedHorizontal = true
-	// 	resize.fixedVertical = true
-	// 	for (let other of responsiveResize) {
-	// 		resize.fixedHorizontal = resize.fixedHorizontal && other.fixedHorizontal 
-	// 		resize.fixedVertical = resize.fixedVertical && other.fixedVertical 
-	// 	}
-	// }
+	if (responsiveResize.length > 0) {
+		resize.fixedHorizontal = true
+		resize.fixedVertical = true
+		for (let other of responsiveResize) {
+			resize.fixedHorizontal = resize.fixedHorizontal && other.fixedHorizontal 
+			resize.fixedVertical = resize.fixedVertical && other.fixedVertical 
+		}
+	}
 	return resize
 }
 
