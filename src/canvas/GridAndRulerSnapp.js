@@ -1952,7 +1952,8 @@ export default class GridAndRulerSnapp extends Core {
 		}
 
 		/**
-		 * now create the snapp lines for all other widgets in the screen
+		 * now create the snapp lines for all other widgets in the screen,
+		 * unless they are in a group or otherwise ignored
 		 */
 		for (let i = 0; i < screen.children.length; i++) {
 			let id = screen.children[i];
@@ -1960,14 +1961,16 @@ export default class GridAndRulerSnapp extends Core {
 			if (snappToBox) {
 				const box = this.model.widgets[id];
 				if (box) {
-					if (!ignore[id] || this.isPaddingBox(box)) {
-					
+					if (!ignore[id] ) {
 						const addMiddle = this.canShowMiddleLines(box);
 						this.addLines(box, "Widget", addMiddle, onlyX, onlyY, true);
-
 						/**
 						 * Add for Box elements also padding
 						 */
+						this.addPaddingLines(box, 'Widget', onlyX, onlyY)
+					} else if (this.isPaddingBox(box)){
+						// If it is a box in a group with padding, we
+						// still add the padding snapp lines.
 						this.addPaddingLines(box, 'Widget', onlyX, onlyY)
 					}
 				} else {
