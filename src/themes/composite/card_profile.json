@@ -1,0 +1,384 @@
+[
+    {
+        "id": "ProfileCard",
+        "type": "Group",
+        "_type": "Group",
+        "name": "Profile Card",
+        "category": "Composite",
+        "subcategory": "F",
+        "children": [
+          {
+            "type": "Button",
+            "name": "Background",
+            "x": 0,
+            "y": 0,
+            "w": 320,
+            "h": 451,
+            "props": {
+              "label": "",
+              "paddingSnap": true
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#ffffff",
+              "borderTopRightRadius": 8,
+              "borderTopLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderBottomLeftRadius": 8,
+              "borderTopWidth": 1,
+              "borderBottomWidth": 1,
+              "borderRightWidth": 1,
+              "borderLeftWidth": 1,
+              "borderTopColor": "#dedede",
+              "borderBottomColor": "#dedede",
+              "borderRightColor": "#dedede",
+              "borderLeftColor": "#dedede",
+              "background": "#ffffff",
+              "paddingTop": 16,
+              "paddingBottom": 16,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "textShadow": null,
+              "boxShadow": null,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderLeftStyle": "solid"
+            },
+            "id": "Group 180",
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "type": "Label",
+            "name": "UserName",
+            "x": 16,
+            "y": 210,
+            "w": 240,
+            "h": 32,
+            "props": {
+              "label": "Name Lastname",
+              "resize": {
+                "right": true,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "label": true,
+              "padding": true,
+              "advancedText": true
+            },
+            "style": {
+              "fontSize": 20,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1,
+              "color": "#000000",
+              "textShadow": null,
+              "fontWeight": "bold"
+            },
+            "id": "Group 181",
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "type": "Label",
+            "name": "Email",
+            "x": 16,
+            "y": 242,
+            "w": 240,
+            "h": 24,
+            "props": {
+              "label": "name@company.com",
+              "resize": {
+                "right": true,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": false,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "label": true,
+              "padding": true,
+              "advancedText": true
+            },
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1,
+              "color": "#a4a4a4",
+              "textShadow": null,
+              "fontWeight": ""
+            },
+            "id": "Group 182",
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "type": "Button",
+            "name": "Action BackGround",
+            "_childGroup": "ActionButton",
+            "x": 256,
+            "y": 210,
+            "w": 48,
+            "h": 48,
+            "props": {
+              "label": "",
+              "resize": {
+                "right": true,
+                "up": true,
+                "left": false,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "backgroundColor": true,
+              "border": true,
+              "label": true,
+              "padding": true,
+              "onclick": true
+            },
+            "actions": {},
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": 0,
+              "lineHeight": 1.4,
+              "color": "#ffffff",
+              "borderTopRightRadius": 128,
+              "borderTopLeftRadius": 128,
+              "borderBottomRightRadius": 128,
+              "borderBottomLeftRadius": 128,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#000000",
+              "borderBottomColor": "#000000",
+              "borderRightColor": "#000000",
+              "borderLeftColor": "#000000",
+              "background": "#dedede",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "textShadow": null,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderLeftStyle": "solid"
+            },
+            "id": "Group 183",
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "id": "Group 184",
+            "type": "Icon",
+            "_childGroup": "ActionButton",
+            "name": "Action Icon",
+            "x": 264,
+            "y": 218,
+            "w": 32,
+            "h": 32,
+            "props": {
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": true,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "onclick": true,
+              "data": true
+            },
+            "actions": {},
+            "style": {
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopColor": "#333333",
+              "borderBottomColor": "#333333",
+              "borderRightColor": "#333333",
+              "borderLeftColor": "#333333",
+              "color": "#333333",
+              "icon": "mdi mdi-email-outline"
+            },
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "type": "Image",
+            "name": "BackgroundImage",
+            "x": 0,
+            "y": 0,
+            "w": 320,
+            "h": 160,
+            "props": {
+              "resize": {
+                "right": true,
+                "up": true,
+                "left": true,
+                "down": true,
+                "fixedHorizontal": false,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "onclick": true,
+              "backgroundImage": true,
+              "borderRadius": true,
+              "border": true,
+              "iconPlaceholder": true
+            },
+            "actions": {},
+            "style": {
+              "backgroundImage": null,
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderRightWidth": 0,
+              "borderLeftWidth": 0,
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderTopColor": "#000000",
+              "borderBottomColor": "#000000",
+              "borderRightColor": "#000000",
+              "borderLeftColor": "#000000",
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderLeftStyle": "solid"
+            },
+            "id": "Group 185",
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "type": "Image",
+            "name": "Profile Pic",
+            "x": 16,
+            "y": 100,
+            "w": 96,
+            "h": 96,
+            "props": {
+              "resize": {
+                "right": false,
+                "up": true,
+                "left": false,
+                "down": false,
+                "fixedHorizontal": true,
+                "fixedVertical": true
+              }
+            },
+            "has": {
+              "onclick": true,
+              "backgroundImage": true,
+              "borderRadius": true,
+              "border": true,
+              "iconPlaceholder": true
+            },
+            "actions": {},
+            "style": {
+              "backgroundImage": null,
+              "borderTopWidth": 4,
+              "borderBottomWidth": 4,
+              "borderRightWidth": 4,
+              "borderLeftWidth": 4,
+              "borderTopRightRadius": 96,
+              "borderTopLeftRadius": 96,
+              "borderBottomRightRadius": 96,
+              "borderBottomLeftRadius": 96,
+              "borderTopColor": "#ffffff",
+              "borderBottomColor": "#ffffff",
+              "borderRightColor": "#ffffff",
+              "borderLeftColor": "#ffffff",
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderLeftStyle": "solid"
+            },
+            "id": "Group 186",
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          },
+          {
+            "id": "Group 187",
+            "type": "Label",
+            "name": "Paragraph",
+            "x": 16,
+            "y": 280,
+            "w": 288,
+            "h": 155,
+            "props": {
+              "label": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+              "resize": {
+                "right": true,
+                "up": true,
+                "left": true,
+                "down": true,
+                "fixedHorizontal": false,
+                "fixedVertical": false
+              }
+            },
+            "has": {
+              "label": true,
+              "padding": true,
+              "advancedText": true
+            },
+            "style": {
+              "fontSize": 14,
+              "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+              "textAlign": "left",
+              "letterSpacing": "@letterSpacin",
+              "lineHeight": 1.5,
+              "color": "#000000",
+              "textShadow": null
+            },
+            "_type": "Widget",
+            "z": null,
+            "template": null
+          }
+        ]
+      }
+]
