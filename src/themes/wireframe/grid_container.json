@@ -1,0 +1,47 @@
+
+[
+    {
+        "id" : "GridContainer",
+        "type" : "GridContainer",
+		"category": "Advanced",
+        "subcategory" : "AAA",
+        "_type" : "Widget",
+        "name" : "Grid Container",
+        "sidebar": true,
+        "x" : 0,
+        "y" : 0,
+        "w": "320",
+        "h": "320",
+        "z" : 0,
+        "props" : {
+            "layout": "grid",
+            "rows": 4,
+            "columns": 6,
+            "rowGap": 16,
+            "columnGap": 24            
+        },
+        "has" : {
+           "onclick" : true,
+           "borderRadius" : true,
+           "backgroundColor": true,
+           "border": true,
+           "padding":true
+        },
+        "actions":{},
+        "style" : {
+           "borderRadius": 0,
+           "borderWidth": 0,
+           "borderStyle": "solid",
+           "borderColor": "@form-border-color",	
+           "background": "@form-background",
+           "paddingBottom":24,
+           "paddingLeft": 24,
+           "paddingRight": 24,
+           "paddingTop": 24,
+           "selectColor": "@button-primary-background"
+        },
+        "hover": {
+			"borderColor": "@button-primary-background"
+		}
+    }
+]

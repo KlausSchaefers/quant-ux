@@ -524,6 +524,9 @@ import * as SelectionUtil from 'core/SelectionUtil'
 			if(this._selectedDnDDiv){
 				css.remove(this._selectedDnDDiv, "MatcBoxSelected");
 			}
+			if (this._selectedSourceDiv){
+				css.remove(this._selectedSourceDiv, "MatcWidgetSelected");
+			}
 			if (this._selectedDivList) {
 				this._selectedDivList.forEach(div => {
 					css.remove(div, "MatcMultiBoxSelected");
@@ -534,6 +537,7 @@ import * as SelectionUtil from 'core/SelectionUtil'
 			delete this._selectedDivList
 			delete this._selectedDiv;
 			delete this._selectedDnDDiv;
+			delete this._selectedSourceDiv;
 			delete this._selectChangeListener;
 			delete this._selectStartListener;
 	
@@ -684,6 +688,11 @@ import * as SelectionUtil from 'core/SelectionUtil'
 			if(this.widgetDivs[id]){
 				this._selectedDnDDiv = this.widgetDivs[id];
 				css.add(this._selectedDnDDiv, "MatcBoxSelected");
+			}
+	
+			if(this.widgetBackgroundDivs[id]){
+				this._selectedSourceDiv = this.widgetBackgroundDivs[id];
+				css.add(this._selectedSourceDiv, "MatcWidgetSelected");
 			}
 		},
 

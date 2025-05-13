@@ -686,6 +686,15 @@ export default {
 			this._renderChartAnimation(model)
 		},
 
+		_showGridContainer (model){
+
+			this._setSectionLabel("Grid Container");
+			this._renderInputDropDown("Rows",model, [1, 2, 3, 4, 6, 8, 12], "rows", true);
+			this._renderInputDropDown("Columns",model, [1, 2, 3, 4, 6, 8, 12], "columns", true);
+
+			this._renderInputDropDown("Row Gap",model, [0, 4, 8, 16, 24, 32, 64], "rowGap", true);
+			this._renderInputDropDown("Column Gap",model, [0, 4, 8, 16, 24, 32, 64], "columnGap", true);
+		},
 
 		_showLabel (model){
 			if (!model?.props?.animated) {

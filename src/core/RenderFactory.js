@@ -76,6 +76,7 @@ import GeoLocation from 'core/widgets/GeoLocation'
 import ImageGrid from 'core/widgets/ImageGrid'
 import AudioPlayer from 'core/widgets/AudioPlayer'
 import AudioLogic from 'core/widgets/AudioLogic'
+import GridContainer from 'core/widgets/GridContainer'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -523,6 +524,12 @@ export default class RenderFactory extends Core {
 
 	_createLabeledTextArea(parent, model) {
 		const widget = this.$new(LabeledTextArea)
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+	
+	_createGridContainer(parent, model) {
+		const widget = this.$new(GridContainer)
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

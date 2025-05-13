@@ -57,7 +57,7 @@ export default {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox", 'LockSlider',
 						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 
 						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea', 
-						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload', 'GeoLocation', 'ImageGrid'],
+						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload', 'GeoLocation', 'ImageGrid', 'GridContainer'],
 			
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
@@ -65,7 +65,9 @@ export default {
 						"LabeledIconToggle", "LogicOr", "CheckBoxGroup", "RadioGroup", "Repeater", "Camera", "Rest", 'LockSlider', "StackedRingChart",
 						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 
 						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'NavBar', 
-						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation', 'ImageGrid', 'AudioPlayer', 'AudioLogic'],
+						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation', 'ImageGrid', 'AudioPlayer', 
+						'AudioLogic', 'GridContainer'],
+						
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
 			hasValidation : ["TextBox", "TextArea", "TypeAheadTextBox", "Password", "CheckBox", "Switch", "Date", "DateDropDown",

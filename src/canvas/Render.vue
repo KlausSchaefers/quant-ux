@@ -535,6 +535,7 @@ export default {
 			this.inlineEditStop();
 			this.cleanUpComments();
 			this.cleanUpScreenButtons();
+			this.cleanupDNDActive()
 
 			/**
 			 * Cleanup any stuff from the zoom
@@ -1107,6 +1108,19 @@ export default {
 				delete this._alignmentTool;
 			}
 			this._alignmentToolInited = false;
+	
+		},
+
+		addDNDActive(){
+			if (!this._dndCSSActive) {
+				this._dndCSSActive = "MatcCanvasDNDActive"
+				css.add(this.container, this._dndCSSActive);
+			}
+		},
+
+		cleanupDNDActive() {
+			css.remove(this.container, this._dndCSSActive);
+			delete this._dndCSSActive
 		},
 
 		getModelPosition (){

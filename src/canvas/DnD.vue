@@ -502,7 +502,7 @@ export default {
         this._dndMoveDiv = this.widgetDivs[id];
         css.add(this._dndMoveDiv, "MatcBoxMoving");
       }
-      this._resizeCursor = "MatcCanvasResizeCursorAll";
+      this._resizeCursor = "MatcCanvasResizeCursorAll  ";
       css.add(this.container, this._resizeCursor);
 
       if (e.ctrlKey) {
@@ -635,6 +635,8 @@ export default {
       if (!this._alignmentToolInited) {
         this.startAligmentToolForWidget(id)
       }
+
+      this.addDNDActive()
 
       this.setState(2);
       this.cleanUpDebugLines();
@@ -842,6 +844,7 @@ export default {
       this.logger.log(0, "onWidgetDndEnd", "enter > x:" + pos.x + " y:" + pos.y);
       const startPos = this._dragNDropBoxWidgetStart
       this.cleanUpAlignment();
+      this.cleanupDNDActive()
 
       if (this.isWidgetDNDCopy(e)) {
           const correctedPOs = this.getCorrectedCopyPosition(pos)

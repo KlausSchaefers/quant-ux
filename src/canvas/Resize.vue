@@ -394,9 +394,12 @@ export default {
           return;
         }
 
+        this.addDNDActive()
+
         // get snapped position
         const pos = this._getSizePos(e);
 
+     
 
         if (modelType !== "group" && modelType !== "multi"){
           /**
@@ -515,6 +518,8 @@ export default {
           this.onResizeDnDCleanUp();
           return;
         }
+
+        this.cleanupDNDActive()
 
         // return if we have special handler
         if (this._resizeDnDEndHandler){
@@ -760,6 +765,7 @@ export default {
 			this.cleanUpAlignment();
 			this.cleanUpReplicate();
 			this.cleanupDistribute();
+      this.cleanupDNDActive()
 			css.remove(this.container, "MatcCanvasModeReplicate");
 		},
 
