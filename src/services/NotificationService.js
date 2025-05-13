@@ -151,9 +151,11 @@ class NotificationService extends AbstractService{
                 id:"Welcome",
                 img: 'Welcome.png',
                 more: `
-                    We're excited to have you on board! Quant-UX is your all-in-one platform to design, test, and analyze UX prototypes with ease. 
-                    Whether you're wireframing your next big idea or diving into user behavior, 
-                    Quant-UX helps you bring it all together in one seamless workflow.
+                    <p>
+                        We're excited to have you on board! Quant-UX is your all-in-one platform to design, test, and analyze UX prototypes with ease. 
+                        Whether you're wireframing your next big idea or diving into user behavior, 
+                        Quant-UX helps you bring it all together in one seamless workflow.
+                    </p>
 
                     <p>
                         To help you get started, check out our <a href="https://www.youtube.com/@quant-ux8332" target="github">YouTube</a> channel where we share tutorials, feature overviews, 
@@ -270,9 +272,10 @@ class NotificationService extends AbstractService{
                 id:"CollaborativeWork",
                 img: 'Team.png',
                 more: `
-                    Did you know you can invite other Quant-UX members to collaborate on the same prototype? 
-                    You can even work together in real time on the same canvas and watch updates happen live — just like magic.
-
+                    <p> 
+                        Did you know you can invite other Quant-UX members to collaborate on the same prototype? 
+                        You can even work together in real time on the same canvas and watch updates happen live — just like magic.
+                    </p>
                     <p>                                   
                         And with comments, you can capture insights, give feedback, and keep the
                         conversation flowing with your team — all right where the work is happening.
@@ -299,12 +302,13 @@ class NotificationService extends AbstractService{
                 matches (user) {
                     return getDays(user) > 6
                 },
-                id:"Audio",
+                id:"AudioWithVideo",
                 img: 'Audio.png',
                 more: `
                     We're excited to announce that Quant-UX now supports audio player elements in your prototypes!
                     Whether you're designing a podcast app, a meditation experience, or anything that needs sound, 
-                    you can now bring your ideas to life with built-in audio playback. Drag. Drop. Play. It's that simple.
+                    you can now bring your ideas to life with built-in audio playback. Drag. Drop. Play. 
+                    It's that simple. See the it in <a href="https://youtu.be/Nm64WGlTwIc" target="_youtube">action</a>.
                 `,
                 title: 'New Audio Player Widget'
             },
@@ -319,7 +323,8 @@ class NotificationService extends AbstractService{
                     the paddings are automatically respected —no more manual nudging! 
                     Simply drop a Rectangle onto your canvas, set your desired paddings, 
                     and start dragging elements in. They'll snap into place perfectly, 
-                    making alignment effortless and your layouts cleaner than ever.
+                    making alignment effortless and your layouts cleaner than ever. 
+                    Check out the <a href="https://youtu.be/oKiw1bvdRvo" target="_youtube">Video</a>.
                 `,
                 title: 'Smarter Drag & Drop with Rectangle Paddings'
             }
