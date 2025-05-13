@@ -622,7 +622,7 @@ export default class BaseController extends Core {
 				/**
 				 * here something is really wrong!
 				 */
-				this.logger.sendError("checkTransaction", new Error("Some transaction not done!"));
+				this.logger.error("checkTransaction", "Too many secs");
 			}
 		}
 	}

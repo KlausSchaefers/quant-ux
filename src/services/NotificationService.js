@@ -307,6 +307,21 @@ class NotificationService extends AbstractService{
                     you can now bring your ideas to life with built-in audio playback. Drag. Drop. Play. It's that simple.
                 `,
                 title: 'New Audio Player Widget'
+            },
+            {
+                matches (user) {
+                    return getDays(user) > 2
+                },
+                id:"PaddingConstraint",
+                img: 'PaddingConstraint.png',
+                more: `
+                    Designing just got smoother. Now when you drag elements into a Rectangle (Shortcut R), 
+                    the paddings are automatically respected —no more manual nudging! 
+                    Simply drop a Rectangle onto your canvas, set your desired paddings, 
+                    and start dragging elements in. They'll snap into place perfectly, 
+                    making alignment effortless and your layouts cleaner than ever.
+                `,
+                title: 'Smarter Drag & Drop with Rectangle Paddings'
             }
             
         ]
