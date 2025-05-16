@@ -143,7 +143,9 @@ export default class GridAndRulerSnapp extends Core {
 		const layoutContainer = this.findHoverLayoutContainer(absPos)
 		if (layoutContainer) {
 			this.initLayoutContainerLines(layoutContainer)
+			this.snappDistance = 48
 		} else {
+			this.snappDistance = 8
 			/**
 			 * 1) get the screen. Check if the last screen is still ok. If screen
 			 * change we compute all lines for the screen
@@ -410,12 +412,11 @@ export default class GridAndRulerSnapp extends Core {
 
 	initLayoutContainerLines (layoutContainer) {
 		this._lastScreen = null
+
 		// only calc the grid, if the container has changed
-	
 		if (this._lastLayoutContainer?.id !== layoutContainer.id) {
 			this.cleanUp()
 			const lines = SnappUtil.getGridContainerLines(layoutContainer, this.activePoint, this.zoom)
-			console.debug(lines)
 			for (let i in lines.x) {
 				const x = lines.x[i]
 				this.addXLine(x, {
@@ -445,8 +446,6 @@ export default class GridAndRulerSnapp extends Core {
 			// fixme: here we could also set in the canvas the highlight to the backgroundDiv,
 			// to show only the boxes on hover...
 			this.renderLines();
-			//css.add(this.container, 'MatcRulerLineDebuger')			
-			// console.debug(this)
 		}
 		this._lastLayoutContainer = layoutContainer
 	}

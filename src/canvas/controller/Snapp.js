@@ -38,7 +38,7 @@ export default class Snapp extends Screen {
 	}
 
 	snappResize (widget,screen, pos, snapp){
-		this.logger.log(-1,"snappResize", "enter > " + snapp.type);
+		this.logger.log(1,"snappResize", "enter > " + snapp.type);
 		const type = snapp.type;
 
 		// if (pos.altKey) {

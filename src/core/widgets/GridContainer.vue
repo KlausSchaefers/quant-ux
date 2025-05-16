@@ -1,21 +1,16 @@
 <template>
   <div class="MatcWidgetTypeGridContainer">
 
-    <div :class="'MatcWidgetTypeGridContainerCntr ' + layout" :style="{
-      'row-gap': rowGap + 'px',
-      'column-gap': columnGap + 'px',
-      'grid-template-columns': 'repeat(' + this.columns  +', ' + cellW + 'px)',
-      'grid-auto-rows': 'repeat(' + this.rows  +', ' + cellH + 'px)',
-    }">
-      <div v-for="(i) in cells" 
+      <div v-for="(c,i) in cells" 
         :key="i" 
         :class="['MatcWidgetTypeGridContainerPlaceholder']"  
         :style="{
-          'width': cellW +'px', 
-          'height': cellH + 'px'
-        }" >  
+          'width': c.w +'px', 
+          'height': c.h + 'px',
+          'left': c.x + 'px',
+          'top': c.y + 'px' 
+        }" > 
       </div>
-    </div>
 
   </div>
 </template>
@@ -24,7 +19,7 @@ import DojoWidget from "dojo/DojoWidget";
 //import DomBuilder from "common/DomBuilder";
 import UIWidget from "core/widgets/UIWidget";
 import Logger from 'common/Logger'
-import * as SnappUtil from '../SnappUtil'
+
 
 export default {
   name: "GridContainer",
@@ -32,7 +27,7 @@ export default {
   data: function () {
     return {
       value: null,
-      cells: 0,
+      cells: [],
       columns: 0,
       rows: 0,
       rowGap: 0,
@@ -61,10 +56,7 @@ export default {
 
     resize(box) {
       const style = this.style
-      this.rows = this.model.props.rows
-      this.columns = this.model.props.columns
-      this.cells = this.rows * this.columns
-     
+
       this.columnGap = Math.floor(this.model.props.columnGap * this._scaleX)
       this.rowGap = Math.floor(this.model.props.rowGap * this._scaleY)
 
@@ -79,8 +71,6 @@ export default {
       const borderLeftWidth = Math.floor(style.borderLeftWidth * this._scaleX)
       const borderRightWidth = Math.floor(style.borderRightWidth * this._scaleX)
 
-
-
       let spaceW = box.w - (paddingLeft + paddingRight + borderRightWidth + borderLeftWidth) 
       let spaceH = box.h - (paddingTop + paddingBottom + borderTopWidth + borderBottomWidth)
       let totalColumnGap = (this.columns - 1) * this.columnGap
@@ -89,8 +79,25 @@ export default {
       this.cellW = Math.floor((spaceW - totalColumnGap) / this.columns)
       this.cellH = Math.floor((spaceH - totalRowGap) / this.rows)
 
-      const lines = SnappUtil.getGridContainerLines(box, 'All', this._scaleX)
-      console.debug(lines, this.cellH, this.cellW)
+
+      let i = 0
+      let y = paddingTop
+      for (let r=0; r < this.rows; r++) {        
+        let x = paddingLeft 
+        for (let c=0; c < this.columns; c++) {   
+          const cell = this.cells[i]       
+          cell.w = this.cellW
+          cell.h = this.cellH
+          cell.x = x
+          cell.y = y
+          i++
+          x += this.cellW + this.columnGap
+          //this.$set(this.cells, i, cell)
+        }
+        y += this.cellH + this.rowGap
+      }
+      // find out why this does not auto render
+      this.$forceUpdate()
     },
 
     render(model, style, scaleX, scaleY) {
@@ -100,9 +107,18 @@ export default {
       this._scaleX = scaleX;
       this._scaleY = scaleY;
 
-  
-      this.layout = this.model.props.layout
-      
+      this.rows = this.model.props.rows
+      this.columns = this.model.props.columns
+      this.cells = []
+      for (let i=0; i < this.rows * this.columns; i++) {
+          this.cells[i] = {
+            w: 0,
+            h: 0,
+            x: 0,
+            y: 0
+          }
+      }
+      this.layout = this.model.props.layout      
       this.setStyle(style);
       this.resize(this.model);
     },
@@ -116,33 +132,12 @@ export default {
       this.value = v
     },
 
-    getMouse(e) {
-      const result = {};
-      result.x = e.pageX;
-      result.y = e.pageY;
-      return result;
-    },
-
     getState() {
       return {
-        type: "select",
-        value: this.selection,
       };
     },
 
-    setState(state) {
-      if (state.type === 'select') {
-        const selection = new Set(state.value)
-        for (let i = 0; i < this.images.length; i++) {
-          const img = this.images[i]
-          if (selection.has(i)) {
-            img.selected = true
-          } else {
-            img.selected = false
-          }
-        }
-        this.resetStyles()
-      }
+    setState() {
     },
 
     cleanUp() {
@@ -150,14 +145,11 @@ export default {
     },
 
     destroy() {
-      if (this._compositeState) {
-        this.emitCompositeState();
-      }
       this.cleanUp();
     },
   },
   mounted() {
-    this.logger = new Logger('ImageGrid')
+    this.logger = new Logger('GridContainer')
   },
 };
 </script>

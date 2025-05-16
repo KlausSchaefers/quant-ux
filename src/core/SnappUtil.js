@@ -1,7 +1,6 @@
 export function getGridContainerLines(model, activePoint, zoom=1) {
     const resultX = getGridContainerLinesX(model, activePoint, zoom)
     const resultY = getGridContainerLinesY(model, activePoint, zoom)
- 
     return {
         x:resultX.x,
         y:resultY.y,
@@ -14,42 +13,33 @@ export function getGridContainerLinesY(model, activePoint, zoom=1) {
     const result = {
         y:[],
         rowH:0
-    }
-  
+    }  
     const style = model.style   
     const y = model.y
     const rows = model.props.rows
- 
-
     const paddingTop = zoomedOrZero(style.paddingTop, zoom)
     const paddingBottom = zoomedOrZero(style.paddingBottom, zoom)
-
     const borderBottomWidth = zoomedOrZero(style.borderBottomWidth, zoom)
-    const borderTopWidth = zoomedOrZero(style.borderTopWidth, zoom)
-     
+    const borderTopWidth = zoomedOrZero(style.borderTopWidth, zoom)     
     const rowGap = zoomedOrZero(model?.props.rowGap, zoom)
-
     const spaceH = model.h - (paddingTop + paddingBottom + borderTopWidth + borderBottomWidth)
     const totalRowGap = (rows - 1) * rowGap
-
-
-
     const rowH = Math.floor((spaceH - totalRowGap) / rows)
     result.rowH = rowH
-
-
     let v = paddingTop + y + borderBottomWidth
     result.y.push(v)
     for (let r=0; r< rows; r++) {
         v = v + rowH
-        result.y.push(v)
-        if (r < rows-1) {
-            v = v + rowGap
+        if (activePoint !== 'North' && activePoint !== 'RightUp' && activePoint !== 'LeftUp') {
             result.y.push(v)
         }
-
+        if (r < rows-1) {
+            v = v + rowGap
+            if (activePoint !== 'South' && activePoint !== 'RightDown' && activePoint !== 'LeftDown') {
+                result.y.push(v)
+            }
+        }
     }
-
     return result
 }
 
@@ -63,35 +53,30 @@ export function getGridContainerLinesX(model, activePoint, zoom=1) {
     const style = model.style
     const x = model.x
     const columns = model.props.columns
-
     const paddingLeft = zoomedOrZero(style.paddingLeft, zoom)
     const paddingRight = zoomedOrZero(style.paddingRight, zoom)
-
     const borderLeftWidth = zoomedOrZero(style.borderLeftWidth, zoom)
-    const borderRightWidth = zoomedOrZero(style.borderRightWidth, zoom)
-     
+    const borderRightWidth = zoomedOrZero(style.borderRightWidth, zoom)     
     const columnGap = zoomedOrZero(model?.props.columnGap, zoom)
-
     const spaceW = model.w - (paddingLeft + paddingRight + borderRightWidth + borderLeftWidth) 
-
     const totalColumnGap = (columns - 1) * columnGap
-
-
     const columnW = Math.floor((spaceW - totalColumnGap) / columns)
     result.columnW = columnW
-
-    // console.debug(paddingLeft, columns, spaceW, totalColumnGap, '=', spaceW - totalColumnGap, '>>', columnW)
-    // console.debug(paddingTop, rows, spaceH, totalRowGap, '=', spaceH - totalRowGap, '>> ', rowH)
 
     // in the grid container we do not have to add the border!!!
     let v = paddingLeft + x + borderLeftWidth
     result.x.push(v)
     for (let c=0; c< columns; c++) {
         v = v + columnW
-        result.x.push(v)
+        if (activePoint !== 'West' && activePoint !== 'LeftDown' && activePoint !== 'LeftUp') {
+            result.x.push(v)
+        }
+        
         if (c < columns-1) {
             v = v + columnGap
-            result.x.push(v)
+            if (activePoint !== 'East' && activePoint !== 'RightDown' && activePoint !== 'RightUp') {
+                result.x.push(v)
+            }
         }
     }
 
