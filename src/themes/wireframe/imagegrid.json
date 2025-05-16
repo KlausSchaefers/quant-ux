@@ -7,11 +7,10 @@
         "subcategory" : "FormImage",
         "_type" : "Widget",
         "name" : "Image Grid",
-        "sidebar": true,
         "x" : 0,
         "y" : 0,
-        "w": "320",
-        "h": "320",
+        "w": 320,
+        "h": 320,
         "z" : 0,
         "props" : {
             "layout": "grid",

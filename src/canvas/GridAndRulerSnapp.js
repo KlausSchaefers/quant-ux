@@ -96,8 +96,15 @@ export default class GridAndRulerSnapp extends Core {
 		this._lines = {};
 		this._linesDivs = {};
 
+		/**
+		 * Init grid containers for fastee lookups
+		 */
+		this.cacheLayoutContainers(this.model, this.sourceModel)
+		
+
 		this.logger.log(1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
 	}
+
 
 	correct(absPos, e, mouse) {
 		try {
@@ -124,23 +131,34 @@ export default class GridAndRulerSnapp extends Core {
 		if (this.selectedType == "boundingbox") {
 			absPos.w = this.selectedModel.w;
 			absPos.h = this.selectedModel.h;
+			
 		}
-
+		absPos.z = this.selectedModel.z
 		absPos.type = this.selectedType;
 		absPos.source = this.selectedID;
 
 		/**
-		 * 1) get the screen. Check if the last screen is still ok. If screen
-		 * change we compute all lines for the screen
+		 * 1) Since 5.0.21 we check if we are in a LayoutContainer
 		 */
-		if (!this._lastScreen || !this._isBoxChild(absPos, this._lastScreen)) {
-			this.initLines(absPos);
+		const layoutContainer = this.findHoverLayoutContainer(absPos)
+		if (layoutContainer) {
+			this.initLayoutContainerLines(layoutContainer)
+		} else {
+			/**
+			 * 1) get the screen. Check if the last screen is still ok. If screen
+			 * change we compute all lines for the screen
+			 */
+			if (!this._lastScreen || !this._isBoxChild(absPos, this._lastScreen)) {
+				this.initLines(absPos);
+			}
 		}
+
+		//console.debug(this._lastScreen, layoutContainer)
 
 		/**
 		 * 1.a) If no screen, no snapping...
 		 */
-		 if (!this._lastScreen) {
+		 if (!this._lastScreen && !layoutContainer) {
 			return absPos;
 		}
 
@@ -233,10 +251,9 @@ export default class GridAndRulerSnapp extends Core {
 		 * Since 4.3.11 we also do this in case of the grid, we removed
 		 * if (!this.grid.enabled) {
 		 */
-		//if (!this.grid.enabled) {
 		left = SnappUtil.correctSnappDirection(closeXLine, left)
 		top = SnappUtil.correctSnappDirection(closeYLine, top)	
-		//}
+
 
 		/**
 		 * Get close middle lines. We handle this a little special:
@@ -364,6 +381,77 @@ export default class GridAndRulerSnapp extends Core {
 		this._lastLeft = left;
 		return absPos;
 	}
+
+	cacheLayoutContainers(model, sourceModel) {
+		this.layoutContainers = []
+		for (let id in model.widgets) {
+			const w = model.widgets[id]
+			const s = sourceModel.widgets[id]
+			if (w !== undefined & s !== undefined && w.type === 'GridContainer') {
+				const g = lang.clone(w)
+				g.style = s.style
+				this.layoutContainers.push(g)
+			}
+		}
+		this.layoutContainers.sort((a,b) => a.z - b.z)
+	}
+
+	findHoverLayoutContainer(box) {
+		let found = null
+		for (let i=0; i< this.layoutContainers.length; i++) {
+			const c = this.layoutContainers[i]
+			// FIXME: check for total child, not overlap
+			if (c.z < box.z && this._isBoxChild(box, c)) {
+				found = c
+			}
+		}
+		return found
+	}
+
+	initLayoutContainerLines (layoutContainer) {
+		this._lastScreen = null
+		// only calc the grid, if the container has changed
+	
+		if (this._lastLayoutContainer?.id !== layoutContainer.id) {
+			this.cleanUp()
+			const lines = SnappUtil.getGridContainerLines(layoutContainer, this.activePoint, this.zoom)
+			console.debug(lines)
+			for (let i in lines.x) {
+				const x = lines.x[i]
+				this.addXLine(x, {
+					id: layoutContainer.id,
+					pos: "x",
+					type: "GridContainer",
+					activePoint: this.activePoint,
+					gridIndex: i,
+					_v: x,
+					_paddingBox: layoutContainer
+				}, "GridContainer");
+
+			}
+			for (let i in lines.y) {
+				const y = lines.y[i]
+				this.addYLine(y, {
+					id: layoutContainer.id,
+					pos: "y",
+					type: "GridContainer",
+					activePoint: this.activePoint,
+					gridIndex: i,
+					_v: y,
+					_paddingBox: layoutContainer
+				}, "GridContainer");
+
+			}
+			// fixme: here we could also set in the canvas the highlight to the backgroundDiv,
+			// to show only the boxes on hover...
+			this.renderLines();
+			//css.add(this.container, 'MatcRulerLineDebuger')			
+			// console.debug(this)
+		}
+		this._lastLayoutContainer = layoutContainer
+	}
+
+
 
 	renderSnappLines (pos, minLineX, minLineY) {
 		// is this menthod actually needed???
@@ -1503,6 +1591,9 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	_getOverlappingBoxes() {
+		if (!this._lastScreen) {
+			return []
+		}
 
 		const result = []
 		let children = this._lastScreen.children;
@@ -2261,6 +2352,7 @@ export default class GridAndRulerSnapp extends Core {
 				return
 			}
 			const style = sourceBox.style
+			
 			if (addX && style.paddingLeft > 0) {
 				const p = Math.round(style.paddingLeft * this.zoom)
 
@@ -2559,6 +2651,7 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	renderLines() {
+		
 		for (let id in this._linesX) {
 			this.renderLine(this._linesX[id], id);
 		}
@@ -2587,6 +2680,7 @@ export default class GridAndRulerSnapp extends Core {
 		/**
 		 * We do not render grid lines to make dom faster...
 		 */
+
 		if (this._gridType != line.type) {
 			if (line.x) {
 				let div = document.createElement("div");
@@ -2736,6 +2830,7 @@ export default class GridAndRulerSnapp extends Core {
 		delete this._distanceXDiv;
 		delete this.distributionLines;
 		delete this.dimDiv;
+		delete this._lastLayoutContainer
 		this.logger.log(4, "cleanUp", "exit");
 	}
 

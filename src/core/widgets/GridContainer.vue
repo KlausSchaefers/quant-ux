@@ -24,6 +24,7 @@ import DojoWidget from "dojo/DojoWidget";
 //import DomBuilder from "common/DomBuilder";
 import UIWidget from "core/widgets/UIWidget";
 import Logger from 'common/Logger'
+import * as SnappUtil from '../SnappUtil'
 
 export default {
   name: "GridContainer",
@@ -67,14 +68,29 @@ export default {
       this.columnGap = Math.floor(this.model.props.columnGap * this._scaleX)
       this.rowGap = Math.floor(this.model.props.rowGap * this._scaleY)
 
-      let spaceW = box.w - Math.floor((style.paddingLeft + style.paddingRight) * this._scaleX)
-      let spaceH = box.h - Math.floor((style.paddingTop + style.paddingBottom) * this._scaleY)
+
+      const paddingLeft = Math.floor(style.paddingLeft * this._scaleX)
+      const paddingRight = Math.floor(style.paddingRight * this._scaleX)
+      const paddingTop = Math.floor(style.paddingTop * this._scaleY)
+      const paddingBottom = Math.floor(style.paddingBottom * this._scaleY)
+
+      const borderBottomWidth = Math.floor(style.borderBottomWidth * this._scaleY)
+      const borderTopWidth = Math.floor(style.borderTopWidth * this._scaleY)
+      const borderLeftWidth = Math.floor(style.borderLeftWidth * this._scaleX)
+      const borderRightWidth = Math.floor(style.borderRightWidth * this._scaleX)
+
+
+
+      let spaceW = box.w - (paddingLeft + paddingRight + borderRightWidth + borderLeftWidth) 
+      let spaceH = box.h - (paddingTop + paddingBottom + borderTopWidth + borderBottomWidth)
       let totalColumnGap = (this.columns - 1) * this.columnGap
       let totalRowGap = (this.rows - 1) * this.rowGap
 
       this.cellW = Math.floor((spaceW - totalColumnGap) / this.columns)
       this.cellH = Math.floor((spaceH - totalRowGap) / this.rows)
 
+      const lines = SnappUtil.getGridContainerLines(box, 'All', this._scaleX)
+      console.debug(lines, this.cellH, this.cellW)
     },
 
     render(model, style, scaleX, scaleY) {

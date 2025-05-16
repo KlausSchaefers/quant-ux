@@ -7,7 +7,7 @@ class ModelGeom {
 
 
     getBoundingBox (ids, model) {
-        const result = { x: 100000000, y: 100000000, w: 0, h: 0 , isBoundingBox: true, ids: ids};
+        const result = { x: 100000000, y: 100000000, w: 0, h: 0 , isBoundingBox: true, ids: ids, z:100000000};
      
         for (let i = 0; i < ids.length; i++) {
             const id = ids[i];
@@ -17,6 +17,7 @@ class ModelGeom {
                 result.y = Math.min(result.y, box.y);
                 result.w = Math.max(result.w, box.x + box.w);
                 result.h = Math.max(result.h, box.y + box.h);
+                result.z = Math.min(result.z, box.z)
             } else {
                 console.warn("getBoundingBox() > No box with id", id);
             }
@@ -27,7 +28,7 @@ class ModelGeom {
     }
 
     getBoundingBoxByBoxes (boxes) {
-        const result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true};
+        const result = { x: 100000000, y: 100000000, w: 0, h: 0, isBoundingBox: true, z:100000000};
 
         for (let i = 0; i < boxes.length; i++) {
             const box = boxes[i];
@@ -35,6 +36,7 @@ class ModelGeom {
             result.y = Math.min(result.y, box.y);
             result.w = Math.max(result.w, box.x + box.w);
             result.h = Math.max(result.h, box.y + box.h);
+            result.z = Math.min(result.z, box.z)
         }
 
         result.h -= result.y;

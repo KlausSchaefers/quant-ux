@@ -1,5 +1,6 @@
 import Screen from './Screen'
 import ModelUtil from '../../core/ModelUtil'
+import * as SnappUtil from '../../core/SnappUtil'
 
 export default class Snapp extends Screen {
 
@@ -240,6 +241,10 @@ export default class Snapp extends Screen {
 					this.logger.sendError(new Error('Could not snapp to X ruler'));
 				}
 			}
+		} else if ("GridContainer" == line.type){
+			let box = this.getBoxById(line.id);
+			let gridLines = SnappUtil.getGridContainerLinesX(box, line.activePoint, 1)
+			return gridLines.x[line.gridIndex]
 		} else {
 			console.warn("getSnappXValue() >Unsupported snapp type for x", line.type);
 		}
@@ -273,6 +278,10 @@ export default class Snapp extends Screen {
 					this.logger.sendError(new Error('Could not snapp to Y ruler'));
 				}
 			}
+		} else if ("GridContainer" == line.type){
+			let box = this.getBoxById(line.id);
+			let gridLines = SnappUtil.getGridContainerLinesY(box, line.activePoint, 1)
+			return gridLines.y[line.gridIndex]
 		} else {
 			console.warn("getSnappYValue() > Unsupported snapp type for ", line.type);
 		}
