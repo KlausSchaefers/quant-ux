@@ -176,6 +176,40 @@ export function isSimilar(a, b) {
    return score > 1; // or what is a good similarity threshold;
 }
 
+export function getFilteredLinesX(lines, activePoint, layoutContainer, start) {
+    if (activePoint !== 'All' || layoutContainer === null || layoutContainer === undefined) {
+        return lines
+    }
+    const filtered = {}
+    for (let v in lines) {
+        const l = lines[v]
+        if (start && l.snapp.isStart) {
+            filtered[v] = l
+        }
+        if (!start && !l.snapp.isStart) {
+            filtered[v] = l
+        }
+    }
+    return filtered    
+}
+
+export function getFilteredLinesY(lines, activePoint, layoutContainer, start) {
+    if (activePoint !== 'All' || layoutContainer === null || layoutContainer === undefined) {
+        return lines
+    }
+    const filtered = {}
+    for (let v in lines) {
+        const l = lines[v]
+        if (start && l.snapp.isStart) {
+            filtered[v] = l
+        }
+        if (!start && !l.snapp.isStart) {
+            filtered[v] = l
+        }
+    }
+    return filtered   
+}
+
 
 export function getCloseLines(min, lines, key, vales, ignoreType = false, lineType, absPos) {
 

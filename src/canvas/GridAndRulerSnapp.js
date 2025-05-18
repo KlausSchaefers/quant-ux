@@ -241,9 +241,11 @@ export default class GridAndRulerSnapp extends Core {
 		/**
 		 * now compare all lines. For grid we just take to top left corner
 		 */
-		const corners = this.getCorners(absPos, this.grid.enabled);
-		const closeXLine = SnappUtil.getCloseLines(this.showDistance, this._linesX, "x", corners.x, false, 'corner', absPos);
-		const closeYLine = SnappUtil.getCloseLines(this.showDistance, this._linesY, "y", corners.y, false, 'corner', absPos);
+		const corners = this.getCorners(absPos, this.grid.enabled, layoutContainer, left, top);
+		const lineX = SnappUtil.getFilteredLinesX(this._linesX, this.activePoint, layoutContainer, left)
+		const lineY = SnappUtil.getFilteredLinesY(this._linesY, this.activePoint, layoutContainer, top)
+		const closeXLine = SnappUtil.getCloseLines(this.showDistance, lineX, "x", corners.x, false, 'corner', absPos);
+		const closeYLine = SnappUtil.getCloseLines(this.showDistance, lineY, "y", corners.y, false, 'corner', absPos);
 
 	
 		/**
@@ -417,6 +419,7 @@ export default class GridAndRulerSnapp extends Core {
 		// compute the children in the layoutContainers, 
 		// so we the grid is not active when the element
 		// is over them
+		// Maybe use something like RTree (rbush)
 		this.layoutContainers.forEach(cntr => {
 			for (let id in model.widgets) {
 				const w = model.widgets[id]
@@ -501,6 +504,7 @@ export default class GridAndRulerSnapp extends Core {
 					type: "GridContainer",
 					activePoint: this.activePoint,
 					gridIndex: i,
+					isStart: i % 2 === 0,
 					_v: x,
 					_paddingBox: layoutContainer
 				}, "GridContainer");
@@ -514,6 +518,7 @@ export default class GridAndRulerSnapp extends Core {
 					type: "GridContainer",
 					activePoint: this.activePoint,
 					gridIndex: i,
+					isStart: i % 2 === 0,
 					_v: y,
 					_paddingBox: layoutContainer
 				}, "GridContainer");
@@ -1878,7 +1883,7 @@ export default class GridAndRulerSnapp extends Core {
 		return sum > 0;
 	}
 
-	getCorners(pos, isGrid) {
+	getCorners(pos, isGrid, layoutContainer, left, top) {
 
 		const corners = {
 			x: [],
@@ -1888,9 +1893,6 @@ export default class GridAndRulerSnapp extends Core {
 			t: [],
 			l: []
 		};
-
-		corners.t.push(pos.y);
-		corners.l.push(pos.x);
 
 
 		switch (this.activePoint) {
@@ -1914,10 +1916,29 @@ export default class GridAndRulerSnapp extends Core {
 					}
 		
 				} else {
-					corners.x.push(pos.x);
-					corners.x.push(pos.x + pos.w)
-					corners.y.push(pos.y);
-					corners.y.push(pos.y + pos.h);
+					/**
+					 * Since 5.0.20 we have layout container in such we 
+					 * take the movement direction into account
+					 */
+					if (layoutContainer !== null && layoutContainer !== undefined) {
+						if (left) {
+							corners.x.push(pos.x);
+						} else {
+							corners.x.push(pos.x + pos.w)
+						}
+					
+						if (top) {
+							corners.y.push(pos.y);
+						} else {
+							corners.y.push(pos.y + pos.h);
+						}
+					} else {
+						corners.x.push(pos.x);
+						corners.x.push(pos.x + pos.w)
+						corners.y.push(pos.y);
+						corners.y.push(pos.y + pos.h);
+					}
+
 				}
 
 
