@@ -130,9 +130,9 @@ export default class GridAndRulerSnapp extends Core {
 		 */
 		if (this.selectedType == "boundingbox") {
 			absPos.w = this.selectedModel.w;
-			absPos.h = this.selectedModel.h;
-			
+			absPos.h = this.selectedModel.h;			
 		}
+		
 		absPos.z = this.selectedModel.z
 		absPos.type = this.selectedType;
 		absPos.source = this.selectedID;
@@ -386,28 +386,104 @@ export default class GridAndRulerSnapp extends Core {
 
 	cacheLayoutContainers(model, sourceModel) {
 		this.layoutContainers = []
+
+		const minZ = this.selectedModel.z || 0
+		// get all the grid containers
+		// we could make this even better by filtering for z-level...
 		for (let id in model.widgets) {
 			const w = model.widgets[id]
-			const s = sourceModel.widgets[id]
-			if (w !== undefined & s !== undefined && w.type === 'GridContainer') {
-				const g = lang.clone(w)
-				g.style = s.style
-				this.layoutContainers.push(g)
+			// we just take lowe layer containers
+			if (w.z < minZ) {
+				const s = sourceModel.widgets[id]
+				if (w !== undefined & s !== undefined && w.type === 'GridContainer') {
+					const g = lang.clone(w)
+					g.style = s.style
+					g.children = []
+					this.layoutContainers.push(g)
+				}
 			}
 		}
 		this.layoutContainers.sort((a,b) => a.z - b.z)
+
+		// do not include the seleciton as child
+		const excluded = {}
+		excluded[this.selectedModel?.id] = true
+		if (this.selectedModel.ids) {
+			for (let id of this.selectedModel.ids) {
+				excluded[id] = true
+			}
+		}
+
+		// compute the children in the layoutContainers, 
+		// so we the grid is not active when the element
+		// is over them
+		this.layoutContainers.forEach(cntr => {
+			for (let id in model.widgets) {
+				const w = model.widgets[id]
+				// check here also for the selected widgets?
+				if (w.z >= cntr.z && w.id !== cntr.id && !excluded[w.id]) {
+					if (this.isFullContained(cntr, w)) {
+						cntr.children.push(w)
+					}
+				}
+			}
+		})
 	}
 
-	findHoverLayoutContainer(box) {
+	isFullContained	(outer, inner) {
+		// add here some offset?
+		return (
+			outer.x <= inner.x &&
+			outer.y <= inner.y &&
+			outer.x + outer.w >= inner.x + inner.w &&
+			outer.y + outer.h >= inner.y + inner.h
+		)
+	}
+
+
+	findHoverLayoutContainer(absPos) {
+	
+		const box = this.getOffSetCorrectedPosition(absPos)
+
 		let found = null
 		for (let i=0; i< this.layoutContainers.length; i++) {
 			const c = this.layoutContainers[i]
-			// FIXME: check for total child, not overlap
+			// we use the partial overlap
 			if (c.z < box.z && this._isBoxChild(box, c)) {
 				found = c
 			}
 		}
+		if (found) {
+			if (found.children) {
+				// check that we are not in a child
+				for (let child of found.children) {
+					if (this.isFullContained(child, box)) {
+						//console.debug('exit because of child')
+						return null
+					}
+				}
+			}
+		}
 		return found
+	}
+
+	getOffSetCorrectedPosition(pos) {
+		const box = {
+			x: pos.x,
+			y: pos.y,
+			w: pos.w,
+			h: pos.h,
+			z: pos.z,
+			id: pos.id,
+			name: pos.name
+		}
+		if (this.boundingBoxOffsetX > 0) {
+			box.x -= this.boundingBoxOffsetX;
+		}	
+		if (this.boundingBoxOffsetY > 0) {
+			box.y -= this.boundingBoxOffsetY;
+		}
+		return box
 	}
 
 	initLayoutContainerLines (layoutContainer) {
@@ -446,6 +522,8 @@ export default class GridAndRulerSnapp extends Core {
 			// fixme: here we could also set in the canvas the highlight to the backgroundDiv,
 			// to show only the boxes on hover...
 			this.renderLines();
+
+			//css.add(this.container, 'MatcRulerLineDebuger')		
 		}
 		this._lastLayoutContainer = layoutContainer
 	}
@@ -1238,10 +1316,7 @@ export default class GridAndRulerSnapp extends Core {
 		absPos = lang.clone(absPos);
 		if (this.boundingBoxOffsetX > 0) {
 			absPos.x -= this.boundingBoxOffsetX;
-		}
-
-		
-
+		}	
 		if (this.boundingBoxOffsetY > 0) {
 			absPos.y -= this.boundingBoxOffsetY;
 		}

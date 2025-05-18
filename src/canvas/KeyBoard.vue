@@ -259,6 +259,13 @@ export default {
             }
           }
         /**
+         * G dispatch...
+         */
+        } else if(k == 71 && !(e.altKey || e.ctrlKey || e.metaKey)){
+          if(!this._inlineEditStarted){
+            console.debug('G')
+          }
+        /**
          * S dispatch...
          */
         } else if(k == 83){

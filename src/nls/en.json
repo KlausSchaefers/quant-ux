@@ -192,6 +192,7 @@
         },
         "create": {
             "rectangle": "Rectangle",
+            "gridContainer": "Grid Container",
             "text": "Text",
             "hotspot": "Hotspot",
             "logic": "Logic",

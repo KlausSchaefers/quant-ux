@@ -840,6 +840,11 @@ export default {
 			}
 
 
+			if (v.value === 'grdiContainer') {
+				this.onNewGridContainer(e)
+				return
+			}
+
 		},
 
 		onToolLogicAndRest (v, e) {
@@ -911,6 +916,58 @@ export default {
 			this.emit("onNewScriptObject", {"obj" : obj, "event":e});
 		},
 
+		onNewGridContainer (e) {
+			const obj = {
+				"id" : "GridContainer",
+				"type" : "GridContainer",
+				"name" : "Grid Container",
+				"x" : 0,
+				"y" : 0,
+				"w": 320,
+				"h": 320,
+				"z" : 0,
+				"props" : {
+					"layout": "grid",
+					"rows": 2,
+					"columns": 2,
+					"rowGap": 16,
+					"columnGap": 24            
+				},
+				"has" : {
+					"onclick" : true,
+					"borderRadius" : true,
+					"backgroundColor": true,
+					"border": true,
+					"padding":true
+				},
+				"actions":{},
+				"style" : {
+					"background" : "#ffffff",
+					"paddingBottom" : 16,
+					"paddingLeft" : 16,
+					"paddingRight" : 16,
+					"paddingTop" : 16,
+					"selectColor" : "#000000",
+					"borderTopWidth" : 1,
+					"borderBottomWidth" : 1,
+					"borderRightWidth" : 1,
+					"borderLeftWidth" : 1,
+					"borderTopRightRadius" : 8,
+					"borderTopLeftRadius" : 8,
+					"borderBottomRightRadius" : 8,
+					"borderBottomLeftRadius" : 8,
+					"borderTopColor" : "#c5c5c5",
+					"borderBottomColor" : "#c5c5c5",
+					"borderRightColor" : "#c5c5c5",
+					"borderLeftColor" : "#c5c5c5",
+					"borderTopStyle" : "solid",
+					"borderBottomStyle" : "solid",
+					"borderRightStyle" : "solid",
+					"borderLeftStyle" : "solid"
+				}
+			}
+			this.emit("onNewScriptObject", {"obj" : obj, "event":e});
+		},
 
 		onNewRestObject (e) {
 			this.logger.log(-1,"onNewLogicObject", "entry > ");
