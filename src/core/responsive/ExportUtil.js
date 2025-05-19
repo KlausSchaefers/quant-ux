@@ -85,7 +85,7 @@ export function isInputElement (element) {
 
 export function isContainerElement (element) {
     const type = element.type
-    return type === 'Box' || type === 'Button' || type === 'Image' || type === 'ChildrenToggle' || type === 'Repeater' || type === 'DynamicContainer' || type === 'ContainerDropDown'
+    return type === 'Box' || type === 'Button' || type === 'Image' || type === 'ChildrenToggle' || type === 'Repeater' || type === 'DynamicContainer' || type === 'ContainerDropDown' || type === 'GridContainer'
 }
 
 /**
@@ -122,6 +122,9 @@ export function canBeChild (child, parent) {
  * of stacked rows. This is true of arwew no overlaps
  */
 export function hasRowLayout(widget){
+    if (widget?.type === 'GridContainer') {
+        return false
+    }
     if (widget){
         let nodes = widget.children
         let length = nodes.length

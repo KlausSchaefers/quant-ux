@@ -7,7 +7,7 @@ import * as Rows from "./RowLayouter"
 var cloneID = 0
 
 export function transform(model, config) {
-	Logger.log(-1, "Falt2Tree.transform () > enter", config)
+	Logger.log(1, "Falt2Tree.transform () > enter", config)
 
 	let result = {
 		id: model.id,
@@ -32,7 +32,7 @@ export function transform(model, config) {
 		/**
 		 * Add rows and grid if needed
 		 */
-		screen = layoutTree(screen, config.useRows)
+		screen = layoutTree(screen, config.useRows, config.zoom)
 
 		// /**
 		//  * Now we put the fixed stuff in the fixedChildren list
@@ -45,7 +45,7 @@ export function transform(model, config) {
 		 */
 		if (screen.fixedChildren && screen.fixedChildren.length > 0) {
 			Logger.log(1, "Falt2Tree.transform() > fixed elements require double layout")
-			screen = layoutTree(screen, model)
+			screen = layoutTree(screen, model, config.zoom)
 		}
 
 		/**
@@ -68,8 +68,8 @@ export function transform(model, config) {
 	return result
 }
 
-function layoutTree(screen, useRows) {
-  Logger.log(-1, 'Flat2Tree.layoutTree() > ', useRows)
+function layoutTree(screen, useRows, zoom) {
+  Logger.log(-1, 'Flat2Tree.layoutTree() > ', useRows, zoom)
 
 	/**
 	 * We add lines, because for wrapped groups we need the rows!
@@ -92,7 +92,7 @@ function layoutTree(screen, useRows) {
 	fixParents(screen)
 
 
-	screen = addGrid(screen)
+	screen = addGrid(screen, zoom)
 	return screen
 }
 
@@ -143,8 +143,8 @@ function addLayoutType (element, useRows) {
 }
 
 
-function addGrid(screen) {
-	Grid.addGridToElements(screen)
+function addGrid(screen, zoom) {
+	Grid.addGridToElements(screen, zoom)
 	return screen
 }
 

@@ -360,7 +360,7 @@ export default {
       },
 
       startResponsiveLayouter () {  
-        this._responsiveLayouter = new ResponsiveLayout()
+        this._responsiveLayouter = new ResponsiveLayout(this.zoom)
         this._responsiveLayouter.initSelection(this.model, this._resizeModel, this._resizeModel.children, true, true, false)
       },
 

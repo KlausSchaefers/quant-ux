@@ -81,7 +81,7 @@
 
         this.db = new DomBuilder()
         this.createSim(this.app)
-        this.responsive = new ResponsiveLayout()
+        this.responsive = new ResponsiveLayout(1)
         this.responsive.initApp(this.app)
     }
   };

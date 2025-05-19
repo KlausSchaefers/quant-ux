@@ -84,7 +84,7 @@ export default {
             // FIXME: here is some weird bug with nested groups and so. Some times 
             // the groups the child groups are not attached...
             
-            this._gridResponsiveLayouter = new ResponsiveLayout()
+            this._gridResponsiveLayouter = new ResponsiveLayout(this.zoom)
             this._gridResponsiveLayouter
                 .initSelection(this.model, this._gridResizeModel, this._gridResizeModel.children, true, true)
             

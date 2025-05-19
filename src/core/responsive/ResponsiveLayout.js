@@ -7,11 +7,21 @@ import Config from './Config'
 
 export default class ResponsiveLayout {
 
-    constructor(model, config = Config.getDefault()) {
+    constructor(zoom, config = Config.getDefault()) {
         this.config = config
         this.config.useRows = false
         this.config.wrapGroups = true
         this.config.removeRootIfNeeded = false
+
+        if (!zoom) {
+            Logger.error('ResponsiveLayout.constructor() > zoom not passed ')
+            console.trace()
+            this.config.zoom = 1
+        } else {
+            Logger.log(-1, 'ResponsiveLayout.constructor() > zoom  ', zoom)
+            this.config.zoom = zoom
+        }
+
     }
 
     initApp(model, wrapGroups, removeRootIfNeeded=false) {
@@ -50,7 +60,7 @@ export default class ResponsiveLayout {
         }
         const responsiveSelection = {
             id: model.id,
-            name: "Selecttion",
+            name: "Selection",
             screenSize: {
                 w: boundingBox.w,
                 h: boundingBox.h
@@ -97,7 +107,6 @@ export default class ResponsiveLayout {
             scrn.w = roundedBoundingBox.w
             scrn.h = roundedBoundingBox.h
         }
-
 
         // add groups
         this.initApp(responsiveSelection, wrapGroups, removeRootIfNeeded)

@@ -12,6 +12,7 @@ class Config {
 			debug: {
 				logLevel: 0,
 			},
+			zoom:1,
 			designletPrefix: '',
 			scrollToTopAfterNavigation: true,
 			scrollIntoViewOnFocus: false,

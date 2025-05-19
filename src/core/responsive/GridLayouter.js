@@ -1,9 +1,11 @@
 import * as Util from "./ExportUtil"
+import * as SnappUtil from '../SnappUtil'
 //import { Layout } from "../core/Const"
 
-export function addGridToElements(parent) {
+export function addGridToElements(parent, zoom) {
+	console.debug('addGridToElements', zoom)
   
-	const grid = computeGrid(parent)
+	const grid = computeGrid(parent, zoom)
 
 
 	if (grid) {
@@ -41,27 +43,44 @@ export function addGridToElements(parent) {
 
 	if (parent.children && parent.children.length > 0) {
 		parent.children.forEach((c) => {
-			addGridToElements(c)
+			addGridToElements(c, zoom)
 		})
 	}
 
 	return parent
 }
 
-export function computeGrid(parent, fixSmallColumns = false) {
+export function computeGrid(parent, zoom, fixSmallColumns = false) {
 	if (parent.children && parent.children.length > 0) {
 		let rows = {}
 		let columns = {}
+
+
+
 
 		/**
 		 * Collect all the relevant lines. First the parent
 		 * then all the children
 		 */
 		addGridColumns(columns, 0, parent, true)
-		addGridColumns(columns, Util.round(parent.w), parent, false)
 		addGridRow(rows, 0, parent, true)
-		addGridRow(rows, Util.round(parent.h), parent, false)
 
+		// for a grid container we set the grid
+		if (isGridContainer(parent)) {
+			const lines = SnappUtil.getGridContainerLines(parent, 'All', zoom)
+			lines.x.forEach(x => {
+				// substract the model x and y... I think
+				//console.debug('Add Grid', x, x - parent.x)
+				addGridColumns(columns, Util.round(x - parent.x), null, true)
+			})
+			lines.y.forEach(y => {
+				// substract the model x and y... I think
+				addGridRow(rows, Util.round(y - parent.y), null, true)
+			})
+		}
+
+		addGridColumns(columns, Util.round(parent.w), parent, false)
+		addGridRow(rows, Util.round(parent.h), parent, false)
 
 		parent.children.forEach((c) => {
 			addGridColumns(columns, Util.round(c.x), c, true)
@@ -76,7 +95,7 @@ export function computeGrid(parent, fixSmallColumns = false) {
 		 */
 		columns = setGridColumnWidth(columns, parent)
 		rows = setGridRowHeight(rows, parent)
-
+	
 		if (fixSmallColumns) {
 			/**
 			 * To make htis work, we need to fix the addGridToElements() to not match values,
@@ -88,7 +107,11 @@ export function computeGrid(parent, fixSmallColumns = false) {
 		/**
 		 * determine fixed columns and rows
 		 */
-		setFixedGirdRowsAndColumns(parent, columns, rows)
+		if (isGridContainer(parent)) {
+			setGridContainerFixed(parent, columns, rows)
+		} else {
+			setFixedGirdRowsAndColumns(parent, columns, rows)
+		}
 
 		return {
 			rows: rows,
@@ -96,6 +119,23 @@ export function computeGrid(parent, fixSmallColumns = false) {
 		}
 	}
 	return null
+}
+
+function setGridContainerFixed(parent, columns, rows) {
+	columns.forEach((c,i) => {
+		if (i % 2 === 0) {
+			c.fixed = true
+		}
+	})
+	rows.forEach((r,i) => {
+		if (i % 2 === 0) {
+			r.fixed = true
+		}
+	})
+}
+
+function isGridContainer(parent) {
+	return parent.type === 'GridContainer'
 }
 
 export function computeReducedColumns(columns) {
@@ -221,6 +261,7 @@ export function setGridRowHeight(rows, parent) {
 
 export function addGridColumns(columns, x, e, start) {
 	if (!columns[x]) {
+	
 		columns[x] = {
 			v: x,
 			start: [],
@@ -229,20 +270,26 @@ export function addGridColumns(columns, x, e, start) {
 			hasMinMax: false,
 		}
 	}
-	if (start) {
-		columns[x].start.push(e.id)
+	if (e) {
+		if (start) {
+			columns[x].start.push(e.id)
+		} else {
+			columns[x].end.push(e.id)
+		}
+		/**
+		 * If we have a min max, we will
+		 * later try to use max-content. This will
+		 * only work for the longest element.
+		 * Check CSSPosition.getGridColumnTracks()
+		 */
+		if (Util.hasMinMaxWdith(e)) {
+			columns[x].hasMinMax = true
+		}
 	} else {
-		columns[x].end.push(e.id)
+		columns[x].isGridContainer = true
 	}
-	/**
-	 * If we have a min max, we will
-	 * later try to use max-content. This will
-	 * only work for the longest element.
-	 * Check CSSPosition.getGridColumnTracks()
-	 */
-	if (Util.hasMinMaxWdith(e)) {
-		columns[x].hasMinMax = true
-	}
+
+
 }
 
 export function addGridRow(rows, y, e, start) {
@@ -254,9 +301,14 @@ export function addGridRow(rows, y, e, start) {
 			fixed: false,
 		}
 	}
-	if (start) {
-		rows[y].start.push(e.id)
+	if (e) {
+		if (start) {
+			rows[y].start.push(e.id)
+		} else {
+			rows[y].end.push(e.id)
+		}
 	} else {
-		rows[y].end.push(e.id)
+		rows[y].isGridContainer = true
 	}
+
 }

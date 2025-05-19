@@ -44,7 +44,7 @@ import ModelGeom from '../../src/core/ModelGeom'
 
 test('ResponsiveLayout.js - testTree 3', async () => {
 
-    let rl = new ResponsiveLayout()
+    let rl = new ResponsiveLayout(1)
 
     let selectedGroup = app2.groups['g10090_55556']
     console.debug(selectedGroup)
@@ -65,7 +65,7 @@ test('ResponsiveLayout.js - testTree 3', async () => {
 
 test('ResponsiveLayout.js - testTree 4', async () => {
 
-    let rl = new ResponsiveLayout()
+    let rl = new ResponsiveLayout(1)
 
     let selectedGroup = app2.groups['g10096_53770']
     console.debug(selectedGroup)

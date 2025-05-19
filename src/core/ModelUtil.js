@@ -356,6 +356,21 @@ class ModelUtil {
             zoomedWidget.style = {
                 locked: widget?.style.locked
             }
+         
+            /**
+             * We need paddings etc in the for resizing to calc the grid
+             */
+            if (widget.type === 'GridContainer') {
+                zoomedWidget.style.paddingTop = widget.style.paddingTop
+                zoomedWidget.style.paddingBottom = widget.style.paddingBottom
+                zoomedWidget.style.paddingLeft = widget.style.paddingLeft
+                zoomedWidget.style.paddingRight = widget.style.paddingRight
+
+                zoomedWidget.style.borderBottomWidth = widget.style.borderBottomWidth
+                zoomedWidget.style.borderTopWidth = widget.style.borderTopWidth
+                zoomedWidget.style.borderLeftWidth = widget.style.borderLeftWidth
+                zoomedWidget.style.borderRightWidth = widget.style.borderRightWidth
+            }
             zoomedWidget.props = widget.props // this is ok, because edits will go through the controller
             zoomedWidget.z = widget.z
             zoomedWidget.type = widget.type

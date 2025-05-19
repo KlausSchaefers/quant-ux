@@ -386,7 +386,7 @@ export default {
 			// we could do this somehow nicer?
 			// now the scroll will bon on the entire page, which is messing up screen
 			// recordings
-			const layout = new ResponsiveLayout()
+			const layout = new ResponsiveLayout(1)
 			layout.initApp(this.model, true)
 			// should this be the same height or scalled????
 			const resizedModel = layout.resize(cntrPos.w,this.model.screenSize.h )

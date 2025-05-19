@@ -373,7 +373,7 @@ export default class Screen extends CopyPaste {
 	}
 
 	modelScreenSize (value, screenHeights = {}){
-		const layouter = new ResponsiveLayout()
+		const layouter = new ResponsiveLayout(1)
 		layouter.initApp(lang.clone(this.model))
 		const responsivePositions = layouter.resize(value.screenSize.w, -1)
 

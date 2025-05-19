@@ -1,0 +1,179 @@
+{
+  "_id" : "6823b9039491e13d3f5fc1b4",
+  "version" : 4,
+  "name" : "Grid Container",
+  "description" : "",
+  "screenSize" : {
+    "w" : 375,
+    "h" : 812
+  },
+  "type" : "smartphone",
+  "screens" : {
+    "s10000_43428" : {
+      "x" : 1708,
+      "y" : 1126,
+      "h" : 812,
+      "w" : 375,
+      "name" : "Screen",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#ffffff"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 812
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : true
+      },
+      "children" : [ "w10002_20409", "w10015_91723" ],
+      "id" : "s10000_43428",
+      "modified" : 1747596855332
+    }
+  },
+  "widgets" : {
+    "w10002_20409" : {
+      "id" : "w10002_20409",
+      "type" : "GridContainer",
+      "name" : "GridContainer",
+      "sidebar" : true,
+      "x" : 1725,
+      "y" : 1154,
+      "w" : 325,
+      "h" : 317,
+      "z" : 1,
+      "props" : {
+        "layout" : "grid",
+        "rows" : 3,
+        "columns" : 3,
+        "rowGap" : 24,
+        "columnGap" : 24
+      },
+      "has" : {
+        "onclick" : true,
+        "borderRadius" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "padding" : true
+      },
+      "actions" : { },
+      "style" : {
+        "background" : "#ffffff",
+        "paddingBottom" : 16,
+        "paddingLeft" : 16,
+        "paddingRight" : 16,
+        "paddingTop" : 16,
+        "selectColor" : "#000000",
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopRightRadius" : 8,
+        "borderTopLeftRadius" : 8,
+        "borderBottomRightRadius" : 8,
+        "borderBottomLeftRadius" : 8,
+        "borderTopColor" : "#c5c5c5",
+        "borderBottomColor" : "#c5c5c5",
+        "borderRightColor" : "#c5c5c5",
+        "borderLeftColor" : "#c5c5c5",
+        "borderTopStyle" : "solid",
+        "borderBottomStyle" : "solid",
+        "borderRightStyle" : "solid",
+        "borderLeftStyle" : "solid"
+      },
+      "hover" : {
+        "borderTopColor" : "#000000",
+        "borderBottomColor" : "#000000",
+        "borderRightColor" : "#000000",
+        "borderLeftColor" : "#000000"
+      },
+      "created" : 1747171649369,
+      "modified" : 1747596855332
+    },
+    "w10015_91723" : {
+      "type" : "Button",
+      "name" : "Child",
+      "x" : 1742,
+      "y" : 1171,
+      "w" : 186,
+      "h" : 180,
+      "z" : 2,
+      "props" : {
+        "label" : "",
+        "paddingSnap" : true
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#000000",
+        "borderBottomColor" : "#000000",
+        "borderRightColor" : "#000000",
+        "borderLeftColor" : "#000000",
+        "background" : "rgba(0, 0, 0, 0.13)",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10015_91723",
+      "created" : 1747427368011,
+      "modified" : 1747597520701
+    }
+  },
+  "lines" : { },
+  "groups" : {
+    "g10042_28527" : {
+      "id" : "g10042_28527",
+      "children" : [ "w10002_20409", "w10015_91723" ],
+      "groups" : [ ],
+      "name" : "GridGroup"
+    }
+  },
+  "templates" : { },
+  "designtokens" : { },
+  "lastUUID" : 10043,
+  "lastUpdate" : 1747597545505,
+  "created" : 1747171587889,
+  "startScreen" : "",
+  "grid" : {
+    "w" : 8,
+    "h" : 8,
+    "style" : "line",
+    "color" : "#cecece",
+    "visible" : false,
+    "enabled" : false
+  },
+  "domain" : "Quant-UX.com",
+  "isDirty" : true,
+  "screenCount" : 1,
+  "widgetCount" : 2,
+  "lastCategory" : "Advanced",
+  "lastBackup" : 1747596975122,
+  "sizeBackup" : 3801,
+  "id" : "6823b9039491e13d3f5fc1b4",
+  "sessionCount" : 0
+}

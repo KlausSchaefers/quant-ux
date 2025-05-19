@@ -43,15 +43,16 @@ test('Test SnappUtil.getGridContainerLinesX() >  All', async () => {
     let result = SnappUtil.getGridContainerLinesX(cntr, 'All', 1)
 
     expect(result.columnW).toBe(100)
-    expect(result.x.join(',')).toBe([26,126,146,246,266,366,386,486,506].join(','))
     console.debug(result)
+    expect(result.x.join(',')).toBe([26,126,146,246,266,366,386,486].join(','))
+ 
 })
 
 test('Test SnappUtil.getGridContainerLinesY() >  All', async () => {
 
     let result = SnappUtil.getGridContainerLinesY(cntr, 'All', 1)
     expect(result.rowH).toBe(70)
-    expect(result.y.join(',')).toBe([12,82,92,162,172,242,252,322,332,402,412].join(','))
+    expect(result.y.join(',')).toBe([12,82,92,162,172,242,252,322,332,402].join(','))
     console.debug(result)
 })
 
@@ -60,7 +61,7 @@ test('Test SnappUtil.getGridContainerLines() >  All', async () => {
     let result = SnappUtil.getGridContainerLines(cntr, 'All', 1)
     expect(result.columnW).toBe(100)
     expect(result.rowH).toBe(70)
-    expect(result.x.join(',')).toBe([26,126,146,246,266,366,386,486,506].join(','))
-    expect(result.y.join(',')).toBe([12,82,92,162,172,242,252,322,332,402,412].join(','))
+    expect(result.x.join(',')).toBe([26,126,146,246,266,366,386,486].join(','))
+    expect(result.y.join(',')).toBe([12,82,92,162,172,242,252,322,332,402].join(','))
     console.debug(result)
 })

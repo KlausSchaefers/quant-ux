@@ -417,7 +417,7 @@ export default {
 				this.logger.sendError(new Error("onWidgetPositionChange() > No source model passed"));
 				return
 			}
-			this.logger.log(-1,"onWidgetPositionChange", "enter", sourceModel);
+			this.logger.log(1,"onWidgetPositionChange", "enter", sourceModel);
 			this.sourceModel = sourceModel;
 			this.updateScalledModel()
 			this.renderFactory.setZoomedModel(sourceModel);
