@@ -112,7 +112,8 @@ export default {
 
         return new Promise(async(resolve) => {
             const engine = new ScriptEngine()
-            let result = await engine.run(script, this.model, this.dataBindingValues, event).then()
+            const result = await engine.run(script, this.model, this.dataBindingValues, event).then()
+     
             if (result.status === 'ok') {     
                 requestAnimationFrame( () => {
                     this.vibrate(result)
@@ -190,6 +191,17 @@ export default {
             return
         }
         if (result.to) {
+            if (result.to.startsWith && result.to.startsWith('http://')) {
+                const url = URL.parse(result.to)
+                if (location.hostname !== url.hostname || this.doNotOpenInSameWindow) {
+                    this.logger.log(-2,"renderScriptResult","External >" +  result.to);
+                    window.open(result.to)
+                } else {
+                    this.logger.log(-2,"renderScriptResult","Internal >" +  result.to);
+                    location.href = result.to
+                    location.reload();
+                }
+            }
             const targetScreen = Object.values(this.model.screens).find(s => s.name === result.to)
             if (targetScreen) {
                 const tempLine = this.createTempLine(targetScreen.id, orginalLine)

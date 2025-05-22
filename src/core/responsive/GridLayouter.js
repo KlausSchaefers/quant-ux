@@ -3,7 +3,6 @@ import * as SnappUtil from '../SnappUtil'
 //import { Layout } from "../core/Const"
 
 export function addGridToElements(parent, zoom) {
-	console.debug('addGridToElements', zoom)
   
 	const grid = computeGrid(parent, zoom)
 
@@ -54,9 +53,7 @@ export function computeGrid(parent, zoom, fixSmallColumns = false) {
 	if (parent.children && parent.children.length > 0) {
 		let rows = {}
 		let columns = {}
-
-
-
+		let snapp = false
 
 		/**
 		 * Collect all the relevant lines. First the parent
@@ -65,12 +62,14 @@ export function computeGrid(parent, zoom, fixSmallColumns = false) {
 		addGridColumns(columns, 0, parent, true)
 		addGridRow(rows, 0, parent, true)
 
-		// for a grid container we set the grid
-		if (isGridContainer(parent)) {
-			const lines = SnappUtil.getGridContainerLines(parent, 'All', zoom)
+		// for a grid container we set the grid from
+		// the container
+		let lines = {x: [], y: []}
+		if (Util.isGridContainerWidget(parent)) {
+			snapp = true
+			lines = SnappUtil.getGridContainerLines(parent, 'All', zoom)
 			lines.x.forEach(x => {
 				// substract the model x and y... I think
-				//console.debug('Add Grid', x, x - parent.x)
 				addGridColumns(columns, Util.round(x - parent.x), null, true)
 			})
 			lines.y.forEach(y => {
@@ -83,12 +82,15 @@ export function computeGrid(parent, zoom, fixSmallColumns = false) {
 		addGridRow(rows, Util.round(parent.h), parent, false)
 
 		parent.children.forEach((c) => {
-			addGridColumns(columns, Util.round(c.x), c, true)
-			addGridColumns(columns, Util.round(c.x + c.w), c, false)
-			addGridRow(rows, Util.round(c.y), c, true)
-			addGridRow(rows, Util.round(c.y + c.h), c, false)
+			// we have an issue here id we are zooming, because 
+			// we might get double lines with just a difference of 1
+			addGridColumns(columns, Util.round(c.x), c, true, snapp)
+			addGridColumns(columns, Util.round(c.x + c.w), c, false, snapp)
+			addGridRow(rows, Util.round(c.y), c, true, snapp)
+			addGridRow(rows, Util.round(c.y + c.h), c, false, snapp)
 		})
 
+		//console.debug('GridLayouter', 'computeGrid', 'columns', Object.values(rows).length, 'lines', lines.y)
 		
 		/**
 		 * Set the width and convert objects to arrays
@@ -107,11 +109,13 @@ export function computeGrid(parent, zoom, fixSmallColumns = false) {
 		/**
 		 * determine fixed columns and rows
 		 */
-		if (isGridContainer(parent)) {
+		if (Util.isGridContainerWidget(parent)) {
 			setGridContainerFixed(parent, columns, rows)
 		} else {
 			setFixedGirdRowsAndColumns(parent, columns, rows)
 		}
+
+
 
 		return {
 			rows: rows,
@@ -134,9 +138,6 @@ function setGridContainerFixed(parent, columns, rows) {
 	})
 }
 
-function isGridContainer(parent) {
-	return parent.type === 'GridContainer'
-}
 
 export function computeReducedColumns(columns) {
 	let temp = []
@@ -259,9 +260,9 @@ export function setGridRowHeight(rows, parent) {
 	return rows.filter((r) => r.l > 0)
 }
 
-export function addGridColumns(columns, x, e, start) {
-	if (!columns[x]) {
-	
+export function addGridColumns(columns, x, e, start, snapp) {
+	x = correctColumnX(columns, x, snapp)
+	if (!columns[x]) {	
 		columns[x] = {
 			v: x,
 			start: [],
@@ -288,11 +289,38 @@ export function addGridColumns(columns, x, e, start) {
 	} else {
 		columns[x].isGridContainer = true
 	}
-
-
 }
 
-export function addGridRow(rows, y, e, start) {
+function correctColumnX (columns, x, snapp) {
+	if (!snapp) {
+		return x
+	}
+	if (columns[x]) {
+		return x
+	}
+	if (columns[x - 1]) {
+		return x-1
+	}
+	if (columns[x - 2]) {
+		return x-2
+	}
+	if (columns[x + 1]) {
+		return x+1
+	}
+	if (columns[x + 2]) {
+		return x+2
+	}
+	if (columns[x + 3]) {
+		return x+1
+	}
+	if (columns[x + 3]) {
+		return x+3
+	}
+	return x
+}
+
+export function addGridRow(rows, y, e, start, snapp) {
+	y = correctRowY(rows, y, snapp)
 	if (!rows[y]) {
 		rows[y] = {
 			v: y,
@@ -311,4 +339,29 @@ export function addGridRow(rows, y, e, start) {
 		rows[y].isGridContainer = true
 	}
 
+}
+
+function correctRowY (rows, y, snapp) {
+	if (!snapp) {
+		return y
+	}
+	if (rows[y]) {
+		return y
+	}
+	if (rows[y - 1]) {
+		return y-1
+	}
+	if (rows[y - 2]) {
+		return y-2
+	}
+	if (rows[y + 2]) {
+		return y+2
+	}
+	if (rows[y - 3]) {
+		return y-3
+	}
+	if (rows[y + 3]) {
+		return y+3
+	}
+	return y
 }

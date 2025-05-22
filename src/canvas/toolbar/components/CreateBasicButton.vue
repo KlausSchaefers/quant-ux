@@ -66,7 +66,7 @@ export default {
                 {value: 'box', icon: 'BoxWide', label: this.getNLS('toolbar.create.rectangle'), shortcut:'R'},         
                 {value: 'text', icon: 'Text', label:  this.getNLS('toolbar.create.text'), shortcut:'T'},
                 {value: 'hotspot', icon: 'Hotspot', label:  this.getNLS('toolbar.create.hotspot'), shortcut:'H'},
-                {value: 'grdiContainer', icon: 'GridContainer', label: this.getNLS('toolbar.create.gridContainer')},
+                //{value: 'gridContainer', icon: 'GridContainer', label: this.getNLS('toolbar.create.gridContainer')},
                 {value: 1, css:'MatcToolbarPopUpLine'},
                 {value: 'logic', icon: 'Cloud', label: this.getNLS('toolbar.create.logic'), icon2:'SVGChevronRight', children:[
                     {value: 'rest', icon: 'Cloud', label: this.getNLS('toolbar.create.rest')},

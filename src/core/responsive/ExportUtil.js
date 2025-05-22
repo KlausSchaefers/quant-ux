@@ -2,7 +2,7 @@ import Logger from "../Logger";
 import {Layout} from './Const'
 
 export function round(x) {
-    return Math.round(x)
+    return Math.floor(x)
     // FIXME: This causes some weird issues.
     //return Math.round(x * 10) / 10
 }
@@ -370,6 +370,10 @@ export function isOverlay(screen) {
 
 export function isComponentSet (e) {
     return e.figmaType === 'COMPONENT_SET'
+}
+
+export function isGridContainerWidget(e) {
+	return e.type === 'GridContainer'
 }
 
 export function isChildrenToggle(e) {

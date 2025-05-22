@@ -840,7 +840,7 @@ export default {
 			}
 
 
-			if (v.value === 'grdiContainer') {
+			if (v.value === 'gridContainer') {
 				this.onNewGridContainer(e)
 				return
 			}

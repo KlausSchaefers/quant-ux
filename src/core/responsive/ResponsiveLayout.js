@@ -3,6 +3,7 @@ import Logger from '../Logger'
 import * as Flat2Tree from './Flat2Tree'
 import * as Quant2Flat from './Quant2Flat'
 import * as ExportUtil from './ExportUtil'
+import * as SnappUtil from '../SnappUtil'
 import Config from './Config'
 
 export default class ResponsiveLayout {
@@ -262,7 +263,7 @@ export default class ResponsiveLayout {
     resizeChildenGrid(box, parent, newNestedPositions, indent) {
         Logger.log(2, indent + 'ResponsiveLayout.resizeChildenGrid() > ' + box.name, box.grid )  
         const newParent = newNestedPositions[parent.id]
-        const sclaleGrid = this.sclaleGrid(box.grid, newParent, indent + box.name)
+        const sclaleGrid = this.sclaleGrid(box, box.grid, newParent, indent + box.name)       
         this.updateChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)      
     }
 
@@ -339,7 +340,72 @@ export default class ResponsiveLayout {
         return result
     }
 
-    sclaleGrid (grid, newParent) {
+    sclaleGrid (box, grid, newParent) {
+
+        if (ExportUtil.isGridContainerWidget(box)) {  
+            return this.sclaleDGridContainer(box, grid, newParent)
+        } else {
+            return this.sclaleDefaultGrid(grid, newParent)
+        }
+       
+    }
+
+    sclaleDGridContainer (box, grid, newParent) {
+        //console.debug('ResponsiveLayout.sclaleDGridContainer() > grid container', box.name, newParent.w, newParent.h)
+
+        grid = ExportUtil.clone(grid)
+        const old = this.sclaleDefaultGrid(grid, newParent)
+
+        const newBox = {
+            id: box.id,
+            name: box.name,
+            x: box.x,
+            y: box.y,
+            w: newParent.w,
+            h: newParent.h,
+            style: box.style,
+            props: box.props,
+            children: box.children
+        }
+        const lines = SnappUtil.getGridContainerLines(newBox, 'All', this.config.zoom)
+        lines.x.unshift(0)
+        lines.x.push(newParent.w)
+        lines.y.unshift(0)
+        lines.y.push(newParent.h)
+
+         if (old.rows.length !== lines.y.length) {
+            console.warn('ResponsiveLayout.sclaleDGridContainer() > Wrong rows', box.name, '=', old.rows, lines.y)
+        }
+        if (old.cols.length !== lines.x.length) {
+            console.warn('ResponsiveLayout.sclaleDGridContainer() > Wrong cols', box.name, '=', old.cols, lines.x)
+        }
+
+
+        lines.x.forEach((x, i) => {
+            if (old.cols[i] !== x) {
+                console.debug('! X', i, x, old.cols[i])
+            } else {
+                //console.debug('= X', i, x, old.cols[i])
+            }
+        })
+        lines.y.forEach((y, i) => {
+            if (old.rows[i] !== y) {
+                console.debug('! Y', i, y, old.rows[i])
+            } else {
+               //console.debug('= Y', i, y, old.rows[i])
+            }
+            //old.rows[i] = y
+        })
+        // this is in principle the same as the old one good
+        // but for zooming we add
+        return {
+            rows: lines.y,
+            cols: lines.x
+        }
+        //return old
+    }
+
+    sclaleDefaultGrid (grid, newParent) {
         grid = ExportUtil.clone(grid)
         const result = {}
 
@@ -351,7 +417,7 @@ export default class ResponsiveLayout {
         
         let lastX = 0
         result.cols = grid.columns.map((col) => {
-            return col.fixed  ? col.l : Math.round(col.l * factorWidth)            
+            return col.fixed  ? col.l : ExportUtil.round(col.l * factorWidth)            
         }).map(x => {         
             lastX += x
             return lastX
@@ -363,7 +429,7 @@ export default class ResponsiveLayout {
         const factorHeight = (newParent.h - fixedHeight)/ flexHeight
         let lastY = 0
         result.rows = grid.rows.map((row) => {            
-            return row.fixed ? row.l : Math.round(row.l * factorHeight)            
+            return row.fixed ? row.l : ExportUtil.round(row.l * factorHeight)            
         }).map(y => {         
             lastY += y
             return lastY
@@ -377,7 +443,6 @@ export default class ResponsiveLayout {
 
         return result
     }
-
     
     resizeChildrenRow (box, parent, newNestedPositions, indent) {
         box.children.forEach(child => {             
@@ -415,7 +480,7 @@ export default class ResponsiveLayout {
                 newChildPos.y = newY
                 newChildPos.b = distanceBottom
             } else {
-                newChildPos.y = Math.round(child.y* factorHeight) + newParent.y
+                newChildPos.y = ExportUtil.round(child.y* factorHeight) + newParent.y
             }
 
         } else {
@@ -424,14 +489,14 @@ export default class ResponsiveLayout {
                 newChildPos.h = Math.round(child.h * factorHeight)
             } else if (ExportUtil.isPinnedDown(child)) {          
                     
-                const newHeight = Math.round(child.h * factorHeight)
+                const newHeight = ExportUtil.round(child.h * factorHeight)
                 const newY = (newParent.h + newParent.y) - (newHeight + distanceBottom)
                 newChildPos.h = newHeight
                 newChildPos.y = newY  
                 newChildPos.b = distanceBottom         
             } else {
-                newChildPos.h = Math.round(child.h * factorHeight) 
-                newChildPos.y = Math.round(child.y * factorHeight) + newParent.y           
+                newChildPos.h = ExportUtil.round(child.h * factorHeight) 
+                newChildPos.y = ExportUtil.round(child.y * factorHeight) + newParent.y           
             }             
         }
         //console.debug(indent,'  hor', parent.name, '-> ', child.name, child.id, child.w, parent.w, newParent.w, ' ==',newChildPos.w)
@@ -458,7 +523,7 @@ export default class ResponsiveLayout {
                 newChildPos.x = newX
                 newChildPos.r = distanceRight
             } else {
-                newChildPos.x = Math.round(child.x * factorWidth) + newParent.x
+                newChildPos.x = ExportUtil.round(child.x * factorWidth) + newParent.x
             }
 
         } else {
@@ -467,14 +532,14 @@ export default class ResponsiveLayout {
                 newChildPos.w = Math.round(child.w * factorWidth)
             } else if (ExportUtil.isPinnedRight(child)) {          
                     
-                const newWidth = Math.round(child.w * factorWidth)
+                const newWidth = ExportUtil.round(child.w * factorWidth)
                 const newX = (newParent.w + newParent.x) - (newWidth + distanceRight)
                 newChildPos.w = newWidth
                 newChildPos.x = newX  
                 newChildPos.r = distanceRight         
             } else {
-                newChildPos.w = Math.round(child.w * factorWidth) 
-                newChildPos.x = Math.round(child.x * factorWidth) + newParent.x           
+                newChildPos.w = ExportUtil.round(child.w * factorWidth) 
+                newChildPos.x = ExportUtil.round(child.x * factorWidth) + newParent.x           
             }             
         }
         //console.debug(indent,'  hor', parent.name, '-> ', child.name, child.id, child.w, parent.w, newParent.w, ' ==',newChildPos.w)
@@ -498,10 +563,10 @@ function getFlexFixed(list) {
 
 function createResult(x, y, w, h) {
     return {
-        w: Math.round(w),
-        x: Math.round(x),
-        y: Math.round(y),
-        h: Math.round(h)
+        w: ExportUtil.round(w),
+        x: ExportUtil.round(x),
+        y: ExportUtil.round(y),
+        h: ExportUtil.round(h)
     }
 }
 
