@@ -17,23 +17,35 @@ export function addGridToElements(parent, zoom) {
 				e.gridRowStart = 0
 				e.gridRowEnd = grid.rows.length
 				grid.columns.forEach((c, i) => {
-					/**
-					 * FIXME: if we want to use grdiCleanUp we
-					 * have to use start and end
-					 */
-					if (c.v === e.x) {
+					if (c.start.includes(e.id)) {
 						e.gridColumnStart = i
-					} else if (c.v === e.x + e.w) {
+					}
+					if (c.end.includes(e.id)) {
 						e.gridColumnEnd = i
 					}
+					// /**
+					//  * FIXME: if we want to use grdiCleanUp we
+					//  * have to use start and end
+					//  */
+					// if (c.v === e.x) {
+					// 	e.gridColumnStart = i
+					// } else if (c.v === e.x + e.w) {
+					// 	e.gridColumnEnd = i
+					// }
 				})
 				grid.rows.forEach((r, i) => {
-					if (r.v === e.y) {
+					if (r.start.includes(e.id)) {
 						e.gridRowStart = i
 					}
-					if (r.v === e.y + e.h) {
+					if (r.end.includes(e.id)) {
 						e.gridRowEnd = i
 					}
+					// if (r.v === e.y) {
+					// 	e.gridRowStart = i
+					// }
+					// if (r.v === e.y + e.h) {
+					// 	e.gridRowEnd = i
+					// }
 				})
 			})
 		}
@@ -295,26 +307,13 @@ function correctColumnX (columns, x, snapp) {
 	if (!snapp) {
 		return x
 	}
-	if (columns[x]) {
-		return x
-	}
-	if (columns[x - 1]) {
-		return x-1
-	}
-	if (columns[x - 2]) {
-		return x-2
-	}
-	if (columns[x + 1]) {
-		return x+1
-	}
-	if (columns[x + 2]) {
-		return x+2
-	}
-	if (columns[x + 3]) {
-		return x+1
-	}
-	if (columns[x + 3]) {
-		return x+3
+	for (let i = 1; i <= 3; i++) {
+		if (columns[x + i]) {
+			return x + i
+		}
+		if (columns[x - i]) {
+			return x - i
+		}
 	}
 	return x
 }
@@ -348,20 +347,13 @@ function correctRowY (rows, y, snapp) {
 	if (rows[y]) {
 		return y
 	}
-	if (rows[y - 1]) {
-		return y-1
-	}
-	if (rows[y - 2]) {
-		return y-2
-	}
-	if (rows[y + 2]) {
-		return y+2
-	}
-	if (rows[y - 3]) {
-		return y-3
-	}
-	if (rows[y + 3]) {
-		return y+3
+	for (let i = 1; i <= 3; i++) {
+		if (rows[y + i]) {
+			return y + i
+		}
+		if (rows[y - i]) {
+			return y - i
+		}
 	}
 	return y
 }

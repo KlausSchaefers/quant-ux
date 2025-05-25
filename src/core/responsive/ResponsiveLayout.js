@@ -36,7 +36,7 @@ export default class ResponsiveLayout {
     }
 
     initSelection(model, boundingBox, children, round=true, wrapGroups = true, removeRootIfNeeded=true) {
-        Logger.log(-1, 'ResponsiveLayout.initSelection() > wrapGroups: ' + wrapGroups)
+       // Logger.log(-1, 'ResponsiveLayout.initSelection() > wrapGroups: ' + wrapGroups)
         /**
          * We want to make sure, that the selection is always
          * in the crisp in the bounding box.
@@ -171,6 +171,7 @@ export default class ResponsiveLayout {
     }
 
     resizePositions(width, height) {
+
         const newNestedPositions = {}
         this.treeModel.screens.forEach(scrn => {
             if (height === -1) {
@@ -186,7 +187,7 @@ export default class ResponsiveLayout {
 
 
     resizeScreen (width, height, scrn, newNestedPositions) {
-        Logger.log(2, 'ResponsiveLayout.resizeScreen() > ' + scrn.name )
+        Logger.log(-1, 'ResponsiveLayout.resizeScreen() > ' + scrn.name + ' w:' + width + ' h:'+ height)
         newNestedPositions[scrn.id] = createResult(0,0, width, height)
         this.resizeChildren(scrn, scrn, newNestedPositions, '')
     }
@@ -231,9 +232,9 @@ export default class ResponsiveLayout {
                         widget.w = newPos.w
                     }
                     
-               
                     widget.x = newPos.x + offsetX
                     widget.y = newPos.y + offsetY
+                    //widget.gridPos = newPos.gridPos || {}
                     this.updateModel(newNestedPositions, app, child, offsetX, offsetY, indent+ '    ')
                 }
             } else {
@@ -269,6 +270,7 @@ export default class ResponsiveLayout {
 
     updateChildPositions (box, newParent, sclaleGrid, newNestedPositions, indent) {
         box.children.forEach(child => {
+
           
             const startX = sclaleGrid.cols[child.gridColumnStart]
             const endX = sclaleGrid.cols[child.gridColumnEnd]
@@ -276,10 +278,13 @@ export default class ResponsiveLayout {
             // TODO: we should check that the with and height on
             // fixed elements are really the same...
             const width = endX - startX
+
     
             const startY = sclaleGrid.rows[child.gridRowStart]
             const endY = sclaleGrid.rows[child.gridRowEnd]
             const height = endY - startY
+
+            //console.debug(indent, 'ResponsiveLayout.updateChildPositions() > ', child.name, startY, endY, startX, endX, width, height)
 
             const newChildPos = createResult(
                 startX + newParent.x, 
@@ -287,6 +292,14 @@ export default class ResponsiveLayout {
                 width,
                 height
             )
+            const gridPos = {}
+            gridPos.gridColumnStart = child.gridColumnStart
+            gridPos.gridColumnEnd = child.gridColumnEnd
+            gridPos.gridRowStart = child.gridRowStart
+            gridPos.gridRowEnd = child.gridRowEnd
+            gridPos.parentID = box.id
+            newChildPos.gridPos = gridPos
+
             newNestedPositions[child.id] = newChildPos
             this.resizeChildren(child, child, newNestedPositions, indent + '     ')
         })
@@ -350,11 +363,7 @@ export default class ResponsiveLayout {
        
     }
 
-    sclaleDGridContainer (box, grid, newParent) {
-        //console.debug('ResponsiveLayout.sclaleDGridContainer() > grid container', box.name, newParent.w, newParent.h)
-
-        grid = ExportUtil.clone(grid)
-        const old = this.sclaleDefaultGrid(grid, newParent)
+    sclaleDGridContainer (box, gridX, newParent) {
 
         const newBox = {
             id: box.id,
@@ -373,36 +382,12 @@ export default class ResponsiveLayout {
         lines.y.unshift(0)
         lines.y.push(newParent.h)
 
-         if (old.rows.length !== lines.y.length) {
-            console.warn('ResponsiveLayout.sclaleDGridContainer() > Wrong rows', box.name, '=', old.rows, lines.y)
-        }
-        if (old.cols.length !== lines.x.length) {
-            console.warn('ResponsiveLayout.sclaleDGridContainer() > Wrong cols', box.name, '=', old.cols, lines.x)
-        }
-
-
-        lines.x.forEach((x, i) => {
-            if (old.cols[i] !== x) {
-                console.debug('! X', i, x, old.cols[i])
-            } else {
-                //console.debug('= X', i, x, old.cols[i])
-            }
-        })
-        lines.y.forEach((y, i) => {
-            if (old.rows[i] !== y) {
-                console.debug('! Y', i, y, old.rows[i])
-            } else {
-               //console.debug('= Y', i, y, old.rows[i])
-            }
-            //old.rows[i] = y
-        })
         // this is in principle the same as the old one good
         // but for zooming we add
         return {
             rows: lines.y,
             cols: lines.x
         }
-        //return old
     }
 
     sclaleDefaultGrid (grid, newParent) {

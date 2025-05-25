@@ -23,7 +23,6 @@ export function isLayoutGrow (e) {
     return e.layout && e.layout.grow > 0
 }
 
-
 export function isLayoutAuto(e) {
     // why did check for this??? || e.layout.align !== undefined Take a look at auto fixed. This is somehow needed for the growth
     return e.layout !== undefined && (e.layout.type === Layout.AutoHorizontal || e.layout.type === Layout.AutoVertical ) //|| e.layout.align !== undefined

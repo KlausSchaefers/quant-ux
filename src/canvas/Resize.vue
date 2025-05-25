@@ -479,7 +479,6 @@ export default {
       _resizeMultiChildren (pos, oldPos, children) {
     
           const responsivePositions = this._responsiveLayouter.resize(pos.w, pos.h)
-
           const offsetX = pos.x - oldPos.x
           const offsetY = pos.y - oldPos.y
 
@@ -504,7 +503,8 @@ export default {
               x: repositionWidget.x + offsetX,
               y: repositionWidget.y + offsetY,
               w: repositionWidget.w,
-              h: repositionWidget.h
+              h: repositionWidget.h,
+              gridPos: repositionWidget.gridPos
             }         
           }
           return [positions,hasCopies]
@@ -601,6 +601,7 @@ export default {
             const [positions,hasCopies] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
             // Basically we have to move this entire method to the controller!!
             this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
+            //this.getController().updateMultiWidgetPositionResponsive(pos, this._resizeModel, positions, false, null, hasCopies);
           }
         }
 
