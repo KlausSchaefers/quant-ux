@@ -139,7 +139,7 @@
             "left": true,
             "down": false,
             "fixedHorizontal": false,
-            "fixedVertical": false
+            "fixedVertical": true
           }
         },
         "has": {

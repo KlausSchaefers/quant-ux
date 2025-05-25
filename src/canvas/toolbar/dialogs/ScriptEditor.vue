@@ -68,9 +68,6 @@ export default {
 Use the "data" property to read and write data:
 data.sum = data.a + data.b
 
-Use the "event" property to get the source widget:
-data.message = event.widget + 'was clicked'
-
 The "qux" object let's you manipulate the prototype styles:
 let screen = qux.getScreen('myScreen')
 let widget = screen.getWidget('myWidget') 
@@ -86,6 +83,10 @@ qux.vibrate([100, 30, 100])
 
 To navigate to a screen, return the name:
 return "myScreen"
+
+To navigate to an external website return the URL:
+return "https://luisa.could"
+
 */
 `,
             w: 400,

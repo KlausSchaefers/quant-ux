@@ -187,7 +187,7 @@ export default class ResponsiveLayout {
 
 
     resizeScreen (width, height, scrn, newNestedPositions) {
-        Logger.log(-1, 'ResponsiveLayout.resizeScreen() > ' + scrn.name + ' w:' + width + ' h:'+ height)
+        Logger.log(2, 'ResponsiveLayout.resizeScreen() > ' + scrn.name + ' w:' + width + ' h:'+ height)
         newNestedPositions[scrn.id] = createResult(0,0, width, height)
         this.resizeChildren(scrn, scrn, newNestedPositions, '')
     }
