@@ -366,13 +366,11 @@ export default class Widget extends Snapp {
 	}
 
 	updateMultiWidgetPositionResponsive (absPOs, resizeModel, positions, fromToolbar, boundingbox, hasCopies){
-		this.logger.log(-1,"updateMultiWidgetPositionResponsive", "enter > " + fromToolbar);
+		this.logger.warn("updateMultiWidgetPositionResponsive", "NOT IMPLEMENTED YET");
 
 		// 1) snapp absPos
 		// 2) make new resizeModel
 		// 3) call responsiveLayout
-		console.debug(absPOs, resizeModel);
-
 		this.updateMultiWidgetPosition(positions, fromToolbar, boundingbox, hasCopies);
 	}
 
