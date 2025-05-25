@@ -202,6 +202,12 @@
 				  this.showPasswordError()
 			  }
 		  },
+
+		  loadDifferentPrototype(h) {
+			this.logger.log(-1,"setInvitation","enter > " + h);
+			this.setInvitation(h);
+			Services.getModelService().findAppByHash(h).then(app => this.loadSettings(app))
+		  },
   
 		  setInvitation (h){
 			  this.logger.log(1,"setInvitation","enter > " + h);

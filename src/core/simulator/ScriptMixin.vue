@@ -191,17 +191,18 @@ export default {
             return
         }
         if (result.to) {
-            if (result.to.startsWith && result.to.startsWith('http://')) {
-                const url = URL.parse(result.to)
-                if (location.hostname !== url.hostname || this.doNotOpenInSameWindow) {
-                    this.logger.log(-2,"renderScriptResult","External >" +  result.to);
-                    window.open(result.to)
-                } else {
-                    this.logger.log(-2,"renderScriptResult","Internal >" +  result.to);
-                    location.href = result.to
-                    location.reload();
-                }
+            if (result.to.startsWith && (result.to.startsWith('http://') || result.to.startsWith('https://'))) {       
+                this.logger.log(-2,"renderScriptResult","External >" +  result.to);
+                window.open(result.to)               
+                return
             }
+            if (result.to.startsWith && result.to.startsWith('qux://')) {
+                const hash = result.to.substring(6)
+                this.logger.log(-2,"renderScriptResult","Prototype >" +  hash);
+                this.loadDifferentPrototype(hash)
+                return
+            }
+
             const targetScreen = Object.values(this.model.screens).find(s => s.name === result.to)
             if (targetScreen) {
                 const tempLine = this.createTempLine(targetScreen.id, orginalLine)
