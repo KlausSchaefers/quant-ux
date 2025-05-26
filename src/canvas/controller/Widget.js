@@ -2,6 +2,7 @@ import Snapp from './Snapp'
 import lang from '../../dojo/_base/lang'
 import * as TextUtil from '../../core/TextUtil'
 import * as DistributionUtil from '../../core/DistributionUtil'
+import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
 
 export default class Widget extends Snapp {
 
@@ -365,13 +366,96 @@ export default class Widget extends Snapp {
 
 	}
 
-	updateMultiWidgetPositionResponsive (absPOs, resizeModel, positions, fromToolbar, boundingbox, hasCopies){
-		this.logger.warn("updateMultiWidgetPositionResponsive", "NOT IMPLEMENTED YET");
+	updateMultiWidgetSizeResponsive (pos, resizeModel, fromToolbar, hasCopies){
+		this.logger.warn("updateMultiWidgetSizeResponsive", "NOT IMPLEMENTED YET");
 
-		// 1) snapp absPos
+	
+		// 1) zoom & snapp pos
+		const zoom = this._canvas.getZoomFactor();
+		const unZoomedPos = this.getUnZoomedBox(lang.clone(pos),zoom, zoom);
+
 		// 2) make new resizeModel
+		const unzoomedResizeModel = this.getBoundingBox(resizeModel.children);
+		unzoomedResizeModel.children = resizeModel.children;
+		console.debug("updateMultiWidgetSizeResponsive", "sourceBoundingbox", unzoomedResizeModel);
+		console.debug("updateMultiWidgetSizeResponsive", "unZoomedBoundingbox", pos.h, unZoomedPos.h, resizeModel.h);
+				
 		// 3) call responsiveLayout
-		this.updateMultiWidgetPosition(positions, fromToolbar, boundingbox, hasCopies);
+		const responsiveLayouter = new ResponsiveLayout(zoom)
+       	responsiveLayouter.initSelection(this.model, unzoomedResizeModel, unzoomedResizeModel.children, true, true, false)
+		
+
+
+		this.startModelChange()
+
+		const newPositions = this.getResponsiveResizePositions(
+			unZoomedPos, 
+			unzoomedResizeModel, 
+			unzoomedResizeModel.children,
+			responsiveLayouter
+		);
+
+		for (let id in newPositions) {
+			const pos = newPositions[id];
+			const widget = this.model.widgets[id];
+			if (widget) {
+				console.debug("updateMultiWidgetSizeResponsive", "widget", widget.name, pos);
+				widget.modified = new Date().getTime()
+				widget.x = pos.x;
+				widget.y = pos.y;
+				widget.w = pos.w;	
+				widget.h = pos.h;
+			} else {
+				console.warn('updateMultiWidgetSizeResponsive() > no widget', id)
+			}
+		}
+
+		if (fromToolbar || hasCopies) {
+			this.logger.log(1,"updateMultiWidgetPosition", "exit > with render");
+			this.render();
+		} else {
+			this.onWidgetPositionChange()
+		}
+
+		this.onModelChanged(Object.keys(newPositions).map(id => {
+			return {type: 'widget', action:"change", "prop": "position", id: id}
+		}))
+
+
+		this.commitModelChange()
+
+		//this.updateMultiWidgetPosition(positions, fromToolbar, boundingbox, hasCopies);
+	}
+
+	 getResponsiveResizePositions (pos, oldPos, children, responsiveLayouter) {
+    
+          const responsivePositions = responsiveLayouter.resize(pos.w, pos.h)
+          const offsetX = pos.x - oldPos.x
+          const offsetY = pos.y - oldPos.y
+
+          const positions = {};
+          for(let i=0; i< children.length; i++){
+            const id = children[i];
+            const repositionWidget = responsivePositions.widgets[id]
+			//console.debug("getResponsiveResizePositions", "widget", id, repositionWidget.name, repositionWidget.x, repositionWidget.y, repositionWidget.w, repositionWidget.h);
+            positions[id] = {
+              x: repositionWidget.x + offsetX,
+              y: repositionWidget.y + offsetY,
+              w: repositionWidget.w,
+              h: repositionWidget.h
+            }         
+          }
+          return positions
+    }
+
+	getSnappedBoundingBox(pos, boundingbox) {
+		const snapp = pos.snapp;
+		const unZoomedBoundingbox = this.getUnZoomedBox(boundingbox, this._canvas.getZoomFactor());
+		const screen = this.getHoverScreen(unZoomedBoundingbox);
+		if(screen && snapp?.type !== "All"){
+			this.snappResize(unZoomedBoundingbox,screen, pos, snapp)
+		}
+		return unZoomedBoundingbox
 	}
 
 	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies){

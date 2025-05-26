@@ -23,7 +23,7 @@ export function getGridContainerLinesY(model, activePoint, zoom=1) {
     const borderTopWidth = zoomedOrZero(style.borderTopWidth, zoom)     
     const rowGap = zoomedOrZero(model?.props.rowGap, zoom)
     const spaceH = model.h - (paddingTop + paddingBottom + borderTopWidth + borderBottomWidth)
-    console.debug('getGridContainerLinesY', zoom, model.h, spaceH)
+
     const totalRowGap = (rows - 1) * rowGap
     const rowH = Math.floor((spaceH - totalRowGap) / rows)
     result.rowH = rowH

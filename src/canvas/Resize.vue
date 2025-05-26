@@ -15,8 +15,8 @@ export default {
     name: 'Resize',
     mixins:[],
     data: function () {
-
       return {
+        useResponsiveResize: true
       }
     },
     components: {},
@@ -599,9 +599,12 @@ export default {
             this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
           } else {
             const [positions,hasCopies] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
-            // Basically we have to move this entire method to the controller!!
-            this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
-            //this.getController().updateMultiWidgetPositionResponsive(pos, this._resizeModel, positions, false, null, hasCopies);
+            if (pos?.snapp?.type === 'All' || this.useResponsiveResize) {
+              this.logger.warn("onResizeDnDEnd", "Snapp is All")
+              this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
+            } else {
+              this.getController().updateMultiWidgetSizeResponsive(pos, this._resizeModel, false, hasCopies);
+            }
           }
         }
 

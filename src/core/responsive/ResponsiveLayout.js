@@ -171,7 +171,6 @@ export default class ResponsiveLayout {
     }
 
     resizePositions(width, height) {
-
         const newNestedPositions = {}
         this.treeModel.screens.forEach(scrn => {
             if (height === -1) {

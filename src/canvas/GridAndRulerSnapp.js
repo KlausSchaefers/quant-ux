@@ -254,9 +254,14 @@ export default class GridAndRulerSnapp extends Core {
 		 * 
 		 * Since 4.3.11 we also do this in case of the grid, we removed
 		 * if (!this.grid.enabled) {
+		 * 
+		 * Since 5.0.20 we have GridContainer, so we do not correct,
+		 * for some reason the pos == 0
 		 */
-		left = SnappUtil.correctSnappDirection(closeXLine, left)
-		top = SnappUtil.correctSnappDirection(closeYLine, top)	
+		if (!layoutContainer) {
+			left = SnappUtil.correctSnappDirection(closeXLine, left)
+			top = SnappUtil.correctSnappDirection(closeYLine, top)	
+		}
 
 
 		/**
