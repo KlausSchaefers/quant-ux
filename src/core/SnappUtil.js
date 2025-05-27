@@ -81,6 +81,7 @@ export function getGridContainerLinesX(model, activePoint, zoom=1) {
         }
     }
 
+    // check that the last value is alligned to right padding?
     return result
 }
 

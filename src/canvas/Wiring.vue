@@ -43,8 +43,8 @@ export default {
 					this.onWidgetDoubleClick(target._widgetID)
 					return
 				}
-				// this.forceCompleteRender()
-				// this.rerender()
+				this.forceCompleteRender()
+				this.rerender()
 			},
 
 			dispatchBackroundClick (e) {

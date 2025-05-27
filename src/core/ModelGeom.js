@@ -176,6 +176,30 @@ class ModelGeom {
         let _s = JSON.stringify(obj)
         return JSON.parse(_s)
     }
+
+    getChildWidgetsIDs (model, cntr) {
+        const result = []
+        for (let id in model.widgets) {
+            const w = model.widgets[id]
+            // check here also for the selected widgets?
+            if (w.z >= cntr.z && w.id !== cntr.id) {
+                if (this.isFullContained(cntr, w)) {
+                    result.push(w.id)
+                }
+            }
+		}
+        return result
+    }
+
+    isFullContained	(outer, inner) {
+		// add here some offset?
+		return (
+			outer.x <= inner.x &&
+			outer.y <= inner.y &&
+			outer.x + outer.w >= inner.x + inner.w &&
+			outer.y + outer.h >= inner.y + inner.h
+		)
+	}
 }
 
 export default new ModelGeom()

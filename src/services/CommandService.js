@@ -23,7 +23,7 @@ export class CommandService extends AbstractService {
     // we keep only 2 stacks in local storage to ensure
     // we don't get some issue with using to much memory.
     this.stacks = this.pruneStacks(this.stacks)
-    this.logger.log(-1, 'loadChangeStack', 'enter', this.stacks)
+    this.logger.log(1, 'loadChangeStack', 'enter', this.stacks)
     const found = this.stacks[appID]
     return found
   }

@@ -3,6 +3,9 @@ import lang from '../../dojo/_base/lang'
 import * as TextUtil from '../../core/TextUtil'
 import * as DistributionUtil from '../../core/DistributionUtil'
 import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
+import ModelGeom from '../../core/ModelGeom'
+
+
 
 export default class Widget extends Snapp {
 
@@ -366,6 +369,10 @@ export default class Widget extends Snapp {
 
 	}
 
+	/**********************************************************
+	 * Responsive position change
+	 **********************************************************/
+
 	updateMultiWidgetSizeResponsive (pos, resizeModel, fromToolbar, hasCopies){
 		this.logger.warn("updateMultiWidgetSizeResponsive", "NOT IMPLEMENTED YET", fromToolbar, hasCopies);
 
@@ -377,15 +384,11 @@ export default class Widget extends Snapp {
 		// 2) make new resizeModel
 		const unzoomedResizeModel = this.getBoundingBox(resizeModel.children);
 		unzoomedResizeModel.children = resizeModel.children;
-		console.debug("updateMultiWidgetSizeResponsive", "sourceBoundingbox", unzoomedResizeModel);
-		console.debug("updateMultiWidgetSizeResponsive", "unZoomedBoundingbox", pos.h, unZoomedPos.h, resizeModel.h);
-				
+					
 		// 3) call responsiveLayout
 		const responsiveLayouter = new ResponsiveLayout(1)
        	responsiveLayouter.initSelection(this.model, unzoomedResizeModel, unzoomedResizeModel.children, true, true, false)
 		
-
-
 		this.startModelChange()
 
 		const newPositions = this.getResponsiveResizePositions(
@@ -395,9 +398,15 @@ export default class Widget extends Snapp {
 			responsiveLayouter
 		);
 
+		let forceRenderForGridContainers = false
 		for (let id in newPositions) {
 			const pos = newPositions[id];
 			const widget = this.model.widgets[id];
+			// if we have a grid container, we force render
+			if (widget?.type === "GridContainer") {
+				forceRenderForGridContainers = true
+			}
+
 			if (widget) {
 				widget.modified = new Date().getTime()
 				widget.x = pos.x;
@@ -410,8 +419,8 @@ export default class Widget extends Snapp {
 		}
 
 		//this.render();
-		if (fromToolbar || hasCopies) {
-			this.logger.log(1,"updateMultiWidgetPosition", "exit > with render");
+		if (fromToolbar || hasCopies || forceRenderForGridContainers) {
+			this.logger.log(-1,"updateMultiWidgetPosition", "exit > with render > forceRenderForGridContainers:", forceRenderForGridContainers);
 			this.render();
 		} else {
 			this.onWidgetPositionChange()
@@ -427,7 +436,7 @@ export default class Widget extends Snapp {
 		//this.updateMultiWidgetPosition(positions, fromToolbar, boundingbox, hasCopies);
 	}
 
-	 getResponsiveResizePositions (pos, oldPos, children, responsiveLayouter) {
+	getResponsiveResizePositions (pos, oldPos, children, responsiveLayouter) {
     
           const responsivePositions = responsiveLayouter.resize(pos.w, pos.h)
           const offsetX = pos.x - oldPos.x
@@ -457,6 +466,75 @@ export default class Widget extends Snapp {
 		}
 		return unZoomedBoundingbox
 	}
+
+
+	checkLayoutContainerChange(	oldWidget) {	
+		const widget = this.model.widgets[oldWidget.id];
+		if (widget && widget.type === "GridContainer" && this.layoutPropsHaveChanged(oldWidget, widget)) {
+			this.logger.log(-1, "checkLayoutContainerChange", "GridContainer changed, check for layout change");
+
+			// create a resize model
+			let childrenIDs = ModelGeom.getChildWidgetsIDs(this.model, widget)
+			childrenIDs.push(widget.id) // add the container itself
+
+			const resizeModel = {
+				x: widget.x,
+				y: widget.y,
+				w: widget.w,
+				h: widget.h,
+				children: childrenIDs
+			}
+
+			// create model with old widget
+			const oldModel = {	
+				widgets: {},
+				screens: this.model.screens,
+				groups: this.model.groups,
+			}
+			childrenIDs.forEach(id => {
+				oldModel.widgets[id] = lang.clone(this.model.widgets[id]);
+			})
+			oldModel.widgets[oldWidget.id] = oldWidget;
+
+
+			// call responsiveLayout
+			const responsiveLayouter = new ResponsiveLayout(1)
+			responsiveLayouter.initSelection(oldModel, resizeModel, resizeModel.children, true, true, false)
+			
+			// hackinto the treeModel and update all the props of the container
+			const treeWidget = responsiveLayouter.findWidget(widget.id)
+			if (!treeWidget) {
+				this.logger.error("checkLayoutContainerChange", "No treeWidget found for " + widget.id);
+			}
+			treeWidget.props = lang.clone(widget.props);
+			treeWidget.style = lang.clone(widget.style);
+
+			const newPositions = this.getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
+
+
+			for (let id in newPositions) {
+				const pos = newPositions[id];
+				const widget = this.model.widgets[id];	
+				// check here that this is a valid change, e.g. if columsn are redduced or so
+				if (widget) {
+					widget.modified = new Date().getTime()
+					widget.x = pos.x;
+					widget.y = pos.y;
+					widget.w = pos.w;	
+					widget.h = pos.h;
+				} else {
+					console.warn('updateMultiWidgetSizeResponsive() > no widget', id)
+				}
+			}
+
+			this.render();
+			return newPositions	
+		}
+	}
+
+	/**********************************************************
+	 * Normal position change
+	 ******************************************************/
 
 	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies){
 		this.logger.log(-1,"updateMultiWidgetPosition", "enter > " + fromToolbar);
@@ -924,11 +1002,15 @@ export default class Widget extends Snapp {
 		this.startModelChange()
 
 		const widget = this.model.widgets[id];
+
+		const oldWidget = lang.clone(widget);
+
 		const command = this.createWidgetPropertiesCommand(id, props, type);
 		const inlineEdit = this.getInlineEdit();
 		if(command){
 			this.addCommand(command);	
 			this.modelWidgetPropertiesUpdate(id, props, type, doNotRender);
+			this.checkLayoutContainerChange(oldWidget)
 		}
 	
 		if(!doNotRender){
@@ -948,6 +1030,24 @@ export default class Widget extends Snapp {
 
 		this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
 		this.commitModelChange()
+	}
+
+
+
+	layoutPropsHaveChanged(widget, oldWidget) {
+		return widget.props.columns != oldWidget.props.columns ||
+			widget.props.columnGap != oldWidget.props.columnGap ||
+			widget.style.paddingLeft != oldWidget.style.paddingLeft ||
+			widget.style.paddingRight != oldWidget.style.paddingRight ||
+			widget.style.borderLeftWidth != oldWidget.style.borderLeftWidth ||
+			widget.style.borderRightWidth != oldWidget.style.borderRightWidth ||
+
+			widget.props.rows != oldWidget.props.rows ||
+			widget.props.rowGap != oldWidget.props.rowGap ||
+			widget.style.paddingTop != oldWidget.style.paddingTop ||
+			widget.style.paddingBottom != oldWidget.style.paddingBottom ||
+			widget.style.borderBottomWidth != oldWidget.style.borderBottomWidth ||
+			widget.style.borderTopWidth != oldWidget.style.borderTopWidth
 	}
 
 	createWidgetPropertiesCommand (id, props, type, inlineLabel){

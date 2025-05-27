@@ -36,6 +36,26 @@ export default class ResponsiveLayout {
         this.treeModel = treeModel
     }
 
+    findWidget (id) {
+        if (this.treeModel) {
+            const scrn = this.treeModel.screens[0]
+            return this.findElementsById(scrn, id)[0]
+        }
+    }
+
+    findElementsById (e, id, result = []) {
+    
+        if (e.children) {
+            e.children.forEach(c => {
+                if (c.id === id) {
+                  result.push(c)
+                }                
+                this.findElementsById(c, id, result)
+            })
+        }
+        return result
+    }
+
     initSelection(model, boundingBox, children, round=true, wrapGroups = true, removeRootIfNeeded=true) {
        // Logger.log(-1, 'ResponsiveLayout.initSelection() > wrapGroups: ' + wrapGroups)
         /**

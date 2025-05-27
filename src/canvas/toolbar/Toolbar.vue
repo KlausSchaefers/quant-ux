@@ -1810,7 +1810,6 @@ export default {
 			this.logger.log(1,"setWidgetSize", "entry > ");
 
 			if(this._selectedWidget){
-
 				this.controller.updateWidgetPosition(this._selectedWidget.id, pos, true);
 			}
 

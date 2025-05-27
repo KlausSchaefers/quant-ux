@@ -69,7 +69,7 @@ export function transform(model, config) {
 }
 
 function layoutTree(screen, useRows, zoom) {
-  Logger.log(-1, 'Flat2Tree.layoutTree() > ', useRows, zoom)
+  Logger.log(1, 'Flat2Tree.layoutTree() > ', useRows, zoom)
 
 	/**
 	 * We add lines, because for wrapped groups we need the rows!

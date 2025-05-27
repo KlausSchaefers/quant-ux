@@ -106,7 +106,7 @@ export default {
 			const type = widget.type;
 
 			if (this.widget && this.widget.id === widget.id){
-				this.logger.log(-1, "setValue", "exit because same widget", type);
+				this.logger.log(1, "setValue", "exit because same widget", type);
 				if (this["_update"+type]){
 					this["_update"+type](widget);
 					this.logger.log(0, "setValue", "exit() >> Update ");
