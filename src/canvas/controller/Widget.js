@@ -367,7 +367,7 @@ export default class Widget extends Snapp {
 	}
 
 	updateMultiWidgetSizeResponsive (pos, resizeModel, fromToolbar, hasCopies){
-		this.logger.warn("updateMultiWidgetSizeResponsive", "NOT IMPLEMENTED YET");
+		this.logger.warn("updateMultiWidgetSizeResponsive", "NOT IMPLEMENTED YET", fromToolbar, hasCopies);
 
 	
 		// 1) zoom & snapp pos
@@ -381,7 +381,7 @@ export default class Widget extends Snapp {
 		console.debug("updateMultiWidgetSizeResponsive", "unZoomedBoundingbox", pos.h, unZoomedPos.h, resizeModel.h);
 				
 		// 3) call responsiveLayout
-		const responsiveLayouter = new ResponsiveLayout(zoom)
+		const responsiveLayouter = new ResponsiveLayout(1)
        	responsiveLayouter.initSelection(this.model, unzoomedResizeModel, unzoomedResizeModel.children, true, true, false)
 		
 
@@ -399,7 +399,6 @@ export default class Widget extends Snapp {
 			const pos = newPositions[id];
 			const widget = this.model.widgets[id];
 			if (widget) {
-				console.debug("updateMultiWidgetSizeResponsive", "widget", widget.name, pos);
 				widget.modified = new Date().getTime()
 				widget.x = pos.x;
 				widget.y = pos.y;
@@ -410,6 +409,7 @@ export default class Widget extends Snapp {
 			}
 		}
 
+		//this.render();
 		if (fromToolbar || hasCopies) {
 			this.logger.log(1,"updateMultiWidgetPosition", "exit > with render");
 			this.render();

@@ -453,7 +453,7 @@ export default {
          * now request rendering
          */
         if(!window.requestAnimationFrame){
-          console.warn("No requestAnimationFrame()");
+            console.warn("No requestAnimationFrame()");
             this._resizeDndUpDateUI();
           } else {
             const callback = lang.hitch(this, "_resizeDndUpDateUI");
@@ -503,8 +503,7 @@ export default {
               x: repositionWidget.x + offsetX,
               y: repositionWidget.y + offsetY,
               w: repositionWidget.w,
-              h: repositionWidget.h,
-              gridPos: repositionWidget.gridPos
+              h: repositionWidget.h
             }         
           }
           return [positions,hasCopies]
@@ -599,7 +598,7 @@ export default {
             this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
           } else {
             const [positions,hasCopies] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
-            if (pos?.snapp?.type === 'All' || this.useResponsiveResize) {
+            if (pos?.snapp?.type === 'All') {
               this.logger.warn("onResizeDnDEnd", "Snapp is All")
               this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
             } else {

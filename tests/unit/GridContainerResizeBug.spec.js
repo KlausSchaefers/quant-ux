@@ -5,11 +5,11 @@ import ModelGeom from '../../src/core/ModelGeom'
 import ModelUtil from '../../src/core/ModelUtil'
 
 
-test('ResponsiveLayout.js - Zoom 1', async () => {
+test('GridContainerResizeBug.spec.js - Zoom 1', async () => {
     assertResize(1)
 })
 
-test('ResponsiveLayout.js - Zoom 0.5', async () => {
+test('GridContainerResizeBug.spec.js - Zoom 0.5', async () => {
     assertResize(0.5)
 })
 

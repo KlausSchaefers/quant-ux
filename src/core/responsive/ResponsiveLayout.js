@@ -13,13 +13,14 @@ export default class ResponsiveLayout {
         this.config.useRows = false
         this.config.wrapGroups = true
         this.config.removeRootIfNeeded = false
+        this._debugScaledGrids = {}
 
         if (!zoom) {
             Logger.error('ResponsiveLayout.constructor() > zoom not passed ')
             console.trace()
             this.config.zoom = 1
         } else {
-            Logger.log(-1, 'ResponsiveLayout.constructor() > zoom  ', zoom)
+            Logger.log(2, 'ResponsiveLayout.constructor() > zoom  ', zoom)
             this.config.zoom = zoom
         }
 
@@ -233,7 +234,7 @@ export default class ResponsiveLayout {
                     
                     widget.x = newPos.x + offsetX
                     widget.y = newPos.y + offsetY
-                    //widget.gridPos = newPos.gridPos || {}
+
                     this.updateModel(newNestedPositions, app, child, offsetX, offsetY, indent+ '    ')
                 }
             } else {
@@ -261,9 +262,10 @@ export default class ResponsiveLayout {
 
 
     resizeChildenGrid(box, parent, newNestedPositions, indent) {
-        Logger.log(2, indent + 'ResponsiveLayout.resizeChildenGrid() > ' + box.name, box.grid )  
+        Logger.log(2, indent + 'ResponsiveLayout.resizeChildenGrid() > ' + box.name)  
         const newParent = newNestedPositions[parent.id]
-        const sclaleGrid = this.sclaleGrid(box, box.grid, newParent, indent + box.name)       
+        const sclaleGrid = this.sclaleGrid(box, box.grid, newParent, indent + box.name)
+        this._debugScaledGrids[box.id] = sclaleGrid
         this.updateChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)      
     }
 
@@ -273,12 +275,12 @@ export default class ResponsiveLayout {
           
             const startX = sclaleGrid.cols[child.gridColumnStart]
             const endX = sclaleGrid.cols[child.gridColumnEnd]
+            const width = endX - startX
+            //console.debug(indent, 'ResponsiveLayout.updateChildPositions() > ', child.name, newParent.x, '> ', sclaleGrid.cols.join(','), '>',  startX, endX, width, '=' ,child.gridColumnStart, child.gridColumnEnd)
     
             // TODO: we should check that the with and height on
             // fixed elements are really the same...
-            const width = endX - startX
-
-    
+        
             const startY = sclaleGrid.rows[child.gridRowStart]
             const endY = sclaleGrid.rows[child.gridRowEnd]
             const height = endY - startY
@@ -291,38 +293,14 @@ export default class ResponsiveLayout {
                 width,
                 height
             )
-            const gridPos = {}
-            gridPos.gridColumnStart = child.gridColumnStart
-            gridPos.gridColumnEnd = child.gridColumnEnd
-            gridPos.gridRowStart = child.gridRowStart
-            gridPos.gridRowEnd = child.gridRowEnd
-            gridPos.parentID = box.id
-            newChildPos.gridPos = gridPos
+            //console.debug(indent, 'ResponsiveLayout.updateChildPositions() > ', child.name, newChildPos.x, newChildPos.w)
 
+    
             newNestedPositions[child.id] = newChildPos
             this.resizeChildren(child, child, newNestedPositions, indent + '     ')
         })
     }
 
-    // getWidgetPositionInGrid (grid, scaledGrid) {
-    //     const result = {}
-    //     grid.columns.forEach((col, i) => {
-    //         const x = scaledGrid.cols[i]
-    //         col.start.forEach((wID) => {
-    //             if (!result[wID]) {
-    //                 result[wID]= {}
-    //             }
-    //             result[wID].xStart = x
-    //         })
-    //         col.end.forEach((wID) => {
-    //             if (!result[wID]) {
-    //                 result[wID]= {}
-    //             }
-    //             result[wID].xEnd = x
-    //         })
-    //     })
-    //     return result
-    // }
 
     mapGrid (grid, newParent) {
         const result = {}
@@ -367,19 +345,23 @@ export default class ResponsiveLayout {
         const newBox = {
             id: box.id,
             name: box.name,
-            x: box.x,
-            y: box.y,
+            x: 0, // box is always at 0,0
+            y: 0,
             w: newParent.w,
             h: newParent.h,
             style: box.style,
             props: box.props,
             children: box.children
         }
+
         const lines = SnappUtil.getGridContainerLines(newBox, 'All', this.config.zoom)
         lines.x.unshift(0)
         lines.x.push(newParent.w)
         lines.y.unshift(0)
         lines.y.push(newParent.h)
+
+        // console.debug('ResponsiveLayout.sclaleDGridContainer() > ', box.name, box.x, box.w, ' newParent:', newParent.x, newParent.w,' newBox:', newBox.x, newBox.w, '>', lines.x.join(','))
+        // console.debug('ResponsiveLayout.sclaleDGridContainer() > ', box.name, box.y, box.h, ' newParent:', newParent.y, newParent.h,' newBox:', newBox.y, newBox.h, '>', lines.y.join(','))
 
         // this is in principle the same as the old one good
         // but for zooming we add
