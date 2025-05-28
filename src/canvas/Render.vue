@@ -114,10 +114,14 @@ export default {
 		 **********************************************************************/
 
 		showSuccess (msg){
+			if (this._lastMessageType === 'error') {
+				return
+			}
 			if(this.message){
 				css.add(this.message, "MatcMessageSuccess");
 				css.remove(this.message, "MatcMessageError MatcMessageHint");
 				this.message.textContent = msg;
+				this._lastMessageType = 'success'
 				setTimeout(lang.hitch(this,"hideMessage"),3000);
 			}
 		},
@@ -127,15 +131,20 @@ export default {
 				css.add(this.message, "MatcMessageError");
 				css.remove(this.message, "MatcMessageSuccess MatcMessageHint");
 				this.message.textContent = msg;
+				this._lastMessageType = 'error'
 				setTimeout(lang.hitch(this,"hideMessage"), 3000);
 			}
 		},
 
 		showHint (msg){
+			if (this._lastMessageType === 'error') {
+				return
+			}
 			if(this.message){
 				css.add(this.message, "MatcMessageHint");
 				css.remove(this.message, "MatcMessageSuccess MatcMessageSuccess");
 				this.message.textContent = msg;
+				this._lastMessageType = 'hint'
 				setTimeout(lang.hitch(this,"hideMessage"), 3000);
 			}
 		},
@@ -144,6 +153,7 @@ export default {
 			if(this.message){
 				css.remove(this.message, "MatcMessageSuccess MatcMessageError MatcMessageHint");
 			}
+			this._lastMessageType = ''
 		},
 
 

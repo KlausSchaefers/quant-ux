@@ -85,7 +85,7 @@ export default {
       for (let r=0; r < this.rows; r++) {        
         let x = paddingLeft 
         for (let c=0; c < this.columns; c++) {   
-          const cell = this.cells[i]       
+          const cell = this.cells[i] 
           cell.w = this.cellW
           cell.h = this.cellH
           cell.x = x

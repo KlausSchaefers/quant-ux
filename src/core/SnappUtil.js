@@ -41,6 +41,14 @@ export function getGridContainerLinesY(model, activePoint, zoom=1) {
             }
         }
     }
+
+    // const dif = model.y + model.h - v - paddingTop - borderBottomWidth;
+    // if (Math.abs(dif) > 1) {
+    //     v = v + dif
+    //     result.y.pop()
+    //     result.y.push(v)
+    // }
+
     return result
 }
 
@@ -82,6 +90,12 @@ export function getGridContainerLinesX(model, activePoint, zoom=1) {
     }
 
     // check that the last value is alligned to right padding?
+    // const dif = model.x + model.w - v - paddingRight - borderRightWidth;
+    // if (Math.abs(dif) > 1) {
+    //     v = v + dif
+    //     result.x.pop()
+    //     result.x.push(v)
+    // }
     return result
 }
 

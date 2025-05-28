@@ -511,20 +511,29 @@ export default class Widget extends Snapp {
 
 			const newPositions = this.getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
 
-
+			let errorCount = 0;
 			for (let id in newPositions) {
 				const pos = newPositions[id];
 				const widget = this.model.widgets[id];	
 				// check here that this is a valid change, e.g. if columsn are redduced or so
 				if (widget) {
+					console.debug("checkLayoutContainerChange", "widget", id, widget.name, pos.x, pos.y, pos.w, pos.h);
 					widget.modified = new Date().getTime()
-					widget.x = pos.x;
-					widget.y = pos.y;
-					widget.w = pos.w;	
-					widget.h = pos.h;
+					if (!isNaN(pos.x) && !isNaN(pos.y) && !isNaN(pos.w) && !isNaN(pos.h)) {
+						widget.x = pos.x;
+						widget.y = pos.y;
+						widget.w = pos.w	
+						widget.h = pos.h;
+					} else {
+						errorCount++
+					}
 				} else {
 					console.warn('updateMultiWidgetSizeResponsive() > no widget', id)
 				}
+			}
+
+			if (errorCount > 0) {
+				this.showError("Not all elements could be resized.")
 			}
 
 			this.render();
