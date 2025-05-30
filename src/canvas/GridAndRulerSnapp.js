@@ -64,6 +64,7 @@ export default class GridAndRulerSnapp extends Core {
 		}
 		this.logger.log(1, "start", "snappDistance " + this.snappDistance);
 
+		this.canvas = canvas;
 		this.grid = grid;
 		this.model = canvas.model;
 		this.sourceModel = canvas.sourceModel;
@@ -143,9 +144,11 @@ export default class GridAndRulerSnapp extends Core {
 		const layoutContainer = this.findHoverLayoutContainer(absPos)
 		if (layoutContainer) {
 			this.initLayoutContainerLines(layoutContainer)
-			this.snappDistance = 48
+			this.snappDistance = 64
+			this.showDistance = 24 // why does this controll the snapp distance?
 		} else {
 			this.snappDistance = 8
+			this.showDistance = 15
 			/**
 			 * 1) get the screen. Check if the last screen is still ok. If screen
 			 * change we compute all lines for the screen
@@ -467,10 +470,15 @@ export default class GridAndRulerSnapp extends Core {
 				for (let child of found.children) {
 					if (this.isFullContained(child, box)) {
 						//console.debug('exit because of child')
+						this.canvas.unHoverDNDBox()
 						return null
 					}
 				}
 			}
+
+			this.canvas.hoverDNDBox(found.id)
+		} else {
+			this.canvas.unHoverDNDBox()
 		}
 		return found
 	}

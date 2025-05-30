@@ -30,7 +30,8 @@
 
 .MatcCreateBtnElementPreview .MatcWidgetTypeGridContainerPlaceholder,
 .MatcWidgetSelected .MatcWidgetTypeGridContainerPlaceholder,
-.MatcCanvasDNDActive .MatcWidgetTypeGridContainerPlaceholder {
+.MatcBoxHover .MatcWidgetTypeGridContainerPlaceholder,
+.XMatcCanvasDNDActive .MatcWidgetTypeGridContainerPlaceholder {
 	opacity: 0.5;
  }
 

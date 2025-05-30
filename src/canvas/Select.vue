@@ -511,7 +511,7 @@ import * as SelectionUtil from 'core/SelectionUtil'
 			this._selectGroup = null;
 			this._selectInheritedWidget = null		
 			this.resetCanvasSelection()
-
+			this.unHoverDNDBox()
 
 			css.remove(this.domNode, "MatcCanvasSelection");
 
@@ -523,6 +523,9 @@ import * as SelectionUtil from 'core/SelectionUtil'
 			}
 			if(this._selectedDnDDiv){
 				css.remove(this._selectedDnDDiv, "MatcBoxSelected");
+			}
+			if (this._selectedSourceDiv){
+				css.remove(this._selectedSourceDiv, "MatcWidgetSelected");
 			}
 			if (this._selectedSourceDiv){
 				css.remove(this._selectedSourceDiv, "MatcWidgetSelected");
@@ -694,6 +697,36 @@ import * as SelectionUtil from 'core/SelectionUtil'
 				this._selectedSourceDiv = this.widgetBackgroundDivs[id];
 				css.add(this._selectedSourceDiv, "MatcWidgetSelected");
 			}
+		},
+
+		hoverDNDBox(id ) {
+			if (id !== this._hoverBoxID) {
+				this.unHoverDNDBox()
+			}
+			this._hoverBoxID = id
+			if(this.widgetDivs[id]){
+				this._hoverDNDDiv = this.widgetDivs[id];
+				css.add(this._hoverDNDDiv, "MatcBoxHover");
+			}
+	
+			if(this.widgetBackgroundDivs[id]){
+				this._hoverSourceDiv = this.widgetBackgroundDivs[id];
+				css.add(this._hoverSourceDiv, "MatcBoxHover");
+			}
+		},
+
+
+		unHoverDNDBox () {
+			console.debug('unHoverDNDBox')
+			if (this._hoverDNDDiv) {
+				css.remove(this._hoverDNDDiv, "MatcBoxHover");
+			}
+			if (this._hoverSourceDiv) {
+				css.remove(this._hoverSourceDiv, "MatcBoxHover");
+			}
+			delete this._hoverSourceDiv
+			delete this._hoverDNDDiv
+			delete this._hoverBoxID
 		},
 
 
