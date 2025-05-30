@@ -42,6 +42,7 @@ export default {
         const isCntrl = e.ctrlKey || e.metaKey;
         const isShift = e.shiftKey
 
+
         /**
          * Cancel listeners must be always fired.
          */
@@ -168,7 +169,31 @@ export default {
               }
             }
           }
-
+        /**
+         * 1 dispatch...
+         */
+        } else if(k == 49){
+            if(!this._inlineEditStarted && !this._selectionToolStart){
+              this.setZoomFactor(1)
+              this.stopEvent(e);
+            }
+        /**
+         * 2 dispatch...
+         */
+        } else if(k == 50){
+            if(!this._inlineEditStarted && !this._selectionToolStart){
+              this.setZoomFactor(0.5)
+              this.stopEvent(e);
+            }
+        /**
+         * 3 dispatch...
+         */
+        } else if(k == 51){
+            if(!this._inlineEditStarted && !this._selectionToolStart){
+              this.setZoomFactor(0.25)
+              this.stopEvent(e);
+            }
+          
         /**
          * H dispatch...
          */

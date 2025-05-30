@@ -717,7 +717,6 @@ import * as SelectionUtil from 'core/SelectionUtil'
 
 
 		unHoverDNDBox () {
-			console.debug('unHoverDNDBox')
 			if (this._hoverDNDDiv) {
 				css.remove(this._hoverDNDDiv, "MatcBoxHover");
 			}
