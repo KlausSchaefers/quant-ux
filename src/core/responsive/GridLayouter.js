@@ -1,6 +1,5 @@
 import * as Util from "./ExportUtil"
-import * as SnappUtil from '../SnappUtil'
-//import { Layout } from "../core/Const"
+import * as GridUtil from '../GridUtil'
 
 export function addGridToElements(parent, zoom) {
   
@@ -79,7 +78,7 @@ export function computeGrid(parent, zoom, fixSmallColumns = false) {
 		let lines = {x: [], y: []}
 		if (Util.isGridContainerWidget(parent)) {
 			snapp = true
-			lines = SnappUtil.getGridContainerLines(parent, 'All', zoom)
+			lines = GridUtil.getGridContainerLines(parent, 'All', zoom)
 			lines.x.forEach(x => {
 				// substract the model x and y... I think
 				addGridColumns(columns, Util.round(x - parent.x), null, true)

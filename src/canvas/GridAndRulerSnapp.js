@@ -3,6 +3,7 @@ import css from 'dojo/css'
 import topic from 'dojo/topic'
 import Logger from 'common/Logger'
 import Core from 'core/Core'
+import * as GridUtil from 'core/GridUtil'
 import * as SnappUtil from 'core/SnappUtil'
 import ModelUtil from '../core/ModelUtil'
 
@@ -508,7 +509,7 @@ export default class GridAndRulerSnapp extends Core {
 		// only calc the grid, if the container has changed
 		if (this._lastLayoutContainer?.id !== layoutContainer.id) {
 			this.cleanUp()
-			const lines = SnappUtil.getGridContainerLines(layoutContainer, this.activePoint, this.zoom)
+			const lines = GridUtil.getGridContainerLines(layoutContainer, this.activePoint, this.zoom)
 			for (let i in lines.x) {
 				const x = lines.x[i]
 				this.addXLine(x, {

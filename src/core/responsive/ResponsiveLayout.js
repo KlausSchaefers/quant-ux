@@ -3,7 +3,7 @@ import Logger from '../Logger'
 import * as Flat2Tree from './Flat2Tree'
 import * as Quant2Flat from './Quant2Flat'
 import * as ExportUtil from './ExportUtil'
-import * as SnappUtil from '../SnappUtil'
+import * as GridUtil from '../GridUtil'
 import Config from './Config'
 
 export default class ResponsiveLayout {
@@ -374,7 +374,7 @@ export default class ResponsiveLayout {
             children: box.children
         }
 
-        const lines = SnappUtil.getGridContainerLines(newBox, 'All', this.config.zoom)
+        const lines = GridUtil.getGridContainerLines(newBox, 'All', this.config.zoom)
         lines.x.unshift(0)
         lines.x.push(newParent.w)
         lines.y.unshift(0)

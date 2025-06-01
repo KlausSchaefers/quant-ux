@@ -3,7 +3,7 @@ import app from './data/gridContainer.json'
 import ResponsiveLayout from '../../src/core/responsive/ResponsiveLayout'
 import ModelGeom from '../../src/core/ModelGeom'
 
-test('ResponsiveLayout.js - group', async () => {
+test('GridContainer.js - group', async () => {
 
     let rl = new ResponsiveLayout(1)
 

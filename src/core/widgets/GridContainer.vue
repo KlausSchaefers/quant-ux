@@ -18,6 +18,7 @@
 import DojoWidget from "dojo/DojoWidget";
 //import DomBuilder from "common/DomBuilder";
 import UIWidget from "core/widgets/UIWidget";
+import * as GridUtil from "../GridUtil";
 import Logger from 'common/Logger'
 
 
@@ -52,9 +53,44 @@ export default {
       console.debug('wireEvents', this.wired)
     },
 
+    resize(box) {
+      const style = this.style
+
+      const borderTopWidth = Math.floor(style.borderTopWidth * this._scaleY)
+      const borderLeftWidth = Math.floor(style.borderLeftWidth * this._scaleX)
+
+      const updatedModel = {
+        x: box.x,
+        y: box.y,
+        h: box.h,
+        w: box.w,
+        id: this.model.id,
+        name: this.model.name,
+        style: this.style,
+        props: this.model.props
+      }
+
+      const lines = GridUtil.getGridContainerLines(updatedModel, 'All', this._scaleX, true)
+      const cells = GridUtil.getCells(lines)
+      const offsetX = box.x + borderLeftWidth
+      const offsetY = box.y + borderTopWidth
+      for (let i=0; i < cells.length; i++) {
+        console.debug(cells[i])
+        const c = cells[i]
+        this.cells[i] = {
+          x: c.x - offsetX,
+          y: c.y - offsetY,
+          w: c.w,
+          h: c.h
+        }
+      }
+     
+      this.$forceUpdate()
+    },
+
   
 
-    resize(box) {
+    resizeOld(box) {
       const style = this.style
 
       this.columnGap = Math.floor(this.model.props.columnGap * this._scaleX)
