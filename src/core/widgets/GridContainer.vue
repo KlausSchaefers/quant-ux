@@ -75,7 +75,6 @@ export default {
       const offsetX = box.x + borderLeftWidth
       const offsetY = box.y + borderTopWidth
       for (let i=0; i < cells.length; i++) {
-        console.debug(cells[i])
         const c = cells[i]
         this.cells[i] = {
           x: c.x - offsetX,

@@ -22,24 +22,14 @@ export default {
     return {
       value: null,
       types: {
-        "IPhone 14 / 15": {
+        "IPhone 15 / 16": {
           type: "smartphone",
           screenSize: { w: 375, h: 812 },
           factor: 2
         },
-        "IPhone 14 / 15 Max": {
+        "IPhone 15 / 16 Max": {
           type: "smartphone",
           screenSize: { w: 414, h: 896 },
-          factor: 2
-        },
-        "IPhone 6 / 7 / 8": {
-          type: "smartphone",
-          screenSize: { w: 375, h: 667 },
-          factor: 2
-        },
-        "IPhone 6 / 7 / 8+": {
-          type: "smartphone",
-          screenSize: { w: 414, h: 736 },
           factor: 2
         },
         "IPad (Vertical)": {

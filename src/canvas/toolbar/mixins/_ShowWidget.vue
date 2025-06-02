@@ -116,6 +116,7 @@ export default {
 			this.showDesignTokenBtns(model, 'widget')
 
 			const isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
+			const hideColor = this.hideColor.indexOf(model.type) >=0;
 			if(isLogicWidget){
 				css.add(this.positionCheckBox.domNode, "hidden");
 				css.add(this.widgetSize.domNode, "hidden");
@@ -199,7 +200,7 @@ export default {
 				/**
 				 * Since 5.0.0 icons etc will have a color to use design tokens
 				 */
-				if (!isLogicWidget) {
+				if (!isLogicWidget && !hideColor) {
 					css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
 					if (this.hasColor.indexOf(model.type) >=0) {
 						this.color.setValue(style.color)

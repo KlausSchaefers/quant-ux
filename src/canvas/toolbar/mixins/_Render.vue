@@ -102,7 +102,8 @@ export default {
 						"ToggleButton", "SegmentButton", "SegmentPicker", "DragNDrop", "DragNDropTarget"],
 			hasRotate: ['Image', 'Icon'],
 			hasSVG: ['SVGPaths'],
-			hideAction: ['ScreenSegment']
+			hideAction: ['ScreenSegment'],
+			hideColor: ['GridContainer']
       }
 	},
     components: {},
@@ -220,9 +221,9 @@ export default {
 
 			this._renderSVGEditButton()
 
-			this._renderWidgetBoxShadow()
-
 			this._renderWidgetBox();
+
+			this._renderWidgetBoxShadow()
 
 			this._renderSVGBox()
 			this._renderSVGTransform()

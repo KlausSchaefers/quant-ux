@@ -827,14 +827,12 @@ export default {
          * shadow styles were injected in ModelUtils. After detaching the token,
          * the none method would not be called.
          */
-        /*
         if (style['textShadow'] === undefined) {
           this._set_textShadow(this.domNode, style)
         }
         if (style['boxShadow'] === undefined) {
           this._set_boxShadow(this.domNode, style)
         }
-        */
         for (let p in style) {
           // we have to call the method, to be sure to also handle nulls,
           // e.g. for background images
