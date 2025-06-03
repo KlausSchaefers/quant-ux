@@ -928,10 +928,12 @@ export default {
 				"z" : 0,
 				"props" : {
 					"layout": "grid",
-					"rows": 2,
+				    "rows": 2,
 					"columns": 2,
 					"rowGap": 16,
-					"columnGap": 24            
+					"rowHeight": 64,
+					"columnWidth": 128,
+					"columnGap": 24              
 				},
 				"has" : {
 					"onclick" : true,

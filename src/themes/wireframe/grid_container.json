@@ -17,6 +17,8 @@
             "rows": 2,
             "columns": 2,
             "rowGap": 16,
+            "rowHeight": 64,
+            "columnWidth": 128,
             "columnGap": 24            
         },
         "has" : {

@@ -1628,5 +1628,17 @@ export const icons = {
         <path d="M9 8h10" />
         <path d="M16 19h6" />
         <path d="M19 16v6" />
+    `,
+    'ArrowsHor': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M7 8l-4 4l4 4" />
+        <path d="M17 8l4 4l-4 4" />
+        <path d="M3 12l18 0" />
+    `,
+    'ArrowsVer': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M8 7l4 -4l4 4" />
+        <path d="M8 17l4 4l4 -4" />
+        <path d="M12 3l0 18" />
     `
 }

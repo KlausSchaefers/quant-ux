@@ -74,6 +74,7 @@ export default {
       const cells = GridUtil.getCells(lines)
       const offsetX = box.x + borderLeftWidth
       const offsetY = box.y + borderTopWidth
+      this.cells = []
       for (let i=0; i < cells.length; i++) {
         const c = cells[i]
         this.cells[i] = {

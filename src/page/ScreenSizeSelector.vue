@@ -22,22 +22,22 @@ export default {
     return {
       value: null,
       types: {
-        "IPhone 15 / 16": {
+        "Smartphone": {
           type: "smartphone",
           screenSize: { w: 375, h: 812 },
           factor: 2
         },
-        "IPhone 15 / 16 Max": {
+        "Smartphone (Max)": {
           type: "smartphone",
           screenSize: { w: 414, h: 896 },
           factor: 2
         },
-        "IPad (Vertical)": {
+        "Tablet (Vertical)": {
           type: "tablet",
           screenSize: { w: 768, h: 1024 },
           factor: 2
         },
-        "IPad (Horizontal)": {
+        "Tablet (Horizontal)": {
           type: "tablet",
           screenSize: { w: 1024, h: 768 },
           factor: 2

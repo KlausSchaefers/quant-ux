@@ -34,7 +34,8 @@ export function getGridContainerLinesY(model, activePoint, zoom=1, includeBorder
     }  
     const style = model.style   
     const y = model.y
-    const rows = model.props.rows
+    let rows = model.props.rows
+
     const paddingTop = zoomedOrZero(style.paddingTop, zoom)
     const paddingBottom = zoomedOrZero(style.paddingBottom, zoom)
     const borderBottomWidth = includeBorder ?  zoomedOrZero(style.borderBottomWidth, zoom) : 0
@@ -42,8 +43,15 @@ export function getGridContainerLinesY(model, activePoint, zoom=1, includeBorder
     const rowGap = zoomedOrZero(model?.props.rowGap, zoom)
     const spaceH = model.h - (paddingTop + paddingBottom + borderTopWidth + borderBottomWidth)
 
-    const totalRowGap = (rows - 1) * rowGap
-    const rowH = Math.floor((spaceH - totalRowGap) / rows)
+    let rowH = 0
+    if (model.props.rowsFixed) {
+        rowH = zoomedOrZero(model.props.rowHeight, zoom)
+        rows = Math.floor((spaceH + rowGap ) / (rowH + rowGap))
+    } else {
+        const totalRowGap = (rows - 1) * rowGap
+        rowH = Math.floor((spaceH - totalRowGap) / rows)
+    }
+
     result.rowH = rowH
     let v = paddingTop + y + borderBottomWidth
     result.y.push(v)
@@ -71,6 +79,8 @@ export function getGridContainerLinesY(model, activePoint, zoom=1, includeBorder
 }
 
 
+
+
 export function getGridContainerLinesX(model, activePoint, zoom=1, includeBorder = true) {
     const result = {
         x:[],
@@ -79,7 +89,7 @@ export function getGridContainerLinesX(model, activePoint, zoom=1, includeBorder
   
     const style = model.style
     const x = model.x
-    const columns = model.props.columns
+    let columns = model.props.columns
     const paddingLeft = zoomedOrZero(style.paddingLeft, zoom)
     const paddingRight = zoomedOrZero(style.paddingRight, zoom)
 
@@ -88,10 +98,18 @@ export function getGridContainerLinesX(model, activePoint, zoom=1, includeBorder
 
     const columnGap = zoomedOrZero(model?.props.columnGap, zoom)
     const spaceW = model.w - (paddingLeft + paddingRight + borderRightWidth + borderLeftWidth) 
-    const totalColumnGap = (columns - 1) * columnGap
-    const columnW = Math.floor((spaceW - totalColumnGap) / columns)
-    result.columnW = columnW
 
+    let columnW = 0
+    if (model.props.columnsFixed) {
+        columnW = zoomedOrZero(model.props.columnWidth, zoom)
+        columns = Math.floor((spaceW + columnGap) / (columnW + columnGap))
+        console.debug(`getGridContainerLinesX() > spaceW: ${spaceW}, columnW: ${columnW} + ${columnGap} = ${columns}`)
+    } else {
+        const totalColumnGap = (columns - 1) * columnGap
+        columnW = Math.floor((spaceW - totalColumnGap) / columns)
+    }
+ 
+    result.columnW = columnW
     // in the grid container we do not have to add the border!!!
     let v = paddingLeft + x + borderLeftWidth
     result.x.push(v)

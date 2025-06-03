@@ -1,4 +1,4 @@
-import * as SnappUtil from '../../src/core/SnappUtil'
+import * as GridUtil from '../../src/core/GridUtil'
 
 const cntr = {
     "id" : "GridContainer",
@@ -36,11 +36,11 @@ const cntr = {
     }
 }
 
-test('Test SnappUtil.getGridContainerLinesX() >  All', async () => {
+test('Test GridUtil.getGridContainerLinesX() >  All', async () => {
 
 
 
-    let result = SnappUtil.getGridContainerLinesX(cntr, 'All', 1)
+    let result = GridUtil.getGridContainerLinesX(cntr, 'All', 1)
 
     expect(result.columnW).toBe(100)
     console.debug(result)
@@ -48,17 +48,17 @@ test('Test SnappUtil.getGridContainerLinesX() >  All', async () => {
  
 })
 
-test('Test SnappUtil.getGridContainerLinesY() >  All', async () => {
+test('Test GridUtil.getGridContainerLinesY() >  All', async () => {
 
-    let result = SnappUtil.getGridContainerLinesY(cntr, 'All', 1)
+    let result = GridUtil.getGridContainerLinesY(cntr, 'All', 1)
     expect(result.rowH).toBe(70)
     expect(result.y.join(',')).toBe([12,82,92,162,172,242,252,322,332,402].join(','))
     console.debug(result)
 })
 
-test('Test SnappUtil.getGridContainerLines() >  All', async () => {
+test('Test GridUtil.getGridContainerLines() >  All', async () => {
 
-    let result = SnappUtil.getGridContainerLines(cntr, 'All', 1)
+    let result = GridUtil.getGridContainerLines(cntr, 'All', 1)
     expect(result.columnW).toBe(100)
     expect(result.rowH).toBe(70)
     expect(result.x.join(',')).toBe([26,126,146,246,266,366,386,486].join(','))
