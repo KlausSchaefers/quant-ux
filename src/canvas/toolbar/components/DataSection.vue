@@ -690,10 +690,10 @@ export default {
 
 			this._setSectionLabel("Grid Container");
 
-			this._renderLabelDropDown("RowFixed", model, "rowsFixed",[
-				{ value:null, icon:"ArrowsVer", label : "Variable Height"},
-				{ value:"true", icon:"LockClosed", label : "Fixed Height"}
-			]);
+			// this._renderLabelDropDown("RowFixed", model, "rowsFixed",[
+			// 	{ value:null, icon:"ArrowsVer", label : "Variable Height"},
+			// 	{ value:"true", icon:"LockClosed", label : "Fixed Height"}
+			// ]);
 
 			if (model.props.rowsFixed) {
 				this._renderInputDropDown("Row Height",model, [24, 32, 64, 128], "rowHeight", true);
@@ -702,11 +702,11 @@ export default {
 			}
 			this._renderInputDropDown("Row Gap",model, [0, 4, 8, 16, 24, 32, 64], "rowGap", true);
 
-			this._renderSubSection()
-			this._renderLabelDropDown("ColsFixed", model, "columnsFixed",[
-				{ value:null, icon:"ArrowsHor", label : "Variable Width"},
-				{ value:"true", icon:"LockClosed", label : "Fixed Width"}
-			]);
+			// this._renderSubSection()
+			// this._renderLabelDropDown("ColsFixed", model, "columnsFixed",[
+			// 	{ value:null, icon:"ArrowsHor", label : "Variable Width"},
+			// 	{ value:"true", icon:"LockClosed", label : "Fixed Width"}
+			// ]);
 
 			if (model.props.columnsFixed) {
 				this._renderInputDropDown("Column Width",model, [24, 32, 64, 128], "columnWidth", true);
