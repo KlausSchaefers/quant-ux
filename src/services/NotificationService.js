@@ -192,6 +192,18 @@ class NotificationService extends AbstractService{
                 matches () {
                     return true
                 },
+                id:"GridContainer",
+                img: 'GridContainer.png',
+                more: `
+                    We have introduced a new component, the "Grid Container". Define precise row and column structures, with automatic 
+                    snapping of child elements to the grid layout. Now available in the component library. [<a href="https://youtu.be/NHTZf63rk_Q" target="yt">Video</a>] 
+                `,
+                title: 'The Grid Container is here!'
+            },
+            {
+                matches () {
+                    return true
+                },
                 id:"AiSimUser",
                 img: 'AiSimUser.png',
                 more: `

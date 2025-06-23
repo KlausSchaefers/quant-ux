@@ -22,7 +22,7 @@
 	background: rgba($canvas_selection, 0.1);
 	height: 100%;
 	width:100%;
-	opacity: 0.2;
+	opacity: 0;
 	transition-delay: 0.2s;
 	transition: opacity 0.1s;
 	position: absolute;
@@ -1982,7 +1982,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: #dedede;
+	background: #eee;
 	color:#6c6b6b;
 	font-size: 2em;
 }
@@ -2040,6 +2040,7 @@
 	width: 100%;
 	border-style: solid;
 	border-width: 0px;
+	overflow: hidden;
 }
 
 .MatcSimulator .MatchWidgetTypeButton{

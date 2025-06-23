@@ -287,17 +287,19 @@ export default class RenderFactory extends Core {
 				this._set_icon(null, widget.style, m);
 			}
 			if (widget && "Image" == widget.type) {
-				if (widget.has.iconPlaceholder) {
-					const div = this.getWidgetNodeByID(widget.id);
-					this.renderImageIcon(pos, div)
-				}
-				if (widget.style.backgroundPosition) {
-					let m = lang.clone(widget);
-					m.h = pos.h;
-					m.w = pos.w;
-					const div = this.getWidgetNodeByID(widget.id);
-					if (div) {
-						this._set_backgroundImage(div, widget.style, m);
+				if (!widget?.style?.backgroundImage) {				
+					if (widget.has.iconPlaceholder) {
+						const div = this.getWidgetNodeByID(widget.id);
+						this.renderImageIcon(pos, div)
+					}
+					if (widget.style.backgroundPosition) {
+						let m = lang.clone(widget);
+						m.h = pos.h;
+						m.w = pos.w;
+						const div = this.getWidgetNodeByID(widget.id);
+						if (div) {
+							this._set_backgroundImage(div, widget.style, m);
+						}
 					}
 				}
 			}
@@ -1666,7 +1668,7 @@ export default class RenderFactory extends Core {
 	 * background image
 	 */
 	_set_backgroundImage(parent, style, model) {
-
+		console.debug('setBack', style.backgroundImage)
 		let node = this._borderNodes[model.id];
 		if (node) {
 			parent = node;
