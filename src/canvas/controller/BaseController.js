@@ -286,6 +286,10 @@ export default class BaseController extends Core {
 
 	commitModelChange (updateChangeStack=true) {
 		this.logger.log(-1,"commitModelChange", "enter  >  changes: " + this._modelHasChanged + " > " + updateChangeStack);
+
+		//this.updateAutoGroups();
+		// ungroup should not be possible for autoGroups
+
 		const inheritedModel = this.getInheritedModel(this.model)
 
 		// if we do not update the command stack, it was and undo redo,

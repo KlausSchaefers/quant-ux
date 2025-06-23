@@ -1,6 +1,68 @@
 import Layer from './Layer'
+import * as LayoutContainerUtil from './LayoutContainerUtil'
 
 export default class Group extends Layer {
+
+	updateAutoGroups () {
+		this.logger.log(-1,"updateAutoGroups", "enter > " );
+
+		const [layoutContainers, children] = LayoutContainerUtil.getLayoutContainerChildren(this.model);
+		const groups = this.model.groups;
+		const autoGroups = {}
+		for (let id in groups) {
+			const group = groups[id];
+			if (group.autoGroup) {
+				autoGroups[group.layoutContainer] = group;
+			}
+		}
+
+		console.debug("Group.updateAutoGroups() > autoGroups", autoGroups, children);
+
+		// 1) create auto groups
+		layoutContainers.forEach(cntr => {
+			if (cntr.children.length > 0) {
+				if (!autoGroups[cntr.id]) {
+					//console.debug("Group.updateAutoGroups() > auto group does not exists", cntr.id);
+					const newGroup = {
+						id : "g" + this.getUUID(),
+						name : cntr.name + " Group",
+						autoGroup : true,
+						layoutContainer : cntr.id,
+						children : [],
+						groups : [],
+					}
+					this.modelAddGroup(newGroup);
+					autoGroups[newGroup.layoutContainer] = newGroup;
+				} 
+			}
+		})
+
+		// rest all auto groups to empty
+		for (let id in autoGroups) {
+			const autoGroup = autoGroups[id];
+			autoGroup.children = [];
+			// remove all auto groups
+		}
+			//console.debug("Group.updateAutoGroups() > reset auto group", autoGroup);
+
+		// 2) remove not needed auto groups
+		for(let id in children) {
+			const cntr = children[id];
+			if (autoGroups[cntr.id]) {
+				autoGroups[cntr.id].children = cntr.children;
+			} else {
+				console.debug("Group.updateAutoGroups() > no auto group", cntr.id);
+			}
+		}
+
+		// // sort children by id
+		// for (let id in autoGroups) {
+		// 	const autoGroup = autoGroups[id];
+		// 	autoGroup.children = autoGroup.children.sort((a.id.localComp[are] b) => {
+		// }
+
+
+	}
 
 
 	/**********************************************************************

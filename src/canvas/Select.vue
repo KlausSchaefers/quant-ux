@@ -143,6 +143,13 @@ import * as SelectionUtil from 'core/SelectionUtil'
 				selectedWidget?.id, 
 				selectedGroup?.id
 			)
+			// if (selectedWidgetID) {
+			// 	const layoutContainerChildren = SelectionUtil.getLayoutContainer(this.model, selectedWidgetID)
+			// 	if (layoutContainerChildren) {
+			// 		this.onMutliSelected(layoutContainerChildren)
+			// 		return
+			// 	}
+			// }
 			if (selectedWidgetID) {
 				this.onWidgetSelected(id);
 				this._dragNDropIgnoreGroup = true;

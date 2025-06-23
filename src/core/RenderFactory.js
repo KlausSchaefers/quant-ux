@@ -1668,7 +1668,6 @@ export default class RenderFactory extends Core {
 	 * background image
 	 */
 	_set_backgroundImage(parent, style, model) {
-		console.debug('setBack', style.backgroundImage)
 		let node = this._borderNodes[model.id];
 		if (node) {
 			parent = node;

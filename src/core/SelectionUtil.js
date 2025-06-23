@@ -1,6 +1,19 @@
 import Logger from './Logger'
 import Core from './Core'
 
+// export function getLayoutContainer(model, widgetID) {
+//     const children = getLayoutContainerChildren(model)
+//     if (children[widgetID]) {
+//         const cntr = children[widgetID]
+//         Logger.log(-1, 'SelectionUtil.getLayoutContainer()', `${widgetID} is in container`, cntr.id)
+//         return cntr.children
+//     }
+//     return null
+// }
+
+
+
+
 export function updateSelection(model, newId, selectedWidgetId, selectedGroupId) {
     Logger.log(1, 'SelectionUtil.updateSelection()', `${newId}, ${selectedWidgetId}, ${selectedGroupId}`)
     const util = new Core()

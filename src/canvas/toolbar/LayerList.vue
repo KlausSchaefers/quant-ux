@@ -645,8 +645,13 @@ export default {
 			}
 
 			if (type === 'group') {
+				if (box.autoGroup) {
+					return 'mdi mdi-grid-large'// 'mdi mdi-vector-link'
+				}
 				return 'mdi mdi-vector-union'
 			}
+
+
 			if (box.type == "Master") {
 				return "mdi mdi-content-duplicate";
 			}

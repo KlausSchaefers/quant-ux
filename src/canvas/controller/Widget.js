@@ -517,7 +517,6 @@ export default class Widget extends Snapp {
 				const widget = this.model.widgets[id];	
 				// check here that this is a valid change, e.g. if columsn are redduced or so
 				if (widget) {
-					console.debug("checkLayoutContainerChange", "widget", id, widget.name, pos.x, pos.y, pos.w, pos.h);
 					widget.modified = new Date().getTime()
 					if (!isNaN(pos.x) && !isNaN(pos.y) && !isNaN(pos.w) && !isNaN(pos.h)) {
 						widget.x = pos.x;
