@@ -184,7 +184,7 @@ export default {
 			    	{"value" : ">", label:"Bigger (>)"},
 					{"value" : "<", label:"Smaller (<)"},
 				  	{"value" : ">=", label:"Bigger Equals (>=)"},
-					{"value" : "<=", label:"Smaller Equals(<=)"}
+					{"value" : "<=", label:"Smaller Equals (<=)"}
 				]);
 				drpBox.setValue(step.operation)
 				drpBox.placeAt(row);
