@@ -76,7 +76,7 @@ export function isLayoutContainerWidget(widget) {
 }
 
 
-function isFullContained(outer, inner) {
+export function isFullContained(outer, inner) {
   // add here some offset?
   return outer.x <= inner.x && outer.y <= inner.y && outer.x + outer.w >= inner.x + inner.w && outer.y + outer.h >= inner.y + inner.h;
 }

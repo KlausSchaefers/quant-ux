@@ -5,6 +5,7 @@ import lang from 'dojo/_base/lang'
 import css from 'dojo/css'
 import win from 'dojo/_base/win'
 import topic from 'dojo/topic'
+import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
 
 export default {
     name: 'Tools',
@@ -925,10 +926,18 @@ export default {
 		onCopy (isDuplicate){
 			this.logger.log(-1,"onCopy", "enter > " + isDuplicate);
 
-			const selectedWidget = this.getSelectedWidget()
+			let selectedWidget = this.getSelectedWidget()
 			const selectedScreen = this.getSelectedScreen()
 			const selectedGroup = this.getSelectedGroup()
-			const selectedMulti = this.getMultiSelection()
+			let selectedMulti = this.getMultiSelection()
+
+			// Since 5.0.24 we handle LayoutContainers as virtual multi selects
+			if (LayoutContainerUtil.isLayoutContainerWidget(selectedWidget)) {		
+				selectedMulti = LayoutContainerUtil.getLayoutContainerChildren(selectedWidget.id, this.model)
+				selectedWidget = null
+			}
+			
+
 			if(selectedWidget || selectedScreen || selectedMulti || selectedGroup){
 				this._copied = {
 					widget: selectedWidget,
@@ -964,6 +973,7 @@ export default {
 
 		_setClipBoard (){
 			this.logger.log(1,"_setClipBoard", "enter > ", this.getSelectedScreen());
+			// FIXME: this does not work for GridContainers...
 			this.controller.setClipBoard (
 				this.getSelectedWidget(), 
 				this.getSelectedScreen(), 

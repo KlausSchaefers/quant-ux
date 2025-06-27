@@ -28,6 +28,7 @@ import Util from 'core/Util'
 import ModelUtil from '../../core/ModelUtil'
 import Tree from 'common/Tree'
 import {onStartDND} from '../../util/DND'
+import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
 
 export default {
 	name: 'LayerList',
@@ -138,6 +139,7 @@ export default {
 			if (ids.length === 1) {
 				const node = this.nodes[ids[0]]
 				if (node) {	
+					console.debug(node)
 					const type = node.type
 					if (type === 'widget') {
 						this.canvas.onWidgetSelected(node.id, true, true);
@@ -289,6 +291,7 @@ export default {
 				}
 			}
 
+
 			if (model.templates) {
 				for (let id in model.templates) {
 					const t = model.templates[id]
@@ -350,9 +353,27 @@ export default {
 				tree.selected = true
 			}
 
-			let groupNodes = {};
-			let masterNodes = {}
-			let sorted = this.getSortedScreenChildren(model, screen)
+			const groupNodes = {};
+			const masterNodes = {}
+			const layoutContainer = {}
+			const sorted = this.getSortedScreenChildren(model, screen)
+
+			// Since 5.0.24 we build a tree for the layout container
+			// we loop in inverse order to sort out child groups
+			// TODO: This fucks up groups and DND in the tree. But it would be nice...
+			// for(let i=sorted.length; i>=0; i--){
+			// 	let widget = sorted[i];
+			// 	if (LayoutContainerUtil.isLayoutContainerWidget(widget)) {
+			// 		const children = this.getLayoutContainerChildren(widget, sorted)
+			// 			for (let id of children){
+			// 			parentGroups[id] = widget
+			// 			layoutContainer[widget.id] = true 
+			// 		}
+			// 	}
+			// }
+
+		
+
 			for(let i=0; i< sorted.length; i++){
 				let widget = sorted[i];
 
@@ -373,18 +394,19 @@ export default {
 						masterNode.children.push(node)
 					}
 				} else {
-
-					/**
-					 * Check if we have a group
-					 */
-					if (parentGroups[widget.id]){
-						let group = parentGroups[widget.id]
-						let node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
-						let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
-						groupNode.children.push(node)
-					} else {
-						let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
-						tree.children.push(node)
+					if (!layoutContainer[widget.id]) {
+						/**
+						 * Check if we have a group
+						 */
+						if (parentGroups[widget.id]){
+							let group = parentGroups[widget.id]							
+							let node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
+							let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
+							groupNode.children.push(node)						
+						} else {
+							let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
+							tree.children.push(node)			
+						}
 					}
 				}
 			}
@@ -392,6 +414,20 @@ export default {
 			const end = this.createEndNode(screen.id, lastWidget?.id)
 			tree.children.push(end)
 			return tree
+		},
+
+		getLayoutContainerChildren(cntr, sorted) {
+			const children = []
+		
+			for (let w of sorted) {
+				// check here also for the selected widgets?
+				if (w.z >= cntr.z && w.id !== cntr.id) {
+					if (LayoutContainerUtil.isFullContained(cntr, w)) {
+						children.push(w.id)
+					}
+				}
+			}
+			return children
 		},
 
 		getSortedScreenChildren (model, screen) {
@@ -424,6 +460,11 @@ export default {
 			 */
 			if (!groupNodes[group.id]){
 
+				let type = 'group'
+				if (LayoutContainerUtil.isLayoutContainerWidget(group)) {
+					type = 'widget'
+				}
+
 
 				/**
 				 * Check if we have to create parent groups
@@ -431,13 +472,13 @@ export default {
 				if (parentGroups[group.id]) {
 					let parentGroup = parentGroups[group.id]
 
-					let newGroupNode = this.createNode(group, widget.id, screenId, parentGroup.id, 'group');
+					let newGroupNode = this.createNode(group, widget.id, screenId, parentGroup.id, type);
 					groupNodes[group.id] = newGroupNode;
 
 					let parentNode = this.getOrCreateGroup(parentGroup, screenId, groupNodes, parentGroups, tree, widget)
 					parentNode.children.push(newGroupNode)
 				} else {
-					let newGroupNode = this.createNode(group, widget.id, screenId, null, 'group'); // group must be null, otherwise we will merge on DND
+					let newGroupNode = this.createNode(group, widget.id, screenId, null, type); // group must be null, otherwise we will merge on DND
 					groupNodes[group.id] = newGroupNode;
 
 					tree.children.push(newGroupNode);

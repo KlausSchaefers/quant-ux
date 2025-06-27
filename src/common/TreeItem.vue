@@ -252,7 +252,7 @@ export default {
     },
     getInlineTxt (){
       if (this.$refs.lblNode){
-        var txt = this.$refs.lblNode.value;
+        let txt = this.$refs.lblNode.value;
         txt = txt.replace(/(\r\n|\n|\r)/gm, '')
         txt = txt.replace(/<br>/g, "");
         txt = txt.replace(/&nbsp;/g, " ");
