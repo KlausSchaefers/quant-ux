@@ -10,6 +10,7 @@ import ModelResizer from 'core/ModelResizer'
 import ModelUtil from 'core/ModelUtil'
 import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
 import * as ResponsiveUtil from 'core/responsive/ResponsiveUtil'
+import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
 
 export default {
     name: 'Resize',
@@ -306,7 +307,7 @@ export default {
       },
 
 
-      onResizeDnDStart (div, parent, id, type,modelType,e){
+      onResizeDnDStart (div, parent, id, type, modelType, e){
         this.stopEvent(e);
         this.logger.log(3,"onResizeDnDStart", "enter > "+  id);
         topic.publish("matc/canvas/click", "", "");
@@ -337,6 +338,7 @@ export default {
          * we set the bounding box.
          */
         this.getResizeModel(id)
+        console.debug('_resizeModel', id, this._resizeModel, this._resizeModelType, this._resizeParentDiv)
 
         /**
          * start the alignment, like grid or ruler!
@@ -349,14 +351,14 @@ export default {
          * init it on every DND, otherwise the model might be
          * replaced.
          */
-        if (modelType === 'group' || modelType === 'multi') {
+        if (this._resizeModelType === 'group' || this._resizeModelType === 'multi') {
           this.startResponsiveLayouter()
         }
         /**
          * register mouse move and release listener, maybe also esc listener
          */
-        this._resizeHandleMove = on(win.body(),"mousemove", lang.hitch(this,"onResizeDnDMove", modelType));
-        this._resizeHandleUp = on(win.body(),"mouseup", lang.hitch(this,"onResizeDnDEnd", modelType));
+        this._resizeHandleMove = on(win.body(),"mousemove", lang.hitch(this,"onResizeDnDMove", this._resizeModelType));
+        this._resizeHandleUp = on(win.body(),"mouseup", lang.hitch(this,"onResizeDnDEnd", this._resizeModelType));
       },
 
       startResponsiveLayouter () {  
@@ -370,6 +372,18 @@ export default {
           this._resizeModelChildren = ResponsiveUtil.getPinnedScreenChildren(this._resizeModel, this.model);      
         } else if(this._resizeModelType == "widget"){
           this._resizeModel = this.model.widgets[id];
+
+          // Since 5.0.24 we change the model type for layout containers,
+          // and make them a group, so the children a resized.
+          if (LayoutContainerUtil.isLayoutContainer(id, this.model)) {
+            this._resizeModelType = "group"
+            const childIds = LayoutContainerUtil.getLayoutContainerChildren(id, this.model)
+            this._resizeModel = this.getBoundingBox(childIds);
+            this._resizeModel.children = childIds   
+            this._resizeModel.isLayoutContainer = true
+            return
+          }
+
         } else if(this._resizeModelType == "group"){
           this._resizeModel = this.getBoundingBox(this.getSelectedGroup().children);
           this._resizeModel.children = this.getSelectedGroup().children;
@@ -379,8 +393,7 @@ export default {
         }
       },
 
-      onResizeDnDMove (modelType, e){
-
+      onResizeDnDMove (modelType, e){       
         this.stopEvent(e);
         if(!this._resizeHandleDiv || !this._resizeModel){
           this.logger.warning(0,"onResizeDnDMove", "No model or handler");
@@ -398,8 +411,6 @@ export default {
 
         // get snapped position
         const pos = this._getSizePos(e);
-
-     
 
         if (modelType !== "group" && modelType !== "multi"){
           /**
@@ -429,14 +440,18 @@ export default {
              * Responsive Layout
              */
             const [positions] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
-            this._createMultiPositionRenderJobs(positions)             
+            this._createMultiPositionRenderJobs(positions)   
           }
 
           /**
            * in case of group we also set the bounding box,
            * to make sure all lines are correctly updated
+           * 
+           * Since 5.0.24 we change the model type for layout containers,
+           * and we don't want to overwrite the div attached to the job.
+           * Check "getResizeModel()"
            */
-          if (modelType === "group"){
+          if (modelType === "group" && !this._resizeModel.isLayoutContainer){
             pos.id = this._resizeId;
             this._resizeRenderJobs[this._resizeId] = {
               "pos" : pos
@@ -534,7 +549,7 @@ export default {
          * calculate new position of widget (or bounding box) and
          * align it with snapping.
          */
-        var pos = this._getResizePosition(this._resizeNewPosition, this._resizeModel, this._resizeType);
+        let pos = this._getResizePosition(this._resizeNewPosition, this._resizeModel, this._resizeType);
         pos = this.allignPosition(pos, e);
         //pos = this.allignToKeyBoard(pos,e);
 
@@ -556,9 +571,9 @@ export default {
             this.controller.updateScreenPosition(this._resizeId, pos, false);
           } else {
 
-            var widget = this.model.widgets[this._resizeId];
+            const widget = this.model.widgets[this._resizeId];
 
-            let sourcePos = this.controller.updateWidgetPosition(this._resizeId, pos, false, this.isMasterWidget(widget));
+            const sourcePos = this.controller.updateWidgetPosition(this._resizeId, pos, false, this.isMasterWidget(widget));
             if (sourcePos) {
 
               /**
@@ -569,7 +584,7 @@ export default {
               /**
                * Also update with the real snapped one
                */
-              let zoomedPos = CoreUtil.getZoomedBoxCopy(sourcePos, this.getZoomFactor(), this.getZoomFactor());
+              const zoomedPos = CoreUtil.getZoomedBoxCopy(sourcePos, this.getZoomFactor(), this.getZoomFactor());
               this.setWidgetPosition(widget.id, sourcePos, zoomedPos);
 
             } else {
@@ -582,15 +597,15 @@ export default {
             /**
              * Distribute
              */
-            let dir = this.isHorinzontalDistribution();
-            let temp = this._distributedPositions(dir, this._resizeModel.children, pos);
+            const dir = this.isHorinzontalDistribution();
+            const temp = this._distributedPositions(dir, this._resizeModel.children, pos);
             let positions = temp.positions;
 
-            let children = this._resizeModel.children;
+            const children = this._resizeModel.children;
             let hasCopies = false;
             for(let i=0; i< children.length; i++){
-              let id = children[i];
-              let widget = this.model.widgets[id];
+              const id = children[i];
+              const widget = this.model.widgets[id];
               hasCopies = hasCopies || this.isMasterWidget(widget);
             }
             // FIXME: We could have here a nice methods in the controller

@@ -374,7 +374,7 @@ export default class Widget extends Snapp {
 	 **********************************************************/
 
 	updateMultiWidgetSizeResponsive (pos, resizeModel, fromToolbar, hasCopies){
-		this.logger.warn("updateMultiWidgetSizeResponsive", "NOT IMPLEMENTED YET", fromToolbar, hasCopies);
+		//this.logger.warn("updateMultiWidgetSizeResponsive", "NOT IMPLEMENTED YET", fromToolbar, hasCopies);
 
 	
 		// 1) zoom & snapp pos

@@ -4,7 +4,7 @@ import topic from "dojo/topic";
 import domGeom from "dojo/domGeom";
 import css from "dojo/css";
 import CoreUtil from 'core/CoreUtil'
-
+import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
 
 export default {
   name: "DnD",
@@ -495,6 +495,10 @@ export default {
        * Now add all elements
        */
       this._addDnDChildren(id,ids, pos);
+      
+
+      //console.debug(this._dragNDropChildren)
+
       this._addDNGroups(this._dragNDropChildren, pos)
       this._addDDNOffset(pos)
      
@@ -562,6 +566,12 @@ export default {
       }     
     },
 
+    _addLayoutDDNChildren(id) {
+        this.logger.log(-1, "_addLayoutDDNChildren", "exit > id : " + id);
+        const childIds = LayoutContainerUtil.getLayoutContainerChildren(id, this.model)
+        this._dragNDropChildren = childIds
+    },
+
     _addDnDChildren(id, ids, pos) {
       //console.debug('addChildren', ids, id, ids?.indexOf(id) === -1)
       const topGroup = this.getTopParentGroup(id)
@@ -581,7 +591,14 @@ export default {
           const allChildren = this.getAllGroupChildren(topGroup)
           this._dragNDropChildren = allChildren
           this._addDNGroup(topGroup, pos)
+          return
         }
+
+        // Since 5.0.24 we move layout container children
+        if (LayoutContainerUtil.isLayoutContainer(id, this.model)) {
+           this._addLayoutDDNChildren(id, ids, pos)
+        }
+
         return
       }
     
@@ -610,6 +627,11 @@ export default {
         this._addDNGroup(selectedGroup, pos)
         return
       }
+
+      // Since 5.0.24 we move layout container children
+      if (LayoutContainerUtil.isLayoutContainer(id, this.model)) {
+        this._addLayoutDDNChildren(id, ids, pos)
+      }
     },
 
     onWidgetDNDKeyDown (e, isUp= false) {
@@ -637,7 +659,6 @@ export default {
       }
 
       this.addDNDActive()
-
       this.setState(2);
       this.cleanUpDebugLines();
 

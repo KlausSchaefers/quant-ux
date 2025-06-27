@@ -1,12 +1,12 @@
 import Layer from './Layer'
-import * as LayoutContainerUtil from './LayoutContainerUtil'
+import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
 
 export default class Group extends Layer {
 
 	updateAutoGroups () {
 		this.logger.log(-1,"updateAutoGroups", "enter > " );
 
-		const [layoutContainers, children] = LayoutContainerUtil.getLayoutContainerChildren(this.model);
+		const [layoutContainers, children] = LayoutContainerUtil.getLayoutContainerModels(this.model);
 		const groups = this.model.groups;
 		const autoGroups = {}
 		for (let id in groups) {

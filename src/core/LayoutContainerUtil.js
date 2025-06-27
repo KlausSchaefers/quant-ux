@@ -1,4 +1,22 @@
-export function getLayoutContainerChildren(model) {
+export function getLayoutContainerChildren(id, model, includeContainer =true) {
+  const children = []
+  if (includeContainer) {
+    children.push(id)
+  }
+  const cntr = model.widgets[id];    
+  for (let id in model.widgets) {
+    const w = model.widgets[id];
+    // check here also for the selected widgets?
+    if (w.z >= cntr.z && w.id !== cntr.id) {
+      if (isFullContained(cntr, w)) {
+        children.push(id)
+      }
+    }
+  }
+  return children
+}
+
+export function getLayoutContainerModels(model) {
   const layoutContainers = [];
   const children = {};
 
@@ -41,6 +59,13 @@ export function getLayoutContainerChildren(model) {
   });
 
   return [layoutContainers, children]
+}
+
+export function isLayoutContainer(id, model) {
+  if (model.widgets[id] && model.widgets[id].type === "GridContainer") {
+    return true; 
+  }
+  return false;
 }
 
 function isFullContained(outer, inner) {
