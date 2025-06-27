@@ -3,7 +3,7 @@
 		"id" : "DropDown",
 		"type" : "DropDown",
 		"name" : "DropDown",
-		 "subcategory" : "Form",
+		 "subcategory" : "BFormButton",
 		"category" : "WireFrame",
 		"_type" : "Widget",
 		"x" : 0,

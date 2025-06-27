@@ -1,0 +1,57 @@
+[
+  {
+    "id": "Card",
+    "type": "Button",
+    "name": "Card",
+    "category": "Advanced",
+    "subcategory" : "ABB",
+    "_type": "Widget",
+    "x": 0,
+    "y": 0,
+    "w": 320,
+    "h": 320,
+    "props": {
+      "label": "",
+      "paddingSnap": true
+    },
+    "has": {
+      "backgroundColor": true,
+      "border": true,
+      "label": true,
+      "padding": true,
+      "onclick": true
+    },
+    "actions": {},
+    "style": {
+      "fontSize": 14,
+      "fontFamily": "Helvetica Neue,Helvetica,Arial,sans-serif",
+      "textAlign": "left",
+      "letterSpacing": 0,
+      "lineHeight": 1.4,
+      "color": "#ffffff",
+      "borderTopRightRadius": 8,
+      "borderTopLeftRadius": 8,
+      "borderBottomRightRadius": 8,
+      "borderBottomLeftRadius": 8,
+      "borderTopWidth": 1,
+      "borderBottomWidth": 1,
+      "borderRightWidth": 1,
+      "borderLeftWidth": 1,
+      "borderTopColor": "#dedede",
+      "borderBottomColor": "#dedede",
+      "borderRightColor": "#dedede",
+      "borderLeftColor": "#dedede",
+      "background": "#ffffff",
+      "paddingTop": 16,
+      "paddingBottom": 16,
+      "paddingLeft": 16,
+      "paddingRight": 16,
+      "textShadow": null,
+      "boxShadow": null,
+      "borderTopStyle": "solid",
+      "borderBottomStyle": "solid",
+      "borderRightStyle": "solid",
+      "borderLeftStyle": "solid"
+    }
+  }
+]

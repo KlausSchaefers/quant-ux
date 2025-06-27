@@ -2,8 +2,8 @@
  {
 	 "id" : "HotSpot",
 	 "type" : "HotSpot",
-	 "category" : "WireFrame",
-	 "subcategory" : "AAA",
+	 "category" : "Advanced",
+	 "subcategory" : "CCC",
 	 "_type" : "Widget",
 	 "name" : "Hotspot",
 	 "description": "Use Hotspot to define clickable areas in images. The red border is not shown in the simulator.",

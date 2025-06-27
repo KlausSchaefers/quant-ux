@@ -3,7 +3,7 @@
 		"id": "Link",
 		"type": "Button",
 		"_type": "Widget",
-		"category": "Advanced",
+		"category": "WireFrame",
 		"subcategory": "AForm",
 		"name": "Link",
 		"_extends": "Label",

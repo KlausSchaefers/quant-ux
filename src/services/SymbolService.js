@@ -81,7 +81,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/date.json'),
             //import(/* webpackChunkName: "themes" */ 'themes/wireframe/date2.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/dnd.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/wireframe/dropbox.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/textbox.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/hotspot.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/icon.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/image.json'),
@@ -99,7 +99,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/segment_picker.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/tab.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/table.json'),
-            import(/* webpackChunkName: "themes" */ 'themes/wireframe/textbox.json'),
+         
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/timespinner.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/typeahead.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/volume.json'),
@@ -116,6 +116,8 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/paging.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/timeline.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/svg.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/card.json'),
+             import(/* webpackChunkName: "themes" */ 'themes/wireframe/dropbox.json'),
 
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/lockslider.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/visualpicker.json'),

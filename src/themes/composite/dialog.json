@@ -201,7 +201,7 @@
             "w": 246,
             "h": 24,
             "props": {
-              "label": "Headline",
+              "label": "Title",
               "resize": {
                 "right": false,
                 "up": true,

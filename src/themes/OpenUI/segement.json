@@ -21,10 +21,6 @@
 		"label" : true
 	},
 	"style" : {
-		"borderTopRightRadius" : 0,
-		"borderTopLeftRadius" : 0,
-		"borderBottomRightRadius" : 0,
-		"borderBottomLeftRadius" : 0,
 		"borderTopWidth" : 1,
 		"borderBottomWidth" : 1,
 		"borderRightWidth" : 1,
@@ -39,7 +35,6 @@
 		"paddingBottom" : 4,
 		"paddingLeft" : 7,
 		"paddingRight" : 7,
-		"textAlign" : "center",
 		"fontSize" : 14,
 		"fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
 		"textAlign" : "center",

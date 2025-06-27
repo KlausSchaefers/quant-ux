@@ -4,7 +4,7 @@
 	  "type": "Group",
 	  "_type": "Group",
 	  "name": "Tab",
-	  "category": "WireFrame",
+	  "category": "Advanced",
 	  "subcategory": "TBox",
 	  "children": [
 	    {
@@ -248,7 +248,7 @@
 	  "type": "Group",
 	  "_type": "Group",
 	  "name": "Tab",
-	  "category": "WireFrame",
+	  "category": "Advanced",
 	  "subcategory": "TBox",
 	  "children": [
 	    {
