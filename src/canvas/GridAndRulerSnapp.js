@@ -6,6 +6,7 @@ import Core from 'core/Core'
 import * as GridUtil from 'core/GridUtil'
 import * as SnappUtil from 'core/SnappUtil'
 import ModelUtil from '../core/ModelUtil'
+import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
 
 export default class GridAndRulerSnapp extends Core {
 
@@ -2151,6 +2152,7 @@ export default class GridAndRulerSnapp extends Core {
 			ignore = this.getSnappIgnores(screen)
 		}
 
+		console.debug("initScreen", screen.id, "ignore", ignore)
 		/**
 		 * now create the snapp lines for all other widgets in the screen,
 		 * unless they are in a group or otherwise ignored
@@ -2222,6 +2224,13 @@ export default class GridAndRulerSnapp extends Core {
 			ignore[this.selectedModel.id] = true
 		}
 
+		// Since 5.0.24 we ignore layout containers and its children
+		if (LayoutContainerUtil.isLayoutContainer(this.selectedModel.id, this.model)) {
+			const children = LayoutContainerUtil.getLayoutContainerChildren(this.selectedModel.id, this.model);
+			for (let i = 0; i < children.length; i++) {
+				ignore[children[i]] = true;
+			}
+		}
 		/**
 		 * ignore multi
 		 */

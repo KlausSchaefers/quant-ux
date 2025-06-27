@@ -102,7 +102,7 @@ export default {
       this._checks["custom"] = c;
       this._divs["custom"] = custom;
       this.cntr.appendChild(parent);
-      this.onTypePress("IPhone 14 / 15");
+      this.onTypePress("Smartphone");
     },
 
     onCustomSelected () {
@@ -126,11 +126,16 @@ export default {
 
     onTypePress (type) {
       this.cleanup();
-      this._checks[type].setValue(true);
-      css.add(this._divs[type], "MatcScreenSizeItemSelected");
-      this.value = this.types[type];
-      this._isCustom = false;
-      this.$emit("change", this.getValue());
+      if (this._checks[type]) {
+        this._checks[type].setValue(true);
+        css.add(this._divs[type], "MatcScreenSizeItemSelected");
+        this.value = this.types[type];
+        this._isCustom = false;
+        this.$emit("change", this.getValue());
+      } else {
+        console.warn("onTypePress() > Not supported type: ", type)
+      }
+      
     },
 
     setValue (m) {

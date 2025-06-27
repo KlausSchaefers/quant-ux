@@ -376,6 +376,11 @@ body {
 	background: none;
 }
 
+.MatcAppTypeSelector .MatcScreenSizeItemSelected{
+	border: 1px solid $primary_color;
+	background: $primary_color_trans;
+}
+
 .MatcScreenSizeItem .VommondCheckBoxWrapper .VommondCheckBox {
 	background: none;
 }

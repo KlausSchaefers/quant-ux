@@ -68,6 +68,14 @@ export function isLayoutContainer(id, model) {
   return false;
 }
 
+export function isLayoutContainerWidget(widget) {
+  if (widget && widget.type === "GridContainer") {
+    return true; 
+  }
+  return false;
+}
+
+
 function isFullContained(outer, inner) {
   // add here some offset?
   return outer.x <= inner.x && outer.y <= inner.y && outer.x + outer.w >= inner.x + inner.w && outer.y + outer.h >= inner.y + inner.h;
