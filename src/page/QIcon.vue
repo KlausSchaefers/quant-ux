@@ -4,8 +4,8 @@
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
         :class="'MatcQIconSVG ' + icon"
-        width="18" 
-        height="18" 
+        :width="w" 
+        :height="h" 
         viewBox="0 0 24 24" 
         stroke-width="1.25" 
         stroke="currentColor" 
@@ -28,11 +28,13 @@
   import {icons} from './QIconsSVG'
   export default {
     name: "QIcon",
-    props:['icon', 'tooltip', 'bubble', 'attachToParent'],
+    props:['icon', 'tooltip', 'bubble', 'attachToParent', 'width', 'height'],
     mixins: [DojoWidget, _Tooltip],
     data: function() {
       return {
-        icons: icons
+        icons: icons,
+        w: 18,
+        h: 16
       };
     },
     components: {},
@@ -54,7 +56,12 @@
         } else {
           this.addTooltip(this.$el, this.tooltip)
         }
-    
+      }
+      if (this.width) {
+        this.w = this.width
+      }
+      if (this.height) {
+        this.h = this.height
       }
 
     }

@@ -644,6 +644,14 @@ export default {
 				return 'mdi mdi-vector-curve'
 			}
 
+			if (box.type === 'Image') {
+				return 'mdi mdi-image-outline'
+			}
+
+			if (box.type === 'GridContainer') {
+				return 'GridContainer'		
+			}
+
 			if (type === 'group') {
 				if (box.autoGroup) {
 					return 'mdi mdi-grid-large'// 'mdi mdi-vector-link'

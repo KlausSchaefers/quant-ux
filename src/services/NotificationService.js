@@ -192,11 +192,16 @@ class NotificationService extends AbstractService{
                 matches () {
                     return true
                 },
-                id:"GridContainer",
+                id:"GridContainer2",
                 img: 'GridContainer.png',
                 more: `
+                    <p>
                     We have introduced a new component, the "Grid Container". Define precise row and column structures, with automatic 
                     snapping of child elements to the grid layout. Now available in the component library. [<a href="https://youtu.be/NHTZf63rk_Q" target="yt">Video</a>] 
+                    </p>
+                     <p>     
+                        <b>Update:</b> When moving or resizing the grid container, the children will now be updated as well.
+                    </p>
                 `,
                 title: 'The Grid Container is here!'
             },

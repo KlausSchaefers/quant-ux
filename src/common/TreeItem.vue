@@ -23,7 +23,7 @@
           </template>
 
 
-          <QIcon class="MatcTreeTypeIcon" v-if="nodeIcon" :icon="nodeIcon" ></QIcon>
+          <QIcon class="MatcTreeTypeIcon" v-if="nodeIcon" :icon="nodeIcon" width="14" height="14"></QIcon>
 
          <label class="MatcTreeItemLabel" v-if="!isEditable" ref="lblNode" >
             {{hintAndLabel}}
