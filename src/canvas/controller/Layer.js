@@ -69,6 +69,7 @@ export default class Layer extends Templates {
 			return;
 		}
 
+		// FIXME; For LayoutContainers we need to move all the children as well
 		const command = this.createChangeLayerCommand(from, to);
 
 		this.addCommand(command);

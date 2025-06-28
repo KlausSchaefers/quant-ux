@@ -139,7 +139,6 @@ export default {
 			if (ids.length === 1) {
 				const node = this.nodes[ids[0]]
 				if (node) {	
-					console.debug(node)
 					const type = node.type
 					if (type === 'widget') {
 						this.canvas.onWidgetSelected(node.id, true, true);
@@ -198,12 +197,25 @@ export default {
 				}
 			}
 		},
+		
+		showError(msg) {
+			if (this.canvas) {
+				this.canvas.showError(msg)
+			}
+		},
 
 		onDnd (from, to) {
-			this.logger.log(-1, "onDnd", "entry > ", from + ' -> ' + to);
+			this.logger.log(1, "onDnd", "entry > ", from + ' -> ' + to);
 
 			const fromNode = this.nodes[from]
 			const toNode = this.nodes[to]
+
+			
+			if (fromNode.parentID !== toNode.parentID) {
+				this.logger.warn('onDnd', 'Not same parent', fromNode.parentID, toNode.parentID)
+				this.showError("Widgets can be moved only in the same group or container!")
+				return
+			}
 
 			if (fromNode && toNode) {
 				if (this.controller) {
@@ -361,17 +373,27 @@ export default {
 			// Since 5.0.24 we build a tree for the layout container
 			// we loop in inverse order to sort out child groups
 			// TODO: This fucks up groups and DND in the tree. But it would be nice...
-			// for(let i=sorted.length; i>=0; i--){
-			// 	let widget = sorted[i];
-			// 	if (LayoutContainerUtil.isLayoutContainerWidget(widget)) {
-			// 		const children = this.getLayoutContainerChildren(widget, sorted)
-			// 			for (let id of children){
-			// 			parentGroups[id] = widget
-			// 			layoutContainer[widget.id] = true 
-			// 		}
-			// 	}
-			// }
+			for(let i = sorted.length; i>=0; i--){
+				const widget = sorted[i];
+				if (LayoutContainerUtil.isLayoutContainerWidget(widget)) {
+					const children = this.getLayoutContainerChildren(widget, sorted)
+					for (let id of children){
+						// If the widget is under a group (cheap check for children), we will place 
+						// the group in the GridContainer and maintain the group child relation	
+						if (parentGroups[id] && parentGroups[id].children){
+							const group = parentGroups[id]
+							parentGroups[group.id] = widget
+						} else {
+							// else we place the GridContainer as the parent
+							parentGroups[id] = widget
+							layoutContainer[widget.id] = true 
+						}
+			
+					}
+				}
+			}
 
+			console.debug(parentGroups)
 		
 
 			for(let i=0; i< sorted.length; i++){
@@ -402,6 +424,7 @@ export default {
 							let group = parentGroups[widget.id]							
 							let node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
 							let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
+							node.parentID = group.id
 							groupNode.children.push(node)						
 						} else {
 							let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
@@ -477,6 +500,7 @@ export default {
 
 					let parentNode = this.getOrCreateGroup(parentGroup, screenId, groupNodes, parentGroups, tree, widget)
 					parentNode.children.push(newGroupNode)
+					newGroupNode.parentID = parentGroup.id
 				} else {
 					let newGroupNode = this.createNode(group, widget.id, screenId, null, type); // group must be null, otherwise we will merge on DND
 					groupNodes[group.id] = newGroupNode;

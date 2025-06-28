@@ -208,6 +208,10 @@ export default {
         this.isDragOver = false;
         return
       }
+      if (source.parentID !== this.value.parentID) {
+        this.isDragOver = false;
+        return
+      }
       e.preventDefault()
       this.isDragOver = true
     },
