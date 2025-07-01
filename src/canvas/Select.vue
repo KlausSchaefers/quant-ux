@@ -647,9 +647,16 @@ import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
 			
 		},
 
-		getSelectedIds (){
+		getSelectedIds (extendLayoutContainer=false){
 
 			if(this._selectWidget){
+				// Since 5.0.24 we handle layout containers as
+				// virtual groups. because getSelectedIds() is called alos in select,
+				// we introduced the extendLayoutContainer param.
+				if (extendLayoutContainer && LayoutContainerUtil.isLayoutContainerWidget(this._selectWidget)) {
+					const children = LayoutContainerUtil.getLayoutContainerChildren(this._selectWidget.id, this.model)
+					return children
+				}
 				return [this._selectWidget.id];
 			}
 			if(this._selectMulti){

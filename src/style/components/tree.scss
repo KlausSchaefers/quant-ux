@@ -16,6 +16,10 @@
   border-top-color: $primary_color;
 }
 
+.MatcTreeItem.MatcTreeItemDragOverError  > li > .MatcTreeItemRow{
+  text-decoration: line-through;
+}
+
 .MatcTreeItemRow{
   position: relative;
   display: flex;

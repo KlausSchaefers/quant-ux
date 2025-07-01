@@ -1,7 +1,7 @@
 
 <template>
 <!-- :xScroll="scrollToItem()" Add this to enbale scrolling...  HSould be fixed to only tricker when seelction was changes from canvas-->
-	<ul :class="[{'MatcTreeItemDragOver': isDragOver},{'MatcTreeItemEnd': value.isEnd}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem', 'MatcTreeItemLevel' + level]" :xScroll="scrollToItem()"  >
+	<ul :class="[{'MatcTreeItemDragOver': isDragOver}, {'MatcTreeItemDragOverError': isDragError},{'MatcTreeItemEnd': value.isEnd}, {'MatcTreeItemSelected': isSelected && !isEditable}, 'MatcTreeItem', 'MatcTreeItemLevel' + level]" :xScroll="scrollToItem()"  >
     <li >
         <div
             :class="'MatcTreeItemRow ' + rowStyle"
@@ -71,7 +71,8 @@ export default {
     return {
       hasLock: false,
       hasOptions: false,
-      isDragOver: false
+      isDragOver: false,
+      isDragError: false
     };
   },
   components: {
@@ -205,25 +206,30 @@ export default {
     onDragOver (e) {
       const source = TreeDND.get()
       if (source && source.dndType !== this.value.dndType) {
+        this.isDragError = true
         this.isDragOver = false;
         return
       }
       if (source.parentID !== this.value.parentID) {
         this.isDragOver = false;
+        this.isDragError = true
         return
       }
       e.preventDefault()
+      this.isDragError = false
       this.isDragOver = true
     },
     onDragLeave (e) {
       e.preventDefault()
       this.isDragOver = false
+      this.isDragError = false
     },
     onDrop (e) {
       e.preventDefault()
       const source = TreeDND.get()
       const id = e.dataTransfer.getData('text')
       this.isDragOver = false
+      this.isDragError = false
       TreeDND.end()
       if (source && source.dndType === this.value.dndType) {
         this.$emit('dnd', id, this.value.id, 'top')

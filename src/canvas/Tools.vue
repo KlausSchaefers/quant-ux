@@ -544,22 +544,22 @@ export default {
 
 		onArrowLeft (e, isShift){
 			this.logger.log(0,"onArrowLeft", "enter > "+ e.altKey);
-			this.controller.incMultiWidgetPosition(this.getSelectedIds(), -1 * this.getArrowMoveDistance(isShift, true), 0);
+			this.controller.incMultiWidgetPosition(this.getSelectedIds(true), -1 * this.getArrowMoveDistance(isShift, true), 0);
 		},
 
 		onArrowRight (e, isShift){
 			this.logger.log(0,"onArrowRight", "enter > " + e.altKey);
-			this.controller.incMultiWidgetPosition(this.getSelectedIds(), 1 * this.getArrowMoveDistance(isShift, true), 0);
+			this.controller.incMultiWidgetPosition(this.getSelectedIds(true), 1 * this.getArrowMoveDistance(isShift, true), 0);
 		},
 
 		onArrowUp (e, isShift){
 			this.logger.log(0,"onArrowUp", "enter > " + e.altKey);
-			this.controller.incMultiWidgetPosition(this.getSelectedIds(), 0, -1 * this.getArrowMoveDistance(isShift, false));
+			this.controller.incMultiWidgetPosition(this.getSelectedIds(true), 0, -1 * this.getArrowMoveDistance(isShift, false));
 		},
 
 		onArrowDown (e, isShift){
 			this.logger.log(0,"onArrowDown", "enter > "+ e.altKey);
-			this.controller.incMultiWidgetPosition(this.getSelectedIds(), 0, 1 * this.getArrowMoveDistance(isShift, false));
+			this.controller.incMultiWidgetPosition(this.getSelectedIds(true), 0, 1 * this.getArrowMoveDistance(isShift, false));
 		},
 
 		getArrowMoveDistance (isShift, isHorizontal) {
