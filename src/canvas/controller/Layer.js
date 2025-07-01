@@ -1,6 +1,8 @@
 import Templates from './Templates'
 import LayerUtil from '../../core/LayerUtil'
 import ModelUtil from '../../core/ModelUtil';
+import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
+
 export default class Layer extends Templates {
 
 	/**********************************************************************
@@ -96,6 +98,16 @@ export default class Layer extends Templates {
 			const children = this.getAllGroupChildren(group)
 			selectedElements = children
 		}
+
+		// Since 5.0.24 we handle layout containers
+		// as virtual groups.
+		if (from.type === 'widget' && from.source) {
+			const widget = this.model.widgets[from.source]
+			if(widget && LayoutContainerUtil.isLayoutContainerWidget(widget)) {
+				selectedElements = LayoutContainerUtil.getLayoutContainerChildren(widget.id, this.model)
+			}
+		}
+
 
 		/**
 		 * Since 4.2.5 we also update group selected chidlren

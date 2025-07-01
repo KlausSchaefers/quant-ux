@@ -165,7 +165,8 @@ import ViewConfig from 'canvas/toolbar/components/ViewConfig'
 import EditModeButton from "canvas/toolbar/components/EditModeButton"
 import CollabUser from "canvas/toolbar/components/CollabUser"
 import ModelUtil from '../../core/ModelUtil';
-// import HelpButton from 'help/HelpButton'
+import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
+
 import CreateVectorButton from './components/CreateVectorButton'
 import CreateLogicButton from './components/CreateLogicButton'
 import CreateBasicButton from './components/CreateBasicButton'
@@ -1474,7 +1475,14 @@ export default {
 				// this.canvas.onAlignStart(value);
 				const parentScreen = this.getParentScreen(this._selectedWidget);
 				if (parentScreen) {
-					this.controller.alignWidgets(value, [this._selectedWidget.id], [parentScreen.id]);
+					// Since 5.0.24 we handle layout containers
+					// as virtual groups.
+					if (LayoutContainerUtil.isLayoutContainerWidget(this._selectedWidget)) {
+						const children = LayoutContainerUtil.getLayoutContainerChildren(this._selectedWidget.id, this.model)
+						this.controller.alignWidgets(value, children, [parentScreen.id]), false;
+					} else {
+						this.controller.alignWidgets(value, [this._selectedWidget.id], [parentScreen.id]);
+					}
 				} else {
 					this.logger.log(1,"onAlignElements", "exit not parent : ", this._selectedWidget);
 				}
@@ -1633,12 +1641,17 @@ export default {
 					const widget = this.model.widgets[selection[0]];
 					if (widget) {
 						let parentGroup = this.getTopParentGroup(widget.id)
-						topId = widget.id
-						if (parentGroup) {
-							selection = this.getAllGroupChildren(parentGroup)
-						}
 						
+						if (parentGroup) {
+							topId = widget.id
+							selection = this.getAllGroupChildren(parentGroup)
+						} else if (LayoutContainerUtil.isLayoutContainerWidget(widget)) {
+							// Since 5.0.24 we handle layout containers
+							// as virtual groups.
+							selection = LayoutContainerUtil.getLayoutContainerChildren(widget.id, this.model)
+						}
 					}
+					
 				}
 
 				let parent

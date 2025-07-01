@@ -346,7 +346,7 @@ export default {
 			if (this.openNodes[screen.id] === undefined) {
 				this.openNodes[screen.id] = true
 			}
-			let tree = {
+			const tree = {
 				name: screen.name,
 				label: screen.name,
 				id: screen.id,
@@ -393,26 +393,23 @@ export default {
 				}
 			}
 
-			console.debug(parentGroups)
-		
-
 			for(let i=0; i< sorted.length; i++){
-				let widget = sorted[i];
+				const widget = sorted[i];
 
 				/**
 				 * FIMXE: Make here a extra group for the master widgets
 				 */
 				if (widget.inherited) {
 					if (this.includeMasterNodes) {
-						let masterScreen = model.screens[widget.masterScreen]
-						let master = {
+						const masterScreen = model.screens[widget.masterScreen]
+						const master = {
 							id: masterScreen.id,
 							name: masterScreen.name,
 							inherited: true,
 							type: 'Master'
 						}
-						let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
-						let masterNode = this.getOrCreateMaster(master, screen.id, masterNodes, tree, widget)
+						const node = this.createNode(widget, widget.id, screen.id, null, 'widget')
+						const masterNode = this.getOrCreateMaster(master, screen.id, masterNodes, tree, widget)
 						masterNode.children.push(node)
 					}
 				} else {
@@ -421,13 +418,13 @@ export default {
 						 * Check if we have a group
 						 */
 						if (parentGroups[widget.id]){
-							let group = parentGroups[widget.id]							
-							let node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
-							let groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
+							const group = parentGroups[widget.id]							
+							const node = this.createNode(widget, widget.id, screen.id, group.id, 'widget')
+							const groupNode = this.getOrCreateGroup(group, screen.id, groupNodes, parentGroups, tree, widget)
 							node.parentID = group.id
 							groupNode.children.push(node)						
 						} else {
-							let node = this.createNode(widget, widget.id, screen.id, null, 'widget')
+							const node = this.createNode(widget, widget.id, screen.id, null, 'widget')
 							tree.children.push(node)			
 						}
 					}

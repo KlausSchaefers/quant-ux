@@ -5,6 +5,7 @@ import css from 'dojo/css'
 import topic from 'dojo/topic'
 import CanvasSelection from './CanvasSelection'
 import * as SelectionUtil from 'core/SelectionUtil'
+import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
 
  export default {
     name: 'Select',
@@ -772,7 +773,15 @@ import * as SelectionUtil from 'core/SelectionUtil'
 			if(this._selectWidget){
 				let id = this._selectWidget.id;
 				this.unSelect();
-				this.controller.removeWidget(id);
+				// Since 5.0.24 we handle layout containers
+				// as virtual groups.
+				if (LayoutContainerUtil.isLayoutContainer(id, this.model)){
+					this.logger.log(-1, "onRemoveSelected", "Remove layout container")
+					const children = LayoutContainerUtil.getLayoutContainerChildren(id, this.model)
+					this.controller.removeMultiWidget(children);
+				} else {
+					this.controller.removeWidget(id);
+				}
 				return true;
 			}
 
