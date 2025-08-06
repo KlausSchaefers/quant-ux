@@ -114,8 +114,9 @@ class NotificationService extends AbstractService{
 
     async getAutoOpen() {
         const user = await this._get('/rest/user/' + this.user.id + '.json')
-        this.logger.log(-1, 'getAutoOpen', 'exit', user.isAutoOpenNotifcations)
-        return user.isAutoOpenNotifcations !== false
+        this.logger.log(-1, 'getAutoOpen', 'isAutoOpenNotifcations: ' +  user.isAutoOpenNotifcations)
+        const isAutoOpenNotifcations = user.isAutoOpenNotifcations
+        return isAutoOpenNotifcations === undefined || isAutoOpenNotifcations === null || isAutoOpenNotifcations === true
     }
 
     setAutoOpen(isAutoOpen) {

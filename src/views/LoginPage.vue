@@ -56,7 +56,7 @@
                                 </div>
                                 
                                 <div class="MatcButtonBar">
-                                    <a class="MatcButton MatcButtonPrimary" @click="signup">SignUp</a> 
+                                    <a class="MatcButton MatcButtonPrimary" @click="signup">SignUp</a>
                                     <span class="MatcErrorLabel">{{errorMessage}}</span>
                                 </div>
                             </div>
@@ -122,6 +122,7 @@ export default {
         password: '',
         tos: false,
         errorMessage: ' ',
+        signupInProgress: false,
         tab: 'login',
         config: {}
     }
@@ -201,6 +202,12 @@ export default {
       async signup() {
         this.logger.info('signup', 'enter ', this.email)
 
+        if (this.signupInProgress) {
+            this.logger.info('signup', 'already in progress')
+            return;
+        }
+
+     
         if (this.password.length < 6) {
             this.errorMessage = "Password too short"
             return;
@@ -211,11 +218,13 @@ export default {
             return;
         }
 
+        this.signupInProgress = true
         var result = await Services.getUserService().signup({
             email:this.email,
             password: this.password,
             tos: this.tos
         })
+        this.signupInProgress = false
         if (result.type == "error") {
             if (result.errors.indexOf("user.create.domain") >= 0) {
                 this.errorMessage = "Not the correct domain"
