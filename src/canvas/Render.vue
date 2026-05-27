@@ -7,6 +7,7 @@ import topic from 'dojo/topic'
 import _Color from 'common/_Color'
 import Ruler from 'canvas/Ruler'
 import GridAndRulerSnapp from 'canvas/GridAndRulerSnapp'
+import SnappingEngine from 'canvas/SnappingEngine'
 import SimpleGrid from 'canvas/SimpleGrid'
 import RenderFlow from 'canvas/RenderFlow'
 import Wiring from 'canvas/Wiring'
@@ -1077,7 +1078,8 @@ export default {
 			 */
 			if (this.model.grid) {
 				if ("widget" == selectedType || "boundingbox" == selectedType || "group" == selectedType ||  "multi" == selectedType) {
-					this._alignmentTool = new GridAndRulerSnapp();
+					const useSnappingEngine = this.settings && this.settings.useSnappingEngine
+					this._alignmentTool = useSnappingEngine ? new SnappingEngine() : new GridAndRulerSnapp();
 					this._alignmentTool.ignoreGroup = this._dragNDropIgnoreGroup;
 					this._alignmentTool.showDndDistance = this.showDistance;
 					this._alignmentTool.snapGridOnlyToTopLeft = this.settings.snapGridOnlyToTopLeft

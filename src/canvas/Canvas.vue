@@ -435,6 +435,7 @@ export default {
 				mouseWheelMode : "scroll",
 				renderLines : false,
 				snapGridOnlyToTopLeft: true,
+				useSnappingEngine: true,
 				keepColorWidgetOpen: true,
 				layerListVisible: true,
 				showRuler: true,
