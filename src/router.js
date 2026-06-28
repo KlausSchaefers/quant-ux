@@ -224,6 +224,10 @@ export default new VueRouter({
     {
       path: '/test/SimUser.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/SimUserTest.vue')
+    },
+    {
+      path: '/test/VoiceRecorder.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/VoiceRecorderTest.vue')
     }
   ]
 })
