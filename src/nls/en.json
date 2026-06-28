@@ -592,6 +592,7 @@
     "testSettingsSaved": "Test settings updated...",
     "testSettingsUpgradePlan": "Upgrade Plan",
     "testSettingsRecordOneTestPerUser": "Record data only for the first time a user tests the prototype.",
+    "testSettingsTranscribeVoice": "Transscribe users voice.",
 
     "dashTaskEmpty": "You can create tasks in the 'Test' tab. ",
     "dashTaskTableName": "Name",

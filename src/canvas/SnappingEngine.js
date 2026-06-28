@@ -430,7 +430,7 @@ export default class SnappingEngine extends GridAndRulerSnapp {
         if (!best) return null
 
         if (best.lineType === 'pattern') delete best.snapp
-        if (best.lineType === 'middle')  best.middle = true
+        if (best.lineType === 'middle')  best.snapp.middle = true
 
         return best
     }

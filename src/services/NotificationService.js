@@ -10,6 +10,9 @@ function getDays (user) {
 }
 
 function getDaysSinceLastNotification (user) {
+    if (!user.lastNotification) {
+        return 10
+    }
     const now = new Date().getTime()
     const lastNotification = user.lastNotification ? user.lastNotification : now
     const age = now - lastNotification
@@ -69,6 +72,10 @@ class NotificationService extends AbstractService{
         console.log('getDaysSinceLastNotification', getDaysSinceLastNotification(user))
         if (location.href.indexOf('localhost') > 0) {
            //maxAdd = 0
+        }
+        if (maxAdd === 0 && Object.keys(user.notifications).length === 0) {
+             this.logger.log(-1, 'addUserJourneyNotifications', 'New user with zero notifications' )
+            maxAdd = 1
         }
         this.logger.log(-1, 'addUserJourneyNotifications', `> days since last ${getDaysSinceLastNotification(user)} > maxAdd: ${maxAdd} > Seen notifications:`, user.notifications )
         this.rules.forEach(rule => {
