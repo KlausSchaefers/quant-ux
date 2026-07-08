@@ -35,18 +35,18 @@
 								<QIcon icon="EditMove" />
 							</div>
 						
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
-								<QIcon icon="DevicesAdd" />
+							<div :class="['MatcToolbarItem MatcMarginLeft MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
+								<QIcon icon="DeviceMobile" v-if="screenType === 'smartphone'"/>
+								<QIcon icon="DeviceDesktop" v-else/>
 								<!-- <span class="MatcToolbarResponsiveLabel">Screen</span>    						 -->
 							</div>
-						
-							<CreateBasicButton @add="onToolBasic" :mode="mode" v-show="hasScreens"/>
+							<CreateBasicButton @add="onToolBasic" :mode="mode" v-show="hasScreens" class="MatcMarginLeft" />
 							<CreateButton ref="createButton" :mode="mode" v-show="hasScreens"/>
 							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
-							<CreateVectorButton @add="onToolSVG" :mode="mode" />	
+							<CreateVectorButton @add="onToolSVG" :mode="mode" v-show="hasScreens" />	
 
 
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem MatcMarginLeft vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
 								<QIcon icon="Comment" />
 							</div>		
 							
@@ -203,7 +203,8 @@ export default {
 			subMode: '',
 			hasScreens: false,
 			layerListWidth: 256,
-			hasEditModeButton: true
+			hasEditModeButton: true,
+			screenType: 'mobile'
         }
     },
 	components: {
@@ -233,7 +234,7 @@ export default {
 		},
 		svgEditorVisible () {
 			return this.mode === 'svg'
-		}
+		},
 	},
     methods: {
       	postCreate (){
@@ -299,6 +300,7 @@ export default {
 			if (m) {
 				this.modelName = m.name
 			}
+			this.screenType = m.type
 			this.renderToolbar();
 			this.renderProperties()
 			this.showCanvas()

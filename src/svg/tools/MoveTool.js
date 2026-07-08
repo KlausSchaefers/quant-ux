@@ -58,7 +58,7 @@ export default class MoveTool extends Tool{
     }
 
 
-    onMove (pos) {     
+    onMove (pos) {
         if (this.bbox) {
             if (this.handler) {
                this.resizeBoundingBox(this.bbox, pos)

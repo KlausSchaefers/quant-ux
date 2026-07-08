@@ -56,18 +56,13 @@ export default class MorphTool extends Tool{
      */
     onClick() {
         this.logger.log(3, 'onClick', 'enter > split:', this.splitPoint + ' > joint:' + this.isJointDown)
-        
         this.endRuler()
         if (this.isJointDown) {
             this.onJointMouseUp()            
             return
         }
-
-       
-        
         delete this.selectedJoints
         this.editor.setSelectedJoints()
-        
     }
 
     onDelete () {
@@ -110,6 +105,7 @@ export default class MorphTool extends Tool{
     }
 
     moveJoint (pos) {
+  
         if (!this.selectedJointStartPos) {
             return
         }
@@ -190,6 +186,7 @@ export default class MorphTool extends Tool{
 
 
     moveSelect (point) {
+        console.debug('moveSelect')
         if (this._isSelectStarted && this._selectStart) {
             this._selectBox = this.getBox(this._selectStart, point)
             const zoomedBox = SVGUtil.getZoomedBox(this._selectBox, this.zoom)
@@ -285,7 +282,7 @@ export default class MorphTool extends Tool{
     }
 
     onMouseUp(point) {
-        this.logger.log(5, 'onMouseUp', 'enter', point)
+        this.logger.log(-5, 'onMouseUp', 'enter', point)
         if (this._isSelectStarted && this._selectBox) {
             const selectBox = this._selectBox
             const inBox = this.selectedElement.d
@@ -298,6 +295,7 @@ export default class MorphTool extends Tool{
                     }
                 })
                 .filter(p => SVGUtil.isPointInBox(p, selectBox))
+
      
             if (inBox.length > 0) {
                 this.editor.setSelectedJoints(inBox)

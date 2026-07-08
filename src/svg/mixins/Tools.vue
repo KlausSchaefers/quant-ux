@@ -26,19 +26,16 @@ export default {
      *   method is usualy called from the tools
      *   after they finished
      *****************************************/
-    setState (state, point) {
-        this.logger.log(1, 'setState ', 'enter', state)
-
+    setState (state, point) {        
         if (this.isMultiPath) {
             this.setMultiPathState(state, point)
         } else {
             this.setSinglePathState(state, point)
         }
-
     },
 
     setSinglePathState(state, point) {
-        this.logger.log(1, 'setSinglePathState ', 'enter', state)
+        this.logger.log(-3, 'setSinglePathState ', 'enter', state)
         delete this.currentTool
         this.isBoundingBoxVisible = true
         this.setCursor('default')
@@ -70,7 +67,7 @@ export default {
     },
 
     setMultiPathState (state, point) {
-        this.logger.log(1, 'setMultiPathState ', 'enter', state)
+        this.logger.log(-3, 'setMultiPathState ', 'enter', state)
         delete this.currentTool
         this.isBoundingBoxVisible = true
         this.setCursor('default')
@@ -109,14 +106,14 @@ export default {
   
 
     startMoveTool () {
-        this.logger.log(1, 'startMoveTool ', 'enter')
+        this.logger.log(-1, 'startMoveTool ', 'enter')
         this.mode = 'move'
         this.currentTool = new MoveTool(this, this.selection)
         this.initRuler(this.selection)
     },
 
     startMorphTool (selected) {
-        this.logger.log(1, 'startMorphTool ', 'enter', selected)
+        this.logger.log(-1, 'startMorphTool ', 'enter', selected)
         this.mode = 'morph'
         if (selected === true) {
             const firstPath = this.value[0]
@@ -130,7 +127,7 @@ export default {
     },
 
     startSelectTool (selected) {
-        this.logger.log(1, 'startSelectTool ', 'enter', selected)
+        this.logger.log(-1, 'startSelectTool ', 'enter', selected)
         this.mode = 'select'
         this.reset()
         this.currentTool = new SelectTool(this)
@@ -147,7 +144,7 @@ export default {
     },
 
     startArcTool () {
-        this.logger.log(1, 'startRectangleTool ', 'enter')
+        this.logger.log(-1, 'startRectangleTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
@@ -156,7 +153,7 @@ export default {
     },
 
     startRectangleTool () {
-        this.logger.log(1, 'startRectangleTool ', 'enter')
+        this.logger.log(-1, 'startRectangleTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
@@ -165,7 +162,7 @@ export default {
     },
 
     startPathTool (closePathAtTheEnd) {
-        this.logger.log(1, 'startPathTool ', 'enter')
+        this.logger.log(-1, 'startPathTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
@@ -174,7 +171,7 @@ export default {
     },
 
     startBezierTool (closePathAtTheEnd = false) {
-        this.logger.log(1, 'startBezierTool ', 'enter')
+        this.logger.log(-1, 'startBezierTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
@@ -183,7 +180,7 @@ export default {
     },
 
     startTriangleTool (closePathAtTheEnd = false) {
-        this.logger.log(1, 'startTriangleTool ', 'enter')
+        this.logger.log(-1, 'startTriangleTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
@@ -192,7 +189,7 @@ export default {
     },
 
     startEllipseTool (closePathAtTheEnd = false) {
-        this.logger.log(1, 'startEllipseTool ', 'enter')
+        this.logger.log(-1, 'startEllipseTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
@@ -201,7 +198,7 @@ export default {
     },
 
     startCircleTool (closePathAtTheEnd = false) {
-        this.logger.log(1, 'startCircleTool ', 'enter')
+        this.logger.log(-1, 'startCircleTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')
@@ -210,7 +207,7 @@ export default {
     },
 
     startDiamondTool (closePathAtTheEnd = false) {
-        this.logger.log(1, 'startDiamondTool ', 'enter')
+        this.logger.log(-1, 'startDiamondTool ', 'enter')
         this.mode = 'add'
         this.reset()
         this.setCursor('crosshair')

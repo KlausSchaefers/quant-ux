@@ -48,7 +48,7 @@ export default class SelectTool extends Tool {
     }
 
     onMove (point) {
-       this.onSelectMove(point)
+        this.onSelectMove(point)
     }
 
 
@@ -57,7 +57,7 @@ export default class SelectTool extends Tool {
     }
 
     onSelectStart(point) {
-        this.logger.log(5, 'onSelectStart', 'enter')
+        this.logger.log(-5, 'onSelectStart', 'enter')
         this.editor.unSelect()
         this._isSelectStarted = true
         this._selectStart = point
@@ -73,7 +73,7 @@ export default class SelectTool extends Tool {
     }
 
     onSelectEnd () {
-        this.logger.log(5, 'onSelectEnd', 'enter')
+        this.logger.log(-5, 'onSelectEnd', 'enter')
         if (this._isSelectStarted && this._selectBox) {
             const selectBox = this._selectBox 
             const paths = this.editor.value

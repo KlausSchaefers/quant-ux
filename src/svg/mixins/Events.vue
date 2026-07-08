@@ -161,7 +161,7 @@ export default {
         if (this.currentTool) {
             this.currentTool.onClick(pos)
         }
-        this.logger.log(5, 'onMouseClick ', 'enter', pos)
+        this.logger.log(-5, 'onMouseClick ', 'enter', pos)
     },
     onMouseMove (e) {
         const pos = this.getCanvasMousePosition(e)
@@ -170,6 +170,7 @@ export default {
         }
         this.lastCanvasMousePosition = pos
         this.$emit('qmouse', pos)
+        this.logger.log(5, 'onMouseMove ', 'exit', pos)
     },
     onMouseDown (e) {
         let pos = this.getCanvasMousePosition(e)
@@ -179,7 +180,7 @@ export default {
                 this.stopEvent(e)
             }
         }
-        this.logger.log(5, 'onMouseDown ', 'exit', pos)
+        this.logger.log(-5, 'onMouseDown ', 'exit',this.currentTool)
     },
     onMouseUp (e) {
         let pos = this.getCanvasMousePosition(e)
@@ -189,7 +190,7 @@ export default {
                 this.stopEvent(e)
             }
         }
-        this.logger.log(5, 'onMouseUp ', 'exit', pos)
+        this.logger.log(-5, 'onMouseUp ', 'exit', pos)
     },
     onMouseDoubleClick (e) {
         this.stopEvent(e)
