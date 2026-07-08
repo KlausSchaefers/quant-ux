@@ -186,7 +186,6 @@ export default class MorphTool extends Tool{
 
 
     moveSelect (point) {
-        console.debug('moveSelect')
         if (this._isSelectStarted && this._selectStart) {
             this._selectBox = this.getBox(this._selectStart, point)
             const zoomedBox = SVGUtil.getZoomedBox(this._selectBox, this.zoom)

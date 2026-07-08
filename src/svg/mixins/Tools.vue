@@ -14,6 +14,7 @@ import EllipseTool from '../tools/EllipseTool'
 import CircleTool from '../tools/CircleTool'
 import DiamondTool from '../tools/DiamondTool'
 import ArcTool from '../tools/ArcTool'
+import FreeHandTool from '../tools/FreeHandTool'
 
 export default {
   name: "Tools",
@@ -26,7 +27,8 @@ export default {
      *   method is usualy called from the tools
      *   after they finished
      *****************************************/
-    setState (state, point) {        
+    setState (state, point) {   
+        console.debug('setState')     
         if (this.isMultiPath) {
             this.setMultiPathState(state, point)
         } else {
@@ -159,6 +161,17 @@ export default {
         this.setCursor('crosshair')
         this.currentTool = new RectangleTool(this, this.selection)
         this.initRuler(this.selection)
+    },
+
+    startFreeHandTool (closePathAtTheEnd = false) {
+        this.logger.log(-1, 'startFreeHandTool ', 'enter')
+        this.mode = 'add'
+        this.reset()
+        this.setCursor('crosshair')
+        this.currentTool = new FreeHandTool(this, closePathAtTheEnd)
+        // FreeHand records the raw mouse movement, so we disable
+        // snapping by not initializing a ruler.
+        this.ruler = null
     },
 
     startPathTool (closePathAtTheEnd) {

@@ -741,6 +741,96 @@ export function getBezierSlope(svg, index) {
     const b = svg.getPointAtLength(index + 1)
     return {
         x: (b.x - a.x),
-        y: (b.y - a.y) 
+        y: (b.y - a.y)
     }
+}
+
+/**
+ * Takes a dense poly-line path (M + L points), as produced by the
+ * FreeHandTool, and turns it into a smooth cubic bezier path (M + C points).
+ * The points are first simplified (Ramer-Douglas-Peucker) to remove the
+ * noise of the raw mouse recording and then converted with a Catmull-Rom
+ * spline into bezier control points.
+ */
+export function smoothPath (d, tolerance = 2, smoothing = 6) {
+    if (!d || d.length < 3) {
+        return d
+    }
+
+    const isClosed = d[d.length - 1].t === 'Z'
+    // work on the plain x/y points, ignoring the trailing Z marker
+    const raw = (isClosed ? d.slice(0, d.length - 1) : d).map(p => ({x: p.x, y: p.y}))
+    const points = simplifyPoints(raw, tolerance)
+
+    if (points.length < 3) {
+        return d
+    }
+
+    const result = [{t: 'M', x: points[0].x, y: points[0].y}]
+    for (let i = 0; i < points.length - 1; i++) {
+        const p0 = points[i - 1] || points[i]
+        const p1 = points[i]
+        const p2 = points[i + 1]
+        const p3 = points[i + 2] || p2
+        result.push({
+            t: 'C',
+            x1: Math.round(p1.x + (p2.x - p0.x) / smoothing),
+            y1: Math.round(p1.y + (p2.y - p0.y) / smoothing),
+            x2: Math.round(p2.x - (p3.x - p1.x) / smoothing),
+            y2: Math.round(p2.y - (p3.y - p1.y) / smoothing),
+            x: p2.x,
+            y: p2.y
+        })
+    }
+    if (isClosed) {
+        result.push({t: 'Z'})
+    }
+    return result
+}
+
+/**
+ * Ramer-Douglas-Peucker line simplification. Returns a reduced list of
+ * {x,y} points that stay within `tolerance` of the original poly-line.
+ */
+export function simplifyPoints (points, tolerance = 2) {
+    if (points.length < 3) {
+        return points.slice()
+    }
+    const sqTolerance = tolerance * tolerance
+    let maxSqDist = 0
+    let index = 0
+    const last = points.length - 1
+    for (let i = 1; i < last; i++) {
+        const sqDist = getSquareSegmentDistance(points[i], points[0], points[last])
+        if (sqDist > maxSqDist) {
+            index = i
+            maxSqDist = sqDist
+        }
+    }
+    if (maxSqDist > sqTolerance) {
+        const left = simplifyPoints(points.slice(0, index + 1), tolerance)
+        const right = simplifyPoints(points.slice(index), tolerance)
+        return left.slice(0, left.length - 1).concat(right)
+    }
+    return [points[0], points[last]]
+}
+
+function getSquareSegmentDistance (p, a, b) {
+    let x = a.x
+    let y = a.y
+    let dx = b.x - x
+    let dy = b.y - y
+    if (dx !== 0 || dy !== 0) {
+        const t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy)
+        if (t > 1) {
+            x = b.x
+            y = b.y
+        } else if (t > 0) {
+            x += dx * t
+            y += dy * t
+        }
+    }
+    dx = p.x - x
+    dy = p.y - y
+    return dx * dx + dy * dy
 }

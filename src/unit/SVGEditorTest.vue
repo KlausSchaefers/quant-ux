@@ -3,14 +3,18 @@
     <h1>SVg Editor Test</h1>
     <div class="toolbar">
       <a @click="createLine">Line </a>
-      <a @click="createBezier"> Curve </a>
-      <a @click="createArc"> Arc </a>
+      <a @click="createBezier"> Curve </a>     
       <a @click="createRect"> Rect </a>
       <a @click="createTriangle"> Triangle </a>
       <a @click="createEllipse"> Ellipse </a>
       <a @click="createCircle"> Circle </a>
       <a @click="createDiamond"> Diamond </a>
-      
+      <a @click="createFreeHand"> FreeHand </a>
+
+      |
+      <a @click="selectMoveTool"> Move </a>
+
+      |
       <a @click="clear">Clear </a>
         <a @click="setZoom(1)">1.0 </a>
         <a @click="setZoom(0.66)">0.66 </a>
@@ -109,6 +113,9 @@ export default {
       onMouseMove (p) {
           this.mouse = p
       },
+      selectMoveTool() {
+        this.$refs.editor.startMoveTool()
+      },
       test_split () {
         const paths = [
           {
@@ -156,6 +163,9 @@ export default {
       },
       createTriangle () {
         this.$refs.editor.startTriangleTool(true)
+      },
+      createFreeHand () {
+        this.$refs.editor.startFreeHandTool()
       },
       clear () {
         this.$refs.editor.clear()
