@@ -3,9 +3,9 @@
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton vommondToolTipCntr">
 		<div type="button" ref="button" :class="[
             'MatcToolbarItem MatcToolbarPrimaryItem', 
-            {'MatcToolbarItemSelected': (mode === 'addBox'|| mode=== 'addText' || mode === 'hotspot' || mode === 'addRest' || mode === 'addLogic' || mode === 'addScript')}
+            {'MatcToolbarItemSelected': (mode === 'addBox')}
             ]" >
-            <QIcon icon="VectorBezier2" />
+            <QIcon icon="VectorBezier" />
             <!-- <span class="MatcToolbarResponsiveLabel">Insert</span>     -->
             <!-- <span class="caret"></span> -->
 
@@ -61,14 +61,14 @@ export default {
     data: function () {
         return {
             selectedTool: null,
-            tools: [
-    
-                {value: 'bezier', icon: 'VectorBezier2', label: this.getNLS('toolbar.create.curve'), type:'vector'},
+            tools: [    
+                {value: 'bezier', icon: 'VectorBezier2', label: this.getNLS('toolbar.create.curve'), type:'vector'},       
                 {value: 'path', icon: 'VectorPath', label: this.getNLS('toolbar.create.path'), type:'vector'},
+                {value: 'freehand', icon: 'VectorFreeHand', label: this.getNLS('toolbar.create.freehand'), type:'vector'},
                 {value: 'rectangle', icon: 'VectorRectangle', label: this.getNLS('toolbar.create.rectangle'), type:'vector'},
                 {value: 'triangle', icon: 'VectorTriangle', label: this.getNLS('toolbar.create.triangle'), type:'vector'},
-                {value: 'circle', icon: 'VectorCircle', label: this.getNLS('toolbar.create.circle'), type:'vector'},
-            
+                {value: 'circle', icon: 'VectorCircle', label: this.getNLS('toolbar.create.circle'), type:'vector'},       
+                {value: 'diamond', icon: 'VectorDiamond2', label: this.getNLS('toolbar.create.diamond'), type:'vector'},  
             ]
         }
     },

@@ -206,6 +206,8 @@
             "path": "Path",
             "triangle": "Triangle",
             "circle": "Circle",
+            "freehand": "Freehand",
+            "diamond": "Diamond",
             "gpt": "AI Design Assistant"
         },
         "svgStop": "Stop Editing",
