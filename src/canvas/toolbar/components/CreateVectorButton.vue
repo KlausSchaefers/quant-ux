@@ -64,7 +64,8 @@ export default {
             tools: [    
                 {value: 'bezier', icon: 'VectorBezier2', label: this.getNLS('toolbar.create.curve'), type:'vector'},       
                 {value: 'path', icon: 'VectorPath', label: this.getNLS('toolbar.create.path'), type:'vector'},
-                {value: 'freehand', icon: 'VectorFreeHand', label: this.getNLS('toolbar.create.freehand'), type:'vector'},
+                {value: 'freehand', icon: 'VectorFreehand2', label: this.getNLS('toolbar.create.freehand'), type:'vector'},
+                {value: 1, css:'MatcToolbarPopUpLine'},
                 {value: 'rectangle', icon: 'VectorRectangle', label: this.getNLS('toolbar.create.rectangle'), type:'vector'},
                 {value: 'triangle', icon: 'VectorTriangle', label: this.getNLS('toolbar.create.triangle'), type:'vector'},
                 {value: 'circle', icon: 'VectorCircle', label: this.getNLS('toolbar.create.circle'), type:'vector'},       

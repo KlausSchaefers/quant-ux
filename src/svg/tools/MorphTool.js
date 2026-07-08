@@ -73,6 +73,10 @@ export default class MorphTool extends Tool{
             })
             if (this.selectedElement.d.length < 2) {
                 this.editor.deleteSelection()
+            } else {
+                // if the first point was removed, the new first point
+                // must become a 'M' so the path stays valid
+                SVGUtil.normalizePath(this.selectedElement.d)
             }
         }
     }
@@ -336,6 +340,7 @@ export default class MorphTool extends Tool{
         const distanceToOherPoints = this.getDistanceToOtherPoints(pos, this.selectedElement)
         const minDistance = Math.sqrt(Math.min(...distanceToOherPoints))
         // check that we are not close to one of the joints
+      
         if (minDistance > this.minSplitDistance) {
             // do the chekcing on zoomed space
             const zoomedPos = SVGUtil.getZoomedBox(pos, this.zoom)  

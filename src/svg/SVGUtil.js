@@ -454,7 +454,7 @@ export function filterTempPoints(d) {
 export function filterDouble(d) {
     return d.filter((p, i) => {
         const next = d[i+1]
-        if (next) {      
+        if (next) {
             if ((next.x === p.x && next.y === p.y)) {
                 console.warn('SVGUtil.filterDouble() > remove ',i)
             }
@@ -462,6 +462,29 @@ export function filterDouble(d) {
         }
         return true
     })
+}
+
+/**
+ * Makes sure a path is still valid after points have been removed. A path
+ * must always start with a 'M' (move) command, so if the original first
+ * point was deleted, the new first point is promoted to 'M' (dropping the
+ * bezier control points, which a move does not use). Any trailing close
+ * ('Z' / 'CZ') that ended up as the first point is turned into a plain 'M'
+ * as well.
+ */
+export function normalizePath(d) {
+    if (!d || d.length === 0) {
+        return d
+    }
+    const first = d[0]
+    if (first.t !== 'M') {
+        first.t = 'M'
+        delete first.x1
+        delete first.y1
+        delete first.x2
+        delete first.y2
+    }
+    return d
 }
 
 
