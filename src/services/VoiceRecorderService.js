@@ -25,6 +25,7 @@ export default class VoiceRecorderService {
     this.recognition = new SpeechRecognition()
     this.recognition.lang = this.language
     this.recognition.continuous = this.continuous
+    this.recognition.processLocally = true;
     this.recognition.interimResults = this.interimResults
 
     this.recognition.onresult = (event) => {

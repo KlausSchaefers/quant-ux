@@ -73,7 +73,7 @@
   
     </section>
 
-    <section data-dojo-attach-point="sectionVoice">
+    <!-- <section data-dojo-attach-point="sectionVoice">
         <div class="box is-shadowless">
           <h3 data-nls="testSettingsTasks" class="title">Think-aloud Testing 
             <HelpButton
@@ -85,7 +85,7 @@
             <CheckBox :value="test.transcribeVoice" :label="getNLS('testSettingsTranscribeVoice')" @change="setTranscribeVoice"/>
           </div>
         </div>  
-    </section>
+    </section> -->
 
 
     <section class="">

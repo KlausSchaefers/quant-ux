@@ -11,6 +11,7 @@ import SVGGridRuler from '../tools/SVGGridRuler'
 import RectangleTool from '../tools/RectangleTool'
 import TriangleTool from '../tools/TriangleTool'
 import EllipseTool from '../tools/EllipseTool'
+import CircleTool from '../tools/CircleTool'
 import DiamondTool from '../tools/DiamondTool'
 import ArcTool from '../tools/ArcTool'
 
@@ -196,6 +197,15 @@ export default {
         this.reset()
         this.setCursor('crosshair')
         this.currentTool = new EllipseTool(this, closePathAtTheEnd)
+        this.initRuler(this.selection)
+    },
+
+    startCircleTool (closePathAtTheEnd = false) {
+        this.logger.log(1, 'startCircleTool ', 'enter')
+        this.mode = 'add'
+        this.reset()
+        this.setCursor('crosshair')
+        this.currentTool = new CircleTool(this, closePathAtTheEnd)
         this.initRuler(this.selection)
     },
 

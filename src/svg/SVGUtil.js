@@ -13,7 +13,7 @@ export function rotate(path, angle) {
         p.x = newPoint.x
         p.y = newPoint.y
         
-        if (p.t === 'C') {
+        if (p.t === 'C' || p.t === 'CZ') {
             const point1 = new DOMPoint(p.x1, p.y1)
             const newPoint1 = matrix.transformPoint(point1)
             p.x1 = Math.round(newPoint1.x) 
@@ -85,7 +85,7 @@ export function getRelativePaths (bbox, selected) {
     return selected.map(element => {
         if (element.type === 'Path') {
             return element.d.map(point => {
-                if (point.t === 'C') {
+                if (point.t === 'C' || point.t === 'CZ') {
                     return {
                         x: (point.x - bbox.x) / bbox.w,
                         y: (point.y - bbox.y) / bbox.h,
@@ -121,7 +121,7 @@ export function getZoomedPaths(paths, zoom) {
             const point = points[i];
             point.x = round(point.x * zoom)
             point.y = round(point.y * zoom)
-            if (point.t === 'C') {
+            if (point.t === 'C' || point.t === 'CZ') {
                 point.x1 = round(point.x1 * zoom)
                 point.y1 = round(point.y1 * zoom)
                 point.x2 = round(point.x2 * zoom)
@@ -221,6 +221,9 @@ export function getBBox(element) {
 
 export function getBBoxes(elements) {
     const result = []
+    if (!elements) {
+        return result
+    }
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i]
         result.push(getBBox(element))
@@ -301,7 +304,7 @@ export function strechPaths(paths, sourceBox, currentBox) {
             const point = points[i];
             point.x = Math.round(point.x * scaleW)
             point.y = Math.round(point.y * scaleH)
-            if (point.t === 'C') {
+            if (point.t === 'C' || point.t === 'CZ') {
                 point.x1 = Math.round(point.x1 * scaleW)
                 point.y1 = Math.round(point.y1 * scaleH)
                 point.x2 = Math.round(point.x2 * scaleW)
@@ -328,7 +331,7 @@ export function scalePathsByBox (paths, from, to) {
                 const relY = (point.y - from.y) / from.h
                 point.y = Math.round(to.y + to.h * relY)
 
-                if (point.t === 'C') {
+                if (point.t === 'C' || point.t === 'CZ') {
                     const relX1 = (point.x1 - from.x) / from.w
                     point.x1 = Math.round(to.x + to.w * relX1)
 
@@ -359,7 +362,7 @@ export function translatePathsByBox (paths, from, to) {
             element.d.forEach(point => {
                 point.x += difX
                 point.y += difY
-                if (point.t === 'C') {
+                if (point.t === 'C' || point.t === 'CZ') {
                     point.x1 += difX
                     point.y1 += difY
                     point.x2 += difX
@@ -379,7 +382,7 @@ export function addBoundingBox (paths, bbox) {
             const point = points[i];
             point.x += bbox.x
             point.y += bbox.y
-            if (point.t === 'C') {
+            if (point.t === 'C' || point.t === 'CZ') {
                 point.x1 += bbox.x
                 point.y1 += bbox.y
                 point.x2 += bbox.x
@@ -400,7 +403,7 @@ export function removeBoundingBox (paths, bbox) {
             const point = points[i];
             point.x -= bbox.x
             point.y -= bbox.y
-            if (point.t === 'C') {
+            if (point.t === 'C' || point.t === 'CZ') {
                 point.x1 -= bbox.x
                 point.y1 -= bbox.y
                 point.x2 -= bbox.x
@@ -572,7 +575,7 @@ export function addBezierPoints (path, pos, offset) {
 
     const witdhHeight = offset * 2
     const current = path.d[pos]
-    if (current && current.t === 'C') {
+    if (current && (current.t === 'C' || current.t === 'CZ')) {
         points.push({
             id: 'x2',
             parent: pos,
@@ -585,7 +588,7 @@ export function addBezierPoints (path, pos, offset) {
         })
     }
     const next = path.d[pos + 1]
-    if (next && next.t === 'C') {
+    if (next && (next.t === 'C' || next.t === 'CZ')) {
         points.push({
             id: 'x1',
             parent: pos + 1,

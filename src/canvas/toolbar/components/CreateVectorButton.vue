@@ -1,19 +1,39 @@
 
 <template>
-    <div class=" MatcToolbarArrowDropDown  MatcToolbarDropDownButton">
-		<div class="MatcToolbarItem MatcMultiIcon" type="button" ref="button">
-			<label data-dojo-attach-point="label" class="">
-                <QIcon icon="VectorBezier" />        
-
-			</label>
+    <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton vommondToolTipCntr">
+		<div type="button" ref="button" :class="[
+            'MatcToolbarItem MatcToolbarPrimaryItem', 
+            {'MatcToolbarItemSelected': (mode === 'addBox'|| mode=== 'addText' || mode === 'hotspot' || mode === 'addRest' || mode === 'addLogic' || mode === 'addScript')}
+            ]" >
+            <QIcon icon="VectorBezier2" />
+            <!-- <span class="MatcToolbarResponsiveLabel">Insert</span>     -->
+            <!-- <span class="caret"></span> -->
 
 		</div>
-        <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup">
+ 
+
+        <div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @mousedown.stop>
             <div class="MatcToolbarPopUpWrapper">
-                <ul class="" role="menu" data-dojo-attach-point="ul">
-                    <li v-for="t in tools" :key="t.id" @click="onSelect(t)">
-                        <QIcon class="MatcToolbarPopUpIcon" :icon="t.icon" />
-                        <label class="MatcToolbarPopUpLabel">{{t.label}}</label>
+                <ul class="" role="menu">
+                    <li v-for="i in items" :key="i.value" @click.stop="onSelect(i, $event)" @mouseover="onHover(i)" :class="i.css" class="MatcToolbarMenuItem">
+                        <QIcon class="MatcToolbarPopUpIcon" :icon="i.icon" />
+                        <label class="MatcToolbarPopUpLabel">{{i.label}}</label>
+                        <label class="MatcToolbarPopUpLabelShortCut" v-if="i.shortcut">{{i.shortcut}}</label>
+                        <QIcon class="MatcToolbarPopUpLabelShortCut " v-if="i.icon2" :icon="i.icon2" />
+
+                        <div v-if="i.value === selectedTool" class="MatcToolbarPopUpSubMenu">
+                            <ul class="MatcToolbarPopUpWrapper" role="menu" >
+                                <li v-for="c in i.children" :key="c.value" @click.stop="onSelect(c)" class="MatcToolbarMenuItem" >
+                                    <QIcon class="MatcToolbarPopUpIcon" :icon="c.icon" />
+                                    <label class="MatcToolbarPopUpLabel">{{c.label}}</label>
+                                    <label class="MatcToolbarPopUpLabelShortCut" v-if="i.shortcut">{{i.shortcut}}</label>
+                                </li>
+                            </ul>
+                            <div class="MatcToolbarPopUpArrowCntr">
+                                <div class="MatcToolbarPopUpArrow">
+                                </div>
+                            </div>
+                        </div>
                     </li>
                   
 			    </ul>
@@ -27,34 +47,61 @@
 
 </template>
 <script>
-import DojoWidget from 'dojo/DojoWidget'
 import css from 'dojo/css'
 import Util from 'core/Util'
-import _DropDown from './_DropDown'
 import QIcon from 'page/QIcon'
+import _Tooltip from 'common/_Tooltip'
+import _DropDown from './_DropDown'
+
 
 export default {
-    name: 'CreateButton2',
-    mixins:[Util, DojoWidget, _DropDown],
+    name: 'CreateBasicButton',
+    props:['mode'],
+    mixins:[Util, _DropDown, _Tooltip],
     data: function () {
         return {
+            selectedTool: null,
             tools: [
-                {value: 'bezier', icon: 'VectorBezier2', label: 'Curve'},
-                {value: 'path', icon: 'VectorPath', label: 'Path'},
-                {value: 'rectangle', icon: 'VectorRectangle', label: 'Rectangle'},
-                {value: 'triangle', icon: 'VectorTriangle', label: 'Triangle'}
+    
+                {value: 'bezier', icon: 'VectorBezier2', label: this.getNLS('toolbar.create.curve'), type:'vector'},
+                {value: 'path', icon: 'VectorPath', label: this.getNLS('toolbar.create.path'), type:'vector'},
+                {value: 'rectangle', icon: 'VectorRectangle', label: this.getNLS('toolbar.create.rectangle'), type:'vector'},
+                {value: 'triangle', icon: 'VectorTriangle', label: this.getNLS('toolbar.create.triangle'), type:'vector'},
+                {value: 'circle', icon: 'VectorCircle', label: this.getNLS('toolbar.create.circle'), type:'vector'},
+            
             ]
         }
     },
-    components: {QIcon},
+    computed: {
+        items () {       
+            return this.tools
+        }
+    },
+    components: {
+        'QIcon':QIcon
+    },
     methods: {
+
+        onHover (t) {
+            if (t.children) {
+                this.selectedTool = t.value
+                return
+            }
+            this.selectedTool = null
+        },
     
-        onSelect (t) {
-            this.$emit('add', t)
+        onSelect (t, e) {          
+            if (t.children) {
+                this.selectedTool = t.value
+                return
+            }
+            this.$emit('add', t, e)
+            this.selectedTool = null
         },
 
-		onHide (){
+		onHide (){   
 			css.remove(this.domNode,"MatcToolbarItemActive");
+            this.selectedTool = null
 		},
 
 		async init (){
@@ -63,6 +110,7 @@ export default {
 
     },
     mounted () {
+        this.addTooltip(this.$el, this.getNLS("tooltip.vector"))
     }
 }
 </script>

@@ -325,7 +325,7 @@ export default {
                 
                 const tempPoints = []
 
-                if (current && current.t === 'C') {
+                if (current && (current.t === 'C' || current.t === 'CZ')) {
                     tempPoints.push({
                             id: 'x2' + path.id + pos,
                             parent: pos,
@@ -339,7 +339,7 @@ export default {
                 }
                
                 const next = path.d[pos + 1]
-                if (next && next.t === 'C') {
+                if (next && (next.t === 'C' || next.t === 'CZ')) {
                     tempPoints.push({
                         id: 'x1' + path.id + pos,
                         parent: pos + 1,
@@ -608,7 +608,20 @@ export default {
         this.value.forEach(path => {
             path.d = SVGUtil.filterTempPoints(path.d)
         })
-        // FIXME: here is a bug. We should rerender to make sure the 
+
+        // When the editor is empty (e.g. cancel without drawing anything) there
+        // are no rendered path elements, so this.$refs.paths is undefined. Return
+        // an empty (invalid) value so the caller's isValidPaths() check handles it.
+        if (!this.$refs.paths || this.value.length === 0) {
+            return {
+                dirty: this.isDirty,
+                paths: [],
+                pos: {x: 0, y: 0, w: 0, h: 0},
+                bbox: {x: 0, y: 0, w: 0, h: 0}
+            }
+        }
+
+        // FIXME: here is a bug. We should rerender to make sure the
         // temp nodes are not in the bounding box
         const boxes = SVGUtil.getBBoxes(this.$refs.paths)
         let zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)

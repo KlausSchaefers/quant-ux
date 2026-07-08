@@ -205,6 +205,7 @@
             "curve": "Curve",
             "path": "Path",
             "triangle": "Triangle",
+            "circle": "Circle",
             "gpt": "AI Design Assistant"
         },
         "svgStop": "Stop Editing",
@@ -244,7 +245,8 @@
         "analyics-screen": "Show screen statstics such as scroll maps or dwell time",
         "app-color": "Change the app color",
         "simuser": "Simulate how users would use the app with AI (Beta)",
-        "removeSimuser": "Remove the AI events"
+        "removeSimuser": "Remove the AI events",
+        "vector" : "Vector Tools"
     },
     "table-action": "Action X",
     "btn": {

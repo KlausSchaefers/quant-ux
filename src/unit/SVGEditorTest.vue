@@ -8,6 +8,7 @@
       <a @click="createRect"> Rect </a>
       <a @click="createTriangle"> Triangle </a>
       <a @click="createEllipse"> Ellipse </a>
+      <a @click="createCircle"> Circle </a>
       <a @click="createDiamond"> Diamond </a>
       
       <a @click="clear">Clear </a>
@@ -148,6 +149,10 @@ export default {
       createEllipse () {
         this.$refs.editor.setShowAllBezier(true)
         this.$refs.editor.startEllipseTool(true)
+      },
+      createCircle () {
+        this.$refs.editor.setShowAllBezier(true)
+        this.$refs.editor.startCircleTool(true)
       },
       createTriangle () {
         this.$refs.editor.startTriangleTool(true)

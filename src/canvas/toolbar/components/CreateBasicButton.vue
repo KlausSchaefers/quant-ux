@@ -5,7 +5,7 @@
             'MatcToolbarItem MatcToolbarPrimaryItem', 
             {'MatcToolbarItemSelected': (mode === 'addBox'|| mode=== 'addText' || mode === 'hotspot' || mode === 'addRest' || mode === 'addLogic' || mode === 'addScript')}
             ]" >
-            <QIcon icon="PlusSquare" />
+            <QIcon icon="Plus" />
             <!-- <span class="MatcToolbarResponsiveLabel">Insert</span>     -->
             <!-- <span class="caret"></span> -->
 
@@ -74,13 +74,6 @@ export default {
                     {value: 'ab', icon: 'AB', label: this.getNLS('toolbar.create.ab')},
                     {value: 'script', icon: 'JS', label: this.getNLS('toolbar.create.script')},
                     {value: 'audio', icon: 'Audio', label: this.getNLS('toolbar.create.audio')}
-                ]},
-
-                {value: 'vector', icon: 'VectorBezier', label: this.getNLS('toolbar.create.vector'), icon2:'SVGChevronRight', children:[
-                    {value: 'bezier', icon: 'VectorBezier2', label: this.getNLS('toolbar.create.curve'), type:'vector'},
-                    {value: 'path', icon: 'VectorPath', label: this.getNLS('toolbar.create.path'), type:'vector'},
-                    {value: 'rectangle', icon: 'VectorRectangle', label: this.getNLS('toolbar.create.rectangle'), type:'vector'},
-                    {value: 'triangle', icon: 'VectorTriangle', label: this.getNLS('toolbar.create.triangle'), type:'vector'}
                 ]},
                 {value: 2, css:'MatcToolbarPopUpLine'},
                 {value: 'designgpt', icon: 'AI', label: this.getNLS('toolbar.create.gpt')},

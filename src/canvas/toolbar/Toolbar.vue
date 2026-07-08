@@ -43,7 +43,7 @@
 							<CreateBasicButton @add="onToolBasic" :mode="mode" v-show="hasScreens"/>
 							<CreateButton ref="createButton" :mode="mode" v-show="hasScreens"/>
 							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
-							<CreateVectorButton @add="onToolSVG" v-if="false" />	
+							<CreateVectorButton @add="onToolSVG" :mode="mode" />	
 
 
 							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">

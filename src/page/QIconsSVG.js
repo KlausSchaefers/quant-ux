@@ -174,7 +174,16 @@ export const icons = {
         <path d="M9 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
         <path d="M9 15v6"></path>
         <path d="M11.5 9.5l6.5 -6.5"></path>
-
+    `,
+    'VectorCircle': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M3 11a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M17 11a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M10 4a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M10 18a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M19 10a5 5 0 0 0 -5 -5" /><path d="M19 14a5 5 0 0 1 -5 5" />
+        <path d="M5 14a5 5 0 0 0 5 5" />
+        <path d="M5 10a5 5 0 0 1 5 -5" />
     `,
     'Play': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

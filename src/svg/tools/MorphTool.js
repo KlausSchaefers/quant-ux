@@ -24,7 +24,7 @@ export default class MorphTool extends Tool{
             if (!this.svgPath) {
                 this.logger.log(-1, 'constructor', 'No SVG path')
             }
-            this.isBezier = this.selectedElement.d.every(p => p.t === 'C' || p.t === 'M')
+            this.isBezier = this.selectedElement.d.every(p => p.t === 'C' || p.t === 'CZ' || p.t === 'M')
             // what happends if this is not a path?
         } else {
             this.logger.error('constructor', 'Selection is not 1')
@@ -127,13 +127,13 @@ export default class MorphTool extends Tool{
                 // FIXME: should we somehow save this?
 
                 if (!pos.altKey) {
-                    if (point.t === 'C') {
+                    if (point.t === 'C' || point.t === 'CZ') {
                         point.x2 = start.x2 - difX
                         point.y2 = start.y2 - difY
                     }
                     const next = path.d[joint.id + 1]
-                    const nextStart = startPath.d[joint.id + 1] 
-                    if (next && next.t === 'C' && nextStart) {
+                    const nextStart = startPath.d[joint.id + 1]
+                    if (next && (next.t === 'C' || next.t === 'CZ') && nextStart) {
                         next.x1 = nextStart.x1 - difX
                         next.y1 = nextStart.y1 - difY
                     }

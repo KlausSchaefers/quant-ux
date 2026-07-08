@@ -88,7 +88,7 @@ export default class MoveTool extends Tool{
                     /**
                      * Check also x1 and x2 for Curves
                      */
-                    if (point.t === 'C') {
+                    if (point.t === 'C' || point.t === 'CZ') {
                         point.x1 = newBoundingBox.x + newBoundingBox.w * rel.x1
                         point.y1 = newBoundingBox.y + newBoundingBox.h * rel.y1
                         point.x2 = newBoundingBox.x + newBoundingBox.w * rel.x2
@@ -200,7 +200,7 @@ export default class MoveTool extends Tool{
                     /**
                      * Check also x1 and x2 for Curves
                      */
-                    if (point.t === 'C') {
+                    if (point.t === 'C' || point.t === 'CZ') {
                         point.x1 = start.x1 + difX
                         point.y1 = start.y1 + difY
                         point.x2 = start.x2 + difX
@@ -228,7 +228,7 @@ export default class MoveTool extends Tool{
         this.positions = this.selected.map(element => {
             if (element.type === 'Path') {
                 return element.d.map(point => {
-                    if (point.t === 'C') {
+                    if (point.t === 'C' || point.t === 'CZ') {
                         return {
                             x: point.x,
                             y: point.y,
