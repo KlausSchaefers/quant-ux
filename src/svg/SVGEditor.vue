@@ -736,6 +736,7 @@ export default {
         pos.shiftKey = e.shiftKey
         pos.altKey = e.altKey
         pos.metaKey = e.metaKey
+        pos.ctrlKey = e.ctrlKey
      
         pos.x = Math.round(pos.x / this.zoom)
         pos.y = Math.round(pos.y / this.zoom)

@@ -167,14 +167,14 @@ export default {
         this.$emit('mouseclick')
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onClick(pos)
+            this.currentTool.onClick(pos, e)
         }
         this.logger.log(5, 'onMouseClick ', 'enter', pos)
     },
     onMouseMove (e) {
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onMove(pos)
+            this.currentTool.onMove(pos, e)
         }
         this.lastCanvasMousePosition = pos
         this.$emit('qmouse', pos)

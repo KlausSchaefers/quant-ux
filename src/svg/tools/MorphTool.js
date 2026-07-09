@@ -87,25 +87,29 @@ export default class MorphTool extends Tool{
     }
 
     onMove (pos) {
-        if (this.selectedBezier) {
-           this.moveBezier(pos)
-           this.editor.setSplitPoints()
-           return
-        } 
-        
-        if (this.isJointDown && this.selectedJoints) {
-            this.moveJoint(pos)
-            this.editor.setSplitPoints()
-            return
-        } 
-        
-        if (this.isSelectionStarted()) {
-            this.moveSelect(pos)
-            this.editor.setSplitPoints()
-            return
+        try {
+            if (this.selectedBezier) {
+                this.moveBezier(pos)
+                this.editor.setSplitPoints()
+                return
+            } 
+            
+            if (this.isJointDown && this.selectedJoints) {
+                this.moveJoint(pos)
+                this.editor.setSplitPoints()
+                return
+            } 
+            
+            if (this.isSelectionStarted()) {
+                this.moveSelect(pos)
+                this.editor.setSplitPoints()
+                return
+            }
+            
+            this.showSplit(pos)
+        } catch(err) {
+            console.error(err)
         }
-        
-        this.showSplit(pos)
     }
 
     moveJoint (pos) {
@@ -146,8 +150,8 @@ export default class MorphTool extends Tool{
     }
 
     moveBezier (pos) {
-  
-        const point = this.selectedElement.d[this.selectedBezier.parent]    
+        console.debug('moveBezier',this.selectedBezier.isX1 )
+        const point = this.selectedElement.d[this.selectedBezier.parent]
         if (point) {
             if (this.selectedBezier.isX1) {
                 point.x1 = pos.x
@@ -157,6 +161,9 @@ export default class MorphTool extends Tool{
                 point.y2 = pos.y
             }
             // FIXME: Check if the points are on a line...
+            // altKey (not ctrlKey!) breaks the tangent, so the handle moves
+            // freely. On macOS ctrl+click is a secondary click, which would
+            // interrupt the drag and stop the live update from rendering.
             if (!pos.altKey && this.selectedBezierSlopeIsDifferent) {
 
               
@@ -272,7 +279,7 @@ export default class MorphTool extends Tool{
     // }
 
     onBezierMouseUp () {
-        this.logger.log(3, 'onBezierMouseUp', 'enter', this.selectedJoint)
+        this.logger.log(-3, 'onBezierMouseUp', 'enter', this.selectedJoint)
         delete this.selectedBezier
         delete this.selectedBezierDistance
         this.editor.setSelectedBezier()
@@ -290,7 +297,12 @@ export default class MorphTool extends Tool{
     }
 
     onMouseUp(point) {
-        this.logger.log(5, 'onMouseUp', 'enter', point)
+        this.logger.log(-5, 'onMouseUp', 'enter', point)
+        // sometimes the mouse up is not caught
+        if (this.selectedBezier) {
+            this.onBezierMouseUp()
+            return
+        }
         if (this._isSelectStarted && this._selectBox) {
             const selectBox = this._selectBox
             const inBox = this.selectedElement.d
