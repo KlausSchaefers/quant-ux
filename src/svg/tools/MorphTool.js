@@ -86,11 +86,12 @@ export default class MorphTool extends Tool{
         this.editor.setState('morphEnd')
     }
 
-    onMove (pos) {
+    onMove (pos, ) {
         try {
             if (this.selectedBezier) {
                 this.moveBezier(pos)
                 this.editor.setSplitPoints()
+                //this.editor.$forceUpdate()
                 return
             } 
             
@@ -113,7 +114,7 @@ export default class MorphTool extends Tool{
     }
 
     moveJoint (pos) {
-  
+
         if (!this.selectedJointStartPos) {
             return
         }
@@ -121,36 +122,74 @@ export default class MorphTool extends Tool{
         const difY = this.selectedJointStartPos.y - pos.y
         const path = this.selectedElement
         const startPath = this.selectedJointStartPath
+
+        // collect all point ids that should move. If the first and last joint
+        // of a closed path share a location, moving one has to move the other
+        // as well so the path stays closed.
+        const ids = new Set()
         this.selectedJoints.forEach(joint => {
-            const point = path.d[joint.id]
-            const start = startPath.d[joint.id]
-            if (point && start) {
-                point.x = start.x - difX
-                point.y = start.y - difY
-          
-                // FIXME: should we somehow save this?
-
-                if (!pos.altKey) {
-                    if (point.t === 'C' || point.t === 'CZ') {
-                        point.x2 = start.x2 - difX
-                        point.y2 = start.y2 - difY
-                    }
-                    const next = path.d[joint.id + 1]
-                    const nextStart = startPath.d[joint.id + 1]
-                    if (next && (next.t === 'C' || next.t === 'CZ') && nextStart) {
-                        next.x1 = nextStart.x1 - difX
-                        next.y1 = nextStart.y1 - difY
-                    }
-                }
-
+            ids.add(joint.id)
+            const partner = this.getClosingPartner(startPath, joint.id)
+            if (partner !== -1) {
+                ids.add(partner)
             }
-        
+        })
+
+        ids.forEach(id => {
+            this.moveJointPoint(path, startPath, id, difX, difY, pos.altKey)
         })
         return
     }
 
+    moveJointPoint (path, startPath, id, difX, difY, altKey) {
+        const point = path.d[id]
+        const start = startPath.d[id]
+        if (point && start) {
+            point.x = start.x - difX
+            point.y = start.y - difY
+
+            // FIXME: should we somehow save this?
+
+            if (!altKey) {
+                if (point.t === 'C' || point.t === 'CZ') {
+                    point.x2 = start.x2 - difX
+                    point.y2 = start.y2 - difY
+                }
+                const next = path.d[id + 1]
+                const nextStart = startPath.d[id + 1]
+                if (next && (next.t === 'C' || next.t === 'CZ') && nextStart) {
+                    next.x1 = nextStart.x1 - difX
+                    next.y1 = nextStart.y1 - difY
+                }
+            }
+        }
+    }
+
+    /**
+     * If the given joint is the first or last point of a closed path
+     * (both share the same location), return the id of the partner point
+     * that has to move along. Otherwise return -1.
+     */
+    getClosingPartner (startPath, id) {
+        const d = startPath.d
+        if (d.length < 2) {
+            return -1
+        }
+        const firstId = 0
+        const lastId = d.length - 1
+        if (id !== firstId && id !== lastId) {
+            return -1
+        }
+        const partnerId = id === firstId ? lastId : firstId
+        const point = d[id]
+        const partner = d[partnerId]
+        if (point && partner && point.x === partner.x && point.y === partner.y) {
+            return partnerId
+        }
+        return -1
+    }
+
     moveBezier (pos) {
-        console.debug('moveBezier',this.selectedBezier.isX1 )
         const point = this.selectedElement.d[this.selectedBezier.parent]
         if (point) {
             if (this.selectedBezier.isX1) {
@@ -160,11 +199,12 @@ export default class MorphTool extends Tool{
                 point.x2 = pos.x
                 point.y2 = pos.y
             }
+           
             // FIXME: Check if the points are on a line...
             // altKey (not ctrlKey!) breaks the tangent, so the handle moves
             // freely. On macOS ctrl+click is a secondary click, which would
             // interrupt the drag and stop the live update from rendering.
-            if (!pos.altKey && this.selectedBezierSlopeIsDifferent) {
+            if (!pos.ctrlKey && this.selectedBezierSlopeIsDifferent) {
 
               
                 const previous = this.selectedElement.d[this.selectedBezier.parent-1]

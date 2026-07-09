@@ -456,7 +456,7 @@ export function filterDouble(d) {
         const next = d[i+1]
         if (next) {
             if ((next.x === p.x && next.y === p.y)) {
-                console.warn('SVGUtil.filterDouble() > remove ',i)
+                //console.warn('SVGUtil.filterDouble() > remove ',i)
             }
             return !(next.x === p.x && next.y === p.y)
         }
@@ -712,17 +712,81 @@ export function getMarkers(paths, prefix) {
 export function splitPathAt(path, index, pos, slopeApSplitPoint, allowBezier = false) {
     const endPoint = path.d[index +1]
     const isCurve = endPoint && (endPoint.t === 'C' || endPoint.t === 'CZ')
-    const newPoint = {
-        t: 'L',
-        x: Math.round(pos.x),
-        y: Math.round(pos.y)
-    }
+    // create the point with all bezier props, so they are reactive once the
+    // point is inserted and (optionally) turned into a bezier point
+    const newPoint = createPoint('L', Math.round(pos.x), Math.round(pos.y))
     path.d.splice(index + 1, 0, newPoint)
 
     if (isCurve && allowBezier) {
         makeBezierPoint(path, index + 1)
     }
     return path
+}
+
+/**
+ * Creates a path point that always has the bezier control points (x1/y1/x2/y2)
+ * defined. This is important for Vue reactivity: a property that is added to a
+ * point *after* it was made reactive (e.g. when an 'L' point is turned into a
+ * 'C' point) would not be observed and the rendering would not update. By
+ * creating the points complete from the start, every later change is reactive.
+ */
+export function createPoint(t, x, y) {
+    return {
+        t: t,
+        x: x,
+        y: y,
+        x1: x,
+        y1: y,
+        x2: x,
+        y2: y
+    }
+}
+
+/**
+ * Removes the bezier control points (x1/y1/x2/y2) from all non-curve points.
+ * completePaths() adds them everywhere for reactivity, but only 'C'/'CZ' points
+ * actually use them, so we strip them again before the value is saved to keep
+ * the serialized data clean. Should be called on a clone, not the reactive value.
+ */
+export function stripBezierControls(paths) {
+    if (!paths) {
+        return paths
+    }
+    paths.forEach(path => {
+        if (path.d) {
+            path.d.forEach(point => {
+                if (point.t !== 'C' && point.t !== 'CZ') {
+                    delete point.x1
+                    delete point.y1
+                    delete point.x2
+                    delete point.y2
+                }
+            })
+        }
+    })
+    return paths
+}
+
+/**
+ * Makes sure every point of every path has the bezier control points defined,
+ * so they are reactive. Must be called *before* the paths are assigned to the
+ * reactive `value`, as Vue only observes properties that exist at that point.
+ */
+export function completePaths(paths) {
+    if (!paths) {
+        return paths
+    }
+    paths.forEach(path => {
+        if (path.d) {
+            path.d.forEach(point => {
+                if (point.x1 === undefined) point.x1 = point.x
+                if (point.y1 === undefined) point.y1 = point.y
+                if (point.x2 === undefined) point.x2 = point.x
+                if (point.y2 === undefined) point.y2 = point.y
+            })
+        }
+    })
+    return paths
 }
 
 /**

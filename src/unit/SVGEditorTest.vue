@@ -28,11 +28,15 @@
           :height="400"
           :pos="pos"
           ref="editor"
+          @change="onChange"
           @qmouse="onMouseMove"/>
     </div>
-    {{mouse}}
 
-    {{svgs}}
+
+    <div class="debug">
+      {{svgs}}
+    </div>
+
 
     <div class="tests">
       <a @click="test_createLine" class="MatcButton"> Test Create Line </a>
@@ -47,6 +51,10 @@
   @import "../style/components/qux-svg-editor.scss";
 </style>
 <style>
+
+  .debug {
+    font-size: 12px;
+  }
 
 
   .toolbar {
@@ -109,6 +117,9 @@ export default {
   methods: {
       setZoom (z) {
         this.zoom = z
+      },
+      onChange (d) {
+        this.svgs = d
       },
       onMouseMove (p) {
           this.mouse = p
