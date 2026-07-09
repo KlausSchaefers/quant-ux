@@ -45,7 +45,7 @@ export default class MoveTool extends Tool{
      *
      */
     onClick() {
-
+        this.logger.log(3, 'onClick', 'enter')
         if (this.isResize) {
             this.cleanMove()
             return

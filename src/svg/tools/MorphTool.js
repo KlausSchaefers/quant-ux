@@ -200,7 +200,7 @@ export default class MorphTool extends Tool{
 
 
     onJointMouseDown(joint, pos){
-        this.logger.log(3, 'onJointMouseDown', 'enter',joint)
+        this.logger.log(-3, 'onJointMouseDown', 'enter',joint)
         const path = this.editor.getElementById(joint.parent)
         this.isJointDown = true
  
@@ -217,9 +217,14 @@ export default class MorphTool extends Tool{
                     id: joint.id
                 }
                 this.editor.setCursor('move')
+                const isAlreadySelected = this.selectedJoints && this.selectedJoints.some(j => j.id === joint.id)
                 if (pos.shiftKey && this.selectedJoints && this.selectedJoints.length > 0) {
                     this.selectedJoints.push(startPoint)
                     this.editor.addSelectedJoint(joint)
+                    this.editor.startRuler(path, [joint.id])
+                } else if (isAlreadySelected) {
+                    // the joint is part of the current (multi) selection, so
+                    // keep it and let the entire selection be dragged together
                     this.editor.startRuler(path, [joint.id])
                 } else {
                     this.selectedJoints = [startPoint]
@@ -285,7 +290,7 @@ export default class MorphTool extends Tool{
     }
 
     onMouseUp(point) {
-        this.logger.log(-5, 'onMouseUp', 'enter', point)
+        this.logger.log(5, 'onMouseUp', 'enter', point)
         if (this._isSelectStarted && this._selectBox) {
             const selectBox = this._selectBox
             const inBox = this.selectedElement.d
@@ -299,6 +304,12 @@ export default class MorphTool extends Tool{
                 })
                 .filter(p => SVGUtil.isPointInBox(p, selectBox))
 
+            if (inBox.length === this.selectedElement.d.length) {      
+                this.logger.log(5, 'onMouseUp', 'exity ALL SELECTED')
+                this.select([this.selectedElement.id]) // calls selectEnd
+                this.clearSelect()
+                return true // stop event and prevent click event on MoveTool
+            }
      
             if (inBox.length > 0) {
                 this.editor.setSelectedJoints(inBox)
@@ -333,7 +344,7 @@ export default class MorphTool extends Tool{
     }
 
     showSplit(pos) {
-        if (!showSplitPoint || this.isBezier) {
+        if (!showSplitPoint) {
             return
         }
 
@@ -377,9 +388,11 @@ export default class MorphTool extends Tool{
         if (start >= 0) {
             this.logger.log(-1, 'split', 'exit > add at' , start + 1)
             const slope = SVGUtil.getBezierSlope(svg, splitPoint.index)
-            // unzoom the split point. 
+            // unzoom the split point.
             const unZoomedSplitPoint = SVGUtil.getUnZoomedBox(splitPoint, this.zoom)
-            SVGUtil.splitPathAt(path, start, unZoomedSplitPoint, slope)
+            // allowBezier = true so a curve is split into two curves that
+            // keep the original shape instead of inserting a straight line
+            SVGUtil.splitPathAt(path, start, unZoomedSplitPoint, slope, true)
             this.editor.setSplitPoints()
             this.editor.setSelectedJoints([{
                 id: start + 1

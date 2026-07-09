@@ -28,7 +28,7 @@ export default {
      *   after they finished
      *****************************************/
     setState (state, point) {   
-        console.debug('setState')     
+         this.logger.log(-3, 'setState ', 'enter', state) 
         if (this.isMultiPath) {
             this.setMultiPathState(state, point)
         } else {
@@ -108,7 +108,7 @@ export default {
   
 
     startMoveTool () {
-        this.logger.log(-1, 'startMoveTool ', 'enter')
+        this.logger.log(-1, 'startMoveTool ', 'enter', this.selection)
         this.mode = 'move'
         this.currentTool = new MoveTool(this, this.selection)
         this.initRuler(this.selection)

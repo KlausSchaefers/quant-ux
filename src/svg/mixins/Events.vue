@@ -111,19 +111,19 @@ export default {
     onBezierMouseDown (bezierpoint, e) {
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onBezierMouseDown(bezierpoint, pos)
+            this.currentTool.onBezierMouseDown(bezierpoint, pos, e)
         }
     },
     onBezierMouseUp (bezierpoint, e) {
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onBezierMouseUp(bezierpoint, pos)
+            this.currentTool.onBezierMouseUp(bezierpoint, pos, e)
         }
     },
     onBezierClick (bezierpoint, e) {
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
-            this.currentTool.onBezierClick(bezierpoint, pos)
+            this.currentTool.onBezierClick(bezierpoint, pos, e)
         }
     },
 
@@ -156,6 +156,14 @@ export default {
 
     // canvas mouse
     onMouseClick (e) {
+        // the browser fires a click right after mouseup. If the tool
+        // stopped the mouseup, we also have to swallow this click so
+        // the tool does not receive an unwanted onClick()
+        if (this._stopNextClick) {
+            this._stopNextClick = false
+            this.stopEvent(e)
+            return
+        }
         this.$emit('mouseclick')
         const pos = this.getCanvasMousePosition(e)
         if (this.currentTool) {
@@ -188,6 +196,9 @@ export default {
             const stop = this.currentTool.onMouseUp(pos, e)
             if (stop === true) {
                 this.stopEvent(e)
+                // the click event is fired after the mouseup, so we
+                // have to remember to swallow it in onMouseClick()
+                this._stopNextClick = true
             }
         }
         this.logger.log(5, 'onMouseUp ', 'exit', pos)

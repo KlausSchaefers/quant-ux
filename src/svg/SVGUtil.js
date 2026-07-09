@@ -711,52 +711,115 @@ export function getMarkers(paths, prefix) {
 
 export function splitPathAt(path, index, pos, slopeApSplitPoint, allowBezier = false) {
     const endPoint = path.d[index +1]
-    // here is still some bug. The split point might be some rounded thing. 
-    // I dially 
+    const isCurve = endPoint && (endPoint.t === 'C' || endPoint.t === 'CZ')
     const newPoint = {
         t: 'L',
         x: Math.round(pos.x),
         y: Math.round(pos.y)
     }
-    path.d.splice(index + 1, 0,newPoint)
+    path.d.splice(index + 1, 0, newPoint)
 
-    if (endPoint && endPoint.t === 'C' && allowBezier) {
-        makeBezierPoint(path, index + 1, slopeApSplitPoint)
+    if (isCurve && allowBezier) {
+        makeBezierPoint(path, index + 1)
     }
     return path
 }
 
-export function makeBezierPoint(path, index, slopeApSplitPoint, factor = 0.66) {
+/**
+ * Turns the freshly inserted point at `index` into a bezier point that
+ * splits the surrounding cubic curve without changing its shape. The
+ * original segment goes from `before` (P0) to `next` (P3), with the
+ * control points stored on `next` (x1/y1 = P1, x2/y2 = P2). We locate the
+ * curve parameter `t` that matches the split location and apply De
+ * Casteljau's algorithm, so the new point (and its handles) align with the
+ * original curve instead of using fixed offsets.
+ */
+export function makeBezierPoint(path, index) {
     const point = path.d[index]
     const before = path.d[index - 1]
     const next = path.d[index + 1]
+    if (!before || !next) {
+        return
+    }
+
+    const p0 = {x: before.x, y: before.y}
+    const p1 = {x: next.x1, y: next.y1}
+    const p2 = {x: next.x2, y: next.y2}
+    const p3 = {x: next.x, y: next.y}
+
+    const t = getCubicParameterForPoint(p0, p1, p2, p3, point)
+
+    // De Casteljau split at t
+    const a = lerpPoint(p0, p1, t)
+    const b = lerpPoint(p1, p2, t)
+    const c = lerpPoint(p2, p3, t)
+    const d = lerpPoint(a, b, t)
+    const e = lerpPoint(b, c, t)
+    const f = lerpPoint(d, e, t) // the point on the curve at t
+
+    // first half (p0, a, d, f) is stored on the new point
     point.t = 'C'
-    if (before) {
-        const difX1 = next.x1 - before.x
-        const difY1 = next.y1 - before.y
-        point.x1 = before.x + difX1 * factor
-        point.y1 = before.y + difY1 * factor
+    point.x1 = Math.round(a.x)
+    point.y1 = Math.round(a.y)
+    point.x2 = Math.round(d.x)
+    point.y2 = Math.round(d.y)
+    point.x = Math.round(f.x)
+    point.y = Math.round(f.y)
 
-        //const difX2 = point.x - before.x
-        //const difY2 = point.y - before.y
-        point.x2 = point.x - 20
-        point.y2 = point.y
+    // second half (f, e, c, p3) updates the following point.
+    // p3 (next.x/next.y) stays the same, so the curve end is kept.
+    next.x1 = Math.round(e.x)
+    next.y1 = Math.round(e.y)
+    next.x2 = Math.round(c.x)
+    next.y2 = Math.round(c.y)
+}
+
+function lerpPoint(a, b, t) {
+    return {
+        x: a.x + (b.x - a.x) * t,
+        y: a.y + (b.y - a.y) * t
     }
+}
 
-    if (next) {
-
-        next.x1 = point.x + 20
-        next.y1 = point.y
-
-        const difX2 = next.x2 - next.x
-        const difY2 = next.y2 - next.y
-        next.x2 = next.x + difX2 * factor
-        next.y2 = next.y + difY2 * factor
-
+function cubicAt(p0, p1, p2, p3, t) {
+    const mt = 1 - t
+    const a = mt * mt * mt
+    const b = 3 * mt * mt * t
+    const c = 3 * mt * t * t
+    const d = t * t * t
+    return {
+        x: a * p0.x + b * p1.x + c * p2.x + d * p3.x,
+        y: a * p0.y + b * p1.y + c * p2.y + d * p3.y
     }
+}
 
-   
-
+/**
+ * Finds the parameter t in [0,1] of the cubic bezier that is closest to the
+ * `target` point. Uses a coarse sampling that is refined in a few passes.
+ */
+function getCubicParameterForPoint(p0, p1, p2, p3, target) {
+    let lo = 0
+    let hi = 1
+    let bestT = 0
+    const steps = 100
+    for (let pass = 0; pass < 3; pass++) {
+        let bestDist = Infinity
+        for (let i = 0; i <= steps; i++) {
+            const t = lo + (hi - lo) * (i / steps)
+            const p = cubicAt(p0, p1, p2, p3, t)
+            const dx = p.x - target.x
+            const dy = p.y - target.y
+            const dist = dx * dx + dy * dy
+            if (dist < bestDist) {
+                bestDist = dist
+                bestT = t
+            }
+        }
+        const range = (hi - lo) / steps
+        lo = Math.max(0, bestT - range)
+        hi = Math.min(1, bestT + range)
+    }
+    return bestT
 }
 
 export function getBezierSlope(svg, index) {

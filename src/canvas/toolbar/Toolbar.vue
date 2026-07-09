@@ -40,9 +40,9 @@
 								<QIcon icon="DeviceDesktop" v-else/>
 								<!-- <span class="MatcToolbarResponsiveLabel">Screen</span>    						 -->
 							</div>
-							<CreateBasicButton @add="onToolBasic" :mode="mode" v-show="hasScreens" class="MatcMarginLeft" />
-							<CreateButton ref="createButton" :mode="mode" v-show="hasScreens"/>
-							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
+
+							<CreateBasicButton @add="onToolBasic" :mode="mode" v-show="hasScreens" class="MatcMarginLeft"/>
+							<CreateButton ref="createButton" :mode="mode" v-show="hasScreens"/>												
 							<CreateVectorButton @add="onToolSVG" :mode="mode" v-show="hasScreens" />	
 
 
@@ -168,7 +168,7 @@ import ModelUtil from '../../core/ModelUtil';
 import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
 
 import CreateVectorButton from './components/CreateVectorButton'
-import CreateLogicButton from './components/CreateLogicButton'
+// import CreateLogicButton from './components/CreateLogicButton'
 import CreateBasicButton from './components/CreateBasicButton'
 import CreateButton from './components/CreateButton.vue'
 import HomeMenu from './components/HomeMenu'
@@ -213,7 +213,7 @@ export default {
 		'EditModeButton': EditModeButton,
 		'CollabUser': CollabUser,
 		'CreateVectorButton': CreateVectorButton,
-		'CreateLogicButton': CreateLogicButton,
+		//'CreateLogicButton': CreateLogicButton,
 		'CreateBasicButton': CreateBasicButton,
 		'CreateButton': CreateButton,
 		'HomeMenu': HomeMenu,

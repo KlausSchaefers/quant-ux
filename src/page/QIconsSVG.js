@@ -125,6 +125,12 @@ export const icons = {
         <path d="M6 4l12 0"></path>
         <path d="M12 4l0 16"></path>
     `,
+    'BoxPlus': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M13 16h-7a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v1" />
+        <path d="M16 18h6" />
+        <path d="M19 15v6" />
+    `,
     'BoxWide': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>

@@ -3,7 +3,7 @@
     {
         "id" : "GridContainer",
         "type" : "GridContainer",
-		"category": "Advanced",
+		"category": "WireFrame",
         "subcategory" : "AAA",
         "_type" : "Widget",
         "name" : "Grid Container",

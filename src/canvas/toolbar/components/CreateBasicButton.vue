@@ -23,7 +23,7 @@
 
                         <div v-if="i.value === selectedTool" class="MatcToolbarPopUpSubMenu">
                             <ul class="MatcToolbarPopUpWrapper" role="menu" >
-                                <li v-for="c in i.children" :key="c.value" @click.stop="onSelect(c)" class="MatcToolbarMenuItem" >
+                                <li v-for="c in i.children" :key="c.value" @click.stop="onSelect(c)" class="MatcToolbarMenuItem" :class="c.css"  >
                                     <QIcon class="MatcToolbarPopUpIcon" :icon="c.icon" />
                                     <label class="MatcToolbarPopUpLabel">{{c.label}}</label>
                                     <label class="MatcToolbarPopUpLabelShortCut" v-if="i.shortcut">{{i.shortcut}}</label>
@@ -67,7 +67,18 @@ export default {
                 {value: 'text', icon: 'Text', label:  this.getNLS('toolbar.create.text'), shortcut:'T'},
                 {value: 'hotspot', icon: 'Hotspot', label:  this.getNLS('toolbar.create.hotspot'), shortcut:'H'},
                 {value: 'gridContainer', icon: 'GridContainer', label: this.getNLS('toolbar.create.gridContainer')},
-                {value: 1, css:'MatcToolbarPopUpLine'},
+                // {value: 1, css:'MatcToolbarPopUpLine'},
+                // {value: 'vector', icon: 'VectorBezier', label: this.getNLS('toolbar.create.vector'), icon2:'SVGChevronRight', children:[
+                //     {value: 'bezier', icon: 'VectorBezier2', label: this.getNLS('toolbar.create.curve'), type:'vector'},       
+                //     {value: 'path', icon: 'VectorPath', label: this.getNLS('toolbar.create.path'), type:'vector'},
+                //     {value: 'freehand', icon: 'VectorFreehand2', label: this.getNLS('toolbar.create.freehand'), type:'vector'},
+                //     {value: 2, css:'MatcToolbarPopUpLine'},
+                //     {value: 'rectangle', icon: 'VectorRectangle', label: this.getNLS('toolbar.create.rectangle'), type:'vector'},
+                //     {value: 'triangle', icon: 'VectorTriangle', label: this.getNLS('toolbar.create.triangle'), type:'vector'},
+                //     {value: 'circle', icon: 'VectorCircle', label: this.getNLS('toolbar.create.circle'), type:'vector'},       
+                //     {value: 'diamond', icon: 'VectorDiamond2', label: this.getNLS('toolbar.create.diamond'), type:'vector'},  
+                // ]},
+                {value: 3, css:'MatcToolbarPopUpLine'},
                 {value: 'logic', icon: 'Cloud', label: this.getNLS('toolbar.create.logic'), icon2:'SVGChevronRight', children:[
                     {value: 'rest', icon: 'Cloud', label: this.getNLS('toolbar.create.rest')},
                     {value: 'logic', icon: 'OR', label: this.getNLS('toolbar.create.or')},
@@ -75,7 +86,7 @@ export default {
                     {value: 'script', icon: 'JS', label: this.getNLS('toolbar.create.script')},
                     {value: 'audio', icon: 'Audio', label: this.getNLS('toolbar.create.audio')}
                 ]},
-                {value: 2, css:'MatcToolbarPopUpLine'},
+                {value: 4, css:'MatcToolbarPopUpLine'},
                 {value: 'designgpt', icon: 'AI', label: this.getNLS('toolbar.create.gpt')},
             ]
         }
