@@ -1,0 +1,131 @@
+[
+	{
+		"id": "Chat",
+		"type": "Chat",
+		"_type": "Widget",
+		"category": "Advanced",
+		"subcategory": "AFormInput",
+		"name": "Chat",
+		"x": 0,
+		"y": 0,
+		"w": "320",
+		"h": "400",
+		"z": 0,
+		"props": {
+			"label": "Type a message",
+			"placeholder": false,
+			"messageAsBubble": true,	
+			"value": [
+				{					
+					"type": "message",
+					"role": "assistant",
+					"content": "Hello there!"
+				},
+				{					
+					"type": "message",
+					"role": "user",
+					"content": "Tell me something in latin!"
+				},
+				{					
+					"type": "message",
+					"role": "assistant",
+					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
+				}
+				
+			]			
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"background": "@form-background",
+			"color": "@form-color",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"paddingBottom": "@form-padding-horizontal",
+			"paddingTop": "@form-padding-horizontal",
+			"paddingLeft": "@form-padding-horizontal",
+			"paddingRight": "@form-padding-horizontal",
+			"messageUserBackground": "#cde5ff",
+			"messageUserColor": "@form-color",
+			"messageAssistantBackground": "#eeeeee",
+			"messageAssistantColor": "@form-color",
+			"messageButtonBackground": "@button-primary-background",
+			"messageButtonColor": "@button-primary-color",
+			"messageRadius": 8,
+			"inputHeight": 64,
+			"gap": 8
+		},
+		"focus": {
+			"borderWidth": "@border-width:focus",
+			"borderColor": "@form-border-color:focus",
+			"background": "@form-background:focus",
+			"color": "@form-color:focus"
+		},
+		"hover": {
+			"borderColor": "@form-border-color:hover",
+			"background": "@form-background:hover",
+			"color": "@form-color:hover"
+		}
+	},
+	{
+		"id": "Chat2",
+		"_extends": "Chat",
+		"type": "Chat",
+		"_type": "Widget",
+		"category": "Advanced",
+		"subcategory": "AFormInput",
+		"name": "Chat",
+		"x": 0,
+		"y": 0,
+		"w": "320",
+		"h": "400",
+		"z": 0,
+		"props": {
+			"label": "Type a message",
+			"placeholder": false,
+			"messageAsBubble": true,	
+			"value": [
+				{					
+					"type": "message",
+					"role": "user",
+					"content": "Tell me something in latin!"
+				},
+				{					
+					"type": "message",
+					"role": "assistant",
+					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
+				}
+				
+			]			
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {
+			"messageUserBackground": "#eeeeee",
+			"messageUserColor": "@form-color",
+			"messageAssistantBackground": "#transparent",
+			"messageAssistantColor": "@form-color",
+			"messageButtonBackground": "@button-primary-background",
+			"messageButtonColor": "@button-primary-color"	
+		}
+	}
+]

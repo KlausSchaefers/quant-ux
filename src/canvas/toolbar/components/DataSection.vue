@@ -270,6 +270,30 @@ export default {
 			//this._renderButton(lbl, icon, "_renderSegmentScreen");
 		},
 
+		_showChat (model){
+			this._setSectionLabel("Chat");
+
+			this._renderInputDropDown("Input Height", model, [
+				32, 64, 96, 128
+			], "inputHeight", false);
+
+			this._renderInputDropDown("Message Radius", model, [
+				{label: '8', value: 8},
+				{label: '16', value: 16},
+				{label: '32', value: 32}
+			], "messageRadius", false);
+
+			this._renderCheck("Bubbles",model.props.messageAsBubble, "messageAsBubble" );
+
+			this._renderSubSection()
+			// this._renderCheck("Center when empty",model.props.centerWhenEmpty, "centerWhenEmpty" );
+	
+			this._renderBoxColor("User Message", model, "messageUserBackground", "messageUserColor");
+			this._renderBoxColor("Assistant Message", model, "messageAssistantBackground", "messageAssistantColor");
+			this._renderBoxColor("Button", model, "messageButtonBackground", "messageButtonColor");
+		},
+
+
 		_showRepeater (model){
 			this._setSectionLabel("Repeater");
 

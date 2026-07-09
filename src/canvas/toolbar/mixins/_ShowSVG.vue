@@ -177,7 +177,7 @@ export default {
         },
 
         _renderSVGFill () {
-            const parent = this.createSection("SVG Fill");
+            const parent = this.createSection("Fill");
 
 			var content = document.createElement("div");
 			css.add(content, "MatcToolbarSectionContent");

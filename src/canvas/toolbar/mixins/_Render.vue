@@ -57,7 +57,7 @@ export default {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox", 'LockSlider',
 						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 
 						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea', 
-						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload', 'GeoLocation', 'ImageGrid', 'GridContainer'],
+						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload', 'GeoLocation', 'ImageGrid', 'GridContainer', 'Chat'],
 			
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
@@ -66,7 +66,7 @@ export default {
 						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 
 						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'NavBar', 
 						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation', 'ImageGrid', 'AudioPlayer', 
-						'AudioLogic', 'GridContainer', 'SVGIcon'],
+						'AudioLogic', 'GridContainer', 'SVGIcon' ,'Chat'],
 						
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
@@ -86,7 +86,8 @@ export default {
 			hasErrorViewMode : ["TextBox", "Password", "CheckBox", "Switch", "DropDown", "MobileDropDown", "DateDropDown", 
 								"TypeAheadTextBox", "CheckBoxGroup", "RadioGroup", 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'LabeledTextArea'],
 
-			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", "TypeAheadTextBox", 'LabeledTextBox', 'LabeledTextArea'],
+			hasFocusViewMode : ["TextBox", "Password", "DropDown", "MobileDropDown", "TextArea", 
+								"TypeAheadTextBox", 'LabeledTextBox', 'LabeledTextArea', 'Chat'],
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 
 			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 
@@ -95,7 +96,8 @@ export default {
 			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
 								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton', 
 								'DragNDropTarget', 'LabeledTextBox', 'NavBar', 'TextBox', 'LabeledTextBox', 'NavMenu', 
-								"DropDown", 'LabeledTextArea', 'SortableList', 'RadioTable', 'Icon', 'SVGIcon', 'ImageGrid', 'AudioPlayer'],
+								"DropDown", 'LabeledTextArea', 'SortableList', 'RadioTable', 'Icon', 
+								'SVGIcon', 'ImageGrid', 'AudioPlayer', 'Chat'],
 								
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown", 'NavMenu'],
 			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", 
@@ -103,7 +105,7 @@ export default {
 			hasRotate: ['Image', 'Icon'],
 			hasSVG: ['SVGPaths'],
 			hideAction: ['ScreenSegment'],
-			hideColor: ['GridContainer']
+			hideColor: ['GridContainer', 'SVGPaths']
       }
 	},
     components: {},

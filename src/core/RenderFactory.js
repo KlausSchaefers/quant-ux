@@ -14,6 +14,7 @@ import DropDown from 'core/widgets/DropDown'
 import TextBox from 'core/widgets/TextBox'
 import Password from 'core/widgets/Password'
 import TextArea from 'core/widgets/TextArea'
+import Chat from 'core/widgets/Chat'
 import DragNDrop from 'core/widgets/DragNDrop'
 import DragNDropTarget from 'core/widgets/DragNDropTarget'
 import Spinner from 'core/widgets/Spinner'
@@ -969,6 +970,13 @@ export default class RenderFactory extends Core {
 
 	_createTextArea(parent, model) {
 		var widget = this.$new(TextArea)
+		widget.mode = this.mode;
+		widget.placeAt(parent);
+		this._uiWidgets[model.id] = widget;
+	}
+
+	_createChat(parent, model) {
+		var widget = this.$new(Chat)
 		widget.mode = this.mode;
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
