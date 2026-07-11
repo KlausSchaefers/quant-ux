@@ -29,10 +29,16 @@
 				{					
 					"type": "message",
 					"role": "assistant",
-					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
-				}
-				
-			]			
+					"content": "**Lorem** ipsum __dolor__ sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
+				}				
+			],
+			"responses": [
+				{					
+					"type": "message",
+					"role": "assistant",
+					"content": "Thanks!"
+				}							
+			]					
 		},
 		"has": {
 			"label": true,
@@ -107,8 +113,14 @@
 					"type": "message",
 					"role": "assistant",
 					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
-				}
-				
+				}				
+			],
+			"responses": [
+				{					
+					"type": "message",
+					"role": "assistant",
+					"content": "Thanks!"
+				}							
 			]			
 		},
 		"has": {

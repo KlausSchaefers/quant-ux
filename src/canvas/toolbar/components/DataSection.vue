@@ -39,6 +39,7 @@ import ScriptEdior from '../dialogs/ScriptEditor.vue'
 import NavidationEditor from './NavigationTable'
 import IconTable from './IconTable'
 import {iconDOM} from 'page/QIconUtil'
+import ChatSettings from './ChatSettings'
 
 export default {
     name: 'DataSection',
@@ -273,6 +274,9 @@ export default {
 		_showChat (model){
 			this._setSectionLabel("Chat");
 
+			this._renderButton("Settings", "Settings", "_renderChatDialog");
+
+			this._renderSubSection()
 			this._renderInputDropDown("Input Height", model, [
 				32, 64, 96, 128
 			], "inputHeight", false);
@@ -1890,6 +1894,44 @@ export default {
 		// 	d.close();
 		// },
 
+		/**********************************************************************
+		 * Chat
+		 **********************************************************************/
+
+		_renderChatDialog (e) {
+
+			const popup = this.db.div("MatcDialog MatcDialogXL MatcPadding").build();
+			const cntr = this.db.div("").build(popup);
+			const settings = this.$new(ChatSettings);
+			settings.setModel(this.model)
+			settings.setWidget(this.widget);
+			settings.placeAt(cntr);
+			const bar = this.db.div("MatcButtonBar MatcMarginTop").build(popup);
+			const write = this.db.div("MatcButton MatcButtonPrimary", "Ok").build(bar);
+			const cancel = this.db.a("MatcLinkButton", "Cancel").build(bar);
+
+			const d = this.canvas.createDialog();
+			d.overflow = true
+			d.own(on(write, touch.press, lang.hitch(this,"setChatSettings", d, settings)));
+			d.own(on(cancel, touch.press, lang.hitch(this, "closeDialog",d, settings)));
+			d.own(on(d, "close", () => {
+				settings.destroy();
+				this.canvas.setState(0);
+			}));
+			d.popup(popup, e.target);
+		},
+
+		setChatSettings (dialog, settings) {
+			console.debug(settings)
+			const value = settings.getValue()
+	
+			this.emit("propertyMultiChange", {
+				value: value.value,
+				responses: value.responses
+			})
+			settings.destroy();
+			dialog.close();
+		},
 
 		/**********************************************************************
 		 * Table

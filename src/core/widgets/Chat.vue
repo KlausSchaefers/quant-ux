@@ -32,6 +32,7 @@ import on from "dojo/on";
 import Logger from "common/Logger";
 import UIWidget from "core/widgets/UIWidget";
 import DomBuilder from "common/DomBuilder";
+import MDUtil from '../../util/MDUtil'
 
 export default {
   name: "Chat",
@@ -74,6 +75,7 @@ export default {
       this._paddingNodes = [this.$refs.inputCntr];
     },
 
+    
     render(model, style, scaleX, scaleY) {
       this.model = model;
       this.style = style;
@@ -103,6 +105,7 @@ export default {
         this.$refs.input.style.height = this.getZoomed(style.inputHeight, this._scaleY) + "px";
       }
 
+      const fontSize = this.getZoomed(style.fontSize, this._scaleY) + 'px'
       
       this.$refs.button.style.background = style.messageButtonBackground;
       this.$refs.button.style.color = style.messageButtonColor;
@@ -138,6 +141,8 @@ export default {
         bubble.style.paddingBottom = this._getBorderWidth(style.paddingBottom) + "px";
         bubble.style.paddingLeft = this._getBorderWidth(style.paddingLeft) + "px";
         bubble.style.paddingRight = this._getBorderWidth(style.paddingRight) + "px";
+
+        bubble.style.fontSize = fontSize 
       }
     },
 
@@ -165,10 +170,14 @@ export default {
           .div("MatcWidgetTypeChatRow MatcWidgetTypeChatRow" + this.capitalize(role))
           .build(cntr);
 
+        const content = MDUtil.makeHtml(message.content)
+
         const bubble = this.db
-          .div("MatcWidgetTypeChatBubble", message.content)
+          .div("MatcWidgetTypeChatBubble")
+          .innerHTML(content)
           .build(row);
 
+        
         this._messageNodes.push({
           role: role,
           row: row,

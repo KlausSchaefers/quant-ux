@@ -1071,7 +1071,7 @@ export default {
 		},
 
 		alignmentStart (selectedType, selectedModel, activePoint, ignoreIds, showDimensions){
-			this.logger.log(1,"alignmentStart","enter > " + selectedType, this.settings.snapGridOnlyToTopLeft);
+			this.logger.log(-1,"alignmentStart","enter > selectedType: " + selectedType + " > " + this.settings.snapGridOnlyToTopLeft + " > useSnap: " + this.settings.useSnappingEngine);
 
 			/**
 			 * Use the grid only when widget is selected and grid is specified
@@ -1079,6 +1079,7 @@ export default {
 			if (this.model.grid) {
 				if ("widget" == selectedType || "boundingbox" == selectedType || "group" == selectedType ||  "multi" == selectedType) {
 					const useSnappingEngine = this.settings && this.settings.useSnappingEngine
+					console.debug('useSnappingEngine', useSnappingEngine)
 					this._alignmentTool = useSnappingEngine ? new SnappingEngine() : new GridAndRulerSnapp();
 					this._alignmentTool.ignoreGroup = this._dragNDropIgnoreGroup;
 					this._alignmentTool.showDndDistance = this.showDistance;

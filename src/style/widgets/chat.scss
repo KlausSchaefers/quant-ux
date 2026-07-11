@@ -1,75 +1,73 @@
 .MatcWidgetTypeChat {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 
-    outline: none;
-}
+  outline: none;
 
-.MatcCreateBtnElement .MatcWidgetTypeChat{
-    background: #fff;
-}
-
-.MatcWidgetTypeChatCntr {
+  .MatcWidgetTypeChatCntr {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-}
+  }
 
-/**
+  /**
  * Bottom spacer. It collapses (flex-grow: 0) in the default layout so the
  * input sits at the bottom, and grows to match the messages area in the
  * "center" layout so the input is centered. Animating flex-grow lets the
  * input glide between the two positions.
  */
-.MatcWidgetTypeChatCntr::after {
+  .MatcWidgetTypeChatCntr::after {
     content: "";
     flex: 0 1 0;
     transition: flex-grow 0.3s ease;
-}
+  }
 
-.MatcWidgetTypeChatMessages {
+  .MatcWidgetTypeChatMessages {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
     box-sizing: border-box;
-}
 
-.MatcWidgetTypeChatRow {
-    display: flex;
-    width: 100%;
-}
+    .MatcWidgetTypeChatRow {
+      display: flex;
+      width: 100%;
+    }
 
-.MatcWidgetTypeChatRowUser {
-    justify-content: flex-end;
-}
+    .MatcWidgetTypeChatRowUser {
+      justify-content: flex-end;
+    }
 
-.MatcWidgetTypeChatRowAssistant {
-    justify-content: flex-start;
-}
+    .MatcWidgetTypeChatRowAssistant {
+      justify-content: flex-start;
+    }
 
-.MatcWidgetTypeChatBubble {
-    max-width: 80%;
-    box-sizing: border-box;
-    word-break: break-word;
-    white-space: pre-wrap;
-}
+    .MatcWidgetTypeChatBubble {
+      max-width: 80%;
+      box-sizing: border-box;
+      word-break: break-word;
+      white-space: pre-wrap;
 
-.MatcWidgetTypeChatInputCntr {
+      p {
+        font-size: inherit;
+      }
+    }
+  }
+
+  .MatcWidgetTypeChatInputCntr {
     display: flex;
     flex: 0 0 auto;
     width: 100%;
     box-sizing: border-box;
     flex-direction: row;
     align-items: center;
-}
+  }
 
-.MatcWidgetTypeChatInputButton {
-
+  .MatcWidgetTypeChatInputButton {
     padding: 0.2ch;
     height: 3ch;
     width: 3ch;
@@ -78,14 +76,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
+  }
 
-.MatcWidgetTypeChatInputButton svg {
+  .MatcWidgetTypeChatInputButton svg {
     width: 80%;
     height: 80%;
-}
+  }
 
-.MatcWidgetTypeChatInput {
+  .MatcWidgetTypeChatInput {
     width: 100%;
     box-sizing: border-box;
     resize: none;
@@ -94,17 +92,22 @@
     font: inherit;
     color: inherit;
     border: none;
-}
+  }
 
-.MatcWidgetTypeChatInput::placeholder {
+  .MatcWidgetTypeChatInput::placeholder {
     opacity: 0.5;
     color: inherit;
-}
+  }
 
-.MatcWidgetTypeChatInputPlaceholder {
+  .MatcWidgetTypeChatInputPlaceholder {
     opacity: 0.5;
+  }
+
+  .MatcWidgetTypeChatCntrCenter::after {
+    flex-grow: 1;
+  }
 }
 
-.MatcWidgetTypeChatCntrCenter::after {
-    flex-grow: 1;
+.MatcCreateBtnElement .MatcWidgetTypeChat {
+  background: #fff;
 }

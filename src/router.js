@@ -228,6 +228,10 @@ export default new VueRouter({
     {
       path: '/test/VoiceRecorder.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/VoiceRecorderTest.vue')
+    },
+    {
+      path: '/test/ChatSettings.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/ChatSettingsTest.vue')
     }
   ]
 })

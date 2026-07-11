@@ -50,4 +50,20 @@
     .MatcDataTable {
         width: 100%;
     }
+
+
+}
+
+.MatcDialogTable .form-control {
+    background: none;
+    border: 1px solid transparent;
+
+    &:hover {
+        border: 1px solid #c4c3c3;
+    }
+
+    &:focus {
+        border: 1px solid #b4b3b3;
+        background: white;
+    }
 }
