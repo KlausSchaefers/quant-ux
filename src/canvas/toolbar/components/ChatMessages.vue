@@ -6,7 +6,7 @@
             <thead>
                 <tr class="MatcFormRow">   
                     <th>Message</th>
-                    <th style="width:70px;">User</th>
+                    <th style="width:70px;" v-if="!selectedRole">User</th>
                     <th style="width:50px"></th>
                 </tr>
             </thead>
@@ -27,7 +27,7 @@
                                 @change="onChange" />
                         </div>
                     </td>
-                    <td>
+                    <td v-if="!selectedRole">
                         <CheckBox :value="message.role === 'user'" label=""
                             @change="setRole(message, $event)" />
                     </td>
@@ -41,7 +41,7 @@
                     <td colspan="2">
                         <span class="MatcButton MatcButtonXS" @click="addMessage">Add Message</span>
                     </td>
-                    <td></td>
+                    <td v-if="!selectedRole"></td>
                 </tr>
 
             </tbody>
@@ -69,6 +69,10 @@ export default {
         value: {
             type: Array,
             default: () => []
+        },
+        selectedRole: {
+            type: String,
+            default: null
         },
         placeholder: {
             type: String,
@@ -100,9 +104,13 @@ export default {
             this.onChange()
         },
         addMessage () {
-            const role = this.messages.length > 0
+            let role = this.messages.length > 0
                 ? (this.messages[this.messages.length - 1].role === 'user' ? 'assistant' : 'user')
                 : 'assistant'
+
+            if (this.selectedRole) {
+                role = this.selectedRole
+            }
             this.messages.push({
                 type: 'message',
                 role: role,

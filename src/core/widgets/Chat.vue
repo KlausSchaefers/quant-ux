@@ -68,6 +68,9 @@ export default {
       this.log = new Logger("Chat");
       this.db = new DomBuilder();
       this._messageNodes = [];
+      this._responseTimer = null;
+      this._typingNode = null;
+      this._responseIndex = 0;
 
       this._borderNodes = [this.$refs.inputCntr];
       this._backgroundNodes = [this.$refs.inputCntr];
@@ -105,45 +108,58 @@ export default {
         this.$refs.input.style.height = this.getZoomed(style.inputHeight, this._scaleY) + "px";
       }
 
-      const fontSize = this.getZoomed(style.fontSize, this._scaleY) + 'px'
-      
       this.$refs.button.style.background = style.messageButtonBackground;
       this.$refs.button.style.color = style.messageButtonColor;
       this.$refs.button.style.borderRadius = this.getZoomed(style.borderTopRightRadius ? style.borderTopRightRadius : 0, this._scaleX) + "px";
 
-      const radius = this.getZoomed(style.messageRadius ? style.messageRadius : 0, this._scaleX);
       for (let i = 0; i < this._messageNodes.length; i++) {
         const node = this._messageNodes[i];
-        const bubble = node.bubble;
-        if (node.role === "user") {
-          bubble.style.background = style.messageUserBackground;
-          bubble.style.color = style.messageUserColor;
-        } else {
-          bubble.style.background = style.messageAssistantBackground;
-          bubble.style.color = style.messageAssistantColor;
-        }
-        /**
-         * All corners are rounded, except the one pointing towards the
-         * speaker: top-left for the assistant, top-right for the user.
-         */
-        bubble.style.borderRadius = radius + "px";
-        if (this.model.props.messageAsBubble) {
-          if (node.role === "user") {
-            bubble.style.borderTopRightRadius = "0px";
-          } else {
-            bubble.style.borderTopLeftRadius = "0px";
-          }
-        }
-
-        this._setShadow(bubble, style.boxShadow);
-
-        bubble.style.paddingTop = this._getBorderWidth(style.paddingTop) + "px";
-        bubble.style.paddingBottom = this._getBorderWidth(style.paddingBottom) + "px";
-        bubble.style.paddingLeft = this._getBorderWidth(style.paddingLeft) + "px";
-        bubble.style.paddingRight = this._getBorderWidth(style.paddingRight) + "px";
-
-        bubble.style.fontSize = fontSize 
+        this.applyBubbleStyle(node.bubble, node.role);
       }
+
+      if (this._typingNode) {
+        this.applyBubbleStyle(this._typingNode.bubble, "assistant");
+      }
+    },
+
+    /**
+     * Apply the message* styles from the JSON to a single message bubble,
+     * depending on the role. Shared by the rendered messages and the
+     * animated "typing" indicator.
+     */
+    applyBubbleStyle(bubble, role) {
+      const style = this.style;
+      const radius = this.getZoomed(style.messageRadius ? style.messageRadius : 0, this._scaleX);
+      const fontSize = this.getZoomed(style.fontSize, this._scaleY) + "px";
+
+      if (role === "user") {
+        bubble.style.background = style.messageUserBackground;
+        bubble.style.color = style.messageUserColor;
+      } else {
+        bubble.style.background = style.messageAssistantBackground;
+        bubble.style.color = style.messageAssistantColor;
+      }
+      /**
+       * All corners are rounded, except the one pointing towards the
+       * speaker: top-left for the assistant, top-right for the user.
+       */
+      bubble.style.borderRadius = radius + "px";
+      if (this.model.props.messageAsBubble) {
+        if (role === "user") {
+          bubble.style.borderTopRightRadius = "0px";
+        } else {
+          bubble.style.borderTopLeftRadius = "0px";
+        }
+      }
+
+      this._setShadow(bubble, style.boxShadow);
+
+      bubble.style.paddingTop = this._getBorderWidth(style.paddingTop) + "px";
+      bubble.style.paddingBottom = this._getBorderWidth(style.paddingBottom) + "px";
+      bubble.style.paddingLeft = this._getBorderWidth(style.paddingLeft) + "px";
+      bubble.style.paddingRight = this._getBorderWidth(style.paddingRight) + "px";
+      // to to set because of MD
+      bubble.style.fontSize = fontSize;
     },
 
     setValue(value) {
@@ -276,6 +292,79 @@ export default {
         input.value = "";
         this.scrollToBottom();
         this.emitDataBinding(this.value);
+        this.scheduleResponse();
+      }
+    },
+
+    /**
+     * After the user submits a message, show an animated typing bubble for
+     * props.waitingTime (default 1000ms) and then append one of the canned
+     * responses from props.responses.
+     */
+    scheduleResponse() {
+      const response = this.pickResponse();
+      if (!response) {
+        return;
+      }
+      const waitingTime = this.model.props.waitingTime ? this.model.props.waitingTime : 1000;
+      this.showTyping();
+      if (this._responseTimer) {
+        clearTimeout(this._responseTimer);
+      }
+      this._responseTimer = setTimeout(lang.hitch(this, function() {
+        this._responseTimer = null;
+        this.removeTyping();
+        this.value.push(response);
+        this.renderMessages(this.value);
+        this.setChatStyle(this.style);
+        this.scrollToBottom();
+        this.emitDataBinding(this.value);
+      }), waitingTime);
+    },
+
+    /**
+     * Pick the next response from props.responses, walking the list from the
+     * beginning until it is exhausted. Returns a clone so the template data
+     * is not mutated, or null once all responses have been used.
+     */
+    pickResponse() {
+      const responses = this.model.props.responses;
+      if (!Array.isArray(responses) || this._responseIndex >= responses.length) {
+        return null;
+      }
+      const response = responses[this._responseIndex];
+      this._responseIndex++;
+      return lang.clone(response);
+    },
+
+    /**
+     * Render an animated assistant bubble with three bouncing dots while
+     * we "wait" for the response.
+     */
+    showTyping() {
+      this.removeTyping();
+      const cntr = this.$refs.messages;
+      const row = this.db
+        .div("MatcWidgetTypeChatRow MatcWidgetTypeChatRowAssistant")
+        .build(cntr);
+      const bubble = this.db
+        .div("MatcWidgetTypeChatBubble MatcWidgetTypeChatTyping")
+        .build(row);
+      this.db.span("MatcWidgetTypeChatTypingDot").build(bubble);
+      this.db.span("MatcWidgetTypeChatTypingDot").build(bubble);
+      this.db.span("MatcWidgetTypeChatTypingDot").build(bubble);
+      this._typingNode = { row: row, bubble: bubble };
+      this.applyBubbleStyle(bubble, "assistant");
+      this.scrollToBottom();
+    },
+
+    removeTyping() {
+      if (this._typingNode) {
+        const row = this._typingNode.row;
+        if (row && row.parentNode) {
+          row.parentNode.removeChild(row);
+        }
+        this._typingNode = null;
       }
     },
 
@@ -307,6 +396,12 @@ export default {
       this.setChatStyle(this.style);
     }
   },
-  mounted() {}
+  mounted() {},
+  beforeDestroy() {
+    if (this._responseTimer) {
+      clearTimeout(this._responseTimer);
+      this._responseTimer = null;
+    }
+  }
 };
 </script>

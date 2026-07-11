@@ -15,6 +15,7 @@
 			"label": "Type a message",
 			"placeholder": false,
 			"messageAsBubble": true,	
+			"waitingTime": 1000,
 			"value": [
 				{					
 					"type": "message",
@@ -112,7 +113,7 @@
 				{					
 					"type": "message",
 					"role": "assistant",
-					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
+					"content": "**Lorem** ipsum __dolor__ sit amet, consectetur adipiscing elit! \n\n **Sed** do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n"
 				}				
 			],
 			"responses": [

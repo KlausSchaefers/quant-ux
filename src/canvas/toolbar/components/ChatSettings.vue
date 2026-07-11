@@ -4,8 +4,8 @@
 
         <div class="MatcToolbarTabs MatcToolbarTabsBig">
             <a @click="tab = 'messages'" :class="{ 'MatcToolbarTabActive': tab === 'messages' }">Messages</a>
-             <a @click="tab = 'responses'" :class="{ 'MatcToolbarTabActive': tab === 'responses' }">Responses</a>
-            <a @click="tab = 'ai'" :class="{ 'MatcToolbarTabActive': tab === 'ai' }">AI</a>
+            <a @click="tab = 'responses'" :class="{ 'MatcToolbarTabActive': tab === 'responses' }">Responses</a>
+            <!-- <a @click="tab = 'ai'" :class="{ 'MatcToolbarTabActive': tab === 'ai' }">AI</a> -->
         </div>
 
         <div class="">
@@ -16,7 +16,7 @@
 
 
             <div v-if="tab === 'responses'" class="">
-                <ChatMessages :value="responses" @change="onChangeResponses" class="MatcMarginTop" />
+                <ChatMessages :value="responses" @change="onChangeResponses" class="MatcMarginTop" :selectedRole="'assistant'"/>
             </div>
 
 
