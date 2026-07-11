@@ -14,17 +14,6 @@
     box-sizing: border-box;
   }
 
-  /**
- * Bottom spacer. It collapses (flex-grow: 0) in the default layout so the
- * input sits at the bottom, and grows to match the messages area in the
- * "center" layout so the input is centered. Animating flex-grow lets the
- * input glide between the two positions.
- */
-  .MatcWidgetTypeChatCntr::after {
-    content: "";
-    flex: 0 1 0;
-    transition: flex-grow 0.3s ease;
-  }
 
   .MatcWidgetTypeChatMessages {
     flex: 1 1 auto;

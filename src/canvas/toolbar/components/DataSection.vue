@@ -278,7 +278,10 @@ export default {
 
 			this._renderSubSection()
 			this._renderInputDropDown("Input Height", model, [
-				32, 64, 96, 128
+				{label: 'Hidden', value: 0},
+				{label: '32', value: 32},
+				{label: '64', value: 64},
+				{label: '128', value: 128}
 			], "inputHeight", false);
 
 			this._renderInputDropDown("Message Radius", model, [
@@ -1922,9 +1925,7 @@ export default {
 		},
 
 		setChatSettings (dialog, settings) {
-			console.debug(settings)
-			const value = settings.getValue()
-	
+			const value = settings.getValue()	
 			this.emit("propertyMultiChange", {
 				value: value.value,
 				responses: value.responses

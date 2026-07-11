@@ -2,7 +2,7 @@
   <div class="MatcWidgetTypeChat">
     <div :class="['MatcWidgetTypeChatCntr', {'MatcWidgetTypeChatCntrCenter': isCentered} ]" ref="cntr">
       <div class="MatcWidgetTypeChatMessages" ref="messages"></div>
-      <div class="MatcWidgetTypeChatInputCntr" ref="inputCntr">
+      <div class="MatcWidgetTypeChatInputCntr" ref="inputCntr" v-show="isInputVisible">
         <textarea
           v-if="mode === 'simulator'"
           class="MatcWidgetTypeChatInput"
@@ -47,6 +47,12 @@ export default {
   },
   components: {},
   computed: {
+    isInputVisible () {
+      if (this.model && this.model.style && this.model.style) {
+        return this.model.style.inputHeight > 0;
+      }
+      return true
+    },
     placeholder() {
       if (this.model && this.model.props && this.model.props.label) {
         return this.model.props.label;
@@ -102,6 +108,7 @@ export default {
     setChatStyle(style) {
       const gap = (style.gap ? style.gap : 8) * this._scaleX;
       this.$refs.messages.style.gap = Math.round(gap) + "px";
+      this.$refs.cntr.style.gap = Math.round(gap) + "px";
       
 
       if (style.inputHeight) {
@@ -294,6 +301,7 @@ export default {
         this.emitDataBinding(this.value);
         this.scheduleResponse();
       }
+      this.emitStateChange("chat", this.value, null, false);
     },
 
     /**
@@ -369,8 +377,19 @@ export default {
     },
 
     scrollToBottom() {
-      const cntr = this.$refs.messages;
-      cntr.scrollTop = cntr.scrollHeight;
+      this.$nextTick(() => {
+        if (this._messageNodes.length > 0) {
+          const last = this._messageNodes[this._messageNodes.length-1]
+          if (last.row) {
+            last.row.scrollIntoViewIfNeeded(true)
+          }
+    
+        } else {
+          const cntr = this.$refs.messages;
+          cntr.scrollTop = cntr.scrollHeight + 100;
+        }
+      })
+
     },
 
     getValue() {
@@ -392,7 +411,17 @@ export default {
     },
 
     _setDataBindingValue(v) {
+      if (v.toLowerCase) {
+        const temp = this.value || []
+        console.debug(temp)
+        temp.push({
+          role: 'user',
+          content: v
+        })
+        v = temp
+      }
       this.setValue(v);
+      this.scrollToBottom();
       this.setChatStyle(this.style);
     }
   },

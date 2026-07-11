@@ -1,7 +1,7 @@
 
 <template>
     <div class="MatcChatMessageEditor MatcDialogTable MatcDialogTableScrollable">
-
+    
         <table class="MatcToolbarTableSettingsTable">
             <thead>
                 <tr class="MatcFormRow">   
@@ -38,10 +38,19 @@
 
                 <tr class="MatcFormRow">
 
-                    <td colspan="2">
-                        <span class="MatcButton MatcButtonXS" @click="addMessage">Add Message</span>
+                    <td >
+                             <div class="MatcFormRowDND">
+                            <QIcon icon="HandleDND" @mouseover="isDraggable = true" @mouseout="isDraggable = false" />
+                            <textarea class="MatcChatMessageInput MatcIgnoreOnKeyPress form-control"
+                                v-model="newMessageContent"
+                                :placeholder="placeholder"
+                                @change="onAddNewMessage" />
+                            </div>
                     </td>
-                    <td v-if="!selectedRole"></td>
+                    <td v-if="!selectedRole">
+                        <CheckBox v-model="newMessageRole" label="" />
+                    </td>
+                    <td></td>
                 </tr>
 
             </tbody>
@@ -52,7 +61,7 @@
 
 <style lang="scss">
     @import "../../../style/toolbar/chat_message.scss";
-    	@import '../../../style/components/toolbar_table.scss';
+    @import '../../../style/components/toolbar_table.scss';
 </style>
 
 <script>
@@ -76,7 +85,7 @@ export default {
         },
         placeholder: {
             type: String,
-            default: 'Type a message'
+            default: 'Type a message to add'
         }
     },
     data: function () {
@@ -84,6 +93,8 @@ export default {
             messages: [],
             dragRow: -1,
             hoverRow: -1,
+            newMessageContent: '',
+            newMessageRole: 'user',
             isDraggable: false
         }
     },
@@ -101,6 +112,26 @@ export default {
         },
         onInput (message, e) {
             message.content = e.target.value
+            this.onChange()
+        },
+        onAddNewMessage () {
+            console.debug(this.newMessageContent)
+            if (this.newMessageContent === '') {
+                return
+            }
+
+            let role = this.newMessageRole ? 'user': 'assitant'
+            if (this.selectedRole) {
+                role = this.selectedRole
+            }
+
+            this.messages.push({
+                type: 'message',
+                role: role,
+                content: this.newMessageContent
+            })
+            this.newMessageContent = ''
+            this.newMessageRole = !this.newMessageRole
             this.onChange()
         },
         addMessage () {
