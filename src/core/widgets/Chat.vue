@@ -173,8 +173,12 @@ export default {
       if (!Array.isArray(value)) {
         value = [];
       }
-      this.value = value;
-      this.renderMessages(value);
+      /**
+       * Clone, so the pushes in onEnterPressed() and scheduleResponse()
+       * do not mutate the model.
+       */
+      this.value = lang.clone(value);
+      this.renderMessages(this.value);
     },
 
     /**
@@ -222,6 +226,11 @@ export default {
           this.own(on(input, "focus", lang.hitch(this, "onFocus")));
           this.own(on(input, "blur", lang.hitch(this, "onBlur")));
           this.own(this.addClickListener(this.$refs.button, lang.hitch(this, "onSendClick")));
+          if (window.visualViewport) {
+            this._viewportListener = lang.hitch(this, "onViewportChange");
+            window.visualViewport.addEventListener("resize", this._viewportListener);
+            window.visualViewport.addEventListener("scroll", this._viewportListener);
+          }
         }
       }
       this.wired = true;
@@ -245,6 +254,39 @@ export default {
       this.hasFocus = false;
       if (this.model.focus) {
         this.emitAnimation(this.model.id, 200, this.model.style);
+      }
+      this.resetKeyboardMargin();
+    },
+
+    /**
+     * On mobile the on-screen keyboard shrinks the visual viewport. If that
+     * pushes the top of the widget above the visible area, add a margin to
+     * the messages so they are moved back into the view. The keyboard is
+     * considered open while the input has focus and the viewport lost a
+     * significant part of its height.
+     */
+    onViewportChange() {
+      const viewport = window.visualViewport;
+      const messages = this.$refs.messages;
+      if (!viewport || !messages) {
+        return;
+      }
+      const keyboardIsOpen = this.hasFocus && viewport.height < window.innerHeight * 0.75;
+      if (keyboardIsOpen) {
+        const top = this.$el.getBoundingClientRect().top;
+        const hidden = viewport.offsetTop - top;
+        if (hidden > 0) {
+          messages.style.marginTop = Math.round(hidden) + "px";
+          this.scrollToBottom();
+          return;
+        }
+      }
+      this.resetKeyboardMargin();
+    },
+
+    resetKeyboardMargin() {
+      if (this.$refs.messages) {
+        this.$refs.messages.style.marginTop = "";
       }
     },
 
@@ -430,6 +472,11 @@ export default {
     if (this._responseTimer) {
       clearTimeout(this._responseTimer);
       this._responseTimer = null;
+    }
+    if (this._viewportListener && window.visualViewport) {
+      window.visualViewport.removeEventListener("resize", this._viewportListener);
+      window.visualViewport.removeEventListener("scroll", this._viewportListener);
+      this._viewportListener = null;
     }
   }
 };
