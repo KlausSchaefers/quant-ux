@@ -300,6 +300,11 @@ export default {
 			this._renderBoxColor("Button", model, "messageButtonBackground", "messageButtonColor");
 		},
 
+		_showChatTextBox (model){
+			this._setSectionLabel("Chat TextBox");
+			this._renderBoxColor("Button", model, "messageButtonBackground", "messageButtonColor");
+		},
+
 
 		_showRepeater (model){
 			this._setSectionLabel("Repeater");

@@ -107,6 +107,10 @@ export default {
 			this._renderDataBinding(model, true);
 		},
 
+		_showChatTextBox (model) {
+			this._renderDataBinding(model, true);
+		},
+
 		_showImagePaging (model) {
 			this._renderDataBinding(model, false);
 		},
