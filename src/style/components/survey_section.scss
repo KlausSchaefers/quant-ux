@@ -8,6 +8,7 @@
   }
 
   table {
+    table-layout: auto;
 
     font-size: $font-size-s;
 
@@ -31,6 +32,7 @@
     }
 
     .MatcSurveySectionTableLabel{
+      display: block;
       width: 80px;
       text-align: left;
       text-overflow: ellipsis;
@@ -38,9 +40,18 @@
       overflow: hidden;
     }
 
+  
+    .MatcSurveySectionTableColLabel {
+      display: block;
+      max-width: 100%;
+      text-align: left;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+      overflow: hidden;
+    }
 
     .MatcSurveySectionTableNumber{
-      width: 40px;
+      //width: 40px;
       text-align: center;
     }
 

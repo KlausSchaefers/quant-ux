@@ -1,0 +1,60 @@
+[
+	{
+		"id": "ChatTextBox",
+		"type": "ChatTextBox",
+		"_type": "Widget",
+		"category": "Advanced",
+		"subcategory": "AFormInput",
+		"name": "Chat TextBox",
+		"x": 0,
+		"y": 0,
+		"w": "@form-width",
+		"h": "@box-height-l",
+		"z": 0,
+		"props": {
+			"label": "Type a message",
+			"placeholder": false,
+			"messageAsBubble": true,	
+			"waitingTime": 1000,
+			"value": ""			
+		},
+		"has": {
+			"label": true,
+			"backgroundColor": true,
+			"border": true,
+			"editable": true,
+			"onclick": true,
+			"padding": true
+		},
+		"style": {
+			"fontSize": "@font-size-m",
+			"fontFamily": "@font-family",
+			"textAlign": "left",
+			"letterSpacing": "@letterSpacing",
+			"lineHeight": "@lineHeight",
+			"background": "@form-background",
+			"color": "@form-color",
+			"borderRadius": "@border-radius",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",
+			"paddingBottom": "@form-padding-horizontal",
+			"paddingTop": "@form-padding-horizontal",
+			"paddingLeft": "@form-padding-horizontal",
+			"paddingRight": "@form-padding-horizontal",
+			"messageButtonBackground": "@button-primary-background",
+			"messageButtonColor": "@button-primary-color"
+		},
+		"focus": {
+			"borderWidth": "@border-width:focus",
+			"borderColor": "@form-border-color:focus",
+			"background": "@form-background:focus",
+			"color": "@form-color:focus"
+		},
+		"hover": {
+			"borderColor": "@form-border-color:hover",
+			"background": "@form-background:hover",
+			"color": "@form-color:hover"
+		}
+	}
+]

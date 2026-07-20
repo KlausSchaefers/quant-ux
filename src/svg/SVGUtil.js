@@ -13,7 +13,7 @@ export function rotate(path, angle) {
         p.x = newPoint.x
         p.y = newPoint.y
         
-        if (p.t === 'C') {
+        if (p.t === 'C' || p.t === 'CZ') {
             const point1 = new DOMPoint(p.x1, p.y1)
             const newPoint1 = matrix.transformPoint(point1)
             p.x1 = Math.round(newPoint1.x) 
@@ -85,7 +85,7 @@ export function getRelativePaths (bbox, selected) {
     return selected.map(element => {
         if (element.type === 'Path') {
             return element.d.map(point => {
-                if (point.t === 'C') {
+                if (point.t === 'C' || point.t === 'CZ') {
                     return {
                         x: (point.x - bbox.x) / bbox.w,
                         y: (point.y - bbox.y) / bbox.h,
@@ -121,7 +121,7 @@ export function getZoomedPaths(paths, zoom) {
             const point = points[i];
             point.x = round(point.x * zoom)
             point.y = round(point.y * zoom)
-            if (point.t === 'C') {
+            if (point.t === 'C' || point.t === 'CZ') {
                 point.x1 = round(point.x1 * zoom)
                 point.y1 = round(point.y1 * zoom)
                 point.x2 = round(point.x2 * zoom)
@@ -221,6 +221,9 @@ export function getBBox(element) {
 
 export function getBBoxes(elements) {
     const result = []
+    if (!elements) {
+        return result
+    }
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i]
         result.push(getBBox(element))
@@ -301,7 +304,7 @@ export function strechPaths(paths, sourceBox, currentBox) {
             const point = points[i];
             point.x = Math.round(point.x * scaleW)
             point.y = Math.round(point.y * scaleH)
-            if (point.t === 'C') {
+            if (point.t === 'C' || point.t === 'CZ') {
                 point.x1 = Math.round(point.x1 * scaleW)
                 point.y1 = Math.round(point.y1 * scaleH)
                 point.x2 = Math.round(point.x2 * scaleW)
@@ -328,7 +331,7 @@ export function scalePathsByBox (paths, from, to) {
                 const relY = (point.y - from.y) / from.h
                 point.y = Math.round(to.y + to.h * relY)
 
-                if (point.t === 'C') {
+                if (point.t === 'C' || point.t === 'CZ') {
                     const relX1 = (point.x1 - from.x) / from.w
                     point.x1 = Math.round(to.x + to.w * relX1)
 
@@ -359,7 +362,7 @@ export function translatePathsByBox (paths, from, to) {
             element.d.forEach(point => {
                 point.x += difX
                 point.y += difY
-                if (point.t === 'C') {
+                if (point.t === 'C' || point.t === 'CZ') {
                     point.x1 += difX
                     point.y1 += difY
                     point.x2 += difX
@@ -379,7 +382,7 @@ export function addBoundingBox (paths, bbox) {
             const point = points[i];
             point.x += bbox.x
             point.y += bbox.y
-            if (point.t === 'C') {
+            if (point.t === 'C' || point.t === 'CZ') {
                 point.x1 += bbox.x
                 point.y1 += bbox.y
                 point.x2 += bbox.x
@@ -400,7 +403,7 @@ export function removeBoundingBox (paths, bbox) {
             const point = points[i];
             point.x -= bbox.x
             point.y -= bbox.y
-            if (point.t === 'C') {
+            if (point.t === 'C' || point.t === 'CZ') {
                 point.x1 -= bbox.x
                 point.y1 -= bbox.y
                 point.x2 -= bbox.x
@@ -451,14 +454,37 @@ export function filterTempPoints(d) {
 export function filterDouble(d) {
     return d.filter((p, i) => {
         const next = d[i+1]
-        if (next) {      
+        if (next) {
             if ((next.x === p.x && next.y === p.y)) {
-                console.warn('SVGUtil.filterDouble() > remove ',i)
+                //console.warn('SVGUtil.filterDouble() > remove ',i)
             }
             return !(next.x === p.x && next.y === p.y)
         }
         return true
     })
+}
+
+/**
+ * Makes sure a path is still valid after points have been removed. A path
+ * must always start with a 'M' (move) command, so if the original first
+ * point was deleted, the new first point is promoted to 'M' (dropping the
+ * bezier control points, which a move does not use). Any trailing close
+ * ('Z' / 'CZ') that ended up as the first point is turned into a plain 'M'
+ * as well.
+ */
+export function normalizePath(d) {
+    if (!d || d.length === 0) {
+        return d
+    }
+    const first = d[0]
+    if (first.t !== 'M') {
+        first.t = 'M'
+        delete first.x1
+        delete first.y1
+        delete first.x2
+        delete first.y2
+    }
+    return d
 }
 
 
@@ -572,7 +598,7 @@ export function addBezierPoints (path, pos, offset) {
 
     const witdhHeight = offset * 2
     const current = path.d[pos]
-    if (current && current.t === 'C') {
+    if (current && (current.t === 'C' || current.t === 'CZ')) {
         points.push({
             id: 'x2',
             parent: pos,
@@ -585,7 +611,7 @@ export function addBezierPoints (path, pos, offset) {
         })
     }
     const next = path.d[pos + 1]
-    if (next && next.t === 'C') {
+    if (next && (next.t === 'C' || next.t === 'CZ')) {
         points.push({
             id: 'x1',
             parent: pos + 1,
@@ -685,52 +711,179 @@ export function getMarkers(paths, prefix) {
 
 export function splitPathAt(path, index, pos, slopeApSplitPoint, allowBezier = false) {
     const endPoint = path.d[index +1]
-    // here is still some bug. The split point might be some rounded thing. 
-    // I dially 
-    const newPoint = {
-        t: 'L',
-        x: Math.round(pos.x),
-        y: Math.round(pos.y)
-    }
-    path.d.splice(index + 1, 0,newPoint)
+    const isCurve = endPoint && (endPoint.t === 'C' || endPoint.t === 'CZ')
+    // create the point with all bezier props, so they are reactive once the
+    // point is inserted and (optionally) turned into a bezier point
+    const newPoint = createPoint('L', Math.round(pos.x), Math.round(pos.y))
+    path.d.splice(index + 1, 0, newPoint)
 
-    if (endPoint && endPoint.t === 'C' && allowBezier) {
-        makeBezierPoint(path, index + 1, slopeApSplitPoint)
+    if (isCurve && allowBezier) {
+        makeBezierPoint(path, index + 1)
     }
     return path
 }
 
-export function makeBezierPoint(path, index, slopeApSplitPoint, factor = 0.66) {
+/**
+ * Creates a path point that always has the bezier control points (x1/y1/x2/y2)
+ * defined. This is important for Vue reactivity: a property that is added to a
+ * point *after* it was made reactive (e.g. when an 'L' point is turned into a
+ * 'C' point) would not be observed and the rendering would not update. By
+ * creating the points complete from the start, every later change is reactive.
+ */
+export function createPoint(t, x, y) {
+    return {
+        t: t,
+        x: x,
+        y: y,
+        x1: x,
+        y1: y,
+        x2: x,
+        y2: y
+    }
+}
+
+/**
+ * Removes the bezier control points (x1/y1/x2/y2) from all non-curve points.
+ * completePaths() adds them everywhere for reactivity, but only 'C'/'CZ' points
+ * actually use them, so we strip them again before the value is saved to keep
+ * the serialized data clean. Should be called on a clone, not the reactive value.
+ */
+export function stripBezierControls(paths) {
+    if (!paths) {
+        return paths
+    }
+    paths.forEach(path => {
+        if (path.d) {
+            path.d.forEach(point => {
+                if (point.t !== 'C' && point.t !== 'CZ') {
+                    delete point.x1
+                    delete point.y1
+                    delete point.x2
+                    delete point.y2
+                }
+            })
+        }
+    })
+    return paths
+}
+
+/**
+ * Makes sure every point of every path has the bezier control points defined,
+ * so they are reactive. Must be called *before* the paths are assigned to the
+ * reactive `value`, as Vue only observes properties that exist at that point.
+ */
+export function completePaths(paths) {
+    if (!paths) {
+        return paths
+    }
+    paths.forEach(path => {
+        if (path.d) {
+            path.d.forEach(point => {
+                if (point.x1 === undefined) point.x1 = point.x
+                if (point.y1 === undefined) point.y1 = point.y
+                if (point.x2 === undefined) point.x2 = point.x
+                if (point.y2 === undefined) point.y2 = point.y
+            })
+        }
+    })
+    return paths
+}
+
+/**
+ * Turns the freshly inserted point at `index` into a bezier point that
+ * splits the surrounding cubic curve without changing its shape. The
+ * original segment goes from `before` (P0) to `next` (P3), with the
+ * control points stored on `next` (x1/y1 = P1, x2/y2 = P2). We locate the
+ * curve parameter `t` that matches the split location and apply De
+ * Casteljau's algorithm, so the new point (and its handles) align with the
+ * original curve instead of using fixed offsets.
+ */
+export function makeBezierPoint(path, index) {
     const point = path.d[index]
     const before = path.d[index - 1]
     const next = path.d[index + 1]
+    if (!before || !next) {
+        return
+    }
+
+    const p0 = {x: before.x, y: before.y}
+    const p1 = {x: next.x1, y: next.y1}
+    const p2 = {x: next.x2, y: next.y2}
+    const p3 = {x: next.x, y: next.y}
+
+    const t = getCubicParameterForPoint(p0, p1, p2, p3, point)
+
+    // De Casteljau split at t
+    const a = lerpPoint(p0, p1, t)
+    const b = lerpPoint(p1, p2, t)
+    const c = lerpPoint(p2, p3, t)
+    const d = lerpPoint(a, b, t)
+    const e = lerpPoint(b, c, t)
+    const f = lerpPoint(d, e, t) // the point on the curve at t
+
+    // first half (p0, a, d, f) is stored on the new point
     point.t = 'C'
-    if (before) {
-        const difX1 = next.x1 - before.x
-        const difY1 = next.y1 - before.y
-        point.x1 = before.x + difX1 * factor
-        point.y1 = before.y + difY1 * factor
+    point.x1 = Math.round(a.x)
+    point.y1 = Math.round(a.y)
+    point.x2 = Math.round(d.x)
+    point.y2 = Math.round(d.y)
+    point.x = Math.round(f.x)
+    point.y = Math.round(f.y)
 
-        //const difX2 = point.x - before.x
-        //const difY2 = point.y - before.y
-        point.x2 = point.x - 20
-        point.y2 = point.y
+    // second half (f, e, c, p3) updates the following point.
+    // p3 (next.x/next.y) stays the same, so the curve end is kept.
+    next.x1 = Math.round(e.x)
+    next.y1 = Math.round(e.y)
+    next.x2 = Math.round(c.x)
+    next.y2 = Math.round(c.y)
+}
+
+function lerpPoint(a, b, t) {
+    return {
+        x: a.x + (b.x - a.x) * t,
+        y: a.y + (b.y - a.y) * t
     }
+}
 
-    if (next) {
-
-        next.x1 = point.x + 20
-        next.y1 = point.y
-
-        const difX2 = next.x2 - next.x
-        const difY2 = next.y2 - next.y
-        next.x2 = next.x + difX2 * factor
-        next.y2 = next.y + difY2 * factor
-
+function cubicAt(p0, p1, p2, p3, t) {
+    const mt = 1 - t
+    const a = mt * mt * mt
+    const b = 3 * mt * mt * t
+    const c = 3 * mt * t * t
+    const d = t * t * t
+    return {
+        x: a * p0.x + b * p1.x + c * p2.x + d * p3.x,
+        y: a * p0.y + b * p1.y + c * p2.y + d * p3.y
     }
+}
 
-   
-
+/**
+ * Finds the parameter t in [0,1] of the cubic bezier that is closest to the
+ * `target` point. Uses a coarse sampling that is refined in a few passes.
+ */
+function getCubicParameterForPoint(p0, p1, p2, p3, target) {
+    let lo = 0
+    let hi = 1
+    let bestT = 0
+    const steps = 100
+    for (let pass = 0; pass < 3; pass++) {
+        let bestDist = Infinity
+        for (let i = 0; i <= steps; i++) {
+            const t = lo + (hi - lo) * (i / steps)
+            const p = cubicAt(p0, p1, p2, p3, t)
+            const dx = p.x - target.x
+            const dy = p.y - target.y
+            const dist = dx * dx + dy * dy
+            if (dist < bestDist) {
+                bestDist = dist
+                bestT = t
+            }
+        }
+        const range = (hi - lo) / steps
+        lo = Math.max(0, bestT - range)
+        hi = Math.min(1, bestT + range)
+    }
+    return bestT
 }
 
 export function getBezierSlope(svg, index) {
@@ -738,6 +891,96 @@ export function getBezierSlope(svg, index) {
     const b = svg.getPointAtLength(index + 1)
     return {
         x: (b.x - a.x),
-        y: (b.y - a.y) 
+        y: (b.y - a.y)
     }
+}
+
+/**
+ * Takes a dense poly-line path (M + L points), as produced by the
+ * FreeHandTool, and turns it into a smooth cubic bezier path (M + C points).
+ * The points are first simplified (Ramer-Douglas-Peucker) to remove the
+ * noise of the raw mouse recording and then converted with a Catmull-Rom
+ * spline into bezier control points.
+ */
+export function smoothPath (d, tolerance = 2, smoothing = 6) {
+    if (!d || d.length < 3) {
+        return d
+    }
+
+    const isClosed = d[d.length - 1].t === 'Z'
+    // work on the plain x/y points, ignoring the trailing Z marker
+    const raw = (isClosed ? d.slice(0, d.length - 1) : d).map(p => ({x: p.x, y: p.y}))
+    const points = simplifyPoints(raw, tolerance)
+
+    if (points.length < 3) {
+        return d
+    }
+
+    const result = [{t: 'M', x: points[0].x, y: points[0].y}]
+    for (let i = 0; i < points.length - 1; i++) {
+        const p0 = points[i - 1] || points[i]
+        const p1 = points[i]
+        const p2 = points[i + 1]
+        const p3 = points[i + 2] || p2
+        result.push({
+            t: 'C',
+            x1: Math.round(p1.x + (p2.x - p0.x) / smoothing),
+            y1: Math.round(p1.y + (p2.y - p0.y) / smoothing),
+            x2: Math.round(p2.x - (p3.x - p1.x) / smoothing),
+            y2: Math.round(p2.y - (p3.y - p1.y) / smoothing),
+            x: p2.x,
+            y: p2.y
+        })
+    }
+    if (isClosed) {
+        result.push({t: 'Z'})
+    }
+    return result
+}
+
+/**
+ * Ramer-Douglas-Peucker line simplification. Returns a reduced list of
+ * {x,y} points that stay within `tolerance` of the original poly-line.
+ */
+export function simplifyPoints (points, tolerance = 2) {
+    if (points.length < 3) {
+        return points.slice()
+    }
+    const sqTolerance = tolerance * tolerance
+    let maxSqDist = 0
+    let index = 0
+    const last = points.length - 1
+    for (let i = 1; i < last; i++) {
+        const sqDist = getSquareSegmentDistance(points[i], points[0], points[last])
+        if (sqDist > maxSqDist) {
+            index = i
+            maxSqDist = sqDist
+        }
+    }
+    if (maxSqDist > sqTolerance) {
+        const left = simplifyPoints(points.slice(0, index + 1), tolerance)
+        const right = simplifyPoints(points.slice(index), tolerance)
+        return left.slice(0, left.length - 1).concat(right)
+    }
+    return [points[0], points[last]]
+}
+
+function getSquareSegmentDistance (p, a, b) {
+    let x = a.x
+    let y = a.y
+    let dx = b.x - x
+    let dy = b.y - y
+    if (dx !== 0 || dy !== 0) {
+        const t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy)
+        if (t > 1) {
+            x = b.x
+            y = b.y
+        } else if (t > 0) {
+            x += dx * t
+            y += dy * t
+        }
+    }
+    dx = p.x - x
+    dy = p.y - y
+    return dx * dx + dy * dy
 }

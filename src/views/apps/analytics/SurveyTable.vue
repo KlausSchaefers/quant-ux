@@ -8,8 +8,9 @@
               </th>
               <th v-for="group in groups" :key="group.label" :colspan="group.count" class="MatcSurveySectionTableGroupLabel">
                   <span class="MatcSurveySectionTableColLabel" v-if="group.count > 1">
-                    {{group.label}}
+                    {{group.label}} 
                   </span>
+                  
               </th>
               <th v-if="hasTasks" class="MatcSurveySectionTableBorderLeft"></th>
               <th  class="MatcSurveySectionTableBorderLeft MatcSurveySectionTableAction" v-if="hasVideo">X</th>
@@ -53,9 +54,7 @@
             
               </td>
               <template v-for="col in sortedTable.cols" >
-
-                <td :key="col.key"  v-if="col.hidden !== true" >
-      
+                <td :key="col.key"  v-if="col.hidden !== true" >      
                   {{row[col.key]}}
                 </td>
               </template>

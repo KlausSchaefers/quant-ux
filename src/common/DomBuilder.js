@@ -1,5 +1,5 @@
 import css from 'dojo/css'
-
+import sanitizeHtml from 'sanitize-html';
 export default class DomBuilder {
 	constructor() {
 		this.current = null
@@ -384,6 +384,14 @@ export default class DomBuilder {
 		return this.setStyle("fontSize", m + "px");
 	}
 
+	innerHTML(inner) {
+		if (this.current) {
+			const clean = sanitizeHtml(inner)
+			this.current.innerHTML = clean
+		}
+		return this;
+	}
+
 	setStyle(key, value) {
 		if (this.current) {
 			this.current.style[key] = value;
@@ -401,7 +409,6 @@ export default class DomBuilder {
 			s = s.replace(/\n/g, "<br>");
 			s = s.replace(/\$perc;/g, "%");
 		}
-
 		return s;
 	}
 }

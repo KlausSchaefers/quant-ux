@@ -73,6 +73,21 @@
   
     </section>
 
+    <!-- <section data-dojo-attach-point="sectionVoice">
+        <div class="box is-shadowless">
+          <h3 data-nls="testSettingsTasks" class="title">Think-aloud Testing 
+            <HelpButton
+              topic="testing"
+              subtopic="testing.transcribeVoice"
+              :hasNotifications="false"
+            /></h3>
+          <div class="form-group ">
+            <CheckBox :value="test.transcribeVoice" :label="getNLS('testSettingsTranscribeVoice')" @change="setTranscribeVoice"/>
+          </div>
+        </div>  
+    </section> -->
+
+
     <section class="">
  
         <div class="box is-shadowless">
@@ -226,6 +241,11 @@ export default {
       this.test.recordOneTestPerUser = value
       this.onTestChange()
     },
+    setTranscribeVoice(value) {
+      this.test.transcribeVoice = value
+      this.onTestChange()
+    },
+
     async onTestChange() {
       if (this.pub) {
         this.showSuccess("Saved");

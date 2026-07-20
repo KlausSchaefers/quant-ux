@@ -1,0 +1,25 @@
+@import '../variables.scss';
+
+/****************************************************
+* Chat Message Editor
+****************************************************/
+.MatcChatMessageEditor {
+
+    .MatcToolbarTableSettingsTable {
+        width: 100%;
+    }
+
+    .MatcChatMessageInput {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        height: 38px;
+        resize: none;
+        
+ 
+        
+        &:focus {
+            height: 128px;
+        }
+    }
+}

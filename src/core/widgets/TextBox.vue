@@ -165,7 +165,7 @@ export default {
     onChange () {
       // force blur to flush out data binding before
       // any transitions are fired
-      this.onBlur()
+      //this.onBlur()
       const gesture = {
         type: "InputChange"
       };
@@ -174,7 +174,7 @@ export default {
 
 
     onBlur (e) {
-      this.log.log(1, "onBlur", "enter");
+      this.log.log(-1, "onBlur", "enter");
       this.stopPropagation(e);
 
       const v = this._readValue();

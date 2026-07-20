@@ -25,7 +25,7 @@
 
     <section class="section" v-if="!loading && events.length === 0">
       <div class="container">
-        <div class="box is-shadowless MatcWarningBox">
+        <div class="box is-shadowless MatcCardWarning MatcCard">
           <h3 class="title">No data</h3>
           <p>
             You have not performed any test yet, therefore Quant-UX could not collect any data. Once you start testing,

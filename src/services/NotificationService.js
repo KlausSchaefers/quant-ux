@@ -10,6 +10,9 @@ function getDays (user) {
 }
 
 function getDaysSinceLastNotification (user) {
+    if (!user.lastNotification) {
+        return 10
+    }
     const now = new Date().getTime()
     const lastNotification = user.lastNotification ? user.lastNotification : now
     const age = now - lastNotification
@@ -67,8 +70,13 @@ class NotificationService extends AbstractService{
         let addCount = 0
         let maxAdd = getDaysSinceLastNotification(user) > 1 ? 1 : 0
         console.log('getDaysSinceLastNotification', getDaysSinceLastNotification(user))
+    
+        if (maxAdd === 0 && Object.keys(user.notifications).length === 0) {
+             this.logger.log(-1, 'addUserJourneyNotifications', 'New user with zero notifications' )
+            maxAdd = 1
+        }
         if (location.href.indexOf('localhost') > 0) {
-           //maxAdd = 0
+            maxAdd = 100
         }
         this.logger.log(-1, 'addUserJourneyNotifications', `> days since last ${getDaysSinceLastNotification(user)} > maxAdd: ${maxAdd} > Seen notifications:`, user.notifications )
         this.rules.forEach(rule => {
@@ -274,20 +282,6 @@ class NotificationService extends AbstractService{
                 `,
                 title: 'YouTube'
             },
-            // {
-            //     matches (user) {
-            //         return getDays(user) > 3 && !user.image
-            //     },
-            //     id:"ProfilePic",
-            //     img: 'Youtube.png',
-            //     more: `
-            //         Boost the collaboration with your team! You can upload a profile picture in your 
-            //         <a href="#/my-account.html" target="account">Account Settings</a>. This will
-            //         make it easier for others to distinguish your account.
-                   
-            //     `,
-            //     title: 'Add a profile picture'
-            // },
             {
                 matches (user) {
                     return user.loginCount >= 2
@@ -374,8 +368,37 @@ class NotificationService extends AbstractService{
                     You can now also create Labels with a color gradient! Simply select the Label, open the color picker, and choose the gradient option.
                 `,
                 title: 'Create Labels with Color Gradients'
-            }
-            
+            },
+            {
+                matches () {
+                    return true
+                },
+                id:"Chat",
+                img: 'Chat.png',
+                more: `
+                    <p>
+                        We've shipped a new chat widget for testing and showcasing agentic interactions. Mock AI conversations for perfect pitches, design reviews,
+                        or prototyping agent behavior before building anything. Simply drop the "Chat" widget on the canvas to get started!
+                    </p>
+                `,
+                title: 'Design agentic use cases with the chat widget!'
+            },
+            {
+                matches () {
+                    return true
+                },
+                id:"SVG",
+                img: 'SVG.png',
+                more: `
+                    <p>
+                        We've added a suite of new drawing tools to the Vector editor — Freehand, Circle, and more — so you can sketch and shape faster than ever. 
+                        On top of that, the editor now supports path-based animations, 
+                        letting your shapes move, morph, and trace along custom paths. Whether you're prototyping icons or 
+                        building animated illustrations, it's all in one place. Jump in and give the new tools a try.
+                    </p>
+                `,
+                title: 'Improved Vector Editing'
+            }            
         ]
     }
 

@@ -296,43 +296,44 @@
 		  onWidgetFocus (screenID, widgetID){
   
 			  if(has("android")){
+				console.debug(screenID, widgetID)
   
-				  /**
-				   * If there was a blur some seconds ago, it would reset the
-				   * screen size and thus scroll. As we have a new focus element
-				   * we surpress the call.
-				   */
-				  if (this._androidBlurTimeout){
-					  clearTimeout(this._androidBlurTimeout);
-					  delete this._androidBlurTimeout;
-				  }
+				//   /**
+				//    * If there was a blur some seconds ago, it would reset the
+				//    * screen size and thus scroll. As we have a new focus element
+				//    * we surpress the call.
+				//    */
+				//   if (this._androidBlurTimeout){
+				// 	  clearTimeout(this._androidBlurTimeout);
+				// 	  delete this._androidBlurTimeout;
+				//   }
   
-				  var widget = this.model.widgets[widgetID];
-				  var screen = this.model.screens[screenID];
+				//   const widget = this.model.widgets[widgetID];
+				//   const screen = this.model.screens[screenID];
   
-				  if(widget && screen){
-					  /**
-					   * FIXME:
-					   *
-					   * 1) we assume keyboard is roughly 1/3 of screen => get keyboard size
-					   *
-					   * 2) check if we need to scroll => check if we are in viewport somehow currentScrollTop
-					   *
-					   *
-					   */
-					  var y = widget.y - screen.y;
-					  var to = y- (screen.h /3) ;
-					  if(to > 0){
-						  this.domNode.style.height = Math.round(screen.h * 1.4) +"px";
-						  setTimeout(function(){
-							  /**
-							   * can we animate this
-							   */
-							  window.scrollTo(0, to );
-						  },50);
-					  }
+				//   if(widget && screen){
+				// 	  /**
+				// 	   * FIXME:
+				// 	   *
+				// 	   * 1) we assume keyboard is roughly 1/3 of screen => get keyboard size
+				// 	   *
+				// 	   * 2) check if we need to scroll => check if we are in viewport somehow currentScrollTop
+				// 	   *
+				// 	   *
+				// 	   */
+				// 	  const y = widget.y - screen.y;
+				// 	  const to = y- (screen.h /3) ;
+				// 	  if(to > 0){
+				// 		  this.domNode.style.height = Math.round(screen.h * 1.4) +"px";
+				// 		  setTimeout(function(){
+				// 			  /**
+				// 			   * can we animate this
+				// 			   */
+				// 			  window.scrollTo(0, to );
+				// 		  },50);
+				// 	  }
   
-				  }
+				//   }
 			  }
 		  },
   

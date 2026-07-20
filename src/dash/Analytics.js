@@ -65,9 +65,28 @@ export default class {
 
 			if (!widgetColumnNames[w.id]) {
 				widgetTypes[w.id] = w.type
-			
+				
 				if (w.props && w.props.isSurveyElement && w.type !== 'Password') {
-					if (w.type === 'RadioTable') {
+					if (w.type === 'Chat') {
+						let responses = w.props.responses
+						if (responses) {
+							responses = responses.filter(m => m.type !== 'assistant' && m.content).map(m => m.content)
+							
+							widgetColums[w.id] = []
+							responses.forEach((col) => {				
+								widgetColums[w.id].push(col)
+								result.cols.push({
+									hidden: false,
+									key: col,
+									label: col,
+									group: w.name,
+									type: 'data',
+									id: w.id
+								})
+							})
+						}
+					}	
+					else if (w.type === 'RadioTable') {
 						const data = w.props.data
 						if (data) {
 				
@@ -103,7 +122,7 @@ export default class {
 				}
 			}
 		})
-
+		
         result.cols.sort((a,b) => {
           a.group.localeCompare(b.group)
         })
@@ -172,10 +191,15 @@ export default class {
 			sessionEvents.forEach(e => {
 				delete e.user
 				if (app.widgets[e.widget]) {
+		
 					if (e.widget && e.state && widgetColumnNames[e.widget]) {
 						const col = widgetColumnNames[e.widget]
-						
-						if (widgetTypes[e.widget] === 'Rating') {
+
+						if (e.state.type == 'chat' && e.state.value) {			
+							const values = e.state.value.filter(m => m.role ==='user').map(m => m.content).join('; ')		
+							row[col] =  values
+
+						} else if (widgetTypes[e.widget] === 'Rating') {
 							row[col] = (e.state.value * 1) + 1
 						} else {
 							let value = e.state.value
@@ -190,7 +214,19 @@ export default class {
 							
 						}
 					} else {
-						if (widgetColums[e.widget]) {
+						if (e.state.type == 'chat') {
+							const chatCols = widgetColums[e.widget];
+							const values = e.state.value.filter(m => m.role ==='user').map(m => m.content)
+							console.debug('xxx',values, chatCols)
+
+							for (let i=0; i < chatCols.length; i++) {
+								row[chatCols[i]] = values[i]
+							}
+						
+
+							//row[col] = 
+
+						} else if (widgetColums[e.widget]) {
 							const keys = widgetColums[e.widget]
 							const value = e.state.value
 							keys.forEach(col => {

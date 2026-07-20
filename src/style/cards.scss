@@ -1,0 +1,26 @@
+@import './variables.scss';
+
+.MatcCard {
+	padding: $spacing-m;
+	border-radius: $page_radius;
+}
+
+.VommondDialogContent .MatcCardSmall {
+	font-size: $font-size-xxs;
+
+	h3{
+		font-size: $font-size-xs;
+		font-weight: bold;
+	}
+}
+
+.MatcCardInfo {
+	background: $card_help_background;
+    color: $card_help_color;
+
+}
+
+.MatcCardWarning {
+	background: #f9ed8371;
+	border: 1px solid #d0c45b;
+}

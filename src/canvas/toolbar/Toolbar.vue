@@ -35,18 +35,18 @@
 								<QIcon icon="EditMove" />
 							</div>
 						
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
-								<QIcon icon="DevicesAdd" />
+							<div :class="['MatcToolbarItem MatcMarginLeft MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addScreen'}]"  @click="onToolCreateScreen" data-dojo-attach-point="addScreenBtn">
+								<QIcon icon="DeviceMobile" v-if="screenType === 'smartphone'"/>
+								<QIcon icon="DeviceDesktop" v-else/>
 								<!-- <span class="MatcToolbarResponsiveLabel">Screen</span>    						 -->
 							</div>
-						
-							<CreateBasicButton @add="onToolBasic" :mode="mode" v-show="hasScreens"/>
-							<CreateButton ref="createButton" :mode="mode" v-show="hasScreens"/>
-							<CreateLogicButton ref="addLogicSection" @add="onToolLogicAndRest" v-if="false"/>									
-							<CreateVectorButton @add="onToolSVG" v-if="false" />	
+
+							<CreateBasicButton @add="onToolBasic" :mode="mode" v-show="hasScreens" class="MatcMarginLeft"/>
+							<CreateButton ref="createButton" :mode="mode" v-show="hasScreens"/>												
+							<CreateVectorButton @add="onToolSVG" :mode="mode" v-show="hasScreens" />	
 
 
-							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
+							<div :class="['MatcToolbarItem MatcToolbarPrimaryItem MatcMarginLeft vommondToolTipCntr', {'MatcToolbarItemSelected': selectedButton === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment" v-show="hasScreens">
 								<QIcon icon="Comment" />
 							</div>		
 							
@@ -168,7 +168,7 @@ import ModelUtil from '../../core/ModelUtil';
 import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
 
 import CreateVectorButton from './components/CreateVectorButton'
-import CreateLogicButton from './components/CreateLogicButton'
+// import CreateLogicButton from './components/CreateLogicButton'
 import CreateBasicButton from './components/CreateBasicButton'
 import CreateButton from './components/CreateButton.vue'
 import HomeMenu from './components/HomeMenu'
@@ -203,7 +203,8 @@ export default {
 			subMode: '',
 			hasScreens: false,
 			layerListWidth: 256,
-			hasEditModeButton: true
+			hasEditModeButton: true,
+			screenType: 'mobile'
         }
     },
 	components: {
@@ -212,7 +213,7 @@ export default {
 		'EditModeButton': EditModeButton,
 		'CollabUser': CollabUser,
 		'CreateVectorButton': CreateVectorButton,
-		'CreateLogicButton': CreateLogicButton,
+		//'CreateLogicButton': CreateLogicButton,
 		'CreateBasicButton': CreateBasicButton,
 		'CreateButton': CreateButton,
 		'HomeMenu': HomeMenu,
@@ -233,7 +234,7 @@ export default {
 		},
 		svgEditorVisible () {
 			return this.mode === 'svg'
-		}
+		},
 	},
     methods: {
       	postCreate (){
@@ -299,6 +300,7 @@ export default {
 			if (m) {
 				this.modelName = m.name
 			}
+			this.screenType = m.type
 			this.renderToolbar();
 			this.renderProperties()
 			this.showCanvas()

@@ -205,6 +205,9 @@
             "curve": "Curve",
             "path": "Path",
             "triangle": "Triangle",
+            "circle": "Circle",
+            "freehand": "Freehand",
+            "diamond": "Diamond",
             "gpt": "AI Design Assistant"
         },
         "svgStop": "Stop Editing",
@@ -244,7 +247,8 @@
         "analyics-screen": "Show screen statstics such as scroll maps or dwell time",
         "app-color": "Change the app color",
         "simuser": "Simulate how users would use the app with AI (Beta)",
-        "removeSimuser": "Remove the AI events"
+        "removeSimuser": "Remove the AI events",
+        "vector" : "Vector Tools"
     },
     "table-action": "Action X",
     "btn": {
@@ -592,6 +596,7 @@
     "testSettingsSaved": "Test settings updated...",
     "testSettingsUpgradePlan": "Upgrade Plan",
     "testSettingsRecordOneTestPerUser": "Record data only for the first time a user tests the prototype.",
+    "testSettingsTranscribeVoice": "Transscribe users voice.",
 
     "dashTaskEmpty": "You can create tasks in the 'Test' tab. ",
     "dashTaskTableName": "Name",

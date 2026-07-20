@@ -247,6 +247,101 @@ export default class Animation extends Core{
 	}
 
 
+	/**
+	 * Returns the mixed SVG paths. The from and to values
+	 * are objects with a 'paths' array and a 'bbox', like in
+	 * the props of a SVGPaths widget.
+	 *
+	 * Paths are matched by index. If two paths are not
+	 * compatible (different number of points or different
+	 * point types), we cannot morph and just show the 'to' path.
+	 */
+	getAnimationMixedSVG(from, to, p) {
+		var mixed = {
+			paths: [],
+			bbox: to.bbox
+		};
+
+		if (from.bbox && to.bbox) {
+			mixed.bbox = {
+				w: from.bbox.w - ((from.bbox.w - to.bbox.w) * p),
+				h: from.bbox.h - ((from.bbox.h - to.bbox.h) * p)
+			};
+		}
+
+		for (var i = 0; i < to.paths.length; i++) {
+			var fromPath = from.paths[i];
+			var toPath = to.paths[i];
+			mixed.paths.push(this.getAnimationMixedSVGPath(fromPath, toPath, p));
+		}
+
+		return mixed;
+	}
+
+	getAnimationMixedSVGPath(fromPath, toPath, p) {
+		if (!this.isMorphablePath(fromPath, toPath)) {
+			return toPath;
+		}
+
+		var mixedPath = lang.clone(toPath);
+		if (!isNaN(fromPath.strokeWidth) && !isNaN(toPath.strokeWidth)) {
+			mixedPath.strokeWidth = fromPath.strokeWidth - ((fromPath.strokeWidth - toPath.strokeWidth) * p);
+		}
+		mixedPath.stroke = this.getAnimationMixedSVGColor(fromPath.stroke, toPath.stroke, p);
+		mixedPath.fill = this.getAnimationMixedSVGColor(fromPath.fill, toPath.fill, p);
+
+		var pointAttribs = ["x", "y", "x1", "y1", "x2", "y2", "rx", "ry"];
+		for (var i = 0; i < toPath.d.length; i++) {
+			var fromPoint = fromPath.d[i];
+			var mixedPoint = mixedPath.d[i];
+			for (var a = 0; a < pointAttribs.length; a++) {
+				var key = pointAttribs[a];
+				var from = fromPoint[key];
+				var toValue = mixedPoint[key];
+				if (!isNaN(from) && !isNaN(toValue)) {
+					mixedPoint[key] = from - ((from - toValue) * p);
+				}
+			}
+		}
+
+		return mixedPath;
+	}
+
+	getAnimationMixedSVGColor(from, to, p) {
+		/**
+		 * Fill and stroke can be "" or gradients. We can
+		 * only blend plain colors.
+		 */
+		if (this.isPlainColor(from) && this.isPlainColor(to)) {
+			var c = Color.blendColors(new Color(from), new Color(to), p);
+			if (c.a < 1) {
+				return c.toCss(true);
+			}
+			return c.toHex();
+		}
+		return to;
+	}
+
+	isPlainColor(c) {
+		return c && typeof c === "string" && c !== "transparent";
+	}
+
+	isMorphablePath(fromPath, toPath) {
+		if (!fromPath || !toPath || !fromPath.d || !toPath.d) {
+			return false;
+		}
+		if (fromPath.d.length !== toPath.d.length) {
+			return false;
+		}
+		for (var i = 0; i < toPath.d.length; i++) {
+			if (fromPath.d[i].t !== toPath.d[i].t) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
 	/**********************************************************
 	 * Widget Animation
 	 **********************************************************/
@@ -265,8 +360,10 @@ export default class Animation extends Core{
 
 		var fromStyle = event.from.style;
 		var fromPos = event.from.pos;
+		var fromSVG = event.from.svg;
 		var toStyle = event.to.style;
 		var toPos = event.to.pos;
+		var toSVG = event.to.svg;
 
 
 		var me = this;
@@ -281,6 +378,15 @@ export default class Animation extends Core{
 					if (toPos && fromPos) {
 						var mixedPos = me.getAnimationMixedPos(fromPos, toPos, p);
 						widget.setAnimatedPos(mixedPos, mixedStyle);
+					}
+
+					if (toSVG && fromSVG) {
+						if (widget.setAnimSVG) {
+							var mixedSVG = me.getAnimationMixedSVG(fromSVG, toSVG, p);
+							widget.setAnimSVG(mixedSVG.paths, mixedSVG.bbox);
+						} else {
+							console.warn("WidgetAnimation.render() > Widget has no setAnimSVG()");
+						}
 					}
 
 				} catch (e) {
@@ -333,6 +439,22 @@ export default class Animation extends Core{
 				if (!this.objectEquals(newWidget.style, oldWidget.style)) {
 					event.from.style = oldWidget.style;
 					event.to.style = newWidget.style;
+				}
+
+				/**
+				 * 3rd check if we have to morph SVG paths
+				 */
+				if (newWidget.type === "SVGPaths" && oldWidget.type === "SVGPaths") {
+					if (newWidget.props && oldWidget.props && !this.objectEquals(newWidget.props.paths, oldWidget.props.paths)) {
+						event.from.svg = {
+							paths: oldWidget.props.paths,
+							bbox: oldWidget.props.bbox
+						};
+						event.to.svg = {
+							paths: newWidget.props.paths,
+							bbox: newWidget.props.bbox
+						};
+					}
 				}
 
 				return event;

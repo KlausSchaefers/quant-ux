@@ -99,6 +99,7 @@ import QIcon from "page/QIcon";
 import ZoomDialog from 'common/ZoomDialog'
 import * as UIUtil from '../../util/UIUtil'
 import CheckBox from 'common/CheckBox'
+import Logger from 'common/Logger'
 
 export default {
     name: "StudioNotification",
@@ -203,6 +204,7 @@ export default {
             return result
         },
         showAutoDialog () {
+            this.logger.log(0, 'showAutoDialog', 'enter >> newNotifications: ' + this.newNotifications + ' isAutoOpen: ' + this.isAutoOpen + ' seenNotifications: ' + this.seenNotifications.length)
             if ((this.newNotifications && this.isAutoOpen) || this.seenNotifications.length === 0) {  
                 setTimeout(() => {
                     this.showDialog()
@@ -211,11 +213,14 @@ export default {
         }
     },
     async mounted() {
+        this.logger = new Logger('StudioNotification')
         this.notifcationService = Services.getNotificationService()
         this.notifications = await this.notifcationService.getNotications()
         this.seenNotifications = await this.notifcationService.getSeenNotifications()
         this.isAutoOpen = await this.notifcationService.getAutoOpen()
         this.newNotifications = this.notifications.filter(n => n.isNew).length
+        //console.debug('mounted', 'enter >> newNotifications: ' + this.newNotifications + ' isAutoOpen: ' + this.isAutoOpen + ' seenNotifications: ' + this.seenNotifications.length)
+        this.logger.log(0, 'mounted', 'enter >> newNotifications: ' + this.newNotifications + ' isAutoOpen: ' + this.isAutoOpen + ' seenNotifications: ' + this.seenNotifications.length)
         if (!this.newNotifications) {
             this.tab = 'all'
         }

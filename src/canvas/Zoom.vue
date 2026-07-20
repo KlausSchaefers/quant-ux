@@ -86,6 +86,15 @@ export default {
 					this.lastMouseWheel = now;
 				}
 
+			} else if (e.shiftKey) {
+				if (Math.abs(this.lastMouseWheel - now) > 1 ){
+					this.canvasPos.x -= Math.round(delta.pixelY / 2);
+					if(delta.pixelX){
+						this.canvasPos.y -= Math.round(delta.pixelX / 2);
+					}
+					this.setContainerPos()
+					this.lastMouseWheel = now;
+				}
 			} else {
 				if (Math.abs(this.lastMouseWheel - now) > 1 ){
 					this.canvasPos.y -= Math.round(delta.pixelY / 2);

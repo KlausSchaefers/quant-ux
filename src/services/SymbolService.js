@@ -82,6 +82,8 @@ class SymbolService extends AbstractService{
             //import(/* webpackChunkName: "themes" */ 'themes/wireframe/date2.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/dnd.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/textbox.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/chat.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/wireframe/chattextbox.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/hotspot.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/icon.json'),
             import(/* webpackChunkName: "themes" */ 'themes/wireframe/svgicon.json'),
@@ -163,6 +165,7 @@ class SymbolService extends AbstractService{
             import(/* webpackChunkName: "themes" */ 'themes/survey/radiogroup.json'),
             import(/* webpackChunkName: "themes" */ 'themes/survey/radiotable.json'),
             import(/* webpackChunkName: "themes" */ 'themes/survey/buttons.json'),
+            import(/* webpackChunkName: "themes" */ 'themes/survey/chat.json'),
 
             // import(/* webpackChunkName: "themes" */ 'themes/OpenUI/button2.json'),
             // import(/* webpackChunkName: "themes" */ 'themes/OpenUI/calender.json'),

@@ -31,11 +31,11 @@
                     </marker>
 
                     <marker :key="m.id"  :id="m.id" markerWidth="10" markerHeight="8" refX="4" refY="3.5" orient="auto-start-reverse" v-if="m.type === 'arrowStart'">
-                      <polyline points="1 2, 4 3.5, 1 5" :stroke="m.stroke"        :stroke-linecap="m.strokeLineCap" />
+                      <polyline points="1 2, 4 3.5, 1 5" :stroke="m.stroke" :stroke-linecap="m.strokeLineCap" />
                     </marker>
 
                     <marker :key="m.id"  :id="m.id" markerWidth="10" markerHeight="8" refX="4" refY="3.5" orient="auto" v-if="m.type === 'arrowEnd'">
-                      <polyline points="1 2, 4 3.5, 1 5" :stroke="m.stroke"        :stroke-linecap="m.strokeLineCap"/>
+                      <polyline points="1 2, 4 3.5, 1 5" :stroke="m.stroke" :stroke-linecap="m.strokeLineCap"/>
                     </marker>
 
                     <marker :key="m.id"  :id="m.id" markerWidth="30" markerHeight="30" refX="1.5" refY="1.5" orient="auto" v-if="m.type === 'circle'">
@@ -294,17 +294,21 @@ export default {
       joints () {
         const paths = this.selectedPaths
         const points = paths.flatMap(path => {
-            return path.d.filter(point => {
-                return point.t !== 'Z' && point.t !== 'CZ'
-            }).map((point, i) => {
+            // map first so the id stays the real index in path.d. If we
+            // filtered before mapping, a Z/CZ point would shift the ids and
+            // the joint would point to the wrong bezier controls (x1/x2).
+            return path.d.map((point, i) => {
                 return {
                     parent: path.id,
                     x: point.x,
                     y: point.y,
-                    id:i,
+                    id: i,
+                    t: point.t,
                     selected: this.isSelectedJoint(i),
                     r: this.config.pointRadius
                 }
+            }).filter(joint => {
+                return joint.t !== 'Z' && joint.t !== 'CZ'
             })
         })
         return points
@@ -325,7 +329,7 @@ export default {
                 
                 const tempPoints = []
 
-                if (current && current.t === 'C') {
+                if (current && (current.t === 'C' || current.t === 'CZ')) {
                     tempPoints.push({
                             id: 'x2' + path.id + pos,
                             parent: pos,
@@ -339,7 +343,7 @@ export default {
                 }
                
                 const next = path.d[pos + 1]
-                if (next && next.t === 'C') {
+                if (next && (next.t === 'C' || next.t === 'CZ')) {
                     tempPoints.push({
                         id: 'x1' + path.id + pos,
                         parent: pos + 1,
@@ -522,7 +526,7 @@ export default {
     },
 
     select (ids) {
-        this.logger.log(3, 'select ', 'enter', ids)
+        this.logger.log(-3, 'select ', 'enter', ids)
         if (!ids) {
             this.logger.warn('select', 'Should use NULL')
             ids = []
@@ -596,6 +600,9 @@ export default {
         this.logger.log(2, 'setValue', 'enter')
         const scalledPaths = SVGUtil.strechPaths(paths, editingBoundingBox, currentBoundingBox)
         const translatedPaths = SVGUtil.addBoundingBox(scalledPaths, currentBoundingBox)
+        // complete the points *before* they become reactive, so that the
+        // bezier controls (x1/y1/x2/y2) are observed and stay reactive
+        SVGUtil.completePaths(translatedPaths)
         this.value = translatedPaths
         this.isDirty = false
         this.commandStack.init(this.value)
@@ -608,7 +615,20 @@ export default {
         this.value.forEach(path => {
             path.d = SVGUtil.filterTempPoints(path.d)
         })
-        // FIXME: here is a bug. We should rerender to make sure the 
+
+        // When the editor is empty (e.g. cancel without drawing anything) there
+        // are no rendered path elements, so this.$refs.paths is undefined. Return
+        // an empty (invalid) value so the caller's isValidPaths() check handles it.
+        if (!this.$refs.paths || this.value.length === 0) {
+            return {
+                dirty: this.isDirty,
+                paths: [],
+                pos: {x: 0, y: 0, w: 0, h: 0},
+                bbox: {x: 0, y: 0, w: 0, h: 0}
+            }
+        }
+
+        // FIXME: here is a bug. We should rerender to make sure the
         // temp nodes are not in the bounding box
         const boxes = SVGUtil.getBBoxes(this.$refs.paths)
         let zoomedPos = SVGUtil.getBoundingBoxByBoxes(boxes)
@@ -616,7 +636,10 @@ export default {
         const minZoomPos = SVGUtil.getMinBBox(zoomedPos)
         const bbox = SVGUtil.getUnZoomedBox(minZoomPos, this.zoom)    
         const paths = SVGUtil.removeBoundingBox(this.value, bbox)
-    
+        // removeBoundingBox returns a clone, so we can safely strip the
+        // reactivity-only bezier controls from non-curve points before saving
+        SVGUtil.stripBezierControls(paths)
+
         return {
             dirty: this.isDirty,
             paths: paths,
@@ -723,6 +746,7 @@ export default {
         pos.shiftKey = e.shiftKey
         pos.altKey = e.altKey
         pos.metaKey = e.metaKey
+        pos.ctrlKey = e.ctrlKey
      
         pos.x = Math.round(pos.x / this.zoom)
         pos.y = Math.round(pos.y / this.zoom)

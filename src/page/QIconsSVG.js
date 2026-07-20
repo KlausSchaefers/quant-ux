@@ -125,6 +125,12 @@ export const icons = {
         <path d="M6 4l12 0"></path>
         <path d="M12 4l0 16"></path>
     `,
+    'BoxPlus': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M13 16h-7a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v1" />
+        <path d="M16 18h6" />
+        <path d="M19 15v6" />
+    `,
     'BoxWide': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
@@ -132,6 +138,14 @@ export const icons = {
     'BoxLong': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
+    `,
+    'VectorFreeHand': `
+        <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+        <path d="M13.5 6.5l4 4" />
+    `,
+    'VectorFreehand2': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M4 15c2 -4.97 7.356 -11 9 -11c4.25 0 -5.5 11.958 -3 13s5.65 -6.678 7.4 -5.902c1.75 .777 -1.05 7.589 -.3 8.63s3.15 -.897 3.9 -2.728" />
     `,
     'VectorBezier': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -174,7 +188,31 @@ export const icons = {
         <path d="M9 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
         <path d="M9 15v6"></path>
         <path d="M11.5 9.5l6.5 -6.5"></path>
-
+    `,
+    'VectorCircle': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M3 11a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M17 11a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M10 4a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M10 18a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M19 10a5 5 0 0 0 -5 -5" /><path d="M19 14a5 5 0 0 1 -5 5" />
+        <path d="M5 14a5 5 0 0 0 5 5" />
+        <path d="M5 10a5 5 0 0 1 5 -5" />
+    `,
+    'VectorDiamond': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M10.831 20.413l-5.375 -6.91c-.608 -.783 -.608 -2.223 0 -3l5.375 -6.911a1.457 1.457 0 0 1 2.338 0l5.375 6.91c.608 .783 .608 2.223 0 3l-5.375 6.911a1.457 1.457 0 0 1 -2.338 0" />
+    `,
+    'VectorDiamond2': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <g transform="translate(12 12) scale(0.85) rotate(45) translate(-12 -12)"><path d="M3 4a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M17 4a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M17 18a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M3 18a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -2" />
+        <path d="M5 7l0 10" />
+        <path d="M19 7l0 10" />
+        <path d="M7 5l10 0" />
+        <path d="M7 19l10 0" /></g>
     `,
     'Play': `
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

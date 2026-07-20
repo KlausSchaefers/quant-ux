@@ -148,6 +148,18 @@ export default {
                     if (e.type === 'triangle') {
                         this.currentTool.startTriangleTool()
                     }
+
+                    if (e.type === 'circle') {
+                        this.currentTool.startCircleTool()
+                    }
+
+                    if (e.type === 'freehand') {
+                        this.currentTool.startFreeHandTool(false)
+                    }
+
+                    if (e.type === 'diamond') {
+                        this.currentTool.startDiamondTool(false)
+                    }
                  
                 } else {
                     this.logger.warn("addSVG", "exit > NO SVGEditor ");

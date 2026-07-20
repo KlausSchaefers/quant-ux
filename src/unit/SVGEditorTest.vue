@@ -3,13 +3,18 @@
     <h1>SVg Editor Test</h1>
     <div class="toolbar">
       <a @click="createLine">Line </a>
-      <a @click="createBezier"> Curve </a>
-      <a @click="createArc"> Arc </a>
+      <a @click="createBezier"> Curve </a>     
       <a @click="createRect"> Rect </a>
       <a @click="createTriangle"> Triangle </a>
       <a @click="createEllipse"> Ellipse </a>
+      <a @click="createCircle"> Circle </a>
       <a @click="createDiamond"> Diamond </a>
-      
+      <a @click="createFreeHand"> FreeHand </a>
+
+      |
+      <a @click="selectMoveTool"> Move </a>
+
+      |
       <a @click="clear">Clear </a>
         <a @click="setZoom(1)">1.0 </a>
         <a @click="setZoom(0.66)">0.66 </a>
@@ -23,11 +28,15 @@
           :height="400"
           :pos="pos"
           ref="editor"
+          @change="onChange"
           @qmouse="onMouseMove"/>
     </div>
-    {{mouse}}
 
-    {{svgs}}
+
+    <div class="debug">
+      {{svgs}}
+    </div>
+
 
     <div class="tests">
       <a @click="test_createLine" class="MatcButton"> Test Create Line </a>
@@ -42,6 +51,10 @@
   @import "../style/components/qux-svg-editor.scss";
 </style>
 <style>
+
+  .debug {
+    font-size: 12px;
+  }
 
 
   .toolbar {
@@ -105,8 +118,14 @@ export default {
       setZoom (z) {
         this.zoom = z
       },
+      onChange (d) {
+        this.svgs = d
+      },
       onMouseMove (p) {
           this.mouse = p
+      },
+      selectMoveTool() {
+        this.$refs.editor.startMoveTool()
       },
       test_split () {
         const paths = [
@@ -149,8 +168,15 @@ export default {
         this.$refs.editor.setShowAllBezier(true)
         this.$refs.editor.startEllipseTool(true)
       },
+      createCircle () {
+        this.$refs.editor.setShowAllBezier(true)
+        this.$refs.editor.startCircleTool(true)
+      },
       createTriangle () {
         this.$refs.editor.startTriangleTool(true)
+      },
+      createFreeHand () {
+        this.$refs.editor.startFreeHandTool()
       },
       clear () {
         this.$refs.editor.clear()

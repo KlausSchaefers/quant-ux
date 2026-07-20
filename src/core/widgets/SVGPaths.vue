@@ -127,6 +127,10 @@ export default {
       this.renderElements(box, this.paths, this.viewBox)
     },
 
+    setAnimSVG (paths, bbox) {
+      this.renderElements(this.model, paths, bbox ? bbox : this.viewBox)
+    },
+
     render (model, style, scaleX, scaleY) {
       this.model = model;
       this.paths = model.props.paths
