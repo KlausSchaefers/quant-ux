@@ -1,10 +1,8 @@
 <template>
 
-    <div :class="'luisa-chat-message luisa-chat-message-' + message.role" >
-        <div class="luisa-chat-message-header">
-          <!-- <IconX :size="16" stroke="1" class="luisa-icon" @click="onDelete"></IconX> -->
-        </div>
-        <div v-html="value" class="luisa-chat-message-body">
+    <div :class="'MatcAiChatMessage ' + roleClass" >
+        
+        <div v-html="value" class="MatcAiChatMessageBody">
 
         </div>
     </div>
@@ -33,6 +31,10 @@ export default {
     value () {
       // const html = marked(this.message.content)
       return this.message.content
+    },
+    roleClass () {
+      const role = this.message.role
+      return 'MatcAiChatMessage' + role.charAt(0).toUpperCase() + role.slice(1)
     }
   },
   methods: {

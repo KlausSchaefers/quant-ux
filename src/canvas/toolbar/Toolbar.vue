@@ -708,11 +708,15 @@ export default {
 
 		_blurInputFields (){
 
-			var nodes = document.getElementsByTagName("input");
-			for(var x = 0; x < nodes.length; x++){
+			let nodes = document.getElementsByTagName("input");
+			for(let x = 0; x < nodes.length; x++){
 				nodes[x].blur();
 			}
 
+			nodes = document.getElementsByTagName("textarea");
+			for(let x = 0; x < nodes.length; x++){
+				nodes[x].blur();
+			}
 		},
 
 		_flushInputFields (){

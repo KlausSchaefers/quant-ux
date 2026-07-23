@@ -165,6 +165,12 @@ $button_secondary_color_hover: #000;
 
 $tab_color_active: $button_background_hover;
 
+$chat_message_background_user : rgba(255, 255, 255, 0.1);
+$chat_message_color_user : #fff;
+
+$chat_message_background_assistant : #a8ccff;
+$chat_message_color_assistant :  #172b7f;
+
 $spacing-xxxl:96px;
 $spacing-xxl:64px;
 $spacing-xl:40px;

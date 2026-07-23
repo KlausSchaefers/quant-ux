@@ -64,13 +64,23 @@
 }
 
 
-.MatcToobarPropertiesSection .MatcToobarInput::placeholder{
-	font-style: italic;
-	color: rgba(255, 255, 255, 0.35)
-}
+.MatcToobarPropertiesSection {
 
-.MatcToobarPropertiesSection .MatcToobarInput{
-	border-radius: $toolbar_form_radius;
+	.MatcToobarInput{
+		border-radius: $toolbar_form_radius;
+	}
+
+	.MatcToobarInput::placeholder{
+		font-style: italic;
+		color: rgba(255, 255, 255, 0.35)
+	}
+
+
+	.MatcToobarInputBorder,
+	input.MatcToobarInputBorder,
+	textarea.MatcToobarInputBorder {
+		border: 1px solid $toolbar_form_border;
+	}
 }
 
 .MatcToobarPropertiesSection .MatcToobarInput.MatcToobarNameInput {

@@ -1,0 +1,87 @@
+@import "../variables.scss";
+
+.MatcAiChat {
+  .MatcAiChatFooter {
+    .MatcZoomableTextArea {
+      height: 96px;
+      width: 100%;
+
+      .MatcZoomableTextAreaBackdrop {
+        transition: all, 0.2s;
+        height: 100%;
+      }
+
+      .MatcZoomableTextAreaIconInput {
+        height: 100%;
+        position: relative;
+      }
+
+      .MatcQIconSVG {
+          width: 14px;
+          height: 14px;
+          transition: opacity 0.2s;
+          opacity: 0.5;
+          cursor: pointer;
+          &:hover {
+            opacity: 1;
+          }
+      }
+
+      .MatcZoomableTextAreaCloseIcon {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+      }
+
+      .MatcZoomableTextAreaActionIcons {
+        display: flex;
+      }
+
+      textarea {
+        border-radius: $toolbar_form_radius;
+        width: 100%;
+        height: calc(100% - 24px);
+        padding-bottom: 24px;
+        scroll-padding: 24px;
+      }
+    }
+  }
+
+  .MatcZoomableTextAreaMax .MatcZoomableTextAreaBackdrop {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background: #33333374;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .MatcZoomableTextAreaActionIcons {
+      display: none;
+    }
+
+    .MatcZoomableTextAreaIconInput,
+    .MatcZoomableTextAreaIconInput:hover,
+    .MatcZoomableTextAreaIconInput.MatcToobarInputFocus {
+      width: 400px;
+      box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      height: 256px;
+      border-radius: 8px;
+      border: none;
+    }
+    textarea.MatcToobarInputBorder {
+      height: 256px;
+      border: 0px;
+      border: none;
+      padding: 16px;
+      font-size: 16px;
+
+      &:focus {
+        background: none;
+      }
+    }
+  }
+}

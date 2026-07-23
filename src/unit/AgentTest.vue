@@ -1,8 +1,8 @@
 <template>
     <div class="MatcLight">
      <div class="MatcAgentWorkSpace">
-        <div class="MatcAgentWorkSpaceChat">
-            <Chat></Chat>
+        <div class="MatcAgentWorkSpaceChat ">
+            <AIChat :messages="messages"></AIChat>
         </div>
         <div>Canvas</div>
      </div>
@@ -33,7 +33,8 @@
   </style>
   
   <script>
-import Chat from '../canvas/toolbar/chat/Chat.vue';
+import AIChat from '../canvas/toolbar/chat/AIChat.vue';
+
 
   
   export default {
@@ -41,14 +42,17 @@ import Chat from '../canvas/toolbar/chat/Chat.vue';
     mixins: [],
     data: function() {
       return {
-          files: [],
-          previews: [],
-          model: null,
-          accessKey: '',
+          messages: [{
+            content: 'Hi',
+            role: 'assistant'
+          }, {
+            content: 'There',
+            role: 'user'
+          }]
       };
     },
     components: {
-        Chat
+        AIChat
     },
     computed: {
       screens () {

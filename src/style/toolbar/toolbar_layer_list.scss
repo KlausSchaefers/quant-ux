@@ -60,7 +60,18 @@
 .MatcToolbarLayerListCntr{
 	height: 100%;
 	overflow: auto;
-	padding-bottom: 30px;
+	padding-bottom: 8px;
+	display: flex;
+	flex-direction: column;
+}
+
+.MatcToolbarLayerListHeader {
+	height: 56px;
+}
+
+.MatcToolbarLayerListScreenCntr {
+	flex-grow: 1;
+	overflow: auto;
 }
 
 .MatcLayerListFadeOut {

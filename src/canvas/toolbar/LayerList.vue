@@ -1,7 +1,13 @@
 <template>
      <div class="MatcToolbarLayerList MatcToobarPropertiesSection MatcToolbar" v-show="isVisible" :style="'width:'+ layerListWidth +'px'">
 		<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="cntr">
-			<div class="MatcToolbarLayerListScreenCntr">
+			<div class="MatcToolbarLayerListHeader">
+				<AIModeButton @change="setLayerListMode"></AIModeButton> 
+			</div>
+		
+
+		
+			<div class="MatcToolbarLayerListScreenCntr" v-if="layerListMode == 'layers'">
 				<div class="MatcLayerListScreens">
 
 						<div class=" MatcToolbarSectionContent" >
@@ -17,7 +23,11 @@
 
 				</div>
 			</div>
+			
+			<AIChat v-else @settings="onSettings"/>
+			
 		</div>
+	
 		<div class="MatcToolbarLayerListDND" ref="dndHanlde" @mousedown.stop="onResizeStart"></div>
 	</div>
 </template>
@@ -29,6 +39,8 @@ import ModelUtil from '../../core/ModelUtil'
 import Tree from 'common/Tree'
 import {onStartDND} from '../../util/DND'
 import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
+import AIModeButton from './components/AIModeButton'
+import AIChat from './chat/AIChat.vue'
 
 export default {
 	name: 'LayerList',
@@ -46,13 +58,25 @@ export default {
 			isVisible: true,
 			hasOptions: true,
 			isDebug: false,
+			layerListMode: 'layers',
 			layerListWidth: 256, // keep in sync with Toolbar
         }
     },
     components: {
-			'Tree': Tree
+			'Tree': Tree,
+			'AIModeButton': AIModeButton,
+			'AIChat': AIChat
 		},
     methods: {
+		onSettings (e) {
+			console.debug('settingsxxx')
+			if (this.toolbar) {
+				this.toolbar.showAISettings(e)
+			}
+		},
+		setLayerListMode (m) {
+			this.layerListMode = m
+		},
       	postCreate (){
 			this.logger = new Logger("LayerList");
 			this.logger.log(2,"constructor", "entry > " + this.mode);

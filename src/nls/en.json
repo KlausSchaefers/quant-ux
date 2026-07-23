@@ -188,7 +188,8 @@
             "change-screen-size": "Change Screen Size",
             "save-as": "Duplicate",
             "exit": "Back to Prototypes",
-            "help": "Help"
+            "help": "Help",
+            "ai": "AI Settings"
         },
         "create": {
             "rectangle": "Rectangle",

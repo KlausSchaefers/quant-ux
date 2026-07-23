@@ -28,6 +28,7 @@ import DesignGPTDialogSmall from 'canvas/toolbar/dialogs/DesignGPTDialogSmall'
 import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
 import ExportDialog from 'canvas/toolbar/dialogs/ExportDialog'
 import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
+import AISettings from 'canvas/toolbar/dialogs/AISettings'
 
 import * as ScrollUtil from '../../../util/ScrollUtil'
 
@@ -41,6 +42,24 @@ export default {
 	},
 	components: {},
 	methods: {
+		showAISettings(e) {
+			this.logger.log(0, "showFontDialog", "entry > ", this.isPublic);
+
+			const db = new DomBuilder();
+			const popup = db.div("MatcFontDialog  MatcPadding").build();
+			const customFonts = this.$new(AISettings);
+			customFonts.placeAt(popup);
+			customFonts.setModel(this.model)
+			const row = db.div("row MatcMarginTop").build(popup);
+			const right = db.div("col-md-12 MatcButtonBar").build(row);
+			const save = db.div("MatcButton MatcButtonPrimary", "Save").build(right);
+			const close = db.div("MatcLinkButton", "Close").build(right);
+			const d = new Dialog();
+			d.own(on(close, touch.press, lang.hitch(d, "close")));
+			d.own(on(save, touch.press, lang.hitch(this, "saveFonts", d, customFonts)));
+			d.popup(popup, e.target);
+		},
+
 		showFontDialog(e) {
 			this.logger.log(0, "showFontDialog", "entry > ", this.isPublic);
 

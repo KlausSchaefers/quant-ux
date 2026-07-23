@@ -272,7 +272,7 @@
             background: $toolbar_form_background_hover;
         }
 
-        &:focus {
+        &:focus, &.MatcToobarInputFocus {
             border-color: $toolbar_form_border_focus;
             background: $toolbar_form_background_focus;
         }
@@ -294,6 +294,13 @@
             background: transparent;
         }
     }
+
+    .MatcToobarInputBorder,
+	input.MatcToobarInputBorder,
+	textarea.MatcToobarInputBorder {
+		border: 1px solid $toolbar_form_border;
+	}
+
 
 
     .MatcToolbarDropDownButton:hover, 
@@ -645,4 +652,14 @@ div.MatcToolbarViewConfigCntrSpace {
         }
 
     }
+}
+
+.MatcAiChatMessageAssistant {
+  background: $chat_message_background_assistant;
+  color: $chat_message_color_assistant;
+}
+
+.MatcAiChatMessageUser {
+  background: $chat_message_background_user;
+  color: $chat_message_color_user;
 }

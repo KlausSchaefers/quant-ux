@@ -1,0 +1,97 @@
+@import '../variables.scss';
+
+.MatcAiChat {
+  width: 100%;
+  padding: 0px 16px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+
+.MatcAiChatBody {
+}
+
+
+.MatcAiChatMessage {
+  padding: 4px;
+  font-size: 12px;
+  border-radius: $toolbar_form_radius;
+  white-space: pre;
+}
+
+.MatcAiChatMessageAssistant {
+  margin-right: 0px;
+  border-top-left-radius: 0px;
+}
+
+.MatcAiChatMessageUser {
+  margin-left: 8px;
+  border-top-right-radius: 0px;
+}
+
+.MatcAiChatMessageHeader {
+  display: flex;
+  justify-content: flex-end;
+  height: 8px;
+}
+
+.MatcAiChatMessageBody {
+  padding: 0px 8px;
+}
+
+.MatcAiChatMessageHeader svg{
+  opacity: 0;
+}
+
+.MatcAiChatMessage:hover .MatcAiChatMessageHeader svg{
+  opacity: 1;
+}
+
+
+.MatcAiChatHeader {
+  border-bottom: 1px solid var(--color-border);
+
+  padding: var(--space-m);
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  align-items: center;
+
+  div{
+    text-align: center;
+    flex-grow: 1;
+    padding-left: 24px;
+  }
+}
+.MatcAiChatBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-grow: 1;
+  flex-basis:0;
+  padding: var(--space-m);
+  overflow: auto;
+}
+
+.MatcAiChatIcons {
+  display: flex;
+  padding-top: 4px;
+  gap: 4px;
+    .MatcQIcon {
+      opacity: 0.5;
+      cursor: pointer;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+      .MatcQIcon .MatcQIconSVG {
+        width: 14px;
+        height: 14px;
+    }
+}

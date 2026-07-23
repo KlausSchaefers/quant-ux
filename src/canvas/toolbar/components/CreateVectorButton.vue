@@ -3,7 +3,7 @@
     <div class=" MatcToolbarArrowDropDown MatcToolbarDropDownButton vommondToolTipCntr">
 		<div type="button" ref="button" :class="[
             'MatcToolbarItem MatcToolbarPrimaryItem', 
-            {'MatcToolbarItemSelected': (mode === 'addBox')}
+            {'MatcToolbarItemSelected': (mode === 'addVector')}
             ]" >
             <QIcon icon="VectorBezier" />
             <!-- <span class="MatcToolbarResponsiveLabel">Insert</span>     -->

@@ -53,6 +53,13 @@
     $toolbar_checkbox_hover_background: $toolbar_form_background_hover;
     $toolbar_checkbox_hover_border: $toolbar_form_border_hover;
 
+    $chat_message_background_user : rgba(0, 0, 0, 0.05);
+    $chat_message_color_user : #333;
+
+    $chat_message_background_assistant : #d6e5f884;
+    $chat_message_color_assistant :  #172b7f;
+
+
     @import './toolbar_theme.scss';
     @import './toolbar_edit_mode.scss';
 

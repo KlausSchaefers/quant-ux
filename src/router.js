@@ -232,6 +232,10 @@ export default new VueRouter({
     {
       path: '/test/ChatSettings.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/ChatSettingsTest.vue')
+    },
+        {
+      path: '/test/Agent.html',
+      component: () => import(/* webpackChunkName: "unit" */ './unit/AgentTest.vue')
     }
   ]
 })

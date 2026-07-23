@@ -48,7 +48,8 @@ export default {
                 {value: 'onChangeScreenSize', icon: '', label: this.getNLS('toolbar.menu.change-screen-size')},
                 {value: 'showSharing', icon: '', label: this.getNLS('toolbar.menu.share')},
                 {value: 2, css:'MatcToolbarPopUpLine'},
-                {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.mode')},
+                {value: 'showAISettings', icon: '', label: this.getNLS('toolbar.menu.ai')},
+                {value: 'onShowAISettings', icon: '', label: this.getNLS('toolbar.menu.mode')},
                 {value: 'showShortCuts', icon: '', label: this.getNLS('toolbar.menu.shortcuts')},
                 {value: 'showHelp', icon: '', label: this.getNLS('toolbar.menu.help')}
             ]
