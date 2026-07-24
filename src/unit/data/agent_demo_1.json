@@ -1,0 +1,2822 @@
+{
+  "_id" : "64a3052b7001be11c1777b82",
+  "version" : 2.1,
+  "name" : "Nice Tracel",
+  "description" : "",
+  "screenSize" : {
+    "w" : 375,
+    "h" : 812
+  },
+  "type" : "smartphone",
+  "screens" : {
+    "s10577_25812" : {
+      "x" : 4800,
+      "y" : 3372,
+      "h" : 812,
+      "w" : 375,
+      "name" : "Start 1",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#ffffff"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 812
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : true
+      },
+      "children" : [ "w10578_99108", "w10579_76883", "w10580_14734", "w10581_36198", "w10582_77492", "w10583_66240", "w10584_11487", "w10585_86565", "w10586_46826", "w10587_25877", "w10588_58643", "w10589_17172", "w10590_68466", "w10591_92634", "w10592_79789", "w10593_85247", "w10594_15695", "w10602_35044", "w10603_67860", "w10605_2500", "w10606_67483", "w10607_15918", "w10608_63693", "w10604_51504", "w10595_79796", "w10596_74891", "w10597_6705", "w10598_69724", "w10599_86731", "w10600_66492", "w10601_90236" ],
+      "id" : "s10577_25812",
+      "rulers" : [ ],
+      "modified" : 1688405082883
+    },
+    "s10613_68801" : {
+      "x" : 5643,
+      "y" : 2841,
+      "h" : 812,
+      "w" : 375,
+      "name" : "Checkin 1",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#ffffff"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 812
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : false
+      },
+      "children" : [ "w10614_36278", "w10615_30203", "w10616_61419", "w10617_54003", "w10618_75278", "w10619_40257", "w10620_17523", "w10633_47903", "w10634_72670", "w10621_44829", "w10636_67911", "w10637_88550", "w10643_79775", "w10641_50103", "w10644_45907", "w10640_57061", "w10646_70875" ],
+      "id" : "s10613_68801",
+      "rulers" : [ ],
+      "modified" : 1688405166368
+    },
+    "s10623_85944" : {
+      "x" : 5643,
+      "y" : 3815,
+      "h" : 812,
+      "w" : 375,
+      "name" : "Checkin 2",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#ffffff"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 812
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : false
+      },
+      "children" : [ "w10627_27038", "w10628_75344", "w10629_49054", "w10630_43770", "w10683_58463", "w10686_58945", "w10687_71482", "w10689_83563", "w10688_68470", "w10685_66819", "w10684_98920", "w10691_97650", "w10690_38023" ],
+      "id" : "s10623_85944",
+      "rulers" : [ ],
+      "modified" : 1688405170623,
+      "parents" : [ "s10577_25812" ]
+    }
+  },
+  "widgets" : {
+    "w10578_99108" : {
+      "id" : "w10578_99108",
+      "type" : "Icon",
+      "name" : "Icon",
+      "x" : 4816,
+      "y" : 3388,
+      "w" : 40,
+      "h" : 40,
+      "z" : 1,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#333333",
+        "icon" : "mdi mdi-menu"
+      },
+      "created" : 1675116280292,
+      "modified" : 1676494383140,
+      "copyOf" : "w10002_30000"
+    },
+    "w10579_76883" : {
+      "type" : "Label",
+      "name" : "Label",
+      "x" : 4904,
+      "y" : 3444,
+      "w" : 256,
+      "h" : 32,
+      "z" : 2,
+      "props" : {
+        "label" : "Good morning"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 28,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "textShadow" : null
+      },
+      "id" : "w10579_76883",
+      "created" : 1675118160647,
+      "modified" : 1676494383140,
+      "copyOf" : "w10006_85068"
+    },
+    "w10580_14734" : {
+      "type" : "Label",
+      "name" : "Label 1",
+      "x" : 4904,
+      "y" : 3476,
+      "w" : 256,
+      "h" : 32,
+      "z" : 3,
+      "props" : {
+        "label" : "Pedro"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 28,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "textShadow" : null,
+        "fontWeight" : "bold"
+      },
+      "id" : "w10580_14734",
+      "created" : 1675118175919,
+      "modified" : 1676494383140,
+      "copyOf" : "w10007_52265"
+    },
+    "w10581_36198" : {
+      "type" : "Button",
+      "name" : "Box 3",
+      "x" : 4824,
+      "y" : 3452,
+      "w" : 56,
+      "h" : 56,
+      "z" : 4,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 32,
+        "borderTopLeftRadius" : 32,
+        "borderBottomRightRadius" : 32,
+        "borderBottomLeftRadius" : 32,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ebf5ff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10581_36198",
+      "created" : 1675118201387,
+      "modified" : 1676494383140,
+      "copyOf" : "w10008_75305"
+    },
+    "w10582_77492" : {
+      "type" : "Label",
+      "name" : "Label 2",
+      "x" : 4824,
+      "y" : 3556,
+      "w" : 256,
+      "h" : 32,
+      "z" : 5,
+      "props" : {
+        "label" : "Next flight"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 24,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "textShadow" : null,
+        "fontWeight" : ""
+      },
+      "id" : "w10582_77492",
+      "created" : 1675118415996,
+      "modified" : 1676494383140,
+      "copyOf" : "w10011_32606"
+    },
+    "w10583_66240" : {
+      "type" : "Button",
+      "name" : "Box 2",
+      "x" : 4824,
+      "y" : 3876,
+      "w" : 328,
+      "h" : 96,
+      "z" : 6,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopLeftRadius" : 8,
+        "borderTopRightRadius" : 8,
+        "borderBottomLeftRadius" : 8,
+        "borderBottomRightRadius" : 8
+      },
+      "id" : "w10583_66240",
+      "created" : 1675118104474,
+      "modified" : 1677171061871,
+      "template" : "tw10054_69991",
+      "copyOf" : "w10005_21065"
+    },
+    "w10584_11487" : {
+      "type" : "Label",
+      "name" : "Label 4",
+      "x" : 5008,
+      "y" : 3884,
+      "w" : 120,
+      "h" : 32,
+      "z" : 7,
+      "props" : {
+        "label" : "22th Feb"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : { },
+      "id" : "w10584_11487",
+      "created" : 1675118889911,
+      "modified" : 1677171061871,
+      "copyOf" : "w10021_476",
+      "template" : "tw10055_64166"
+    },
+    "w10585_86565" : {
+      "type" : "Label",
+      "name" : "Label 7",
+      "x" : 4848,
+      "y" : 3924,
+      "w" : 128,
+      "h" : 32,
+      "z" : 8,
+      "props" : {
+        "label" : "Eindhoven"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : { },
+      "id" : "w10585_86565",
+      "created" : 1675118962938,
+      "modified" : 1677171061871,
+      "copyOf" : "w10024_59576",
+      "template" : "tw10056_75490"
+    },
+    "w10586_46826" : {
+      "type" : "Label",
+      "name" : "Label 8",
+      "x" : 5024,
+      "y" : 3924,
+      "w" : 104,
+      "h" : 32,
+      "z" : 9,
+      "props" : {
+        "label" : "Cologne"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontWeight" : "",
+        "color" : "#647381"
+      },
+      "id" : "w10586_46826",
+      "created" : 1675118992648,
+      "modified" : 1680124913906,
+      "copyOf" : "w10025_87660",
+      "template" : "tw10057_47308"
+    },
+    "w10587_25877" : {
+      "id" : "w10587_25877",
+      "type" : "Icon",
+      "name" : "Icon 5",
+      "x" : 4972,
+      "y" : 3924,
+      "w" : 32,
+      "h" : 32,
+      "z" : 10,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "icon" : "mdi mdi-code-tags"
+      },
+      "created" : 1675119033579,
+      "modified" : 1677171061871,
+      "template" : "tw10058_3120",
+      "copyOf" : "w10026_11221"
+    },
+    "w10588_58643" : {
+      "type" : "Label",
+      "name" : "Label 9",
+      "x" : 4848,
+      "y" : 3884,
+      "w" : 176,
+      "h" : 32,
+      "z" : 11,
+      "props" : {
+        "label" : "Pedro Gonsalves"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : { },
+      "id" : "w10588_58643",
+      "created" : 1675119098007,
+      "modified" : 1677171061871,
+      "copyOf" : "w10049_49286",
+      "template" : "tw10059_81961"
+    },
+    "w10589_17172" : {
+      "type" : "Button",
+      "name" : "Box 1",
+      "x" : 4824,
+      "y" : 4004,
+      "w" : 328,
+      "h" : 96,
+      "z" : 12,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopLeftRadius" : 8,
+        "borderTopRightRadius" : 8,
+        "borderBottomLeftRadius" : 8,
+        "borderBottomRightRadius" : 8
+      },
+      "id" : "w10589_17172",
+      "created" : 1675119184505,
+      "modified" : 1677171061871,
+      "template" : "tw10054_69991",
+      "copyOf" : "w10060_96129"
+    },
+    "w10590_68466" : {
+      "type" : "Label",
+      "name" : "Label 5",
+      "x" : 5008,
+      "y" : 4012,
+      "w" : 120,
+      "h" : 32,
+      "z" : 13,
+      "props" : {
+        "label" : "22th Feb"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : { },
+      "id" : "w10590_68466",
+      "created" : 1675119184505,
+      "modified" : 1677171061871,
+      "copyOf" : "w10061_36609",
+      "template" : "tw10055_64166"
+    },
+    "w10591_92634" : {
+      "type" : "Label",
+      "name" : "Label 6",
+      "x" : 4848,
+      "y" : 4052,
+      "w" : 128,
+      "h" : 32,
+      "z" : 14,
+      "props" : {
+        "label" : "Porto"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "color" : "#647381"
+      },
+      "id" : "w10591_92634",
+      "created" : 1675119184505,
+      "modified" : 1680124895746,
+      "copyOf" : "w10062_9608",
+      "template" : "tw10056_75490"
+    },
+    "w10592_79789" : {
+      "type" : "Label",
+      "name" : "Label 10",
+      "x" : 5024,
+      "y" : 4052,
+      "w" : 104,
+      "h" : 32,
+      "z" : 15,
+      "props" : {
+        "label" : "Cologne"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : { },
+      "id" : "w10592_79789",
+      "created" : 1675119184505,
+      "modified" : 1677171061871,
+      "copyOf" : "w10063_34500",
+      "template" : "tw10057_47308"
+    },
+    "w10593_85247" : {
+      "id" : "w10593_85247",
+      "type" : "Icon",
+      "name" : "Icon 6",
+      "x" : 4968,
+      "y" : 4052,
+      "w" : 32,
+      "h" : 32,
+      "z" : 16,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "icon" : "mdi mdi-chevron-right"
+      },
+      "created" : 1675119184505,
+      "modified" : 1677171061871,
+      "template" : "tw10058_3120",
+      "copyOf" : "w10064_17987"
+    },
+    "w10594_15695" : {
+      "type" : "Label",
+      "name" : "Label 11",
+      "x" : 4848,
+      "y" : 4012,
+      "w" : 176,
+      "h" : 32,
+      "z" : 17,
+      "props" : {
+        "label" : "Pedro Gonsalves"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : { },
+      "id" : "w10594_15695",
+      "created" : 1675119184505,
+      "modified" : 1677171061871,
+      "copyOf" : "w10065_5296",
+      "template" : "tw10059_81961"
+    },
+    "w10595_79796" : {
+      "type" : "Button",
+      "name" : "BlueBox",
+      "x" : 4824,
+      "y" : 3596,
+      "w" : 328,
+      "h" : 192,
+      "z" : 18,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 8,
+        "borderTopLeftRadius" : 8,
+        "borderBottomRightRadius" : 8,
+        "borderBottomLeftRadius" : 8,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : {
+          "colors" : [ {
+            "c" : "#086cbd",
+            "p" : 0
+          }, {
+            "c" : "#02b5f3",
+            "p" : 100
+          } ],
+          "gradient" : true,
+          "direction" : "45",
+          "gradientHeight" : 300,
+          "gradientWidth" : 30,
+          "selectedHandle" : 0
+        },
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10595_79796",
+      "created" : 1675116297552,
+      "modified" : 1714937777682,
+      "copyOf" : "w10003_31223"
+    },
+    "w10596_74891" : {
+      "type" : "Label",
+      "name" : "Label 3",
+      "x" : 5008,
+      "y" : 3612,
+      "w" : 120,
+      "h" : 32,
+      "z" : 19,
+      "props" : {
+        "label" : "12th Feb"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 20,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "right",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#c1ddf8",
+        "textShadow" : null
+      },
+      "id" : "w10596_74891",
+      "created" : 1675118831597,
+      "modified" : 1714937777682,
+      "copyOf" : "w10020_41470"
+    },
+    "w10597_6705" : {
+      "type" : "Label",
+      "name" : "Label 16",
+      "x" : 4848,
+      "y" : 3612,
+      "w" : 176,
+      "h" : 32,
+      "z" : 20,
+      "props" : {
+        "label" : "Pedro Gonsalves"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "color" : "#c1ddf8",
+        "fontWeight" : ""
+      },
+      "id" : "w10597_6705",
+      "created" : 1675119468285,
+      "modified" : 1714937777682,
+      "copyOf" : "w10091_50858",
+      "template" : "tw10059_81961"
+    },
+    "w10598_69724" : {
+      "type" : "Label",
+      "name" : "Label 7",
+      "x" : 4848,
+      "y" : 3660,
+      "w" : 128,
+      "h" : 32,
+      "z" : 21,
+      "props" : {
+        "label" : "Eindhoven"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "color" : "#ffffff",
+        "fontSize" : 28,
+        "fontWeight" : null
+      },
+      "id" : "w10598_69724",
+      "created" : 1675119516437,
+      "modified" : 1714937777682,
+      "copyOf" : "w10092_57136",
+      "template" : "tw10056_75490"
+    },
+    "w10599_86731" : {
+      "type" : "Label",
+      "name" : "Label 8",
+      "x" : 5024,
+      "y" : 3660,
+      "w" : 104,
+      "h" : 32,
+      "z" : 22,
+      "props" : {
+        "label" : "Porto"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontWeight" : null,
+        "color" : "#ffffff",
+        "fontSize" : 28
+      },
+      "id" : "w10599_86731",
+      "created" : 1675119516437,
+      "modified" : 1714937777682,
+      "copyOf" : "w10093_25087",
+      "template" : "tw10057_47308"
+    },
+    "w10600_66492" : {
+      "id" : "w10600_66492",
+      "type" : "Icon",
+      "name" : "Icon 5",
+      "x" : 4984,
+      "y" : 3660,
+      "w" : 32,
+      "h" : 32,
+      "z" : 23,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "icon" : "mdi mdi-code-tags",
+        "color" : "#ffffff"
+      },
+      "created" : 1675119516437,
+      "modified" : 1714937777682,
+      "template" : "tw10058_3120",
+      "copyOf" : "w10094_43396"
+    },
+    "w10601_90236" : {
+      "type" : "Button",
+      "name" : "Box 5",
+      "x" : 4848,
+      "y" : 3732,
+      "w" : 280,
+      "h" : 40,
+      "z" : 24,
+      "props" : {
+        "label" : "Checkin"
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 24,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#15604d",
+        "borderTopRightRadius" : 4,
+        "borderTopLeftRadius" : 4,
+        "borderBottomRightRadius" : 4,
+        "borderBottomLeftRadius" : 4,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#0bdca7",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null,
+        "verticalAlign" : "middle"
+      },
+      "id" : "w10601_90236",
+      "created" : 1675119651607,
+      "modified" : 1714937777682,
+      "copyOf" : "w10095_92024"
+    },
+    "w10602_35044" : {
+      "id" : "w10602_35044",
+      "type" : "Icon",
+      "name" : "Icon 7",
+      "x" : 4832,
+      "y" : 3460,
+      "w" : 40,
+      "h" : 40,
+      "z" : 25,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#0972c1",
+        "icon" : "mdi mdi-account"
+      },
+      "created" : 1675119754018,
+      "modified" : 1677171061871,
+      "copyOf" : "w10096_18077"
+    },
+    "w10603_67860" : {
+      "type" : "Label",
+      "name" : "Label 12",
+      "x" : 4832,
+      "y" : 3836,
+      "w" : 256,
+      "h" : 32,
+      "z" : 26,
+      "props" : {
+        "label" : "Upcoming flights"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 24,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "textShadow" : null
+      },
+      "id" : "w10603_67860",
+      "created" : 1675120574655,
+      "modified" : 1677171061871,
+      "copyOf" : "w10098_94654"
+    },
+    "w10604_51504" : {
+      "type" : "Button",
+      "name" : "FooterBackground",
+      "x" : 4800,
+      "y" : 4120,
+      "w" : 375,
+      "h" : 63,
+      "z" : 27,
+      "props" : {
+        "label" : "",
+        "resize" : {
+          "right" : false,
+          "up" : false,
+          "left" : false,
+          "down" : true,
+          "fixedHorizontal" : false,
+          "fixedVertical" : false
+        }
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ffffff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null,
+        "fixed" : false
+      },
+      "id" : "w10604_51504",
+      "created" : 1676494377510,
+      "modified" : 1688405103216,
+      "copyOf" : "w10371_15300"
+    },
+    "w10605_2500" : {
+      "id" : "w10605_2500",
+      "type" : "Icon",
+      "name" : "Icon 1",
+      "x" : 4832,
+      "y" : 4136,
+      "w" : 32,
+      "h" : 32,
+      "z" : 28,
+      "props" : {
+        "resize" : {
+          "right" : false,
+          "up" : false,
+          "left" : false,
+          "down" : true,
+          "fixedHorizontal" : false,
+          "fixedVertical" : false
+        }
+      },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#0972c1",
+        "icon" : "mdi mdi-home",
+        "fixed" : false
+      },
+      "created" : 1675118588642,
+      "modified" : 1688405103216,
+      "copyOf" : "w10014_39235"
+    },
+    "w10606_67483" : {
+      "id" : "w10606_67483",
+      "type" : "Icon",
+      "name" : "Icon 2",
+      "x" : 4928,
+      "y" : 4136,
+      "w" : 32,
+      "h" : 32,
+      "z" : 29,
+      "props" : {
+        "resize" : {
+          "right" : false,
+          "up" : false,
+          "left" : false,
+          "down" : true,
+          "fixedHorizontal" : false,
+          "fixedVertical" : false
+        }
+      },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-magnify",
+        "fixed" : false
+      },
+      "created" : 1675118636735,
+      "modified" : 1688405103216,
+      "copyOf" : "w10015_84763"
+    },
+    "w10607_15918" : {
+      "id" : "w10607_15918",
+      "type" : "Icon",
+      "name" : "Icon 3",
+      "x" : 5024,
+      "y" : 4136,
+      "w" : 32,
+      "h" : 32,
+      "z" : 30,
+      "props" : {
+        "resize" : {
+          "right" : false,
+          "up" : false,
+          "left" : false,
+          "down" : true,
+          "fixedHorizontal" : false,
+          "fixedVertical" : false
+        }
+      },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-chat",
+        "fixed" : false
+      },
+      "created" : 1675118641893,
+      "modified" : 1688405103216,
+      "copyOf" : "w10016_19125"
+    },
+    "w10608_63693" : {
+      "id" : "w10608_63693",
+      "type" : "Icon",
+      "name" : "Icon 4",
+      "x" : 5120,
+      "y" : 4136,
+      "w" : 32,
+      "h" : 32,
+      "z" : 31,
+      "props" : {
+        "resize" : {
+          "right" : false,
+          "up" : false,
+          "left" : false,
+          "down" : true,
+          "fixedHorizontal" : false,
+          "fixedVertical" : false
+        }
+      },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-shopping-outline",
+        "fixed" : false
+      },
+      "created" : 1675118646517,
+      "modified" : 1688405103216,
+      "copyOf" : "w10017_59220"
+    },
+    "w10614_36278" : {
+      "id" : "w10614_36278",
+      "type" : "Icon",
+      "name" : "Icon",
+      "x" : 5659,
+      "y" : 2857,
+      "w" : 40,
+      "h" : 40,
+      "z" : 1,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#333333",
+        "icon" : "mdi mdi-menu"
+      },
+      "created" : 1675116280292,
+      "modified" : 1688405166368,
+      "copyOf" : "w10171_47269"
+    },
+    "w10615_30203" : {
+      "type" : "Label",
+      "name" : "Label",
+      "x" : 5667,
+      "y" : 2913,
+      "w" : 256,
+      "h" : 32,
+      "z" : 2,
+      "props" : {
+        "label" : "Checkin"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 28,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "textShadow" : null
+      },
+      "id" : "w10615_30203",
+      "created" : 1675118160647,
+      "modified" : 1688405166368,
+      "copyOf" : "w10172_74598"
+    },
+    "w10616_61419" : {
+      "type" : "Label",
+      "name" : "Label 1",
+      "x" : 5667,
+      "y" : 2945,
+      "w" : 256,
+      "h" : 32,
+      "z" : 3,
+      "props" : {
+        "label" : "Eindhoven to Porto"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 28,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "textShadow" : null,
+        "fontWeight" : "bold"
+      },
+      "id" : "w10616_61419",
+      "created" : 1675118175919,
+      "modified" : 1688405166368,
+      "copyOf" : "w10173_40709"
+    },
+    "w10617_54003" : {
+      "id" : "w10617_54003",
+      "type" : "Icon",
+      "name" : "Icon 1",
+      "x" : 5675,
+      "y" : 3609,
+      "w" : 32,
+      "h" : 32,
+      "z" : 4,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-home"
+      },
+      "created" : 1675118588642,
+      "modified" : 1688405166368,
+      "copyOf" : "w10176_94328"
+    },
+    "w10618_75278" : {
+      "id" : "w10618_75278",
+      "type" : "Icon",
+      "name" : "Icon 2",
+      "x" : 5771,
+      "y" : 3609,
+      "w" : 32,
+      "h" : 32,
+      "z" : 5,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-magnify"
+      },
+      "created" : 1675118636735,
+      "modified" : 1688405166368,
+      "copyOf" : "w10177_63991"
+    },
+    "w10619_40257" : {
+      "id" : "w10619_40257",
+      "type" : "Icon",
+      "name" : "Icon 3",
+      "x" : 5867,
+      "y" : 3609,
+      "w" : 32,
+      "h" : 32,
+      "z" : 6,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-chat"
+      },
+      "created" : 1675118641893,
+      "modified" : 1688405166368,
+      "copyOf" : "w10178_43600"
+    },
+    "w10620_17523" : {
+      "id" : "w10620_17523",
+      "type" : "Icon",
+      "name" : "Icon 4",
+      "x" : 5963,
+      "y" : 3609,
+      "w" : 32,
+      "h" : 32,
+      "z" : 7,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-shopping-outline"
+      },
+      "created" : 1675118646517,
+      "modified" : 1688405166368,
+      "copyOf" : "w10179_6735"
+    },
+    "w10621_44829" : {
+      "type" : "Button",
+      "name" : "BlueBox",
+      "x" : 5667,
+      "y" : 3017,
+      "w" : 328,
+      "h" : 120,
+      "z" : 8,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 8,
+        "borderTopLeftRadius" : 8,
+        "borderBottomRightRadius" : 8,
+        "borderBottomLeftRadius" : 8,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ebf5ff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10621_44829",
+      "created" : 1675286108848,
+      "modified" : 1688405166368,
+      "copyOf" : "w10223_2161"
+    },
+    "w10633_47903" : {
+      "type" : "Label",
+      "name" : "Label 9",
+      "x" : 5691,
+      "y" : 3033,
+      "w" : 176,
+      "h" : 24,
+      "z" : 84,
+      "props" : {
+        "label" : "ID"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "verticalAlign" : "middle"
+      },
+      "id" : "w10633_47903",
+      "created" : 1688403581853,
+      "modified" : 1688405166368,
+      "copyOf" : "w10357_99295",
+      "template" : "tw10059_81961"
+    },
+    "w10634_72670" : {
+      "id" : "w10634_72670",
+      "type" : "TypeAheadTextBox",
+      "name" : "ComboBox",
+      "x" : 5683,
+      "y" : 3065,
+      "w" : 280,
+      "h" : 40,
+      "z" : 85,
+      "props" : {
+        "label" : "Enter our id",
+        "placeholder" : false,
+        "options" : [ "Porto (OPO)", "Porto Allegre (POA)" ],
+        "hideUpperBorder" : false,
+        "databinding" : {
+          "default" : "from"
+        }
+      },
+      "has" : {
+        "label" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "editable" : true,
+        "onclick" : true,
+        "padding" : true
+      },
+      "error" : {
+        "borderTopColor" : "#cc0000",
+        "borderBottomColor" : "#cc0000",
+        "borderRightColor" : "#cc0000",
+        "borderLeftColor" : "#cc0000",
+        "background" : "#ffcaca"
+      },
+      "focus" : {
+        "background" : "#ebf5ff",
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderTopColor" : "#ebf5ff",
+        "borderBottomColor" : "#98aec3",
+        "borderRightColor" : "#ebf5ff",
+        "borderLeftColor" : "#ebf5ff",
+        "borderTopStyle" : "solid",
+        "borderBottomStyle" : "solid",
+        "borderRightStyle" : "solid",
+        "borderLeftStyle" : "solid"
+      },
+      "style" : {
+        "color" : "#086cbd",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 2,
+        "borderTopLeftRadius" : 2,
+        "borderBottomRightRadius" : 2,
+        "borderBottomLeftRadius" : 2,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "fontSize" : 18,
+        "borderTopColor" : "#0972c1",
+        "borderBottomColor" : "#0972c1",
+        "borderRightColor" : "#0972c1",
+        "borderLeftColor" : "#0972c1",
+        "background" : "rgba(193, 221, 248, 0.47)",
+        "paddingTop" : 5,
+        "paddingBottom" : 5,
+        "paddingLeft" : 8,
+        "paddingRight" : 0,
+        "textAlign" : "left",
+        "selectedOptionColor" : "#ffffff",
+        "selectedOptionBackground" : "#086cbd",
+        "popupBackground" : "#ffffff",
+        "popupColor" : "#333333",
+        "popupBorderColor" : "#98aec3",
+        "borderTopStyle" : "solid",
+        "borderBottomStyle" : "solid",
+        "borderRightStyle" : "solid",
+        "borderLeftStyle" : "solid"
+      },
+      "created" : 1688403581853,
+      "modified" : 1688405166368,
+      "copyOf" : "w10359_43437"
+    },
+    "w10636_67911" : {
+      "type" : "Button",
+      "name" : "BlueBox 1",
+      "x" : 5667,
+      "y" : 3169,
+      "w" : 328,
+      "h" : 120,
+      "z" : 86,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 8,
+        "borderTopLeftRadius" : 8,
+        "borderBottomRightRadius" : 8,
+        "borderBottomLeftRadius" : 8,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ebf5ff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10636_67911",
+      "created" : 1688404553258,
+      "modified" : 1688405166368,
+      "copyOf" : "w10621_44829"
+    },
+    "w10637_88550" : {
+      "type" : "Label",
+      "name" : "Label 2",
+      "x" : 5691,
+      "y" : 3185,
+      "w" : 176,
+      "h" : 24,
+      "z" : 87,
+      "props" : {
+        "label" : "Insurance"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "verticalAlign" : "middle"
+      },
+      "id" : "w10637_88550",
+      "created" : 1688404553258,
+      "modified" : 1688405166368,
+      "copyOf" : "w10633_47903",
+      "template" : "tw10059_81961"
+    },
+    "w10640_57061" : {
+      "type" : "Button",
+      "name" : "BlueBox 2",
+      "x" : 5667,
+      "y" : 3321,
+      "w" : 328,
+      "h" : 168,
+      "z" : 89,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 8,
+        "borderTopLeftRadius" : 8,
+        "borderBottomRightRadius" : 8,
+        "borderBottomLeftRadius" : 8,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ebf5ff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10640_57061",
+      "created" : 1688404647728,
+      "modified" : 1688405166368,
+      "copyOf" : "w10636_67911"
+    },
+    "w10641_50103" : {
+      "type" : "Label",
+      "name" : "Label 3",
+      "x" : 5691,
+      "y" : 3337,
+      "w" : 176,
+      "h" : 24,
+      "z" : 90,
+      "props" : {
+        "label" : "Seat"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "verticalAlign" : "middle"
+      },
+      "id" : "w10641_50103",
+      "created" : 1688404647728,
+      "modified" : 1688405166368,
+      "copyOf" : "w10637_88550",
+      "template" : "tw10059_81961"
+    },
+    "w10643_79775" : {
+      "id" : "w10643_79775",
+      "type" : "LabeledCheckBox",
+      "name" : "Label CheckBox",
+      "x" : 5691,
+      "y" : 3233,
+      "w" : 288,
+      "h" : 32,
+      "z" : 92,
+      "props" : {
+        "checked" : false,
+        "label" : " I want extra travel insurance",
+        "gap" : 8
+      },
+      "has" : {
+        "label" : true,
+        "onclick" : true,
+        "border" : true,
+        "data" : true
+      },
+      "style" : {
+        "fontSize" : "18",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "textShadow" : null,
+        "borderTopRightRadius" : 7,
+        "borderTopLeftRadius" : 7,
+        "borderBottomRightRadius" : 7,
+        "borderBottomLeftRadius" : 7,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#086cbd",
+        "borderBottomColor" : "#086cbd",
+        "borderRightColor" : "#086cbd",
+        "borderLeftColor" : "#086cbd",
+        "background" : "rgba(193, 221, 248, 0.47)",
+        "color" : "#086cbd",
+        "colorButton" : "#333333",
+        "verticalAlign" : "middle"
+      },
+      "error" : {
+        "borderTopColor" : "#cc0000",
+        "borderBottomColor" : "#cc0000",
+        "borderRightColor" : "#cc0000",
+        "borderLeftColor" : "#cc0000",
+        "background" : "#ffcaca"
+      },
+      "created" : 1688404683386,
+      "modified" : 1688405166368
+    },
+    "w10644_45907" : {
+      "id" : "w10644_45907",
+      "type" : "RadioGroup",
+      "name" : "RadioGroup",
+      "x" : 5691,
+      "y" : 3377,
+      "w" : 280,
+      "h" : 80,
+      "z" : 93,
+      "props" : {
+        "options" : [ "Select Seat (Paid)", "Random Seat (Free)" ],
+        "selected" : null
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "onclick" : true,
+        "border" : true,
+        "label" : true,
+        "data" : true
+      },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#086cbd",
+        "borderTopRightRadius" : 100,
+        "borderTopLeftRadius" : 100,
+        "borderBottomRightRadius" : 100,
+        "borderBottomLeftRadius" : 100,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopColor" : "#086cbd",
+        "borderBottomColor" : "#086cbd",
+        "borderRightColor" : "#086cbd",
+        "borderLeftColor" : "#086cbd",
+        "background" : "rgba(193, 221, 248, 0.47)",
+        "colorButton" : "#333333",
+        "boxHeight" : 32,
+        "boxMarginRight" : 10
+      },
+      "error" : {
+        "borderTopColor" : "#cc0000",
+        "borderBottomColor" : "#cc0000",
+        "borderRightColor" : "#cc0000",
+        "borderLeftColor" : "#cc0000",
+        "color" : "#cc0000"
+      },
+      "created" : 1688404725299,
+      "modified" : 1688405166368
+    },
+    "w10646_70875" : {
+      "type" : "Button",
+      "name" : "Box 5",
+      "x" : 5667,
+      "y" : 3513,
+      "w" : 328,
+      "h" : 56,
+      "z" : 94,
+      "props" : {
+        "label" : "Next"
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 24,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#15604d",
+        "borderTopRightRadius" : 4,
+        "borderTopLeftRadius" : 4,
+        "borderBottomRightRadius" : 4,
+        "borderBottomLeftRadius" : 4,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#0bdca7",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null,
+        "verticalAlign" : "middle"
+      },
+      "id" : "w10646_70875",
+      "created" : 1688404862584,
+      "modified" : 1688405166368,
+      "copyOf" : "w10504_79786"
+    },
+    "w10627_27038" : {
+      "id" : "w10627_27038",
+      "type" : "Icon",
+      "name" : "Icon 1",
+      "x" : 5675,
+      "y" : 4583,
+      "w" : 32,
+      "h" : 32,
+      "z" : 4,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#0972c1",
+        "icon" : "mdi mdi-home"
+      },
+      "created" : 1675118588642,
+      "modified" : 1688405170623,
+      "copyOf" : "w10617_54003"
+    },
+    "w10628_75344" : {
+      "id" : "w10628_75344",
+      "type" : "Icon",
+      "name" : "Icon 2",
+      "x" : 5771,
+      "y" : 4583,
+      "w" : 32,
+      "h" : 32,
+      "z" : 5,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-magnify"
+      },
+      "created" : 1675118636735,
+      "modified" : 1688405170623,
+      "copyOf" : "w10618_75278"
+    },
+    "w10629_49054" : {
+      "id" : "w10629_49054",
+      "type" : "Icon",
+      "name" : "Icon 3",
+      "x" : 5867,
+      "y" : 4583,
+      "w" : 32,
+      "h" : 32,
+      "z" : 6,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-chat"
+      },
+      "created" : 1675118641893,
+      "modified" : 1688405170623,
+      "copyOf" : "w10619_40257"
+    },
+    "w10630_43770" : {
+      "id" : "w10630_43770",
+      "type" : "Icon",
+      "name" : "Icon 4",
+      "x" : 5963,
+      "y" : 4583,
+      "w" : 32,
+      "h" : 32,
+      "z" : 7,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#c1ddf8",
+        "icon" : "mdi mdi-shopping-outline"
+      },
+      "created" : 1675118646517,
+      "modified" : 1688405170623,
+      "copyOf" : "w10620_17523"
+    },
+    "w10683_58463" : {
+      "type" : "Button",
+      "name" : "Box",
+      "x" : 5643,
+      "y" : 3815,
+      "w" : 375,
+      "h" : 812,
+      "z" : 95,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#15604d",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "rgba(51, 51, 51, 0.52)",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10683_58463",
+      "created" : 1688404949602,
+      "modified" : 1688405170623
+    },
+    "w10684_98920" : {
+      "type" : "Button",
+      "name" : "Box 4",
+      "x" : 5667,
+      "y" : 3895,
+      "w" : 329,
+      "h" : 408,
+      "z" : 96,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#15604d",
+        "borderTopRightRadius" : 16,
+        "borderTopLeftRadius" : 16,
+        "borderBottomRightRadius" : 16,
+        "borderBottomLeftRadius" : 16,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ffffff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10684_98920",
+      "created" : 1688404975211,
+      "modified" : 1688405170623
+    },
+    "w10685_66819" : {
+      "type" : "Button",
+      "name" : "Box 6",
+      "x" : 5691,
+      "y" : 4199,
+      "w" : 272,
+      "h" : 56,
+      "z" : 97,
+      "props" : {
+        "label" : "Next"
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 24,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#15604d",
+        "borderTopRightRadius" : 4,
+        "borderTopLeftRadius" : 4,
+        "borderBottomRightRadius" : 4,
+        "borderBottomLeftRadius" : 4,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#0bdca7",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null,
+        "verticalAlign" : "middle"
+      },
+      "id" : "w10685_66819",
+      "created" : 1688404990650,
+      "modified" : 1688405170623,
+      "copyOf" : "w10646_70875"
+    },
+    "w10686_58945" : {
+      "type" : "Label",
+      "name" : "Label 13",
+      "x" : 5691,
+      "y" : 3919,
+      "w" : 256,
+      "h" : 32,
+      "z" : 98,
+      "props" : {
+        "label" : "Checkin"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 28,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "textShadow" : null
+      },
+      "id" : "w10686_58945",
+      "created" : 1688405001257,
+      "modified" : 1688405170623,
+      "copyOf" : "w10615_30203"
+    },
+    "w10687_71482" : {
+      "type" : "Label",
+      "name" : "Label 14",
+      "x" : 5691,
+      "y" : 3951,
+      "w" : 256,
+      "h" : 32,
+      "z" : 99,
+      "props" : {
+        "label" : "Eindhoven to Porto"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "fontSize" : 28,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#333333",
+        "textShadow" : null,
+        "fontWeight" : "bold"
+      },
+      "id" : "w10687_71482",
+      "created" : 1688405001258,
+      "modified" : 1688405170623,
+      "copyOf" : "w10616_61419"
+    },
+    "w10688_68470" : {
+      "type" : "Button",
+      "name" : "BlueBox 1",
+      "x" : 5691,
+      "y" : 4015,
+      "w" : 280,
+      "h" : 120,
+      "z" : 100,
+      "props" : {
+        "label" : ""
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 8,
+        "borderTopLeftRadius" : 8,
+        "borderBottomRightRadius" : 8,
+        "borderBottomLeftRadius" : 8,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ebf5ff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10688_68470",
+      "created" : 1688405006962,
+      "modified" : 1688405170623,
+      "copyOf" : "w10621_44829"
+    },
+    "w10689_83563" : {
+      "type" : "Label",
+      "name" : "Label 15",
+      "x" : 5715,
+      "y" : 4031,
+      "w" : 176,
+      "h" : 24,
+      "z" : 101,
+      "props" : {
+        "label" : "ID"
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "style" : {
+        "verticalAlign" : "middle"
+      },
+      "id" : "w10689_83563",
+      "created" : 1688405006962,
+      "modified" : 1688405170623,
+      "copyOf" : "w10633_47903",
+      "template" : "tw10059_81961"
+    },
+    "w10690_38023" : {
+      "id" : "w10690_38023",
+      "type" : "TypeAheadTextBox",
+      "name" : "ComboBox",
+      "x" : 5707,
+      "y" : 4063,
+      "w" : 240,
+      "h" : 40,
+      "z" : 102,
+      "props" : {
+        "label" : "Enter your id",
+        "placeholder" : false,
+        "options" : [ "Porto (OPO)", "Porto Allegre (POA)" ],
+        "hideUpperBorder" : false,
+        "databinding" : {
+          "default" : "from"
+        }
+      },
+      "has" : {
+        "label" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "editable" : true,
+        "onclick" : true,
+        "padding" : true
+      },
+      "error" : {
+        "borderTopColor" : "#cc0000",
+        "borderBottomColor" : "#cc0000",
+        "borderRightColor" : "#cc0000",
+        "borderLeftColor" : "#cc0000",
+        "background" : "#ffcaca"
+      },
+      "focus" : {
+        "background" : "#ebf5ff",
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderTopColor" : "#ebf5ff",
+        "borderBottomColor" : "#98aec3",
+        "borderRightColor" : "#ebf5ff",
+        "borderLeftColor" : "#ebf5ff",
+        "borderTopStyle" : "solid",
+        "borderBottomStyle" : "solid",
+        "borderRightStyle" : "solid",
+        "borderLeftStyle" : "solid"
+      },
+      "style" : {
+        "color" : "#086cbd",
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "borderTopRightRadius" : 2,
+        "borderTopLeftRadius" : 2,
+        "borderBottomRightRadius" : 2,
+        "borderBottomLeftRadius" : 2,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "fontSize" : 18,
+        "borderTopColor" : "#0972c1",
+        "borderBottomColor" : "#0972c1",
+        "borderRightColor" : "#0972c1",
+        "borderLeftColor" : "#0972c1",
+        "background" : "rgba(193, 221, 248, 0.47)",
+        "paddingTop" : 5,
+        "paddingBottom" : 5,
+        "paddingLeft" : 8,
+        "paddingRight" : 0,
+        "textAlign" : "left",
+        "selectedOptionColor" : "#ffffff",
+        "selectedOptionBackground" : "#086cbd",
+        "popupBackground" : "#ffffff",
+        "popupColor" : "#333333",
+        "popupBorderColor" : "#98aec3",
+        "borderTopStyle" : "solid",
+        "borderBottomStyle" : "solid",
+        "borderRightStyle" : "solid",
+        "borderLeftStyle" : "solid"
+      },
+      "created" : 1688405006962,
+      "modified" : 1713302432395,
+      "copyOf" : "w10634_72670"
+    },
+    "w10691_97650" : {
+      "id" : "w10691_97650",
+      "type" : "Icon",
+      "name" : "Icon 8",
+      "x" : 5947,
+      "y" : 3903,
+      "w" : 40,
+      "h" : 40,
+      "z" : 103,
+      "props" : { },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "actions" : { },
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#333333",
+        "icon" : "mdi mdi-close-circle"
+      },
+      "created" : 1688405060897,
+      "modified" : 1688405170623
+    },
+    "w10692_243" : {
+      "id" : "w10692_243",
+      "name" : "AB",
+      "type" : "LogicOr",
+      "x" : 5318,
+      "y" : 3696,
+      "w" : 107,
+      "h" : 109,
+      "props" : {
+        "label" : "AB",
+        "isRandom" : true
+      },
+      "has" : {
+        "logic" : true
+      },
+      "style" : {
+        "background" : "#777"
+      },
+      "z" : 104,
+      "created" : 1688405118604,
+      "modified" : 1688405148400
+    }
+  },
+  "lines" : {
+    "l10693_91344" : {
+      "id" : "l10693_91344",
+      "from" : "w10601_90236",
+      "to" : "w10692_243",
+      "points" : [ ],
+      "event" : "click"
+    },
+    "l10694_15790" : {
+      "id" : "l10694_15790",
+      "from" : "w10692_243",
+      "to" : "s10613_68801",
+      "points" : [ ],
+      "event" : "click"
+    },
+    "l10695_20615" : {
+      "id" : "l10695_20615",
+      "from" : "w10692_243",
+      "to" : "s10623_85944",
+      "points" : [ ],
+      "event" : "click"
+    }
+  },
+  "groups" : {
+    "g10609_76019" : {
+      "id" : "g10609_76019",
+      "children" : [ "w10583_66240", "w10584_11487", "w10585_86565", "w10586_46826", "w10587_25877", "w10588_58643" ],
+      "groups" : [ ],
+      "name" : "NextFlight",
+      "template" : "tg10053_17445",
+      "copyOf" : "g10052_98714"
+    },
+    "g10610_49400" : {
+      "id" : "g10610_49400",
+      "children" : [ "w10589_17172", "w10590_68466", "w10591_92634", "w10592_79789", "w10593_85247", "w10594_15695" ],
+      "groups" : [ ],
+      "copyOf" : "g10066_87402",
+      "name" : "NextFlight 1"
+    },
+    "g10611_6524" : {
+      "id" : "g10611_6524",
+      "children" : [ "w10595_79796", "w10596_74891", "w10597_6705", "w10598_69724", "w10599_86731", "w10600_66492", "w10601_90236" ],
+      "groups" : [ ],
+      "name" : "CurrentFlight",
+      "copyOf" : "g10097_23999"
+    },
+    "g10612_42770" : {
+      "id" : "g10612_42770",
+      "children" : [ "w10605_2500", "w10606_67483", "w10607_15918", "w10608_63693", "w10604_51504" ],
+      "groups" : [ ],
+      "name" : "Footer",
+      "props" : {
+        "resize" : {
+          "right" : false,
+          "up" : false,
+          "left" : false,
+          "down" : true,
+          "fixedHorizontal" : false,
+          "fixedVertical" : false
+        }
+      },
+      "copyOf" : "g10372_16769"
+    },
+    "g10622_25437" : {
+      "id" : "g10622_25437",
+      "children" : [ "w10617_54003", "w10618_75278", "w10619_40257", "w10620_17523" ],
+      "groups" : [ ],
+      "name" : "Footer",
+      "copyOf" : "g10201_94593"
+    },
+    "g10632_57698" : {
+      "id" : "g10632_57698",
+      "children" : [ "w10627_27038", "w10628_75344", "w10629_49054", "w10630_43770" ],
+      "groups" : [ ],
+      "name" : "Footer",
+      "copyOf" : "g10622_25437"
+    }
+  },
+  "templates" : {
+    "tg10053_17445" : {
+      "id" : "tg10053_17445",
+      "type" : "Group",
+      "templateType" : "Group",
+      "visible" : true,
+      "name" : "NextFlight",
+      "children" : [ "tw10054_69991", "tw10055_64166", "tw10056_75490", "tw10057_47308", "tw10058_3120", "tw10059_81961" ],
+      "groups" : [ ],
+      "w" : 328,
+      "h" : 96
+    },
+    "tw10054_69991" : {
+      "id" : "tw10054_69991",
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 24,
+        "borderTopLeftRadius" : 24,
+        "borderBottomRightRadius" : 24,
+        "borderBottomLeftRadius" : 24,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#ebf5ff",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "props" : {
+        "label" : ""
+      },
+      "w" : 328,
+      "h" : 96,
+      "z" : 0,
+      "x" : 0,
+      "y" : 0,
+      "templateType" : "Widget",
+      "type" : "Button",
+      "visible" : false,
+      "name" : "Box 2",
+      "modified" : 1675119356862,
+      "created" : 1675119182512
+    },
+    "tw10055_64166" : {
+      "id" : "tw10055_64166",
+      "style" : {
+        "fontSize" : 20,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "right",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#98aec3",
+        "textShadow" : null
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "props" : {
+        "label" : "22th Feb"
+      },
+      "w" : 120,
+      "h" : 32,
+      "z" : 1,
+      "x" : 184,
+      "y" : 8,
+      "templateType" : "Widget",
+      "type" : "Label",
+      "visible" : false,
+      "name" : "Label 4",
+      "modified" : 1675119356863,
+      "created" : 1675119182512
+    },
+    "tw10056_75490" : {
+      "id" : "tw10056_75490",
+      "style" : {
+        "fontSize" : 24,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#647381",
+        "textShadow" : null
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "props" : {
+        "label" : "Eindhoven"
+      },
+      "w" : 128,
+      "h" : 32,
+      "z" : 2,
+      "x" : 24,
+      "y" : 48,
+      "templateType" : "Widget",
+      "type" : "Label",
+      "visible" : false,
+      "name" : "Label 7",
+      "modified" : 1675119356863,
+      "created" : 1675119182512
+    },
+    "tw10057_47308" : {
+      "id" : "tw10057_47308",
+      "style" : {
+        "fontSize" : 24,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "right",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#647381",
+        "textShadow" : null
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "props" : {
+        "label" : "Cologne"
+      },
+      "w" : 104,
+      "h" : 32,
+      "z" : 3,
+      "x" : 200,
+      "y" : 48,
+      "templateType" : "Widget",
+      "type" : "Label",
+      "visible" : false,
+      "name" : "Label 8",
+      "modified" : 1680124913273,
+      "created" : 1675119182512
+    },
+    "tw10058_3120" : {
+      "id" : "tw10058_3120",
+      "style" : {
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "color" : "#647381",
+        "icon" : "mdi mdi-chevron-right",
+        "backgroundImageRotation" : 0
+      },
+      "has" : {
+        "onclick" : true,
+        "data" : true
+      },
+      "props" : { },
+      "w" : 32,
+      "h" : 32,
+      "z" : 4,
+      "x" : 144,
+      "y" : 48,
+      "templateType" : "Widget",
+      "type" : "Icon",
+      "visible" : false,
+      "name" : "Icon 5",
+      "modified" : 1675119356863,
+      "created" : 1675119182512
+    },
+    "tw10059_81961" : {
+      "id" : "tw10059_81961",
+      "style" : {
+        "fontSize" : 20,
+        "fontFamily" : "Source Sans Pro, sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1,
+        "color" : "#98aec3",
+        "textShadow" : null
+      },
+      "has" : {
+        "label" : true,
+        "padding" : true,
+        "advancedText" : true
+      },
+      "props" : {
+        "label" : "Pedro Gonsalves"
+      },
+      "w" : 176,
+      "h" : 32,
+      "z" : 5,
+      "x" : 24,
+      "y" : 8,
+      "templateType" : "Widget",
+      "type" : "Label",
+      "visible" : false,
+      "name" : "Label 9",
+      "modified" : 1675119356863,
+      "created" : 1675119182512
+    },
+    "tg10085_16179" : {
+      "id" : "tg10085_16179",
+      "type" : "Group",
+      "templateType" : "Group",
+      "visible" : true,
+      "name" : "Group",
+      "children" : [ "tw10086_94240", "tw10087_90305" ],
+      "groups" : [ ],
+      "w" : 144,
+      "h" : 136
+    },
+    "tw10086_94240" : {
+      "id" : "tw10086_94240",
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#b53333",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "props" : {
+        "label" : ""
+      },
+      "w" : 78,
+      "h" : 104,
+      "z" : 0,
+      "x" : 0,
+      "y" : 0,
+      "templateType" : "Widget",
+      "type" : "Button",
+      "visible" : false,
+      "name" : "Box",
+      "modified" : 1675119422588,
+      "created" : 1675119388638
+    },
+    "tw10087_90305" : {
+      "id" : "tw10087_90305",
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#333333",
+        "borderBottomColor" : "#333333",
+        "borderRightColor" : "#333333",
+        "borderLeftColor" : "#333333",
+        "background" : "#98aec3",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "props" : {
+        "label" : ""
+      },
+      "w" : 72,
+      "h" : 96,
+      "z" : 1,
+      "x" : 64,
+      "y" : 40,
+      "templateType" : "Widget",
+      "type" : "Button",
+      "visible" : false,
+      "name" : "Box 1",
+      "modified" : 1675119422588,
+      "created" : 1675119388638
+    }
+  },
+  "designtokens" : { },
+  "lastUUID" : 10698,
+  "lastUpdate" : 1717584715191,
+  "created" : 1688405291505,
+  "startScreen" : "",
+  "grid" : {
+    "w" : 8,
+    "h" : 8,
+    "style" : "line",
+    "color" : "#cecece",
+    "visible" : false,
+    "enabled" : true
+  },
+  "domain" : "Quant-UX.com",
+  "screenCount" : 3,
+  "widgetCount" : 62,
+  "sizeBackup" : 328058,
+  "lastCategory" : "WireFrame",
+  "isPublic" : false,
+  "parent" : "63d288c0794f5412b26fbf57",
+  "id" : "64a3052b7001be11c1777b82",
+  "isDirty" : false,
+  "lastBackup" : 1717586071459,
+  "sessionCount" : 13
+}

@@ -17,7 +17,9 @@
 
         </div>
         <div class="MatcAiChatFooter">
+    
             <ZoomableTextArea 
+                :defaultMessage="defaultMessage"
                 @change="addMessage" 
                 :disabled="status.busy"
                 @settings="onSettings"
@@ -49,8 +51,7 @@ import Logger from '../../../core/Logger.js';
 export default {
     name: 'AIChat',
     emits: ['change', 'settings', 'add'],
-    props: {
-    },
+    props: ['defaultMessage'],
     data() {
         return {   
             messages: [
@@ -108,7 +109,7 @@ export default {
     methods: {
         async runAI() {
             const options = this.getOptions()
-            Logger.log(-1, 'AIChat.runAI', options.provider)
+            Logger.log(-1, 'AIChat.runAI', options.provider, this.model)
             const llm = this.getLLM(options)
             if (!llm) {
                 this.messages.push({
@@ -117,11 +118,27 @@ export default {
                     "action": "openSettings"
                 })
                 return
+            } else {
+                this.messages.push({
+                    "role": "assistant",
+                    "content": "Start working..."
+                })
             }
 
-            const agent = new Agent(llm, this.model, options)
+            const agent = new Agent(
+                llm, 
+                this.model, 
+                options, 
+                (m) => {
+                    this.onChangeLastAgentMessage('\n\n' + m + '\n\n')
+                }, 
+                this.iframeCntr
+            )
             const result = await agent.run(this.messages)
             console.debug(result)
+
+
+            this.onChangeLastAgentMessage("Done!")
             // const result = {
 
             // }
@@ -205,7 +222,7 @@ export default {
         }
     },
     mounted() {
-     
+        
     }
 }
 </script>

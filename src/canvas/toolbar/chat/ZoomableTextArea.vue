@@ -36,7 +36,7 @@ import QIcon from 'page/QIcon'
 // import { IconWindowMaximize, IconWindowMinimize } from '@tabler/icons-vue';
 
 export default {
-  props: ['disabled'],
+  props: ['disabled', 'defaultMessage'],
   emits: ['change', 'settings', 'clear'],
   data() {
     return {
@@ -86,6 +86,9 @@ export default {
     
   },
   mounted() {
+    if (this.defaultMessage) {
+      this.text = this.defaultMessage
+    }
   }
 }
 </script>
