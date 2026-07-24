@@ -17,7 +17,7 @@ textarea {
 
 <script>
 import DojoWidget from 'dojo/DojoWidget'
-import Services from 'services/Services'
+//import Services from 'services/Services'
 //import Vue from 'vue'
 
 export default {
@@ -52,8 +52,6 @@ export default {
         
     },
     async mounted () {
-        this.aiService = Services.getAIService()
-        this.aiService.getAssistant()
     }
 }
 </script>

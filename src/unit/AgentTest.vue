@@ -2,7 +2,7 @@
     <div class="MatcLight">
      <div class="MatcAgentWorkSpace">
         <div class="MatcAgentWorkSpaceChat ">
-            <AIChat :messages="messages"></AIChat>
+            <AIChat :messages="messages" @add="add"></AIChat>
         </div>
         <div>Canvas</div>
      </div>
@@ -25,7 +25,7 @@
   </style>
     <style lang="scss">
      @import "../style/canvas/all.scss";
-     @import '../style/agent.scss';
+     @import './agent.scss';
      @import '../style/toolbar/tab.scss';
 </style>
   <style lang="sass">
@@ -55,26 +55,12 @@ import AIChat from '../canvas/toolbar/chat/AIChat.vue';
         AIChat
     },
     computed: {
-      screens () {
-        if (this.model) {
-          return Object.values(this.model.screens)
-        }
-        return null
-      },
-      width () {
-        if (this.model) {
-          return this.model.screenSize.w + 'px'
-        }
-        return 0
-      },
-      height () {
-        if (this.model) {
-          return this.model.screenSize.h + 'px'
-        }
-        return 0
-      }
+     
     },
     methods: {
+        add (result) {
+          console.debug("add", result)
+        },
         getPreview() {
         },
         onSelect (d) {

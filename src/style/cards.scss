@@ -5,6 +5,10 @@
 	border-radius: $page_radius;
 }
 
+.MatcCardS {
+	font-size: 14px;
+}
+
 .VommondDialogContent .MatcCardSmall {
 	font-size: $font-size-xxs;
 
@@ -17,7 +21,6 @@
 .MatcCardInfo {
 	background: $card_help_background;
     color: $card_help_color;
-
 }
 
 .MatcCardWarning {

@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="MatcZoomableTextAreaActionIcons">
-                  <QIcon icon="Settings"  @click="onSettings"/>
+                  <QIcon icon="Settings" @click="onSettings"/>
                   <QIcon icon="Delete" @click="onClear" />
               </div>
             </div>

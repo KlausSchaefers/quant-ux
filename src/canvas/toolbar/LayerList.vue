@@ -24,7 +24,7 @@
 				</div>
 			</div>
 			
-			<AIChat v-else @settings="onSettings"/>
+			<AIChat v-else @settings="onSettings" ref="aiChat" @add="addAIResult"/>
 			
 		</div>
 	
@@ -68,20 +68,26 @@ export default {
 			'AIChat': AIChat
 		},
     methods: {
+		addAIResult (result) {
+			this.logger.log(-1, 'addAIResult', 'enter', result)
+			if (this.toolbar) {
+				this.toolbar.emit("newImportApp", { "obj": result, "event": this.toolbar._lastMouseMoveEvent });
+			}
+		},
 		onSettings (e) {
-			console.debug('settingsxxx')
 			if (this.toolbar) {
 				this.toolbar.showAISettings(e)
 			}
 		},
 		setLayerListMode (m) {
 			this.layerListMode = m
+			this.$nextTick(() => {
+				if (this.$refs.aiChat) {
+					this.$refs.aiChat.setModel(this.model)
+				}
+			})
 		},
-      	postCreate (){
-			this.logger = new Logger("LayerList");
-			this.logger.log(2,"constructor", "entry > " + this.mode);
-			this.isDebug = location.href.indexOf('debug=true') >= 0
-		},
+    
 
 		onResizeStart (e) {
             const pos = this.layerListWidth
@@ -284,6 +290,9 @@ export default {
 			this.logger.log(2,"render", "enter > ", model);
 			this.model = model;
 			this.createNestedModel(model);
+			if (this.$refs.aiChat) {
+				this.$refs.aiChat.setModel(model)
+			}
 		},
 
 		renderNodeUpdate (box) {
@@ -912,6 +921,12 @@ export default {
 
 		show () {
 			this.isVisible = true
+		},
+
+		postCreate (){
+			this.logger = new Logger("LayerList");
+			this.logger.log(2,"constructor", "entry > " + this.mode);
+			this.isDebug = location.href.indexOf('debug=true') >= 0
 		}
 	},
 	watch: {

@@ -806,10 +806,10 @@ export default {
 				return
 			}
 
-			if (v.value === 'designgpt') {
-				this.showDesignGPT(e)
-				return
-			}
+			// if (v.value === 'designgpt') {
+			// 	this.showDesignGPT(e)
+			// 	return
+			// }
 
 			if (v.value === 'rest') {
 				this.onNewRestObject(e)

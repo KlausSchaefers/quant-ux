@@ -19,7 +19,10 @@
   padding: 4px;
   font-size: 12px;
   border-radius: $toolbar_form_radius;
-  white-space: pre;
+
+  .MatcAiChatMessageBody p {
+    font-size: inherit;
+  }
 }
 
 .MatcAiChatMessageAssistant {
@@ -94,4 +97,14 @@
         width: 14px;
         height: 14px;
     }
+}
+
+.MatcAiChatIFrame {
+  height: 0px;
+  width: 0px;
+  overflow: hidden;
+}
+
+.MatcAiSettings {
+  height: 480px;
 }

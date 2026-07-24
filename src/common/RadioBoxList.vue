@@ -88,6 +88,11 @@ export default {
 			}
 		}
 	},
+	watch: {
+		qValue (v) {
+			this.setValue(v)
+		}
+	},
 	mounted() {
 		if (this.qOptions) {
 			this.setOptions(this.qOptions)

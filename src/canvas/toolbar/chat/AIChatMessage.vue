@@ -1,9 +1,7 @@
 <template>
 
-    <div :class="'MatcAiChatMessage ' + roleClass" >
-        
+    <div :class="'MatcAiChatMessage ' + roleClass" @click="$emit('click', $event)">
         <div v-html="value" class="MatcAiChatMessageBody">
-
         </div>
     </div>
          
@@ -15,6 +13,7 @@
 
 // import { marked } from 'marked'
 // import { IconX } from '@tabler/icons-vue';
+import MDUtil from '../../../util/MDUtil';
 
 export default {
   props: ['message'],
@@ -29,8 +28,8 @@ export default {
   },
   computed: {
     value () {
-      // const html = marked(this.message.content)
-      return this.message.content
+      const html = MDUtil.makeHtml(this.message.content)
+      return html
     },
     roleClass () {
       const role = this.message.role

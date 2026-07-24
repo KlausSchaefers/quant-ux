@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@google/genai": "^2.13.0",
     "bulma": "^0.9.4",
     "compression": "^1.7.4",
     "d3": "^7.6.1",

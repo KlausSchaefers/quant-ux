@@ -190,14 +190,6 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "unit" */ './unit/HTMlImporterTest.vue')
     },
     {
-      path: '/test/DesignGPT.html',
-      component: () => import(/* webpackChunkName: "unit" */ './unit/DesignGPTTest.vue')
-    },
-    {
-      path: '/test/DesignGPTChat.html',
-      component: () => import(/* webpackChunkName: "unit" */ './unit/DesignGPTChatTest.vue')
-    },
-    {
       path: '/test/Outlier.html',
       component: () => import(/* webpackChunkName: "unit" */ './unit/OutlierTest.vue')
     },
