@@ -44,7 +44,9 @@ import ZoomableTextArea from './ZoomableTextArea.vue';
 import OpenAI from './llm/OpenAI.js';
 import Claude from './llm/Claude.js';
 import Gemini from './llm/Gemini.js';
+import CachedLLM from './llm/CachedLLM.js';
 import Agent from './Agent.js';
+import HTML2QUX from './HTML2QUX'
 import Logger from '../../../core/Logger.js';
 // import QIcon from 'page/QIcon'
 
@@ -69,10 +71,7 @@ export default {
             useCustomDLS: true,
             selectedScreen: '',
             progressMessage: 'Thinking...',
-            isDebug: false,
-            claudeKey: '',
-            openAIKey: '',
-            geminiKey: '',
+            isDebug: true,
             status: {
                 busy: false,
                 messages: []
@@ -109,8 +108,13 @@ export default {
     methods: {
         async runAI() {
             const options = this.getOptions()
-            Logger.log(-1, 'AIChat.runAI', options.provider, this.model)
-            const llm = this.getLLM(options)
+            Logger.log(-1, 'AIChat.runAI', options.provider, this.model.screenSize)
+            let llm = this.getLLM(options)
+            if (this.isDebug) {
+                Logger.error('AIChat.runAI() > use cache')
+                llm = new CachedLLM(llm)
+            }
+
             if (!llm) {
                 this.messages.push({
                     "role": "assistant",
@@ -125,14 +129,15 @@ export default {
                 })
             }
 
+            const html2QUX = new HTML2QUX(this.$refs.iframeCntr)
             const agent = new Agent(
                 llm, 
                 this.model, 
                 options, 
+                html2QUX,
                 (m) => {
                     this.onChangeLastAgentMessage('\n\n' + m + '\n\n')
-                }, 
-                this.iframeCntr
+                }
             )
             const result = await agent.run(this.messages)
             console.debug(result)
@@ -175,6 +180,7 @@ export default {
         },
         onClear() {
             this.messages = []
+            CachedLLM.clearCache()
             this.onChange()
         },
         onSettings(e) {

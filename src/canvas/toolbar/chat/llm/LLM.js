@@ -1,11 +1,12 @@
 export default class LLM {
 
-  async runPrompt(/*messages*/) {
+  // eslint-disable-next-line no-unused-vars
+  async runPrompt(messages = [], llmLevel='high') {
     throw new Error("Method 'runPrompt' must be implemented.");
   }
 
-  async runHTMLPrompt(messages) {
-     let res = await this.runPrompt(messages)
+  async runHTMLPrompt(messages, llmLevel='high') {
+    let res = await this.runPrompt(messages, llmLevel)
     if (res.error) {
       return {
         error: res.error,
@@ -25,8 +26,8 @@ export default class LLM {
     }
   }
 
-  async runJSONPrompt(messages) {
-    let res = await this.runPrompt(messages)
+  async runJSONPrompt(messages, llmLevel='high') {
+    let res = await this.runPrompt(messages, llmLevel)
     if (res.error) {
       return {
         error: res.error,

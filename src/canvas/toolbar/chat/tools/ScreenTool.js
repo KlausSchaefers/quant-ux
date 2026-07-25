@@ -1,7 +1,7 @@
 import Tool from "./Tool";
 export default class Screen extends Tool {
-  constructor(llm, model, options, progressCallback, domNode) {
-    super(llm, model, options, progressCallback, domNode);
+  constructor(llm, model, options, progressCallback, html2QUX) {
+    super(llm, model, options, progressCallback, html2QUX);
   }
 
   async invoke(messages) {

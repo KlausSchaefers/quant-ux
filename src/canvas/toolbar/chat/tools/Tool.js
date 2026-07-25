@@ -1,11 +1,11 @@
 export default class Tool {
 
-  constructor(llm, model, options, progressCallback, domNode) {
+  constructor(llm, model, options, progressCallback, html2QUX) {
     this.llm = llm;
     this.model = model;
     this.options = options;
     this.progressCallback = progressCallback; 
-    this.domNode = domNode
+    this.html2QUX = html2QUX
     this.screenSize = model.screenSize
   }
 

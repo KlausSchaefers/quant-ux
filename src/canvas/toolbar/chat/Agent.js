@@ -3,15 +3,15 @@ import StructureTool from './tools/StructureTool'
 import ScreenTool from './tools/ScreenTool'
 export default class Agent {
 
-  constructor(llm, model, options, progressCallback, domNode) {
+  constructor(llm, model, options, html2QUX, progressCallback) {
     this.llm = llm;
     this.model = model;
     this.options = options;
     this.progressCallback = progressCallback; 
-    this.domNode = domNode
+    this.html2QUX = html2QUX
 
-    this.structureTool = new StructureTool(llm, model, options, progressCallback, domNode);
-    this.screenTool = new ScreenTool(llm, model, options, progressCallback, domNode);
+    this.structureTool = new StructureTool(llm, model, options, progressCallback);
+    this.screenTool = new ScreenTool(llm, model, options, progressCallback, html2QUX);
   }
 
 
