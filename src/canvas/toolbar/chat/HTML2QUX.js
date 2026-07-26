@@ -100,10 +100,11 @@ export default class HTML2QUX {
 		return uuid
 	}
 
-    html2QuantUX(html, width, height, options = {}) {
-        Logger.log(-1, 'HTMLImporter.html2QuantUX() > enter')
+    run(html, width, height, options = {}) {
+        Logger.log(-1, 'HTML2QUX.run() > enter')
         this.isRemoveNonLeafs = options.isRemoveNonLeafs
         this.isRemoveContainers = options.isRemoveContainers
+        this.isRemoveHiddenElements = options.isRemoveHiddenElements
         this.defaultStyle = options.defaultStyle
         this.customStyle = options.customStyle
         this.grid = options.grid
@@ -167,16 +168,16 @@ export default class HTML2QUX {
             // this should not happen
             if (scrnWidth > width) {
                 const f = width / scrnWidth
-                Logger.log(-1, 'HTMLImporter.scalledApp() ', scrnWidth + ' > ' + width, f)
+                Logger.warn('HTMLImporter.scalledApp() ', scrnWidth + ' > ' + width, f)
 
-                s.children.forEach(id => {
-                    const widget = app.widgets[id]
-                    widget.y = Math.floor(widget.y * f)
-                    widget.w = Math.ceil(widget.w * f)
-                    if (widget.style.fontSize) {
-                        widget.style.fontSize = Math.floor(widget.style.fontSize  * f)
-                    }
-                })
+                // s.children.forEach(id => {
+                //     const widget = app.widgets[id]
+                //     widget.y = Math.floor(widget.y * f)
+                //     widget.w = Math.ceil(widget.w * f)
+                //     // if (widget.style.fontSize) {
+                //     //     widget.style.fontSize = Math.floor(widget.style.fontSize)
+                //     // }
+                // })
             }
         })
 
@@ -350,7 +351,8 @@ export default class HTML2QUX {
         const newChildren = []
         scrn.children.forEach(id => {
             const widget = app.widgets[id]
-            if (this.isHiddenElement(widget)) {
+            if (this.isHiddenElement(widget) && this.isRemoveHiddenElements) {
+                Logger.log(-1, "removeHiddenElements() ", widget)
                 delete app.widgets[id]
             } else {
                 newChildren.push(id)
@@ -763,6 +765,14 @@ export default class HTML2QUX {
                 }
             }
 
+            const backgroundImage = compStyle.backgroundImage
+            if (backgroundImage && backgroundImage !== 'none') {
+                const gradient = parseGradient(backgroundImage)
+                if (gradient) {
+                    result.background = gradient
+                }
+            }
+
             for (let key in shadowStyles) {
                 const value = compStyle[key]
                 if (value && value != 'none') {
@@ -916,6 +926,109 @@ function parseShadow(value) {
     }
 }
 
+
+const gradientKeywordDirections = {
+    'to top': 0,
+    'to right': 90,
+    'to bottom': 180,
+    'to left': 270,
+    'to top right': 45,
+    'to right top': 45,
+    'to bottom right': 135,
+    'to right bottom': 135,
+    'to bottom left': 225,
+    'to left bottom': 225,
+    'to top left': 315,
+    'to left top': 315
+}
+
+function splitTopLevel(value) {
+    const parts = []
+    let depth = 0
+    let current = ''
+    for (let i = 0; i < value.length; i++) {
+        const ch = value[i]
+        if (ch === '(') {
+            depth++
+        } else if (ch === ')') {
+            depth--
+        }
+        if (ch === ',' && depth === 0) {
+            parts.push(current)
+            current = ''
+        } else {
+            current += ch
+        }
+    }
+    if (current.trim()) {
+        parts.push(current)
+    }
+    return parts
+}
+
+function parseGradient(value) {
+    const trimmed = value.trim()
+    const isRadial = trimmed.startsWith('radial-gradient')
+    if (!isRadial && !trimmed.startsWith('linear-gradient')) {
+        return null
+    }
+
+    const inner = trimmed.substring(trimmed.indexOf('(') + 1, trimmed.lastIndexOf(')'))
+    const parts = splitTopLevel(inner).map(p => p.trim())
+
+    let direction = 180
+    let colorParts = parts
+
+    if (isRadial) {
+        colorParts = parts.filter(p => !/^(circle|ellipse|at\s|closest-|farthest-)/.test(p))
+    } else {
+        const first = parts[0] || ''
+        const degMatch = first.match(/^(-?\d+(?:\.\d+)?)deg$/)
+        if (degMatch) {
+            direction = Math.round(parseFloat(degMatch[1])) + 270
+            colorParts = parts.slice(1)
+        } else if (/^to\s/.test(first)) {
+            if (gradientKeywordDirections[first] !== undefined) {
+                direction = gradientKeywordDirections[first]
+            }
+            colorParts = parts.slice(1)
+        }
+    }
+
+    const stops = colorParts.map(part => {
+        const match = part.match(/^(.*?)\s+(-?\d+(?:\.\d+)?)%$/)
+        if (match) {
+            return { c: match[1].trim(), p: Math.round(parseFloat(match[2])) }
+        }
+        return { c: part.trim(), p: null }
+    }).filter(stop => stop.c)
+
+    if (stops.length < 2) {
+        return null
+    }
+
+    stops.forEach((stop, i) => {
+        if (stop.p === null) {
+            stop.p = Math.round((i / (stops.length - 1)) * 100)
+        }
+    })
+
+    const background = {
+        colors: stops,
+        gradientHeight: 300,
+        gradientWidth: 30,
+        selectedHandle: 0
+    }
+
+    if (isRadial) {
+        background.radial = true
+    } else {
+        background.gradient = true
+        background.direction = String(direction)
+    }
+
+    return background
+}
 
 function parsePixel(value) {
     if (!value) {

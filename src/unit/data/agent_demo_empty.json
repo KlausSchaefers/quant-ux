@@ -1,0 +1,41 @@
+{
+  "_id" : "64a3052b7001be11c1777b82",
+  "version" : 2.1,
+  "name" : "Nice Tracel",
+  "description" : "",
+  "screenSize" : {
+    "w" : 375,
+    "h" : 812
+  },
+  "type" : "smartphone",
+  "screens" : {
+    
+  },
+  "widgets" : {
+  
+  },
+  "designtokens" : { },
+  "lastUUID" : 10698,
+  "lastUpdate" : 1717584715191,
+  "created" : 1688405291505,
+  "startScreen" : "",
+  "grid" : {
+    "w" : 8,
+    "h" : 8,
+    "style" : "line",
+    "color" : "#cecece",
+    "visible" : false,
+    "enabled" : true
+  },
+  "domain" : "Quant-UX.com",
+  "screenCount" : 3,
+  "widgetCount" : 62,
+  "sizeBackup" : 328058,
+  "lastCategory" : "WireFrame",
+  "isPublic" : false,
+  "parent" : "63d288c0794f5412b26fbf57",
+  "id" : "64a3052b7001be11c1777b82",
+  "isDirty" : false,
+  "lastBackup" : 1717586071459,
+  "sessionCount" : 13
+}

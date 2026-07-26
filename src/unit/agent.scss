@@ -47,3 +47,12 @@ $chat_message_color_assistant :  #172b7f;
   background: $chat_message_background_user;
   color: $chat_message_color_user;
 }
+
+.MatcAgentWorkSpacePreview {
+  position: fixed;
+  top:16px;
+  right: 16px;
+  box-shadow: 0 8 24px rgba(0, 0, 0, 0.2);
+  height: 80%;
+  overflow: auto;
+}

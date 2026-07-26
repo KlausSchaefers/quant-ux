@@ -1365,8 +1365,8 @@ export default class Screen extends CopyPaste {
 		}
 
 
-		var tempScreens = {};
-		var screenIdMapping = {};
+		const tempScreens = {};
+		const screenIdMapping = {};
 		for(let screenID in screens){
 			let screen = screens[screenID];
 		
@@ -1375,7 +1375,7 @@ export default class Screen extends CopyPaste {
 			tempScreens[newID] = screen;
 			screenIdMapping[screenID] = newID
 
-			var tempChildren = [];
+			const tempChildren = [];
 			for(let i =0; i< screen.children.length; i++){
 				let oldChildID = screen.children[i];
 				if(widgetIdMapping[oldChildID]){
@@ -1387,8 +1387,8 @@ export default class Screen extends CopyPaste {
 			screen.children = tempChildren;
 		}
 
-		var tempGroup = {};
-		var groupedChildren = {};
+		const tempGroup = {};
+		const groupedChildren = {};
 		for(let groupID in groups){
 			let group = groups[groupID];
 

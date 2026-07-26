@@ -140,14 +140,12 @@ export default {
                 }
             )
             const result = await agent.run(this.messages)
-            console.debug(result)
-
-
+       
             this.onChangeLastAgentMessage("Done!")
             // const result = {
 
             // }
-            // this.$emit('add', result)
+            this.$emit('add', result)
         },
         getLLM(options) {
 

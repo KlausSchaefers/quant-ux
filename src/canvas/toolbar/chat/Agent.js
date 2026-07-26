@@ -21,15 +21,22 @@ export default class Agent {
     const result = {
       name: "",
       screenSize: this.model.screenSize,
-      screens: [],
-      widgets: []
+      screens: {},
+      widgets: {},
+      groups:{},
+      lines: {},
+      _html: {}
     };
 
     // 1) think about a good structure
     this.onProgress(" - Plan main structure...");
 
-    const html = await this.screenTool.invoke(messages)
-    console.debug(html)
+    const {app, html} = await this.screenTool.invoke(messages)
+    result._html[Object.values(app.screens)[0]?.id] = html
+
+    this.mergeScreenInApp(app, result)
+    this.layoutScreens(result)
+
     // const structure = await this.structureTool.run(messages);
     // if (structure.error) {
     //   return structure;
@@ -69,6 +76,41 @@ export default class Agent {
     // this.pipeline.convert(result);
 
     // console.debug("run() > app ", app.name);
+    return this.layoutScreens(result);
+  }
+
+
+
+  layoutScreens(result) {
+    const gap = 64;
+    let x = 0;
+
+    Object.values(result.screens).forEach(scrn => {
+      const dx = x - scrn.x;
+      const dy = -scrn.y;
+
+      scrn.x += dx;
+      scrn.y += dy;
+
+      scrn.children.forEach(id => {
+        const widget = result.widgets[id];
+        if (widget) {
+          widget.x += dx;
+          widget.y += dy;
+        }
+      });
+
+      x += scrn.w + gap;
+    });
+
+    return result;
+  }
+
+  mergeScreenInApp(app, result) {
+    Object.assign(result.screens, app.screens);
+    Object.assign(result.widgets, app.widgets);
+    Object.assign(result.groups, app.groups);
+    Object.assign(result.lines, app.lines);
     return result;
   }
 

@@ -36,16 +36,24 @@ export default class Screen extends Tool {
 
     this.progressCallback("Generate Screen...")
     const res = await this.llm.runHTMLPrompt(aiMessages);
-    console.debug("RESULT: ", res);
 
     if (res.error) {
       return {
         error: res.error,
       };
     }
+
+    const html = res.html
+    const app = await this.html2QUX.run(
+      html, 
+      this.screenSize.w, 
+      this.screenSize.h, 
+      this.options
+    )
+
     return {
-      html: res.html,
-      useHTML: true,
+      html: html,
+      app: app,
       prompt: prompt,
       usage: res.usage,
     };
