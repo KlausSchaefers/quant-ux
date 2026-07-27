@@ -84,6 +84,7 @@ export default class Screen extends Tool {
   }
 
   promptRules() {
+    // box-sizing: border-box;
     return `
             Important! Please follow this additonal rules when designing the screen:
 

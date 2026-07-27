@@ -124,13 +124,13 @@ export default class HTML2QUX {
                     // root.style.maxWidth = "none"
                     // console.debug(root)
                     // iframe.style.width = root.scrollWidth + 'px'
-                    // console.debug(iframe.style.width)
+                    // console.debug('forced, render', iframe.style.width, root.scrollWidth)
                 }
                 const result = this.parseIFrame(root, width, height, options)
                 resolve(result)
             }
         })
-        iframe.srcdoc = html
+        iframe.srcdoc = addBorderBoxSizing(html)
         this.domNode.appendChild(iframe)
         return promise  
     }
@@ -143,7 +143,6 @@ export default class HTML2QUX {
         //console.debug('HTML2QUX.parseIFrame() > scrollWidth', body.scrollWidth, 'width', width)
 
         const tree = this.createWidget(body)
-        console.debug(tree)
         this.parseNode(body, tree)
         this.propagateCSS(tree)
         this.cleanTree(tree)
@@ -445,8 +444,15 @@ export default class HTML2QUX {
     }
 
     flattenLabelIntoParent (child) {
-        Logger.log(1, 'HTMLImporter.flattenNode()' , child.children[0].props.label)
-        child.props.label = child.children[0].props.label
+        const labelNode = child.children[0];
+        Logger.log(-1, 'HTMLImporter.flattenNode()' , labelNode.props.label)
+        child.props.label = labelNode.props.label
+
+        child.style.paddingLeft = Math.max(0, labelNode.x - child.x)
+        child.style.paddingTop = Math.max(0, labelNode.y - child.y)
+        child.style.paddingRight = Math.max(0, (child.x + child.w) - (labelNode.x + labelNode.w))
+        child.style.paddingBottom = Math.max(0, (child.y + child.h) - (labelNode.y + labelNode.h))
+
         child.children = []
     }
 
@@ -942,6 +948,17 @@ export default class HTML2QUX {
     
 }
 
+
+function addBorderBoxSizing(html) {
+    const styleTag = '<style>*{box-sizing:border-box;}</style>'
+    if (/<head[^>]*>/i.test(html)) {
+        return html.replace(/<head[^>]*>/i, match => match + styleTag)
+    }
+    if (/<html[^>]*>/i.test(html)) {
+        return html.replace(/<html[^>]*>/i, match => match + styleTag)
+    }
+    return styleTag + html
+}
 
 function parseShadow(value) {
     const pos = value.indexOf(')') + 1
