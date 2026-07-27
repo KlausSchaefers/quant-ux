@@ -58,11 +58,31 @@
           transition: opacity 0.2s;
           margin-left: 8px;
 
+    
+          &::after {
+            content: '';
+            display: inline-block;
+            margin-left: 4px;
+            margin-top: 1px;
+            width: 5px;
+            height: 5px;
+            transform: rotate(45deg);
+            border: none;
+            border-left: 1px solid currentColor;
+            border-top: 1px solid currentColor;
+            vertical-align: middle;
+            transition: all 0.2s;
+          }
+
           &:hover, &.MatcZoomableTextAreaActionPopupLabelActive {
             opacity: 1;
           }
 
-         
+          &.MatcZoomableTextAreaActionPopupLabelActive::after {
+              margin-top: -2px;
+              transform: rotate(225deg);
+          }
+
         }
 
         .MatcZoomableTextAreaActionPopupMenu {
