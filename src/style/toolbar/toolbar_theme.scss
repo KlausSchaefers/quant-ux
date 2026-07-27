@@ -160,6 +160,7 @@
     box-shadow:  $popup_shadow;
     top: calc(100% + 2px);
 
+
     .MatcToolbarPopUpArrow{
         background: $popup_background;
         display: none;
@@ -215,6 +216,7 @@
     .MatcCreateCatCntr li a:hover{
         color: $primary_color_hover
      }
+     
 
     .MatcCreateBtnElementLabel {
         color: $popup_color;
@@ -663,3 +665,27 @@ div.MatcToolbarViewConfigCntrSpace {
   background: $chat_message_background_user;
   color: $chat_message_color_user;
 }
+
+ .MatcZoomableTextAreaActionPopupMenu {
+     
+          background: $popup_background;
+          box-shadow: $popup_shadow;
+          z-index: 10;
+
+          &::after {
+            border-top: 5px solid $popup_background;
+          }
+
+          li {
+            color: $popup_color;
+            &:hover {
+              background: $primary_color;
+               color: $white;
+            }
+
+            &.MatcZoomableTextAreaActionPopupMenuItemActive {
+              background: $primary_color;
+              color: $white;
+            }
+          }
+        }

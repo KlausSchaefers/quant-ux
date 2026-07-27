@@ -20,6 +20,8 @@
     
             <ZoomableTextArea 
                 :defaultMessage="defaultMessage"
+                :cssMode="cssMode"
+                @mode="onCSSMode"
                 @change="addMessage" 
                 :disabled="status.busy"
                 @settings="onSettings"
@@ -63,6 +65,7 @@ export default {
                 }
             ],
             showSettings: false,
+            cssMode: 'wireframe',
             isWorking: false,
             flexEngine: 'yoga',
             size: 'd',
@@ -165,6 +168,7 @@ export default {
             const saved = localStorage.getItem('quxAISettings')
             if (saved) {
                 const data = JSON.parse(saved)
+                data.cssMode = this.cssMode
                 return data
             }
         },
@@ -175,6 +179,10 @@ export default {
         },
         setModel (m) {
             this.model = m
+        },
+        onCSSMode(cssMode) {
+            this.cssMode = cssMode
+            localStorage.setItem('quxAICssMode', cssMode)
         },
         onClear() {
             this.messages = []
@@ -223,10 +231,16 @@ export default {
                     this.$refs.bodyEnd.scrollIntoViewIfNeeded(true)
                 }
             }, 50)
+        },
+        initSettings() {
+            const mode = localStorage.getItem('quxAICssMode')
+            if (mode) {
+                this.cssMode = mode    
+            }
         }
     },
     mounted() {
-        
+        this.initSettings()
     }
 }
 </script>

@@ -18,6 +18,19 @@
                 <div class="MatcZoomableTextAreaActionIcons">
                   <QIcon icon="Settings" @click="onSettings"/>
                   <QIcon icon="Delete" @click="onClear" />
+                  <div class="MatcZoomableTextAreaActionPopup" ref="cssModePopup">
+                    <div :class="['MatcZoomableTextAreaActionPopupLabel', {'MatcZoomableTextAreaActionPopupLabelActive': showCssModeMenu}]" @click.stop="toggleCssModeMenu">
+                      {{cssModeLabel}}
+                    </div>
+                    <ul class="MatcZoomableTextAreaActionPopupMenu" v-show="showCssModeMenu">
+                      <li v-for="mode in cssModes"
+                        :key="mode.value"
+                        :class="{'MatcZoomableTextAreaActionPopupMenuItemActive': mode.value === cssMode}"
+                        @click="selectCssMode(mode.value)">
+                        {{mode.label}}
+                      </li>
+                    </ul>
+                  </div>
               </div>
             </div>
         </div>
@@ -36,13 +49,19 @@ import QIcon from 'page/QIcon'
 // import { IconWindowMaximize, IconWindowMinimize } from '@tabler/icons-vue';
 
 export default {
-  props: ['disabled', 'defaultMessage'],
-  emits: ['change', 'settings', 'clear'],
+  props: ['disabled', 'defaultMessage', 'cssMode'],
+  emits: ['change', 'settings', 'clear', 'mode'],
   data() {
     return {
         hasFocus: false,
         text: '',
-        isMax: false
+        isMax: false,
+        showCssModeMenu: false,
+        cssModes: [
+            { label: "Wireframe", value: "wireframe" },
+            { label: "Creative", value: "creative" },
+            { label: "Use Styles", value: 'dls' }
+        ]
     }
   },
   components: {
@@ -50,7 +69,13 @@ export default {
     // IconWindowMaximize, IconWindowMinimize
   },
   computed: {
-  
+    cssModeLabel() {
+      const found = this.cssModes.find(o => o.value === this.cssMode)
+      if (found) {
+        return found.label
+      }
+      return this.cssModes[0].label
+    }
   },
   methods: {
     onSettings (e) {
@@ -58,6 +83,18 @@ export default {
     },
     onClear () {
       this.$emit('clear')
+    },
+    toggleCssModeMenu () {
+      this.showCssModeMenu = !this.showCssModeMenu
+    },
+    selectCssMode (mode) {
+      this.$emit('mode', mode)
+      this.showCssModeMenu = false
+    },
+    onDocumentClick (e) {
+      if (this.showCssModeMenu && this.$refs.cssModePopup && !this.$refs.cssModePopup.contains(e.target)) {
+        this.showCssModeMenu = false
+      }
     },
     show() {
       this.isMax=true
@@ -76,6 +113,7 @@ export default {
         this.isMax = false
         this.$refs.textarea.blur()
         this.onChange()
+        this.showCssModeMenu = false
     },
     onChange () {
         this.$emit('change', this.text)
@@ -89,6 +127,10 @@ export default {
     if (this.defaultMessage) {
       this.text = this.defaultMessage
     }
+    document.addEventListener('click', this.onDocumentClick)
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.onDocumentClick)
   }
 }
 </script>

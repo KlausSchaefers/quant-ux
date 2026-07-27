@@ -35,6 +35,7 @@
 
       .MatcZoomableTextAreaActionIcons {
         display: flex;
+        align-items: center;
       }
 
       textarea {
@@ -44,6 +45,60 @@
         padding-bottom: 24px;
         scroll-padding: 24px;
       }
+
+      .MatcZoomableTextAreaActionPopup {
+        position: relative;
+        margin-left: 4px;
+
+        .MatcZoomableTextAreaActionPopupLabel {
+          opacity: 0.5;
+          cursor: pointer;
+          font-size: $font-size-xxs;
+          white-space: nowrap;
+          transition: opacity 0.2s;
+          margin-left: 8px;
+
+          &:hover, &.MatcZoomableTextAreaActionPopupLabelActive {
+            opacity: 1;
+          }
+
+         
+        }
+
+        .MatcZoomableTextAreaActionPopupMenu {
+          position: absolute;
+          bottom: calc(100% + 8px);
+          left: 0%;
+          margin: 0;
+          min-width: 130px;
+          list-style: none;
+          border-radius: $popup_radius;
+          box-shadow: $page_drop_shadow_more;
+          z-index: 10;
+          overflow: hidden;
+
+          &::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            right: 12px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid $popup_background;
+          }
+
+          li {
+            padding: 6px 8px;
+            font-size: $font-size-xxs;
+            white-space: nowrap;
+            cursor: pointer;
+          }
+        }
+      }
+
+
     }
   }
 

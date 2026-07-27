@@ -49,7 +49,7 @@ export default {
                 {value: 'showSharing', icon: '', label: this.getNLS('toolbar.menu.share')},
                 {value: 2, css:'MatcToolbarPopUpLine'},
                 {value: 'showAISettings', icon: '', label: this.getNLS('toolbar.menu.ai')},
-                {value: 'onShowAISettings', icon: '', label: this.getNLS('toolbar.menu.mode')},
+                {value: 'onShowSettings', icon: '', label: this.getNLS('toolbar.menu.mode')},
                 {value: 'showShortCuts', icon: '', label: this.getNLS('toolbar.menu.shortcuts')},
                 {value: 'showHelp', icon: '', label: this.getNLS('toolbar.menu.help')}
             ]
