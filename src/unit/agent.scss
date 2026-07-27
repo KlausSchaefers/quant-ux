@@ -48,11 +48,14 @@ $chat_message_color_assistant :  #172b7f;
   color: $chat_message_color_user;
 }
 
+.MatcAgentWorkSpace .MatcAiChatIFrame,
 .MatcAgentWorkSpacePreview {
   position: fixed;
   top:16px;
   right: 16px;
   box-shadow: 0 8 24px rgba(0, 0, 0, 0.2);
   height: 80%;
+  width: auto;
   overflow: auto;
 }
+

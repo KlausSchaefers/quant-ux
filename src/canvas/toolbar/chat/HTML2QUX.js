@@ -1,4 +1,6 @@
 import Logger from '../../../core/Logger.js';
+
+import ResponsiveLayout from '../../../core/responsive/ResponsiveLayout'
 // import * as Layouter from './Layouter'
 
 const TEXT_NODE = 3
@@ -117,6 +119,13 @@ export default class HTML2QUX {
         const promise = new Promise(resolve => {
             iframe.onload = () => {
                 const root = iframe.contentWindow.document.getElementsByTagName('body')[0]
+                if (root.scrollWidth > width) {
+                    Logger.error('HTML2QUX.run() > too wide', root.scrollWidth)
+                    // root.style.maxWidth = "none"
+                    // console.debug(root)
+                    // iframe.style.width = root.scrollWidth + 'px'
+                    // console.debug(iframe.style.width)
+                }
                 const result = this.parseIFrame(root, width, height, options)
                 resolve(result)
             }
@@ -126,16 +135,24 @@ export default class HTML2QUX {
         return promise  
     }
 
+    renderIframe() {
+
+    }
+
     parseIFrame(body, width, height, options) {
+        //console.debug('HTML2QUX.parseIFrame() > scrollWidth', body.scrollWidth, 'width', width)
+
         const tree = this.createWidget(body)
+        console.debug(tree)
         this.parseNode(body, tree)
         this.propagateCSS(tree)
         this.cleanTree(tree)
         const app = this.flattenTree(tree, width, height, options)
      
+        this.cleanUpModel(app)
         const scalledApp = this.scalledApp(app)
         const layedOutApp = this.layoutApp(scalledApp)
-        this.cleanUpModel(layedOutApp)
+        
         return layedOutApp
     }
 
@@ -162,22 +179,41 @@ export default class HTML2QUX {
 
     scalledApp (app) {
         const width = app.screenSize.w
-       
+
         Object.values(app.screens).forEach(s => {
             const scrnWidth = getScreenWidth(s, app)
             // this should not happen
             if (scrnWidth > width) {
-                const f = width / scrnWidth
-                Logger.warn('HTMLImporter.scalledApp() ', scrnWidth + ' > ' + width, f)
+                Logger.warn('HTML2QUX.scalledApp() ', scrnWidth + ' > ' + width)
 
-                // s.children.forEach(id => {
-                //     const widget = app.widgets[id]
-                //     widget.y = Math.floor(widget.y * f)
-                //     widget.w = Math.ceil(widget.w * f)
-                //     // if (widget.style.fontSize) {
-                //     //     widget.style.fontSize = Math.floor(widget.style.fontSize)
-                //     // }
-                // })
+                /**
+                 * A naive per-widget scale factor breaks nested containers, since
+                 * children need to be resized/repositioned coherently with their
+                 * parent. ResponsiveLayout already does this (it derives the
+                 * parent/child tree from the bounding boxes and resizes it as
+                 * a whole), so we reuse it here the same way Screen.modelScreenSize() does.
+                 */
+               
+                const layouter = new ResponsiveLayout(1)
+                layouter.initApp(structuredClone(app))
+                const responsivePositions = layouter.resize(width, -1)
+
+                s.children.forEach(id => {
+                    const widget = app.widgets[id]
+                    const newPos = responsivePositions.widgets[id]
+                    if (widget && newPos) {
+                    
+                        // check here is some bug if the stupid
+                        // LLM produces code that is too wide
+                        if (!(widget.w === width && widget.x === s.x)) {
+                            widget.w = newPos.w
+                        }
+                     
+                        widget.x = newPos.x
+                        widget.y = newPos.y
+                        widget.h = newPos.h
+                    }
+                })
             }
         })
 

@@ -230,7 +230,7 @@ export default {
         console.warn("initScale() > DEPRECTAED : ", this.scale);
       }
 
-      this.logger.log(-5, "initScale", "enter > " + this.scale + " > " + this._scaleX + " > " + this._scaleY);
+      this.logger.log(5, "initScale", "enter > " + this.scale + " > " + this._scaleX + " > " + this._scaleY);
     },
 
     render: function(screen) {

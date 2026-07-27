@@ -75,9 +75,9 @@ export default {
       console.debug(this.model)
       this.$forceUpdate()
       // now we would have to offset things. based on a pos
-      const html = Object.values(result._html)[0]
-      const scrn = Object.values(result.screens)[0]
-      this.renderIframe(html, scrn.w, scrn.h)
+      //const html = Object.values(result._html)[0]
+      //const scrn = Object.values(result.screens)[0]
+      //this.renderIframe(html, scrn.w, scrn.h)
 
     },
 

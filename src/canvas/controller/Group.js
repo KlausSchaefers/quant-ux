@@ -1,5 +1,5 @@
 import Layer from './Layer'
-import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
+import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
 
 export default class Group extends Layer {
 
