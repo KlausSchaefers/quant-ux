@@ -1,5 +1,17 @@
 @import "../variables.scss";
 
+@property --matc-zoomable-border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes MatcZoomableBorderRotate {
+  to {
+    --matc-zoomable-border-angle: 360deg;
+  }
+}
+
 .MatcAiChat {
   .MatcAiChatFooter {
     .MatcZoomableTextArea {
@@ -11,20 +23,15 @@
         height: 100%;
       }
 
-      .MatcZoomableTextAreaIconInput {
-        height: 100%;
-        position: relative;
-      }
-
       .MatcQIconSVG {
-          width: 14px;
-          height: 14px;
-          transition: opacity 0.2s;
-          opacity: 0.5;
-          cursor: pointer;
-          &:hover {
-            opacity: 1;
-          }
+        width: 14px;
+        height: 14px;
+        transition: opacity 0.2s;
+        opacity: 0.5;
+        cursor: pointer;
+        &:hover {
+          opacity: 1;
+        }
       }
 
       .MatcZoomableTextAreaCloseIcon {
@@ -58,9 +65,8 @@
           transition: opacity 0.2s;
           margin-left: 8px;
 
-    
           &::after {
-            content: '';
+            content: "";
             display: inline-block;
             margin-left: 4px;
             margin-top: 1px;
@@ -74,15 +80,15 @@
             transition: all 0.2s;
           }
 
-          &:hover, &.MatcZoomableTextAreaActionPopupLabelActive {
+          &:hover,
+          &.MatcZoomableTextAreaActionPopupLabelActive {
             opacity: 1;
           }
 
           &.MatcZoomableTextAreaActionPopupLabelActive::after {
-              margin-top: -2px;
-              transform: rotate(225deg);
+            margin-top: -2px;
+            transform: rotate(225deg);
           }
-
         }
 
         .MatcZoomableTextAreaActionPopupMenu {
@@ -98,7 +104,7 @@
           overflow: hidden;
 
           &::after {
-            content: '';
+            content: "";
             position: absolute;
             top: 100%;
             right: 12px;
@@ -117,8 +123,6 @@
           }
         }
       }
-
-
     }
   }
 
@@ -146,6 +150,11 @@
       height: 256px;
       border-radius: 8px;
       border: none;
+
+      // keep the rotating gradient ring for the toolbar-sized input only
+      &::before {
+        display: none;
+      }
     }
     textarea.MatcToobarInputBorder {
       height: 256px;
@@ -158,5 +167,52 @@
         background: none;
       }
     }
+  }
+}
+
+.MatcZoomableTextAreaIconInput {
+  height: 100%;
+  position: relative;
+
+  // Same 1px border as MatcToobarInputBorder by default, but on focus
+  // it is hidden and replaced by a rotating blue gradient ring below.
+  &.MatcToobarInputFocus {
+    border-color: transparent;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      box-sizing: border-box;
+      border-radius: inherit;
+      padding: 1px;
+      background: conic-gradient(
+        from var(--matc-zoomable-border-angle),
+        #123f76 0deg,
+        $primary_color 90deg,
+        #5aa0f5 180deg,
+        $primary_color 270deg,
+        #123f76 360deg
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: MatcZoomableBorderRotate 3s linear infinite;
+      pointer-events: none;
+    }
+  }
+}
+
+.MatcLight .MatcToobarInputFocus {
+  &::before {
+    background: conic-gradient(
+        from var(--matc-zoomable-border-angle),
+        #1057ad 0deg,
+        $primary_color 90deg,
+        #90c1fe 180deg,
+        $primary_color 270deg,
+        #1057ad 360deg
+      );
   }
 }
