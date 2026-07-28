@@ -112,6 +112,7 @@ export default class HTML2QUX {
         this.grid = options.grid
         this.z = 1
 
+        console.time('HTML2QUX.run')
         this.domNode.innerText = ''
         const iframe = document.createElement('iframe')
         iframe.style.width = width + 'px'
@@ -127,6 +128,7 @@ export default class HTML2QUX {
                     // console.debug('forced, render', iframe.style.width, root.scrollWidth)
                 }
                 const result = this.parseIFrame(root, width, height, options)
+                console.timeEnd('HTML2QUX.run')
                 resolve(result)
             }
         })
@@ -675,7 +677,9 @@ export default class HTML2QUX {
         const style = this.getStyle(node)
         const has = this.getHas(widgetType)
         const props = this.getProps(node)
-
+        // TODO: maybe
+        //const isFixedHorizontal = pos.w === pos.h
+   
         const widget = {
             id: 'w' + this.getUUID(),
             name: this.getWidgetName(widgetType),
@@ -757,7 +761,8 @@ export default class HTML2QUX {
             return {
                 "onclick" : true,
                 "backgroundImage" : true,
-                "borderRadius" : true
+                "borderRadius" : true,
+                "iconPlaceholder" : true
             }
         }
         
@@ -789,7 +794,7 @@ export default class HTML2QUX {
             for (let key in pixelStyles) {
                 let value = compStyle[key]
                 if (value && value != 'none') {
-                    result[pixelStyles[key]] = parsePixel(value)
+                    result[pixelStyles[key]] = parsePixel(value, key, node)
                 }
             
             }
@@ -857,10 +862,10 @@ export default class HTML2QUX {
 
         if (isImg(node)) {
             return {
-                "borderTopRightRadius" : 0,
-                "borderTopLeftRadius" : 0,
-                "borderBottomRightRadius" : 0,
-                "borderBottomLeftRadius" : 0,
+                "borderTopRightRadius" : result.borderTopRightRadius,
+                "borderTopLeftRadius" : result.borderTopLeftRadius,
+                "borderBottomRightRadius" : result.borderBottomRightRadius,
+                "borderBottomLeftRadius" : result.borderBottomLeftRadius,
                 "borderTopWidth" : 0,
                 "borderBottomWidth" : 0,
                 "borderRightWidth" : 0,
@@ -1083,12 +1088,16 @@ function parseGradient(value) {
     return background
 }
 
-function parsePixel(value) {
+function parsePixel(value, /* key, node */) {
     if (!value) {
         return 0
     }
-    if (value.indexOf('px')) {
+    if (value.indexOf('px') !== -1) {
         value = value.slice(0, -2);
+    }
+    if (value.indexOf('%') !== -1) {
+        // use    const pos = this.getPosition(node) and get the right 
+        value = value.slice(0, -1);
     }
     return Math.round(value * 1)
 }

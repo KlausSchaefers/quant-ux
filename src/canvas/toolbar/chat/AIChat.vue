@@ -55,7 +55,7 @@ import Logger from '../../../core/Logger.js';
 export default {
     name: 'AIChat',
     emits: ['change', 'settings', 'add'],
-    props: ['defaultMessage'],
+    props: ['defaultMessage', 'isDebug'],
     data() {
         return {   
             messages: [
@@ -64,33 +64,24 @@ export default {
                     role: 'assistant'
                 }
             ],
-            showSettings: false,
             cssMode: 'wireframe',
             isWorking: false,
-            flexEngine: 'yoga',
-            size: 'd',
-            app: null,  
-            useHTML: false,
-            useCustomDLS: true,
             selectedScreen: '',
             progressMessage: 'Thinking...',
-            isDebug: true,
             status: {
                 busy: false,
                 messages: []
             },
-            isIframeOpen: false,
-            selectedModel: 'gpt-4.1',
-            models: [
-                { label: "OpenAI - GPT-4.1", value: "gpt-4.1" },
-                { label: "OpenAI - GPT-4o-Mini", value: "gpt-4o-mini" },
-                { label: "OpenAI - GPT-4o-Namo", value: 'gpt-4.1-nano' },
-                { label: "OpenAI - GPT-5-Nano", value: 'gpt-5-nano' },
-                { label: "OpenAI - GPT 5.6 Terra", value: 'gpt-5.6-terra' },
-                { label: "Claude - Sonnet", value: 'claude-sonnet-4-5-20250929' },
-                { label: "Gemini - 2.5 Flash", value: "gemini-2.5-flash" },
-                { label: "Gemini - 3 Pro", value: "gemini-3-pro-preview" }
-            ]
+            // models: [
+            //     { label: "OpenAI - GPT-4.1", value: "gpt-4.1" },
+            //     { label: "OpenAI - GPT-4o-Mini", value: "gpt-4o-mini" },
+            //     { label: "OpenAI - GPT-4o-Namo", value: 'gpt-4.1-nano' },
+            //     { label: "OpenAI - GPT-5-Nano", value: 'gpt-5-nano' },
+            //     { label: "OpenAI - GPT 5.6 Terra", value: 'gpt-5.6-terra' },
+            //     { label: "Claude - Sonnet", value: 'claude-sonnet-4-5-20250929' },
+            //     { label: "Gemini - 2.5 Flash", value: "gemini-2.5-flash" },
+            //     { label: "Gemini - 3 Pro", value: "gemini-3-pro-preview" }
+            // ]
         }
 
     },

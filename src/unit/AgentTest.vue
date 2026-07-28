@@ -2,7 +2,18 @@
   <div class="MatcLight">
     <div class="MatcAgentWorkSpace">
       <div class="MatcAgentWorkSpaceChat MatcToobarPropertiesSection ">
-        <AIChat :messages="messages" @add="add" ref="chat" defaultMessage="Generate a landing page for a petshop"></AIChat>
+        <div class="MatcAgentWorkSpaceChatHeader">
+          <QIcon icon="Visible" @click="showIframe = !showIframe" v-if="showIframe"/>
+          <QIcon icon="Hidden" @click="showIframe = !showIframe" v-if="!showIframe"/>
+
+          <QIcon icon="Code" @click="showHTML = !showHTML"/>
+        </div>
+        <AIChat 
+          :messages="messages" 
+          @add="add" 
+          ref="chat" 
+          :isDebug="true"
+          defaultMessage="Generate a landing page for a petshop"></AIChat>
       </div>
       <div>
         <ZoomableCanvas :cellWidth="model.screenSize.w" :cellHeight="maxScreenHeight">
@@ -14,8 +25,12 @@
         </ZoomableCanvas>
       </div>
     </div>
-    <div class="MatcAgentWorkSpacePreview" ref="iFramePreview">
+    <div class="MatcAgentWorkSpacePreview" ref="iFramePreview" v-show="showIframe">
 
+    </div>
+
+    <div class="MatcAgentWorkSpacePreview" ref="htmlPreview" :style="{'width': model.screenSize.w + 'px'}" v-show="showHTML">
+      Lala
     </div>
 
   </div>
@@ -38,6 +53,7 @@ import agent_demo_empty from './data/agent_demo_empty'
 import ZoomableCanvas from './ZoomableCanvas'
 // eslint-disable-next-line no-unused-vars
 import Preview from 'page/Preview'
+import QIcon from 'page/QIcon'
 
 export default {
   name: "FigmaTest",
@@ -45,6 +61,8 @@ export default {
   data: function () {
     return {
       model: agent_demo_empty,
+      showIframe: false,
+      showHTML: false,
       messages: [{
         content: 'Hi',
         role: 'assistant'
@@ -55,7 +73,7 @@ export default {
     };
   },
   components: {
-    AIChat, ZoomableCanvas, Preview
+    AIChat, ZoomableCanvas, Preview, QIcon
   },
   computed: {
     screens () {
@@ -75,9 +93,9 @@ export default {
       console.debug(this.model)
       this.$forceUpdate()
       // now we would have to offset things. based on a pos
-      //const html = Object.values(result._html)[0]
-      //const scrn = Object.values(result.screens)[0]
-      //this.renderIframe(html, scrn.w, scrn.h)
+      const html = Object.values(result._html)[0]
+      const scrn = Object.values(result.screens)[0]
+      this.renderIframe(html, scrn.w, scrn.h)
 
     },
 

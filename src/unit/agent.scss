@@ -21,12 +21,21 @@
 .MatcAgentWorkSpaceChat {
     background: #fff;
     display: flex;
-    padding-top: 16px;
+    flex-direction: column;
+    gap: 16px;
+
+    .MatcAgentWorkSpaceChatHeader{
+      padding: 0px 16px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #E6E6E6;
+      display: flex;
+      gap: 5px;
+    }
     
     &.MatcToobarPropertiesSection{
       position: static;
       width: 320px;
-      padding-top: 16px;
+      padding-top: 8px;
       padding-bottom: 8px;
       z-index: auto;
     }
@@ -48,13 +57,13 @@ $chat_message_color_assistant :  #172b7f;
   color: $chat_message_color_user;
 }
 
-.MatcAgentWorkSpace .MatcAiChatIFrame,
 .MatcAgentWorkSpacePreview {
   position: fixed;
   top:16px;
   right: 16px;
-  box-shadow: 0 8 24px rgba(0, 0, 0, 0.2);
-  height: 80%;
+  bottom: 16px;
+  box-shadow: 0 8px 24px rgba(18, 70, 225, 0.2);
+  min-height: 80%;
   width: auto;
   overflow: auto;
   z-index: 1000;
