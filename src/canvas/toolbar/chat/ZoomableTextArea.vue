@@ -1,7 +1,7 @@
 <template>
     <div :class="['MatcZoomableTextArea', {'MatcZoomableTextAreaMax': isMax}]">
-        <div class="MatcZoomableTextAreaBackdrop" @click="isMax=false">
-            <div :class="['MatcZoomableTextAreaIconInput MatcToobarInput MatcToobarInputBorder' , {'MatcToobarInputFocus': hasFocus}]" @click.stop>
+        <div class="MatcZoomableTextAreaBackdrop" @click="close">
+            <div :class="['MatcZoomableTextAreaIconInput  MatcToobarInputBorder' , {'MatcToobarInputFocus': hasFocus}]" @click.stop>
                 <textarea class="MatcIgnoreOnKeyPress " 
                   @focus="hasFocus=true"
                   @blur="hasFocus=false"

@@ -136,7 +136,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 99999;
 
+  
     .MatcZoomableTextAreaActionIcons {
       display: none;
     }
@@ -147,9 +149,13 @@
       width: 400px;
       box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.1);
       background: #fff;
-      height: 256px;
+      height: 320px;
       border-radius: 8px;
       border: none;
+
+      textare {
+        font-size: 16px;
+      }
 
       // keep the rotating gradient ring for the toolbar-sized input only
       &::before {
@@ -170,14 +176,25 @@
   }
 }
 
+.MatcZoomableTextAreaMax.MatcZoomableTextArea{
+    border-radius: 8px;
+}
+
+
+.MatcAiChat .MatcAiChatFooter .MatcZoomableTextAreaMax textarea {
+  font-size: 16px;
+}
+
 .MatcZoomableTextAreaIconInput {
   height: 100%;
   position: relative;
+  border-radius: $toolbar_form_radius;
 
   // Same 1px border as MatcToobarInputBorder by default, but on focus
   // it is hidden and replaced by a rotating blue gradient ring below.
   &.MatcToobarInputFocus {
     border-color: transparent;
+    background: $toolbar_form_background_hover;
 
     &::before {
       content: "";
@@ -190,7 +207,7 @@
         from var(--matc-zoomable-border-angle),
         #123f76 0deg,
         $primary_color 90deg,
-        #5aa0f5 180deg,
+        #a210ad 180deg,
         $primary_color 270deg,
         #123f76 360deg
       );
@@ -208,11 +225,11 @@
   &::before {
     background: conic-gradient(
         from var(--matc-zoomable-border-angle),
-        #1057ad 0deg,
+        #e50df4 0deg,
         $primary_color 90deg,
-        #90c1fe 180deg,
+        #3b8aea 180deg,
         $primary_color 270deg,
-        #1057ad 360deg
+        #e50df4 360deg
       );
   }
 }
