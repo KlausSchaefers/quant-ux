@@ -609,12 +609,20 @@ export function getAllChildren(node, result){
     }
 }
 
-export function isContainedInBox (obj, parent) {
+/**
+ * tolerance loosens the edge check by a few px: box dimensions coming out of
+ * AI/generative layout (or any upstream rounding) commonly overshoot their
+ * intended parent by a pixel or so. Without slack here, a child that's 1px
+ * too tall/wide fails containment entirely and gets promoted to a sibling
+ * several levels up, leaving its intended parent as a near empty wrapper.
+ * Defaults to 0 (strict) to keep existing callers/behavior unchanged.
+ */
+export function isContainedInBox (obj, parent, tolerance = 0) {
     if (parent) {
         if (
-            obj.x >= parent.x &&
-            obj.x + obj.w <= parent.w + parent.x &&
-            (obj.y >= parent.y && obj.y + obj.h <= parent.y + parent.h)
+            obj.x >= parent.x - tolerance &&
+            obj.x + obj.w <= parent.w + parent.x + tolerance &&
+            (obj.y >= parent.y - tolerance && obj.y + obj.h <= parent.y + parent.h + tolerance)
             ) {
             return true;
         }
@@ -1016,7 +1024,7 @@ function getContainedChildWidgets (container, model) {
     for (let i = 0; i < sortedWidgets.length; i++){
         let widget = sortedWidgets[i]
          if (container.id != widget.id) {
-            if (found && isContainedInBox(widget, container)){
+            if (found && isContainedInBox(widget, container, 1)){
                 widget.container = container.id
                 result.push(widget)
             }

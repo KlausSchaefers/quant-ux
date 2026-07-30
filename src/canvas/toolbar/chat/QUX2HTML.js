@@ -111,6 +111,7 @@ export default class QUX2HTML {
         const treeModel = Flat2Tree.transform(model, this.config)
         const scrnTree = treeModel.screens.find(s => s.id === screenID)
         this.cleanTree(scrnTree)
+        this.removeNotNeedGrid(scrnTree)
 
         Logger.log(1, 'QUX2HTML.toHTML()', scrnTree)
 
@@ -128,6 +129,64 @@ export default class QUX2HTML {
                 this.cleanTree(c)
             })
         }
+    }
+
+    /**
+     * Flat2Tree computes a CSS grid for *every* container with children,
+     * regardless of whether the content actually needs 2D placement. When
+     * all children sit in a single grid row (or single grid column), there
+     * is no real 2D arrangement going on - a plain flexbox reproduces the
+     * exact same layout with much simpler CSS, so we downgrade those
+     * containers here rather than emitting a grid-template for them.
+     */
+    removeNotNeedGrid(node) {
+        if (node.children && node.children.length > 0) {
+            node.children.forEach(c => this.removeNotNeedGrid(c))
+
+            if (node.layout && node.layout.type === 'grid' && node.grid) {
+                const cols = node.grid.columns ? node.grid.columns.length : 0
+                const rows = node.grid.rows ? node.grid.rows.length : 0
+               
+                if (rows <= 1 && cols > 1) {
+                    this.convertToFlexRow(node)
+                } else if (cols <= 1) {
+                    this.convertToFlexColumn(node)
+                }
+            }
+        }
+    }
+
+    /**
+     * A single grid row means every child sits side by side with no
+     * vertical variation - lay them out with a horizontal flexbox instead,
+     * using each child's gap to the previous sibling (mirroring how
+     * Flat2Tree computes "top" for its native vertical 'row' layout, just
+     * along x instead of y).
+     */
+    convertToFlexRow(node) {
+        node.children.sort((a, b) => a.x - b.x)
+        let last = 0
+        node.children.forEach(child => {
+            child.left = child.x - last
+            last = child.x + child.w
+        })
+        node.layout = { type: 'auto-horizontal', grow: 0 }
+    }
+
+    /**
+     * A single grid column means every child sits directly above/below the
+     * next with no horizontal variation - lay them out with QuantUX's
+     * vertical 'row' layout instead, computing the same "top" gap Flat2Tree
+     * would have produced natively.
+     */
+    convertToFlexColumn(node) {
+        node.children.sort((a, b) => a.y - b.y)
+        let last = 0
+        node.children.forEach(child => {
+            child.top = child.y - last
+            last = child.y + child.h
+        })
+        node.layout = { type: 'row', grow: 0 }
     }
 
     /* -----------------------------------------------------------------
@@ -201,7 +260,7 @@ ${bodyHTML}
         const childrenHTML = (node.children || []).map(c => this.renderNode(c, node)).join('')
         const fixedHTML = (node.fixedChildren || []).map(c => this.renderNode(c, node)).join('')
 
-        return `<div class="${cls}">${childrenHTML}${fixedHTML}</div>`
+        return `<div class="${cls}"${this.getDataAttr(node)}>${childrenHTML}${fixedHTML}</div>`
     }
 
     renderLeaf(node, parent) {
@@ -220,45 +279,55 @@ ${bodyHTML}
         if (INPUT_TYPES[node.type]) {
             this.assignClasses(node, ownGroups, posStyle)
             const label = this.getLabel(node)
-            return `<input type="${INPUT_TYPES[node.type]}" placeholder="${this.escapeAttr(label)}" class="${this.getClassAttr(node)}">`
+            return `<input type="${INPUT_TYPES[node.type]}" placeholder="${this.escapeAttr(label)}" class="${this.getClassAttr(node)}"${this.getDataAttr(node)}>`
         }
 
         if (node.type === 'TextArea') {
             this.assignClasses(node, ownGroups, posStyle)
             const label = this.getLabel(node)
-            return `<textarea placeholder="${this.escapeAttr(label)}" class="${this.getClassAttr(node)}"></textarea>`
+            return `<textarea placeholder="${this.escapeAttr(label)}" class="${this.getClassAttr(node)}"${this.getDataAttr(node)}></textarea>`
         }
 
         if (node.type === 'DropDown') {
             this.assignClasses(node, ownGroups, posStyle)
             const label = this.getLabel(node)
             const option = label ? `<option>${this.escapeHTML(label)}</option>` : ''
-            return `<select class="${this.getClassAttr(node)}">${option}</select>`
+            return `<select class="${this.getClassAttr(node)}"${this.getDataAttr(node)}>${option}</select>`
         }
 
         if (node.type === 'CheckBox' || node.type === 'RadioBox2') {
             this.assignClasses(node, [...ownGroups, 'display:flex;align-items:center;gap:6px;'], posStyle)
             const label = this.getLabel(node)
             const inputType = node.type === 'CheckBox' ? 'checkbox' : 'radio'
-            return `<label class="${this.getClassAttr(node)}"><input type="${inputType}">${this.escapeHTML(label)}</label>`
+            return `<label class="${this.getClassAttr(node)}"${this.getDataAttr(node)}><input type="${inputType}">${this.escapeHTML(label)}</label>`
         }
 
         this.assignClasses(node, ownGroups, posStyle)
         const tag = this.getLeafTag(node)
         const label = this.getLabel(node)
-        return `<${tag} class="${this.getClassAttr(node)}">${this.escapeHTML(label)}</${tag}>`
+        return `<${tag} class="${this.getClassAttr(node)}"${this.getDataAttr(node)}>${this.escapeHTML(label)}</${tag}>`
     }
 
     renderImage(node, ownGroups, posStyle) {
         const bg = node.style && node.style.backgroundImage
         if (bg && bg.url && bg.url.indexOf('http') === 0) {
             this.assignClasses(node, [...ownGroups, 'object-fit:cover;'], posStyle)
-            return `<img src="${this.escapeAttr(bg.url)}" class="${this.getClassAttr(node)}" alt="">`
+            return `<img src="${this.escapeAttr(bg.url)}" class="${this.getClassAttr(node)}"${this.getDataAttr(node)} alt="">`
         }
         // No portable URL (missing, or a server-relative path we can't embed
         // in a self contained file) - still an <img>, just without a src.
         this.assignClasses(node, [...ownGroups, this.getImagePlaceholderStyle()], posStyle)
-        return `<img class="${this.getClassAttr(node)}" alt="">`
+        return `<img class="${this.getClassAttr(node)}"${this.getDataAttr(node)} alt="">`
+    }
+
+    /**
+     * data-qid="<widget id>" on every rendered element, purely for
+     * debugging: lets you inspect an element in devtools and immediately
+     * see which source widget it came from (and cross reference it against
+     * console dumps of the tree, e.g. from removeNotNeedGrid()).
+     */
+    getDataAttr(node) {
+        return ` data-qid="${this.escapeAttr(node.id)}"`
     }
 
     /* -----------------------------------------------------------------
@@ -435,6 +504,16 @@ ${bodyHTML}
             return `grid-column:${colStart} / ${colEnd};grid-row:${rowStart} / ${rowEnd};`
         }
 
+        if (parentLayout === 'auto-horizontal') {
+            // Main axis is x here (gap to the previous sibling, via
+            // convertToFlexRow()'s "left"), cross axis is y (absolute).
+            const marginLeft = node.left !== undefined ? node.left : node.x
+            const marginTop = node.y || 0
+            return `margin-top:${Math.max(marginTop, 0)}px;margin-left:${Math.max(marginLeft, 0)}px;`
+        }
+
+        // 'row', 'auto-vertical' and everything else: main axis is y (gap
+        // to the previous sibling), cross axis is x (absolute).
         const marginTop = node.top !== undefined ? node.top : node.y
         const marginLeft = node.x || 0
         return `margin-top:${Math.max(marginTop, 0)}px;margin-left:${Math.max(marginLeft, 0)}px;`

@@ -7,7 +7,7 @@ import * as Rows from "./RowLayouter"
 var cloneID = 0
 
 export function transform(model, config) {
-	Logger.log(1, "Falt2Tree.transform () > enter", config)
+	Logger.log(-1, "Falt2Tree.transform () > enter", config)
 
 	let result = {
 		id: model.id,
@@ -354,7 +354,7 @@ function getParentWidget(potentialParents, element, model) {
 	 */
 	for (let p = 0; p < potentialParents.length; p++) {
 		let parent = potentialParents[p]
-		if (Util.isContainedInBox(element, parent)) {
+		if (Util.isContainedInBox(element, parent, 1)) {
 			return parent
 		}
 	}

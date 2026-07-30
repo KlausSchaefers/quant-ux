@@ -92,7 +92,7 @@ export default {
     add(result) {
       console.debug("add", result)
       this.mergeScreenInApp(result, this.model)
-      console.debug(this.model)
+      //console.debug(JSON.stringify(result, null, 2))
       this.$forceUpdate()
       // now we would have to offset things. based on a pos
       const html = Object.values(result._html)[0]
@@ -125,7 +125,7 @@ export default {
        const qux = new QUX2HTML();
         const html = qux.toHTML(this.model, scrn.id)
         console.debug('AgentTest.renderHTML() > ', Math.ceil(html.length / 1000) + 'kb')
-        console.debug(html)
+        //console.debug(html)
         const cntr = this.$refs.htmlPreview
         cntr.innerText = ''
         const iframe = document.createElement('iframe')

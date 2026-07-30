@@ -837,6 +837,16 @@ export default class HTML2QUX {
             Logger.error('HTMLImporter.getStyle()', err)
         }
 
+        if (node.tagName === 'BUTTON') {
+            paddingKeys.forEach(p => {
+                if (result[p]) {
+                    result[p] = 0// result[p] - 2 // substract because some times due to font
+                }
+            })
+            result.verticalAlign = "middle"
+            result.textAlign = "center"
+        }
+
         if (node.tagName === 'INPUT') {
             if (isCheckBox(node)) {
                
