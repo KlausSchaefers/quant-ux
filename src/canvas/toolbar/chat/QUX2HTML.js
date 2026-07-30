@@ -102,7 +102,7 @@ export default class QUX2HTML {
         this.config.zoom = 1
     }
 
-    toHTML(model, screenID, wrapGroups = false, removeRootIfNeeded = false) {
+    toHTML(model, screenID, wrapGroups = false, removeRootIfNeeded = false, simplifyGrid = false) {
         this.model = model
         this.config.removeRootIfNeeded = removeRootIfNeeded
         if (wrapGroups) {
@@ -111,8 +111,10 @@ export default class QUX2HTML {
         const treeModel = Flat2Tree.transform(model, this.config)
         const scrnTree = treeModel.screens.find(s => s.id === screenID)
         this.cleanTree(scrnTree)
-        this.removeNotNeedGrid(scrnTree)
-
+        if (simplifyGrid) {
+            this.removeNotNeedGrid(scrnTree)
+        }
+     
         Logger.log(1, 'QUX2HTML.toHTML()', scrnTree)
 
         this.cssRules = []
@@ -132,61 +134,193 @@ export default class QUX2HTML {
     }
 
     /**
-     * Flat2Tree computes a CSS grid for *every* container with children,
-     * regardless of whether the content actually needs 2D placement. When
-     * all children sit in a single grid row (or single grid column), there
-     * is no real 2D arrangement going on - a plain flexbox reproduces the
-     * exact same layout with much simpler CSS, so we downgrade those
-     * containers here rather than emitting a grid-template for them.
+     * Flat2Tree computes a CSS grid for *every* container whose children
+     * overlap in some way, regardless of whether that overlap actually
+     * needs 2D placement to render correctly. A container only genuinely
+     * needs a grid when its children overlap in BOTH axes at once (e.g. one
+     * child sits directly to the right of another AND a third sits below
+     * both) - that's real 2D structure. Three simpler, common cases don't:
+     *
+     *  - no pair of children overlaps in x  -> one horizontal row, flex row
+     *  - no pair of children overlaps in y  -> one vertical stack, flex column
+     *  - children overlap in y *within* clusters but not *across* them (e.g.
+     *    three icons side by side, then another three below) -> several
+     *    explicit row bands, each an internal flex row, stacked in a flex
+     *    column - not a single flat flex, since the row grouping itself is
+     *    real structure worth keeping explicit.
+     *
+     * Anything left over (children that don't cleanly decompose into row
+     * bands, e.g. staggered/columns that don't line up) keeps its grid.
      */
     removeNotNeedGrid(node) {
         if (node.children && node.children.length > 0) {
             node.children.forEach(c => this.removeNotNeedGrid(c))
 
             if (node.layout && node.layout.type === 'grid' && node.grid) {
-                const cols = node.grid.columns ? node.grid.columns.length : 0
-                const rows = node.grid.rows ? node.grid.rows.length : 0
-               
-                if (rows <= 1 && cols > 1) {
-                    this.convertToFlexRow(node)
-                } else if (cols <= 1) {
-                    this.convertToFlexColumn(node)
-                }
+                this.simplifyGrid(node)
             }
         }
     }
 
+    simplifyGrid(node) {
+        const children = node.children
+
+        if (!this.anyOverlap(children, 'x')) {
+            this.convertToFlexRow(node, children)
+            return
+        }
+
+        if (!this.anyOverlap(children, 'y')) {
+            this.convertToFlexColumn(node, children)
+            return
+        }
+
+        const bands = this.groupIntoRowBands(children)
+        if (bands.length > 1 && bands.every(band => !this.anyOverlap(band, 'x'))) {
+            this.convertToExplicitRows(node, bands)
+        }
+        // else: children genuinely overlap in both axes at once - keep the grid.
+    }
+
     /**
-     * A single grid row means every child sits side by side with no
+     * Clusters children into row bands purely by y-overlap: walking top to
+     * bottom, a child joins the current band if it overlaps the band's
+     * y-range so far, otherwise it starts a new band. This is transitive
+     * (A overlapping B and B overlapping C bands them together even if A
+     * and C don't directly overlap), matching how a real multi-row layout
+     * reads visually.
+     */
+    groupIntoRowBands(children) {
+        const sorted = children.slice().sort((a, b) => a.y - b.y)
+        const bands = []
+        let current = null
+        sorted.forEach(child => {
+            if (current && child.y < current.bottom) {
+                current.children.push(child)
+                current.bottom = Math.max(current.bottom, child.y + child.h)
+            } else {
+                current = { children: [child], bottom: child.y + child.h }
+                bands.push(current)
+            }
+        })
+        return bands.map(b => b.children)
+    }
+
+    anyOverlap(children, axis) {
+        for (let i = 0; i < children.length; i++) {
+            for (let j = i + 1; j < children.length; j++) {
+                if (this.overlaps(children[i], children[j], axis)) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    overlaps(a, b, axis) {
+        const pos = axis === 'x' ? 'x' : 'y'
+        const size = axis === 'x' ? 'w' : 'h'
+        return a[pos] < b[pos] + b[size] && b[pos] < a[pos] + a[size]
+    }
+
+    /**
+     * A single horizontal row: every child sits side by side with no
      * vertical variation - lay them out with a horizontal flexbox instead,
      * using each child's gap to the previous sibling (mirroring how
      * Flat2Tree computes "top" for its native vertical 'row' layout, just
      * along x instead of y).
      */
-    convertToFlexRow(node) {
-        node.children.sort((a, b) => a.x - b.x)
+    convertToFlexRow(node, children) {
+        children.sort((a, b) => a.x - b.x)
         let last = 0
-        node.children.forEach(child => {
+        children.forEach(child => {
             child.left = child.x - last
             last = child.x + child.w
         })
+        // CSS Grid's grid-template-columns implicitly reserved any trailing
+        // space after the last child (e.g. right padding baked into the
+        // original design) as an empty final track. A flex row has no such
+        // mechanism - width is explicit, but content just ends - so
+        // reinstate that gap as padding-right on the container itself.
+        if (node.w > last) {
+            node.paddingRight = node.w - last
+        }
+        // A row container *also* renders height:auto (see getSizeStyle), so
+        // it needs the same bottom-gap treatment as a column - see
+        // addTrailingPaddingBottom().
+        this.addTrailingPaddingBottom(node, children)
+        node.children = children
         node.layout = { type: 'auto-horizontal', grow: 0 }
     }
 
     /**
-     * A single grid column means every child sits directly above/below the
+     * A single vertical stack: every child sits directly above/below the
      * next with no horizontal variation - lay them out with QuantUX's
      * vertical 'row' layout instead, computing the same "top" gap Flat2Tree
      * would have produced natively.
      */
-    convertToFlexColumn(node) {
-        node.children.sort((a, b) => a.y - b.y)
+    convertToFlexColumn(node, children) {
+        children.sort((a, b) => a.y - b.y)
         let last = 0
-        node.children.forEach(child => {
+        children.forEach(child => {
             child.top = child.y - last
             last = child.y + child.h
         })
+        this.addTrailingPaddingBottom(node, children)
+        node.children = children
         node.layout = { type: 'row', grow: 0 }
+    }
+
+    /**
+     * Containers always render with height:auto, regardless of whether
+     * they ended up a flex row or a flex column (see getSizeStyle) - so the
+     * vertical trailing gap (distance from the lowest child's bottom edge
+     * to the container's own bottom edge in the source design) has to be
+     * reinstated as padding-bottom in *both* cases, not just the
+     * vertical-stack one. Width, by contrast, is always explicit on
+     * containers, so there's no equivalent cross-axis gap to fix up for a
+     * flex column.
+     */
+    addTrailingPaddingBottom(node, children) {
+        const maxBottom = Math.max(...children.map(c => c.y + c.h))
+        if (node.h > maxBottom) {
+            node.paddingBottom = node.h - maxBottom
+        }
+    }
+
+    /**
+     * Several row bands: wrap each band in a synthetic horizontal flex
+     * container (same shape convertToFlexRow() produces, just built by hand
+     * since there's no source widget for it), then stack those bands
+     * vertically like convertToFlexColumn() would.
+     */
+    convertToExplicitRows(node, bands) {
+        const rowNodes = bands.map((band, i) => {
+            const minX = Math.min(...band.map(c => c.x))
+            const minY = Math.min(...band.map(c => c.y))
+            const maxRight = Math.max(...band.map(c => c.x + c.w))
+            const maxBottom = Math.max(...band.map(c => c.y + c.h))
+
+            band.forEach(child => {
+                child.x -= minX
+                child.y -= minY
+            })
+
+            const row = {
+                id: `${node.id}-row${i}`,
+                type: 'Box',
+                x: minX,
+                y: minY,
+                w: maxRight - minX,
+                h: maxBottom - minY,
+                style: {},
+                children: band
+            }
+            this.convertToFlexRow(row, band)
+            return row
+        })
+
+        this.convertToFlexColumn(node, rowNodes)
     }
 
     /* -----------------------------------------------------------------
@@ -472,19 +606,40 @@ ${bodyHTML}
         if (type === 'grid' && grid && grid.columns && grid.columns.length > 0 && grid.rows && grid.rows.length > 0) {
             const cols = grid.columns.map(c => `${Math.max(c.l, 0)}px`).join(' ')
             const rows = grid.rows.map(r => `${Math.max(r.l, 0)}px`).join(' ')
+            // grid-template already reserves any trailing empty track, so a
+            // grid never needs the padding fallback below.
             return `display:grid;grid-template-columns:${cols};grid-template-rows:${rows};`
         }
 
         if (type === 'wrap') {
-            return 'display:flex;flex-wrap:wrap;align-content:flex-start;align-items:flex-start;'
+            return `display:flex;flex-wrap:wrap;align-content:flex-start;align-items:flex-start;${this.getTrailingGapCSS(node)}`
         }
 
         if (type === 'auto-horizontal') {
-            return 'display:flex;flex-direction:row;align-items:flex-start;'
+            return `display:flex;flex-direction:row;align-items:flex-start;${this.getTrailingGapCSS(node)}`
         }
 
         // 'row', 'auto-vertical' and everything else: children are stacked top down
-        return 'display:flex;flex-direction:column;align-items:flex-start;'
+        return `display:flex;flex-direction:column;align-items:flex-start;${this.getTrailingGapCSS(node)}`
+    }
+
+    /**
+     * A flex container's height/width:auto only ever reflects its content -
+     * unlike CSS Grid, it has no way to reserve trailing space after the
+     * last child. removeNotNeedGrid()'s convertToFlexRow()/convertToFlexColumn()
+     * compute exactly how much of the original box that would have been
+     * (node.paddingRight/paddingBottom) when converting a grid; render it
+     * back as real padding so that space doesn't just disappear.
+     */
+    getTrailingGapCSS(node) {
+        let css = ''
+        if (node.paddingBottom > 0) {
+            css += `padding-bottom:${node.paddingBottom}px;`
+        }
+        if (node.paddingRight > 0) {
+            css += `padding-right:${node.paddingRight}px;`
+        }
+        return css
     }
 
     /**
