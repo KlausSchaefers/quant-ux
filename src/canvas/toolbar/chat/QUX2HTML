@@ -1,0 +1,471 @@
+import Logger from '../../../core/Logger'
+
+import * as Flat2Tree from '../../../core/responsive/Flat2Tree'
+import * as Quant2Flat from '../../../core/responsive/Quant2Flat'
+import Config from '../../../core/responsive/Config'
+
+/**
+ * Maps our internal camelCase style keys to CSS properties. Keys that need
+ * special handling (background, boxShadow, backgroundImage, padding on
+ * containers) are treated separately in styleToCSS()/getBackgroundCSS().
+ */
+const CSS_PROP_MAP = {
+    color: 'color',
+    textAlign: 'text-align',
+    fontFamily: 'font-family',
+    fontSize: 'font-size',
+    fontStyle: 'font-style',
+    fontWeight: 'font-weight',
+    letterSpacing: 'letter-spacing',
+    lineHeight: 'line-height',
+    textDecoration: 'text-decoration',
+
+    borderTopColor: 'border-top-color',
+    borderBottomColor: 'border-bottom-color',
+    borderLeftColor: 'border-left-color',
+    borderRightColor: 'border-right-color',
+
+    borderTopWidth: 'border-top-width',
+    borderBottomWidth: 'border-bottom-width',
+    borderLeftWidth: 'border-left-width',
+    borderRightWidth: 'border-right-width',
+
+    borderTopLeftRadius: 'border-top-left-radius',
+    borderTopRightRadius: 'border-top-right-radius',
+    borderBottomLeftRadius: 'border-bottom-left-radius',
+    borderBottomRightRadius: 'border-bottom-right-radius',
+
+    paddingTop: 'padding-top',
+    paddingBottom: 'padding-bottom',
+    paddingLeft: 'padding-left',
+    paddingRight: 'padding-right',
+
+    opacity: 'opacity'
+}
+
+const PIXEL_KEYS = new Set([
+    // letterSpacing/lineHeight already arrive pre-formatted ("normal", "1px", "37.76px")
+    'fontSize',
+    'borderTopWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderRightWidth',
+    'borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomLeftRadius', 'borderBottomRightRadius',
+    'paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'
+])
+
+const PADDING_KEYS = new Set(['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'])
+const BORDER_WIDTH_KEYS = ['borderTopWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderRightWidth']
+
+const INPUT_TYPES = {
+    TextBox: 'text',
+    Password: 'password'
+}
+
+/**
+ * Converts the nested, pixel positioned scrnTree produced by Flat2Tree into a
+ * single, self contained HTML file. Every node in the tree already carries
+ * its box (x, y, w, h relative to its parent), a JS/CSS style object and,
+ * for containers, pre computed layout information:
+ *
+ *  - node.layout.type: 'row' | 'grid' | 'wrap' | 'auto-horizontal' | 'auto-vertical'
+ *  - node.grid: {columns:[{v,l,...}], rows:[{v,l,...}]}  present on *every*
+ *    container, independent of layout.type. columns[i].l / rows[i].l are the
+ *    pixel size of track i.
+ *  - node.gridColumnStart/End, gridRowStart/End: 0 based track indices into
+ *    the *parent's* grid.columns/rows.
+ *  - node.top: for 'row' layout children, the gap to the previous sibling
+ *    (or to the top of the container for the first child).
+ *
+ * We use this information to lay out children with real flexbox/grid CSS
+ * instead of absolute positioning, while keeping every box's own pixel size
+ * so the result still matches the original design.
+ */
+export default class QUX2HTML {
+
+    constructor(config = Config.getDefault()) {
+        this.config = config
+        this.config.useRows = true
+        this.config.wrapGroups = true
+        this.config.removeRootIfNeeded = false
+        this.config.zoom = 1
+    }
+
+    toHTML(model, screenID, wrapGroups = false, removeRootIfNeeded = false) {
+        this.model = model
+        this.config.removeRootIfNeeded = removeRootIfNeeded
+        if (wrapGroups) {
+            model = Quant2Flat.transform(model, this.config)
+        }
+        const treeModel = Flat2Tree.transform(model, this.config)
+        const scrnTree = treeModel.screens.find(s => s.id === screenID)
+        this.cleanTree(scrnTree)
+
+        Logger.log(1, 'QUX2HTML.toHTML()', scrnTree)
+
+        const bodyHTML = this.renderNode(scrnTree, null, true)
+        return this.wrapDocument(scrnTree, bodyHTML)
+    }
+
+    cleanTree(scrn) {
+        if (scrn.children) {
+            scrn.children.forEach(c => {
+                c.parent = null
+                this.cleanTree(c)
+            })
+        }
+    }
+
+    /* -----------------------------------------------------------------
+     * Document
+     * --------------------------------------------------------------- */
+
+    wrapDocument(scrn, bodyHTML) {
+        const title = this.escapeHTML(scrn.name || 'Screen')
+        return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${title}</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 16px;
+    background: #eef0f2;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  }
+  img { display: block; max-width: 100%; }
+  button { font: inherit; cursor: pointer; }
+  input, textarea, select { font: inherit; }
+  a { text-decoration: none; color: inherit; }
+  .qux-screen {
+    position: relative;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+  }
+</style>
+</head>
+<body>
+${bodyHTML}
+</body>
+</html>
+`
+    }
+
+    /* -----------------------------------------------------------------
+     * Node rendering
+     * --------------------------------------------------------------- */
+
+    renderNode(node, parent, isRoot = false) {
+        const hasChildren = node.children && node.children.length > 0
+        if (hasChildren || isRoot) {
+            return this.renderContainer(node, parent, isRoot)
+        }
+        return this.renderLeaf(node, parent)
+    }
+
+    renderContainer(node, parent, isRoot) {
+        const layoutStyle = this.getLayoutStyle(node)
+        const boxStyle = this.styleToCSS(node.style, true)
+        const posStyle = isRoot ? '' : this.getPositionStyle(node, parent)
+        const sizeStyle = isRoot
+            ? `width:${node.w}px;min-height:${node.h}px;`
+            : this.getSizeStyle(node, parent)
+        const cls = isRoot ? ' class="qux-screen"' : ''
+        const style = `${posStyle}${sizeStyle}${layoutStyle}${boxStyle}`
+
+        const childrenHTML = (node.children || []).map(c => this.renderNode(c, node)).join('')
+        const fixedHTML = (node.fixedChildren || []).map(c => this.renderNode(c, node)).join('')
+
+        return `<div${cls} style="${style}">${childrenHTML}${fixedHTML}</div>`
+    }
+
+    renderLeaf(node, parent) {
+        const posStyle = this.getPositionStyle(node, parent)
+        const sizeStyle = this.getSizeStyle(node, parent)
+        const boxStyle = this.styleToCSS(node.style, false)
+        const style = `${posStyle}${sizeStyle}${boxStyle}`
+
+        if (node.type === 'Image') {
+            return this.renderImage(node, style)
+        }
+
+        if (INPUT_TYPES[node.type]) {
+            const label = this.getLabel(node)
+            return `<input type="${INPUT_TYPES[node.type]}" placeholder="${this.escapeAttr(label)}" style="${style}">`
+        }
+
+        if (node.type === 'TextArea') {
+            const label = this.getLabel(node)
+            return `<textarea placeholder="${this.escapeAttr(label)}" style="${style}"></textarea>`
+        }
+
+        if (node.type === 'DropDown') {
+            const label = this.getLabel(node)
+            const option = label ? `<option>${this.escapeHTML(label)}</option>` : ''
+            return `<select style="${style}">${option}</select>`
+        }
+
+        if (node.type === 'CheckBox' || node.type === 'RadioBox2') {
+            const label = this.getLabel(node)
+            const inputType = node.type === 'CheckBox' ? 'checkbox' : 'radio'
+            return `<label style="${style}display:flex;align-items:center;gap:6px;"><input type="${inputType}">${this.escapeHTML(label)}</label>`
+        }
+
+        const tag = this.getLeafTag(node)
+        const label = this.getLabel(node)
+        return `<${tag} style="${style}">${this.escapeHTML(label)}</${tag}>`
+    }
+
+    renderImage(node, style) {
+        const bg = node.style && node.style.backgroundImage
+        if (bg && bg.url && bg.url.indexOf('http') === 0) {
+            return `<img src="${this.escapeAttr(bg.url)}" style="${style}object-fit:cover;" alt="">`
+        }
+        return `<div style="${style}${this.getImagePlaceholderStyle()}">${this.getImagePlaceholderIcon()}</div>`
+    }
+
+    getImagePlaceholderStyle() {
+        return 'display:flex;align-items:center;justify-content:center;background:#e5e8eb;color:#9aa1a8;'
+    }
+
+    getImagePlaceholderIcon() {
+        return '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>'
+    }
+
+    getLabel(node) {
+        return (node.props && node.props.label) ? node.props.label : ''
+    }
+
+    /* -----------------------------------------------------------------
+     * Tag selection for leaf nodes
+     * --------------------------------------------------------------- */
+
+    getLeafTag(node) {
+        const label = this.getLabel(node)
+        if (!label) {
+            return 'div'
+        }
+
+        if (this.looksLikeButton(node)) {
+            return 'button'
+        }
+
+        const style = node.style || {}
+        const fontSize = this.toNumber(style.fontSize, 14)
+        const fontWeight = this.toNumber(style.fontWeight, 400)
+
+        if (fontSize >= 28) {
+            return 'h1'
+        }
+        if (fontSize >= 22) {
+            return 'h2'
+        }
+        if (fontSize >= 18 && fontWeight >= 600) {
+            return 'h3'
+        }
+        if (label.length > 60) {
+            return 'p'
+        }
+        return 'div'
+    }
+
+    looksLikeButton(node) {
+        if (node.type !== 'Button' || node.w > 260) {
+            return false
+        }
+        const style = node.style || {}
+        const hasRadius = this.toNumber(style.borderTopLeftRadius, 0) > 0
+        const hasBackground = this.hasVisibleBackground(style.background) || this.hasVisibleBackground(style.backgroundColor)
+        const centered = style.textAlign === 'center'
+        return hasRadius && hasBackground && centered
+    }
+
+    hasVisibleBackground(bg) {
+        if (!bg) {
+            return false
+        }
+        if (typeof bg === 'object') {
+            return true
+        }
+        const rgba = /rgba?\(([^)]+)\)/.exec(bg)
+        if (rgba) {
+            const parts = rgba[1].split(',').map(p => parseFloat(p))
+            if (parts.length === 4 && parts[3] === 0) {
+                return false
+            }
+        }
+        return bg !== 'transparent'
+    }
+
+    /* -----------------------------------------------------------------
+     * Layout: how a container places its children
+     * --------------------------------------------------------------- */
+
+    getLayoutStyle(node) {
+        const type = node.layout && node.layout.type
+        const grid = node.grid
+
+        if (type === 'grid' && grid && grid.columns && grid.columns.length > 0 && grid.rows && grid.rows.length > 0) {
+            const cols = grid.columns.map(c => `${Math.max(c.l, 0)}px`).join(' ')
+            const rows = grid.rows.map(r => `${Math.max(r.l, 0)}px`).join(' ')
+            return `display:grid;grid-template-columns:${cols};grid-template-rows:${rows};`
+        }
+
+        if (type === 'wrap') {
+            return 'display:flex;flex-wrap:wrap;align-content:flex-start;align-items:flex-start;'
+        }
+
+        if (type === 'auto-horizontal') {
+            return 'display:flex;flex-direction:row;align-items:flex-start;'
+        }
+
+        // 'row', 'auto-vertical' and everything else: children are stacked top down
+        return 'display:flex;flex-direction:column;align-items:flex-start;'
+    }
+
+    /**
+     * How a *child* is placed inside its parent's layout.
+     */
+    getPositionStyle(node, parent) {
+        if (!parent) {
+            return ''
+        }
+
+        const parentLayout = parent.layout && parent.layout.type
+        if (parentLayout === 'grid' && parent.grid) {
+            const colStart = (node.gridColumnStart !== undefined ? node.gridColumnStart : 0) + 1
+            const colEnd = (node.gridColumnEnd !== undefined ? node.gridColumnEnd : colStart) + 1
+            const rowStart = (node.gridRowStart !== undefined ? node.gridRowStart : 0) + 1
+            const rowEnd = (node.gridRowEnd !== undefined ? node.gridRowEnd : rowStart) + 1
+            return `grid-column:${colStart} / ${colEnd};grid-row:${rowStart} / ${rowEnd};`
+        }
+
+        const marginTop = node.top !== undefined ? node.top : node.y
+        const marginLeft = node.x || 0
+        return `margin-top:${Math.max(marginTop, 0)}px;margin-left:${Math.max(marginLeft, 0)}px;`
+    }
+
+    /**
+     * Explicit pixel size for a node. Children of a CSS grid container are
+     * skipped, since they stretch to fill their assigned track by default.
+     */
+    getSizeStyle(node, parent) {
+        const parentLayout = parent && parent.layout && parent.layout.type
+        if (parentLayout === 'grid' && parent.grid) {
+            return ''
+        }
+        return `width:${node.w}px;height:${node.h}px;`
+    }
+
+    /* -----------------------------------------------------------------
+     * style object (JS/CSS camelCase) -> inline CSS text
+     * --------------------------------------------------------------- */
+
+    styleToCSS(style, isContainer) {
+        if (!style) {
+            return ''
+        }
+
+        let css = ''
+        for (const key in CSS_PROP_MAP) {
+            if (isContainer && PADDING_KEYS.has(key)) {
+                // Containers position their children explicitly (margins or
+                // grid tracks already reserve the space padding would take),
+                // so applying it again would offset children twice.
+                continue
+            }
+            const value = style[key]
+            if (value === undefined || value === null || value === '') {
+                continue
+            }
+            css += `${CSS_PROP_MAP[key]}:${this.formatValue(key, value)};`
+        }
+
+        if (this.hasAnyBorderWidth(style)) {
+            css += 'border-style:solid;'
+        }
+
+        css += this.getBackgroundCSS(style)
+
+        if (style.boxShadow) {
+            css += `box-shadow:${this.formatBoxShadow(style.boxShadow)};`
+        }
+
+        return css
+    }
+
+    hasAnyBorderWidth(style) {
+        return BORDER_WIDTH_KEYS.some(k => this.toNumber(style[k], 0) > 0)
+    }
+
+    formatValue(key, value) {
+        if (key === 'fontFamily') {
+            return this.escapeFontFamily(value)
+        }
+        if (PIXEL_KEYS.has(key)) {
+            return `${value}px`
+        }
+        return value
+    }
+
+    escapeFontFamily(value) {
+        return String(value).split(',').map(f => {
+            f = f.trim()
+            return f.indexOf(' ') >= 0 ? `"${f}"` : f
+        }).join(', ')
+    }
+
+    formatBoxShadow(shadow) {
+        const inset = shadow.i ? ' inset' : ''
+        return `${shadow.h}px ${shadow.v}px ${shadow.b}px ${shadow.s}px ${shadow.c}${inset}`
+    }
+
+    getBackgroundCSS(style) {
+        let css = ''
+        if (style.background) {
+            if (typeof style.background === 'object' && style.background.colors) {
+                css += `background:${this.formatGradient(style.background)};`
+            } else if (this.hasVisibleBackground(style.background)) {
+                css += `background-color:${style.background};`
+            }
+        }
+        if (style.backgroundColor && this.hasVisibleBackground(style.backgroundColor)) {
+            css += `background-color:${style.backgroundColor};`
+        }
+        return css
+    }
+
+    formatGradient(bg) {
+        const stops = bg.colors.map(c => `${c.c} ${c.p}%`).join(', ')
+        if (bg.radial) {
+            return `radial-gradient(circle, ${stops})`
+        }
+        return `linear-gradient(${bg.direction}deg, ${stops})`
+    }
+
+    /* -----------------------------------------------------------------
+     * Helpers
+     * --------------------------------------------------------------- */
+
+    toNumber(value, fallback) {
+        const n = parseFloat(value)
+        return isNaN(n) ? fallback : n
+    }
+
+    escapeHTML(text) {
+        return String(text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+    }
+
+    escapeAttr(text) {
+        return this.escapeHTML(text).replace(/"/g, '&quot;')
+    }
+
+}

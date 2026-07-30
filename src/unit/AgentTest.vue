@@ -48,10 +48,12 @@
 
 <script>
 import AIChat from '../canvas/toolbar/chat/AIChat.vue';
+// eslint-disable-next-line no-unused-vars
+import QUX2HTML from '../canvas/toolbar/chat/QUX2HTML'
 //import agent_demo_1 from './data/agent_demo_1.json'
 import agent_demo_empty from './data/agent_demo_empty'
 import ZoomableCanvas from './ZoomableCanvas'
-// eslint-disable-next-line no-unused-vars
+
 import Preview from 'page/Preview'
 import QIcon from 'page/QIcon'
 
@@ -62,7 +64,7 @@ export default {
     return {
       model: agent_demo_empty,
       showIframe: false,
-      showHTML: false,
+      showHTML: true,
       messages: [{
         content: 'Hi',
         role: 'assistant'
@@ -96,7 +98,8 @@ export default {
       const html = Object.values(result._html)[0]
       const scrn = Object.values(result.screens)[0]
       this.renderIframe(html, scrn.w, scrn.h)
-
+      this.renderHTML(scrn, scrn.w, scrn.h)
+     
     },
 
     mergeScreenInApp(app, result) {
@@ -116,6 +119,20 @@ export default {
         iframe.srcdoc = html
         cntr.appendChild(iframe)
     },
+
+    renderHTML(scrn, width, height) {
+       const qux = new QUX2HTML();
+        const html = qux.toHTML(this.model, scrn.id)
+    
+        const cntr = this.$refs.htmlPreview
+        cntr.innerText = ''
+        const iframe = document.createElement('iframe')
+        iframe.style.width = width + 'px'
+        iframe.style.height = height + 'px'
+        iframe.srcdoc = html
+        cntr.appendChild(iframe)
+    },
+
 
     offsetApp(app, pos) {
       Object.values(app.screens).forEach(scrn => {
