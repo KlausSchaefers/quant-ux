@@ -100,8 +100,10 @@ export default class QUX2HTML {
 
         Logger.log(1, 'QUX2HTML.toHTML()', scrnTree)
 
+        this.cssRules = []
+        this.styleToClassName = new Map()
         const bodyHTML = this.renderNode(scrnTree, null, true)
-        return this.wrapDocument(scrnTree, bodyHTML)
+        return this.wrapDocument(scrnTree, bodyHTML, this.cssRules.join('\n'))
     }
 
     cleanTree(scrn) {
@@ -117,7 +119,7 @@ export default class QUX2HTML {
      * Document
      * --------------------------------------------------------------- */
 
-    wrapDocument(scrn, bodyHTML) {
+    wrapDocument(scrn, bodyHTML, nodeCSS) {
         const title = this.escapeHTML(scrn.name || 'Screen')
         return `<!doctype html>
 <html lang="en">
@@ -138,7 +140,15 @@ export default class QUX2HTML {
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   }
   img { display: block; max-width: 100%; }
-  button { font: inherit; cursor: pointer; }
+  button {
+    font: inherit;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: none;
+    margin: 0;
+  }
   input, textarea, select { font: inherit; }
   a { text-decoration: none; color: inherit; }
   .qux-screen {
@@ -147,6 +157,9 @@ export default class QUX2HTML {
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
     overflow: hidden;
   }
+</style>
+<style>
+${nodeCSS}
 </style>
 </head>
 <body>
@@ -169,64 +182,123 @@ ${bodyHTML}
     }
 
     renderContainer(node, parent, isRoot) {
+        const ownStyle = this.styleToCSS(node.style, true)
         const layoutStyle = this.getLayoutStyle(node)
-        const boxStyle = this.styleToCSS(node.style, true)
-        const posStyle = isRoot ? '' : this.getPositionStyle(node, parent)
         const sizeStyle = isRoot
             ? `width:${node.w}px;min-height:${node.h}px;`
             : this.getSizeStyle(node, parent)
-        const cls = isRoot ? ' class="qux-screen"' : ''
-        const style = `${posStyle}${sizeStyle}${layoutStyle}${boxStyle}`
+        const posStyle = `${isRoot ? '' : this.getPositionStyle(node, parent)}${sizeStyle}${layoutStyle}`
+
+        this.assignClasses(node, ownStyle, posStyle)
+        const cls = isRoot ? `qux-screen ${this.getClassAttr(node)}` : this.getClassAttr(node)
 
         const childrenHTML = (node.children || []).map(c => this.renderNode(c, node)).join('')
         const fixedHTML = (node.fixedChildren || []).map(c => this.renderNode(c, node)).join('')
 
-        return `<div${cls} style="${style}">${childrenHTML}${fixedHTML}</div>`
+        return `<div class="${cls}">${childrenHTML}${fixedHTML}</div>`
     }
 
     renderLeaf(node, parent) {
-        const posStyle = this.getPositionStyle(node, parent)
-        const sizeStyle = this.getSizeStyle(node, parent)
-        const boxStyle = this.styleToCSS(node.style, false)
-        const style = `${posStyle}${sizeStyle}${boxStyle}`
+        let ownStyle = this.styleToCSS(node.style, false)
+        const posStyle = `${this.getPositionStyle(node, parent)}${this.getSizeStyle(node, parent)}`
 
         if (node.type === 'Image') {
-            return this.renderImage(node, style)
+            return this.renderImage(node, ownStyle, posStyle)
         }
 
         if (INPUT_TYPES[node.type]) {
+            this.assignClasses(node, ownStyle, posStyle)
             const label = this.getLabel(node)
-            return `<input type="${INPUT_TYPES[node.type]}" placeholder="${this.escapeAttr(label)}" style="${style}">`
+            return `<input type="${INPUT_TYPES[node.type]}" placeholder="${this.escapeAttr(label)}" class="${this.getClassAttr(node)}">`
         }
 
         if (node.type === 'TextArea') {
+            this.assignClasses(node, ownStyle, posStyle)
             const label = this.getLabel(node)
-            return `<textarea placeholder="${this.escapeAttr(label)}" style="${style}"></textarea>`
+            return `<textarea placeholder="${this.escapeAttr(label)}" class="${this.getClassAttr(node)}"></textarea>`
         }
 
         if (node.type === 'DropDown') {
+            this.assignClasses(node, ownStyle, posStyle)
             const label = this.getLabel(node)
             const option = label ? `<option>${this.escapeHTML(label)}</option>` : ''
-            return `<select style="${style}">${option}</select>`
+            return `<select class="${this.getClassAttr(node)}">${option}</select>`
         }
 
         if (node.type === 'CheckBox' || node.type === 'RadioBox2') {
+            ownStyle += 'display:flex;align-items:center;gap:6px;'
+            this.assignClasses(node, ownStyle, posStyle)
             const label = this.getLabel(node)
             const inputType = node.type === 'CheckBox' ? 'checkbox' : 'radio'
-            return `<label style="${style}display:flex;align-items:center;gap:6px;"><input type="${inputType}">${this.escapeHTML(label)}</label>`
+            return `<label class="${this.getClassAttr(node)}"><input type="${inputType}">${this.escapeHTML(label)}</label>`
         }
 
+        this.assignClasses(node, ownStyle, posStyle)
         const tag = this.getLeafTag(node)
         const label = this.getLabel(node)
-        return `<${tag} style="${style}">${this.escapeHTML(label)}</${tag}>`
+        return `<${tag} class="${this.getClassAttr(node)}">${this.escapeHTML(label)}</${tag}>`
     }
 
-    renderImage(node, style) {
+    renderImage(node, ownStyle, posStyle) {
         const bg = node.style && node.style.backgroundImage
         if (bg && bg.url && bg.url.indexOf('http') === 0) {
-            return `<img src="${this.escapeAttr(bg.url)}" style="${style}object-fit:cover;" alt="">`
+            this.assignClasses(node, `${ownStyle}object-fit:cover;`, posStyle)
+            return `<img src="${this.escapeAttr(bg.url)}" class="${this.getClassAttr(node)}" alt="">`
         }
-        return `<div style="${style}${this.getImagePlaceholderStyle()}">${this.getImagePlaceholderIcon()}</div>`
+        this.assignClasses(node, `${ownStyle}${this.getImagePlaceholderStyle()}`, posStyle)
+        return `<div class="${this.getClassAttr(node)}">${this.getImagePlaceholderIcon()}</div>`
+    }
+
+    /* -----------------------------------------------------------------
+     * CSS class per node, deduplicated by css text
+     * --------------------------------------------------------------- */
+
+    /**
+     * Resolves the CSS class(es) for a node, reusing an existing class when
+     * an earlier node already produced the exact same CSS. Own style (colors,
+     * border, font, ...) and geometry (size, margin/grid placement in the
+     * parent, and - for containers - how its own children are laid out:
+     * display/grid-template/flex-direction) are kept as two separate
+     * classes: two nodes can easily look identical while differing in size,
+     * offset or how their children happen to be arranged (e.g. repeated
+     * cards/icon placeholders in a list), and splitting them lets the shared
+     * "look" still dedupe even though the "geometry" differs. The result is
+     * cached on the node as _cssClass so render call sites don't need to
+     * carry class names/style text around separately.
+     */
+    assignClasses(node, ownStyle, posStyle) {
+        node._cssClass = []
+        const ownClass = this.resolveClass(node, ownStyle, '')
+        if (ownClass) {
+            node._cssClass.push(ownClass)
+        }
+        const posClass = this.resolveClass(node, posStyle, 'pos-')
+        if (posClass) {
+            node._cssClass.push(posClass)
+        }
+        return node._cssClass
+    }
+
+    resolveClass(node, cssText, prefix) {
+        if (!cssText) {
+            return null
+        }
+        let className = this.styleToClassName.get(cssText)
+        if (!className) {
+            className = this.getClassName(node, prefix)
+            this.styleToClassName.set(cssText, className)
+            this.cssRules.push(`.${className} { ${cssText} }`)
+        }
+        return className
+    }
+
+    getClassAttr(node) {
+        return node._cssClass.join(' ')
+    }
+
+    getClassName(node, prefix = '') {
+        const safe = String(node.id).replace(/[^a-zA-Z0-9_-]/g, '-')
+        return `qux-${prefix}${safe}`
     }
 
     getImagePlaceholderStyle() {
@@ -429,7 +501,7 @@ ${bodyHTML}
         let css = ''
         if (style.background) {
             if (typeof style.background === 'object' && style.background.colors) {
-                css += `background:${this.formatGradient(style.background)};`
+                css += this.getBackgroundGradientCSS(style.background)
             } else if (this.hasVisibleBackground(style.background)) {
                 css += `background-color:${style.background};`
             }
@@ -440,12 +512,28 @@ ${bodyHTML}
         return css
     }
 
-    formatGradient(bg) {
-        const stops = bg.colors.map(c => `${c.c} ${c.p}%`).join(', ')
-        if (bg.radial) {
-            return `radial-gradient(circle, ${stops})`
+    /**
+     * Mirrors UIWidget.vue's _set_background_gradient(): stops are sorted by
+     * their percentage (the raw data is not guaranteed to be ordered), and
+     * the gradient is applied as background-image, with a -webkit- prefixed
+     * duplicate for older engines, rather than the `background` shorthand.
+     */
+    getBackgroundGradientCSS(background) {
+        if (background.radial) {
+            const stops = this.getSortedGradientStops(background)
+            return `background-image:radial-gradient(circle, ${stops});`
         }
-        return `linear-gradient(${bg.direction}deg, ${stops})`
+        const stops = this.getSortedGradientStops(background)
+        const gradient = `(${background.direction}deg, ${stops})`
+        return `background-image:linear-gradient${gradient};background-image:-webkit-linear-gradient${gradient};`
+    }
+
+    getSortedGradientStops(background) {
+        return background.colors
+            .slice()
+            .sort((a, b) => a.p - b.p)
+            .map(c => `${c.c} ${c.p}%`)
+            .join(', ')
     }
 
     /* -----------------------------------------------------------------

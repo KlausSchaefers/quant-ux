@@ -18,7 +18,7 @@
       <div>
         <ZoomableCanvas :cellWidth="model.screenSize.w" :cellHeight="maxScreenHeight">
     
-          <div v-for="scrn in screens" :key="scrn.id" class="MatcAgentWorkSpaceScreen" :style="{width: scrn.w + 'px', height: scrn.h + 'px'}">
+          <div @click="onSelectScreen(scrn)" v-for="scrn in screens" :key="scrn.id" class="MatcAgentWorkSpaceScreen" :style="{width: scrn.w + 'px', height: scrn.h + 'px'}">
             <Preview :app="model" :screen="scrn.id"></Preview>
           </div>
          
@@ -98,8 +98,9 @@ export default {
       const html = Object.values(result._html)[0]
       const scrn = Object.values(result.screens)[0]
       this.renderIframe(html, scrn.w, scrn.h)
-      this.renderHTML(scrn, scrn.w, scrn.h)
-     
+      if (this.showHTML) {
+        this.renderHTML(scrn, scrn.w, scrn.h)
+      }
     },
 
     mergeScreenInApp(app, result) {
@@ -123,7 +124,7 @@ export default {
     renderHTML(scrn, width, height) {
        const qux = new QUX2HTML();
         const html = qux.toHTML(this.model, scrn.id)
-    
+        console.debug('AgentTest.renderHTML() > ', Math.ceil(html.length / 1000) + 'kb')
         const cntr = this.$refs.htmlPreview
         cntr.innerText = ''
         const iframe = document.createElement('iframe')
@@ -133,6 +134,10 @@ export default {
         cntr.appendChild(iframe)
     },
 
+    onSelectScreen (scrn) {
+      console.debug('onSelectScreen', scrn)
+      this.renderHTML(scrn, scrn.w, scrn.h)
+    },
 
     offsetApp(app, pos) {
       Object.values(app.screens).forEach(scrn => {
