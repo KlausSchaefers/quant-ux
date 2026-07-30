@@ -435,25 +435,25 @@ export default class HTML2QUX {
 
             app.widgets[child.id] = child
             scrn.children.push(child.id)
-       
-            if (child.children.length === 1 && child.children[0].type === 'Label' && this.isFlattenLabels) {
+            if (child.children.length === 1 && child.children[0]?.props.label && this.isFlattenLabels) {
                 this.flattenLabelIntoParent(child)
             } else {
                 this.flattenNode(scrn, app, child , prefx + "   ")
             }
-
         })
     }
 
-    flattenLabelIntoParent (child) {
+    flattenLabelIntoParent (child, errorMargin = 4) {
         const labelNode = child.children[0];
-        Logger.log(-1, 'HTMLImporter.flattenNode()' , labelNode.props.label)
+        Logger.log(-4, 'HTMLImporter.flattenNode()' , labelNode.props.label)
         child.props.label = labelNode.props.label
 
-        child.style.paddingLeft = Math.max(0, labelNode.x - child.x)
-        child.style.paddingTop = Math.max(0, labelNode.y - child.y)
-        child.style.paddingRight = Math.max(0, (child.x + child.w) - (labelNode.x + labelNode.w))
-        child.style.paddingBottom = Math.max(0, (child.y + child.h) - (labelNode.y + labelNode.h))
+        child.style.paddingLeft = Math.max(0, (labelNode.x - child.x) - errorMargin)
+        child.style.paddingTop = Math.max(0, (labelNode.y - child.y) - errorMargin)
+        child.style.paddingRight = Math.max(0, ((child.x + child.w) - (labelNode.x + labelNode.w)) - errorMargin)
+        child.style.paddingBottom = Math.max(0, ((child.y + child.h) - (labelNode.y + labelNode.h)) - errorMargin)
+
+        console.debug(child.props.label, child.style)
 
         child.children = []
     }

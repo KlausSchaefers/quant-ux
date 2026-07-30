@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Screen</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        background: none;
+        margin: 0;
+      }
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .qux-screen {
+        position: relative;
+        background: #fff;
+        overflow: hidden;
+      }
+    </style>
+    <style>
+      .s1 {
+        border: none;
+      }
+      .s2 {
+        background-color: #fcfaf7;
+      }
+      .p1 {
+        width: 375px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .s3 {
+        color: #222222;
+        text-align: start;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: normal;
+        line-height: normal;
+      }
+      .s4 {
+        opacity: 1;
+      }
+      .p2 {
+        margin-top: 0px;
+        margin-left: 0px;
+        width: 375px;
+        height: auto;
+        display: grid;
+        grid-template-columns: 20px 335px 20px;
+        grid-template-rows: 76px 459px 22px 63px 99px 1px 3px 63px 254px 1px 25px 50px;
+      }
+      .s5 {
+        border: none;
+        border-bottom-left-radius: 24px;
+        border-bottom-right-radius: 24px;
+      }
+      .s6 {
+        background-color: #ffffffcc;
+      }
+      .s7 {
+        box-shadow: 0px 1px 6px 0px #00000008;
+      }
+      .p3 {
+        grid-column: 1 / 4;
+        grid-row: 1 / 2;
+        display: grid;
+        grid-template-columns: 20px 125px 164px 46px 20px;
+        grid-template-rows: 24px 7px 28px 7px 10px;
+      }
+      .s8 {
+        color: #ffffff;
+        text-align: center;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        letter-spacing: normal;
+        line-height: normal;
+      }
+      .s9 {
+        border: none;
+        border-radius: 50px;
+      }
+      .s10 {
+        padding: 9px 14px 9px 14px;
+      }
+      .s11 {
+        background-color: #44a98f;
+      }
+      .s12 {
+        box-shadow: 0px 1px 4px 0px #50a08c2b;
+      }
+      .p4 {
+        grid-column: 4 / 5;
+        grid-row: 2 / 5;
+      }
+      .s13 {
+        color: #44a98f;
+        text-align: start;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        line-height: normal;
+      }
+      .p5 {
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+        display: grid;
+        grid-template-columns: 28px 6px 91px;
+        grid-template-rows: 2px 24px 2px;
+      }
+      .s14 {
+        color: #44a98f;
+        font-size: 24px;
+      }
+      .s15 {
+        background-color: #e5e8eb;
+      }
+      .p6 {
+        grid-column: 1 / 2;
+        grid-row: 1 / 4;
+        width: 28px;
+        height: 28px;
+      }
+      .s16 {
+        color: #44a98f;
+        text-align: start;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 21px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        line-height: normal;
+      }
+      .p7 {
+        grid-column: 3 / 4;
+        grid-row: 2 / 3;
+      }
+      .s17 {
+        color: #222222;
+        text-align: left;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: normal;
+        line-height: normal;
+      }
+      .p8 {
+        grid-column: 1 / 4;
+        grid-row: 2 / 3;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .p9 {
+        margin-top: 26px;
+        margin-left: 20px;
+        width: 335px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .s18 {
+        color: #242634;
+        text-align: left;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: normal;
+        line-height: 37.76px;
+      }
+      .p10 {
+        margin-top: 0px;
+        margin-left: 0px;
+        width: 335px;
+        height: 76px;
+      }
+      .s19 {
+        color: #757575;
+        text-align: left;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: normal;
+        line-height: normal;
+      }
+      .p11 {
+        margin-top: 7px;
+        margin-left: 0px;
+        width: 318px;
+        height: 56px;
+      }
+      .s20 {
+        color: #ffffff;
+        text-align: center;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        line-height: normal;
+      }
+      .s21 {
+        border: none;
+        border-radius: 12px;
+      }
+      .s22 {
+        padding: 14px 30px 14px 30px;
+      }
+      .s23 {
+        background-image: linear-gradient(360deg, #44a98f 70%, #b2e6cc 100%);
+        background-image: -webkit-linear-gradient(360deg, #44a98f 70%, #b2e6cc 100%);
+      }
+      .s24 {
+        box-shadow: 0px 2px 12px 0px #3cbe821a;
+      }
+      .p12 {
+        margin-top: 21px;
+        margin-left: 0px;
+        width: 150px;
+        height: 48px;
+      }
+      .s25 {
+        color: #222222;
+        font-size: 16px;
+      }
+      .s26 {
+        border: none;
+        border-radius: 16px;
+      }
+      .p13 {
+        margin-top: 20px;
+        margin-left: 33px;
+        width: 308px;
+        height: 205px;
+      }
+      .p14 {
+        grid-column: 1 / 4;
+        grid-row: 4 / 6;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .s27 {
+        color: #303032;
+        text-align: start;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        line-height: normal;
+      }
+      .p15 {
+        margin-top: 26px;
+        margin-left: 20px;
+        width: 335px;
+        height: 24px;
+      }
+      .p16 {
+        grid-column: 2 / 3;
+        grid-row: 5 / 7;
+        display: grid;
+        grid-template-columns: 103px 13px 103px 13px 103px;
+        grid-template-rows: 100px;
+      }
+      .s28 {
+        background-color: #ffffff;
+      }
+      .s29 {
+        box-shadow: 0px 1px 7px 0px #c8d2c826;
+      }
+      .p17 {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .p18 {
+        margin-top: 15px;
+        margin-left: 29px;
+        width: 46px;
+        height: 46px;
+      }
+      .s30 {
+        color: #505020;
+        text-align: start;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: normal;
+        line-height: normal;
+      }
+      .p19 {
+        margin-top: 8px;
+        margin-left: 33px;
+        width: 37px;
+        height: 19px;
+      }
+      .p20 {
+        grid-column: 3 / 4;
+        grid-row: 1 / 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .p21 {
+        margin-top: 8px;
+        margin-left: 35px;
+        width: 33px;
+        height: 19px;
+      }
+      .p22 {
+        grid-column: 5 / 6;
+        grid-row: 1 / 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .p23 {
+        margin-top: 8px;
+        margin-left: 33px;
+        width: 36px;
+        height: 19px;
+      }
+      .p24 {
+        grid-column: 1 / 4;
+        grid-row: 8 / 10;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .p25 {
+        grid-column: 2 / 3;
+        grid-row: 9 / 11;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .s31 {
+        border: none;
+        border-radius: 15px;
+      }
+      .s32 {
+        box-shadow: 0px 1px 6px 0px #5aa06e12;
+      }
+      .p26 {
+        margin-top: 0px;
+        margin-left: 0px;
+        width: 335px;
+        height: auto;
+        display: grid;
+        grid-template-columns: 12px 56px 15px 185px 15px 40px 12px;
+        grid-template-rows: 10px 1px 18px 19px 17px 1px 10px;
+      }
+      .p27 {
+        grid-column: 2 / 3;
+        grid-row: 2 / 7;
+        width: 56px;
+        height: 56px;
+      }
+      .p28 {
+        grid-column: 4 / 5;
+        grid-row: 3 / 6;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .s33 {
+        color: #344034;
+        text-align: start;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: normal;
+        line-height: normal;
+      }
+      .p29 {
+        margin-top: 0px;
+        margin-left: 0px;
+        width: 185px;
+        height: 19px;
+      }
+      .s34 {
+        color: #808080;
+        text-align: start;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        letter-spacing: normal;
+        line-height: normal;
+      }
+      .p30 {
+        margin-top: 2px;
+        margin-left: 0px;
+        width: 185px;
+        height: 33px;
+      }
+      .s35 {
+        color: #44a98f;
+        text-align: start;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: normal;
+        line-height: normal;
+      }
+      .p31 {
+        grid-column: 6 / 7;
+        grid-row: 4 / 5;
+      }
+      .p32 {
+        margin-top: 13px;
+        margin-left: 0px;
+        width: 335px;
+        height: auto;
+        display: grid;
+        grid-template-columns: 12px 56px 15px 176px 15px 49px 12px;
+        grid-template-rows: 10px 19px 19px 18px 1px 10px;
+      }
+      .p33 {
+        grid-column: 2 / 3;
+        grid-row: 2 / 5;
+        width: 56px;
+        height: 56px;
+      }
+      .p34 {
+        grid-column: 4 / 5;
+        grid-row: 2 / 6;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .p35 {
+        margin-top: 0px;
+        margin-left: 0px;
+        width: 176px;
+        height: 38px;
+      }
+      .p36 {
+        margin-top: 2px;
+        margin-left: 0px;
+        width: 176px;
+        height: 17px;
+      }
+      .p37 {
+        grid-column: 6 / 7;
+        grid-row: 3 / 4;
+      }
+      .p38 {
+        margin-top: 12px;
+        margin-left: 0px;
+        width: 335px;
+        height: auto;
+        display: grid;
+        grid-template-columns: 12px 56px 15px 176px 15px 49px 12px;
+        grid-template-rows: 10px 1px 18px 19px 17px 1px 10px;
+      }
+      .p39 {
+        margin-top: 0px;
+        margin-left: 0px;
+        width: 176px;
+        height: 19px;
+      }
+      .p40 {
+        margin-top: 2px;
+        margin-left: 0px;
+        width: 176px;
+        height: 33px;
+      }
+      .s36 {
+        color: #aac2af;
+        text-align: center;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 0.3px;
+        line-height: normal;
+      }
+      .s37 {
+        padding: 24px 0px 8px 0px;
+      }
+      .p41 {
+        grid-column: 1 / 4;
+        grid-row: 12 / 13;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="qux-screen s1 s2 p1">
+      <div class="s3 s1 s2 s4 p2">
+        <div class="s3 s5 s6 s7 s4 p3">
+          <button class="s8 s9 s10 s11 s12 s4 p4">☰</button>
+          <div class="s13 s1 s4 p5">
+            <img class="s14 s1 s15 p6" alt="" />
+            <h3 class="s16 s1 s4 p7">PetShop</h3>
+          </div>
+        </div>
+        <div class="s17 s1 s4 p8">
+          <div class="s17 s1 s4 p9">
+            <h1 class="s18 s1 s4 p10">Welcome to Your Favorite Pet Shop!</h1>
+            <p class="s19 s1 s4 p11">Find adorable pets, healthy food, and delightful toys for your furry friends. All in one pawesome place!</p>
+            <button class="s20 s21 s22 s23 s24 s4 p12">Shop Now</button>
+          </div>
+          <img class="s25 s26 s15 p13" alt="" />
+        </div>
+        <div class="s3 s1 s4 p14"><h3 class="s27 s1 s4 p15">Shop by Category</h3></div>
+        <div class="s3 s1 s4 p16">
+          <div class="s3 s26 s28 s29 s4 p17">
+            <img class="s25 s9 s15 p18" alt="" />
+            <div class="s30 s1 s4 p19">Dogs</div>
+          </div>
+          <div class="s3 s26 s28 s29 s4 p20">
+            <img class="s25 s9 s15 p18" alt="" />
+            <div class="s30 s1 s4 p21">Cats</div>
+          </div>
+          <div class="s3 s26 s28 s29 s4 p22">
+            <img class="s25 s9 s15 p18" alt="" />
+            <div class="s30 s1 s4 p23">Birds</div>
+          </div>
+        </div>
+        <div class="s3 s1 s4 p24"><h3 class="s27 s1 s4 p15">Popular Products</h3></div>
+        <div class="s3 s1 s4 p25">
+          <div class="s3 s31 s28 s32 s4 p26">
+            <img class="s25 s21 s15 p27" alt="" />
+            <div class="s3 s1 s4 p28">
+              <div class="s33 s1 s4 p29">Squeaky Bone Toy</div>
+              <div class="s34 s1 s4 p30">Fun rubber toy for all dog sizes.</div>
+            </div>
+            <div class="s35 s1 s4 p31">$8.99</div>
+          </div>
+          <div class="s3 s31 s28 s32 s4 p32">
+            <img class="s25 s21 s15 p33" alt="" />
+            <div class="s3 s1 s4 p34">
+              <div class="s33 s1 s4 p35">Whisker Feast Cat Food</div>
+              <div class="s34 s1 s4 p36">Salmon flavor, 1.5kg bag.</div>
+            </div>
+            <div class="s35 s1 s4 p37">$15.50</div>
+          </div>
+          <div class="s3 s31 s28 s32 s4 p38">
+            <img class="s25 s21 s15 p27" alt="" />
+            <div class="s3 s1 s4 p28">
+              <div class="s33 s1 s4 p39">Colorful Bird Cage</div>
+              <div class="s34 s1 s4 p40">Spacious and easy to clean.</div>
+            </div>
+            <div class="s35 s1 s4 p31">$22.75</div>
+          </div>
+        </div>
+        <div class="s36 s1 s37 s4 p41">© 2024 PetShop — Everything your pet needs!</div>
+      </div>
+    </div>
+  </body>
+</html>
