@@ -85,6 +85,7 @@ export default class Screen extends Tool {
 
   promptRules() {
     // box-sizing: border-box;
+    // for strong text always use h1 to h6
     return `
             Important! Please follow this additonal rules when designing the screen:
 

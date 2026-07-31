@@ -9,6 +9,8 @@ const ELEMENT_NODE = 1
 
 const labelTypes = new Set(['LABEL', 'H1', 'H2', 'H3', 'H4', 'P', 'A', 'CAPTION', 'LI'])
 
+const inlineTextTags = new Set(['B', 'I', 'U', 'STRONG', 'EM', 'A', 'MARK', 'SMALL', 'SUB', 'SUP'])
+
 const nullableStyles = new Set(['backgroundImage'])
 
 const pixelStyles = {
@@ -832,7 +834,7 @@ export default class HTML2QUX {
 
             result.opacity = compStyle.opacity * 1
 
-            if (compStyle.display === 'grid' && node.childNodes.length === 1 && node.childNodes[0].nodeType === TEXT_NODE) {
+            if (compStyle.display === 'grid' && hasSingleTextChild(node)) {
                 if (compStyle.placeItems === 'center') {
                     result.textAlign = 'center'
                     result.verticalAlign = 'middle'
@@ -892,6 +894,8 @@ export default class HTML2QUX {
                 "borderRightColor" : result.borderRightColor,
                 "borderLeftColor" : result.borderLeftColor,
                 "backgroundImage" : null
+                // we could trye to tune the image
+                //"iconPlaceholderBackground": 'red',
             }
         }
 
@@ -1105,6 +1109,10 @@ function parseGradient(value) {
     return background
 }
 
+function hasSingleTextChild(node) {
+    return node.childNodes.length === 1 && node.childNodes[0].nodeType === TEXT_NODE
+}
+
 function parsePixel(value, /* key, node */) {
     if (!value) {
         return 0
@@ -1188,22 +1196,42 @@ function isLeafNode(node, debug=false) {
         return true
     }
     const children = node.childNodes;
-  
+
     let counts = 0
+    let inlineElementCount = 0
+    let significantTextCount = 0
+    // we do not want some underlines, but if some of
+    // the blogs are bold or so use them.
     for (let i = 0; i < children.length; i++) {
         const child = children[i]
         const type = child.nodeType
         const tagName = child.tagName
-        if (type === ELEMENT_NODE && (tagName === 'B' || tagName === 'I')) {
+        if (type === ELEMENT_NODE && inlineTextTags.has(tagName)) {
             counts++
+            inlineElementCount++
         }
         if (type === TEXT_NODE) { // TEXT_NODE
             counts++
+            if (child.nodeValue && child.nodeValue.trim()) {
+                significantTextCount++
+            }
         }
     }
     if (debug)
         console.debug(node.tagName, counts, children.length)
-    return children.length === counts
+
+    if (children.length !== counts) {
+        return false
+    }
+
+    // Multiple inline elements with no connecting text (e.g. a <strong>
+    // title and a <span> subtitle stacked in a div) are separate lines,
+    // not a single run of prose, so keep them as separate widgets.
+    if (inlineElementCount > 1 && significantTextCount === 0) {
+        return false
+    }
+
+    return true
 }
 
 function getLeafNodeLabel (node) {

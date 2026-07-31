@@ -2250,12 +2250,12 @@
 .MatcSimulator .MatchWidgetTypeLabel, 
 .MatcSimulator .MatchWidgetTypeHotSpot,
 .MatcSimulator .MatchWidgetTypeImage{
-	border: none;
+	border: 0px solid transparent;
 }
 
 
 .MatchWidgetTypeImage{
-	border: none;
+	border: 0px solid transparent;
 	overflow: hidden;
 }
 

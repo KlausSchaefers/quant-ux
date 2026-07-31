@@ -1459,7 +1459,6 @@ export default class RenderFactory extends Core {
 	/**
 	 * color
 	 */
-
 	_set_borderColor(parent, style, model) {
 		var node = this._borderNodes[model.id];
 		if (!node) {
@@ -1763,6 +1762,9 @@ export default class RenderFactory extends Core {
 		css.add(icon, 'mdi mdi-image-outline');
 		parent.innerText = ""
 		parent.appendChild(icon)
+		if (model.style.iconPlaceholderBackground) {
+			parent.style.background = model.style.iconPlaceholderBackground
+		}
 		parent.style.backgroundImage = ""
 		const s = Math.round(Math.min(model.w, model.h) * 0.3)
 		icon.style.fontSize = s + 'px'
