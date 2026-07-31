@@ -13,7 +13,7 @@
           @agentResult="onAgentResult" 
           ref="chat" 
           :isDebug="true"
-          defaultMessage="Generate a landing page for a petshop"></AIChat>
+          :defaultMessage="examples[1]"></AIChat>
       </div>
       <div>
         <ZoomableCanvas :cellWidth="model.screenSize.w" :cellHeight="maxScreenHeight">
@@ -49,7 +49,7 @@
 <script>
 import AIChat from '../canvas/toolbar/chat/AIChat.vue';
 // eslint-disable-next-line no-unused-vars
-import QUX2HTML from '../canvas/toolbar/chat/QUX2HTML'
+import QUX2HTML from '../ai/QUX2HTML'
 //import agent_demo_1 from './data/agent_demo_1.json'
 import agent_demo_empty from './data/agent_demo_empty'
 import ZoomableCanvas from './ZoomableCanvas'
@@ -57,21 +57,26 @@ import ZoomableCanvas from './ZoomableCanvas'
 import Preview from 'page/Preview'
 import QIcon from 'page/QIcon'
 
+
 export default {
   name: "FigmaTest",
   mixins: [],
   data: function () {
     return {
       model: agent_demo_empty,
-      showIframe: false,
-      showHTML: true,
+      showIframe: true,
+      showHTML: false,
       messages: [{
         content: 'Hi',
         role: 'assistant'
       }, {
         content: 'There',
         role: 'user'
-      }]
+      }],
+      examples: [
+        'Generate a landing page for a petshop',
+        'Generate a landing page for horse tinder'
+      ]
     };
   },
   components: {

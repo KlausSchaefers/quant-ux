@@ -1,6 +1,6 @@
-import Logger from '../../../core/Logger.js';
+import Logger from '../core/Logger.js';
 
-import ResponsiveLayout from '../../../core/responsive/ResponsiveLayout'
+import ResponsiveLayout from '../core/responsive/ResponsiveLayout'
 // import * as Layouter from './Layouter'
 
 const TEXT_NODE = 3
@@ -832,6 +832,13 @@ export default class HTML2QUX {
 
             result.opacity = compStyle.opacity * 1
 
+            if (compStyle.display === 'grid' && node.childNodes.length === 1 && node.childNodes[0].nodeType === TEXT_NODE) {
+                if (compStyle.placeItems === 'center') {
+                    result.textAlign = 'center'
+                    result.verticalAlign = 'middle'
+                }
+            }
+
         
         } catch(err) {
             Logger.error('HTMLImporter.getStyle()', err)
@@ -876,14 +883,14 @@ export default class HTML2QUX {
                 "borderTopLeftRadius" : result.borderTopLeftRadius,
                 "borderBottomRightRadius" : result.borderBottomRightRadius,
                 "borderBottomLeftRadius" : result.borderBottomLeftRadius,
-                "borderTopWidth" : 0,
-                "borderBottomWidth" : 0,
-                "borderRightWidth" : 0,
-                "borderLeftWidth" : 0,
-                "borderTopColor" : "#333333",
-                "borderBottomColor" : "#333333",
-                "borderRightColor" : "#333333",
-                "borderLeftColor" : "#333333",
+                "borderTopWidth" : result.borderTopWidth,
+                "borderBottomWidth" : result.borderBottomWidth,
+                "borderRightWidth" : result.borderRightWidth,
+                "borderLeftWidth" : result.borderLeftWidth,
+                "borderTopColor" : result.borderTopColor,
+                "borderBottomColor" : result.borderBottomColor,
+                "borderRightColor" : result.borderRightColor,
+                "borderLeftColor" : result.borderLeftColor,
                 "backgroundImage" : null
             }
         }
@@ -1142,7 +1149,14 @@ function isSubmit(node) {
 }
 
 function isImg(node) {
-    return node.tagName === 'IMG'
+    if (node.tagName === 'IMG') {
+        return true
+    }
+    const compStyle = getComputedStyle(node)
+    if (compStyle.background?.indexOf('url(') > 0) {
+        return true
+    }
+    return false
 }
 
 function isTable(node) {

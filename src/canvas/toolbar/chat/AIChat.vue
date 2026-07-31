@@ -43,12 +43,12 @@
 
 import AIChatMessage from './AIChatMessage.vue';
 import ZoomableTextArea from './ZoomableTextArea.vue';
-import OpenAI from './llm/OpenAI.js';
-import Claude from './llm/Claude.js';
-import Gemini from './llm/Gemini.js';
-import CachedLLM from './llm/CachedLLM.js';
-import Agent from './Agent.js';
-import HTML2QUX from './HTML2QUX'
+import OpenAI from '../../../ai/llm/OpenAI.js';
+import Claude from '../../../ai/llm/Claude.js';
+import Gemini from '../../../ai/llm/Gemini.js';
+import CachedLLM from '../../../ai/llm/CachedLLM.js';
+import Agent from '../../../ai/Agent.js';
+import HTML2QUX from '../../../ai/HTML2QUX'
 import Logger from '../../../core/Logger.js';
 // import QIcon from 'page/QIcon'
 

@@ -1,8 +1,7 @@
-import Logger from '../../../core/Logger'
-
-import * as Flat2Tree from '../../../core/responsive/Flat2Tree'
-import * as Quant2Flat from '../../../core/responsive/Quant2Flat'
-import Config from '../../../core/responsive/Config'
+import Logger from '../core/Logger'
+import * as Flat2Tree from '../core/responsive/Flat2Tree'
+import * as Quant2Flat from '../core/responsive/Quant2Flat'
+import Config from '../core/responsive/Config'
 
 /**
  * Maps our internal camelCase style keys to CSS properties. Keys that need

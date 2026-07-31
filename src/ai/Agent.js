@@ -1,4 +1,4 @@
-import Logger from "../../../core/Logger";
+import Logger from "../core/Logger";
 import StructureTool from './tools/StructureTool'
 import ScreenTool from './tools/ScreenTool'
 export default class Agent {

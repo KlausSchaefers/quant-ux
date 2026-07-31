@@ -2,16 +2,24 @@ import LLM from "./LLM";
 
 export default class OpenAI extends LLM {
   
-  constructor(token, model = "gpt-4.1") {
+  constructor(token) {
     super()
     this.token = token;
-    this.model = model;
+    this.modelDefault = 'gpt-5.6-luna';
+    this.modelHigh = 'gpt-5.6-terra';
+  }
+
+  getModel(llmLevel='high') {
+    if (llmLevel === 'high') {
+      return this.modelHigh;
+    }
+    return this.modelDefault;
   }
 
 
-  async runPrompt(messages) {
+  async runPrompt(messages, llmLevel='high') {
     const data = {
-        model: this.model,
+        model: this.getModel(llmLevel),
         messages: messages      
     };
     try {
