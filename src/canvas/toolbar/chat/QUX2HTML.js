@@ -102,7 +102,7 @@ export default class QUX2HTML {
         this.config.zoom = 1
     }
 
-    toHTML(model, screenID, wrapGroups = false, removeRootIfNeeded = false, simplifyGrid = false) {
+    toHTML(model, screenID, wrapGroups = false, removeRootIfNeeded = false, simplifyGrid = true) {
         this.model = model
         this.config.removeRootIfNeeded = removeRootIfNeeded
         if (wrapGroups) {

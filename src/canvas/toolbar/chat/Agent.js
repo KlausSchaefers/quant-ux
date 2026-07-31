@@ -76,7 +76,13 @@ export default class Agent {
     // this.pipeline.convert(result);
 
     // console.debug("run() > app ", app.name);
-    return this.layoutScreens(result);
+    const layoutedScreens = this.layoutScreens(result); 
+    return {
+      changes: [{
+        type: 'add',
+        value: layoutedScreens
+      }]
+    } 
   }
 
 

@@ -10,7 +10,7 @@
         </div>
         <AIChat 
           :messages="messages" 
-          @add="add" 
+          @agentResult="onAgentResult" 
           ref="chat" 
           :isDebug="true"
           defaultMessage="Generate a landing page for a petshop"></AIChat>
@@ -89,11 +89,21 @@ export default {
     }
   },
   methods: {
+    onAgentResult(result) {
+      console.debug(result)
+      for (let change of result.changes) {
+        console.debug('onAgentResult() > ', result)
+        if (change.type === 'add') {
+          this.add(change.value)
+        }
+      }
+    },
+
     add(result) {
       console.debug("add", result)
       this.mergeScreenInApp(result, this.model)
       //console.debug(JSON.stringify(result, null, 2))
-      this.$forceUpdate()
+      //this.$forceUpdate()
       // now we would have to offset things. based on a pos
       const html = Object.values(result._html)[0]
       const scrn = Object.values(result.screens)[0]

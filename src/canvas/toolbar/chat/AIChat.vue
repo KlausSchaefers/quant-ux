@@ -71,17 +71,7 @@ export default {
             status: {
                 busy: false,
                 messages: []
-            },
-            // models: [
-            //     { label: "OpenAI - GPT-4.1", value: "gpt-4.1" },
-            //     { label: "OpenAI - GPT-4o-Mini", value: "gpt-4o-mini" },
-            //     { label: "OpenAI - GPT-4o-Namo", value: 'gpt-4.1-nano' },
-            //     { label: "OpenAI - GPT-5-Nano", value: 'gpt-5-nano' },
-            //     { label: "OpenAI - GPT 5.6 Terra", value: 'gpt-5.6-terra' },
-            //     { label: "Claude - Sonnet", value: 'claude-sonnet-4-5-20250929' },
-            //     { label: "Gemini - 2.5 Flash", value: "gemini-2.5-flash" },
-            //     { label: "Gemini - 3 Pro", value: "gemini-3-pro-preview" }
-            // ]
+            }
         }
 
     },
@@ -139,7 +129,7 @@ export default {
             // const result = {
 
             // }
-            this.$emit('add', result)
+            this.$emit('agentResult', result)
         },
         getLLM(options) {
 

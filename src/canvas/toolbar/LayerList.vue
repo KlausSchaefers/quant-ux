@@ -24,7 +24,10 @@
 				</div>
 			</div>
 			
-			<AIChat v-else @settings="onSettings" ref="aiChat" @add="addAIResult"/>
+			<AIChat v-else 
+				@settings="onSettings"
+				ref="aiChat" 
+				@agentResult="onAgentResult"/>
 			
 		</div>
 	
@@ -68,11 +71,11 @@ export default {
 			'AIChat': AIChat
 		},
     methods: {
-		addAIResult (result) {
-			this.logger.log(-1, 'addAIResult', 'enter', result)
-			if (this.toolbar) {
-				this.toolbar.emit("newImportApp", { "obj": result, "event": this.toolbar._lastMouseMoveEvent });
-			}
+		onAgentResult (result) {
+			this.logger.log(-1, 'onAgentResult', 'enter', result)
+			// if (this.toolbar) {
+			// 	this.toolbar.emit("newImportApp", { "obj": result, "event": this.toolbar._lastMouseMoveEvent });
+			// }
 		},
 		onSettings (e) {
 			if (this.toolbar) {
