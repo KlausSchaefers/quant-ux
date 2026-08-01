@@ -43,6 +43,7 @@ export default {
         const isShift = e.shiftKey
 
 
+
         /**
          * Cancel listeners must be always fired.
          */
@@ -123,6 +124,9 @@ export default {
             this.onArrowUp(e, isShift);
             this.stopEvent(e);
           }
+        } else if (k == 81) { // q for AI
+           this.openAIEditor()
+
         } else if (k == 65) { // a for select
 
           if(!this._inlineEditStarted && !this._resizeStartPos && !this._selectionToolStart){

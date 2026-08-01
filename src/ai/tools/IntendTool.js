@@ -1,5 +1,5 @@
 import Tool from "./Tool";
-export default class ScreenTool extends Tool {
+export default class IntendTool extends Tool {
   constructor(llm, model, options, progressCallback, html2QUX) {
     super(llm, model, options, progressCallback, html2QUX);
   }

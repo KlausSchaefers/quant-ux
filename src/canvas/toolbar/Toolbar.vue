@@ -841,6 +841,11 @@ export default {
 				return
 			}
 
+			if (v.value === 'ai') {
+				this.onToolAI(v)
+				return
+			}
+
 			if (v.value === 'audio') {
 				this.onNewAudioObject(e)
 				return
@@ -1611,6 +1616,14 @@ export default {
 				this.canvas.endSVG()
 			}
 		},
+
+		onToolAI (tool){
+			this.logger.log(-1,"onToolAI", "entry >", tool);
+			topic.publish("matc/canvas/click", "");
+			this.controller.setMode("ai");
+			this.emit("onNewAI", {'type': tool.value});
+		},
+
 
 		onToolGroup (e){
 			this.logger.log(1,"onToolGroup", "entry");

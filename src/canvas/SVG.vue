@@ -83,6 +83,10 @@ export default {
             }
         },
 
+        openAIEditor (event) {
+            console.debug('openAIEditor', event)
+        },
+
         editSVG (widget, pathIDs = true) {
 		    this.logger.log(1,"editSVG", "enter > ", widget);
 

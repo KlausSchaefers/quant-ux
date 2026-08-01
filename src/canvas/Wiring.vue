@@ -367,6 +367,8 @@ export default {
 					this.onSelectionStarted(e);
 					return
 				}
+
+				this.onCanvasBackgroundClickCallback(e)
 			},
 
 

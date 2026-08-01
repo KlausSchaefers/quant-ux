@@ -1,63 +1,68 @@
 <template>
-    <div class="MatcAiChat">
-        <!-- <div class="MatcAiChatHeader">
-            <div>
-                Chat
+    <div :class="['MatcAiEditor', {'MatcAiEditorFocus' : hasFocus}]" v-show="isVisible">
+
+
+            <div class="MatcAiEditorCloseIcon" v-if="!disabled">
+                <QIcon icon="Close" @click.stop="close" />
             </div>
-            <IconTrash :size="16" stroke="2" @click="clear" class="luisa-icon"></IconTrash>
-        </div> -->
-        <div class="MatcAiChatBody">
 
 
-            <template v-for="(m, i) in messages">
-                <AIChatMessage :message="m" @delete="deleteMessage(i)" :key="i" @click="onMessageClick(m, $event)"></AIChatMessage>
-            </template>
-            <div ref="bodyEnd"></div>
+            <textarea class="MatcIgnoreOnKeyPress " 
+                @focus="hasFocus = true" 
+                @blur="hasFocus = false"
+                @keyup.enter="onEnter"
+                v-model="text" 
+                ref="textarea" 
+                :disabled="disabled">
+            </textarea>
+       
+            <div class="MatcAiEditorActionIcons">
+                <QIcon icon="Settings" @click.stop="onSettings" />
+                <!-- <QIcon icon="Delete" @click.stop="onClear" /> -->
+                <div class="MatcAiEditorActionPopup" ref="cssModePopup">
+                    <div :class="['MatcAiEditorActionPopupLabel', { 'MatcAiEditorActionPopupLabelActive': showCssModeMenu }]"
+                        @click.stop="toggleCssModeMenu">
+                        {{ cssModeLabel }}
+                    </div>
+                    <ul class="MatcAiEditorActionPopupMenu" v-show="showCssModeMenu">
+                        <li v-for="mode in cssModes" :key="mode.value"
+                            :class="{ 'MatcAiEditorActionPopupMenuItemActive': mode.value === cssMode }"
+                            @click.stop="selectCssMode(mode.value)">
+                            {{ mode.label }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
 
-        </div>
-        <div class="MatcAiChatFooter">
-    
-            <ZoomableTextArea 
-                :defaultMessage="defaultMessage"
-                :cssMode="cssMode"
-                @mode="onCSSMode"
-                @change="addMessage" 
-                :disabled="status.busy"
-                @settings="onSettings"
-                @clear="onClear"
-            />
-            
-        </div>
         <div ref="iframeCntr" class="MatcAiChatIFrame"></div>
     </div>
 
 </template>
 
 <style lang="scss">
-@import "../../../style/toolbar/ai_chat.scss";
+@import "../style/canvas/canvas_ai_editor.scss";
 </style>
 
 <script>
 
-
-import AIChatMessage from './AIChatMessage.vue';
-import ZoomableTextArea from './ZoomableTextArea.vue';
-import OpenAI from '../../../ai/llm/OpenAI.js';
-import Claude from '../../../ai/llm/Claude.js';
-import Gemini from '../../../ai/llm/Gemini.js';
-import CachedLLM from '../../../ai/llm/CachedLLM.js';
-import Agent from '../../../ai/Agent.js';
-import HTML2QUX from '../../../ai/HTML2QUX'
-import Logger from '../../../core/Logger.js';
-// import QIcon from 'page/QIcon'
+import OpenAI from './llm/OpenAI.js';
+import Claude from './llm/Claude.js';
+import Gemini from './llm/Gemini.js';
+import CachedLLM from './llm/CachedLLM.js';
+import Agent from './Agent.js';
+import HTML2QUX from './HTML2QUX'
+import Logger from 'core/Logger.js';
+import QIcon from 'page/QIcon'
 
 export default {
-    name: 'AIChat',
+    name: 'AIEditor',
     emits: ['change', 'settings', 'add'],
     props: ['defaultMessage', 'isDebug'],
     data() {
-        return {   
+        return {
+            hasFocus: false,
+            text: '',
             messages: [
                 {
                     content: 'Hello there! How can I help you today?',
@@ -65,7 +70,15 @@ export default {
                 }
             ],
             cssMode: 'wireframe',
+            cssModes: [
+                { label: "Wireframe", value: "wireframe" },
+                { label: "Creative", value: "creative" },
+                { label: "Use Styles", value: 'dls' }
+            ],
+            showCssModeMenu: false,
+            isVisible: false,
             isWorking: false,
+            disabled: false,
             selectedScreen: '',
             progressMessage: 'Thinking...',
             status: {
@@ -76,7 +89,7 @@ export default {
 
     },
     components: {
-        AIChatMessage, ZoomableTextArea//, QIcon
+        QIcon
     },
     computed: {
         statusMessage() {
@@ -87,12 +100,34 @@ export default {
                 }
             }
             return ''
+        },
+        cssModeLabel() {
+            const found = this.cssModes.find(o => o.value === this.cssMode)
+            if (found) {
+                return found.label
+            }
+            return this.cssModes[0].label
         }
     },
     methods: {
+        show(pos) {
+            Logger.log(-1, 'AIEditor.show()', pos)
+            this.isVisible = true
+            this.$el.style.top = pos.y + 'px'
+            this.$el.style.left = pos.x + 'px'
+
+            setTimeout(() => {
+                this.$refs.textarea.focus()
+            }, 100)
+        },
+
+        close() {
+            this.isVisible = false
+        },
+
         async runAI() {
             const options = this.getOptions()
-            Logger.log(-1, 'AIChat.runAI', options.provider, this.model.screenSize)
+            Logger.log(-1, 'AIEditor', options.provider, this.model.screenSize)
             let llm = this.getLLM(options)
             if (this.isDebug) {
                 Logger.error('AIChat.runAI() > use cache')
@@ -115,16 +150,16 @@ export default {
 
             const html2QUX = new HTML2QUX(this.$refs.iframeCntr)
             const agent = new Agent(
-                llm, 
-                this.model, 
-                options, 
+                llm,
+                this.model,
+                options,
                 html2QUX,
                 (m) => {
                     this.onChangeLastAgentMessage('\n\n' + m + '\n\n')
                 }
             )
             const result = await agent.run(this.messages)
-       
+
             this.onChangeLastAgentMessage("Done!")
             // const result = {
 
@@ -140,8 +175,8 @@ export default {
             if (options.provider === 'anthropic') {
                 return new Claude(options.token, this.selectedModel)
             }
-            
-            if (options.provider === 'gemini') { 
+
+            if (options.provider === 'gemini') {
                 return new Gemini(options.token)
             }
         },
@@ -153,18 +188,25 @@ export default {
                 return data
             }
         },
-        onMessageClick (m, e) {
-            if (m.action === 'openSettings') {
-                this.$emit('settings', e)
-            }
-        },
-        setModel (m) {
-            //console.debug('setModel', m)
+        setModel(m) {
             this.model = m
         },
-        onCSSMode(cssMode) {
-            this.cssMode = cssMode
-            localStorage.setItem('quxAICssMode', cssMode)
+        selectCssMode (mode) {
+            this.cssMode = mode
+            this.showCssModeMenu = false
+            localStorage.setItem('quxAICssMode', this.cssMode)
+        },
+        toggleCssModeMenu () {
+            this.showCssModeMenu = !this.showCssModeMenu
+        },
+        onEnter (e) {
+            if (e.shiftKey) {
+                return
+            }
+            this.isMax = false
+            this.$refs.textarea.blur()
+            this.onChange()
+            this.showCssModeMenu = false
         },
         onClear() {
             this.messages = []
@@ -172,12 +214,14 @@ export default {
             this.onChange()
         },
         onSettings(e) {
-            console.debug('onSettings')
             this.$emit('settings', e)
         },
         deleteMessage(i) {
             this.messages.splice(i, 1)
             this.onChange()
+        },
+        onChange () {
+
         },
         addMessage(txt) {
             if (txt.trim()) {
@@ -198,26 +242,12 @@ export default {
             this.messages = this.messages.filter(m => m.role !== "assistant");
             this.onChange()
         },
-        onAgentMessage(txt) {
-            this.messages.push({
-                "role": "assistant",
-                "content": txt
-            })
-            this.onChange()
-        },
-        onChange() {
-            // const s = JSON.stringify(this.messages)
-            // localStorage.setItem('luisaMessages', s)
-            setTimeout(() => {
-                if (this.$refs.bodyEnd) {
-                    this.$refs.bodyEnd.scrollIntoViewIfNeeded(true)
-                }
-            }, 50)
-        },
+
+
         initSettings() {
             const mode = localStorage.getItem('quxAICssMode')
             if (mode) {
-                this.cssMode = mode    
+                this.cssMode = mode
             }
         }
     },

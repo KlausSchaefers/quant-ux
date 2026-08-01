@@ -1140,6 +1140,25 @@ export default {
 
 		},
 
+		/***************************************************************************
+		 * Cnavas Click stuff
+		 ***************************************************************************/
+	
+		setCanvasBackgroundClickCallback (l){
+			this.logger.log(4,"setCanvasClickCallback", "enter");
+			this._canvasClickCallback = l;
+		},
+
+		clearCanvasBackgroundClickCallback (){
+			this.logger.log(1,"clearCanvasBackgroundClickCallback", "enter");
+			this._canvasClickCallback = null;
+		},
+
+		onCanvasBackgroundClickCallback(e) {
+			if (this._canvasClickCallback && this[this._canvasClickCallback]){
+				this[this._canvasClickCallback](e)
+			}
+		},
 
 		/***************************************************************************
 		 * Cancel stuff
@@ -1156,7 +1175,7 @@ export default {
 		},
 
 		cleanUpCancelCallbacks (){
-			this.logger.log(-1,"cleanUpCancelCallbacks", "enter");
+			this.logger.log(1,"cleanUpCancelCallbacks", "enter");
 			this._cancelCallback = null;
 		},
 

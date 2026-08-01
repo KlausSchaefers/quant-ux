@@ -290,6 +290,8 @@ export default {
       this.tempOwn(on(toolbar, "onNewScriptObject", lang.hitch(canvas, "addScriptObject")));
       this.tempOwn(on(toolbar, "onNewSVG", lang.hitch(canvas, "addSVG")))
       this.tempOwn(on(toolbar, "onEditSVG", lang.hitch(canvas, "openSVGEditor")))
+      this.tempOwn(on(toolbar, "onNewAI", lang.hitch(canvas, "openAIEditor")))
+     
       
 
       /**

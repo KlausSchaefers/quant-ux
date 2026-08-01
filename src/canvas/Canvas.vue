@@ -27,6 +27,12 @@
 					ref="svgEditor" 
 					/>
 			</div>
+
+			<AIPopup ref="aiEditor"
+				@settings="showAiSettings" />
+				
+			
+		
 		</div>
 	</div>
 	<ContextMenu ref="contextMenu" @select="onContextSelect"/>
@@ -78,6 +84,7 @@ import ScreenRuler from 'canvas/ScreenRuler'
 import CustomHandler from 'canvas/CustomHandler'
 import Collab from 'canvas/Collab'
 import SVG from 'canvas/SVG'
+import AI from 'canvas/AI'
 import ContextMenu from './ContextMenu'
 
 import KeyBoard from 'canvas/KeyBoard'
@@ -88,13 +95,14 @@ import GridResize from 'canvas/GridResize'
 
 import FastDomUtil from 'core/FastDomUtil'
 import SVGEditor from '../svg/SVGEditor'
+import AIPopup from '../ai/AIPopup'
 
 export default {
   name: 'Canvas',
 	props:['viewport'],
 	mixins:[DojoWidget, _DragNDrop, Util, Render, Lines, DnD, Add, Select, Distribute, Tools,
 			Zoom, InlineEdit, Scroll, Upload, Comment, Layer, CustomHandler, ScreenRuler, DataView,
-			KeyBoard, Resize, Replicate, Prototyping, Collab, SVG, GridResize],
+			KeyBoard, Resize, Replicate, Prototyping, Collab, SVG, GridResize, AI],
     data: function () {
         return {
 			mode: "edit",
@@ -109,7 +117,8 @@ export default {
     },
     components: {
 		'SVGEditor': SVGEditor,
-		'ContextMenu': ContextMenu
+		'ContextMenu': ContextMenu,
+		'AIPopup': AIPopup
 	},
     methods: {
 		postCreate (){

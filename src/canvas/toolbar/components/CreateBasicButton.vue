@@ -87,7 +87,7 @@ export default {
                     {value: 'audio', icon: 'Audio', label: this.getNLS('toolbar.create.audio')}
                 ]},
                 {value: 4, css:'MatcToolbarPopUpLine'},
-                {value: 'designgpt', icon: 'AI', label: this.getNLS('toolbar.create.gpt')},
+                {value: 'ai', icon: 'AI', label: this.getNLS('toolbar.create.gpt')},
             ]
         }
     },

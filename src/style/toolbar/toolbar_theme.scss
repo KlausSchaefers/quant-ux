@@ -626,6 +626,7 @@ div.MatcToolbarViewConfigCntrSpace {
   color: $chat_message_color_user;
 }
 
+.MatcAiEditorActionPopupMenu,
 .MatcZoomableTextAreaActionPopupMenu {
   background: $popup_background;
   box-shadow: $popup_shadow;
@@ -642,6 +643,7 @@ div.MatcToolbarViewConfigCntrSpace {
       color: $white;
     }
 
+    &.MatcAiEditorActionPopupMenuItemActive,
     &.MatcZoomableTextAreaActionPopupMenuItemActive {
       background: $primary_color;
       color: $white;
@@ -662,4 +664,11 @@ div.MatcToolbarViewConfigCntrSpace {
 
 .MatcZoomableTextAreaMax.MatcZoomableTextArea{
     background: $toolbar_form_background_hover;
+}
+
+.MatcAiEditor {
+    box-shadow: $popup_shadow;
+    border: $popup_border;
+    background: $popup_background;
+    color: $popup_color;
 }

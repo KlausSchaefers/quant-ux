@@ -338,6 +338,7 @@ class ModelUtil {
 
         const zoomedModel = {
             id: model.id, 
+            zoom: zoom,
             screenSize: {},
             grid: lang.clone(model.grid),
             screens: {},
