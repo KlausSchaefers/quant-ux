@@ -85,6 +85,9 @@ export default class Agent {
     } 
   }
 
+  cancel() {
+    Logger.warn('Agent.cancel() > enter')
+  }
 
 
   layoutScreens(result) {

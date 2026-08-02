@@ -1,17 +1,17 @@
 <template>
-    <div :class="['MatcAiEditor', {'MatcAiEditorFocus' : hasFocus}]" v-show="isVisible">
+    <div :class="['MatcAiEditor', {'MatcAiEditorFocus' : hasFocus}, {'MatcAiEditorBusy': status.busy}]" v-show="isVisible">
 
 
-            <div class="MatcAiEditorCloseIcon" v-if="!disabled">
+            <div class="MatcAiEditorCloseIcon">
                 <QIcon icon="Close" @click.stop="close" />
             </div>
 
-
+            <template v-if="!status.busy">
             <textarea class="MatcIgnoreOnKeyPress " 
                 @focus="hasFocus = true" 
                 @blur="hasFocus = false"
                 @keyup.enter="onEnter"
-                v-model="text" 
+                v-model="userPrompt" 
                 ref="textarea" 
                 :disabled="disabled">
             </textarea>
@@ -32,6 +32,16 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+            </template>
+            <div v-else :class="'MatcAiEditorStatusCntr ' + this.message.type">
+                <div class="MatcAiEditorProgressCntr">
+                    <div class="MatcAiEditorProgressBar"></div>
+                </div>
+                <div class="MatcAiEditorStatusMessage">
+                    {{this.message.content}}
+                </div>
+            
             </div>
 
 
@@ -56,17 +66,15 @@ import QIcon from 'page/QIcon'
 export default {
     name: 'AIEditor',
     emits: ['change', 'settings', 'add'],
-    props: ['defaultMessage', 'isDebug'],
+    props: ['defaultMessage'],
     data() {
         return {
             hasFocus: false,
-            text: '',
-            messages: [
-                {
-                    content: 'Hello there! How can I help you today?',
-                    role: 'assistant'
-                }
-            ],
+            userPrompt: 'Make a website about dogs...',
+            message: {
+                content: '',
+                type: 'info',
+            },
             cssMode: 'wireframe',
             cssModes: [
                 { label: "Wireframe", value: "wireframe" },
@@ -75,13 +83,11 @@ export default {
             ],
             showCssModeMenu: false,
             isVisible: false,
-            isWorking: false,
             disabled: false,
             selectedScreen: '',
-            progressMessage: 'Thinking...',
+            isDebug: true,
             status: {
-                busy: false,
-                messages: []
+                busy: false
             }
         }
 
@@ -115,53 +121,67 @@ export default {
             this.$el.style.left = pos.x + 'px'
 
             setTimeout(() => {
-                this.$refs.textarea.focus()
+                if (this.$refs.textarea) {
+                    this.$refs.textarea.focus()
+                }
             }, 100)
         },
 
         close() {
             this.isVisible = false
+            if (this.agent) {
+                this.agent.cancel()
+            }
+            delete this.agent
         },
 
-        async runAI() {
+        async runAI(userPrompt) {
             const options = Util.getOptions()
             Logger.log(-1, 'AIEditor', options.provider, this.model.screenSize)
-            const llm = Util.getLLM(options)
-           
-
+            const llm = Util.getLLM(options, this.isDebug)
+        
+            this.status.busy = true
             if (!llm) {
-                this.messages.push({
-                    "role": "assistant",
-                    "content": "Please configure the **AI provider**. Click __here__ or choose Menu > AI Settings",
-                    "action": "openSettings"
-                })
+                this.setMessage('No LLM provider defined. Open the AI settings in the main menu! ', 'error')
                 return
-            } else {
-                this.messages.push({
-                    "role": "assistant",
-                    "content": "Start working..."
-                })
             }
 
-            const html2QUX = new HTML2QUX(this.$refs.iframeCntr)
-            const agent = new Agent(
-                llm,
-                this.model,
-                options,
-                html2QUX,
-                (m) => {
-                    this.onChangeLastAgentMessage('\n\n' + m + '\n\n')
+            this.setMessage('Working', 'info')
+          
+
+            try {
+                const html2QUX = new HTML2QUX(this.$refs.iframeCntr)
+                this.agent = new Agent(
+                    llm,
+                    this.model,
+                    options,
+                    html2QUX,
+                    (m) => {
+                        this.setMessage(m, 'info')
+                    }
+                )
+                const result = await this.agent.run([{
+                    "role": "user",
+                    "content": userPrompt
+                }])
+
+                this.setMessage("Done!")
+
+                if (this.isVisible) {
+                    this.$emit('agentResult', result)
                 }
-            )
-            const result = await agent.run(this.messages)
-
-            this.onChangeLastAgentMessage("Done!")
-            // const result = {
-
-            // }
-            this.$emit('agentResult', result)
+            
+            } catch (err) {
+                this.setMessage("Error!", 'error')
+                
+            }
+            this.status.busy = false
         },
        
+        setMessage(msg, type) {
+            this.message.content = msg
+            this.message.type = type
+        },
     
         setModel(m) {
             this.model = m
@@ -178,46 +198,24 @@ export default {
             if (e.shiftKey) {
                 return
             }
-            this.isMax = false
             this.$refs.textarea.blur()
             this.onChange()
             this.showCssModeMenu = false
+            this.runAI(this.userPrompt)
+        
+            this.userPrompt = ''
         },
         onClear() {
-            this.messages = []
             CachedLLM.clearCache()
             this.onChange()
         },
         onSettings(e) {
             this.$emit('settings', e)
         },
-        deleteMessage(i) {
-            this.messages.splice(i, 1)
-            this.onChange()
-        },
         onChange () {
 
         },
-        addMessage(txt) {
-            if (txt.trim()) {
-                this.messages.push({
-                    "role": "user",
-                    "content": txt
-                })
-            }
-            this.runAI()
-            this.$emit('change', this.messages)
-            this.onChange()
-        },
-        onChangeLastAgentMessage(txt) {
-            this.messages[this.messages.length - 1].content += txt
-            this.onChange()
-        },
-        clearAgentMessages() {
-            this.messages = this.messages.filter(m => m.role !== "assistant");
-            this.onChange()
-        },
-
+       
 
         initSettings() {
             const mode = localStorage.getItem('quxAICssMode')

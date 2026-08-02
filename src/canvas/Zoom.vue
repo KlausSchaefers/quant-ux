@@ -170,10 +170,26 @@ export default {
 			}
 			this._lastZoom = this.zoom;
 			this.onViewportChange()
+			this.onZoomListener()
+		},
+
+		setZoomListener(listener) {
+			this._zoomListener = listener
+		},
+
+		clearZoomListener() {
+			delete this._zoomListener;
+		},
+
+		onZoomListener(zoom) {
+			if (this._zoomListener && this[this._zoomListener]){
+				this[this._zoomListener](zoom)
+			}
 		},
 
 
 		cleanUpZoom () {
+			this.clearZoomListener()
 		},
 
 		setZoomedContainerPosition (){

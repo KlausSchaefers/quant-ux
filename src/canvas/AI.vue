@@ -31,15 +31,17 @@ export default {
             this.setCanvasBackgroundClickCallback('endAI')
             this.setCanvasCancelCallback('endAI')
             this.setCanvasModeListener('endAI')
+            this.setZoomListener('endAI')
         },
 
         endAI() {
             this.logger.log(-1, 'endAI')
-            console.trace()
+            //console.trace()
             this.$refs.aiEditor.close()
             this.cleanUpCancelCallbacks()
             this.clearCanvasModeListener()
             this.clearCanvasBackgroundClickCallback()
+            this.clearZoomListener()
             this.setMode("edit");
             if (this._aiCanvasClickListener) {
                 this._aiCanvasClickListener.remove()

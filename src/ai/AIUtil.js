@@ -14,7 +14,7 @@ export function getOptions() {
 }
 
 export function getLLM(options, useCache=false) {
-
+    Logger.log(1, 'AIUtil.getLLM() > ', options.provider, useCache)
     let result;
     if (options.provider === 'openai') {
         result = new OpenAI(options.token)
