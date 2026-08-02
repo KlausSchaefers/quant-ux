@@ -12,7 +12,8 @@
   }
 }
 
-
+.MatcAiChat {
+  .MatcAiChatFooter {
     .MatcZoomableTextArea {
       height: 96px;
       width: 100%;
@@ -122,7 +123,9 @@
           }
         }
       }
-  
+    }
+  }
+
   .MatcZoomableTextAreaMax .MatcZoomableTextAreaBackdrop {
     position: fixed;
     top: 0px;
@@ -180,6 +183,13 @@
 
 .MatcAiChat .MatcAiChatFooter .MatcZoomableTextAreaMax textarea {
   font-size: 16px;
+}
+
+.MatcZoomableTextAreaDisabled .MatcZoomableTextAreaIconInput {
+  cursor: progress;
+  > * {
+    visibility: hidden;
+  }
 }
 
 .MatcZoomableTextAreaIconInput {

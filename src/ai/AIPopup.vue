@@ -46,12 +46,10 @@
 
 <script>
 
-import OpenAI from './llm/OpenAI.js';
-import Claude from './llm/Claude.js';
-import Gemini from './llm/Gemini.js';
 import CachedLLM from './llm/CachedLLM.js';
 import Agent from './Agent.js';
 import HTML2QUX from './HTML2QUX'
+import * as Util from './AIUtil.js'
 import Logger from 'core/Logger.js';
 import QIcon from 'page/QIcon'
 
@@ -126,13 +124,10 @@ export default {
         },
 
         async runAI() {
-            const options = this.getOptions()
+            const options = Util.getOptions()
             Logger.log(-1, 'AIEditor', options.provider, this.model.screenSize)
-            let llm = this.getLLM(options)
-            if (this.isDebug) {
-                Logger.error('AIChat.runAI() > use cache')
-                llm = new CachedLLM(llm)
-            }
+            const llm = Util.getLLM(options)
+           
 
             if (!llm) {
                 this.messages.push({
@@ -166,28 +161,8 @@ export default {
             // }
             this.$emit('agentResult', result)
         },
-        getLLM(options) {
-
-            if (options.provider === 'openai') {
-                return new OpenAI(options.token)
-            }
-
-            if (options.provider === 'anthropic') {
-                return new Claude(options.token, this.selectedModel)
-            }
-
-            if (options.provider === 'gemini') {
-                return new Gemini(options.token)
-            }
-        },
-        getOptions() {
-            const saved = localStorage.getItem('quxAISettings')
-            if (saved) {
-                const data = JSON.parse(saved)
-                data.cssMode = this.cssMode
-                return data
-            }
-        },
+       
+    
         setModel(m) {
             this.model = m
         },

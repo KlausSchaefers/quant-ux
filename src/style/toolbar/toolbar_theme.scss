@@ -666,6 +666,12 @@ div.MatcToolbarViewConfigCntrSpace {
     background: $toolbar_form_background_hover;
 }
 
+.MatcZoomableTextAreaDisabled .MatcZoomableTextAreaIconInput,
+.MatcZoomableTextAreaDisabled .MatcZoomableTextAreaIconInput:hover {
+  border-color: $toolbar_form_border_hover;
+  background: $toolbar_form_background_hover;
+}
+
 .MatcAiEditor {
     box-shadow: $popup_shadow;
     border: $popup_border;

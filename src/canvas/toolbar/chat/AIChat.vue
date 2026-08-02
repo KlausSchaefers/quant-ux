@@ -43,11 +43,9 @@
 
 import AIChatMessage from './AIChatMessage.vue';
 import ZoomableTextArea from './ZoomableTextArea.vue';
-import OpenAI from '../../../ai/llm/OpenAI.js';
-import Claude from '../../../ai/llm/Claude.js';
-import Gemini from '../../../ai/llm/Gemini.js';
-import CachedLLM from '../../../ai/llm/CachedLLM.js';
+import * as Util from '../../../ai/AIUtil.js'
 import Agent from '../../../ai/Agent.js';
+import CachedLLM from '../../../ai/llm/CachedLLM.js';
 import HTML2QUX from '../../../ai/HTML2QUX'
 import Logger from '../../../core/Logger.js';
 // import QIcon from 'page/QIcon'
@@ -69,8 +67,7 @@ export default {
             selectedScreen: '',
             progressMessage: 'Thinking...',
             status: {
-                busy: false,
-                messages: []
+                busy: false
             }
         }
 
@@ -91,14 +88,10 @@ export default {
     },
     methods: {
         async runAI() {
-            const options = this.getOptions()
+            const options = Util.getOptions()
             Logger.log(-1, 'AIChat.runAI', options.provider, this.model.screenSize)
-            let llm = this.getLLM(options)
-            if (this.isDebug) {
-                Logger.error('AIChat.runAI() > use cache')
-                llm = new CachedLLM(llm)
-            }
-
+            const llm = Util.getLLM(options, this.isDebug)
+       
             if (!llm) {
                 this.messages.push({
                     "role": "assistant",
@@ -113,45 +106,28 @@ export default {
                 })
             }
 
-            const html2QUX = new HTML2QUX(this.$refs.iframeCntr)
-            const agent = new Agent(
-                llm, 
-                this.model, 
-                options, 
-                html2QUX,
-                (m) => {
-                    this.onChangeLastAgentMessage('\n\n' + m + '\n\n')
-                }
-            )
-            const result = await agent.run(this.messages)
-       
-            this.onChangeLastAgentMessage("Done!")
-            // const result = {
+            this.status.busy = true;
 
-            // }
-            this.$emit('agentResult', result)
-        },
-        getLLM(options) {
-
-            if (options.provider === 'openai') {
-                return new OpenAI(options.token)
-            }
-
-            if (options.provider === 'anthropic') {
-                return new Claude(options.token, this.selectedModel)
-            }
-            
-            if (options.provider === 'gemini') { 
-                return new Gemini(options.token)
-            }
-        },
-        getOptions() {
-            const saved = localStorage.getItem('quxAISettings')
-            if (saved) {
-                const data = JSON.parse(saved)
-                data.cssMode = this.cssMode
-                return data
-            }
+            try {
+                const html2QUX = new HTML2QUX(this.$refs.iframeCntr)
+                const agent = new Agent(
+                    llm, 
+                    this.model, 
+                    options, 
+                    html2QUX,
+                    (m) => {
+                        this.onChangeLastAgentMessage('\n\n' + m + '\n\n')
+                    }
+                )
+                const result = await agent.run(this.messages)
+                this.onChangeLastAgentMessage("Done!")
+                this.status.busy = false;
+                this.$emit('agentResult', result)
+            } catch (err) {
+                Logger.error('AIChat.runAI() >', err)
+                this.status.busy = false;
+                this.onChangeLastAgentMessage("Error!")
+            }    
         },
         onMessageClick (m, e) {
             if (m.action === 'openSettings') {

@@ -108,7 +108,7 @@ export default class HTML2QUX {
         Logger.log(-1, 'HTML2QUX.run() > enter')
         this.isRemoveNonLeafs = options.isRemoveNonLeafs
         this.isRemoveContainers = options.isRemoveContainers
-        this.isRemoveHiddenElements = options.isRemoveHiddenElements
+        this.isRemoveHiddenElements = true //options.isRemoveHiddenElements
         this.defaultStyle = options.defaultStyle
         this.customStyle = options.customStyle
         this.grid = options.grid
@@ -401,11 +401,17 @@ export default class HTML2QUX {
     }
 
     isHiddenElement(widget) {
-        
-        if (isInvisibleButton(widget)) {
-            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Invisble' , widget)
+
+        // we could somehow try to find a way to clip this better
+        if (widget.y < 0 || widget.x < 0) {
+            Logger.log(-1, 'HTMLImporter.removeHiddenElements() > Overflow' , widget)
             return true
         }
+
+        // if (isInvisibleButton(widget)) {
+        //     Logger.log(1, 'HTMLImporter.removeHiddenElements() > Invisble' , widget)
+        //     return true
+        // }
         if (widget.style.opacity === 0) {
             Logger.log(1, 'HTMLImporter.removeHiddenElements() > Opacity' , widget)
             /** 
@@ -902,15 +908,32 @@ export default class HTML2QUX {
         return result
     }
 
+    isSupportedNode(node) {
+        if (node.nodeType === 1) {
+            const ret = node.getBoundingClientRect();
+            if (ret.x < 0 || ret.y < 0) {
+                Logger.warn('HTML2QUX.isSupportedNode() > ', node)
+                return false
+            }
+        }
+
+        return true
+    }
+
+
     getPosition(node) {
         if (node.nodeType === 1) {
             const ret = node.getBoundingClientRect();
-            return {
+            const pos = {
                 x: Math.round(ret.left), 
                 y: Math.round(ret.top), 
                 w: Math.round(ret.right - ret.left), 
                 h: Math.round(ret.bottom - ret.top)
             };
+            // TODO: Here we have some issue of one if the elements is 
+            // placed outside. We should clip this somehow...
+            //console.debug(node, pos)
+            return pos
         }
 
         if (node.nodeType === 3) {
@@ -1127,6 +1150,7 @@ function parsePixel(value, /* key, node */) {
     return Math.round(value * 1)
 }
 
+// eslint-disable-next-line no-unused-vars
 function isInvisibleButton(widget) {
     if (widget.type !== "Button") {
        return false
@@ -1134,6 +1158,7 @@ function isInvisibleButton(widget) {
     if (isTranparent(widget.style.background) && isNoBorder(widget)) {
         return true
     }
+    // TODO Check for inner TXT??
     return false
 }
 
