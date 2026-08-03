@@ -105,14 +105,16 @@ export default class HTML2QUX {
 	}
 
     run(html, width, height, options = {}) {
-        Logger.log(-1, 'HTML2QUX.run() > enter')
+        
         this.isRemoveNonLeafs = options.isRemoveNonLeafs
         this.isRemoveContainers = options.isRemoveContainers
-        this.isRemoveHiddenElements = true //options.isRemoveHiddenElements
+        this.isRemoveHiddenElements = true
         this.defaultStyle = options.defaultStyle
         this.customStyle = options.customStyle
         this.grid = options.grid
         this.z = 1
+
+        Logger.log(-1, 'HTML2QUX.run() > enter', this.isRemoveNonLeafs, this.isRemoveContainers)
 
         console.time('HTML2QUX.run')
         this.domNode.innerText = ''
@@ -391,7 +393,7 @@ export default class HTML2QUX {
         scrn.children.forEach(id => {
             const widget = app.widgets[id]
             if (this.isHiddenElement(widget) && this.isRemoveHiddenElements) {
-                Logger.log(-1, "removeHiddenElements() ", widget)
+                Logger.log(1, "removeHiddenElements() ", widget)
                 delete app.widgets[id]
             } else {
                 newChildren.push(id)
@@ -404,7 +406,7 @@ export default class HTML2QUX {
 
         // we could somehow try to find a way to clip this better
         if (widget.y < 0 || widget.x < 0) {
-            Logger.log(-1, 'HTMLImporter.removeHiddenElements() > Overflow' , widget)
+            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Overflow' , widget)
             return true
         }
 
@@ -469,7 +471,7 @@ export default class HTML2QUX {
     cleanTree(node) {
         node.children.forEach(child => {
             if (child.style.opacity === 0) {
-                Logger.log(-1, 'HTMLImporter.cleanTree() > Opacity' , child)
+                Logger.log(1, 'HTMLImporter.cleanTree() > Opacity' , child)
                 child.children = []
             }
             this.cleanTree(child)
@@ -680,9 +682,9 @@ export default class HTML2QUX {
          * 
          * labeled checkbox?
          */
-        const widgetType = this.getWidgetType(node)
-        const pos = this.getPosition(node)
         const style = this.getStyle(node)
+        const widgetType = this.getWidgetType(node, style)
+        const pos = this.getPosition(node)
         const has = this.getHas(widgetType)
         const props = this.getProps(node)
         // TODO: maybe
@@ -955,12 +957,17 @@ export default class HTML2QUX {
         }
     }
 
-    getWidgetType (node) {
+    // eslint-disable-next-line no-unused-vars
+    getWidgetType (node, style) {
         //console.debug('getWidgetType >> ', node.nodeType, node.tagName, labelTypes.has(node.tagName), node)
         if (node.nodeType === TEXT_NODE) {
             return 'Label'
         }
         if (labelTypes.has(node.tagName)) {
+            if (hasVisibleBorder(style)) {
+                Logger.log(-1, 'HTML2QUX.getWidgetType() borded label', node)
+                return 'Button'
+            }
             return 'Label'
         }
         if (node.tagName === 'BUTTON') {
@@ -1169,6 +1176,18 @@ function isNoBorder(widget) {
         sum += style[key]
     })
     return sum === 0
+}
+
+// eslint-disable-next-line no-unused-vars
+function hasVisibleBorder(style) {
+    if (!style) {
+        return false
+    }
+    const hasWidth = borderWidthKeys.some(key => style[key] > 0)
+    if (!hasWidth) {
+        return false
+    }
+    return borderColorKeys.some(key => style[key] && !isTranparent(style[key]))
 }
 
 

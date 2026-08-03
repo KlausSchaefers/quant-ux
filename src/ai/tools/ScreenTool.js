@@ -1,4 +1,7 @@
+import Logger from "../../core/Logger";
 import Tool from "./Tool";
+import QSS from "../../core/qss/QSS";
+import Wireframer from "./Wireframer";
 export default class ScreenTool extends Tool {
   constructor(llm, model, options, progressCallback, html2QUX) {
     super(llm, model, options, progressCallback, html2QUX);
@@ -51,12 +54,26 @@ export default class ScreenTool extends Tool {
       this.options
     )
 
+    const styledApp = this.applyStyle(app)
+
     return {
       html: html,
-      app: app,
+      app: styledApp,
       prompt: prompt,
       usage: res.usage,
     };
+  }
+
+  applyStyle (app) {
+    if (this.options.cssMode !== 'wireframe' && this.options.cssMode !== 'wireframe_minimal') {
+      return app
+    }
+
+    Logger.log(-1, "ScreenTool.applyStyle() > enter", app)
+
+    const theme = QSS.getTheme('wireframe')
+    const wireframer = new Wireframer(theme)
+    return wireframer.apply(app)
   }
 
   promptHTML() {
@@ -86,6 +103,7 @@ export default class ScreenTool extends Tool {
   promptRules() {
     // box-sizing: border-box;
     // for strong text always use h1 to h6
+    // do not use hidden form elements that are usually used for accessability
     return `
             Important! Please follow this additonal rules when designing the screen:
 

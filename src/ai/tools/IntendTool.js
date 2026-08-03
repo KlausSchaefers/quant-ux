@@ -51,6 +51,7 @@ export default class IntendTool extends Tool {
       this.options
     )
 
+
     return {
       html: html,
       app: app,

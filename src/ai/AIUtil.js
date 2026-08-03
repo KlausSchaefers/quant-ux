@@ -8,9 +8,21 @@ export function getOptions() {
     const saved = localStorage.getItem('quxAISettings')
     if (saved) {
         const data = JSON.parse(saved)
-        data.cssMode = this.cssMode
+        data.cssMode = getCSSMode()
         return data
     }
+}
+
+export function setCSSMode(cssMode){
+    localStorage.setItem('quxAICssMode', cssMode)
+}
+
+export function getCSSMode(){
+    const cssMode = localStorage.getItem('quxAICssMode')
+    if (cssMode) {
+        return cssMode    
+    }
+    return 'wireframe'
 }
 
 export function getLLM(options, useCache=false) {

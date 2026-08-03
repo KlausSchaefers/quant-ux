@@ -140,7 +140,7 @@ export default {
         },
         onCSSMode(cssMode) {
             this.cssMode = cssMode
-            localStorage.setItem('quxAICssMode', cssMode)
+            Util.setCSSMode(cssMode)
         },
         onClear() {
             this.messages = []
@@ -191,10 +191,7 @@ export default {
             }, 50)
         },
         initSettings() {
-            const mode = localStorage.getItem('quxAICssMode')
-            if (mode) {
-                this.cssMode = mode    
-            }
+            this.cssMode = Util.getCSSMode()    
         }
     },
     mounted() {

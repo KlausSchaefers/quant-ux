@@ -10,6 +10,12 @@ export default class Agent {
     this.progressCallback = progressCallback; 
     this.html2QUX = html2QUX
 
+    // or move to the screen tool?
+    if (options.cssMode === 'wireframe_minimal') {
+        options.isRemoveNonLeafs = true
+        options.isRemoveContainers = true
+    }
+
     this.structureTool = new StructureTool(llm, model, options, progressCallback);
     this.screenTool = new ScreenTool(llm, model, options, progressCallback, html2QUX);
   }

@@ -161,5 +161,8 @@ export default {
    "@box-height-m": {"value": 64, "type": "height"},
    "@box-height-l": {"value": 128, "type": "height"},
    "@box-height-xl": {"value": 256, "type": "height"},
-   "@box-height-xxl": {"value": 320, "type": "height"}
+   "@box-height-xxl": {"value": 320, "type": "height"},
+
+   "@card-primary-background": {"value": "#e2e2e2", "type": "color"},
+   "@card-secondary-background": {"value": "#fff", "type": "color"}
 }

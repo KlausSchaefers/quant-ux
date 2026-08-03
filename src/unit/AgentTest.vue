@@ -13,7 +13,7 @@
           @agentResult="onAgentResult" 
           ref="chat" 
           :isDebug="true"
-          :defaultMessage="examples[1]"></AIChat>
+          :defaultMessage="examples[2]"></AIChat>
       </div>
       <div>
         <ZoomableCanvas :cellWidth="model.screenSize.w" :cellHeight="maxScreenHeight">
@@ -75,7 +75,8 @@ export default {
       }],
       examples: [
         'Generate a landing page for a petshop',
-        'Generate a landing page for horse tinder'
+        'Generate a landing page for horse tinder',
+        'Generate a web form for a pet clinic. The users want to register for an appointment. The form should aks for the name, the email, the type of animal (cat, dog, other) and the age of the animal.'
       ]
     };
   },
@@ -95,9 +96,9 @@ export default {
   },
   methods: {
     onAgentResult(result) {
-      console.debug(result)
+      //console.debug(result)
       for (let change of result.changes) {
-        console.debug('onAgentResult() > ', result)
+        //console.debug('onAgentResult() > ', result)
         if (change.type === 'add') {
           this.add(change.value)
         }
@@ -105,7 +106,7 @@ export default {
     },
 
     add(result) {
-      console.debug("add", result)
+      //console.debug("add", result)
       this.mergeScreenInApp(result, this.model)
       //console.debug(JSON.stringify(result, null, 2))
       //this.$forceUpdate()

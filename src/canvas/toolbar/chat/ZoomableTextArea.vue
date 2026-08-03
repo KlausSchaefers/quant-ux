@@ -31,6 +31,7 @@
                       </li>
                     </ul>
                   </div>
+                  <QIcon icon="ArrowUp" @click="onSend" />
               </div>
             </div>
         </div>
@@ -58,6 +59,7 @@ export default {
         isMax: false,
         showCssModeMenu: false,
         cssModes: [
+            { label: "Wireframe Minimal", value: "wireframe_minimal" },
             { label: "Wireframe", value: "wireframe" },
             { label: "Creative", value: "creative" },
             { label: "Use Styles", value: 'dls' }
@@ -114,6 +116,10 @@ export default {
         this.$refs.textarea.blur()
         this.onChange()
         this.showCssModeMenu = false
+    },
+    onSend() {
+      this.text = this.text + '\n'
+      this.onChange()
     },
     onChange () {
         this.$emit('change', this.text)

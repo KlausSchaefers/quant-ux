@@ -1692,5 +1692,11 @@ export const icons = {
         <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-6" />
         <path d="M15 13h-4v-4" />
         <path d="M11 13l5 -5" />
+    `,
+    'ArrowUp': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 5l0 14" />
+        <path d="M16 9l-4 -4" />
+        <path d="M8 9l4 -4" />
     `
 }
