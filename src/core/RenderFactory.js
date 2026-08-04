@@ -1415,6 +1415,17 @@ export default class RenderFactory extends Core {
 		}
 	}
 
+	_set_blurFilter(parent, style) {
+		let blurFilter = style.blurFilter
+		if (blurFilter) {
+			let blur = blurFilter.blur
+			blur = this.getZoomed(blur, this._scaleX)
+			parent.style.filter = `blur(${blur}px)`
+		} else {
+			parent.style.filter = 'none';
+		}
+	}
+
 	_set_filter(parent, style) {
 		let filter = style.filter
 		if (filter) {

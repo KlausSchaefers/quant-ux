@@ -21,7 +21,7 @@
 				{					
 					"type": "message",
 					"role": "assistant",
-					"content": "Hello there! \nThis is a survey about cars.\n**Do you own a car?**"
+					"content": "Hello there! \nThis is a survey about cars.\n**Do you want to start?**"
 				}		
 			],
 			"responses": [
@@ -30,11 +30,16 @@
 					"role": "assistant",
 					"content": "How old are you?"
 				},
+				{					
+					"type": "message",
+					"role": "assistant",
+					"content": "Do you own a car?"
+				},
                 {					
 					"type": "message",
 					"role": "assistant",
 					"content": "Do you consider buying a new car in the next year?"
-				}				
+				}
 			]					
 		},
 		"has": {

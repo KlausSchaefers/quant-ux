@@ -20,7 +20,7 @@
           </div> 
            <div class="MatcToolbarPopupFooter" @click="onRemove">
             <QIcon icon="Delete"/>
-            <span class="MatcToolbarPopupFooterLabel">No Background Blur</span>
+            <span class="MatcToolbarPopupFooterLabel">No Blur</span>
           </div>
         </div>
 
@@ -39,7 +39,7 @@ import ToolbarSlider from './ToolbarSlider'
 import QIcon from 'page/QIcon'
 
 export default {
-    name: 'BackgroundBlur',
+    name: 'BlurFilter',
     mixins:[_Color, DojoWidget, _DesignToken, _DropDown],
     data: function () {
         return {
@@ -128,19 +128,19 @@ export default {
 			setValue (v){
 				if (v) {
 					this.value = lang.clone(v);
-          this.label = 'Backdrop Blur (' + this.value.blur + ')'
-          this.icon = 'Blur'
+          this.label = 'Gaussian Blur (' + this.value.blur + ')'
+          this.icon = 'FilterBlur'
 				} else {
           this.value = lang.clone(this.defaultValue)
-          this.label = 'No Backdrop Blur'
-          this.icon = 'BlurNone'
+          this.label = 'No Blur'
+          this.icon = 'FilterBlurNone'
         }
         this.setValuesInWidgets(this.value)
 
       }
     },
     mounted () {
-      this.setCssProps(['backdropFilter'])
+      this.setCssProps(['blurFilter'])
       this.init()
     }
 }

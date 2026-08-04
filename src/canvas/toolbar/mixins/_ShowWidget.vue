@@ -141,7 +141,7 @@ export default {
 				 * need insert and spread.
 				 */
 				this.boxShadow.setHasInsertAndSpread(model.type !== 'Icon' && model.type !== 'IconToggle')
-
+				this.blurFilter.setValue(style.blurFilter)
 				this.backdropFilter.setValue(style.backdropFilter)
 			} else {
 
