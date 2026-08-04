@@ -965,7 +965,7 @@ export default class HTML2QUX {
         }
         if (labelTypes.has(node.tagName)) {
             if (hasVisibleBorder(style)) {
-                Logger.log(-1, 'HTML2QUX.getWidgetType() borded label', node)
+                Logger.log(3, 'HTML2QUX.getWidgetType() > bordered label', node)
                 return 'Button'
             }
             return 'Label'

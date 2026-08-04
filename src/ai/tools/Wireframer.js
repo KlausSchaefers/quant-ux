@@ -192,8 +192,11 @@ export default class Wireframer {
       return this.styleGhostButton(widget);
     }
 
+    // TODO: make here another check maybe for the CSS mode, or 
+    // so to also use the 'passive'? Maybe check for disbaled 
+    // in the HTML2QUX?
     const isPrimary = !isLight(background);
-    const prefix = isPrimary ? "@button-primary" : "@button-passive";
+    const prefix = isPrimary ? "@button-primary" : "@button-secundary";
 
     this.setColor(widget.style, "background", `${prefix}-background`);
     this.setColor(widget.style, "color", `${prefix}-color`);
