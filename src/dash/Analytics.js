@@ -70,9 +70,9 @@ export default class {
 					if (w.type === 'Chat') {
 						let responses = w.props.responses
 						if (responses) {
-							console.debug(responses)
+							
 							responses = responses.filter(m => m.type !== 'assistant' && m.content).map(m => m.content)
-							console.debug(responses)
+							
 							widgetColums[w.id] = []
 							responses.forEach((col) => {				
 								widgetColums[w.id].push(col)

@@ -20,7 +20,7 @@
           </div> 
            <div class="MatcToolbarPopupFooter" @click="onRemove">
             <QIcon icon="Delete"/>
-            <span class="MatcToolbarPopupFooterLabel">No Background Blur</span>
+            <span class="MatcToolbarPopupFooterLabel">No Blur</span>
           </div>
         </div>
 
