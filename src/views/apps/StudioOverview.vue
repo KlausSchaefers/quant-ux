@@ -178,7 +178,8 @@ export default {
         {label: 'Duplicate', callback: (o, e) => this.onDuplicate(e), icon: "Duplicate"},
         {label: 'Change Test Link', callback: (o, e) => this.onChangeHash(e), icon: "Key"},
         {label: 'Delete', callback: (o, e) => this.onDelete(e), icon: "Delete"},
-        {label: 'Download Test Data', callback: (o, e) => this.onDownload(e), icon: "Download"}
+        {label: 'Download Test Data', callback: (o, e) => this.onDownload(e), icon: "Download"},
+        {label: 'Download Mouse Data', callback: (o, e) => this.onDownloadMouse(e), icon: "Mouse"}
       ],
       testSettings: {},
       events: [],
@@ -273,6 +274,46 @@ export default {
         elem.click();
         document.body.removeChild(elem);
       }
+    },
+    async onDownloadMouse() {
+        let id = this.$route.params.id;
+        const mouse = await this.modelService.findMouse(id)
+        const id2Name = {}
+        Object.values(this.app.screens).forEach(s => {
+          id2Name[s.id] = s.name
+        })
+        Object.values(this.app.widgets).forEach(w => {
+          id2Name[w.id] = w.name
+        })
+        const events = []
+        for (const record of mouse) {
+            const { x, y, c, t, session, screen} = record
+            const screenName = id2Name[screen]
+            for (let i = 0; i < x.length; i++) {
+              events.push({
+                x: x[i],
+                y: y[i],
+                c: c[i],
+                t: t[i],
+                session: session,
+                screen: screenName
+              })
+            }
+        }
+        const contnet = JSON.stringify(events, null, 2)
+        const blob = new Blob([contnet], {
+          type: "application/json"
+        });
+        if (window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveBlob(blob, "mouse.json");
+        } else {
+          const elem = window.document.createElement("a");
+          elem.href = window.URL.createObjectURL(blob);
+          elem.download = "mouse.json";
+          document.body.appendChild(elem);
+          elem.click();
+          document.body.removeChild(elem);
+        }
     },
     onAnnotationChange(annos) {
       this.logger.info("onAnnotationChange", "enter > ", annos);

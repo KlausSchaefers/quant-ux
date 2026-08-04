@@ -1699,5 +1699,11 @@ export const icons = {
         <path d="M12 18h6" />
         <path d="M12 15h3m4 0h1" />
         <path d="M3 3l18 18" />
+    `,
+    'Mouse': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M6 7a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-4a4 4 0 0 1 -4 -4l0 -10" />
+        <path d="M12 3v7" />
+        <path d="M6 10h12" />
     `
 }

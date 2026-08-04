@@ -70,8 +70,9 @@ export default class {
 					if (w.type === 'Chat') {
 						let responses = w.props.responses
 						if (responses) {
+							console.debug(responses)
 							responses = responses.filter(m => m.type !== 'assistant' && m.content).map(m => m.content)
-							
+							console.debug(responses)
 							widgetColums[w.id] = []
 							responses.forEach((col) => {				
 								widgetColums[w.id].push(col)
@@ -122,6 +123,8 @@ export default class {
 				}
 			}
 		})
+
+	
 		
         result.cols.sort((a,b) => {
           a.group.localeCompare(b.group)
@@ -217,8 +220,7 @@ export default class {
 						if (e.state.type == 'chat') {
 							const chatCols = widgetColums[e.widget];
 							const values = e.state.value.filter(m => m.role ==='user').map(m => m.content)
-							console.debug('xxx',values, chatCols)
-
+							
 							for (let i=0; i < chatCols.length; i++) {
 								row[chatCols[i]] = values[i]
 							}
