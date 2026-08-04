@@ -39,6 +39,7 @@ import LowCodeResponsiveSection from 'canvas/toolbar/components/LowCodeResponsiv
 import ImageRotate from 'canvas/toolbar/components/ImageRotate'
 import TextProperties from 'canvas/toolbar/components/TextProperties'
 import BackdropFilter from 'canvas/toolbar/components/BackdropFilter'
+import BlurFilter from 'canvas/toolbar/components/BlurFilter'
 import Filter from 'canvas/toolbar/components/Filter'
 import TooltipSection from 'canvas/toolbar/components/TooltipSection'
 import Alignment from 'canvas/toolbar/components/Alignment'
@@ -915,7 +916,6 @@ export default {
 
 
 			row = document.createElement("div");
-			//css.add(row, 'MatcToobarRowHover')
 			content.appendChild(row)
 			this.backdropFilter = this.$new(BackdropFilter)
 			this.backdropFilter.setModel(this.model)
@@ -926,6 +926,20 @@ export default {
 
 			this.boxShadowBackgroundDiv = parent;
 			this.properties.appendChild(parent);
+
+
+			row = document.createElement("div");
+			content.appendChild(row)
+			this.blurFilter = this.$new(BlurFilter)
+			this.blurFilter.setModel(this.model)
+			this.blurFilter.setCssProps(['blurFilter'])
+			this.own(on(this.blurFilter, "change", lang.hitch(this, "setWidgetStyle", "blurFilter")));
+			this.own(on(this.blurFilter, "changing", lang.hitch(this, "setTempWidgetStyle", "blurFilter")));
+			this._placeAt(this.blurFilter,row);
+
+			this.boxShadowBackgroundDiv = parent;
+			this.properties.appendChild(parent);
+
 
 		},
 

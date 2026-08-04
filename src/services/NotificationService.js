@@ -398,7 +398,21 @@ class NotificationService extends AbstractService{
                     </p>
                 `,
                 title: 'Improved Vector Editing'
-            }            
+            },
+            {
+                matches () {
+                    return true
+                },
+                id:"BLUR2",
+                img: 'Blur.png',
+                more: `
+                    <p>
+                        You can now find a blur filter in the effect section. Use it to soften elements, 
+                        create depth, or blend layers into fancy, dreamy backgrounds. 
+                    </p>
+                `,
+                title: 'Blur Effect'
+            }      
         ]
     }
 
