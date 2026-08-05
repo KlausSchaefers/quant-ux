@@ -10,6 +10,7 @@
         </div>
         <AIChat 
           :messages="messages" 
+          @settings="showSettings"
           @agentResult="onAgentResult" 
           ref="chat" 
           :isDebug="true"
@@ -33,6 +34,13 @@
       Lala
     </div>
 
+    <ZoomDialog ref="settingsDialog">
+      <div class="MatcDialogM  MatcPadding">
+        <AISettings @close="closeSettings" />
+      </div>
+      
+    </ZoomDialog>
+
   </div>
 </template>
 
@@ -53,7 +61,8 @@ import QUX2HTML from '../ai/QUX2HTML'
 //import agent_demo_1 from './data/agent_demo_1.json'
 import agent_demo_empty from './data/agent_demo_empty'
 import ZoomableCanvas from './ZoomableCanvas'
-
+import ZoomDialog from 'common/ZoomDialog'
+import AISettings from 'canvas/toolbar/dialogs/AISettings'
 import Preview from 'page/Preview'
 import QIcon from 'page/QIcon'
 
@@ -81,7 +90,7 @@ export default {
     };
   },
   components: {
-    AIChat, ZoomableCanvas, Preview, QIcon
+    AIChat, ZoomableCanvas, Preview, QIcon, ZoomDialog, AISettings
   },
   computed: {
     screens () {
@@ -172,6 +181,12 @@ export default {
       this.selection = d
     },
     setAccessKey() {
+    },
+    showSettings(e) {
+      this.$refs.settingsDialog.show(e.target)
+    },
+    closeSettings() {
+      this.$refs.settingsDialog.close()
     },
     async run() {
       // const messages = [

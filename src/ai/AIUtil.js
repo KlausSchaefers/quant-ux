@@ -29,15 +29,15 @@ export function getLLM(options, useCache=false) {
     Logger.log(1, 'AIUtil.getLLM() > ', options.provider, useCache)
     let result;
     if (options.provider === 'openai') {
-        result = new OpenAI(options.token)
+        result = new OpenAI(options.tokenOpenAI)
     }
 
     if (options.provider === 'anthropic') {
-        result = new Claude(options.token, this.selectedModel)
+        result = new Claude(options.tokenAnthropic)
     }
 
     if (options.provider === 'gemini') {
-        result =  new Gemini(options.token)
+        result =  new Gemini(options.tokenGemini)
     }
 
     if (useCache && result) {

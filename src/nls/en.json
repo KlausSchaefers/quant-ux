@@ -17,7 +17,7 @@
     "ai": {
         "access_token_info": "We use external AIs from Google, OpenAI or Anthropic to power our AI engine. To use the service, you need to bring your API key. Your API key is stored in your browser and not on our server.",
         "provider": "Select your AI provider",
-        "token": "Your access token"
+        "token": "Access Token"
     },
     "design-gpt": {
         "error-server": "Something went wrong on the server",
