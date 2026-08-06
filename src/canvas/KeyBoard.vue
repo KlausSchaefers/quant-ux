@@ -125,7 +125,8 @@ export default {
             this.stopEvent(e);
           }
         } else if (k == 81) { // q for AI
-           this.openAIEditor()
+           //this.openAIEditor()
+           console.debug(this.getViewPort())
 
         } else if (k == 65) { // a for select
 

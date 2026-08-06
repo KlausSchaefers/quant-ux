@@ -3,8 +3,8 @@
  *
  * Controller -> SVgController -> DesignToken -> Widget -> Screen -> CopyPaste -> Group -> Layer -> Templates ->BaseController
  */
-import SVGController from './SVGController'
+import AIController from './AIController'
 
-export default class Controller extends SVGController {
+export default class Controller extends AIController {
 
 }

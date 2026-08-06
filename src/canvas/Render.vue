@@ -216,6 +216,17 @@ export default {
 			this.$emit("viewport", viewport)
 		},
 
+		getViewPort() {
+			const viewport = {
+				zoom: this.zoom,
+				x: Math.round(-this.canvasPos.x / this.zoom),
+				y: Math.round(-this.canvasPos.y / this.zoom),
+				w: Math.round(this.domPos.w / this.zoom),
+				h: Math.round(this.domPos.h / this.zoom)
+			}
+			return viewport
+		},
+
 		/**********************************************************************
 		 * Container Size
 		 **********************************************************************/

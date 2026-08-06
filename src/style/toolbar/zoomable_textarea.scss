@@ -15,7 +15,7 @@
 .MatcAiChat {
   .MatcAiChatFooter {
     .MatcZoomableTextArea {
-      height: 96px;
+      height: 128px;
       width: 100%;
 
       .MatcZoomableTextAreaBackdrop {
@@ -34,22 +34,42 @@
         }
       }
 
+      .MatcZoomableTextAreaIconInput {
+        padding: 4px;
+      }
+
       .MatcZoomableTextAreaCloseIcon {
         position: absolute;
         top: 4px;
         right: 4px;
       }
 
-      .MatcZoomableTextAreaActionIcons {
+      .MatcZoomableTextAreaAction {
         display: flex;
         align-items: center;
+        justify-content: space-between;
+       
+        .MatcZoomableTextAreaActionIcons {
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .MatcZoomableTextAreaActionSend{
+        background: $primary_color;
+        color:#fff;
+        border-radius: 50%;
+        .MatcQIconSVG {
+          opacity: 1;
+        }
       }
 
       textarea {
         border-radius: $toolbar_form_radius;
         width: 100%;
         height: calc(100% - 24px);
-        padding-bottom: 24px;
+        padding-bottom: 32px;
+        padding-right: 16px;
         scroll-padding: 24px;
         line-height: 1.4;
       }

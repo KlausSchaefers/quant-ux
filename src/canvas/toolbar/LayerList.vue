@@ -73,9 +73,11 @@ export default {
     methods: {
 		onAgentResult (result) {
 			this.logger.log(-1, 'onAgentResult', 'enter', result)
-			// if (this.toolbar) {
-			// 	this.toolbar.emit("newImportApp", { "obj": result, "event": this.toolbar._lastMouseMoveEvent });
-			// }
+			if (this.controller && this.canvas) {
+				const viewPort = this.canvas.getViewPort()
+				const pos = this.controller.addAiResult(result, viewPort)
+				this.canvas.moveToBox(pos)
+			}
 		},
 		onSettings (e) {
 			if (this.toolbar) {

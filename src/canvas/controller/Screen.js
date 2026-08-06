@@ -1303,6 +1303,19 @@ export default class Screen extends CopyPaste {
 	addScreensAndWidgets (result, pos){
 		this.logger.log(-1,"addScreensAndWidgets", "enter > ", pos);
 		this.startModelChange()
+		const app = this._setAddPosition(result, pos)
+		const command = {
+			timestamp : new Date().getTime(),
+			type : "AddScreenAndWidgets",
+			model : app
+		};
+		this.addCommand(command);
+		this.modelAddScreenAndWidgets(app);
+		this.render();
+		this.commitModelChange()
+	}
+
+	_setAddPosition(result, pos) {
 		const app = this._createScreenAndWidgets(result);
 		if (pos) {
 			this.logger.log(-1,"addScreensAndWidgets", "fix position", pos);
@@ -1323,15 +1336,7 @@ export default class Screen extends CopyPaste {
 				})
 			}
 		}
-		const command = {
-			timestamp : new Date().getTime(),
-			type : "AddScreenAndWidgets",
-			model : app
-		};
-		this.addCommand(command);
-		this.modelAddScreenAndWidgets(app);
-		this.render();
-		this.commitModelChange()
+		return app
 	}
 
 

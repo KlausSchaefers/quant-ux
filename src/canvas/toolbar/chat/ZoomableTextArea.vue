@@ -15,23 +15,28 @@
                   <QIcon icon="Minimize" @click.stop="close" v-else/>
                 </div>
 
-                <div class="MatcZoomableTextAreaActionIcons">
-                  <QIcon icon="Settings" @click="onSettings"/>
-                  <QIcon icon="Delete" @click="onClear" />
-                  <div class="MatcZoomableTextAreaActionPopup" ref="cssModePopup">
-                    <div :class="['MatcZoomableTextAreaActionPopupLabel', {'MatcZoomableTextAreaActionPopupLabelActive': showCssModeMenu}]" @click.stop="toggleCssModeMenu">
-                      {{cssModeLabel}}
-                    </div>
-                    <ul class="MatcZoomableTextAreaActionPopupMenu" v-show="showCssModeMenu">
-                      <li v-for="mode in cssModes"
-                        :key="mode.value"
-                        :class="{'MatcZoomableTextAreaActionPopupMenuItemActive': mode.value === cssMode}"
-                        @click="selectCssMode(mode.value)">
-                        {{mode.label}}
-                      </li>
-                    </ul>
+                <div class="MatcZoomableTextAreaAction">
+                  <div class="MatcZoomableTextAreaActionIcons">
+                    <QIcon icon="Settings" @click="onSettings"/>
+                    <QIcon icon="Delete" @click="onClear" />
+
+                     <div class="MatcZoomableTextAreaActionPopup" ref="cssModePopup">
+                        <div :class="['MatcZoomableTextAreaActionPopupLabel', {'MatcZoomableTextAreaActionPopupLabelActive': showCssModeMenu}]" @click.stop="toggleCssModeMenu">
+                          {{cssModeLabel}}
+                        </div>
+                        <ul class="MatcZoomableTextAreaActionPopupMenu" v-show="showCssModeMenu">
+                          <li v-for="mode in cssModes"
+                            :key="mode.value"
+                            :class="{'MatcZoomableTextAreaActionPopupMenuItemActive': mode.value === cssMode}"
+                            @click="selectCssMode(mode.value)">
+                            {{mode.label}}
+                          </li>
+                        </ul>
+                      </div>
                   </div>
-                  <QIcon icon="ArrowUp" @click="onSend" />
+                 
+                  
+                  <QIcon icon="ArrowUp" @click="onSend" class="MatcZoomableTextAreaActionSend" />
               </div>
             </div>
         </div>

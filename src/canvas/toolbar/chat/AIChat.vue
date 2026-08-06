@@ -27,9 +27,9 @@
                 @settings="onSettings"
                 @clear="onClear"
             />
-            
+            <div ref="iframeCntr" class="MatcAiChatIFrame"></div>
         </div>
-        <div ref="iframeCntr" class="MatcAiChatIFrame"></div>
+      
     </div>
 
 </template>
@@ -53,7 +53,15 @@ import Logger from '../../../core/Logger.js';
 export default {
     name: 'AIChat',
     emits: ['change', 'settings', 'add'],
-    props: ['defaultMessage', 'isDebug'],
+    props: {
+        'defaultMessage': {
+            default: 'Generate a landing page for horse tinder',
+            type: String
+        }, 
+        'isDebug': {
+            default: true,
+            type: Boolean
+        }},
     data() {
         return {   
             messages: [

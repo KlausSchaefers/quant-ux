@@ -60,6 +60,7 @@ import {wrapIcon} from 'page/QIconUtil'
 import QSS from 'core/qss/QSS'
 import _Tooltip from 'common/_Tooltip'
 import PerformanceMonitor from '../../../core/PerformanceMonitor'
+import keys from 'dojo/keys'
 
 export default {
     name: 'CreateButton2',
@@ -154,6 +155,7 @@ export default {
 				this.searchBox.focus();
 			}, 250)
 			css.add(this.button,"MatcToolbarItemActive");
+		
 		},
 
 		onHide (){
@@ -189,7 +191,11 @@ export default {
 
 		onSearch (e){
 			e.stopPropagation();
-			var k = e.keyCode ? e.keyCode : e.which
+			const k = e.keyCode ? e.keyCode : e.which
+			if (k === keys.ESCAPE) {
+				this.hideDropDown();
+				return
+			}
 			if (k === 13) {
 				if (this._visibleElements && this._visibleElements.length === 1) {
 					this.onCreate(this._visibleElements[0], e)
@@ -197,7 +203,7 @@ export default {
 				}
 			}
 
-			var query = this.searchBox.value;
+			const query = this.searchBox.value;
 			if(query.length > 1 && this.categories){
 				this.searchQuery = query.toLowerCase();
 				this.renderSearchResult(this.searchQuery);
