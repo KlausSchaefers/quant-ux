@@ -164,5 +164,19 @@ export default {
    "@box-height-xxl": {"value": 320, "type": "height"},
 
    "@card-primary-background": {"value": "#e2e2e2", "type": "color"},
-   "@card-secondary-background": {"value": "#fff", "type": "color"}
+   "@card-secondary-background": {"value": "#fff", "type": "color"},
+   "@card-gradient-background": {"value": {
+          "colors" : [ {
+            "c" : "rgba(255, 255, 255, 0)",
+            "p" : 0.8
+          }, {
+            "c" : "rgba(204, 204, 204, 0.25)",
+            "p" : 100
+          } ],
+          "gradient" : true,
+          "direction" : 0,
+          "gradientHeight" : 300,
+          "gradientWidth" : 30,
+          "selectedHandle" : 0
+        }, "type": "color"}
 }

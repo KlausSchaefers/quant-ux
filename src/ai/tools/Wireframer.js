@@ -177,8 +177,11 @@ export default class Wireframer {
     this.setBorderColor(widget.style, "@form-border-color");
   }
 
+  // eslint-disable-next-line no-unused-vars
   styleImage(widget) {
-    this.setBorderColor(widget.style, "@form-border-color");
+    // TODO: Here is a bug. This will get invisible
+    //this.setBorderColor(widget.style, "@form-border-color");
+    //console.debug(widget)
   }
 
   styleButton(widget) {
@@ -216,6 +219,11 @@ export default class Wireframer {
   // gets card colors instead of button colors.
   styleCard(widget) {
     const background = widget.style ? widget.style.background : undefined;
+
+    if (isGradient(background)){
+      this.setColor(widget.style, "background", "@card-gradient-background");
+      return
+    }
 
     if (!isTransparent(background)) {
       const isPrimary = !isLight(background);
@@ -324,6 +332,13 @@ function isCardSized(widget) {
 
 function isTransparent(color) {
   return !color || color === "rgba(0, 0, 0, 0)" || color === "transparent";
+}
+
+function isGradient(color) {
+  if (color.colors) {
+    return true
+  }
+  return false
 }
 
 function isLight(color) {
