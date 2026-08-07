@@ -116,7 +116,6 @@ export default class HTML2QUX {
 
         Logger.log(-1, 'HTML2QUX.run() > enter', this.isRemoveNonLeafs, this.isRemoveContainers)
 
-        console.time('HTML2QUX.run')
         this.domNode.innerText = ''
         const iframe = document.createElement('iframe')
         iframe.style.width = width + 'px'
@@ -153,6 +152,7 @@ export default class HTML2QUX {
         this.propagateCSS(tree)
         this.cleanTree(tree)
         const app = this.flattenTree(tree, width, height, options)
+      
      
         this.cleanUpModel(app)
         const scalledApp = this.scalledApp(app)
@@ -160,6 +160,7 @@ export default class HTML2QUX {
         
         return layedOutApp
     }
+
 
     printTree(node, prefix=''){
         if (node.children.length > 0) {
@@ -246,7 +247,8 @@ export default class HTML2QUX {
             screens: {},
             widgets: {},
             lines: {},
-            groups: {}
+            groups: {},
+            _w2g: {}
         }
 
         const scrn = {
@@ -269,10 +271,64 @@ export default class HTML2QUX {
 
         app.screens[scrn.id] = scrn
 
-        this.flattenNode(scrn, app, tree)
+        this.flattenNode(scrn, app, tree, null)
     
         return app
     }
+
+    flattenNode (scrn, app, node, parentGroup, prefx = '' ) {
+        //Logger.log(-1, prefx + ' ' + node.id, node)
+        let currentGroup = null;
+        if (node.children.length > 1) {
+            currentGroup = {
+                "id" : node.id,
+                "children" : [node.id],
+                "groups" : [],
+                "name" : node.name
+            }
+            node.name += " Background"
+            app.groups[currentGroup.id] = currentGroup
+           
+        }
+        node.children.forEach(child => {
+
+            if (this.isRemoveScreenOffset) {
+                child.x -= scrn.x
+                child.y -= scrn.y
+            }
+            child._parentID = node.id
+            app.widgets[child.id] = child
+            scrn.children.push(child.id)
+            if (currentGroup) {
+                if (child.children <= 1) {
+                    //console.debug(prefx, 'add leaf', currentGroup.name)
+                    currentGroup.children.push(child.id)
+                } else {
+                    //console.debug(prefx, 'add sub', currentGroup.name)
+                    currentGroup.groups.push(child.id)
+                }
+            }
+            if (child.children.length === 1 && child.children[0]?.props.label && this.isFlattenLabels) {
+                this.flattenLabelIntoParent(child)
+            } else {
+                this.flattenNode(scrn, app, child , currentGroup, prefx + "   ")
+            }
+        })
+    }
+
+    flattenLabelIntoParent (child, errorMargin = 4) {
+        const labelNode = child.children[0];
+        Logger.log(-4, 'HTMLImporter.flattenNode()' , labelNode.props.label)
+        child.props.label = labelNode.props.label
+
+        child.style.paddingLeft = Math.max(0, (labelNode.x - child.x) - errorMargin)
+        child.style.paddingTop = Math.max(0, (labelNode.y - child.y) - errorMargin)
+        child.style.paddingRight = Math.max(0, ((child.x + child.w) - (labelNode.x + labelNode.w)) - errorMargin)
+        child.style.paddingBottom = Math.max(0, ((child.y + child.h) - (labelNode.y + labelNode.h)) - errorMargin)
+
+        child.children = []
+    }
+
 
     cleanUpModel (app) {
 
@@ -379,6 +435,7 @@ export default class HTML2QUX {
             // and remove all the TR, THEAD and TBODY
         }
       
+        delete w._parentID 
         delete w._parent
         delete w.children
         delete w._tag
@@ -434,40 +491,7 @@ export default class HTML2QUX {
   
 
     
-    flattenNode (scrn, app, node, prefx) {
-        //Logger.log(-1, prefx + ' ' + node.id, node)
-        node.children.forEach(child => {
-
-            if (this.isRemoveScreenOffset) {
-                child.x -= scrn.x
-                child.y -= scrn.y
-            }
-
-            app.widgets[child.id] = child
-            scrn.children.push(child.id)
-            if (child.children.length === 1 && child.children[0]?.props.label && this.isFlattenLabels) {
-                this.flattenLabelIntoParent(child)
-            } else {
-                this.flattenNode(scrn, app, child , prefx + "   ")
-            }
-        })
-    }
-
-    flattenLabelIntoParent (child, errorMargin = 4) {
-        const labelNode = child.children[0];
-        Logger.log(-4, 'HTMLImporter.flattenNode()' , labelNode.props.label)
-        child.props.label = labelNode.props.label
-
-        child.style.paddingLeft = Math.max(0, (labelNode.x - child.x) - errorMargin)
-        child.style.paddingTop = Math.max(0, (labelNode.y - child.y) - errorMargin)
-        child.style.paddingRight = Math.max(0, ((child.x + child.w) - (labelNode.x + labelNode.w)) - errorMargin)
-        child.style.paddingBottom = Math.max(0, ((child.y + child.h) - (labelNode.y + labelNode.h)) - errorMargin)
-
-        console.debug(child.props.label, child.style)
-
-        child.children = []
-    }
-
+    
     cleanTree(node) {
         node.children.forEach(child => {
             if (child.style.opacity === 0) {
@@ -692,7 +716,7 @@ export default class HTML2QUX {
    
         const widget = {
             id: 'w' + this.getUUID(),
-            name: this.getWidgetName(widgetType),
+            name: this.getWidgetName(widgetType, node.className),
             _className: node.className,
             _tag: node.tagName,
             type: widgetType,
@@ -716,7 +740,13 @@ export default class HTML2QUX {
         return widget
     }
 
-    getWidgetName (type) {
+    getWidgetName (type, className) {
+        if (className) {
+            return className
+                .split(/[-_]/)
+                .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+                .join(' ')
+        }
         return type
     }
 

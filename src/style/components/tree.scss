@@ -60,6 +60,8 @@
   text-wrap: nowrap;
   overflow: hidden;
   margin: 0px;
+  margin-right: 32px;
+  flex-grow: 1;
 }
 
 input.MatcTreeItemLabel {

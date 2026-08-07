@@ -14,7 +14,7 @@
           @agentResult="onAgentResult" 
           ref="chat" 
           :isDebug="true"
-          :defaultMessage="examples[2]"></AIChat>
+          :defaultMessage="examples[1]"></AIChat>
       </div>
       <div>
         <ZoomableCanvas :cellWidth="model.screenSize.w" :cellHeight="maxScreenHeight">

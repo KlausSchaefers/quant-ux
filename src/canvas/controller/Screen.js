@@ -1394,12 +1394,18 @@ export default class Screen extends CopyPaste {
 
 		const tempGroup = {};
 		const groupedChildren = {};
+		const groupIdMapping = {};
+		for(let groupID in groups){
+			let group = groups[groupID];
+			let newID = "g"+this.getUUID();
+			group.id = newID;
+			groupIdMapping[groupID] = newID;
+		}
 		for(let groupID in groups){
 			let group = groups[groupID];
 
-			if(group.children.length > 1){
-				let newID = "g"+this.getUUID();
-				group.id = newID;
+			if(group.children.length > 1 || group.groups.length > 0){
+				let newID = group.id;
 				tempGroup[newID] = group;
 				let tempChildren = [];
 				for(let i =0; i< group.children.length; i++){
@@ -1416,6 +1422,19 @@ export default class Screen extends CopyPaste {
 					}
 				}
 				group.children = tempChildren;
+
+				let tempSubGroups = [];
+				for(let i = 0; i< group.groups.length; i++){
+					let oldSubGroupID = group.groups[i];
+					if(groupIdMapping[oldSubGroupID]){
+						tempSubGroups.push(groupIdMapping[oldSubGroupID]);
+					} else {
+						console.error("Wooop Woopp. Cannot map old sub group", oldSubGroupID, groupIdMapping);
+					}
+				}
+				group.groups = tempSubGroups;
+			} else {
+				console.warn('Do not import empty group', group)
 			}
 		}
 
@@ -1445,15 +1464,12 @@ export default class Screen extends CopyPaste {
 				console.error("Waap, Waap - Line is not correct", line);
 			}
 		}
-
-
-		var app = {
+		const app = {
 			screens: tempScreens,
 			widgets: tempWidgets,
 			groups: tempGroup,
 			lines: tempLines
 		};
-
 		return app;
 	}
 
