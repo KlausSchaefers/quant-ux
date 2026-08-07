@@ -76,7 +76,7 @@ export default {
 			if (this.controller && this.canvas) {
 				const viewPort = this.canvas.getViewPort()
 				const pos = this.controller.addAiResult(result, viewPort)
-				this.canvas.moveToBox(pos)
+				this.canvas.moveToBox(pos, true)
 			}
 		},
 		onSettings (e) {

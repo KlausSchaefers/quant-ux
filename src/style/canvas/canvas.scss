@@ -109,21 +109,16 @@
 	position: absolute;
 	background-color: #fff;
 	box-shadow:#333 0px 2px 5px;
-	transition-duration: 0.2s;
-	transition-property:opacity;
+	transition: background 0.3s, opacity 0.3s;
 	left:0px;
 	right:0px;
 	transform-origin: 0% 0%;
-}
 
-.MatcCanvasContainerAnimate{
- 	transition: transform 0.35s;
-}
+	&.MatcCanvasContainerAnimatePos {
+		transition: all 0.6s;
+	}
 
-.MatcCanvasContainerAnimatePos{
-	transition: all 0.35s;
 }
-
 
 .MatcCanvasLayer{
 	position: absolute;
