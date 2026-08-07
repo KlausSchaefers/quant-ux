@@ -89,6 +89,7 @@ export default {
 			this.$nextTick(() => {
 				if (this.$refs.aiChat) {
 					this.$refs.aiChat.setModel(this.model)
+					this.$refs.aiChat.setSelection(this.selection)
 				}
 			})
 		},
@@ -812,6 +813,9 @@ export default {
 
 		unSelect () {
 			this.unSelectNodes()
+			if (this.$refs.aiChat) {
+				this.$refs.aiChat.setSelection([])
+			}
 		},
 
 		selectGroup (groupID){
@@ -856,6 +860,9 @@ export default {
 				this.scrollToSelection(ids)
 				this.$forceUpdate()
 			})			
+			if (this.$refs.aiChat) {
+				this.$refs.aiChat.setSelection(ids)
+			}
 		},
 
 		getSelectedWidgetIds () {

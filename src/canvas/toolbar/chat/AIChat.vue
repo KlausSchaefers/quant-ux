@@ -1,11 +1,6 @@
 <template>
     <div class="MatcAiChat">
-        <!-- <div class="MatcAiChatHeader">
-            <div>
-                Chat
-            </div>
-            <IconTrash :size="16" stroke="2" @click="clear" class="luisa-icon"></IconTrash>
-        </div> -->
+   
         <div class="MatcAiChatBody">
 
 
@@ -17,7 +12,12 @@
 
         </div>
         <div class="MatcAiChatFooter">
-    
+            <div class="MatcAiChatSelection">
+                <template v-if="selection?.length" >
+                    <span >Selection <QIcon icon="DeleteX" @click="clearSelection"/></span>
+                    
+                </template>
+            </div>
             <ZoomableTextArea 
                 :defaultMessage="defaultMessage"
                 :cssMode="cssMode"
@@ -48,7 +48,7 @@ import Agent from '../../../ai/Agent.js';
 import CachedLLM from '../../../ai/llm/CachedLLM.js';
 import HTML2QUX from '../../../ai/HTML2QUX'
 import Logger from '../../../core/Logger.js';
-// import QIcon from 'page/QIcon'
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'AIChat',
@@ -76,12 +76,13 @@ export default {
             progressMessage: 'Thinking...',
             status: {
                 busy: false
-            }
+            },
+            selection:[]
         }
 
     },
     components: {
-        AIChatMessage, ZoomableTextArea//, QIcon
+        AIChatMessage, ZoomableTextArea, QIcon
     },
     computed: {
         statusMessage() {
@@ -143,8 +144,13 @@ export default {
             }
         },
         setModel (m) {
-            //console.debug('setModel', m)
             this.model = m
+        },
+        setSelection(s) {
+            this.selection = s
+        },
+        clearSelection() {
+            this.selection = []
         },
         onCSSMode(cssMode) {
             this.cssMode = cssMode

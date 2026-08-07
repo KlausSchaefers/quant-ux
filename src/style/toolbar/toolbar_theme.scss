@@ -678,3 +678,9 @@ div.MatcToolbarViewConfigCntrSpace {
     background: $popup_background;
     color: $popup_color;
 }
+
+.MatcAiChatSelection{
+  span {
+     background: $toolbar_form_background_hover;
+  }
+}
