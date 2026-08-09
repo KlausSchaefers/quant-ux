@@ -1,41 +1,57 @@
 import Tool from "./Tool";
 export default class IntendTool extends Tool {
-  constructor(llm, model, options, progressCallback, html2QUX) {
-    super(llm, model, options, progressCallback, html2QUX);
+  
+  constructor(llm, context, options, progressCallback, html2QUX) {
+    super(llm, context, options, progressCallback, html2QUX);
   }
 
   async invoke(messages) {
     const message = this.getUserMessages(messages);
 
+    // provider-agnostic tool definition (see LLM.runToolCalls doc)
+    const tools = [
+      this.createTool(
+        "create_screen",
+        `
+          Create a new screen based on the users description.
+        `,
+        {
+          messages: { type: "string", description: "The user's description of the screen to create." },
+        }
+      ),
+      this.createTool(
+        "ask_user",
+        `
+          Ask the user a clarifying question when the request is unclear or
+          missing information needed to proceed. Use this tool when you don't
+          think any other tool would be suitable.
+        `,
+        {
+          question: { type: "string", description: "The question to ask the user." },
+        }
+      ),
+    ];
+
     const prompt = `
+        You are an design agent. Please select the right tool 
+        for the given user request. If you think no tool
+        fits, return no result
 
-            ${this.promptHTML()}
-
-            ${this.promptScreenSize()}
-
-            Please generate a screen:
-
-            ${message}
-
-            ${this.promptRules()}
-            
-            Return the result as HTML. 
-        `;
+        ${message}
+    `;
 
     const aiMessages = [
       {
         role: "system",
         content: this.promptSystem(),
       },
-      { 
-          role: "user", 
-          content: prompt 
+      {
+        role: "user",
+        content: prompt,
       },
     ];
 
-
-    this.progressCallback("Generate Screen...")
-    const res = await this.llm.runHTMLPrompt(aiMessages);
+    const res = await this.llm.runToolCalls(aiMessages, tools);
 
     if (res.error) {
       return {
@@ -43,61 +59,26 @@ export default class IntendTool extends Tool {
       };
     }
 
-    const html = res.html
-    const app = await this.html2QUX.run(
-      html, 
-      this.screenSize.w, 
-      this.screenSize.h, 
-      this.options
-    )
+    return res.toolCalls
+  }
 
-
+  createTool(name, description, properties) {
     return {
-      html: html,
-      app: app,
-      prompt: prompt,
-      usage: res.usage,
+      name: name,
+      description: description.trim(),
+      parameters: {
+        type: "object",
+        properties: properties,
+        required: Object.keys(properties),
+      },
     };
-  }
-
-  promptHTML() {
-    return `
-          Return HTML markup with inline css or complete CSS classes defined in the head. A valid result would look like
-
-          \`\`\`html
-              <html>...
-              </html>
-          \`\`\`
-
-      `;
-  }
-
-  promptScreenSize() {
-    if (this.screenSize.w < 500) {
-      return `Please design for a mobile app. The maximum screen size is ${this.screenSize.w}px. 
-            This means most of the content should be stacked below each other. You can 
-            still use horizontal alignment, but don't put more then 3 elements in one row.`;
-    }
-    return `
-            Plese design a desktop application with a screensize of ${this.screenSize.w}px. You should make
-            use of the width and not make the HTML any wider. 
-        `;
-  }
-
-  promptRules() {
-    // box-sizing: border-box;
-    // for strong text always use h1 to h6
-    return `
-            Important! Please follow this additonal rules when designing the screen:
-
-            - Do not place any "Section" in another "Section". Section should be only used under the "Screen" element.
-        `;
   }
 
   promptSystem() {
     return `
-            You are design GPT. You are really good at designing websites, app and all other kind of user interfaces. You are very create 
-            and create beautiful designs and code them in HTML.
-        `;
+        You are an design agent. Please select the right tool 
+        for the given user request. If you think no tool
+        fits, return no result 
+    `;
   }
 }

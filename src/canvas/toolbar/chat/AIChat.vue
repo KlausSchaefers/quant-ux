@@ -118,10 +118,13 @@ export default {
             this.status.busy = true;
 
             try {
+                const context = {
+                    model: this.model
+                }
                 const html2QUX = new HTML2QUX(this.$refs.iframeCntr)
                 const agent = new Agent(
                     llm, 
-                    this.model, 
+                    context,
                     options, 
                     html2QUX,
                     (m) => {

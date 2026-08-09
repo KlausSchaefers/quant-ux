@@ -85,7 +85,8 @@ export default {
       examples: [
         'Generate a landing page for a petshop',
         'Generate a landing page for horse tinder',
-        'Generate a web form for a pet clinic. The users want to register for an appointment. The form should aks for the name, the email, the type of animal (cat, dog, other) and the age of the animal.'
+        'Generate a web form for a pet clinic. The users want to register for an appointment. The form should aks for the name, the email, the type of animal (cat, dog, other) and the age of the animal.',
+        'Delete the image from the screen',
       ]
     };
   },

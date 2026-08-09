@@ -3,8 +3,9 @@ import Tool from "./Tool";
 import QSS from "../../core/qss/QSS";
 import Wireframer from "./Wireframer";
 export default class ScreenTool extends Tool {
-  constructor(llm, model, options, progressCallback, html2QUX) {
-    super(llm, model, options, progressCallback, html2QUX);
+
+  constructor(llm, context, options, progressCallback, html2QUX) {
+    super(llm, context, options, progressCallback, html2QUX);
   }
 
   async invoke(messages) {

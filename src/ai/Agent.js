@@ -1,11 +1,12 @@
 import Logger from "../core/Logger";
-import StructureTool from './tools/StructureTool'
+import IntendTool from './tools/IntendTool'
 import ScreenTool from './tools/ScreenTool'
 export default class Agent {
 
-  constructor(llm, model, options, html2QUX, progressCallback) {
+  constructor(llm, context, options, html2QUX, progressCallback) {
     this.llm = llm;
-    this.model = model;
+    this.context = context;
+    this.model = context.model
     this.options = options;
     this.progressCallback = progressCallback; 
     this.html2QUX = html2QUX
@@ -15,9 +16,9 @@ export default class Agent {
         options.isRemoveNonLeafs = true
         options.isRemoveContainers = true
     }
-
-    this.structureTool = new StructureTool(llm, model, options, progressCallback);
-    this.screenTool = new ScreenTool(llm, model, options, progressCallback, html2QUX);
+    this.intendTool = new IntendTool(llm, context, options, progressCallback);
+    //this.structureTool = new StructureTool(llm, context, options, progressCallback);
+    this.screenTool = new ScreenTool(llm, context, options, progressCallback, html2QUX);
   }
 
 
@@ -35,7 +36,16 @@ export default class Agent {
     };
 
     // 1) think about a good structure
-    this.onProgress(" - Plan main structure...");
+    this.onProgress(" - Check intend...");
+
+    const tools = await this.intendTool.invoke(messages)
+    Logger.log(-1, 'Agent.run() > tools: ', tools)
+    if (tools.length === 0) {
+      this.onProgress("I can't help you.");
+      return {
+        changes: []
+      } 
+    }
 
     const {app, html} = await this.screenTool.invoke(messages)
     result._html[Object.values(app.screens)[0]?.id] = html

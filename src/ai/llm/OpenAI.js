@@ -16,22 +16,54 @@ export default class OpenAI extends LLM {
     return this.modelDefault;
   }
 
-
-  async runPrompt(messages, llmLevel='high') {
+  /**
+   * tools: provider-agnostic tool definitions (see LLM.runToolCalls doc), e.g.
+   *   [{ name, description, parameters }]
+   * Adapted here into the Responses API's flat shape:
+   *   [{ type: "function", name, description, parameters }]
+   * Returns the assistant text plus any requested tool calls:
+   *   { content, toolCalls: [{ id, callId, name, arguments }], usage, status }
+   * `arguments` is parsed from the JSON string OpenAI returns.
+   */
+  async runToolCalls(messages, tools, llmLevel='high') {
     const data = {
-        model: this.getModel(llmLevel),
-        messages: messages      
+      model: this.getModel(llmLevel),
+      input: messages,
+      tools: this._toOpenAITools(tools),
     };
     try {
-      const res = await this._post("https://api.openai.com/v1/chat/completions", data);
+      const res = await this._post("https://api.openai.com/v1/responses", data);
 
-      if (res.choices && res.choices.length > 0) {
-        const choice = res.choices[0];
-        const content = choice?.message?.content;
+      if (res.output) {
+        const content = res.output
+          .filter((item) => item.type === "message")
+          .flatMap((item) => item.content || [])
+          .filter((part) => part.type === "output_text")
+          .map((part) => part.text)
+          .join("");
+
+        const toolCalls = res.output
+          .filter((item) => item.type === "function_call")
+          .map((item) => {
+            let args = item.arguments;
+            try {
+              args = JSON.parse(args);
+            } catch (err) {
+              console.error("OpenAI.runToolCalls() > could not parse arguments", err);
+            }
+            return {
+              id: item.id,
+              callId: item.call_id,
+              name: item.name,
+              arguments: args,
+            };
+          });
+
         return {
           content: content,
+          toolCalls: toolCalls,
           usage: res.usage,
-          finish_reason: choice.finish_reason,
+          status: res.status,
         };
       }
       if (res.error) {
@@ -54,6 +86,59 @@ export default class OpenAI extends LLM {
     return {
       error: "error-no-idea",
     };
+  }
+
+  async runPrompt(messages, llmLevel='high') {
+    const data = {
+      model: this.getModel(llmLevel),
+      input: messages,
+    };
+    try {
+      const res = await this._post("https://api.openai.com/v1/responses", data);
+
+      if (res.output) {
+        const content = res.output
+          .filter((item) => item.type === "message")
+          .flatMap((item) => item.content || [])
+          .filter((part) => part.type === "output_text")
+          .map((part) => part.text)
+          .join("");
+
+        return {
+          content: content,
+          usage: res.usage,
+          status: res.status,
+        };
+      }
+      if (res.error) {
+        if (res.error.code === "invalid_api_key") {
+          return {
+            error: "error-server-key",
+          };
+        }
+        if (res.error.code === "insufficient_quota") {
+          return {
+            error: "error-insufficient_quota",
+          };
+        }
+      }
+    } catch (err) {
+      return {
+        error: "error-server",
+      };
+    }
+    return {
+      error: "error-no-idea",
+    };
+  }
+
+  _toOpenAITools(tools = []) {
+    return tools.map((tool) => ({
+      type: "function",
+      name: tool.name,
+      description: tool.description,
+      parameters: tool.parameters,
+    }));
   }
 
   _createDefaultHeader() {

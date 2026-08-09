@@ -1,12 +1,13 @@
 export default class Tool {
 
-  constructor(llm, model, options, progressCallback, html2QUX) {
+  constructor(llm, context, options, progressCallback, html2QUX) {
     this.llm = llm;
-    this.model = model;
+    this.context = context;
+    this.model = context.model
     this.options = options;
     this.progressCallback = progressCallback; 
     this.html2QUX = html2QUX
-    this.screenSize = model.screenSize
+    this.screenSize = this.model.screenSize
   }
 
  getUserMessages(messages) {

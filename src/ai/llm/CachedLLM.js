@@ -23,6 +23,21 @@ export default class CachedLLM extends LLM {
     return res;
   }
 
+  async runToolCalls(messages = [], tools = [], llmLevel = 'high') {
+    const key = this._createKey({ messages, tools }, llmLevel);
+    const cached = this._getFromCache(key);
+    if (cached) {
+      console.debug('CachedLLM.runToolCalls() > cache hit', key);
+      return cached;
+    }
+
+    const res = await this.llm.runToolCalls(messages, tools, llmLevel);
+    if (!res.error) {
+      this._saveToCache(key, res);
+    }
+    return res;
+  }
+
   parseJSON(content) {
     return this.llm.parseJSON(content);
   }

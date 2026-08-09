@@ -2,8 +2,8 @@ import Tool from "./Tool"
 
 export default class StructureTool extends Tool {
 
-  constructor(llm, model, options, progressCallback) {
-    super(llm, model, options, progressCallback)
+  constructor(llm, context, options, progressCallback) {
+    super(llm, context, options, progressCallback)
   }
 
 

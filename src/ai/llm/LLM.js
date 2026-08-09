@@ -1,5 +1,20 @@
 export default class LLM {
 
+  /**
+   * Provider-agnostic tool definition, passed to runToolCalls() as:
+   *   [{ name, description, parameters }]
+   * where "parameters" is a JSON Schema object (type: "object", properties, required).
+   * Each LLM implementation adapts this shape to its own wire format
+   * (e.g. OpenAI's Responses API, Anthropic's input_schema, Gemini's functionDeclarations).
+   *
+   * Returns: { content, toolCalls: [{ id, name, arguments }], usage, error }
+   * "arguments" is already parsed into an object.
+   */
+  // eslint-disable-next-line no-unused-vars
+  async runToolCalls(messages, tools, llmLevel='high') {
+    throw new Error("Method 'runToolCalls' must be implemented.");
+  }
+
   // eslint-disable-next-line no-unused-vars
   async runPrompt(messages = [], llmLevel='high') {
     throw new Error("Method 'runPrompt' must be implemented.");

@@ -8,6 +8,94 @@ export default class Claude extends LLM {
     this.embeddingModel = embeddingModel;
   }
 
+  /**
+   * tools: provider-agnostic tool definitions (see LLM.runToolCalls doc), e.g.
+   *   [{ name, description, parameters }]
+   * Adapted here into Anthropic's shape:
+   *   [{ name, description, input_schema }]
+   * Returns the assistant text plus any requested tool calls:
+   *   { content, toolCalls: [{ id, name, arguments }], usage, finish_reason }
+   */
+  async runToolCalls(messages, tools) {
+    try {
+      const systemPrompt = messages.find((m) => m.role === "system")?.content;
+      const prompt = messages.find((m) => m.role === "user")?.content;
+
+      if (!systemPrompt || !prompt) {
+        return {
+          error: "error-wrong prompt",
+        };
+      }
+
+      const data = {
+        model: this.model,
+        max_tokens: 5000,
+        temperature: 1,
+        system: systemPrompt,
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        tools: this._toClaudeTools(tools),
+      };
+
+      const res = await this._post("https://api.anthropic.com/v1/messages", data);
+
+      if (res.content) {
+        const content = res.content
+          .filter((block) => block.type === "text")
+          .map((block) => block.text)
+          .join("");
+
+        const toolCalls = res.content
+          .filter((block) => block.type === "tool_use")
+          .map((block) => ({
+            id: block.id,
+            name: block.name,
+            arguments: block.input,
+          }));
+
+        return {
+          content: content,
+          toolCalls: toolCalls,
+          usage: res.usage,
+          finish_reason: res.stop_reason,
+        };
+      }
+
+      if (res.error) {
+        if (res.error.type === "authentication_error") {
+          return {
+            error: "error-server-key",
+          };
+        }
+        if (res.error.type === "rate_limit_error") {
+          return {
+            error: "error-insufficient_quota",
+          };
+        }
+      }
+    } catch (error) {
+      console.error("Claude.runToolCalls error", error);
+      return {
+        error: "error-json",
+      };
+    }
+    return {
+      error: "error-no-idea",
+    };
+  }
+
+  _toClaudeTools(tools = []) {
+    return tools.map((tool) => ({
+      name: tool.name,
+      description: tool.description,
+      input_schema: tool.parameters,
+    }));
+  }
+
   async runPrompt(messages) {
     try {
       const systemPrompt = messages.find((m) => m.role === "system")?.content;
