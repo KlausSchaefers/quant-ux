@@ -85,9 +85,9 @@ export default {
                     {value: 'ab', icon: 'AB', label: this.getNLS('toolbar.create.ab')},
                     {value: 'script', icon: 'JS', label: this.getNLS('toolbar.create.script')},
                     {value: 'audio', icon: 'Audio', label: this.getNLS('toolbar.create.audio')}
-                ]},
-                {value: 4, css:'MatcToolbarPopUpLine'},
-                {value: 'ai', icon: 'AI', label: this.getNLS('toolbar.create.gpt')},
+                ]}
+                // {value: 4, css:'MatcToolbarPopUpLine'},
+                // {value: 'ai', icon: 'AI', label: this.getNLS('toolbar.create.gpt')},
             ]
         }
     },

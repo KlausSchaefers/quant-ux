@@ -24,7 +24,6 @@ import Help from 'help/Help'
 import Share from 'page/Share'
 
 import ImportDialog from 'canvas/toolbar/dialogs/ImportDialog'
-//import DesignGPTDialogSmall from 'canvas/toolbar/dialogs/DesignGPTDialogSmall'
 import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
 import ExportDialog from 'canvas/toolbar/dialogs/ExportDialog'
 import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
@@ -43,7 +42,7 @@ export default {
 	components: {},
 	methods: {
 		showAISettings(e) {
-			this.logger.log(0, "showAISettings", "entry > ", this.isPublic);
+			this.logger.log(-1, "showAISettings", "entry > ", this.isPublic);
 
 			const d = new Dialog();
 			const db = new DomBuilder();
