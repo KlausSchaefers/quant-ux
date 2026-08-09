@@ -1,4 +1,5 @@
 import Logger from '../core/Logger.js';
+import ModelUtil from '../core/ModelUtil.js';
 
 import ResponsiveLayout from '../core/responsive/ResponsiveLayout'
 // import * as Layouter from './Layouter'
@@ -148,12 +149,13 @@ export default class HTML2QUX {
         //console.debug('HTML2QUX.parseIFrame() > scrollWidth', body.scrollWidth, 'width', width)
 
         const tree = this.createWidget(body)
+        tree._isRoot = true
         this.parseNode(body, tree)
         this.propagateCSS(tree)
-        this.cleanTree(tree)
+        this.cleanTree(tree, true)
+        //this.printTree(tree)
         const app = this.flattenTree(tree, width, height, options)
       
-     
         this.cleanUpModel(app)
         const scalledApp = this.scalledApp(app)
         const layedOutApp = this.layoutApp(scalledApp)
@@ -161,18 +163,110 @@ export default class HTML2QUX {
         return layedOutApp
     }
 
+    cleanTree(node) {
+        if (node.children.length === 1) {
+            const child = node.children[0]
+            const isQualSize = child.w === node.w && 
+                               child.h == node.h
+                               child.x === 0 &&
+                               child.y === 0
 
-    printTree(node, prefix=''){
-        if (node.children.length > 0) {
-            console.debug(prefix, '+', '<' + node._tag + '>', node.type, ' >> '+ node.props.label)
-            node.children.forEach(child => {
-                this.printTree(child, prefix + '   ')
-            })
-        } else {
-            console.debug(prefix, '-', '<' + node._tag + '>', node.type, ' >> '+ node.props.label)
+            //console.debug(child.w === node.w, child.h == node.h, child.x, child.y)
+            if (isQualSize) {
+           
+                Logger.log(-1,'HTMLImporter.cleanTree() > Remove Single root child', child._tag);
+                
+                node.children = child.children
+                node.style = child.style
+               
+            }
         }
-       
+        node.children.forEach(child => {
+            if (child.style.opacity === 0) {
+                Logger.log(1, 'HTMLImporter.cleanTree() > Opacity' , child)
+                child.children = []
+            }
+            this.cleanTree(child)
+        })
     }
+
+
+    cleanUpModel (app) {
+
+        Object.values(app.screens).forEach(s => {
+            this.cleanUpScreen(s, app)
+        })
+
+        Object.values(app.widgets).forEach(w => {
+            this.setDefaultStyle(w)
+            this.setCustomStyle(w)
+            this.cleanUpWidget(w)
+        })
+
+        // check for one roo group
+        const allCount = Object.values(app.widgets).length
+        const deleteGroups = []
+        Object.values(app.groups).filter(g => {
+            const gCount = ModelUtil.getAllGroupChildren(g, app).length
+            if (gCount >= allCount) {
+                return deleteGroups.push(g.id)
+            }
+        })
+
+        deleteGroups.forEach(id => {
+            Logger.log(-1, 'HTML2QUX.cleanUpModel() > remove super group', id)
+            delete app.groups[id]
+        })
+
+        return app
+    }
+
+    cleanUpScreen(s, app) {
+        this.removeHiddenElements(s, app)
+        s.h = getScreenHeight(s, app)
+        s.w = app.screenSize.w
+        s.x = 0
+        s.y = 0
+        delete s._type
+        delete s._isRoot
+        if (this.defaultStyle) {
+            s.style = {
+                background: this.defaultStyle['Screen'].background
+            }
+        } else {
+            s.style = {
+                background: s.style.background
+            }
+        }
+        
+    }
+
+    cleanUpWidget (w) {
+
+        for (let key in w.style) {
+            if (!nullableStyles.has(key)){
+                const value = w.style[key]
+                if (value === null) {
+                    delete w.style[key]
+                }
+            }         
+        }
+
+        if (!this.isParseTable) {
+            //we could add here some table groups
+            // and remove all the TR, THEAD and TBODY
+        }
+      
+        delete w._isRoot
+        delete w._parentID 
+        delete w._parent
+        delete w.children
+        delete w._tag
+        delete w._type
+        delete w._className
+        delete w._flexDirection
+    }
+
 
     layoutApp (app) {
         Logger.log(1, 'HTMLImporter.layoutApp() > grid ', this.grid)
@@ -330,20 +424,6 @@ export default class HTML2QUX {
     }
 
 
-    cleanUpModel (app) {
-
-        Object.values(app.screens).forEach(s => {
-            this.cleanUpScreen(s, app)
-        })
-
-        Object.values(app.widgets).forEach(w => {
-            this.setDefaultStyle(w)
-            this.setCustomStyle(w)
-            this.cleanUpWidget(w)
-        })
-
-        return app
-    }
 
     setDefaultStyle (w) {
         if (this.defaultStyle) {
@@ -399,52 +479,6 @@ export default class HTML2QUX {
         
     }
 
-    
-    cleanUpScreen(s, app) {
-        this.removeHiddenElements(s, app)
-        s.h = getScreenHeight(s, app)
-        s.w = app.screenSize.w
-        s.x = 0
-        s.y = 0
-        delete s._type
-        if (this.defaultStyle) {
-            s.style = {
-                background: this.defaultStyle['Screen'].background
-            }
-        } else {
-            s.style = {
-                background: s.style.background
-            }
-        }
-        
-    }
-
-    cleanUpWidget (w) {
-
-        for (let key in w.style) {
-            if (!nullableStyles.has(key)){
-                const value = w.style[key]
-                if (value === null) {
-                    delete w.style[key]
-                }
-            }         
-        }
-
-        if (!this.isParseTable) {
-            //we could add here some table groups
-            // and remove all the TR, THEAD and TBODY
-        }
-      
-        delete w._parentID 
-        delete w._parent
-        delete w.children
-        delete w._tag
-        delete w._type
-        delete w._className
-        delete w._flexDirection
-    }
-
-
     removeHiddenElements (scrn, app) {
         const newChildren = []
         scrn.children.forEach(id => {
@@ -492,15 +526,7 @@ export default class HTML2QUX {
 
     
     
-    cleanTree(node) {
-        node.children.forEach(child => {
-            if (child.style.opacity === 0) {
-                Logger.log(1, 'HTMLImporter.cleanTree() > Opacity' , child)
-                child.children = []
-            }
-            this.cleanTree(child)
-        })
-    }
+
 
     parseNode (node, parent, prefx='BODY.', logLevel = 1) {
        
@@ -741,7 +767,7 @@ export default class HTML2QUX {
     }
 
     getWidgetName (type, className) {
-        if (className) {
+        if (className && className.split) {
             return className
                 .split(/[-_]/)
                 .map(part => part.charAt(0).toUpperCase() + part.slice(1))
@@ -1031,6 +1057,17 @@ export default class HTML2QUX {
 
     }
 
+    
+    printTree(node, prefix=''){
+        if (node.children.length > 0) {
+            console.debug(prefix, '+', '<' + node._tag + '>', node.type, ' >> '+ node.props.label)
+            node.children.forEach(child => {
+                this.printTree(child, prefix + '   ')
+            })
+        } else {
+            console.debug(prefix, '-', '<' + node._tag + '>', node.type, ' >> '+ node.props.label)
+        }
+    }
     
 }
 

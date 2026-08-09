@@ -9,7 +9,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@google/genai": "^2.13.0",
     "bulma": "^0.9.4",
     "compression": "^1.7.4",
     "d3": "^7.6.1",
@@ -26,7 +25,6 @@
     "prando": "^6.0.1",
     "pretty": "^2.0.0",
     "qrcode": "^1.5.0",
-    "remixicon": "^3.5.0",
     "sanitize-html": "^2.17.6",
     "showdown": "^2.1.0",
     "simplebar": "^5.3.8",
@@ -56,8 +54,8 @@
     "jest": "^27.5.1",
     "jest-environment-jsdom": "^27.5.1",
     "node-fetch": "^2.6.9",
-    "sass": "^1.32.7",
-    "sass-loader": "^12.0.0",
+    "sass": "^1.102.0",
+    "sass-loader": "^17.0.0",
     "vue-jest": "^3.0.7",
     "vue-template-compiler": "^2.6.14"
   }
