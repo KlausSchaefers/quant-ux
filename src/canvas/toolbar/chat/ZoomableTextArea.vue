@@ -52,6 +52,7 @@
 <script>
 
 import QIcon from 'page/QIcon'
+import * as Util from '../../../ai/AIUtil'
 // import { IconWindowMaximize, IconWindowMinimize } from '@tabler/icons-vue';
 
 export default {
@@ -63,12 +64,7 @@ export default {
         text: '',
         isMax: false,
         showCssModeMenu: false,
-        cssModes: [
-            { label: "Wireframe Minimal", value: "wireframe_minimal" },
-            { label: "Wireframe", value: "wireframe" },
-            { label: "Creative", value: "creative" },
-            { label: "Use Styles", value: 'dls' }
-        ]
+        cssModes: Util.getAllCssModes()
     }
   },
   components: {

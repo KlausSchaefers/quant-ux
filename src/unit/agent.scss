@@ -67,5 +67,13 @@ $chat_message_color_assistant :  #172b7f;
   width: auto;
   overflow: auto;
   z-index: 1000;
+  background: #fff;
+
+  code {
+    white-space:pre;
+    padding: 8px;
+    font-size: 8px;
+    background: #fff;
+  }
 }
 

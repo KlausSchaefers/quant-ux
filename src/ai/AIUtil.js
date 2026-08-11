@@ -13,6 +13,15 @@ export function getOptions() {
     }
 }
 
+export function getAllCssModes() {
+    return [
+        { label: "Wireframe Minimal", value: "wireframe_minimal" },
+        { label: "Wireframe", value: "wireframe" },
+        { label: "Creative", value: "creative" },
+        { label: "Use Styles", value: 'useStyles' }
+    ]
+}
+
 export function setCSSMode(cssMode){
     localStorage.setItem('quxAICssMode', cssMode)
 }

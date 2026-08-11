@@ -2,6 +2,7 @@ import Logger from "../../core/Logger";
 import Tool from "./Tool";
 import QSS from "../../core/qss/QSS";
 import Wireframer from "./Wireframer";
+import ModelUtil from "../../core/ModelUtil";
 export default class ScreenTool extends Tool {
 
   constructor(llm, context, options, progressCallback, html2QUX) {
@@ -16,6 +17,8 @@ export default class ScreenTool extends Tool {
             ${this.promptHTML()}
 
             ${this.promptScreenSize()}
+
+            ${this.promptDesignSystem()}
 
             Please generate a screen:
 
@@ -55,6 +58,12 @@ export default class ScreenTool extends Tool {
       this.options
     )
 
+    Object.values(app.widgets).forEach(w => {
+      if (!w.style.fontFamily) {
+        console.debug(w)
+      }
+    })
+
     const styledApp = this.applyStyle(app)
 
     return {
@@ -77,6 +86,14 @@ export default class ScreenTool extends Tool {
     return wireframer.apply(app)
   }
 
+  promptDesignSystem () {
+    Logger.log(-1, 'ScreenTool.promptDesignSystem() > enter', this.options.cssMode)
+    if (this.options.cssMode !== 'useStyles') {
+      return ''
+    }
+
+
+  }
   promptHTML() {
     return `
           Return HTML markup with inline css or complete CSS classes defined in the head. A valid result would look like
@@ -105,10 +122,18 @@ export default class ScreenTool extends Tool {
     // box-sizing: border-box;
     // for strong text always use h1 to h6
     // do not use hidden form elements that are usually used for accessability
+    const fonts = ModelUtil.getFontFamilies()
+        .filter(f => f.value)
+        .map(f => `'${f.value}'`)
+        .join(',')
+    //console.debug(fonts)
     return `
             Important! Please follow this additonal rules when designing the screen:
-
+            - use always box-sizing: border-box;
+            - Do not use hidden form elements
+            - do not rotate elements. Do not use css transform:rotate().
             - Do not place any "Section" in another "Section". Section should be only used under the "Screen" element.
+            - Use one of these fonts: ${fonts}    
         `;
   }
 

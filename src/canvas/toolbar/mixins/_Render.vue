@@ -49,6 +49,7 @@ import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
 
 import Services from 'services/Services'
 import {iconDOM} from 'page/QIconUtil'
+import ModelUtil from '../../../core/ModelUtil'
 
 export default {
     name: '_Render',
@@ -1612,28 +1613,7 @@ export default {
 		},
 
 		_getFontFamilies (){
-			let fonts = [
-				{ value: 'Helvetica Neue,Helvetica,Arial,sans-serif', label: "Helvetica Neue",  css:"MatchFont MatchFontHelvetica"},
-				{ value:"Arial, sans-serif", label:"Arial", css:"MatchFont MatchFontArial"},
-				{ value: 'Arial Black, Gadget, sans-serif', label : "Arial Black", css:"MatchFont MatchFontArialBlack"},
-
-				{ value: 'Inter, sans-serif', label: "Inter",  css:"MatchFont MatchSourceInter"},
-				{ value: 'Source Sans Pro, sans-serif', label: "Source Sans Pro",  css:"MatchFont MatchSourceSansPro"},
-				{ value: 'Roboto, sans-serif', label: "Roboto",  css:"MatchFont MatchFontRoboto"},
-
-				{ value:"Comic Sans MS, cursive, sans-serif", label:"Comic Sans MS", css:"MatchFont MatchFontComic"},
-				{ value:"Impact, Charcoal, sans-serif", label:"Impact", css:"MatchFont MatchFontImpact"},
-				{ value:"Lucida Sans Unicode, Lucida Grande, sans-serif", label:"Lucida", css:"MatchFont MatchFontLucida"},
-				{ value:"Tahoma, Geneva, sans-serif", label:"Tahoma", css:"MatchFont MatchFontTahoma"},
-
-				{ css:"MatcToolbarPopUpLine"},
-				{ value:"Georgia, serif", label:"Georgia", css:"MatchFont MatchFontGeorgia"},
-				{ value : '"Palatino Linotype", "Book Antiqua", Palatino, serif', label:"Palatino", css: "MatchFontPalatino"},
-				{ value: 'Times New Roman, Times, serif', label:"Times New Roman", css:" MatchFont MatchFontTimesNewRoman"},
-
-				{ css:"MatcToolbarPopUpLine"},
-				{ value:"Courier New, Courier, monospace", label:"Courier New", css:"MatchFont MatchFontCourier"}
-			];
+			let fonts = ModelUtil.getFontFamilies()
 
 			if (this.model.fonts) {
 				fonts.push({ css:"MatcToolbarPopUpLine"});

@@ -73,7 +73,7 @@ export default {
 
 		  this.family.setValue(style.fontFamily);
 		  this.fontSize.setValue(style.fontSize);
-		  this.fontWeight.setValue(style.fontWeight == "bold");
+		  this.fontWeight.setValue(style.fontWeight === "bold" || style.fontWeight === 700 || style.fontWeight === 600);
 		  this.fontStyle.setValue(style.fontStyle == "italic");
 		  this.textDecoration.setValue(style.textDecoration == "underline");
 		  this.textAlign.setValue(style.textAlign);
@@ -162,7 +162,7 @@ export default {
 	  */
 
 	  this.letterSpacing = this.$new(ToolbarDropDownButton, {hasCaret:false, icon: 'TextLetterSpacing'});
-	  this.letterSpacing.setOptions([0,1,2,4,5,6,7,8,9,10,20,30]);
+	  this.letterSpacing.setOptions([-2,-1, 0, 1, 1.2, 1.4, 1.6, 2, 2.4, 2.8, 3]);
 	  //this.letterSpacing.setLabel('<span class="mdi mdi-format-text-rotation-none"></span>');
 	  this.letterSpacing.reposition = true;
 	  this.letterSpacing.updateLabel  =false;
@@ -173,7 +173,7 @@ export default {
 	  this.addTooltip(this.letterSpacing.domNode, "Letter Spacing");
 
 	  this.lineHeight = this.$new(ToolbarDropDownButton, {hasCaret:false, icon:"TextLineHeight"});
-	  this.lineHeight.setOptions([1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,1.7,1.8,1.9, 2, 2.5, 3]);
+	  this.lineHeight.setOptions([0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,1.7,1.8,1.9, 2, 2.5, 3]);
 	  //this.lineHeight.setLabel('<span class="mdi mdi-format-line-spacing"></span>');
 	  this.lineHeight.reposition = true;
 	  this.lineHeight.updateLabel  =false;

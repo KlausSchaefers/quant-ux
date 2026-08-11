@@ -176,8 +176,8 @@ export default class HTML2QUX {
            
                 Logger.log(-1,'HTMLImporter.cleanTree() > Remove Single root child', child._tag);
                 
-                node.children = child.children
-                node.style = child.style
+                // node.children = child.children
+                // node.style = child.style
                
             }
         }
@@ -198,8 +198,6 @@ export default class HTML2QUX {
         })
 
         Object.values(app.widgets).forEach(w => {
-            this.setDefaultStyle(w)
-            this.setCustomStyle(w)
             this.cleanUpWidget(w)
         })
 
@@ -255,6 +253,10 @@ export default class HTML2QUX {
         if (!this.isParseTable) {
             //we could add here some table groups
             // and remove all the TR, THEAD and TBODY
+        }
+
+        if (w.type === 'Label') {
+            // w.w += 8
         }
       
         delete w._isRoot
@@ -425,26 +427,7 @@ export default class HTML2QUX {
 
 
 
-    setDefaultStyle (w) {
-        if (this.defaultStyle) {
-            const overwrites = this.getStyleOverWrites(w, this.defaultStyle)
-            for (let key in overwrites) {
-                w.style[key] = overwrites[key]
-            }
-        }
-    }
-
-    setCustomStyle (w) {
-        if (this.customStyle) {
-            const overwrites = this.getStyleOverWrites(w, this.customStyle)
-            if (overwrites) {
-                for (let key in overwrites) {
-                    w.style[key] = overwrites[key]
-                }
-            }          
-        }
-    }
-
+ 
 
     getStyleOverWrites (w, defaultStyle) {
         const type = w.type
@@ -523,11 +506,6 @@ export default class HTML2QUX {
         return false
     }
   
-
-    
-    
-
-
     parseNode (node, parent, prefx='BODY.', logLevel = 1) {
        
         const children = node.childNodes;
@@ -857,6 +835,12 @@ export default class HTML2QUX {
 
             const compStyle = pseudoElt ? getComputedStyle(node, pseudoElt) : getComputedStyle(node)
           
+            if (compStyle.fontFamily) {
+                result.fontFamily = compStyle.fontFamily
+                console.debug(node, compStyle.fontFamily)
+            } else {
+                console.debug(node, compStyle)
+            }
             for (let key in pixelStyles) {
                 let value = compStyle[key]
                 if (value && value != 'none') {
@@ -900,6 +884,13 @@ export default class HTML2QUX {
 
             if (compStyle.display === 'grid' && hasSingleTextChild(node)) {
                 if (compStyle.placeItems === 'center') {
+                    result.textAlign = 'center'
+                    result.verticalAlign = 'middle'
+                }
+            }
+
+            if (compStyle.display === 'flex' && hasSingleTextChild(node)) {
+                if (compStyle.justifyContent === 'center') {
                     result.textAlign = 'center'
                     result.verticalAlign = 'middle'
                 }
@@ -1026,6 +1017,11 @@ export default class HTML2QUX {
             }
             return 'Label'
         }
+
+        if (node.tagName === 'DIV' && !hasVisibleBorder(style) && isTranparent(style?.background)) {
+            return 'Label'
+        }
+
         if (node.tagName === 'BUTTON') {
             return 'Button'
         }

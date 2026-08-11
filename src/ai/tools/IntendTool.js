@@ -78,7 +78,7 @@ export default class IntendTool extends Tool {
     return `
         You are an design agent. Please select the right tool 
         for the given user request. If you think no tool
-        fits, return no result 
+        fits, return no result.
     `;
   }
 }

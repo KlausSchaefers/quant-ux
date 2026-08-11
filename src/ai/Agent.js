@@ -39,7 +39,7 @@ export default class Agent {
     this.onProgress(" - Check intend...");
 
     const tools = await this.intendTool.invoke(messages)
-    Logger.log(-1, 'Agent.run() > tools: ', tools)
+    Logger.log(-1, 'Agent.run() > tools: ', tools.map(t => t.name).join(','))
     if (tools.length === 0) {
       this.onProgress("I can't help you.");
       return {

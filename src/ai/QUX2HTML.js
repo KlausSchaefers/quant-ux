@@ -102,6 +102,25 @@ export default class QUX2HTML {
     }
 
     toHTML(model, screenID, wrapGroups = false, removeRootIfNeeded = false, simplifyGrid = true) {
+        const scrnTree = this.toTree(model, screenID, wrapGroups, removeRootIfNeeded, simplifyGrid)
+
+        Logger.log(1, 'QUX2HTML.toHTML()', scrnTree)
+
+        this.cssRules = []
+        this.styleToClassName = new Map()
+        this.classCounters = {}
+        const bodyHTML = this.renderNode(scrnTree, null, true)
+        return this.wrapDocument(scrnTree, bodyHTML, this.cssRules.join('\n'))
+    }
+
+    /**
+     * The positioned, layout-resolved tree for one screen - everything
+     * toHTML() does short of rendering markup/CSS. Factored out so other
+     * tools (e.g. QUX2CSS.js's margin extraction) can walk the same
+     * grid-simplified layout QUX2HTML renders from without duplicating this
+     * pipeline.
+     */
+    toTree(model, screenID, wrapGroups = false, removeRootIfNeeded = false, simplifyGrid = true) {
         this.model = model
         this.config.removeRootIfNeeded = removeRootIfNeeded
         if (wrapGroups) {
@@ -113,14 +132,7 @@ export default class QUX2HTML {
         if (simplifyGrid) {
             this.removeNotNeedGrid(scrnTree)
         }
-     
-        Logger.log(1, 'QUX2HTML.toHTML()', scrnTree)
-
-        this.cssRules = []
-        this.styleToClassName = new Map()
-        this.classCounters = {}
-        const bodyHTML = this.renderNode(scrnTree, null, true)
-        return this.wrapDocument(scrnTree, bodyHTML, this.cssRules.join('\n'))
+        return scrnTree
     }
 
     cleanTree(scrn) {
