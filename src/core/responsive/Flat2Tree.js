@@ -7,7 +7,7 @@ import * as Rows from "./RowLayouter"
 var cloneID = 0
 
 export function transform(model, config) {
-	Logger.log(-1, "Falt2Tree.transform () > enter", config)
+	Logger.log(1, "Falt2Tree.transform () > enter", config)
 
 	let result = {
 		id: model.id,

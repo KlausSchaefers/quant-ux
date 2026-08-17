@@ -16,6 +16,11 @@ export default class Agent {
         options.isRemoveNonLeafs = true
         options.isRemoveContainers = true
     }
+
+    if (options.cssMode === 'creative' || options.cssMode === 'useStyles') {
+        options.isUseImages = true
+    }
+
     this.intendTool = new IntendTool(llm, context, options, progressCallback);
     //this.structureTool = new StructureTool(llm, context, options, progressCallback);
     this.screenTool = new ScreenTool(llm, context, options, progressCallback, html2QUX);

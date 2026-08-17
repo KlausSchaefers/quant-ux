@@ -91,10 +91,10 @@ export default {
   mixins: [],
   data: function () {
     return {
-      model: agent_demo_1, //agent_demo_empty,
-      showIframe: false,
+      model: agent_demo_empty,
+      showIframe: true,
       showHTML: false,
-      showCSS: true,
+      showCSS: false,
       messages: [{
         content: 'Hi',
         role: 'assistant'

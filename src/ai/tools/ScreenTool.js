@@ -58,12 +58,7 @@ export default class ScreenTool extends Tool {
       this.options
     )
 
-    Object.values(app.widgets).forEach(w => {
-      if (!w.style.fontFamily) {
-        console.debug(w)
-      }
-    })
-
+   
     const styledApp = this.applyStyle(app)
 
     return {
@@ -91,8 +86,6 @@ export default class ScreenTool extends Tool {
     if (this.options.cssMode !== 'useStyles') {
       return ''
     }
-
-
   }
   promptHTML() {
     return `
@@ -119,9 +112,8 @@ export default class ScreenTool extends Tool {
   }
 
   promptRules() {
-    // box-sizing: border-box;
-    // for strong text always use h1 to h6
-    // do not use hidden form elements that are usually used for accessability
+    // TODO: do not do something
+    //
     const fonts = ModelUtil.getFontFamilies()
         .filter(f => f.value)
         .map(f => `'${f.value}'`)

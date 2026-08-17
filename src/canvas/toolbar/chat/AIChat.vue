@@ -100,6 +100,7 @@ export default {
             const options = Util.getOptions()
             Logger.log(-1, 'AIChat.runAI', options.provider, this.model.screenSize)
             const llm = Util.getLLM(options, this.isDebug)
+            console.debug(llm)
        
             if (!llm) {
                 this.messages.push({

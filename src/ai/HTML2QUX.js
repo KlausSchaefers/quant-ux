@@ -92,6 +92,7 @@ export default class HTML2QUX {
         this.lastUUID = lastUUID
         this.isRemoveScreenOffset = false
         this.isRemoveContainers = false
+        this.isUseImages = false
         this.defaultStyle = false
         this.isParseTable = true
         this.grid = false
@@ -106,12 +107,17 @@ export default class HTML2QUX {
 	}
 
     run(html, width, height, options = {}) {
-        
+        this.isFixOverflow = true
         this.isRemoveNonLeafs = options.isRemoveNonLeafs
         this.isRemoveContainers = options.isRemoveContainers
         this.isRemoveHiddenElements = true
+        this.isUseImages = options.isUseImages
         this.defaultStyle = options.defaultStyle
         this.customStyle = options.customStyle
+        this.screenSize = {
+            w: width,
+            h: height
+        }
         this.grid = options.grid
         this.z = 1
 
@@ -201,7 +207,28 @@ export default class HTML2QUX {
             this.cleanUpWidget(w)
         })
 
-        // check for one roo group
+        // filter wrong group relations
+        Object.values(app.groups).filter(g => {
+            if (g.groups) {
+                g.groups = g.groups.filter(subId => {
+                    if (!app.groups[subId]) {
+                        return false
+                    }
+                    return true
+                })
+            }
+            if (g.children) {
+                g.children = g.children.filter(wId => {
+                    if (!app.widgets[wId]) {
+                        return false
+                    }
+                    return true
+                })
+            }
+        })
+
+
+        // check for one root group
         const allCount = Object.values(app.widgets).length
         const deleteGroups = []
         Object.values(app.groups).filter(g => {
@@ -343,8 +370,7 @@ export default class HTML2QUX {
             screens: {},
             widgets: {},
             lines: {},
-            groups: {},
-            _w2g: {}
+            groups: {}
         }
 
         const scrn = {
@@ -466,7 +492,7 @@ export default class HTML2QUX {
         const newChildren = []
         scrn.children.forEach(id => {
             const widget = app.widgets[id]
-            if (this.isHiddenElement(widget) && this.isRemoveHiddenElements) {
+            if (this.isHiddenElement(widget, scrn) && this.isRemoveHiddenElements) {
                 Logger.log(1, "removeHiddenElements() ", widget)
                 delete app.widgets[id]
             } else {
@@ -476,11 +502,16 @@ export default class HTML2QUX {
         scrn.children = newChildren
     }
 
-    isHiddenElement(widget) {
+    isHiddenElement(widget, scrn) {
 
         // we could somehow try to find a way to clip this better
         if (widget.y < 0 || widget.x < 0) {
             Logger.log(1, 'HTMLImporter.removeHiddenElements() > Overflow' , widget)
+            return true
+        }
+
+        if (widget.x + widget.w > scrn.w) {
+            Logger.log(1, 'HTMLImporter.removeHiddenElements()  > Overflow 2' , widget)
             return true
         }
 
@@ -710,9 +741,9 @@ export default class HTML2QUX {
          * 
          * labeled checkbox?
          */
-        const style = this.getStyle(node)
-        const widgetType = this.getWidgetType(node, style)
         const pos = this.getPosition(node)
+        const style = this.getStyle(node, pos)
+        const widgetType = this.getWidgetType(node, style)
         const has = this.getHas(widgetType)
         const props = this.getProps(node)
         // TODO: maybe
@@ -737,8 +768,8 @@ export default class HTML2QUX {
 
         this.z++
 
-        widget.active = {} // this.getDifStyle(style, this.getStyle(node, getActivePseudo(node)))
-        widget.hover = {} //this.getDifStyle(style, this.getStyle(node, '::hover'))
+        widget.active = {} // this.getDifStyle(style, this.getStyle(node, null, getActivePseudo(node)))
+        widget.hover = {} //this.getDifStyle(style, this.getStyle(node, null, '::hover'))
         widget.error = {}
 
         return widget
@@ -820,14 +851,14 @@ export default class HTML2QUX {
         }
     }
 
-    getStyle(node, pseudoElt = '') {
+    getStyle(node, pos, pseudoElt = '') {
         if (node.nodeType != 1) {
             return {}
         }
-        return this.getCurrentStyle(node, pseudoElt)
+        return this.getCurrentStyle(node, pos, pseudoElt)
     }
 
-    getCurrentStyle(node, pseudoElt) {
+    getCurrentStyle(node, pos, pseudoElt) {
         const result = {
             fontFamily: 'Helvetica Neue,Helvetica,Arial,sans-serif'
         }
@@ -837,9 +868,6 @@ export default class HTML2QUX {
           
             if (compStyle.fontFamily) {
                 result.fontFamily = compStyle.fontFamily
-                console.debug(node, compStyle.fontFamily)
-            } else {
-                console.debug(node, compStyle)
             }
             for (let key in pixelStyles) {
                 let value = compStyle[key]
@@ -882,17 +910,41 @@ export default class HTML2QUX {
 
             result.opacity = compStyle.opacity * 1
 
-            if (compStyle.display === 'grid' && hasSingleTextChild(node)) {
-                if (compStyle.placeItems === 'center') {
-                    result.textAlign = 'center'
-                    result.verticalAlign = 'middle'
+            // some fixes
+           
+            if (pos.overflow) {
+                if (pos.overflow === 'right') {
+                    result.borderBottomRightRadius = 0
+                    result.borderTopRightRadius = 0
+                }
+                if (pos.overflow === 'left') {
+                    result.borderBottomLeftRadius = 0
+                    result.borderTopLeftRadius = 0
                 }
             }
 
-            if (compStyle.display === 'flex' && hasSingleTextChild(node)) {
-                if (compStyle.justifyContent === 'center') {
-                    result.textAlign = 'center'
-                    result.verticalAlign = 'middle'
+            // Make horizontal padding a little smaller if the node has just one 
+            // text node and center stuff if needed
+            if (hasSingleTextChild(node)) {
+                if (result.paddingLeft) {
+                    result.paddingLeft -=1
+                }
+                if (result.paddingRight) {
+                    result.paddingRight -=1
+                }
+
+                if (compStyle.display === 'grid') {
+                    if (compStyle.placeItems === 'center') {
+                        result.textAlign = 'center'
+                        result.verticalAlign = 'middle'
+                    }
+                }
+
+                if (compStyle.display === 'flex') {
+                    if (compStyle.justifyContent === 'center') {
+                        result.textAlign = 'center'
+                        result.verticalAlign = 'middle'
+                    }
                 }
             }
 
@@ -979,6 +1031,30 @@ export default class HTML2QUX {
                 w: Math.round(ret.right - ret.left), 
                 h: Math.round(ret.bottom - ret.top)
             };
+
+
+            if (this.isFixOverflow){
+                if (pos.y < 0) {
+                    //const o = pos.y
+                    pos.y = 0
+                    pos.h += pos.y
+                    pos.overflow = "top"
+                }
+
+                if (pos.x < 0) {
+                    pos.w += pos.x
+                    pos.x = 0
+                    pos.overflow = "left"
+                }
+
+                if (pos.x + pos.w > this.screenSize.w) {
+                    const o = (pos.x + pos.w)  - this.screenSize.w
+                    pos.w -= o
+                    pos.overflow = "right"
+                }
+        
+            }
+
             // TODO: Here we have some issue of one if the elements is 
             // placed outside. We should clip this somehow...
             //console.debug(node, pos)

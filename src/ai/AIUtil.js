@@ -11,6 +11,7 @@ export function getOptions() {
         data.cssMode = getCSSMode()
         return data
     }
+    return {}
 }
 
 export function getAllCssModes() {
