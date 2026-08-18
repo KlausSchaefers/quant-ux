@@ -29,7 +29,6 @@ const pixelStyles = {
     'padding-bottom': 'paddingBottom',
     'padding-right': 'paddingRight',
     'padding-left': 'paddingLeft',
-
     'font-size': 'fontSize',
 }
 
@@ -911,42 +910,7 @@ export default class HTML2QUX {
             result.opacity = compStyle.opacity * 1
 
             // some fixes
-           
-            if (pos.overflow) {
-                if (pos.overflow === 'right') {
-                    result.borderBottomRightRadius = 0
-                    result.borderTopRightRadius = 0
-                }
-                if (pos.overflow === 'left') {
-                    result.borderBottomLeftRadius = 0
-                    result.borderTopLeftRadius = 0
-                }
-            }
-
-            // Make horizontal padding a little smaller if the node has just one 
-            // text node and center stuff if needed
-            if (hasSingleTextChild(node)) {
-                if (result.paddingLeft) {
-                    result.paddingLeft -=1
-                }
-                if (result.paddingRight) {
-                    result.paddingRight -=1
-                }
-
-                if (compStyle.display === 'grid') {
-                    if (compStyle.placeItems === 'center') {
-                        result.textAlign = 'center'
-                        result.verticalAlign = 'middle'
-                    }
-                }
-
-                if (compStyle.display === 'flex') {
-                    if (compStyle.justifyContent === 'center') {
-                        result.textAlign = 'center'
-                        result.verticalAlign = 'middle'
-                    }
-                }
-            }
+            this.fixStyles(pos, result, node, compStyle);
 
         
         } catch(err) {
@@ -1007,6 +971,68 @@ export default class HTML2QUX {
         }
 
         return result
+    }
+
+    fixStyles(pos, result, node, compStyle) {
+        if (pos.overflow) {
+            if (pos.overflow === 'right') {
+                result.borderBottomRightRadius = 0;
+                result.borderTopRightRadius = 0;
+            }
+            if (pos.overflow === 'left') {
+                result.borderBottomLeftRadius = 0;
+                result.borderTopLeftRadius = 0;
+            }
+        }
+
+        // Make horizontal padding a little smaller if the node has just one 
+        // text node and center stuff if needed
+        if (hasSingleTextChild(node)) {
+            if (result.paddingLeft) {
+                result.paddingLeft -= 1;
+            }
+            if (result.paddingRight) {
+                result.paddingRight -= 1;
+            }
+
+            if (compStyle.display === 'grid') {
+                if (compStyle.placeItems === 'center') {
+                    result.textAlign = 'center';
+                    result.verticalAlign = 'middle';
+                }
+            }
+
+            if (compStyle.display === 'flex') {
+                if (compStyle.justifyContent === 'center') {
+                    result.textAlign = 'center';
+                    result.verticalAlign = 'middle';
+                }
+            }
+        }
+
+        if (result.letterSpacing && result.letterSpacing.indexOf) {
+            //console.debug(result.letterSpacing, typeof result.letterSpacing)
+            // if (result.letterSpacing === 'normal') {
+            //     result.letterSpacing = 1.2
+            // }
+            if (result.letterSpacing.indexOf('px') > 0) {
+                const p = result.letterSpacing.slice(0, -2) * 1;
+                if (result.fontSize) {
+                    result.letterSpacing = Math.round((p / result.fontSize) * 100)/100
+                    console.debug(p, '==', result.letterSpacing)
+                }
+            }
+        }
+
+        if (result.lineHeight && result.lineHeight.indexOf) {
+            if (result.lineHeight.indexOf('px') > 0) {
+                const p = result.lineHeight.slice(0, -2) * 1;
+                if (result.fontSize) {
+                    result.lineHeight = Math.round((p / result.fontSize) * 100)/100
+                    console.debug('lineHeight', p, '==', result.lineHeight)
+                }
+            }
+        }
     }
 
     isSupportedNode(node) {

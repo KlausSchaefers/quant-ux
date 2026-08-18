@@ -112,7 +112,8 @@ export default class ScreenTool extends Tool {
   }
 
   promptRules() {
-    // TODO: do not do something
+    // TODO: 
+    // for letter-spacing and line-height use relative values like 1.4, not pixel or em values
     //
     const fonts = ModelUtil.getFontFamilies()
         .filter(f => f.value)

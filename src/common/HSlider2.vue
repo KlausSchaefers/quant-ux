@@ -28,6 +28,7 @@ export default {
       hasLabel: false,
       center: false,
       round: true,
+      step: 1,
       wire: true,
       hndlWidth: 5
     };
@@ -38,6 +39,10 @@ export default {
       if (this.wire) {
         this.wireEvents();
       }
+    },
+
+    setStep (s) {
+      this.step = s * 1;
     },
 
     wireEvents () {
@@ -151,7 +156,11 @@ export default {
       var s = this.max - this.min;
       var w = s * p + this.min;
 
-      if (this.round) {
+      if (this.step) {
+        w = Math.round(w / this.step) * this.step;
+        // avoid floating point artifacts, e.g. 0.1 + 0.2 = 0.30000000000000004
+        w = Math.round(w * 10) / 10;
+      } else if (this.round) {
         w = Math.round(w);
       }
 

@@ -1,0 +1,41 @@
+.MatcToolbarSliderPopup {
+    width: 264px;
+    padding: 8px 16px;
+
+    .MatcToolbarSliderCntr {
+        display: flex;
+        align-items: center;
+        height: 40px;
+
+        input.MatcToobarInput {
+            width: 40px;
+            height: 24px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            border: 1px solid transparent
+        }
+
+        input.MatcToobarInput:hover {
+            border: 1px solid #ddd;
+        }
+
+        input.MatcToobarInput:focus {
+            border: 1px solid #ddd;
+        }
+
+        .MatcToolbarSlider {
+            width: 240px;
+            display: flex;
+            align-items: center;
+        }
+
+        .MatcToolbarSlider .MatcToolbarSliderCntr {
+            width: 200px;
+        }
+
+        .MatcToolbarSlider .VommondSliderContainer {
+            background: #999;
+        }
+    }
+
+}

@@ -22,7 +22,8 @@ export default {
             mode: "all",
             min: 0,
             max: 100,
-						center: false
+						center: false,
+						step: 1
         }
     },
     components: {},
@@ -36,6 +37,7 @@ export default {
 			this.slider.max = this.max;
 			this.slider.min = this.min;
 			this.slider.center = this.center;
+			this.slider.step = this.step;
 			this.slider.placeAt(this.cntr);
 			this.own(on( this.slider, "change", lang.hitch(this,"onMoveSlider")));
 			this.own(on( this.slider, "click", lang.hitch(this,"onClickSlider")));
@@ -113,6 +115,13 @@ export default {
 
 		setModel (m){
 			this.model = m;
+		},
+
+		setStepSize (step){
+			this.step = step;
+			if (this.slider) {
+				this.slider.setStep(step);
+			}
 		},
 
 		blur (){

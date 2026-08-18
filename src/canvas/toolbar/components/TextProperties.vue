@@ -19,6 +19,7 @@ import lang from 'dojo/_base/lang'
 import on from 'dojo/on'
 import css from 'dojo/css'
 import ToolbarDropDownButton from 'canvas/toolbar/components/ToolbarDropDownButton'
+import ToolbarSliderButton from 'canvas/toolbar/components/ToolbarSliderButton'
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 import ToolbarToggleButton from 'canvas/toolbar/components/ToolbarToggleButton'
 import TextShadow from 'canvas/toolbar/components/TextShadow2'
@@ -161,8 +162,10 @@ export default {
 	  * advanced text stuff
 	  */
 
-	  this.letterSpacing = this.$new(ToolbarDropDownButton, {hasCaret:false, icon: 'TextLetterSpacing'});
-	  this.letterSpacing.setOptions([-2,-1, 0, 1, 1.2, 1.4, 1.6, 2, 2.4, 2.8, 3]);
+	  this.letterSpacing = this.$new(ToolbarSliderButton, {hasCaret:false, icon: 'TextLetterSpacing'});
+	  this.letterSpacing.setMinMax(-2, 10) 
+	  this.letterSpacing.setStepSize(0.1) 
+	  //this.letterSpacing.setOptions([-2,-1, 0, 1, 1.2, 1.4, 1.6, 2, 2.4, 2.8, 3]);
 	  //this.letterSpacing.setLabel('<span class="mdi mdi-format-text-rotation-none"></span>');
 	  this.letterSpacing.reposition = true;
 	  this.letterSpacing.updateLabel  =false;
@@ -172,8 +175,10 @@ export default {
 	  this._placeAt(this.letterSpacing, row4);
 	  this.addTooltip(this.letterSpacing.domNode, "Letter Spacing");
 
-	  this.lineHeight = this.$new(ToolbarDropDownButton, {hasCaret:false, icon:"TextLineHeight"});
-	  this.lineHeight.setOptions([0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,1.7,1.8,1.9, 2, 2.5, 3]);
+	  this.lineHeight = this.$new(ToolbarSliderButton, {hasCaret:false, icon:"TextLineHeight"});
+	  this.lineHeight.setMinMax(0.4, 5) 
+	  this.lineHeight.setStepSize(0.1) 
+	  //this.lineHeight.setOptions([0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6,1.7,1.8,1.9, 2, 2.5, 3]);
 	  //this.lineHeight.setLabel('<span class="mdi mdi-format-line-spacing"></span>');
 	  this.lineHeight.reposition = true;
 	  this.lineHeight.updateLabel  =false;
