@@ -7,7 +7,7 @@ This repo contains the front end. You can find a working demo at https://quant-u
 
 ![Alt text](docs/release.png?raw=true "Quant-UX preview")
 
-## Develpment setup
+## Development setup
 ### Prerequisite
 ```
 npm install
@@ -88,7 +88,7 @@ services:
     container_name: quant-ux-frontend
     image: klausenschaefersinho/quant-ux
     environment:
-      - QUX_PROXY_URL=http://quant-ux-backend:8080        # this is the path the front end uses to talk tot he backend
+      - QUX_PROXY_URL=http://quant-ux-backend:8080        # this is the path the front end uses to talk to the backend
       - QUX_AUTH=qux
       - QUX_KEYCLOAK_REALM=
       - QUX_KEYCLOAK_CLIENT=
