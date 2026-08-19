@@ -48,6 +48,14 @@ export default {
 	},
 	methods: {
 
+		// onVisible() {
+		// 	if (this.slider) {
+		// 		setTimeout(() => {
+		// 			this.slider.focus()
+		// 		}, 100)
+		// 	}
+		// },
+
 		setIcon(icon) {
 			this.icon = icon
 		},

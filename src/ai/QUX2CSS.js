@@ -1,3 +1,4 @@
+import { mode } from 'd3'
 import ModelUtil from '../core/ModelUtil'
 import QUX2HTML from './QUX2HTML'
 
@@ -414,10 +415,7 @@ export default class QUX2CSS {
      * ModelUtil - screens never carry a template.
      */
     resolveStyle(node, isScreen) {
-        if (isScreen) {
-            return node.style || {}
-        }
-        return ModelUtil.getStyle(node, this.model) || {}
+        return node.style || {}
     }
 
     addStyleGroups(node, isScreen) {

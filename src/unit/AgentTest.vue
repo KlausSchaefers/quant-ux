@@ -16,7 +16,7 @@
           @agentResult="onAgentResult" 
           ref="chat" 
           :isDebug="true"
-          :defaultMessage="examples[1]"></AIChat>
+          :defaultMessage="examples[4]"></AIChat>
       </div>
       <div>
         <ZoomableCanvas :cellWidth="model.screenSize.w" :cellHeight="maxScreenHeight">
@@ -91,7 +91,7 @@ export default {
   mixins: [],
   data: function () {
     return {
-      model: agent_demo_empty,
+      model: agent_demo_1, //agent_demo_empty,
       showIframe: true,
       showHTML: false,
       showCSS: false,

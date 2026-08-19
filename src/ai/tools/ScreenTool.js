@@ -3,6 +3,7 @@ import Tool from "./Tool";
 import QSS from "../../core/qss/QSS";
 import Wireframer from "./Wireframer";
 import ModelUtil from "../../core/ModelUtil";
+import QUX2CSS from "../QUX2CSS";
 export default class ScreenTool extends Tool {
 
   constructor(llm, context, options, progressCallback, html2QUX) {
@@ -83,9 +84,17 @@ export default class ScreenTool extends Tool {
 
   promptDesignSystem () {
     Logger.log(-1, 'ScreenTool.promptDesignSystem() > enter', this.options.cssMode)
-    if (this.options.cssMode !== 'useStyles') {
-      return ''
+    if (this.options.cssMode === 'useStyles') {
+      const qux2CSS = new QUX2CSS()
+      const css = qux2CSS.toCSS(this.model, true)
+      return `
+        Please use the following css classes if possible.
+        ${css}
+        If you think you need a new style, reuse the colors,
+        and dimensions.
+      `.trim()
     }
+    return ''
   }
   promptHTML() {
     return `

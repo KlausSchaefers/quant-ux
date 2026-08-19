@@ -1018,8 +1018,7 @@ export default class HTML2QUX {
             if (result.letterSpacing.indexOf('px') > 0) {
                 const p = result.letterSpacing.slice(0, -2) * 1;
                 if (result.fontSize) {
-                    result.letterSpacing = Math.round((p / result.fontSize) * 100)/100
-                    console.debug(p, '==', result.letterSpacing)
+                    result.letterSpacing = Math.round((p / result.fontSize) * 100) / 100
                 }
             }
         }
@@ -1028,8 +1027,7 @@ export default class HTML2QUX {
             if (result.lineHeight.indexOf('px') > 0) {
                 const p = result.lineHeight.slice(0, -2) * 1;
                 if (result.fontSize) {
-                    result.lineHeight = Math.round((p / result.fontSize) * 100)/100
-                    console.debug('lineHeight', p, '==', result.lineHeight)
+                    result.lineHeight = Math.round((p / result.fontSize) * 100) / 100
                 }
             }
         }
