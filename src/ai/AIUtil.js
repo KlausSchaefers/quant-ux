@@ -14,6 +14,39 @@ export function getOptions() {
     return {}
 }
 
+export function mergeScreenInApp(app, result) {
+    result.screens = Object.assign({}, result.screens, app.screens);
+    result.widgets = Object.assign({}, result.widgets, app.widgets);
+    result.groups = Object.assign({}, result.groups, app.groups);
+    result.lines = Object.assign({}, result.lines, app.lines);
+    return result;
+}
+
+export function layoutScreens(result) {
+    const gap = 64;
+    let x = 0;
+
+    Object.values(result.screens).forEach(scrn => {
+      const dx = x - scrn.x;
+      const dy = -scrn.y;
+
+      scrn.x += dx;
+      scrn.y += dy;
+
+      scrn.children.forEach(id => {
+        const widget = result.widgets[id];
+        if (widget) {
+          widget.x += dx;
+          widget.y += dy;
+        }
+      });
+
+      x += scrn.w + gap;
+    });
+
+    return result;
+  }
+
 export function getAllCssModes() {
     return [
         { label: "Wireframe Minimal", value: "wireframe_minimal" },

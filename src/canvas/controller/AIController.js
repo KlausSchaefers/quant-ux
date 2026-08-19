@@ -22,7 +22,7 @@ export default class AIController extends SVGController {
         const zoom = this.getZoomFactor();
 
         result.changes
-            .filter(change => change.type === 'add' && change.value)
+            .filter(change => change.type === 'addScreen' && change.value)
             .forEach(change => {
                 const screenPos = this.getZoomedBox({ x: pos.x, y: pos.y }, zoom, zoom)
                 const appFragment = this._setAddPosition(change.value, screenPos)
@@ -87,7 +87,7 @@ export default class AIController extends SVGController {
         const screens = []
         const changes = (result && result.changes) || []
         changes
-            .filter(change => change.type === 'add' && change.value && change.value.screens)
+            .filter(change => change.type === 'addScreen' && change.value && change.value.screens)
             .forEach(change => {
                 screens.push(...Object.values(change.value.screens))
             })

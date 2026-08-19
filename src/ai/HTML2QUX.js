@@ -553,6 +553,10 @@ export default class HTML2QUX {
                     const table = this.createDropDownWidget(child)
                     Logger.log(logLevel, 'HTMLImpoter.createWidget() > DropDown', `${prefx}${child.tagName}}`)
                     addChild(table)
+                } else if (isSvg(child)) {
+                    const svgIcon = this.createSVGIconWidget(child)
+                    Logger.log(logLevel, 'HTMLImpoter.createWidget() > SVGIcon', `${prefx}${child.tagName}}`)
+                    addChild(svgIcon)
                 } else if (isTable(child) && this.isParseTable) {
                     const table = this.createTableWidget(child)
                     Logger.log(logLevel, 'HTMLImpoter.createWidget() > TABLE', `${prefx}${child.tagName}}`)
@@ -618,6 +622,22 @@ export default class HTML2QUX {
 
 
         widget.props.options = options
+        return widget
+    }
+
+    createSVGIconWidget (node) {
+        Logger.log(1, 'HTMLImpoter.createSVGIconWidget() > ')
+
+        const widget = this.createWidget(node)
+        widget.type = 'SVGIcon'
+        widget.children = []
+        widget.has = {
+            "onclick": true,
+            "data": true
+        }
+        widget.props.images = []
+        widget.props.svg = node.outerHTML
+
         return widget
     }
 
@@ -886,6 +906,18 @@ export default class HTML2QUX {
                 const value = compStyle[key]
                 if (value && value != 'none') {
                     result[colorStyles[key]] = value
+                }
+            }
+
+          
+            if (isSvg(node)) {
+                const fillColor = compStyle.fill
+                if (fillColor) {
+                    result.fill = fillColor
+                }
+                const strokeColor = compStyle.stroke
+                if (strokeColor) {
+                    result.stroke = strokeColor
                 }
             }
 
@@ -1377,6 +1409,28 @@ function isImg(node) {
 function isTable(node) {
     return node.tagName === 'TABLE'
 }
+
+function isSvg(node) {
+    return !!node.tagName && node.tagName.toLowerCase() === 'svg'
+}
+
+// // looks for the first shape with an explicit, non-transparent fill so the
+// // widget color reflects the icon's authored color rather than the default
+// // inherited 'fill: black' every SVG shape gets from the UA stylesheet.
+// function getSvgFillColor(svgNode) {
+//     const shapes = svgNode.querySelectorAll('*')
+//     for (let i = 0; i < shapes.length; i++) {
+//         const shape = shapes[i]
+//         const fillAttr = shape.getAttribute('fill')
+//         if (fillAttr && fillAttr !== 'none') {
+//             const compStyle = getComputedStyle(shape)
+//             if (compStyle.fill && !isTranparent(compStyle.fill)) {
+//                 return compStyle.fill
+//             }
+//         }
+//     }
+//     return null
+// }
 
 function isReset(node) {
     return node.type && node.type.toLowerCase() === 'reset'

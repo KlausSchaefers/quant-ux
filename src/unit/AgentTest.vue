@@ -84,7 +84,7 @@ import AISettings from 'canvas/toolbar/dialogs/AISettings'
 import Preview from 'page/Preview'
 import QIcon from 'page/QIcon'
 import QUX2CSS from '../ai/QUX2CSS.js';
-
+import * as Util from '../ai/AIUtil';
 
 export default {
   name: "FigmaTest",
@@ -130,19 +130,16 @@ export default {
       //console.debug(result)
       for (let change of result.changes) {
         //console.debug('onAgentResult() > ', result)
-        if (change.type === 'add') {
-          this.add(change.value)
+        if (change.type === 'addScreen') {
+          this.add(change)
         }
       }
     },
 
-    add(result) {
-      //console.debug("add", result)
-      this.mergeScreenInApp(result, this.model)
-      //console.debug(JSON.stringify(result, null, 2))
-      //this.$forceUpdate()
-      // now we would have to offset things. based on a pos
-      const html = Object.values(result._html)[0]
+    add(change) {
+      const result = change.value
+      Util.mergeScreenInApp(result, this.model)
+      const html = change.html
       const scrn = Object.values(result.screens)[0]
       this.renderIframe(html, scrn.w, scrn.h)
       if (this.showHTML) {
@@ -153,13 +150,7 @@ export default {
       }
     },
 
-    mergeScreenInApp(app, result) {
-      result.screens = Object.assign({}, result.screens, app.screens);
-      result.widgets = Object.assign({}, result.widgets, app.widgets);
-      result.groups = Object.assign({}, result.groups, app.groups);
-      result.lines = Object.assign({}, result.lines, app.lines);
-      return result;
-    },
+ 
 
     renderIframe(html, width, height) {
         const cntr = this.$refs.iFramePreview

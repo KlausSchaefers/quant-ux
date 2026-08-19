@@ -1,6 +1,7 @@
 import Logger from "../core/Logger";
 import IntendTool from './tools/IntendTool'
 import ScreenTool from './tools/ScreenTool'
+import * as Util from './AIUtil'
 export default class Agent {
 
   constructor(llm, context, options, html2QUX, progressCallback) {
@@ -30,15 +31,10 @@ export default class Agent {
 
   async run(messages) {
     Logger.log(-1, 'Agent.run()', messages)
+   
     const result = {
-      name: "",
-      screenSize: this.model.screenSize,
-      screens: {},
-      widgets: {},
-      groups:{},
-      lines: {},
-      _html: {}
-    };
+      changes: []
+    }
 
     // 1) think about a good structure
     this.onProgress(" - Check intend...");
@@ -47,16 +43,26 @@ export default class Agent {
     Logger.log(-1, 'Agent.run() > tools: ', tools.map(t => t.name).join(','))
     if (tools.length === 0) {
       this.onProgress("I can't help you.");
-      return {
-        changes: []
-      } 
+      return result
     }
 
-    const {app, html} = await this.screenTool.invoke(messages)
-    result._html[Object.values(app.screens)[0]?.id] = html
+    // const allScreenResults = {
+    //   name: "",
+    //   screenSize: this.model.screenSize,
+    //   screens: {},
+    //   widgets: {},
+    //   groups:{},
+    //   lines: {},
+    //   _html: {}
+    // };
 
-    this.mergeScreenInApp(app, result)
-    this.layoutScreens(result)
+    const {app, html} = await this.screenTool.invoke(messages)
+    const layoutedScreens = Util.layoutScreens(app); 
+    result.changes.push({
+        type: 'addScreen',
+        value: layoutedScreens,
+        html: html
+    })
 
     // const structure = await this.structureTool.run(messages);
     // if (structure.error) {
@@ -97,44 +103,14 @@ export default class Agent {
     // this.pipeline.convert(result);
 
     // console.debug("run() > app ", app.name);
-    const layoutedScreens = this.layoutScreens(result); 
-    return {
-      changes: [{
-        type: 'add',
-        value: layoutedScreens
-      }]
-    } 
+
+    return result
   }
 
   cancel() {
     Logger.warn('Agent.cancel() > enter')
   }
 
-
-  layoutScreens(result) {
-    const gap = 64;
-    let x = 0;
-
-    Object.values(result.screens).forEach(scrn => {
-      const dx = x - scrn.x;
-      const dy = -scrn.y;
-
-      scrn.x += dx;
-      scrn.y += dy;
-
-      scrn.children.forEach(id => {
-        const widget = result.widgets[id];
-        if (widget) {
-          widget.x += dx;
-          widget.y += dy;
-        }
-      });
-
-      x += scrn.w + gap;
-    });
-
-    return result;
-  }
 
   mergeScreenInApp(app, result) {
     Object.assign(result.screens, app.screens);

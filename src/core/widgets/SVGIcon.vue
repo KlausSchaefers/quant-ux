@@ -33,6 +33,7 @@
         height: 40,
         path: '',
         viewBox: '0 0 24 24',
+        fillColor: '',
         loadedFileURL: null,
         placeholderPath: `
           <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" />
@@ -89,7 +90,6 @@
       },
 
       _getPrimaryImage (model) {
-        console.log('SVGIcon._getPrimaryImage()', model)
         const props = model && model.props ? model.props : null
         if (!props) {
           return null
@@ -106,9 +106,15 @@
         if (!this.$refs.svg || !style) {
           return
         }
-        const color = style.color || (this.model && this.model.props ? this.model.props.color : null) || '#333333'
-        this.$refs.svg.style.color = color
-        this.$refs.svg.style.strokeWidth = (style.strokeWidth || 1) * scaleX
+  
+        if (style.color) {
+          this.$refs.svg.style.color = style.color
+          this.$refs.svg.style.strokeWidth = (style.strokeWidth || 0) * scaleX
+        }
+       
+        if (style.fill) {
+          this.$refs.svg.style.fill = style.fill
+        }
       },
 
       _setMarkup (svgText) {
@@ -138,7 +144,7 @@
           return
         }
 
-        this._normalizeStroke(svgNode)
+
         this.path = svgNode.innerHTML
 
         const box = svgNode.getAttribute('viewBox')
@@ -149,15 +155,21 @@
         }
       },
 
-      _normalizeStroke (svgNode) {
-        const allNodes = svgNode.querySelectorAll('*')
-        allNodes.forEach(node => {
-          const stroke = node.getAttribute('stroke')
-          if (stroke && stroke !== 'none') {
-            node.setAttribute('stroke', 'currentColor')
-          }
-        })
-      },
+      // _normalizeColors (svgNode) {
+      //   const allNodes = svgNode.querySelectorAll('*')
+      //   allNodes.forEach(node => {
+      //     const stroke = node.getAttribute('stroke')
+      //     if (stroke && stroke !== 'none') {
+      //       node.setAttribute('stroke', 'currentColor')
+      //     }
+      //     // some icons (e.g. solid/filled icon sets) color themselves via
+      //     // fill instead of stroke, so make fill dynamic too (currentFill)
+      //     const fill = node.getAttribute('fill')
+      //     if (fill && fill !== 'none') {
+      //       node.setAttribute('fill', 'currentColor')
+      //     }
+      //   })
+      // },
 
       _getFileURL (file) {
         if (!file) {
@@ -165,10 +177,7 @@
         }
 
         if (typeof file === 'string') {
-          if (file.indexOf('http://') === 0 || file.indexOf('https://') === 0 || file.indexOf('/') === 0 || file.indexOf('data:') === 0) {
-            return file
-          }
-
+    
           if (this.hash) {
             return `/rest/images/${this.hash}/${file}`
           }
