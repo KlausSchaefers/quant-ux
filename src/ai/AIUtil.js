@@ -22,6 +22,12 @@ export function mergeScreenInApp(app, result) {
     return result;
 }
 
+export function tagSession(result, sessionID) {
+    Object.values(result.screens).forEach(scrn => {
+        scrn.aiID = sessionID
+    })
+}
+
 export function layoutScreens(result) {
     const gap = 64;
     let x = 0;

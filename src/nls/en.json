@@ -17,7 +17,13 @@
     "ai": {
         "access_token_info": "We use external AIs from Google, OpenAI or Anthropic to power our AI engine. To use the service, you need to bring your API key. Your API key is stored in your browser and not on our server.",
         "provider": "Select your AI provider",
-        "token": "Access Token"
+        "token": "Access Token",
+        "tos": "Terms of Service",
+        "tosCheck": "I understand that data will be shared with the AI providers.",
+        "tosMore": "You can find more info in the",
+        "tosLink": "Terms of Service",
+        "tosLink2": "Privacy Statement",
+        "quxUsage": "Quant-UX is free, therefore we can not offer unlimited access to LLMs. There is a usage limit, which may be reset from time to time."
     },
     "design-gpt": {
         "error-server": "Something went wrong on the server",

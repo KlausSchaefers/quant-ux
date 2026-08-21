@@ -5,12 +5,18 @@ export default class Tool {
     this.context = context;
     this.model = context.model
     this.options = options;
-    this.progressCallback = progressCallback; 
+    this.progressCallback = progressCallback;
     this.html2QUX = html2QUX
     this.screenSize = this.model.screenSize
   }
 
- getUserMessages(messages) {
+  onProgress(type, value) {
+    if (this.progressCallback) {
+      this.progressCallback(type, value)
+    }
+  }
+
+  getUserMessages(messages) {
     return messages
       .filter((m) => m.role == "user")
       .map((m) => m.content)

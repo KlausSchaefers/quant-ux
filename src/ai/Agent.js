@@ -1,6 +1,7 @@
 import Logger from "../core/Logger";
 import IntendTool from './tools/IntendTool'
 import ScreenTool from './tools/ScreenTool'
+import MutliScreenTool from './tools/MutliScreenTool'
 import * as Util from './AIUtil'
 export default class Agent {
 
@@ -8,10 +9,12 @@ export default class Agent {
     this.llm = llm;
     this.context = context;
     this.model = context.model
+    this.memory = context.memory
     this.options = options;
     this.progressCallback = progressCallback; 
     this.html2QUX = html2QUX
-
+    this.session = "ai" + new Date().getTime()
+    
     // or move to the screen tool?
     if (options.cssMode === 'wireframe_minimal') {
         options.isRemoveNonLeafs = true
@@ -23,84 +26,46 @@ export default class Agent {
     }
 
     this.intendTool = new IntendTool(llm, context, options, progressCallback);
-    //this.structureTool = new StructureTool(llm, context, options, progressCallback);
     this.screenTool = new ScreenTool(llm, context, options, progressCallback, html2QUX);
+    this.mutliScreenTool = new MutliScreenTool(llm, context, options, progressCallback, this.screenTool)
   }
 
 
 
   async run(messages) {
-    Logger.log(-1, 'Agent.run()', messages)
+    Logger.log(1, 'Agent.run() > messages: ', this.session,  messages)
+    this.memory.set('aiID', this.session)
    
     const result = {
       changes: []
     }
 
     // 1) think about a good structure
-    this.onProgress(" - Check intend...");
+    this.onProgress("status", " - Check intend...");
 
     const tools = await this.intendTool.invoke(messages)
     Logger.log(-1, 'Agent.run() > tools: ', tools.map(t => t.name).join(','))
     if (tools.length === 0) {
-      this.onProgress("I can't help you.");
+      this.onProgress("error", "I can't help you.");
       return result
     }
 
-    // const allScreenResults = {
-    //   name: "",
-    //   screenSize: this.model.screenSize,
-    //   screens: {},
-    //   widgets: {},
-    //   groups:{},
-    //   lines: {},
-    //   _html: {}
-    // };
+    const tool = tools[0]
+    Logger.log(-1, 'Agent.run() > selectedTool: ', tool)
 
-    const {app, html} = await this.screenTool.invoke(messages)
-    const layoutedScreens = Util.layoutScreens(app); 
-    result.changes.push({
-        type: 'addScreen',
-        value: layoutedScreens,
-        html: html
-    })
 
-    // const structure = await this.structureTool.run(messages);
-    // if (structure.error) {
-    //   return structure;
-    // }
+    if (tool.name === 'create_screen') {
+      const {app, html} = await this.screenTool.invoke(messages)
+      Util.tagSession(app, this.session)
+      const layoutedScreens = Util.layoutScreens(app); 
+      result.changes.push({
+          type: 'addScreen',
+          value: layoutedScreens,
+          html: html
+      })
+    }
 
-    // Logger.log(-1, "Agent.run() > structure ", structure);
-
-    // result.raw.structure = structure.app;
-    // const app = structure.app;
-    // result.name = app.name;
-    // result.raw.name = app.name;
-
-    // console.debug("run() > app ", app.name);
-
-    // // 2) create the screens
-    // for (let section of app.sections) {
-    //   for (let s of section.screens) {
-    //     this.onProgress("- Create screen __" + s.name + "__");
-    //     const scrn = await this.screenTool.run(messages, s, section, app);
-    //     if (scrn.raw) {
-    //       scrn.raw.name = s.name;
-    //       result.screens.push(structuredClone(scrn.raw));
-    //       result.raw.screens.push(scrn.raw);
-    //     } else {
-    //       console.warn("run() > Could not create screen");
-    //     }
-    //   }
-    // }
-
-    // //3) plan design system
-    // this.onProgress(" - Plan design system...");
-    // const dsl = await this.dslTool.run(messages, currentModel);
-    // result.dsl = dsl;
-    // result.raw.dsl = dsl;
-
-    // // 4) Set basic props and design system
-    // this.pipeline.convert(result);
+    this.onProgress("status", "Done!");
 
     // console.debug("run() > app ", app.name);
 
@@ -120,8 +85,8 @@ export default class Agent {
     return result;
   }
 
-  onProgress(message) {
-    if (this.progressCallback) this.progressCallback(message);
+  onProgress(type, value) {
+    if (this.progressCallback) this.progressCallback(type, value);
   }
 
   getUserMessages(messages) {

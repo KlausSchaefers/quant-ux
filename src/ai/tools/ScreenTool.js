@@ -42,7 +42,7 @@ export default class ScreenTool extends Tool {
     ];
 
 
-    this.progressCallback("Generate Screen...")
+    this.onProgress("status", "Generate Screen...")
     const res = await this.llm.runHTMLPrompt(aiMessages);
 
     if (res.error) {
@@ -75,7 +75,7 @@ export default class ScreenTool extends Tool {
       return app
     }
 
-    Logger.log(-1, "ScreenTool.applyStyle() > enter", app)
+    Logger.log(1, "ScreenTool.applyStyle() > enter", app)
 
     const theme = QSS.getTheme('wireframe')
     const wireframer = new Wireframer(theme)
@@ -83,7 +83,7 @@ export default class ScreenTool extends Tool {
   }
 
   promptDesignSystem () {
-    Logger.log(-1, 'ScreenTool.promptDesignSystem() > enter', this.options.cssMode)
+    Logger.log(1, 'ScreenTool.promptDesignSystem() > enter', this.options.cssMode)
     if (this.options.cssMode === 'useStyles') {
       const qux2CSS = new QUX2CSS()
       const css = qux2CSS.toCSS(this.model, true)

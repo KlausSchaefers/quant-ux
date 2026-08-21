@@ -120,7 +120,7 @@ export default class HTML2QUX {
         this.grid = options.grid
         this.z = 1
 
-        Logger.log(-1, 'HTML2QUX.run() > enter', this.isRemoveNonLeafs, this.isRemoveContainers)
+        Logger.log(1, 'HTML2QUX.run() > enter', this.isRemoveNonLeafs, this.isRemoveContainers)
 
         this.domNode.innerText = ''
         const iframe = document.createElement('iframe')
@@ -179,7 +179,7 @@ export default class HTML2QUX {
             //console.debug(child.w === node.w, child.h == node.h, child.x, child.y)
             if (isQualSize) {
            
-                Logger.log(-1,'HTMLImporter.cleanTree() > Remove Single root child', child._tag);
+                Logger.log(1,'HTML2QUX.cleanTree() > Remove Single root child', child._tag);
                 
                 // node.children = child.children
                 // node.style = child.style
@@ -188,7 +188,7 @@ export default class HTML2QUX {
         }
         node.children.forEach(child => {
             if (child.style.opacity === 0) {
-                Logger.log(1, 'HTMLImporter.cleanTree() > Opacity' , child)
+                Logger.log(1, 'HTML2QUX.cleanTree() > Opacity' , child)
                 child.children = []
             }
             this.cleanTree(child)
@@ -297,7 +297,7 @@ export default class HTML2QUX {
 
 
     layoutApp (app) {
-        Logger.log(1, 'HTMLImporter.layoutApp() > grid ', this.grid)
+        Logger.log(1, 'HTML2QUX.layoutApp() > grid ', this.grid)
         // if (this.grid && this.defaultStyle) {
         //     app = Layouter.gridify(app, this.grid.w, this.grid.h)
         // }
@@ -439,7 +439,7 @@ export default class HTML2QUX {
 
     flattenLabelIntoParent (child, errorMargin = 4) {
         const labelNode = child.children[0];
-        Logger.log(-4, 'HTMLImporter.flattenNode()' , labelNode.props.label)
+        Logger.log(2, 'HTML2QUX.flattenLabelIntoParent()' , labelNode.props.label)
         child.props.label = labelNode.props.label
 
         child.style.paddingLeft = Math.max(0, (labelNode.x - child.x) - errorMargin)
@@ -505,32 +505,32 @@ export default class HTML2QUX {
 
         // we could somehow try to find a way to clip this better
         if (widget.y < 0 || widget.x < 0) {
-            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Overflow' , widget)
+            Logger.log(1, 'HTML2QUX.removeHiddenElements() > Overflow' , widget)
             return true
         }
 
         if (widget.x + widget.w > scrn.w) {
-            Logger.log(1, 'HTMLImporter.removeHiddenElements()  > Overflow 2' , widget)
+            Logger.log(1, 'HTML2QUX.removeHiddenElements()  > Overflow 2' , widget)
             return true
         }
 
         // if (isInvisibleButton(widget)) {
-        //     Logger.log(1, 'HTMLImporter.removeHiddenElements() > Invisble' , widget)
+        //     Logger.log(1, 'HTML2QUX.removeHiddenElements() > Invisble' , widget)
         //     return true
         // }
         if (widget.style.opacity === 0) {
-            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Opacity' , widget)
+            Logger.log(1, 'HTML2QUX.removeHiddenElements() > Opacity' , widget)
             /** 
              * We should also remove all the children.
              */
             return true
         }
         if (widget.type === 'Label' && !widget.props.label) {
-            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Empty Label' , widget)
+            Logger.log(1, 'HTML2QUX.removeHiddenElements() > Empty Label' , widget)
             return true
         }
         if (this.isRemoveContainers && widget.children.length > 0) {
-            Logger.log(1, 'HTMLImporter.removeHiddenElements() > Container' , widget)
+            Logger.log(1, 'HTML2QUX.removeHiddenElements() > Container' , widget)
             return true
         }
         return false
@@ -946,7 +946,7 @@ export default class HTML2QUX {
 
         
         } catch(err) {
-            Logger.error('HTMLImporter.getStyle()', err)
+            Logger.error('HTML2QUX.getStyle()', err)
         }
 
         if (node.tagName === 'BUTTON') {

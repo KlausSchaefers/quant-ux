@@ -48,7 +48,9 @@ import Agent from '../../../ai/Agent.js';
 import CachedLLM from '../../../ai/llm/CachedLLM.js';
 import HTML2QUX from '../../../ai/HTML2QUX'
 import Logger from '../../../core/Logger.js';
-import QIcon from 'page/QIcon'
+import QIcon from 'page/QIcon';
+import AgentMemory from '../../../ai/AgentMemory'
+
 
 export default {
     name: 'AIChat',
@@ -100,8 +102,7 @@ export default {
             const options = Util.getOptions()
             Logger.log(-1, 'AIChat.runAI', options.provider, this.model.screenSize)
             const llm = Util.getLLM(options, this.isDebug)
-            console.debug(llm)
-       
+          
             if (!llm) {
                 this.messages.push({
                     "role": "assistant",
@@ -120,7 +121,9 @@ export default {
 
             try {
                 const context = {
-                    model: this.model
+                    model: this.model,
+                    selection: this.selection,
+                    memory: this.agentMemory
                 }
                 const html2QUX = new HTML2QUX(this.$refs.iframeCntr)
                 const agent = new Agent(
@@ -128,12 +131,10 @@ export default {
                     context,
                     options, 
                     html2QUX,
-                    (m) => {
-                        this.onChangeLastAgentMessage('\n\n' + m + '\n\n')
-                    }
+                    this.onProgress
                 )
                 const result = await agent.run(this.messages)
-                this.onChangeLastAgentMessage("Done!")
+             
                 this.status.busy = false;
                 this.$emit('agentResult', result)
             } catch (err) {
@@ -141,6 +142,14 @@ export default {
                 this.status.busy = false;
                 this.onChangeLastAgentMessage("Error!")
             }    
+        },
+        onProgress(type, message) {
+            if (type === 'status') {
+                this.onChangeLastAgentMessage(`\n${message}\n`)
+            }
+            if (type === 'error') {
+                this.onChangeLastAgentMessage(`\n${message}\n`)
+            }
         },
         onMessageClick (m, e) {
             if (m.action === 'openSettings') {
@@ -163,6 +172,7 @@ export default {
         onClear() {
             this.messages = []
             CachedLLM.clearCache()
+            this.agentMemory.clear()
             this.onChange()
         },
         onSettings(e) {
@@ -185,11 +195,8 @@ export default {
             this.onChange()
         },
         onChangeLastAgentMessage(txt) {
-            this.messages[this.messages.length - 1].content += txt
-            this.onChange()
-        },
-        clearAgentMessages() {
-            this.messages = this.messages.filter(m => m.role !== "assistant");
+            const last = this.messages[this.messages.length - 1]
+            last.content += txt
             this.onChange()
         },
         onAgentMessage(txt) {
@@ -210,6 +217,10 @@ export default {
         },
         initSettings() {
             this.cssMode = Util.getCSSMode()    
+            this.agentMemory = new AgentMemory()
+        },
+        getMemory() {
+            return this.agentMemory
         }
     },
     mounted() {

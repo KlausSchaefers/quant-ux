@@ -9,6 +9,7 @@
           <QIcon icon="Code" @click="showHTML = !showHTML"/>
           <QIcon icon="CSS" @click="showCSS = !showCSS; renderCSS()"/>
           <QIcon icon="AddWidget" @click="showIntend"/>
+          <QIcon icon="DataBinding" @click="showMemory"/>
         </div>
         <AIChat 
           :messages="messages" 
@@ -128,6 +129,7 @@ export default {
   methods: {
     onAgentResult(result) {
       //console.debug(result)
+      this.showMemory()
       for (let change of result.changes) {
         //console.debug('onAgentResult() > ', result)
         if (change.type === 'addScreen') {
@@ -207,6 +209,10 @@ export default {
     },
     showIntend(e) {
       this.$refs.intendDialog.show(e.target)
+    },
+    showMemory () {
+      const m = this.$refs.chat.getMemory()
+      console.debug('showMemory() > ', m.data)
     },
     showSettings(e) {
       this.$refs.settingsDialog.show(e.target)

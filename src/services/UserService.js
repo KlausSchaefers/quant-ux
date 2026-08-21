@@ -96,6 +96,12 @@ class UserService extends AbstractService{
         return await this._get('/rest/user/' + id + '.json')
     }
 
+    async setTos(key) {
+        const req = {}
+        req[key] = true
+        this._post('/rest/user/' + this.user.id + "/tos.json", req)
+    }
+
     getNotications () {
         return this._get('/rest/notifications.json')
     }

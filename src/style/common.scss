@@ -336,3 +336,14 @@ a:focus {
   top: 5px;
   right: 5px;
 }
+
+.MatcFlex {
+  display: flex;
+  gap: $spacing-s;
+}
+
+.MatcFlexAlignCenter {
+  display: flex;
+  gap: $spacing-s;
+  align-items: center;
+}
