@@ -1467,6 +1467,12 @@ function isLeafNode(node, debug=false) {
         const child = children[i]
         const type = child.nodeType
         const tagName = child.tagName
+        if (type === ELEMENT_NODE && tagName === 'BR') {
+            // <br> is just a line break inside the text, not a separate
+            // widget. It is kept as a leaf child and later turned into
+            // \n by innerText.
+            counts++
+        }
         if (type === ELEMENT_NODE && inlineTextTags.has(tagName)) {
             counts++
             inlineElementCount++
