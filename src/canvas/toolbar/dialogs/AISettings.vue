@@ -18,8 +18,8 @@
 
                     <div class="MatcCardInfo MatcCard MatcCardSmall" >
                             {{ getNLS('ai.tosMore')}}
-                            <a href="">{{ getNLS("ai.tosLink")}} </a> and 
-                            <a href="">{{ getNLS("ai.tosLink2")}} </a>
+                            <a href="https://quant-ux.com/termsofservice/" target="tos">{{ getNLS("ai.tosLink")}} </a> and 
+                            <a href="https://quant-ux.com/privacy" target="privacy">{{ getNLS("ai.tosLink2")}} </a>
                     </div>  
 
                     </template>
@@ -55,7 +55,7 @@
                         </div>
 
              
-                        <div class="MatcCardInfo MatcCard MatcCardSmall" v-if="selectedProvider === 'qux'" >
+                        <div class="MatcCardInfo MatcCard MatcCardSmall" v-if="selectedProvider.indexOf('qux') >=0" >
                             {{ getNLS('ai.quxUsage')}}
                          </div>  
                       
@@ -93,7 +93,7 @@ export default {
             tokenGemini: '',
             tokenAnthropic: '',
             provider: [
-                { label: "Quant-UX", value: 'qux' },
+                { label: "Quant-UX", value: 'quxOpenAI' },
                 { label: "OpenAI", value: 'openai' },
                 { label: "Anthropic", value: 'anthropic' },
                 { label: "Gemini (Google)", value: "gemini" },

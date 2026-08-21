@@ -16,6 +16,10 @@ export default class OpenAI extends LLM {
     return this.modelDefault;
   }
 
+  _getBaseUrl() {
+    return "https://api.openai.com";
+  }
+
   /**
    * tools: provider-agnostic tool definitions (see LLM.runToolCalls doc), e.g.
    *   [{ name, description, parameters }]
@@ -32,7 +36,7 @@ export default class OpenAI extends LLM {
       tools: this._toOpenAITools(tools),
     };
     try {
-      const res = await this._post("https://api.openai.com/v1/responses", data);
+      const res = await this._post(this._getBaseUrl() + "/v1/responses", data);
 
       if (res.output) {
         const content = res.output
@@ -94,7 +98,7 @@ export default class OpenAI extends LLM {
       input: messages,
     };
     try {
-      const res = await this._post("https://api.openai.com/v1/responses", data);
+      const res = await this._post(this._getBaseUrl() + "/v1/responses", data);
 
       if (res.output) {
         const content = res.output

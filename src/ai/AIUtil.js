@@ -1,4 +1,5 @@
 import OpenAI from './llm/OpenAI.js';
+import QuxOpenAI from './llm/QuxOpenAI.js';
 import Claude from './llm/Claude.js';
 import Gemini from './llm/Gemini.js';
 import CachedLLM from './llm/CachedLLM.js';
@@ -77,6 +78,10 @@ export function getCSSMode(){
 export function getLLM(options, useCache=false) {
     Logger.log(1, 'AIUtil.getLLM() > ', options.provider, useCache)
     let result;
+    if (options.provider === 'quxOpenAI') {
+        result = new QuxOpenAI()
+    }
+
     if (options.provider === 'openai') {
         result = new OpenAI(options.tokenOpenAI)
     }

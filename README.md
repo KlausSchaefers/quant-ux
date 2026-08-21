@@ -125,6 +125,9 @@ services:
       - QUX_KEYCLOAK_REALM=
       - QUX_USER_ALLOW_SIGNUP=true # set the false to not allow users to signup
       - QUX_USER_ALLOWED_DOMAINS=* # comma separated list of domains, e.g. 'my-server.com' or '*' for all
+      - QUX_AI_TOKEN=your-open-ai-token # Your open ai token that is shared with all users
+      - QUX_AI_ALLOWED_URLS=https://api.openai.com/v1/
+
     depends_on:
       - mongo
   qux-ws:
@@ -146,6 +149,7 @@ services:
 Make sure to update `QUX_JWT_PASSWORD` the ENV variable to make sure your installation is secure.
 Update `QUX_HTTP_HOST`, `QUX_MAIL_USER`, `QUX_MAIL_PASSWORD` and `QUX_MAIL_HOST` to sure correct mail handling
 
+If you want to enbale AI for your users, set `QUX_AI_TOKEN`. This must be your OpenAI token. Please be aware that this can lead to significant costs. Best create a token with a limited budget.
 
 2) Start the containers with the following command
 
