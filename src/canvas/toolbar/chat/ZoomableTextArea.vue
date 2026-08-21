@@ -33,7 +33,13 @@
                           </li>
                         </ul>
                       </div>
+
+                       <div class="MatcZoomableTextAreaActionInfo">
+                        {{usage}}
+                      </div>
+                    
                   </div>
+
                  
                   
                   <QIcon icon="ArrowUp" @click="onSend" class="MatcZoomableTextAreaActionSend" />
@@ -56,7 +62,7 @@ import * as Util from '../../../ai/AIUtil'
 // import { IconWindowMaximize, IconWindowMinimize } from '@tabler/icons-vue';
 
 export default {
-  props: ['disabled', 'defaultMessage', 'cssMode'],
+  props: ['disabled', 'defaultMessage', 'cssMode', 'usage'],
   emits: ['change', 'settings', 'clear', 'mode'],
   data() {
     return {

@@ -35,8 +35,16 @@ export default class QuxOpenAI extends OpenAI {
               resolve(j);
             });
           } else {
-            console.error("QuxOpenAI._post", res)
-            reject(new Error("Could not post " + url));
+            res.json()
+              .then((body) => {
+                const err = new Error(body.error || body.message || body.type || ("Could not post " + url));
+                err.body = body;
+                reject(err);
+              })
+              .catch(() => {
+                console.error("QuxOpenAI._post", res);
+                reject(new Error("Could not post " + url));
+              });
           }
         })
         .catch((err) => {

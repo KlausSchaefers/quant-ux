@@ -52,11 +52,8 @@ export default class IntendTool extends Tool {
     ];
 
     const res = await this.llm.runToolCalls(aiMessages, tools);
-
     if (res.error) {
-      return {
-        error: res.error,
-      };
+      throw new Error(res.error)
     }
 
     return res.toolCalls

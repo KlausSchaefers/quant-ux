@@ -44,6 +44,10 @@
 
 .MatcAiChatMessageBody {
   padding: 0px 8px;
+
+  strong {
+    color: inherit;
+  }
 }
 
 .MatcAiChatMessageHeader svg{

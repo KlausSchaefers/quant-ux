@@ -46,9 +46,7 @@ export default class ScreenTool extends Tool {
     const res = await this.llm.runHTMLPrompt(aiMessages);
 
     if (res.error) {
-      return {
-        error: res.error,
-      };
+      throw new Error(res.error)
     }
 
     const html = res.html

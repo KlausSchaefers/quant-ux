@@ -34,6 +34,7 @@
         "error-server-no-key": "You need to enter the API key",
         "error-server-key": "The API key is wrong",
         "error-insufficient_quota": "Something is wrong with your OpenAI Quota. Check the payments.",
+        "error-no-token-left": "You have used up your free Quant-UX AI tokens. Please try again later or use your own API key.",
         "error-prompt-too-short": "The prompt is too short",
         "error-yaml": "OpenAI send wrong data. Please try again",
         "is-wireframe": "Create as wireframe",

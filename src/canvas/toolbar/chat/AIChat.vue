@@ -21,6 +21,7 @@
             <ZoomableTextArea 
                 :defaultMessage="defaultMessage"
                 :cssMode="cssMode"
+                :usage="currentAIUssage"
                 @mode="onCSSMode"
                 @change="addMessage" 
                 :disabled="status.busy"
@@ -50,7 +51,7 @@ import HTML2QUX from '../../../ai/HTML2QUX'
 import Logger from '../../../core/Logger.js';
 import QIcon from 'page/QIcon';
 import AgentMemory from '../../../ai/AgentMemory'
-
+import Services from 'services/Services'
 
 export default {
     name: 'AIChat',
@@ -79,7 +80,8 @@ export default {
             status: {
                 busy: false
             },
-            selection:[]
+            selection:[],
+            currentAIUssage: ''
         }
 
     },
@@ -137,10 +139,16 @@ export default {
              
                 this.status.busy = false;
                 this.$emit('agentResult', result)
+
+                this.updateUsage()
             } catch (err) {
-                Logger.error('AIChat.runAI() >', err)
+                //Logger.error('AIChat.runAI() >', err)
+                if (err.message === 'error-no-token-left') {
+                    this.onProgress('error', "Sorry, your free AI budget is all used. Open the AI settings and use a different AI provider with your own API token.")
+                } else {
+                    this.onProgress('error', "Error!")
+                }
                 this.status.busy = false;
-                this.onChangeLastAgentMessage("Error!")
             }    
         },
         onProgress(type, message) {
@@ -148,8 +156,13 @@ export default {
                 this.onChangeLastAgentMessage(`\n${message}\n`)
             }
             if (type === 'error') {
-                this.onChangeLastAgentMessage(`\n${message}\n`)
+                this.onChangeLastAgentMessage(`\n**${message}**\n`)
             }
+        },
+        onChangeLastAgentMessage(txt) {
+            const last = this.messages[this.messages.length - 1]
+            last.content += txt
+            this.onChange()
         },
         onMessageClick (m, e) {
             if (m.action === 'openSettings') {
@@ -194,11 +207,7 @@ export default {
             this.$emit('change', this.messages)
             this.onChange()
         },
-        onChangeLastAgentMessage(txt) {
-            const last = this.messages[this.messages.length - 1]
-            last.content += txt
-            this.onChange()
-        },
+  
         onAgentMessage(txt) {
             this.messages.push({
                 "role": "assistant",
@@ -215,6 +224,18 @@ export default {
                 }
             }, 50)
         },
+        async updateUsage () {
+            const options = Util.getOptions()
+            if (options.provider && options.provider.indexOf('quxOpenAI') >=0 ) {
+                let user = Services.getUserService().load()
+                user = await Services.getUserService().loadById(user.id)
+                const p = (user.aiUsage || 0) / 20
+                this.currentAIUssage = 'Usage: ' + Math.round(p * 100) + '%';
+                return
+            }
+            this.currentAIUssage = ''
+           
+        },
         initSettings() {
             this.cssMode = Util.getCSSMode()    
             this.agentMemory = new AgentMemory()
@@ -225,6 +246,7 @@ export default {
     },
     mounted() {
         this.initSettings()
+        this.updateUsage()
     }
 }
 </script>
