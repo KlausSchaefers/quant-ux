@@ -3,6 +3,7 @@ import IntendTool from './tools/IntendTool'
 import ScreenTool from './tools/ScreenTool'
 import MutliScreenTool from './tools/MutliScreenTool'
 import * as Util from './AIUtil'
+import { ht } from "date-fns/locale";
 export default class Agent {
 
   constructor(llm, context, options, html2QUX, progressCallback) {
@@ -63,6 +64,8 @@ export default class Agent {
           value: layoutedScreens,
           html: html
       })
+      this.memory.set('lastHTML', html)
+      this.memory.set('lastQUX', app)
     }
 
     this.onProgress("status", "Done!");

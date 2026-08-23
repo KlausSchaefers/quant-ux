@@ -1145,7 +1145,11 @@ export default {
               node.style.background = "linear-gradient" + value;
               node.style.background = "-webkit-linear-gradient" + value;
             } else {
-              node.style.background = style.background;
+              // Use the longhand here, since the "background" shorthand
+              // resets background-image/background-clip, which would wipe
+              // out a gradient text effect set by _set_gradient_color()
+              // on the same node.
+              node.style.backgroundColor = style.background;
             }
           } else {
             console.warn("UIWidget._set_background() > No node ", this.model);

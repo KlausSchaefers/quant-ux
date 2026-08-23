@@ -168,8 +168,8 @@ class UserService extends AbstractService{
                 this.ttlTimeout = setTimeout(() => {
                     location.href = `#/logout.html`
                 }, waitTime)
-                this.logger.log(-1, 'setTTL', 'User valid until', new Date(u.exp))
-                this.logger.log(-1, 'setTTL', 'Auto loggout  in ' + (waitTime / 1000) + ' sec')
+                this.logger.log(2, 'setTTL', 'User valid until', new Date(u.exp))
+                this.logger.log(2, 'setTTL', 'Auto loggout  in ' + (waitTime / 1000) + ' sec')
             } else {
                 this.logger.log(-1, 'setTTL', 'exit > NO token')
             }
