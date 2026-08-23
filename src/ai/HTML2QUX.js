@@ -925,7 +925,13 @@ export default class HTML2QUX {
             if (backgroundImage && backgroundImage !== 'none') {
                 const gradient = parseGradient(backgroundImage)
                 if (gradient) {
-                    result.background = gradient
+                    const backgroundClip = compStyle.backgroundClip || compStyle.webkitBackgroundClip
+                    if (backgroundClip === 'text') {
+                        result.color = gradient
+                        delete result.gradient
+                    } else {
+                        result.background = gradient
+                    }
                 }
             }
 
@@ -1289,7 +1295,7 @@ function parseGradient(value) {
         const first = parts[0] || ''
         const degMatch = first.match(/^(-?\d+(?:\.\d+)?)deg$/)
         if (degMatch) {
-            direction = Math.round(parseFloat(degMatch[1])) + 270
+            direction = Math.round(parseFloat(degMatch[1]))
             colorParts = parts.slice(1)
         } else if (/^to\s/.test(first)) {
             if (gradientKeywordDirections[first] !== undefined) {

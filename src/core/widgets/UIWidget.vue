@@ -1157,8 +1157,11 @@ export default {
     _set_gradient_color(parent, style) {
         const c = style.color 
         if (c.gradient) {
+          
           const value = this._get_gradient_css(c);
-          parent.style.backgroundImage = "linear-gradient" + value;
+          const gradient = 'linear-gradient' + value
+          console.debug('Label._set_gradient_color() >', gradient)
+          parent.style.backgroundImage = gradient
           parent.style.color = 'transparent';
           parent.style.backgroundClip = 'text';
         } else {
@@ -1169,7 +1172,7 @@ export default {
     },
 
     _get_gradient_css(background) {
-      let value = "(" + background.direction + "deg";
+      let value = "( " + background.direction + "deg ";
       const sortedColors = background.colors.slice()
       sortedColors.sort((a, b) => {
         return a.p - b.p
@@ -1178,7 +1181,7 @@ export default {
         const color = sortedColors[i];
         value += "," + color.c + " " + color.p + "% ";
       }
-      value + ");";
+      value += " )";
       return value;
     },
 

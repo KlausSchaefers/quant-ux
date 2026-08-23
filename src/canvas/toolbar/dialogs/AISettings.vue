@@ -53,6 +53,12 @@
                                 <input type="password" autocomplete="off" class="form-control" v-model="tokenGemini"/>
                             </form>
                         </div>
+                        <div class="form-group" v-if="selectedProvider === 'openRouter'">
+                            <label>OpenRouter {{ getNLS('ai.token') }}</label>
+                            <form autocomplete="off">
+                                <input type="password" autocomplete="off" class="form-control" v-model="tokenOpenRouter"/>
+                            </form>
+                        </div>
 
              
                         <div class="MatcCardInfo MatcCard MatcCardSmall" v-if="selectedProvider.indexOf('qux') >=0" >
@@ -92,11 +98,13 @@ export default {
             tokenOpenAI: '',
             tokenGemini: '',
             tokenAnthropic: '',
+            tokenOpenRouter: '',
             provider: [
                 { label: "Quant-UX", value: 'quxOpenAI' },
                 { label: "OpenAI", value: 'openai' },
                 { label: "Anthropic", value: 'anthropic' },
                 { label: "Gemini (Google)", value: "gemini" },
+                { label: "OpenRouter (DeepSeek)", value: "openRouter" },
                 // { label: "Other", value: "other" }
             ]
         }
@@ -118,7 +126,8 @@ export default {
                 'provider': this.selectedProvider,
                 'tokenOpenAI': this.tokenOpenAI,
                 'tokenGemini': this.tokenGemini,
-                'tokenAnthropic': this.tokenAnthropic
+                'tokenAnthropic': this.tokenAnthropic,
+                'tokenOpenRouter': this.tokenOpenRouter
             })
             localStorage.setItem('quxAISettings',value)
             this.emit('close')
@@ -152,6 +161,7 @@ export default {
             this.tokenOpenAI = data.tokenOpenAI
             this.tokenGemini = data.tokenGemini
             this.tokenAnthropic = data.tokenAnthropic
+            this.tokenOpenRouter = data.tokenOpenRouter
         }
     }
 }

@@ -2,6 +2,7 @@ import OpenAI from './llm/OpenAI.js';
 import QuxOpenAI from './llm/QuxOpenAI.js';
 import Claude from './llm/Claude.js';
 import Gemini from './llm/Gemini.js';
+import OpenRouterLLM from './llm/OpenRouterLLM.js';
 import CachedLLM from './llm/CachedLLM.js';
 import Logger from '../core/Logger.js';
 
@@ -92,6 +93,10 @@ export function getLLM(options, useCache=false) {
 
     if (options.provider === 'gemini') {
         result =  new Gemini(options.tokenGemini)
+    }
+
+    if (options.provider === 'openRouter') {
+        result = new OpenRouterLLM(options.tokenOpenRouter)
     }
 
     if (useCache && result) {
