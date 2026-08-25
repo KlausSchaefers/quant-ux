@@ -109,13 +109,17 @@ export default {
                 this.messages.push({
                     "role": "assistant",
                     "content": "Please configure the **AI provider**. Click __here__ or choose Menu > AI Settings",
-                    "action": "openSettings"
+                    "action": "openSettings",
+                    "errors": "",
+                    "meta": []
                 })
                 return
             } else {
                 this.messages.push({
                     "role": "assistant",
-                    "content": "Start working..."
+                    "content": "Start working...",
+                    "errors": "",
+                    "meta": []
                 })
             }
 
@@ -152,16 +156,19 @@ export default {
             }    
         },
         onProgress(type, message) {
+            const last = this.messages[this.messages.length - 1]
             if (type === 'status') {
-                this.onChangeLastAgentMessage(`\n${message}\n`)
+                last.content += `\n${message}\n`
             }
             if (type === 'error') {
-                this.onChangeLastAgentMessage(`\n**${message}**\n`)
+                last.errors += `\n\n${message}\n\n`
             }
-        },
-        onChangeLastAgentMessage(txt) {
-            const last = this.messages[this.messages.length - 1]
-            last.content += txt
+            if (type === 'llm') {
+                if (!last.meta) {
+                    last.meta = []
+                }
+                last.meta.push(message)
+            }
             this.onChange()
         },
         onMessageClick (m, e) {
@@ -189,7 +196,6 @@ export default {
             this.onChange()
         },
         onSettings(e) {
-            console.debug('onSettings')
             this.$emit('settings', e)
         },
         deleteMessage(i) {
@@ -200,7 +206,9 @@ export default {
             if (txt.trim()) {
                 this.messages.push({
                     "role": "user",
-                    "content": txt
+                    "content": txt,
+                    "meta": [],
+                    "errors": ""
                 })
             }
             this.runAI()
@@ -226,7 +234,7 @@ export default {
         },
         async updateUsage () {
             const options = Util.getOptions()
-            if (options.provider && options.provider.indexOf('quxOpenAI') >=0 ) {
+            if (options.provider && options.provider.indexOf('qux') >=0 ) {
                 let user = Services.getUserService().load()
                 user = await Services.getUserService().loadById(user.id)
                 const p = (user.aiUsage || 0) / 20

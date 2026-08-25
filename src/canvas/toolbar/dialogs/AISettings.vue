@@ -101,6 +101,7 @@ export default {
             tokenOpenRouter: '',
             provider: [
                 { label: "Quant-UX", value: 'quxOpenAI' },
+                //{ label: "Quant-UX", value: 'quxOpenRouter' },
                 { label: "OpenAI", value: 'openai' },
                 { label: "Anthropic", value: 'anthropic' },
                 { label: "Gemini (Google)", value: "gemini" },

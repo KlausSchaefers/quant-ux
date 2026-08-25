@@ -45,9 +45,8 @@ export default class Agent {
     this.onProgress("status", " - Check intend...");
 
     const tools = await this.intendTool.invoke(messages)
-    Logger.log(-1, 'Agent.run() > tools: ', tools.map(t => t.name).join(','))
     if (tools.length === 0) {
-      this.onProgress("error", "I can't help you.");
+      this.onProgress("error", `I can't help you. Ask me something like create a landing page`);
       return result
     }
 
@@ -66,6 +65,7 @@ export default class Agent {
       })
       this.memory.set('lastHTML', html)
       this.memory.set('lastQUX', app)
+      this.onProgress('llm', html)
     }
 
     this.onProgress("status", "Done!");

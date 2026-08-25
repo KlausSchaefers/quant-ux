@@ -1,6 +1,6 @@
 <template>
 
-    <div :class="'MatcAiChatMessage ' + roleClass" @click="$emit('click', $event)">
+    <div :class="'MatcAiChatMessage ' + roleClass + ' ' + errorClass" @click="$emit('click', $event)">
         <div v-html="value" class="MatcAiChatMessageBody">
         </div>
     </div>
@@ -27,9 +27,22 @@ export default {
    //IconX
   },
   computed: {
+    hasMeta () {
+      return this.message?.meta?.length > 0
+    },
     value () {
+      if (this.message.errors) {
+        const html = MDUtil.makeHtml(this.message.errors)
+        return html
+      }
       const html = MDUtil.makeHtml(this.message.content)
       return html
+    },
+    errorClass () {
+      if (this.message.errors) {
+        return 'MatcAiChatMessageError'
+      }
+      return ''
     },
     roleClass () {
       const role = this.message.role

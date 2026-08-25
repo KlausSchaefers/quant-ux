@@ -626,6 +626,11 @@ div.MatcToolbarViewConfigCntrSpace {
   color: $chat_message_color_user;
 }
 
+.MatcAiChatMessageError{
+    color: $color_danger;
+    background: $color_danger_light;
+}
+
 .MatcAiEditorActionPopupMenu,
 .MatcZoomableTextAreaActionPopupMenu {
   background: $popup_background;

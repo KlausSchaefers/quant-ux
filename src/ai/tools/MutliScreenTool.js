@@ -10,7 +10,7 @@
       constructor(llm, context, options, progressCallback, screenTool) {
         super(llm, context, options, progressCallback);
         this.screenTool = screenTool
-        Logger.log(-1, 'MutliScreenTool.constructor() ', screenTool)
+        Logger.log(2, 'MutliScreenTool.constructor() ', screenTool)
       }
     
       async invoke(messages) {

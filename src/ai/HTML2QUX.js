@@ -626,7 +626,7 @@ export default class HTML2QUX {
     }
 
     createSVGIconWidget (node) {
-        Logger.log(-11, 'HTMLImpoter.createSVGIconWidget() > ', node)
+        Logger.log(2, 'HTMLImpoter.createSVGIconWidget() > ', node)
 
         const widget = this.createWidget(node)
         widget.type = 'SVGIcon'

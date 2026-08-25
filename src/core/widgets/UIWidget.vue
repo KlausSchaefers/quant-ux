@@ -1161,10 +1161,8 @@ export default {
     _set_gradient_color(parent, style) {
         const c = style.color 
         if (c.gradient) {
-          
           const value = this._get_gradient_css(c);
           const gradient = 'linear-gradient' + value
-          console.debug('Label._set_gradient_color() >', gradient)
           parent.style.backgroundImage = gradient
           parent.style.color = 'transparent';
           parent.style.backgroundClip = 'text';
