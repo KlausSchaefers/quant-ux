@@ -131,6 +131,7 @@ export default class ScreenTool extends Tool {
             Important! Please follow this additonal rules when designing the screen:
             - use always box-sizing: border-box;
             - Do not use hidden form elements
+            - Do not use vendor prefixes for CSS styles
             - do not rotate elements. Do not use css transform:rotate().
             - Do not place any "Section" in another "Section". Section should be only used under the "Screen" element.
             - Use one of these fonts: ${fonts}    

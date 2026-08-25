@@ -30,6 +30,7 @@ export default class OpenRouterLLM extends LLM {
       model: this.getModel(),
       messages: messages,
       tools: this._toOpenAITools(tools),
+      max_tokens: 16000,
     };
     try {
       const res = await this._post(this._getBaseUrl() + "/chat/completions", data);
@@ -85,6 +86,7 @@ export default class OpenRouterLLM extends LLM {
     const data = {
       model: this.getModel(),
       messages: messages,
+      max_tokens: 36000,
     };
     try {
       const res = await this._post(this._getBaseUrl() + "/chat/completions", data);

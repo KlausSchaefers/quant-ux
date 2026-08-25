@@ -73,12 +73,10 @@ export default class LLM {
   }
 
   parseHTML(content) {
-    if (content.startsWith("```html")) {
-      content = content.substring(8, content.length - 3).trim();
+    const match = content.match(/```(?:html)?\s*([\s\S]*?)```/i);
+    if (match) {
+      return match[1].trim();
     }
-    if (content.startsWith("```")) {
-      content = content.substring(3, content.length - 3).trim();
-    }
-    return content;
+    return content.trim();
   }
 }
