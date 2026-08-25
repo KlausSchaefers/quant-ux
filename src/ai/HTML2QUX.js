@@ -519,26 +519,32 @@ export default class HTML2QUX {
         //     return true
         // }
         if (widget.style.opacity === 0) {
-            Logger.log(1, 'HTML2QUX.removeHiddenElements() > Opacity' , widget)
+            Logger.log(-1, 'HTML2QUX.removeHiddenElements() > Opacity' , widget)
             /** 
              * We should also remove all the children.
              */
             return true
         }
+        // if (!hasVisibleBorder(widget.style) && isTranparent(widget.style.background) && !widget.props.label) {
+        //     Logger.log(-1, 'HTML2QUX.removeHiddenElements() > Not visible container ? ' + isTranparent(widget.style.background) + ' ' + !hasVisibleBorder(widget.style), widget)
+        //     return true
+        // }
         if (widget.type === 'Label' && !widget.props.label) {
-            Logger.log(1, 'HTML2QUX.removeHiddenElements() > Empty Label' , widget)
+            Logger.log(-1, 'HTML2QUX.removeHiddenElements() > Empty Label' , widget)
             return true
         }
         if (this.isRemoveContainers && widget.children.length > 0) {
-            Logger.log(1, 'HTML2QUX.removeHiddenElements() > Container' , widget)
+            Logger.log(-1, 'HTML2QUX.removeHiddenElements() > Container' , widget)
             return true
         }
         return false
     }
   
     parseNode (node, parent, prefx='BODY.', logLevel = 1) {
-       
-        const children = node.childNodes;
+
+        // absolutely/fixed positioned children are pushed to the end, so they
+        // are added after their siblings and end up on top in the widget tree.
+        const children = Array.from(node.childNodes).sort((a, b) => isAbsolute(a) - isAbsolute(b));
 
         const addChild = (child) => {
             parent.children.push(child)
@@ -925,6 +931,7 @@ export default class HTML2QUX {
             if (backgroundImage && backgroundImage !== 'none') {
                 const gradient = parseGradient(backgroundImage)
                 if (gradient) {
+                 
                     const backgroundClip = compStyle.backgroundClip || compStyle.webkitBackgroundClip
                     if (backgroundClip === 'text') {
                         result.color = gradient
@@ -1157,7 +1164,11 @@ export default class HTML2QUX {
         }
 
         if (node.tagName === 'DIV' && !hasVisibleBorder(style) && isTranparent(style?.background)) {
-            return 'Label'
+            if (hasSingleTextChild(node)) {
+                Logger.log(2, 'HTML2QUX.getWidgetType() > DIV to Label', node)
+                return 'Label'
+            }
+            return 'Button'
         }
 
         if (node.tagName === 'BUTTON') {
@@ -1277,7 +1288,9 @@ function splitTopLevel(value) {
 }
 
 function parseGradient(value) {
-    const trimmed = value.trim()
+    // strip vendor prefixes (-webkit-, -moz-, -ms-, -o-) so e.g.
+    // "-webkit-linear-gradient(...)" is parsed the same as "linear-gradient(...)"
+    const trimmed = value.trim().replace(/^-(webkit|moz|ms|o)-(?=(linear|radial)-gradient\()/, '')
     const isRadial = trimmed.startsWith('radial-gradient')
     if (!isRadial && !trimmed.startsWith('linear-gradient')) {
         return null
@@ -1418,6 +1431,14 @@ function isTable(node) {
 
 function isSvg(node) {
     return !!node.tagName && node.tagName.toLowerCase() === 'svg'
+}
+
+function isAbsolute(node) {
+    if (node.nodeType !== ELEMENT_NODE) {
+        return false
+    }
+    const position = getComputedStyle(node).position
+    return position === 'absolute' || position === 'fixed'
 }
 
 // // looks for the first shape with an explicit, non-transparent fill so the
