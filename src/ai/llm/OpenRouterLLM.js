@@ -1,11 +1,16 @@
+import Logger from "../../core/Logger";
 import LLM from "./LLM";
 
 export default class OpenRouterLLM extends LLM {
 
-  constructor(token, model = 'deepseek/deepseek-v4-flash') {
+  constructor(token, model) {
     super()
+    if (!model) {
+      model = 'deepseek/deepseek-v4-flash'
+    }
     this.token = token;
     this.model = model;
+    Logger.log(-1, 'OpenRouterLLM.constructor() > ', this.model)
   }
 
   getModel() {

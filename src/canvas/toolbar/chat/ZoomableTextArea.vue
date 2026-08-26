@@ -5,6 +5,7 @@
                 <textarea class="MatcIgnoreOnKeyPress " 
                   @focus="hasFocus=true"
                   @blur="hasFocus=false"
+                  :placeholder="placeholder"
                   @keyup.enter="onEnter" 
                   v-model="text" 
                   ref="textarea" 
@@ -66,6 +67,7 @@ export default {
   emits: ['change', 'settings', 'clear', 'mode'],
   data() {
     return {
+        placeholder: 'Create a landing page for a pet shop.',
         hasFocus: false,
         text: '',
         isMax: false,

@@ -101,7 +101,7 @@ export function getLLM(options, useCache=false) {
     }
 
     if (options.provider === 'openRouter') {
-        result = new OpenRouterLLM(options.tokenOpenRouter)
+        result = new OpenRouterLLM(options.tokenOpenRouter, options.modelOpenRouter)
     }
 
     if (useCache && result) {

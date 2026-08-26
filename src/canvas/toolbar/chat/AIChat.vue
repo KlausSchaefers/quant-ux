@@ -62,7 +62,7 @@ export default {
             type: String
         }, 
         'isDebug': {
-            default: true,
+            default: location.href.indexOf('localhost') > 0,
             type: Boolean
         }},
     data() {
@@ -255,6 +255,7 @@ export default {
     mounted() {
         this.initSettings()
         this.updateUsage()
+        console.debug('mounted', this.isDebug, location.href.indexOf('localhost'))
     }
 }
 </script>

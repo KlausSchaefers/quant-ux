@@ -53,6 +53,13 @@
                                 <input type="password" autocomplete="off" class="form-control" v-model="tokenGemini"/>
                             </form>
                         </div>
+
+                        <div class="form-group" v-if="selectedProvider === 'openRouter'">
+                            <label>Model</label>
+                            <DropDownButton v-model="modelOpenRouter" :options="openRouterModels"></DropDownButton>
+                        </div>
+
+
                         <div class="form-group" v-if="selectedProvider === 'openRouter'">
                             <label>OpenRouter {{ getNLS('ai.token') }}</label>
                             <form autocomplete="off">
@@ -60,12 +67,8 @@
                             </form>
                         </div>
 
-             
-                        <div class="MatcCardInfo MatcCard MatcCardSmall" v-if="selectedProvider.indexOf('qux') >=0" >
-                            {{ getNLS('ai.quxUsage')}}
-                         </div>  
-                      
-
+            
+      
                     </div>
                     </template>
              </div>
@@ -85,6 +88,7 @@ import DojoWidget from 'dojo/DojoWidget'
 import RadioBoxList from 'common/RadioBoxList'
 import CheckBox from 'common/CheckBox'
 import Services from 'services/Services'
+import DropDownButton from 'page/DropDownButton'
 import { te } from 'date-fns/locale';
 import Logger from '../../../core/Logger';
 
@@ -99,6 +103,11 @@ export default {
             tokenGemini: '',
             tokenAnthropic: '',
             tokenOpenRouter: '',
+            modelOpenRouter: 'qwen/qwen3.7-flash',
+            openRouterModels:[
+                { label: "Deep Seek Flash 4", value: 'deepseek/deepseek-v4-flash' },
+                { label: "Qwen 3.8 Flash", value: 'qwen/qwen3.8-flash' }
+            ],
             provider: [
                 { label: "Quant-UX", value: 'quxOpenAI' },
                 //{ label: "Quant-UX", value: 'quxOpenRouter' },
@@ -106,11 +115,10 @@ export default {
                 { label: "Anthropic", value: 'anthropic' },
                 { label: "Gemini (Google)", value: "gemini" },
                 { label: "OpenRouter (DeepSeek)", value: "openRouter" },
-                // { label: "Other", value: "other" }
             ]
         }
     },
-    components: {RadioBoxList, CheckBox},
+    components: {RadioBoxList, CheckBox, DropDownButton},
     methods: {
         async save () {
             if (!this.hasAcceptedAI) {
@@ -128,7 +136,8 @@ export default {
                 'tokenOpenAI': this.tokenOpenAI,
                 'tokenGemini': this.tokenGemini,
                 'tokenAnthropic': this.tokenAnthropic,
-                'tokenOpenRouter': this.tokenOpenRouter
+                'tokenOpenRouter': this.tokenOpenRouter,
+                'modelOpenRouter': this.modelOpenRouter
             })
             localStorage.setItem('quxAISettings',value)
             this.emit('close')
@@ -163,6 +172,7 @@ export default {
             this.tokenGemini = data.tokenGemini
             this.tokenAnthropic = data.tokenAnthropic
             this.tokenOpenRouter = data.tokenOpenRouter
+            this.modelOpenRouter = data.modelOpenRouter
         }
     }
 }

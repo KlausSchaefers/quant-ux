@@ -16,7 +16,6 @@
           @settings="showSettings"
           @agentResult="onAgentResult" 
           ref="chat" 
-          :isDebug="true"
           :defaultMessage="examples[4]"></AIChat>
       </div>
       <div>

@@ -553,6 +553,9 @@ export default class HTML2QUX {
 
         for (let i = 0; i < children.length; i++) {
             const child = children[i]
+            if (child.nodeType === ELEMENT_NODE && isIgnoredTag(child)) {
+                continue
+            }
             const isLeaf = isLeafNode(child)
             if (child.nodeType === ELEMENT_NODE) {
                 if (isDropDown(child)) {
@@ -1431,6 +1434,10 @@ function isTable(node) {
 
 function isSvg(node) {
     return !!node.tagName && node.tagName.toLowerCase() === 'svg'
+}
+
+function isIgnoredTag(node) {
+    return node.tagName === 'SCRIPT'
 }
 
 function isAbsolute(node) {
