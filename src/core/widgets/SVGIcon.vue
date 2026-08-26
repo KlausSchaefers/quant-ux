@@ -109,7 +109,7 @@
   
         if (style.color) {
           this.$refs.svg.style.color = style.color
-          this.$refs.svg.style.strokeWidth = (style.strokeWidth || 0) * scaleX
+          this.$refs.svg.style.strokeWidth = (style.strokeWidth || 1) * scaleX
         }
        
         if (style.fill) {

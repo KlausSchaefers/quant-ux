@@ -111,6 +111,7 @@ export default {
                     "content": "Please configure the **AI provider**. Click __here__ or choose Menu > AI Settings",
                     "action": "openSettings",
                     "errors": "",
+                    "reasoning": [],
                     "meta": []
                 })
                 return
@@ -119,6 +120,7 @@ export default {
                     "role": "assistant",
                     "content": "Start working...",
                     "errors": "",
+                    "reasoning": [],
                     "meta": []
                 })
             }
@@ -169,6 +171,12 @@ export default {
                 }
                 last.meta.push(message)
             }
+            if (type === 'reasoning') {
+                if (!last.reasoning) {
+                    last.reasoning = []
+                }
+                last.reasoning.push(message)
+            }
             this.onChange()
         },
         onMessageClick (m, e) {
@@ -208,6 +216,7 @@ export default {
                     "role": "user",
                     "content": txt,
                     "meta": [],
+                    "reasoning": [],
                     "errors": ""
                 })
             }
@@ -255,7 +264,6 @@ export default {
     mounted() {
         this.initSettings()
         this.updateUsage()
-        console.debug('mounted', this.isDebug, location.href.indexOf('localhost'))
     }
 }
 </script>

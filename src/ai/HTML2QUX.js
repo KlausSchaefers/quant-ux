@@ -928,6 +928,10 @@ export default class HTML2QUX {
                 if (strokeColor) {
                     result.stroke = strokeColor
                 }
+                const strokeWidth = compStyle.strokeWidth
+                if (strokeWidth) {
+                    result.strokeWidth = strokeWidth
+                }
             }
 
             const backgroundImage = compStyle.backgroundImage

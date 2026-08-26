@@ -28,10 +28,13 @@ export default class LLM {
       }
     }
     try {
+    
       const content = res.content;
       const html = this.parseHTML(content);
+      // TODO: store the reasoning if enabled
       return {
-        html: html
+        html: html,
+        reasoning: res.reasoning
       }
     } catch (err) {
       console.error('LLM.runHTMLPrompt() > ', err.message)
@@ -52,7 +55,8 @@ export default class LLM {
       const content = res.content;
       const json = this.parseJSON(content);
       return {
-        json: json
+        json: json,
+        reasoning: res.reasoning
       }
     } catch (err) {
       console.error('LLM.runJSONPrompt() > ', err.message)

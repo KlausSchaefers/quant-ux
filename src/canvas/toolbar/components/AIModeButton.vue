@@ -10,7 +10,7 @@
           Layers
       </a>
       <a @click="setAI" :class="['MatcToolbarItem', {'MatcToolbarEditModeActive': mode === 'ai' }]" ref="btnAI">
-            AI
+            AI (Beta)
       </a>
     </div>
 
