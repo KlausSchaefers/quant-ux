@@ -1,11 +1,10 @@
 import LLM from "./LLM";
 
 export default class Claude extends LLM {
-  constructor(token, model = "gpt-4.1", embeddingModel = "text-embedding-3-small") {
+  constructor(token, model = "claude-sonnet-5") {
     super();
     this.token = token;
     this.model = model;
-    this.embeddingModel = embeddingModel;
   }
 
   /**

@@ -133,6 +133,7 @@ export default class ScreenTool extends Tool {
             - Do not use hidden form elements
             - Do not use vendor prefixes for CSS styles
             - Do not use any javascript
+            - Do not include an frames around the HTML or so to make it look like a mockup
             - do not rotate elements. Do not use css transform:rotate().
             - Do not place any "Section" in another "Section". Section should be only used under the "Screen" element.
             - Use one of these fonts: ${fonts}    
