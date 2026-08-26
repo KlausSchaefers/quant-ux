@@ -58,7 +58,7 @@ export default {
     emits: ['change', 'settings', 'add'],
     props: {
         'defaultMessage': {
-            default: 'Generate a landing page for horse tinder',
+            default: '',
             type: String
         }, 
         'isDebug': {
