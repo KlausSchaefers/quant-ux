@@ -60,7 +60,6 @@ import Analytics from "dash/Analytics";
 import lang from 'dojo/_base/lang'
 import SurveyTable from './SurveyTable'
 import SurveyDialog from './SurveyDialog'
-import QIcon from 'page/QIcon'
 
 export default {
     name: 'SurveySection',
@@ -82,8 +81,7 @@ export default {
       'HelpButton': HelpButton,
       'DropDownSelect': DropDownSelect,
       'SurveyTable': SurveyTable,
-      'SurveyDialog': SurveyDialog,
-      'QIcon': QIcon
+      'SurveyDialog': SurveyDialog
     },
     computed: {
       tableOptions () {
