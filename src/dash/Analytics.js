@@ -269,9 +269,8 @@ export default class {
 			result.tasks.push(taskRow)
 			result.ids.push(sessionID)
 			result.rows.push(row)
+			id++
 		})
-
-		console.debug(result.labels)
 
 		PerformanceMonitor.end('Analytics.getSurveyAnswers()')
 		return result

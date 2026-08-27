@@ -24,7 +24,7 @@
           @select="onChangeView" 
           @fullscreen="onFullScreen($event)"
           @download="downloadCVS"></DropDownSelect>
-   
+
       </div>
     </div>
 
@@ -60,7 +60,7 @@ import Analytics from "dash/Analytics";
 import lang from 'dojo/_base/lang'
 import SurveyTable from './SurveyTable'
 import SurveyDialog from './SurveyDialog'
-
+import QIcon from 'page/QIcon'
 
 export default {
     name: 'SurveySection',
@@ -82,13 +82,15 @@ export default {
       'HelpButton': HelpButton,
       'DropDownSelect': DropDownSelect,
       'SurveyTable': SurveyTable,
-      'SurveyDialog': SurveyDialog
+      'SurveyDialog': SurveyDialog,
+      'QIcon': QIcon
     },
     computed: {
       tableOptions () {
+      
         const cols = this.table.cols.filter(c => c.type=== 'data').map(c => {
             return {value: 'toggleColumn', label: c.label, check:true, selected: !c.hidden, callback: (selected) => this.toggleColumn(c, selected)}
-        })
+        })        
         
         return cols.concat([
             {css:"MatcDropDownButtonLine"},

@@ -8,7 +8,7 @@
   }
 
   table {
-    table-layout: auto;
+    width: 100%;
 
     font-size: $font-size-s;
 
@@ -51,7 +51,7 @@
     }
 
     .MatcSurveySectionTableNumber{
-      //width: 40px;
+      width: 40px;
       text-align: center;
     }
 
