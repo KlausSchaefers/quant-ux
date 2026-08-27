@@ -5,7 +5,7 @@ export default class Gemini extends LLM {
     super();
     this.token = token;
     this.modelDefault = 'gemini-3.5-flash-lite';
-    this.modelHigh = 'gemini-3.5-flash';
+    this.modelHigh = 'gemini-3.6-flash';
   }
 
   getModel(llmLevel='high') {
