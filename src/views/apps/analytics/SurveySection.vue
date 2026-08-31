@@ -164,7 +164,7 @@ export default {
     },
     mounted () {
       this.logger = new Logger('SurveySection')
-      if (this.test && this.test.tasks.length > 0) {
+      if (this.test && this.test.tasks && this.test.tasks.length > 0) {
         //this.viewOptions.showTasksSucess = true
       }
       this.table = this.getTable()
