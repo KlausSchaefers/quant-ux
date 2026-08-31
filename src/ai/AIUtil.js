@@ -1,6 +1,5 @@
 import OpenAI from './llm/OpenAI.js';
 import QuxOpenAI from './llm/QuxOpenAI.js';
-import QuxOpenRouter from './llm/QuxOpenRouter.js';
 import Claude from './llm/Claude.js';
 import Gemini from './llm/Gemini.js';
 import OpenRouterLLM from './llm/OpenRouterLLM.js';
@@ -82,10 +81,6 @@ export function getLLM(options, useCache=false) {
     let result;
     if (options.provider === 'quxOpenAI') {
         result = new QuxOpenAI()
-    }
-
-    if (options.provider === 'quxOpenRouter') {
-        result = new QuxOpenRouter()
     }
 
     if (options.provider === 'openai') {

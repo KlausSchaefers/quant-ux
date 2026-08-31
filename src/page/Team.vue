@@ -277,9 +277,14 @@ export default {
 
     async removeUser(user, radio, dialog) {
       await Services.getModelService().deleteTeam(this.appID, user);
-      // this._doDelete("/rest/apps/" +this.appID + "/team/" +  user.id + ".json");
       dialog.close();
       radio.destroy();
+      const me = Services.getUserService().getUser()
+      if (me.id === user.id) {
+        this.$router.push('/')
+        location.reload()
+        return
+      }
       this.load();
     },
 
