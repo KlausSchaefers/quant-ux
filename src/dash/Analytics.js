@@ -217,7 +217,7 @@ export default class {
 							
 						}
 					} else {
-						if (e.state.type == 'chat') {
+						if (e.state && e.state.type == 'chat') {
 							const chatCols = widgetColums[e.widget];
 							const values = e.state.value.filter(m => m.role ==='user').map(m => m.content)
 							
@@ -228,7 +228,7 @@ export default class {
 
 							//row[col] = 
 
-						} else if (widgetColums[e.widget]) {
+						} else if (e.state && widgetColums[e.widget]) {
 							const keys = widgetColums[e.widget]
 							const value = e.state.value
 							keys.forEach(col => {
@@ -269,9 +269,8 @@ export default class {
 			result.tasks.push(taskRow)
 			result.ids.push(sessionID)
 			result.rows.push(row)
+			id++
 		})
-
-		console.debug(result.labels)
 
 		PerformanceMonitor.end('Analytics.getSurveyAnswers()')
 		return result

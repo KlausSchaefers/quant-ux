@@ -24,7 +24,7 @@
           @select="onChangeView" 
           @fullscreen="onFullScreen($event)"
           @download="downloadCVS"></DropDownSelect>
-   
+
       </div>
     </div>
 
@@ -61,7 +61,6 @@ import lang from 'dojo/_base/lang'
 import SurveyTable from './SurveyTable'
 import SurveyDialog from './SurveyDialog'
 
-
 export default {
     name: 'SurveySection',
     mixins:[],
@@ -86,9 +85,10 @@ export default {
     },
     computed: {
       tableOptions () {
+      
         const cols = this.table.cols.filter(c => c.type=== 'data').map(c => {
             return {value: 'toggleColumn', label: c.label, check:true, selected: !c.hidden, callback: (selected) => this.toggleColumn(c, selected)}
-        })
+        })        
         
         return cols.concat([
             {css:"MatcDropDownButtonLine"},
@@ -164,7 +164,7 @@ export default {
     },
     mounted () {
       this.logger = new Logger('SurveySection')
-      if (this.test && this.test.tasks.length > 0) {
+      if (this.test && this.test.tasks && this.test.tasks.length > 0) {
         //this.viewOptions.showTasksSucess = true
       }
       this.table = this.getTable()
