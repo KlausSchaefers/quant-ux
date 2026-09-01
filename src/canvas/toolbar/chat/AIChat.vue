@@ -242,16 +242,15 @@ export default {
             }, 50)
         },
         async updateUsage () {
-            const options = Util.getOptions()
-            if (options.provider && options.provider.indexOf('qux') >=0 ) {
-                let user = Services.getUserService().load()
-                user = await Services.getUserService().loadById(user.id)
-                const p = (user.aiUsage || 0) / 20
-                this.currentAIUssage = 'Usage: ' + Math.round(p * 100) + '%';
-                return
-            }
-            this.currentAIUssage = ''
-           
+            // const options = Util.getOptions()
+            // if (options.provider && options.provider.indexOf('qux') >=0 ) {
+            //     let user = Services.getUserService().load()
+            //     user = await Services.getUserService().loadById(user.id)
+            //     const p = (user.aiUsage || 0) / 20
+            //     this.currentAIUssage = 'Usage: ' + Math.round(p * 100) + '%';
+            //     return
+            // }
+            // this.currentAIUssage = ''
         },
         initSettings() {
             this.cssMode = Util.getCSSMode()    
