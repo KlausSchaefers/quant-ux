@@ -112,7 +112,7 @@ export default {
                 { label: "OpenAI", value: 'openai' },
                 { label: "Anthropic", value: 'anthropic' },
                 { label: "Gemini (Google)", value: "gemini" },
-                { label: "OpenRouter (DeepSeek)", value: "openRouter" },
+                { label: "OpenRouter", value: "openRouter" },
             ]
         }
     },
