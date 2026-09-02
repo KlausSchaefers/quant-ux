@@ -9,7 +9,6 @@ import WebSocketService from './WebSocketService'
 import KeyCloakService from './KeyCloakService'
 import CommandService from './CommandService'
 import NotificationService from './NotificationService'
-import AIService from './AIService'
 import AISimService from './AISimService'
 import UploadService from './UploadService'
 
@@ -77,12 +76,6 @@ class Services {
             return ws
         }
         return null
-    }
-
-    getAIService () {
-        const aiService = new AIService()
-        aiService.setToken(UserService.getToken())
-        return aiService   
     }
 
     getAISimService () {
