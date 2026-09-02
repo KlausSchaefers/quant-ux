@@ -13,7 +13,7 @@
          }
     //}
 
-    input {
+    input, select {
         border: 1px solid $popup_form_border;
         background: none;
         &:hover{

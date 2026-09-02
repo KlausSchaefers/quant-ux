@@ -679,6 +679,8 @@ export default {
 			this.dataWidget.setSectionHeader(parent);
 			this.own(on(this.dataWidget, "propertyChange", lang.hitch(this, "setWidgetProps")));
 			this.own(on(this.dataWidget, "propertyMultiChange", lang.hitch(this, "setWidgetMultiProps")));
+			this.own(on(this.dataWidget, "propertyChanging", lang.hitch(this, "setTempWidgetProps")));
+
 			this.own(on(this.dataWidget, "stypeChange", lang.hitch(this, "setWidgetStyle")));
 			this.own(on(this.dataWidget, "stypeChanging", lang.hitch(this, "setTempWidgetStyle")));
 			this.own(on(this.dataWidget, "stypeMutlitChange", lang.hitch(this, "setWidgetMultiStyle")));

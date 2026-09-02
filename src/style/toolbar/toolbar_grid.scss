@@ -1,0 +1,33 @@
+/****************************************************
+ * GridConfig
+ ****************************************************/
+.MatcGridConfigPopup {
+    width: 180px;
+}
+
+.MatcGridConfigSettings {
+    padding: 8px;
+
+    .MatcGridConfigRows {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .MatcGridConfigRow {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .MatcGridConfigInput {
+            width: 60px;
+            flex-grow: 1;
+        }
+
+        .MatcGridConfigUnit {
+            width: 60px;
+        }
+    }
+
+
+}

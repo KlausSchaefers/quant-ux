@@ -2037,6 +2037,21 @@ export default {
 			return false;
 		},
 
+		setTempWidgetProps (key, value){
+			this.logger.log(-2,"setTempWidgetProps", "entry > " + key + " - "+ value);
+			const newProps = {};
+			newProps[key] = value;
+			if(this._selectedWidget && this._selectedWidget.style){
+				this.canvas.setTempWidgetProps(this._selectedWidget.id, newProps);
+			} else if(this._selectedMulti){
+				for (var i=0; i < this._selectedMulti.length; i++){
+					this.canvas.setTempWidgetProps(this._selectedMulti[i], newProps);
+				}
+			}
+			return false;
+		},
+
+
 		setTempMultiWidgetStyle (newStyle){
 			this.logger.log(0,"setTempMultiWidgetStyle", "entry > " + newStyle);
 			const modelKey = this._getViewStyleModelKey();
