@@ -53,6 +53,10 @@ export default class Agent {
     const tool = tools[0]
     Logger.log(-1, 'Agent.run() > selectedTool: ', tool)
 
+    if (tool.name === 'ask_user') {
+      this.onProgress("error", `I can't help you. Ask me something like create a landing page`);
+      return result
+    }
 
     if (tool.name === 'create_screen') {
       const {app, html} = await this.screenTool.invoke(messages)

@@ -78,6 +78,11 @@ export default class OpenRouterLLM extends LLM {
         }
       }
     } catch (err) {
+      if (err.body?.type === "NoTokenLeft") {
+        return {
+          error: "error-no-token-left",
+        };
+      }
       return {
         error: "error-server",
       };
@@ -117,6 +122,11 @@ export default class OpenRouterLLM extends LLM {
         }
       }
     } catch (err) {
+      if (err.body?.error === "NoTokenLeft") {
+        return {
+          error: "error-no-token-left",
+        };
+      }
       return {
         error: "error-server",
       };

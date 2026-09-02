@@ -66,8 +66,6 @@
                                 <input type="password" autocomplete="off" class="form-control" v-model="tokenOpenRouter"/>
                             </form>
                         </div>
-
-            
       
                     </div>
                     </template>
@@ -109,8 +107,8 @@ export default {
                 { label: "Qwen 3.8 Flash", value: 'qwen/qwen3.8-flash' }
             ],
             provider: [
-                { label: "Quant-UX", value: 'quxOpenAI' },
-                //{ label: "Quant-UX", value: 'quxOpenRouter' },
+                { label: "Quant-UX (OpenAI)", value: 'quxOpenAI' },
+                { label: "Quant-UX (OpenRouter)", value: 'quxOpenRouter' },
                 { label: "OpenAI", value: 'openai' },
                 { label: "Anthropic", value: 'anthropic' },
                 { label: "Gemini (Google)", value: "gemini" },
