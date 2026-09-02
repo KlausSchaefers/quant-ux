@@ -1049,13 +1049,19 @@ export default class Widget extends Snapp {
 			widget.style.paddingRight != oldWidget.style.paddingRight ||
 			widget.style.borderLeftWidth != oldWidget.style.borderLeftWidth ||
 			widget.style.borderRightWidth != oldWidget.style.borderRightWidth ||
+			this.arrayPropHasChanged(widget.props.columnWidths, oldWidget.props.columnWidths) ||
 
 			widget.props.rows != oldWidget.props.rows ||
 			widget.props.rowGap != oldWidget.props.rowGap ||
 			widget.style.paddingTop != oldWidget.style.paddingTop ||
 			widget.style.paddingBottom != oldWidget.style.paddingBottom ||
 			widget.style.borderBottomWidth != oldWidget.style.borderBottomWidth ||
-			widget.style.borderTopWidth != oldWidget.style.borderTopWidth
+			widget.style.borderTopWidth != oldWidget.style.borderTopWidth ||
+			this.arrayPropHasChanged(widget.props.rowHeights, oldWidget.props.rowHeights)
+	}
+
+	arrayPropHasChanged(a, b) {
+		return (a || []).join(',') !== (b || []).join(',')
 	}
 
 	createWidgetPropertiesCommand (id, props, type, inlineLabel){
