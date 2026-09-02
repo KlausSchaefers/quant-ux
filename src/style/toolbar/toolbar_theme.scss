@@ -12,18 +12,18 @@
   }
   //}
 
-  input {
-    border: 1px solid $popup_form_border;
-    background: none;
-    &:hover {
-      border-color: $popup_form_border_hover;
-      background: $popup_form_background_hover;
+    input, select {
+        border: 1px solid $popup_form_border;
+        background: none;
+        &:hover{
+            border-color: $popup_form_border_hover;
+            background: $popup_form_background_hover;
+        }
+        &:focus{
+            border-color: $popup_form_border_focus;
+            background: $popup_form_background_focus;
+        }
     }
-    &:focus {
-      border-color: $popup_form_border_focus;
-      background: $popup_form_background_focus;
-    }
-  }
 
   .MatcToolbarItem {
     color: $popup_color;
@@ -215,11 +215,13 @@
 }
 
 .MatcToobarPropertiesSection {
-  .MatcToolbarSlider .VommondSliderContainer {
-    background: $toolbar_form_border_light;
-  }
 
-  color: $toolbar_color;
+    .MatcToolbarSlider .VommondSliderContainer {
+        background: $toolbar_form_border_light;
+    }
+
+
+    color:$toolbar_color;
 
   .MatcToolbarItem {
     color: $toolbar_color;

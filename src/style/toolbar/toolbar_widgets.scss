@@ -829,117 +829,9 @@
 }
 
 /****************************************************
- * Popup
- ****************************************************/
-
-.MatcToolbarPopUpCntr{
-	position: relative;
-
-	.MatcToolbarPopUpBackDrop{
-		content: '';
-		position: fixed;
-		top:0px;
-		left: 0px;
-		height: 100%;
-		width: 100%;
-		background: rgba(0, 0, 0, 0.05);
-		z-index: 9000000;
-	}
-}
-
-.MatcToolbarPopUp {
-	display: none;
-	position: absolute;
-	top: 100%;
-	left: 0px;
-	text-align: left;
-	z-index: 900000;
-	padding: 0px;
-	font-size: $popup_font_size;
-
-	input {
-		border-radius: $toolbar_form_radius;
-	}
-
-
-}
-
-
-
-.MatcToolbarPopUp.MatcToolbarPopUpDialog {
-	z-index: 9000000;
-}
-
-.MatcToolbarPopUpOpen.MatcToolbarPopUp {
-	display: block;
-	border-radius: $popup_radius;
-}
-
-.MatcToolbarPopUpOpen.MatcToolbarPopUp.MatcToolbarPopupWithArrow {
-	overflow: visible;
-}
-
-.MatcToolbarPopUpArrowCntr {
-	height: 30px;
-	width: 10px;
-	overflow: hidden;
-	position: absolute;
-	left: 100%;
-	top: 10px;
-}
-
-.MatcToolbarPopUpArrow {
-	display: inline-block;
-	width: 15px;
-	height: 15px;
-	position: absolute;
-	left: -10px;
-	top: 0px;
-	transform: rotate(45deg);
-}
-
-.MatcPopupArrowLeft {
-
-	.MatcToolbarPopUpArrowCntr {
-		left: auto;
-		right: 100%;
-	}
-
-	.MatcToolbarPopUpArrow {
-		left: auto;
-		right: -10px;
-		top: 0px;
-	}
-}
-
-/****************************************************
- * Popup footer
- ****************************************************/
-
-.MatcToolbarPopupFooter {
-	background: none;
-	padding: $spacing-s;
-	cursor: pointer;
-	text-align: center;
-	font-size: 12px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 8px;
-	line-height: 1;
-}
-
-
-
-.MatcToolbarPopupFooter .MatcButtonBar {
-	width: 100%;
-}
-
-/****************************************************
  * Toggle Button
  ****************************************************/
 .MatcToobarPropertiesSection {
-
 
 	.MatcToolbarToggleButton {
 		border: 1px solid transparent;
@@ -948,9 +840,7 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-	}
-
-	
+	}	
 } 
 
 
@@ -1531,3 +1421,4 @@ input.MatcToobarInlineEditDisabled:focus {
 .MatcToolbarGradientHidden .MatcToolbarTabTypeGradient{
 	display: none;
 }
+

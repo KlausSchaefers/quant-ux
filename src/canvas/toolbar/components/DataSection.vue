@@ -34,6 +34,7 @@ import ImageRotate from './ImageRotate'
 import ChartAnimationSettings from './ChartAnimationSettings'
 import DataBindingButton from './DataBindingButton'
 import BoxShadow from './BoxShadow2'
+import GridConfig from './GridConfig'
 import DomUtil from 'core/DomUtil'
 import ScriptEdior from '../dialogs/ScriptEditor.vue'
 import NavidationEditor from './NavigationTable'
@@ -725,33 +726,29 @@ export default {
 		_showGridContainer (model){
 
 			this._setSectionLabel("Grid Container");
-
-			// this._renderLabelDropDown("RowFixed", model, "rowsFixed",[
-			// 	{ value:null, icon:"ArrowsVer", label : "Variable Height"},
-			// 	{ value:"true", icon:"LockClosed", label : "Fixed Height"}
-			// ]);
-
-			if (model.props.rowsFixed) {
-				this._renderInputDropDown("Row Height",model, [24, 32, 64, 128], "rowHeight", true);
-			} else {
-				this._renderInputDropDown("Rows",model, [1, 2, 3, 4, 6, 8, 12], "rows", true);
-			}
+			
+			this._renderInputDropDown("Rows",model, [1, 2, 3, 4, 6, 8, 12], "rows", true);		
 			this._renderInputDropDown("Row Gap",model, [0, 4, 8, 16, 24, 32, 64], "rowGap", true);
-
-			// this._renderSubSection()
-			// this._renderLabelDropDown("ColsFixed", model, "columnsFixed",[
-			// 	{ value:null, icon:"ArrowsHor", label : "Variable Width"},
-			// 	{ value:"true", icon:"LockClosed", label : "Fixed Width"}
-			// ]);
-
-			if (model.props.columnsFixed) {
-				this._renderInputDropDown("Column Width",model, [24, 32, 64, 128], "columnWidth", true);
-			} else {
-				this._renderInputDropDown("Columns",model, [1, 2, 3, 4, 6, 8, 12], "columns", true);
-			}
-
-	
+			
+			this._renderInputDropDown("Columns",model, [1, 2, 3, 4, 6, 8, 12], "columns", true);			
 			this._renderInputDropDown("Column Gap",model, [0, 4, 8, 16, 24, 32, 64], "columnGap", true);
+
+			this._renderGridConfig(model);
+		},
+
+
+		_renderGridConfig (model) {
+			const row = this.db.div("MatcToobarRow").build(this.cntr);
+			const gridConfig = this.$new(GridConfig);
+			gridConfig.setWidget(model);
+			gridConfig.placeAt(row);
+			this.tempOwn(on(gridConfig, "change", newProps => {
+				this.emit("propertyMultiChange", newProps)
+			}));
+			this.tempOwn(on(gridConfig, "changing", (key, value) => {			
+				this.emit("propertyChanging", key, value)
+			}));
+			this._addChildWidget(gridConfig);
 		},
 
 		_showLabel (model){

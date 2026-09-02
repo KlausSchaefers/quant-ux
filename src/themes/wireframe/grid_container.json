@@ -16,9 +16,7 @@
             "layout": "grid",
             "rows": 2,
             "columns": 2,
-            "rowGap": 16,
-            "rowHeight": 64,
-            "columnWidth": 128,
+            "rowGap": 16, 
             "columnGap": 24            
         },
         "has" : {
