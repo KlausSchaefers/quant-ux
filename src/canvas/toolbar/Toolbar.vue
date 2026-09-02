@@ -2021,7 +2021,7 @@ export default {
 		},
 
 		setTempWidgetStyle (key, value){
-			this.logger.log(2,"setTempWidgetStyle", "entry > " + key + " - "+ value);
+			this.logger.log(2,"setTempWidgetStyle", "entry > " + key + " : "+ value);
 			const modelKey = this._getViewStyleModelKey();
 			if ("style" === modelKey) {
 				const newStyle = {};
@@ -2038,7 +2038,7 @@ export default {
 		},
 
 		setTempWidgetProps (key, value){
-			this.logger.log(-2,"setTempWidgetProps", "entry > " + key + " - "+ value);
+			this.logger.log(-2,"setTempWidgetProps", "entry > " + key + " : "+ value);
 			const newProps = {};
 			newProps[key] = value;
 			if(this._selectedWidget && this._selectedWidget.style){

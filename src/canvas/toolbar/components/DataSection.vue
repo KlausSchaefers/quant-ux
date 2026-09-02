@@ -737,7 +737,6 @@ export default {
 		},
 
 
-
 		_renderGridConfig (model) {
 			const row = this.db.div("MatcToobarRow").build(this.cntr);
 			const gridConfig = this.$new(GridConfig);
@@ -746,8 +745,7 @@ export default {
 			this.tempOwn(on(gridConfig, "change", newProps => {
 				this.emit("propertyMultiChange", newProps)
 			}));
-			this.tempOwn(on(gridConfig, "changing", (key, value) => {
-				console.debug('propertyChanging', key, value)
+			this.tempOwn(on(gridConfig, "changing", (key, value) => {			
 				this.emit("propertyChanging", key, value)
 			}));
 			this._addChildWidget(gridConfig);

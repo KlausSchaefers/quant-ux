@@ -872,9 +872,10 @@ export default {
 			if(div && sourceWidget){
 				this.renderFactory.setStyle(div, sourceWidget, true);
 			} else {
-				console.warn("setTempWidgetProps() > Cannot set widget style", id, props);
+				console.warn("setTempWidgetProps() > Cannot set widget props", id, props);
 			}
 		},
+		
 
 		getUpdatedSourceWidgetProps (id, props) {
 			const sourceWidget = this.sourceModel.widgets[id];

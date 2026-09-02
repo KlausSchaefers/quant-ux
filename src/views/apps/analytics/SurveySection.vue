@@ -140,7 +140,6 @@ export default {
         }
       },
        downloadCVS () {
-
           const table = this.table
           let csvContent = '#,' + table.cols.map(c => c.label).join(',') + "\n";
           csvContent += table.rows.map((row, r) => {

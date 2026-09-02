@@ -89,8 +89,7 @@ export default class {
 					}	
 					else if (w.type === 'RadioTable') {
 						const data = w.props.data
-						if (data) {
-				
+						if (data) {				
 							widgetColums[w.id] = []
 							data.forEach((row, i) => {
 								if (i > 0 && row[0]) {
@@ -106,8 +105,7 @@ export default class {
 										id: w.id
 									})
 								}
-							})
-					
+							})					
 						}	
 					} else {
 						widgetColumnNames[w.id] = w.name

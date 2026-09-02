@@ -88,53 +88,6 @@ export default {
       this.$forceUpdate()
     },
 
-  
-
-    resizeOld(box) {
-      const style = this.style
-
-      this.columnGap = Math.floor(this.model.props.columnGap * this._scaleX)
-      this.rowGap = Math.floor(this.model.props.rowGap * this._scaleY)
-
-
-      const paddingLeft = Math.floor(style.paddingLeft * this._scaleX)
-      const paddingRight = Math.floor(style.paddingRight * this._scaleX)
-      const paddingTop = Math.floor(style.paddingTop * this._scaleY)
-      const paddingBottom = Math.floor(style.paddingBottom * this._scaleY)
-
-      const borderBottomWidth = Math.floor(style.borderBottomWidth * this._scaleY)
-      const borderTopWidth = Math.floor(style.borderTopWidth * this._scaleY)
-      const borderLeftWidth = Math.floor(style.borderLeftWidth * this._scaleX)
-      const borderRightWidth = Math.floor(style.borderRightWidth * this._scaleX)
-
-      let spaceW = box.w - (paddingLeft + paddingRight + borderRightWidth + borderLeftWidth) 
-      let spaceH = box.h - (paddingTop + paddingBottom + borderTopWidth + borderBottomWidth)
-      let totalColumnGap = (this.columns - 1) * this.columnGap
-      let totalRowGap = (this.rows - 1) * this.rowGap
-
-      this.cellW = Math.floor((spaceW - totalColumnGap) / this.columns)
-      this.cellH = Math.floor((spaceH - totalRowGap) / this.rows)
-
-
-      let i = 0
-      let y = paddingTop
-      for (let r=0; r < this.rows; r++) {        
-        let x = paddingLeft 
-        for (let c=0; c < this.columns; c++) {   
-          const cell = this.cells[i] 
-          cell.w = this.cellW
-          cell.h = this.cellH
-          cell.x = x
-          cell.y = y
-          i++
-          x += this.cellW + this.columnGap
-          //this.$set(this.cells, i, cell)
-        }
-        y += this.cellH + this.rowGap
-      }
-      // find out why this does not auto render
-      this.$forceUpdate()
-    },
 
     render(model, style, scaleX, scaleY) {
 

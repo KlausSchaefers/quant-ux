@@ -21,16 +21,13 @@ export function getGridContainerLines(model, activePoint, zoom=1, includeBorder=
     const resultY = getGridContainerLinesY(model, activePoint, zoom, includeBorder)
     return {
         x:resultX.x,
-        y:resultY.y,
-        columnW:resultX.columnW,
-        rowH:resultY.rowH
+        y:resultY.y
     }
 }
 
 export function getGridContainerLinesY(model, activePoint, zoom=1, includeBorder=true) {
     const result = {
-        y:[],
-        rowH:0
+        y:[]
     }  
     const style = model.style   
     const y = model.y
@@ -43,20 +40,20 @@ export function getGridContainerLinesY(model, activePoint, zoom=1, includeBorder
     const rowGap = zoomedOrZero(model?.props.rowGap, zoom)
     const spaceH = model.h - (paddingTop + paddingBottom + borderTopWidth + borderBottomWidth)
 
-    let rowH = 0
+    let rowHeights
     if (model.props.rowsFixed) {
-        rowH = zoomedOrZero(model.props.rowHeight, zoom)
+        const rowH = zoomedOrZero(model.props.rowHeight, zoom)
         rows = Math.floor((spaceH + rowGap ) / (rowH + rowGap))
+        rowHeights = new Array(rows).fill(rowH)
     } else {
         const totalRowGap = (rows - 1) * rowGap
-        rowH = Math.floor((spaceH - totalRowGap) / rows)
+        rowHeights = getTrackSizes(rows, model.props.rowHeights, spaceH - totalRowGap, zoom)
     }
 
-    result.rowH = rowH
     let v = paddingTop + y + borderBottomWidth
     result.y.push(v)
     for (let r=0; r< rows; r++) {
-        v = v + rowH
+        v = v + rowHeights[r]
         if (activePoint !== 'North' && activePoint !== 'RightUp' && activePoint !== 'LeftUp') {
             result.y.push(v)
         }
@@ -83,8 +80,7 @@ export function getGridContainerLinesY(model, activePoint, zoom=1, includeBorder
 
 export function getGridContainerLinesX(model, activePoint, zoom=1, includeBorder = true) {
     const result = {
-        x:[],
-        columnW:0
+        x:[]
     }
   
     const style = model.style
@@ -99,22 +95,21 @@ export function getGridContainerLinesX(model, activePoint, zoom=1, includeBorder
     const columnGap = zoomedOrZero(model?.props.columnGap, zoom)
     const spaceW = model.w - (paddingLeft + paddingRight + borderRightWidth + borderLeftWidth) 
 
-    let columnW = 0
+    let columnWidths
     if (model.props.columnsFixed) {
-        columnW = zoomedOrZero(model.props.columnWidth, zoom)
+        const columnW = zoomedOrZero(model.props.columnWidth, zoom)
         columns = Math.floor((spaceW + columnGap) / (columnW + columnGap))
-        console.debug(`getGridContainerLinesX() > spaceW: ${spaceW}, columnW: ${columnW} + ${columnGap} = ${columns}`)
+        columnWidths = new Array(columns).fill(columnW)
     } else {
         const totalColumnGap = (columns - 1) * columnGap
-        columnW = Math.floor((spaceW - totalColumnGap) / columns)
+        columnWidths = getTrackSizes(columns, model.props.columnWidths, spaceW - totalColumnGap, zoom)
     }
- 
-    result.columnW = columnW
+
     // in the grid container we do not have to add the border!!!
     let v = paddingLeft + x + borderLeftWidth
     result.x.push(v)
     for (let c=0; c< columns; c++) {
-        v = v + columnW
+        v = v + columnWidths[c]
         if (activePoint !== 'West' && activePoint !== 'LeftDown' && activePoint !== 'LeftUp') {
             result.x.push(v)
         }
@@ -142,4 +137,56 @@ function zoomedOrZero(v, zoom) {
         return v
     }
     return Math.floor(v * zoom)
+}
+
+/**
+ * Parses a track size like "30px", "2fr" or "20%". Anything missing
+ * or unrecognized defaults to "1fr", so tracks without an explicit
+ * size share the remaining space equally.
+ */
+function parseTrackSize(raw) {
+    if (typeof raw === 'string') {
+        const match = /^([0-9]*\.?[0-9]+)(px|fr|%)$/.exec(raw.trim())
+        if (match) {
+            return { value: parseFloat(match[1]), unit: match[2] }
+        }
+    }
+    return { value: 1, unit: 'fr' }
+}
+
+/**
+ * Computes the pixel size of each track (column or row) given their
+ * CSS-grid-like size specs. "px" tracks and "%" tracks (of availableSpace)
+ * are fixed, the remaining space is split among the "fr" tracks
+ * proportional to their fr value.
+ */
+function getTrackSizes(count, sizes, availableSpace, zoom) {
+    const tracks = []
+    for (let i = 0; i < count; i++) {
+        tracks.push(parseTrackSize(sizes && sizes[i]))
+    }
+
+    let fixedSpace = 0
+    let totalFr = 0
+    tracks.forEach(track => {
+        if (track.unit === 'px') {
+            fixedSpace += zoomedOrZero(track.value, zoom) || 0
+        } else if (track.unit === '%') {
+            fixedSpace += availableSpace * (track.value / 100)
+        } else {
+            totalFr += track.value
+        }
+    })
+
+    const frSpace = Math.max(availableSpace - fixedSpace, 0)
+
+    return tracks.map(track => {
+        if (track.unit === 'px') {
+            return zoomedOrZero(track.value, zoom) || 0
+        }
+        if (track.unit === '%') {
+            return Math.floor(availableSpace * (track.value / 100))
+        }
+        return totalFr > 0 ? Math.floor(frSpace * (track.value / totalFr)) : 0
+    })
 }

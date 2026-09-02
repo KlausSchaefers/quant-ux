@@ -57,7 +57,7 @@ export default {
 			tab: 'columns',
 			columnWidths: [],
 			rowHeights: [],
-			units: ['fr', 'px', '%', 'auto']
+			units: ['fr', 'px', '%']
 		}
 	},
 	components: {},
