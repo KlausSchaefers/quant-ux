@@ -758,10 +758,23 @@ export default {
 				{ value: "column", icon:"FlexContainerCol", label : "Column"}
 			], true);
 
-			this._renderLabelDropDown("Strech Children", model,"alignItems",[
-				{ value:"stretch", icon:"FlexContainerStretch", label : "Stretch"},
-				{ value: "default", icon:"Close", label : "Keep Size"}
-			], true);
+			if (model.style.flexDirection === 'row') {
+				this._renderLabelDropDown("Strech Children", model,"alignItems",[
+					{ value:"stretch", icon:"AlignHorizontal", label : "Stretch"},
+					{ value:"start", icon:"AlignTop", label : "Top"},
+					{ value:"center", icon:"AlignMiddle", label : "Middle"},
+					{ value:"end", icon:"AlignBottom", label : "Bottom"}
+				], true);
+			} else {
+				this._renderLabelDropDown("Strech Children", model,"alignItems",[
+					{ value:"stretch", icon:"AlignVertical", label : "Stretch"},
+					{ value:"start", icon:"AlignLeft", label : "Left"},
+					{ value:"center", icon:"AlignCenter", label : "Center"},
+					{ value:"end", icon:"AlignRight", label : "Right"}
+				], true);
+			}
+
+	
 
 			this._renderInputDropDown("Gap",model, [0, 4, 8, 16, 24, 32, 64], "gap", false);
 		},

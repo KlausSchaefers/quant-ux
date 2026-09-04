@@ -2085,7 +2085,6 @@ export default class GridAndRulerSnapp extends Core {
 						 */
 						this.addPaddingLines(box, 'Widget', onlyX, onlyY)
 					} else if (this.isPaddingBox(box)){
-						console.debug('isSnapp', box)
 						// If it is a box in a group with padding, we
 						// still add the padding snapp lines.
 						this.addPaddingLines(box, 'Widget', onlyX, onlyY)

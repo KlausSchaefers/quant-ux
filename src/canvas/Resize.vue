@@ -353,6 +353,15 @@ export default {
         if (this._resizeModelType === 'group' || this._resizeModelType === 'multi') {
           this.startResponsiveLayouter()
         }
+
+        this._resizeLayoutContainerDelta = {}
+        if (this.flexContainerIndex) {
+          const parent = this.flexContainerIndex.findHoverLayoutContainer(this._resizeModel)  
+          this._resizeLayoutContainerDelta.start = parent
+          console.debug('initResize', parent)
+        }
+
+
         /**
          * register mouse move and release listener, maybe also esc listener
          */
@@ -572,7 +581,7 @@ export default {
 
             const widget = this.model.widgets[this._resizeId];
 
-            const sourcePos = this.controller.updateWidgetPosition(this._resizeId, pos, false, this.isMasterWidget(widget));
+            const sourcePos = this.controller.updateWidgetPosition(this._resizeId, pos, false, this.isMasterWidget(widget), this._resizeLayoutContainerDelta);
             if (sourcePos) {
 
               /**
@@ -609,14 +618,14 @@ export default {
             }
             // FIXME: We could have here a nice methods in the controller
             // to work on the unzoomed model and avoid rounding errors!
-            this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
+            this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies, this._resizeLayoutContainerDelta);
           } else {
             const [positions,hasCopies] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
             if (pos?.snapp?.type === 'All') {
               this.logger.warn("onResizeDnDEnd", "Snapp is All")
-              this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies);
+              this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies, this._resizeLayoutContainerDelta);
             } else {
-              this.getController().updateMultiWidgetSizeResponsive(pos, this._resizeModel, false, hasCopies);
+              this.getController().updateMultiWidgetSizeResponsive(pos, this._resizeModel, false, hasCopies, this._resizeLayoutContainerDelta);
             }
           }
         }

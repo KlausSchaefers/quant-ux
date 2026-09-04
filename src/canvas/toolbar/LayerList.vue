@@ -246,8 +246,6 @@ export default {
 			const fromNode = this.nodes[from]
 			const toNode = this.nodes[to]
 
-			console.debug(toNode)
-			
 			/**
 			 * Why did I add this?
 			 */

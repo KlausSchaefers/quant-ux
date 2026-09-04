@@ -191,6 +191,31 @@ class ModelGeom {
         return result
     }
 
+    /**
+     * Same as getChildWidgetsIDs(), but instead of scanning all widgets
+     * in the model, we first narrow down to the widgets of the screen
+     * the container is on (screen.children), since every widget is
+     * flatly registered there regardless of nesting depth.
+     */
+    getChildWidgetsIDsFast (model, cntr) {
+        const screen = this.getHoverScreen(cntr, model)
+        if (!screen) {
+            return this.getChildWidgetsIDs(model, cntr)
+        }
+
+        const result = []
+        for (let i = 0; i < screen.children.length; i++) {
+            const id = screen.children[i]
+            const w = model.widgets[id]
+            if (w && w.z >= cntr.z && w.id !== cntr.id) {
+                if (this.isFullContained(cntr, w)) {
+                    result.push(w.id)
+                }
+            }
+        }
+        return result
+    }
+
     isFullContained	(outer, inner) {
 		// add here some offset?
 		return (

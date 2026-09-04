@@ -521,11 +521,9 @@ export default {
       const widget = this.model.widgets[id];
 
       if (this.flexContainerIndex) {
-        const parent = this.flexContainerIndex.findHoverLayoutContainer(widget)
-        console.debug(parent, this.flexContainerIndex, widget)
+        const parent = this.flexContainerIndex.findHoverLayoutContainer(widget)  
         this._dragNDropLayoutContainerDelta.start = parent
       }
-
 
       return widget;
     },
@@ -711,11 +709,11 @@ export default {
       if (!this.flexContainerIndex) {
         return
       }
-      // This is called in the GridAndRuler already. We could save this...
+      // for now we just track if e have moved in our out of a layout cotainer
+      // later we should also do the updates
       const parent = this.flexContainerIndex.findHoverLayoutContainer(pos ) // this._dragNDropOffset?.x, this._dragNDropOffset?.y is negative
       if (parent) {
           this._dragNDropLayoutContainerDelta.end = parent
-          console.debug('updateLayoutContainerDND', id, parent.name)
       } else {
         // restore old pos
         this._dragNDropLayoutContainerDelta.end = null
@@ -935,7 +933,7 @@ export default {
            */
           if (this._dragNDropChildren) {
             const [positions, hasCopies] = this.getDnDEndPosittions(dif)
-            const updatedPositions = this.getController().updateMultiWidgetPosition(positions, false, pos, hasCopies, id, this._dragNDropLayoutContainerDelta);
+            const updatedPositions = this.getController().updateMultiWidgetPosition(positions, false, pos, hasCopies, this._dragNDropLayoutContainerDelta);
             this.updateZoomedPositionList(updatedPositions)
           } else {
             const widget = this.model.widgets[id];

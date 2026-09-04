@@ -255,7 +255,9 @@ export default class ResponsiveLayout {
         const style = box.style || {}
         const zoom = this.config.zoom
         const isColumn = style.flexDirection === 'column'
-        const stretch = style.alignItems === 'stretch'
+        // matches the CSS flexbox default (align-items: stretch); only an
+        // explicit 'start'/'center'/'end' opts a container out of stretching
+        const stretch = !style.alignItems || style.alignItems === 'stretch'
 
         /**
          * gap/padding are stored in the style as un-zoomed design values,
@@ -297,8 +299,9 @@ export default class ResponsiveLayout {
             children.forEach(child => {
                 const height = isFlexFixedVertical(child) ? child.h : growHeight
                 const width = (stretch && !isFlexFixedHorizontal(child)) ? innerWidth : child.w
+                const x = getCrossAxisPosition(style.alignItems, innerX, innerWidth, width)
 
-                newNestedPositions[child.id] = createResult(innerX, y, width, height)
+                newNestedPositions[child.id] = createResult(x, y, width, height)
                 y += height + gap
 
                 this.resizeChildren(child, child, newNestedPositions, indent + '     ')
@@ -319,8 +322,9 @@ export default class ResponsiveLayout {
             children.forEach(child => {
                 const width = isFlexFixedHorizontal(child) ? child.w : growWidth
                 const height = (stretch && !isFlexFixedVertical(child)) ? innerHeight : child.h
+                const y = getCrossAxisPosition(style.alignItems, innerY, innerHeight, height)
 
-                newNestedPositions[child.id] = createResult(x, innerY, width, height)
+                newNestedPositions[child.id] = createResult(x, y, width, height)
                 x += width + gap
 
                 this.resizeChildren(child, child, newNestedPositions, indent + '     ')
@@ -591,6 +595,22 @@ function isFlexFixedHorizontal(child) {
 
 function isFlexFixedVertical(child) {
     return !!(child.props && child.props.resize && child.props.resize.fixedVertical)
+}
+
+/**
+ * Position of a child along the cross axis, given style.alignItems.
+ * 'stretch' behaves like 'start' here, since the child's cross-axis size
+ * has already been grown to fill innerSize by the caller.
+ */
+function getCrossAxisPosition(alignItems, innerStart, innerSize, childSize) {
+    switch (alignItems) {
+        case 'center':
+            return innerStart + (innerSize - childSize) / 2
+        case 'end':
+            return innerStart + innerSize - childSize
+        default:
+            return innerStart
+    }
 }
 
 function getFlexFixed(list) {
