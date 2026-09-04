@@ -7,6 +7,8 @@ import * as GridUtil from 'core/GridUtil'
 import * as SnappUtil from 'core/SnappUtil'
 import ModelUtil from '../core/ModelUtil'
 import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
+import LayoutContainerIndex from '../core/responsive/LayoutContainerIndex'
+
 
 export default class GridAndRulerSnapp extends Core {
 
@@ -102,7 +104,7 @@ export default class GridAndRulerSnapp extends Core {
 		/**
 		 * Init grid containers for fastee lookups
 		 */
-		this.cacheLayoutContainers(this.model, this.sourceModel)
+		this.initLayoutContainerCache(this.model, this.sourceModel)
 		
 
 		this.logger.log(1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
@@ -396,113 +398,21 @@ export default class GridAndRulerSnapp extends Core {
 		return absPos;
 	}
 
-	cacheLayoutContainers(model, sourceModel) {
-		this.layoutContainers = []
-
+	initLayoutContainerCache(model, sourceModel) {
 		const minZ = this.selectedModel.z || 0
-		// get all the grid containers
-		// we could make this even better by filtering for z-level...
-		for (let id in model.widgets) {
-			const w = model.widgets[id]
-			// we just take lowe layer containers
-			if (w.z < minZ) {
-				const s = sourceModel.widgets[id]
-				if (w !== undefined & s !== undefined && w.type === 'GridContainer') {
-					const g = lang.clone(w)
-					g.style = s.style
-					g.children = []
-					this.layoutContainers.push(g)
-				}
-			}
-		}
-		this.layoutContainers.sort((a,b) => a.z - b.z)
-
-		// do not include the seleciton as child
-		const excluded = {}
-		excluded[this.selectedModel?.id] = true
-		if (this.selectedModel.ids) {
-			for (let id of this.selectedModel.ids) {
-				excluded[id] = true
-			}
-		}
-
-		// compute the children in the layoutContainers, 
-		// so we the grid is not active when the element
-		// is over them
-		// Maybe use something like RTree (rbush)
-		this.layoutContainers.forEach(cntr => {
-			for (let id in model.widgets) {
-				const w = model.widgets[id]
-				// check here also for the selected widgets?
-				if (w.z >= cntr.z && w.id !== cntr.id && !excluded[w.id]) {
-					if (this.isFullContained(cntr, w)) {
-						cntr.children.push(w)
-					}
-				}
-			}
-		})
+		this.layoutContainerIndex = new LayoutContainerIndex(model, sourceModel, this.selectedModel, minZ)
 	}
-
-	isFullContained	(outer, inner) {
-		// add here some offset?
-		return (
-			outer.x <= inner.x &&
-			outer.y <= inner.y &&
-			outer.x + outer.w >= inner.x + inner.w &&
-			outer.y + outer.h >= inner.y + inner.h
-		)
-	}
-
 
 	findHoverLayoutContainer(absPos) {
-	
-		const box = this.getOffSetCorrectedPosition(absPos)
-
-		let found = null
-		for (let i=0; i< this.layoutContainers.length; i++) {
-			const c = this.layoutContainers[i]
-			// we use the partial overlap
-			if (c.z < box.z && this._isBoxChild(box, c)) {
-				found = c
-			}
-		}
-		if (found) {
-			if (found.children) {
-				// check that we are not in a child
-				for (let child of found.children) {
-					if (this.isFullContained(child, box)) {
-						//console.debug('exit because of child')
-						this.canvas.unHoverDNDBox()
-						return null
-					}
-				}
-			}
-
-			this.canvas.hoverDNDBox(found.id)
-		} else {
+		const found = this.layoutContainerIndex.findHoverLayoutContainer(absPos)
+		if (!found) {
 			this.canvas.unHoverDNDBox()
+		} else {
+			this.canvas.hoverDNDBox(found.id)
 		}
 		return found
 	}
-
-	getOffSetCorrectedPosition(pos) {
-		const box = {
-			x: pos.x,
-			y: pos.y,
-			w: pos.w,
-			h: pos.h,
-			z: pos.z,
-			id: pos.id,
-			name: pos.name
-		}
-		if (this.boundingBoxOffsetX > 0) {
-			box.x -= this.boundingBoxOffsetX;
-		}	
-		if (this.boundingBoxOffsetY > 0) {
-			box.y -= this.boundingBoxOffsetY;
-		}
-		return box
-	}
+	
 
 	initLayoutContainerLines (layoutContainer) {
 		this._lastScreen = null
