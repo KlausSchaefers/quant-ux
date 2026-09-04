@@ -694,8 +694,6 @@ export default {
             this.renderWidgetDND(id, temp, widget, dif, pos)
           }
           
-        
-        
           return true;
         }
       } else {
@@ -718,8 +716,6 @@ export default {
         // restore old pos
         this._dragNDropLayoutContainerDelta.end = null
       }
-
-
     },
 
     renderWidgetDNDCopy (id, temp, widget, dif, pos) {
@@ -933,12 +929,18 @@ export default {
            */
           if (this._dragNDropChildren) {
             const [positions, hasCopies] = this.getDnDEndPosittions(dif)
-            const updatedPositions = this.getController().updateMultiWidgetPosition(positions, false, pos, hasCopies, this._dragNDropLayoutContainerDelta);
+            const updatedPositions = this.getController().updateMultiWidgetPosition(
+              positions, false, pos, hasCopies, this._dragNDropLayoutContainerDelta
+            );
+            console.warn('updateMultiWidgetPosition', updatedPositions)
             this.updateZoomedPositionList(updatedPositions)
           } else {
             const widget = this.model.widgets[id];
             if (widget) {
-              const sourcePos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget), this._dragNDropLayoutContainerDelta);
+              const sourcePos = this.getController().updateWidgetPosition(
+                  id, lang.clone(pos), false, this.isMasterWidget(widget), this._dragNDropLayoutContainerDelta
+              );
+              console.warn('updateMultiWidgetPosition', sourcePos)
               if (sourcePos) {
                 pos = this.updateZoomedPosition(widget, sourcePos)
               } else {

@@ -651,6 +651,11 @@ export default class Widget extends Snapp {
 
 
 		const hasLayoutChange = this.updateLayoutContainers(layoutContainerChange, Object.keys(positions))
+		if (hasLayoutChange) {
+			Object.keys(positions).forEach(id => {
+				positions[id] = this.model.widgets[id]
+			})
+		}
 
 
 		this.addCommand(command);
@@ -857,6 +862,9 @@ export default class Widget extends Snapp {
 		}
 
 		this.startModelChange()
+		/**
+		 * This also correct the positoin
+		 */
 		const command = this.createWidgetPositionCommand(id, pos,fromToolbar, true);
 		this.addCommand(command);
 
@@ -874,6 +882,9 @@ export default class Widget extends Snapp {
 		 * Check and Update FlexStuff if needed
 		 */
 		const hasLayoutChange = this.updateLayoutContainers(layoutContainerChange, [id])
+		if (hasLayoutChange) {
+			pos = this.model.widgets[id]
+		}
 
 		/**
 		 * show message

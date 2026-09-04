@@ -249,7 +249,7 @@ export default class ResponsiveLayout {
     }
 
     resizeFlex(box, parent, newNestedPositions, indent) {
-        Logger.log(-2, indent + 'ResponsiveLayout.resizeFlex() > ' + box.name)
+        Logger.log(2, indent + 'ResponsiveLayout.resizeFlex() > ' + box.name)
 
         const newParent = newNestedPositions[parent.id]
         const style = box.style || {}
