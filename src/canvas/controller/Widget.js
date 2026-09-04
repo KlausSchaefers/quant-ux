@@ -470,7 +470,7 @@ export default class Widget extends Snapp {
 
 	checkLayoutContainerChange(	oldWidget) {	
 		const widget = this.model.widgets[oldWidget.id];
-		if (widget && widget.type === "GridContainer" && this.layoutPropsHaveChanged(oldWidget, widget)) {
+		if (widget && widget.type === "GridContainer" && this.gridPropsHaveChanged(oldWidget, widget)) {
 			this.logger.log(-1, "checkLayoutContainerChange", "GridContainer changed, check for layout change");
 
 			// create a resize model
@@ -1042,7 +1042,7 @@ export default class Widget extends Snapp {
 
 
 
-	layoutPropsHaveChanged(widget, oldWidget) {
+	gridPropsHaveChanged(widget, oldWidget) {
 		return widget.props.columns != oldWidget.props.columns ||
 			widget.props.columnGap != oldWidget.props.columnGap ||
 			widget.style.paddingLeft != oldWidget.style.paddingLeft ||

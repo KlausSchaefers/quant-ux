@@ -132,7 +132,7 @@ export function getGridContainerLinesX(model, activePoint, zoom=1, includeBorder
     return result
 }
 
-function zoomedOrZero(v, zoom) {
+export function zoomedOrZero(v, zoom) {
     if (!v) {
         return v
     }

@@ -249,12 +249,83 @@ export default class ResponsiveLayout {
     }
 
     resizeFlex(box, parent, newNestedPositions, indent) {
-        Logger.log(-2, indent + 'ResponsiveLayout.resizeFlex() > ' + box.name)  
-         this.resizeChildenGrid(box, parent, newNestedPositions, indent)
-        // const newParent = newNestedPositions[parent.id]
-        // const sclaleGrid = this.sclaleGrid(box, box.grid, newParent, indent + box.name)
-        // this._debugScaledGrids[box.id] = sclaleGrid
-        // this.updateGridChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)      
+        Logger.log(-2, indent + 'ResponsiveLayout.resizeFlex() > ' + box.name)
+
+        const newParent = newNestedPositions[parent.id]
+        const style = box.style || {}
+        const zoom = this.config.zoom
+        const isColumn = style.flexDirection === 'column'
+        const stretch = style.alignItems === 'stretch'
+
+        /**
+         * gap/padding are stored in the style as un-zoomed design values,
+         * whereas newParent and the children's w/h are already in zoomed
+         * pixels (see GridUtil.getGridContainerLinesX/Y for the same rule).
+         */
+        const gap = GridUtil.zoomedOrZero(style.gap, zoom) || 0
+        const paddingTop = GridUtil.zoomedOrZero(style.paddingTop, zoom) || 0
+        const paddingBottom = GridUtil.zoomedOrZero(style.paddingBottom, zoom) || 0
+        const paddingLeft = GridUtil.zoomedOrZero(style.paddingLeft, zoom) || 0
+        const paddingRight = GridUtil.zoomedOrZero(style.paddingRight, zoom) || 0
+
+        const innerX = newParent.x + paddingLeft
+        const innerY = newParent.y + paddingTop
+        const innerWidth = newParent.w - paddingLeft - paddingRight
+        const innerHeight = newParent.h - paddingTop - paddingBottom
+
+        /**
+         * The tree keeps children in z/creation order, which does not
+         * necessarily match their visual left-to-right (row) / top-to-bottom
+         * (column) order. Flex needs the visual order, otherwise the gap
+         * ends up between the wrong pair of children.
+         */
+        const children = box.children.slice().sort((a, b) => isColumn ? a.y - b.y : a.x - b.x)
+        const gapSum = gap * Math.max(children.length - 1, 0)
+
+        if (isColumn) {
+
+            const fixedHeight = children
+                .filter(child => isFlexFixedVertical(child))
+                .reduce((sum, child) => sum + child.h, 0)
+
+            const growChildren = children.filter(child => !isFlexFixedVertical(child))
+            const growHeight = growChildren.length > 0
+                ? Math.max(0, innerHeight - fixedHeight - gapSum) / growChildren.length
+                : 0
+
+            let y = innerY
+            children.forEach(child => {
+                const height = isFlexFixedVertical(child) ? child.h : growHeight
+                const width = (stretch && !isFlexFixedHorizontal(child)) ? innerWidth : child.w
+
+                newNestedPositions[child.id] = createResult(innerX, y, width, height)
+                y += height + gap
+
+                this.resizeChildren(child, child, newNestedPositions, indent + '     ')
+            })
+
+        } else {
+
+            const fixedWidth = children
+                .filter(child => isFlexFixedHorizontal(child))
+                .reduce((sum, child) => sum + child.w, 0)
+
+            const growChildren = children.filter(child => !isFlexFixedHorizontal(child))
+            const growWidth = growChildren.length > 0
+                ? Math.max(0, innerWidth - fixedWidth - gapSum) / growChildren.length
+                : 0
+
+            let x = innerX
+            children.forEach(child => {
+                const width = isFlexFixedHorizontal(child) ? child.w : growWidth
+                const height = (stretch && !isFlexFixedVertical(child)) ? innerHeight : child.h
+
+                newNestedPositions[child.id] = createResult(x, innerY, width, height)
+                x += width + gap
+
+                this.resizeChildren(child, child, newNestedPositions, indent + '     ')
+            })
+        }
     }
 
 
@@ -508,6 +579,18 @@ export default class ResponsiveLayout {
         //console.debug(indent,'  hor', parent.name, '-> ', child.name, child.id, child.w, parent.w, newParent.w, ' ==',newChildPos.w)
        
     }
+}
+
+/**
+ * Unlike ExportUtil.isFixedVertical(), this has no type based fallback:
+ * for Flex layout a child is only fixed if it is explicitly marked as such.
+ */
+function isFlexFixedHorizontal(child) {
+    return !!(child.props && child.props.resize && child.props.resize.fixedHorizontal)
+}
+
+function isFlexFixedVertical(child) {
+    return !!(child.props && child.props.resize && child.props.resize.fixedVertical)
 }
 
 function getFlexFixed(list) {
