@@ -12,7 +12,7 @@ import SimpleGrid from 'canvas/SimpleGrid'
 import RenderFlow from 'canvas/RenderFlow'
 import Wiring from 'canvas/Wiring'
 import ModelUtil from 'core/ModelUtil'
-import { TreeIndex } from '../core/responsive/TreeIndex'
+//import { TreeIndex } from '../core/responsive/TreeIndex'
 import LayoutContainerIndex from '../core/responsive/LayoutContainerIndex'
 
 export default {
@@ -405,14 +405,17 @@ export default {
 		
 				if (this.model && this.sourceModel) {
 					const start = new Date().getTime()
-					this.treeIndex = new TreeIndex(this.model)
+					//this.treeIndex = new TreeIndex(this.model)
 					this.flexContainerIndex = new LayoutContainerIndex(this.model, this.sourceModel, new Set(['FlexContainer']))
 					const end = new Date().getTime()
-					this.logger.log(-1, 'updateIndexes', 'exit >  took :', (end - start))
+					if (end - start > 100) {
+						this.logger.log(-1, 'updateIndexes', 'exit >  took :', (end - start))
+					}
+
 				} else {
 					this.logger.warn('updateIndexes', 'no model')
 				}
-			}, 200)
+			}, 1)
 		},
 
 		updateSourceModel (sourceModel, changes) {
@@ -1115,7 +1118,7 @@ export default {
 		},
 
 		alignmentStart (selectedType, selectedModel, activePoint, ignoreIds, showDimensions){
-			this.logger.log(-1,"alignmentStart","enter > selectedType: " + selectedType + " > " + this.settings.snapGridOnlyToTopLeft + " > useSnap: " + this.settings.useSnappingEngine);
+			this.logger.log(2,"alignmentStart","enter > selectedType: " + selectedType + " > " + this.settings.snapGridOnlyToTopLeft + " > useSnap: " + this.settings.useSnappingEngine);
 
 			/**
 			 * Use the grid only when widget is selected and grid is specified
@@ -1123,7 +1126,7 @@ export default {
 			if (this.model.grid) {
 				if ("widget" == selectedType || "boundingbox" == selectedType || "group" == selectedType ||  "multi" == selectedType) {
 					const useSnappingEngine = this.settings && this.settings.useSnappingEngine
-					console.debug('useSnappingEngine', useSnappingEngine)
+					
 					this._alignmentTool = useSnappingEngine ? new SnappingEngine() : new GridAndRulerSnapp();
 					this._alignmentTool.ignoreGroup = this._dragNDropIgnoreGroup;
 					this._alignmentTool.showDndDistance = this.showDistance;

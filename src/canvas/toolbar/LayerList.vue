@@ -417,17 +417,22 @@ export default {
 				if (LayoutContainerUtil.isLayoutContainerWidget(widget)) {
 					const children = this.getLayoutContainerChildren(widget, sorted)
 					for (let id of children){
-						// If the widget is under a group (cheap check for children), we will place 
-						// the group in the GridContainer and maintain the group child relation	
+						// If the widget is under a group (cheap check for children), we will place
+						// the TOP MOST group (it might be nested itself, e.g. Group2 > Group1 > widget)
+						// in the GridContainer and maintain the group/subgroup child relation.
+						// Attaching the immediate group instead of the top most one would overwrite
+						// the subgroup -> parent group relation set up above.
 						if (parentGroups[id] && parentGroups[id].children){
-							const group = parentGroups[id]
+							const group = this.getTopMostGroup(parentGroups[id], parentGroups)
 							parentGroups[group.id] = widget
 						} else {
 							// else we place the GridContainer as the parent
 							parentGroups[id] = widget
-							layoutContainer[widget.id] = true 
 						}
-			
+						// Either way, the container itself is nested via parentGroups/getOrCreateGroup
+						// below, so it must not also get a separate top-level node in the main loop,
+						// otherwise we end up with two tree nodes sharing the same id.
+						layoutContainer[widget.id] = true
 					}
 				}
 			}
@@ -487,6 +492,21 @@ export default {
 				}
 			}
 			return children
+		},
+
+		/**
+		 * Groups can be nested (a group's own id can appear in a parent
+		 * group's "groups" array, see the parentGroups build up in
+		 * createNestedModel()). Walk up that chain to find the outer most
+		 * group, so a layout container always attaches to the top of the
+		 * chain instead of a subgroup in the middle of it.
+		 */
+		getTopMostGroup (group, parentGroups) {
+			let current = group
+			while (parentGroups[current.id] && parentGroups[current.id].children) {
+				current = parentGroups[current.id]
+			}
+			return current
 		},
 
 		getSortedScreenChildren (model, screen) {

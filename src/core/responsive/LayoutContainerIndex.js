@@ -74,17 +74,18 @@ export default class LayoutContainerIndex {
         let found = null
         for (let i = 0; i < this.layoutContainers.length; i++) {
             const c = this.layoutContainers[i]
- 
+        
             // we use the partial overlap
             if (c.z < box.z && ModelGeom._isBoxChild(box, c)) {
                 found = c
             }
         }
+
         if (found) {
             if (found.children) {
                 // check that we are not in a child
                 for (let child of found.children) {
-                    if (this.isFullContained(child, box)) {
+                    if (this.isFullContained(child, box) && child.id !== absPos.id) {    
                         return null
                     }
                 }

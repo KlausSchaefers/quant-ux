@@ -546,8 +546,8 @@ export default class Widget extends Snapp {
 	 * Normal position change
 	 ******************************************************/
 
-	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies){
-		this.logger.log(-1,"updateMultiWidgetPosition", "enter > " + fromToolbar);
+	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies, layoutContainerParent){
+		this.logger.log(-1,"updateMultiWidgetPosition", "enter > " + fromToolbar, layoutContainerParent);
 	
 		this.startModelChange()
 		const command = {
@@ -840,8 +840,8 @@ export default class Widget extends Snapp {
 
 
 
-	updateWidgetPosition (id, pos, fromToolbar, hasCopies){
-		this.logger.log(-1,"updateWidgetPosition", "enter > " + id );
+	updateWidgetPosition (id, pos, fromToolbar, hasCopies, layoutContainerParent){
+		this.logger.log(-1,"updateWidgetPosition", "enter > " + id, layoutContainerParent );
 
 		const widget = this.model.widgets[id];
 		if (!widget) {

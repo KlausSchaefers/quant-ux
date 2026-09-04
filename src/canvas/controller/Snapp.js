@@ -137,7 +137,7 @@ export default class Snapp extends Screen {
 	}
 
 	snappAll (widget,screen, pos, snapp){
-		this.logger.log(-1,"snappAll", "enter > ", snapp, pos);
+		this.logger.log(1,"snappAll", "enter > ", snapp, pos);
 
 		if(snapp.x){
 			pos.x = widget.x;

@@ -1,0 +1,279 @@
+{
+  "_id" : "6a9af3f08ed0013e1765940a",
+  "version" : 4,
+  "name" : "FlexTest",
+  "description" : "",
+  "screenSize" : {
+    "w" : 1024,
+    "h" : 768
+  },
+  "type" : "tablet",
+  "screens" : {
+    "s10000_80355" : {
+      "x" : 1506,
+      "y" : 1118,
+      "h" : 812,
+      "w" : 1024,
+      "name" : "Screen",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#ffffff"
+      },
+      "min" : {
+        "w" : 1024,
+        "h" : 768
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : true
+      },
+      "children" : [ "w10042_97468", "w10057_66617", "w10054_45743", "w10055_33791" ],
+      "id" : "s10000_80355",
+      "modified" : 1788558831883
+    }
+  },
+  "widgets" : {
+    "w10042_97468" : {
+      "id" : "w10042_97468",
+      "type" : "GridContainer",
+      "name" : "Grid Container 1",
+      "x" : 2058,
+      "y" : 1390,
+      "w" : 346,
+      "h" : 225,
+      "z" : 9,
+      "props" : {
+        "layout" : "grid",
+        "rows" : 2,
+        "columns" : 2,
+        "rowGap" : 16,
+        "columnGap" : 24,
+        "columnWidths" : [ "1fr", "5fr" ],
+        "rowHeights" : [ "1fr", "5fr" ]
+      },
+      "has" : {
+        "onclick" : true,
+        "borderRadius" : true,
+        "backgroundColor" : true,
+        "border" : true,
+        "padding" : true
+      },
+      "actions" : { },
+      "style" : {
+        "background" : "#FFFFFF",
+        "paddingBottom" : 24,
+        "paddingLeft" : 24,
+        "paddingRight" : 24,
+        "paddingTop" : 24,
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopColor" : "#e2e2e2",
+        "borderBottomColor" : "#e2e2e2",
+        "borderRightColor" : "#e2e2e2",
+        "borderLeftColor" : "#e2e2e2",
+        "borderTopStyle" : "solid",
+        "borderBottomStyle" : "solid",
+        "borderRightStyle" : "solid",
+        "borderLeftStyle" : "solid"
+      },
+      "created" : 1788554819546,
+      "modified" : 1788557792602
+    },
+    "w10054_45743" : {
+      "type" : "Button",
+      "name" : "Box",
+      "x" : 2083,
+      "y" : 1415,
+      "w" : 123,
+      "h" : 133,
+      "z" : 11,
+      "props" : {
+        "label" : "",
+        "paddingSnap" : true
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#000000",
+        "borderBottomColor" : "#000000",
+        "borderRightColor" : "#000000",
+        "borderLeftColor" : "#000000",
+        "background" : "#000000",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10054_45743",
+      "created" : 1788558833872,
+      "modified" : 1788559027405
+    },
+    "w10055_33791" : {
+      "type" : "Button",
+      "name" : "Box 2",
+      "x" : 2109,
+      "y" : 1475,
+      "w" : 137,
+      "h" : 114,
+      "z" : 12,
+      "props" : {
+        "label" : "",
+        "paddingSnap" : true
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#000000",
+        "borderBottomColor" : "#000000",
+        "borderRightColor" : "#000000",
+        "borderLeftColor" : "#000000",
+        "background" : "#000000",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10055_33791",
+      "created" : 1788558835663,
+      "modified" : 1788559027405
+    },
+    "w10057_66617" : {
+      "type" : "Button",
+      "name" : "Box 3",
+      "x" : 2272,
+      "y" : 1415,
+      "w" : 106,
+      "h" : 66,
+      "z" : 13,
+      "props" : {
+        "label" : "",
+        "paddingSnap" : true
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#000000",
+        "borderBottomColor" : "#000000",
+        "borderRightColor" : "#000000",
+        "borderLeftColor" : "#000000",
+        "background" : "#000000",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10057_66617",
+      "created" : 1788558840133,
+      "modified" : 1788559027405
+    }
+  },
+  "lines" : { },
+  "groups" : {
+    "g10056_83905" : {
+      "id" : "g10056_83905",
+      "children" : [ "w10054_45743", "w10055_33791" ],
+      "groups" : [ ],
+      "name" : "Group 1"
+    },
+    "g10058_20708" : {
+      "id" : "g10058_20708",
+      "children" : [ "w10057_66617" ],
+      "groups" : [ "g10056_83905" ],
+      "name" : "Group 2"
+    }
+  },
+  "templates" : { },
+  "designtokens" : { },
+  "lastUUID" : 10059,
+  "lastUpdate" : 1788559043720,
+  "created" : 1788539888116,
+  "startScreen" : "",
+  "grid" : {
+    "w" : 8,
+    "h" : 8,
+    "style" : "line",
+    "color" : "#cecece",
+    "visible" : false,
+    "enabled" : false
+  },
+  "domain" : "Quant-UX.com",
+  "isDirty" : true,
+  "screenCount" : 1,
+  "widgetCount" : 4,
+  "lastCategory" : "WireFrame",
+  "lastBackup" : 1788557250984,
+  "lastS3Backup" : 1788557250984,
+  "id" : "6a9af3f08ed0013e1765940a",
+  "sessionCount" : 0
+}

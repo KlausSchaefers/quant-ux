@@ -285,7 +285,7 @@ export default class BaseController extends Core {
 	}
 
 	commitModelChange (updateChangeStack=true) {
-		this.logger.log(-1,"commitModelChange", "enter  >  changes: " + this._modelHasChanged + " > " + updateChangeStack);
+		this.logger.log(2,"commitModelChange", "enter  >  changes: " + this._modelHasChanged + " > " + updateChangeStack);
 
 		//this.updateAutoGroups();
 		// ungroup should not be possible for autoGroups
@@ -361,7 +361,7 @@ export default class BaseController extends Core {
 	 ***************************************************************************************/
 
 	setDirty (saveCommandStack=true){
-		this.logger.log(-1,"setDirty", "enter > ", this._dirty);
+		this.logger.log(3,"setDirty", "enter > ", this._dirty);
 		this._dirty = true;
 		if (this.debug){
 			this.saveModelChanges(saveCommandStack);

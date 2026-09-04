@@ -484,6 +484,7 @@ export default {
       }
 
       this._dragNDropBoxPositions = {};
+      this._dragNDropLayoutContainerDelta = {}
       this._dragNDropBoxWidgetStart = pos;
 
       /**
@@ -516,7 +517,16 @@ export default {
       // we register here a keybaord listeners, so pressing SHIFT
       // or OPTION will triggers the onWidetMove
       this.registerKeyBoardListener(e => this.onWidgetDNDKeyDown(e))
+
       const widget = this.model.widgets[id];
+
+      if (this.flexContainerIndex) {
+        const parent = this.flexContainerIndex.findHoverLayoutContainer(widget)
+        console.debug(parent, this.flexContainerIndex, widget)
+        this._dragNDropLayoutContainerDelta.start = parent
+      }
+
+
       return widget;
     },
 
@@ -698,17 +708,17 @@ export default {
     },
 
     updateLayoutContainerDND (id, div, pos, dif, e) {
-      if (!this.flexContainerIndex || !this.treeIndex) {
+      if (!this.flexContainerIndex) {
         return
       }
       // This is called in the GridAndRuler already. We could save this...
       const parent = this.flexContainerIndex.findHoverLayoutContainer(pos ) // this._dragNDropOffset?.x, this._dragNDropOffset?.y is negative
       if (parent) {
-          this._dragNDropLayoutParent = parent
+          this._dragNDropLayoutContainerDelta.end = parent
           console.debug('updateLayoutContainerDND', id, parent.name)
       } else {
         // restore old pos
-
+        this._dragNDropLayoutContainerDelta.end = null
       }
 
 
@@ -925,12 +935,12 @@ export default {
            */
           if (this._dragNDropChildren) {
             const [positions, hasCopies] = this.getDnDEndPosittions(dif)
-            const updatedPositions = this.getController().updateMultiWidgetPosition(positions, false, pos, hasCopies, id);
+            const updatedPositions = this.getController().updateMultiWidgetPosition(positions, false, pos, hasCopies, id, this._dragNDropLayoutContainerDelta);
             this.updateZoomedPositionList(updatedPositions)
           } else {
             const widget = this.model.widgets[id];
             if (widget) {
-              const sourcePos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget));
+              const sourcePos = this.getController().updateWidgetPosition(id, lang.clone(pos), false, this.isMasterWidget(widget), this._dragNDropLayoutContainerDelta);
               if (sourcePos) {
                 pos = this.updateZoomedPosition(widget, sourcePos)
               } else {
@@ -1100,7 +1110,7 @@ export default {
       delete this._dragNDropChildren;
       delete this._dragNDropBoxWidgetStart;
       delete this._dragNDropLineGroups
-      delete this._dragNDropLayoutParent
+      delete this._dragNDropLayoutContainerDelta
     },
 
     cleanUpDNDCopyPlaceHolder () {
