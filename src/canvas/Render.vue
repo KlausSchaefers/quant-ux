@@ -12,6 +12,8 @@ import SimpleGrid from 'canvas/SimpleGrid'
 import RenderFlow from 'canvas/RenderFlow'
 import Wiring from 'canvas/Wiring'
 import ModelUtil from 'core/ModelUtil'
+import { TreeIndex } from '../core/responsive/TreeIndex'
+import LayoutContainerIndex from '../core/responsive/LayoutContainerIndex'
 
 export default {
     name: 'Render',
@@ -394,6 +396,25 @@ export default {
 			//console.timeEnd('updateScalledModel')
 		},
 
+		updateIndexes() {
+			if (this._treeModelTimer) {
+				clearTimeout(this._treeModelTimer)
+			}
+			this._treeModelTimer = setTimeout(() => {
+				this._treeModelTimer = null
+		
+				if (this.model && this.sourceModel) {
+					const start = new Date().getTime()
+					this.treeIndex = new TreeIndex(this.model)
+					this.flexContainerIndex = new LayoutContainerIndex(this.model, this.sourceModel, new Set(['FlexContainer']))
+					const end = new Date().getTime()
+					this.logger.log(-1, 'updateIndexes', 'exit >  took :', (end - start))
+				} else {
+					this.logger.warn('updateIndexes', 'no model')
+				}
+			}, 200)
+		},
+
 		updateSourceModel (sourceModel, changes) {
 			this.logger.log(1,"updateSourceModel", "enter", changes);
 			this.sourceModel = sourceModel;
@@ -425,6 +446,8 @@ export default {
 				 * to rescale
 				 */
 				this.updateCommentPositions();
+
+				// we do not. call 		this.updateIndexes()
 			}
 		},
 
@@ -442,9 +465,12 @@ export default {
 			this.logger.log(1,"onWidgetPositionChange", "enter", sourceModel);
 			this.sourceModel = sourceModel;
 			this.updateScalledModel()
+	
 			this.renderFactory.setZoomedModel(sourceModel);
 			this.renderFactory.updatePositions(sourceModel)
+
 			this.renderLayerList(sourceModel);
+			this.updateIndexes()
 		},
 
 
@@ -463,6 +489,7 @@ export default {
 				 * Use to render drag and drop nodes
 				 */
 				this.updateScalledModel()
+				
 
 				this.renderFlowViewFast(this.sourceModel, this.model, isResize);
 
@@ -480,6 +507,11 @@ export default {
 				 * Make sure we continue the add mode
 				 */
 				this.renderAddCommand();
+
+				/**
+				 * Update the tree model last
+				 */
+				this.updateIndexes()
 			} catch(e){
 				this.logger.error("render", "ups", e);
 				this.logger.sendError(e);

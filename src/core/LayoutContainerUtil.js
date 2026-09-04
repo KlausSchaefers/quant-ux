@@ -1,3 +1,5 @@
+export const LayoutContainerTypes = new Set(['FlexContainer', 'GridContainer'])
+
 export function getLayoutContainerChildren(id, model, includeContainer =true) {
   const children = []
   if (includeContainer) {
@@ -24,7 +26,7 @@ export function getLayoutContainerModels(model) {
   // we could make this even better by filtering for z-level...
   for (let id in model.widgets) {
     const w = model.widgets[id];
-    if (w.type === "GridContainer") {
+    if (LayoutContainerTypes.has(w.type)) {
       const cntr = {
         id: w.id,
         name: w.name,
@@ -62,14 +64,14 @@ export function getLayoutContainerModels(model) {
 }
 
 export function isLayoutContainer(id, model) {
-  if (model.widgets[id] && model.widgets[id].type === "GridContainer") {
+  if (model.widgets[id] && (LayoutContainerTypes.has(model.widgets[id].type))) {
     return true; 
   }
   return false;
 }
 
 export function isLayoutContainerWidget(widget) {
-  if (widget && widget.type === "GridContainer") {
+  if (widget && (LayoutContainerTypes.has(widget.type))) {
     return true; 
   }
   return false;

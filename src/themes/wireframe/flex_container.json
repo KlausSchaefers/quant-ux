@@ -1,0 +1,39 @@
+[
+    {
+        "id": "FlexContainer",
+        "type": "FlexContainer",
+        "category": "WireFrame",
+        "subcategory": "AAA",
+        "_type": "Widget",
+        "name": "Flex Container",
+        "x": 0,
+        "y": 0,
+        "w": 320,
+        "h": 320,
+        "z": 0,
+        "props": {
+            "paddingSnap": true
+        },
+        "has": {
+            "onclick": true,
+            "borderRadius": true,
+            "backgroundColor": true,
+            "border": true,
+            "padding": true
+        },
+        "actions": {},
+        "style": {
+            "flexDirection": "row",
+            "gap": 8,
+            "borderRadius": 0,
+            "borderWidth": 1,
+            "borderStyle": "solid",
+            "borderColor": "@background-passive",
+            "background": "@form-background",
+            "paddingBottom": 24,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 24
+        }
+    }
+]

@@ -382,11 +382,11 @@ class ModelUtil {
             zoomedWidget.style = {
                 locked: widget?.style.locked
             }
-         
+
             /**
              * We need paddings etc in the for resizing to calc the grid
              */
-            if (widget.type === 'GridContainer') {
+            if (widget.type === 'GridContainer' || widget.type === 'FlexContainer') {
                 zoomedWidget.style.paddingTop = widget.style.paddingTop
                 zoomedWidget.style.paddingBottom = widget.style.paddingBottom
                 zoomedWidget.style.paddingLeft = widget.style.paddingLeft

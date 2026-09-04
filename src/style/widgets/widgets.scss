@@ -2,6 +2,17 @@
 /*******************************
  * GridConatiner
  *******************************/
+.MatcWidgetTypeFlexContainer{
+	position: absolute;
+	width:100%;
+	height: 100%;
+	outline: none;
+	border: 1px solid #333;
+}
+
+/*******************************
+ * GridConatiner
+ *******************************/
  .MatcWidgetTypeGridContainer {
 	position: absolute;
 	width:100%;
