@@ -246,12 +246,16 @@ export default {
 			const fromNode = this.nodes[from]
 			const toNode = this.nodes[to]
 
+			console.debug(toNode)
 			
-			if (fromNode.parentID !== toNode.parentID) {
-				this.logger.warn('onDnd', 'Not same parent', fromNode.parentID, toNode.parentID)
-				this.showError("Widgets can be moved only in the same group or container!")
-				return
-			}
+			/**
+			 * Why did I add this?
+			 */
+			// if (fromNode.parentID !== toNode.parentID) {
+			// 	this.logger.warn('onDnd', 'Not same parent', fromNode.parentID, toNode.parentID)
+			// 	this.showError("Widgets can be moved only in the same group or container!")
+			// 	return
+			// }
 
 			if (fromNode && toNode) {
 				if (this.controller) {

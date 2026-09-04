@@ -646,6 +646,10 @@ export default class Widget extends Snapp {
 			this.modelWidgetUpdate(id, pos, false);
 		}
 
+
+		this.updateLayoutContainers(layoutContainerParent)
+
+
 		this.addCommand(command);
 
 		/**
@@ -841,7 +845,7 @@ export default class Widget extends Snapp {
 
 
 	updateWidgetPosition (id, pos, fromToolbar, hasCopies, layoutContainerParent){
-		this.logger.log(-1,"updateWidgetPosition", "enter > " + id, layoutContainerParent );
+		this.logger.log(1,"updateWidgetPosition", "enter > " + id );
 
 		const widget = this.model.widgets[id];
 		if (!widget) {
@@ -862,6 +866,11 @@ export default class Widget extends Snapp {
 		 * Update the model
 		 */
 		this.modelWidgetUpdate(id, pos);
+
+		/**
+		 * Check and Update FlexStuff if needed 
+		 */
+		this.updateLayoutContainers(layoutContainerParent)
 
 		/**
 		 * show message
@@ -896,6 +905,9 @@ export default class Widget extends Snapp {
 		return pos;
 	}
 
+	updateLayoutContainers(layoutContainerParent) {
+		this.logger.log(-1,"updateLayoutContainers", "enter > ", layoutContainerParent );
+	}
 
 	createWidgetPositionCommand (id, pos,fromToolbar, correctPosition){
 
@@ -1507,7 +1519,6 @@ export default class Widget extends Snapp {
 			};
 			command.children.push(child);
 			this.modelAddWidget(widget);
-			console.debug('addMultiWidgets', widget)
 		}
 
 		this.addCommand(command);
