@@ -757,6 +757,12 @@ export default {
 				{ value:"row", icon:"FlexContainerRow", label : "Row"},
 				{ value: "column", icon:"FlexContainerCol", label : "Column"}
 			], true);
+
+			this._renderLabelDropDown("Strech Children", model,"alignItems",[
+				{ value:"stretch", icon:"FlexContainerStretch", label : "Stretch"},
+				{ value: "default", icon:"Close", label : "Keep Size"}
+			], true);
+
 			this._renderInputDropDown("Gap",model, [0, 4, 8, 16, 24, 32, 64], "gap", false);
 		},
 

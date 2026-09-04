@@ -468,10 +468,12 @@ export default class Widget extends Snapp {
 	}
 
 
-	checkLayoutContainerChange(	oldWidget) {	
+	checkLayoutContainerChange(	oldWidget) {
 		const widget = this.model.widgets[oldWidget.id];
-		if (widget && widget.type === "GridContainer" && this.gridPropsHaveChanged(oldWidget, widget)) {
-			this.logger.log(-1, "checkLayoutContainerChange", "GridContainer changed, check for layout change");
+		const isGridChange = widget && widget.type === "GridContainer" && this.gridPropsHaveChanged(oldWidget, widget)
+		const isFlexChange = widget && widget.type === "FlexContainer" && this.flexPropsHaveChanged(oldWidget, widget)
+		if (isGridChange || isFlexChange) {
+			this.logger.log(-1, "checkLayoutContainerChange", widget.type + " changed, check for layout change");
 
 			// create a resize model
 			let childrenIDs = ModelGeom.getChildWidgetsIDs(this.model, widget)
@@ -1058,6 +1060,20 @@ export default class Widget extends Snapp {
 			widget.style.borderBottomWidth != oldWidget.style.borderBottomWidth ||
 			widget.style.borderTopWidth != oldWidget.style.borderTopWidth ||
 			this.arrayPropHasChanged(widget.props.rowHeights, oldWidget.props.rowHeights)
+	}
+
+	flexPropsHaveChanged(widget, oldWidget) {
+		return widget.style.flexDirection != oldWidget.style.flexDirection ||
+			widget.style.alignItems != oldWidget.style.alignItems ||
+			widget.style.gap != oldWidget.style.gap ||
+			widget.style.paddingLeft != oldWidget.style.paddingLeft ||
+			widget.style.paddingRight != oldWidget.style.paddingRight ||
+			widget.style.paddingTop != oldWidget.style.paddingTop ||
+			widget.style.paddingBottom != oldWidget.style.paddingBottom ||
+			widget.style.borderLeftWidth != oldWidget.style.borderLeftWidth ||
+			widget.style.borderRightWidth != oldWidget.style.borderRightWidth ||
+			widget.style.borderTopWidth != oldWidget.style.borderTopWidth ||
+			widget.style.borderBottomWidth != oldWidget.style.borderBottomWidth
 	}
 
 	arrayPropHasChanged(a, b) {
