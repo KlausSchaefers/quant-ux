@@ -1,17 +1,15 @@
-import Logger from '../Logger'
 import ModelGeom from '../ModelGeom'
 
 export default class LayoutContainerIndex {
 
-    constructor(model, sourceModel, types = new Set(['GridContainer', 'FlexContainer']), selectedModel = {}, maxZ = -1) {
-        Logger.log(2, "LayoutContainerIndex.constrcutor() ", maxZ, types)
+    constructor(model, sourceModel, selectedModel = {}, minZ = 0) {
         this.layoutContainers = []
-        this.init(model, selectedModel, maxZ, types)
+        this.init(model, sourceModel, selectedModel, minZ)
     }
 
-    init(model, selectedModel, maxZ, filterTypes) {
+    init(model, sourceModel, selectedModel, minZ) {
         this.layoutContainers = []
-   
+
         // make this also work just with ids?
         const excluded = {}
 		excluded[selectedModel?.id] = true
@@ -26,12 +24,12 @@ export default class LayoutContainerIndex {
         for (let id in model.widgets) {
             const w = model.widgets[id]
             // we just take lowe layer containers
-            if (w.z < maxZ || maxZ < 0) {
-               
-                
-                if (w !== undefined && filterTypes.has(w.type)) {      
-                    const g = structuredClone(w)               
+            if (w.z < minZ) {
+                const s = sourceModel.widgets[id]
+                if (w !== undefined & s !== undefined && w.type === 'GridContainer') {
+                    const g = structuredClone(w)
                     // copy source style so we have the real paddings
+                    g.style = s.style
                     g.children = []
                     this.layoutContainers.push(g)
                 }
@@ -67,14 +65,14 @@ export default class LayoutContainerIndex {
     }
 
 
-    findHoverLayoutContainer(absPos, boundingBoxOffsetX=0, boundingBoxOffsetY=0) {
-        const box = this.getOffSetCorrectedPosition(absPos, boundingBoxOffsetX, boundingBoxOffsetY)
+    findHoverLayoutContainer(absPos) {
 
-        // find the highest container. can we just search by zlevel and take the first one
+        const box = this.getOffSetCorrectedPosition(absPos)
+
+        // find the highest container
         let found = null
         for (let i = 0; i < this.layoutContainers.length; i++) {
             const c = this.layoutContainers[i]
- 
             // we use the partial overlap
             if (c.z < box.z && ModelGeom._isBoxChild(box, c)) {
                 found = c
@@ -94,33 +92,7 @@ export default class LayoutContainerIndex {
         return found
     }
 
-    findContainedLayoutContainer(absPos, boundingBoxOffsetX=0, boundingBoxOffsetY=0) {
-        const box = this.getOffSetCorrectedPosition(absPos, boundingBoxOffsetX, boundingBoxOffsetY)
-
-        // find the highest container. can we just search by zlevel and take the first one
-        let found = null
-        for (let i = 0; i < this.layoutContainers.length; i++) {
-            const c = this.layoutContainers[i] 
-            console.debug(this.isFullContained(box, c))
-            if (c.z < box.z && this.isFullContained(box, c)) {
-                found = c
-            }
-        }
-        if (found) {
-            if (found.children) {
-                // check that we are not in a child
-                for (let child of found.children) {
-                    if (this.isFullContained(child, box)) {
-                        return null
-                    }
-                }
-            }            
-        }
-        
-        return found
-    }
-
-    getOffSetCorrectedPosition(pos, boundingBoxOffsetX, boundingBoxOffsetY) {
+    getOffSetCorrectedPosition(pos) {
         const box = {
             x: pos.x,
             y: pos.y,
@@ -130,11 +102,11 @@ export default class LayoutContainerIndex {
             id: pos.id,
             name: pos.name
         }
-        if (boundingBoxOffsetX > 0) {
-            box.x -= boundingBoxOffsetX;
+        if (this.boundingBoxOffsetX > 0) {
+            box.x -= this.boundingBoxOffsetX;
         }
-        if (boundingBoxOffsetY > 0) {
-            box.y -= boundingBoxOffsetY;
+        if (this.boundingBoxOffsetY > 0) {
+            box.y -= this.boundingBoxOffsetY;
         }
         return box
     }

@@ -79,7 +79,6 @@ import ImageGrid from 'core/widgets/ImageGrid'
 import AudioPlayer from 'core/widgets/AudioPlayer'
 import AudioLogic from 'core/widgets/AudioLogic'
 import GridContainer from 'core/widgets/GridContainer'
-import FlexContainer from 'core/widgets/FlexContainer'
 
 import Animation from 'core/Animation'
 import Core from 'core/Core'
@@ -535,12 +534,6 @@ export default class RenderFactory extends Core {
 	
 	_createGridContainer(parent, model) {
 		const widget = this.$new(GridContainer)
-		widget.placeAt(parent);
-		this._uiWidgets[model.id] = widget;
-	}
-
-	_createFlexContainer(parent, model) {
-		const widget = this.$new(FlexContainer)
 		widget.placeAt(parent);
 		this._uiWidgets[model.id] = widget;
 	}

@@ -751,15 +751,6 @@ export default {
 			this._addChildWidget(gridConfig);
 		},
 
-		_showFlexContainer (model){
-			this._setSectionLabel("Flex Container");
-			this._renderLabelDropDown("Direction", model,"flexDirection",[
-				{ value:"row", icon:"FlexContainerRow", label : "Row"},
-				{ value: "column", icon:"FlexContainerCol", label : "Column"}
-			], true);
-			this._renderInputDropDown("Gap",model, [0, 4, 8, 16, 24, 32, 64], "gap", false);
-		},
-
 		_showLabel (model){
 			if (!model?.props?.animated) {
 				this._setSectionLabel("Label");

@@ -84,15 +84,7 @@ export function isInputElement (element) {
 
 export function isContainerElement (element) {
     const type = element.type
-    return type === 'Box' || 
-        type === 'Button' || 
-        type === 'Image' || 
-        type === 'ChildrenToggle' || 
-        type === 'Repeater' || 
-        type === 'DynamicContainer' || 
-        type === 'ContainerDropDown' || 
-        type === 'GridContainer' || 
-        type == 'FlexContainer'
+    return type === 'Box' || type === 'Button' || type === 'Image' || type === 'ChildrenToggle' || type === 'Repeater' || type === 'DynamicContainer' || type === 'ContainerDropDown' || type === 'GridContainer'
 }
 
 /**
@@ -381,10 +373,6 @@ export function isComponentSet (e) {
 
 export function isGridContainerWidget(e) {
 	return e.type === 'GridContainer'
-}
-
-export function isFlexContainerWidget(e) {
-	return e.type === 'FlexContainer'
 }
 
 export function isChildrenToggle(e) {

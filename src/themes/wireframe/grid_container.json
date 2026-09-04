@@ -28,7 +28,7 @@
         },
         "actions":{},
         "style" : {
-           "borderRadius": 0,
+           "borderRadius": 8,
            "borderWidth": 1,
            "borderStyle": "solid",
            "borderColor": "@background-passive",	

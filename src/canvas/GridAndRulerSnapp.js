@@ -400,15 +400,11 @@ export default class GridAndRulerSnapp extends Core {
 
 	initLayoutContainerCache(model, sourceModel) {
 		const minZ = this.selectedModel.z || 0
-		this.layoutContainerIndex = new LayoutContainerIndex(model, sourceModel, new Set(['GridContainer']), this.selectedModel, minZ)
+		this.layoutContainerIndex = new LayoutContainerIndex(model, sourceModel, this.selectedModel, minZ)
 	}
 
 	findHoverLayoutContainer(absPos) {
-		const found = this.layoutContainerIndex.findHoverLayoutContainer(absPos, this.boundingBoxOffsetX, this.boundingBoxOffsetY)
-		if (found && found.type!== 'GridContainer') {
-			this.canvas.unHoverDNDBox()
-			return
-		}
+		const found = this.layoutContainerIndex.findHoverLayoutContainer(absPos)
 		if (!found) {
 			this.canvas.unHoverDNDBox()
 		} else {
@@ -2044,7 +2040,6 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	isPaddingBox(box) {
-
 		if(box?.props?.paddingSnap && box.style) {
 			const sourceBox = this.getSourceBox(box)
 			if (sourceBox) {
@@ -2066,7 +2061,8 @@ export default class GridAndRulerSnapp extends Core {
 		if (!this.copyReferenceID) {
 			ignore = this.getSnappIgnores(screen)
 		}
-		
+
+		console.debug("initScreen", screen.id, "ignore", ignore)
 		/**
 		 * now create the snapp lines for all other widgets in the screen,
 		 * unless they are in a group or otherwise ignored
@@ -2085,7 +2081,6 @@ export default class GridAndRulerSnapp extends Core {
 						 */
 						this.addPaddingLines(box, 'Widget', onlyX, onlyY)
 					} else if (this.isPaddingBox(box)){
-						console.debug('isSnapp', box)
 						// If it is a box in a group with padding, we
 						// still add the padding snapp lines.
 						this.addPaddingLines(box, 'Widget', onlyX, onlyY)

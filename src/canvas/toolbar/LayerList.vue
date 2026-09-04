@@ -753,13 +753,6 @@ export default {
 				return 'GridContainer'		
 			}
 
-			if (box.type === 'FlexContainer') {
-				if (box.style.flexDirection === 'row') {
-					return 'FlexContainerRow'
-				}
-				return 'FlexContainerCol'		
-			}
-
 			if (type === 'group') {
 				if (box.autoGroup) {
 					return 'mdi mdi-grid-large'// 'mdi mdi-vector-link'

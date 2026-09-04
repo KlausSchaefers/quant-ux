@@ -338,6 +338,7 @@ export default {
          * we set the bounding box.
          */
         this.getResizeModel(id)
+        console.debug('_resizeModel', id, this._resizeModel, this._resizeModelType, this._resizeParentDiv)
 
         /**
          * start the alignment, like grid or ruler!

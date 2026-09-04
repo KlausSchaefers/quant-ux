@@ -652,7 +652,6 @@ export default {
     },
 
     onWidgetDndMove (id, div, pos, dif, e) {
-     
       topic.publish("matc/canvas/click", "", "");
 
       if (!this._alignmentToolInited) {
@@ -677,16 +676,11 @@ export default {
         if (this.isInContainer(temp)) {
           this._dragNDropBoxPositions[id] = temp;
 
-          // update FlexDND here
-          this.updateLayoutContainerDND(id, div, pos, dif, e)
-
           if (this.isWidgetDNDCopy(e)) {
             this.renderWidgetDNDCopy(id, temp, widget, dif, pos)
           } else {
             this.renderWidgetDND(id, temp, widget, dif, pos)
           }
-          
-        
         
           return true;
         }
@@ -695,23 +689,6 @@ export default {
       }
 
       return false;
-    },
-
-    updateLayoutContainerDND (id, div, pos, dif, e) {
-      if (!this.flexContainerIndex || !this.treeIndex) {
-        return
-      }
-      // This is called in the GridAndRuler already. We could save this...
-      const parent = this.flexContainerIndex.findHoverLayoutContainer(pos ) // this._dragNDropOffset?.x, this._dragNDropOffset?.y is negative
-      if (parent) {
-          this._dragNDropLayoutParent = parent
-          console.debug('updateLayoutContainerDND', id, parent.name)
-      } else {
-        // restore old pos
-
-      }
-
-
     },
 
     renderWidgetDNDCopy (id, temp, widget, dif, pos) {
@@ -1100,7 +1077,6 @@ export default {
       delete this._dragNDropChildren;
       delete this._dragNDropBoxWidgetStart;
       delete this._dragNDropLineGroups
-      delete this._dragNDropLayoutParent
     },
 
     cleanUpDNDCopyPlaceHolder () {

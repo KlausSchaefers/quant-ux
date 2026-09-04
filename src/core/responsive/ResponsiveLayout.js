@@ -138,6 +138,36 @@ export default class ResponsiveLayout {
         return boundingBox.style
     }
 
+    // createGroupWrapper (element, group, model) {
+
+    //     let boundingBox = ExportUtil.getBoundingBoxByIds(group.children, model)
+    
+    //     const wrapper = {
+    //         id: `w${element.id}`,
+    //         name: group.name + 'Wrapper',
+    //         groupId: group.id,
+    //         isGroup: true,
+    //         type: "Box",
+    //         x: 0,
+    //         y: 0,
+    //         w: boundingBox.w,
+    //         h: boundingBox.h,
+    //         style: element.style ? element.style : {},
+    //         props: {
+    //             resize: element.props && element.props.resize ? element.props.resize : {
+    //                 right: false,
+    //                 up: false,
+    //                 left: false,
+    //                 down: false,
+    //                 fixedHorizontal: false,
+    //                 fixedVertical: false,
+    //             }
+    //         }
+    //     }
+    
+    //     return wrapper
+    // }
+
     resize(width, height) {
         Logger.log(1, 'ResponsiveLayout.resize() > width: ' + width + ' > height:',  height )
         const newNestedPositions = this.resizePositions(width, height)
@@ -154,7 +184,7 @@ export default class ResponsiveLayout {
             const height = scrn.h
             newNestedPositions[scrn.id] = createResult(0,0, width, height)
             const sclaleGrid = this.mapGrid(grid, scrn)
-            this.updateGridChildPositions(scrn, scrn, sclaleGrid, newNestedPositions, '')
+            this.updateChildPositions(scrn, scrn, sclaleGrid, newNestedPositions, '')
 
             return this.resizeModel(scrn.w, scrn.h, newNestedPositions)
         }
@@ -236,25 +266,18 @@ export default class ResponsiveLayout {
 
 
     resizeChildren(box, parent, newNestedPositions, indent='') {
-        Logger.log(2, indent + 'ResponsiveLayout.resizeChildren() > ' + box.name, box.type, box.layout.type )
+        Logger.log(2, indent + 'ResponsiveLayout.resizeChildren() > ' + box.name, box.layout.type )
         if (box.children.length === 0) {
             return 
         }
-
-        if (ExportUtil.isFlexContainerWidget(box)) {
-            this.resizeFlex(box, parent, newNestedPositions, indent)
-        } else {
+      
+        if (box.layout.type === 'row') {
             this.resizeChildenGrid(box, parent, newNestedPositions, indent)
         }
-    }
 
-    resizeFlex(box, parent, newNestedPositions, indent) {
-        Logger.log(-2, indent + 'ResponsiveLayout.resizeFlex() > ' + box.name)  
-         this.resizeChildenGrid(box, parent, newNestedPositions, indent)
-        // const newParent = newNestedPositions[parent.id]
-        // const sclaleGrid = this.sclaleGrid(box, box.grid, newParent, indent + box.name)
-        // this._debugScaledGrids[box.id] = sclaleGrid
-        // this.updateGridChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)      
+        if (box.layout.type === 'grid' && box.grid) {
+            this.resizeChildenGrid(box, parent, newNestedPositions, indent)
+        }
     }
 
 
@@ -263,17 +286,17 @@ export default class ResponsiveLayout {
         const newParent = newNestedPositions[parent.id]
         const sclaleGrid = this.sclaleGrid(box, box.grid, newParent, indent + box.name)
         this._debugScaledGrids[box.id] = sclaleGrid
-        this.updateGridChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)      
+        this.updateChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)      
     }
 
-    updateGridChildPositions (box, newParent, sclaleGrid, newNestedPositions, indent) {
+    updateChildPositions (box, newParent, sclaleGrid, newNestedPositions, indent) {
         box.children.forEach(child => {
 
           
             const startX = sclaleGrid.cols[child.gridColumnStart]
             const endX = sclaleGrid.cols[child.gridColumnEnd]
             const width = endX - startX
-            //console.debug(indent, 'ResponsiveLayout.updateGridChildPositions() > ', child.name, newParent.x, '> ', sclaleGrid.cols.join(','), '>',  startX, endX, width, '=' ,child.gridColumnStart, child.gridColumnEnd)
+            //console.debug(indent, 'ResponsiveLayout.updateChildPositions() > ', child.name, newParent.x, '> ', sclaleGrid.cols.join(','), '>',  startX, endX, width, '=' ,child.gridColumnStart, child.gridColumnEnd)
     
             // TODO: we should check that the with and height on
             // fixed elements are really the same...
@@ -282,7 +305,7 @@ export default class ResponsiveLayout {
             const endY = sclaleGrid.rows[child.gridRowEnd]
             const height = endY - startY
 
-            //console.debug(indent, 'ResponsiveLayout.updateGridChildPositions() > ', child.name, startY, endY, startX, endX, width, height)
+            //console.debug(indent, 'ResponsiveLayout.updateChildPositions() > ', child.name, startY, endY, startX, endX, width, height)
 
             const newChildPos = createResult(
                 startX + newParent.x, 
@@ -290,7 +313,7 @@ export default class ResponsiveLayout {
                 width,
                 height
             )
-            //console.debug(indent, 'ResponsiveLayout.updateGridChildPositions() > ', child.name, newChildPos.x, newChildPos.w)
+            //console.debug(indent, 'ResponsiveLayout.updateChildPositions() > ', child.name, newChildPos.x, newChildPos.w)
 
     
             newNestedPositions[child.id] = newChildPos
