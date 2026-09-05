@@ -1,5 +1,6 @@
 <template>
   <div class="MatcWidgetTypeFlexContainer">
+    <div class="MatcWidgetTypeFlexContainerPlaceholder"></div>
   </div>
 </template>
 <script>

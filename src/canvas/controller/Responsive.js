@@ -127,7 +127,7 @@ export default class Responsive extends Snapp {
         }
         this.logger.log(-1, "updateLayoutContainers", "enter > ", layoutContainerChange, movedIds);
 
-        const ids = movedIds || []
+        //const ids = movedIds || []
         const startId = layoutContainerChange.start && layoutContainerChange.start.id
         const endId = layoutContainerChange.end && layoutContainerChange.end.id
 
@@ -141,40 +141,19 @@ export default class Responsive extends Snapp {
             this.layoutContainer(startId)
         } else {
             if (endId) {
-                /**
-                 * On a small/imprecise drop, the widget might only partially
-                 * overlap "end" and fail the strict full-containment check that
-                 * decides real flex membership (see ModelGeom.isFullContained/
-                 * getChildWidgetsIDs). Snap it fully inside first, so it is
-                 * genuinely nested under the container and gets laid out with
-                 * the rest, instead of being silently left out.
-                 */
                 this.layoutContainer(endId)
             }
             if (startId) {
-                // the widget left "start": exclude it even if it is still
-                // geometrically borderline-contained (e.g. rounding)
-                this.layoutContainer(startId, ids)
+                this.layoutContainer(startId) // why did we pass here the ids? This fucks up the dnd
             }
         }
 
         return true
     }
 
-    // snapWidgetsIntoContainer(container, ids) {
-    // 	if (!container) {
-    // 		return
-    // 	}
-    // 	ids.forEach(id => {
-    // 		const widget = this.model.widgets[id]
-    // 		if (widget && !ModelGeom.isFullContained(container, widget)) {
-    // 			widget.x = Math.max(container.x, Math.min(widget.x, container.x + container.w - widget.w))
-    // 			widget.y = Math.max(container.y, Math.min(widget.y, container.y + container.h - widget.h))
-    // 		}
-    // 	})
-    // }
 
     layoutContainer(id, excludeIds = []) {
+        this.logger.log(-1, "layoutContainer", "enter > " + id, excludeIds)
         return ResponsiveUtil.layoutContainer(this.model, id, excludeIds)
     }
 
@@ -207,7 +186,7 @@ export default class Responsive extends Snapp {
          * FIXME: This does not work with z changes any more, because the
          * z ir already lowe so it is not 
          */
-        this.logger.log(-1, "updateScreenLayout", "bbox", boundingBox)
+        this.logger.log(1, "updateScreenLayout", "bbox", boundingBox)
 
         /**
          * We used to resolve a hover screen and only relayout FlexContainers
@@ -226,7 +205,7 @@ export default class Responsive extends Snapp {
             if (contained.length > 0) {
                 flexContainerIds = contained
             } else {
-                this.logger.log(-1, "updateScreenLayout", "use all", flexContainerIds)
+                this.logger.log(1, "updateScreenLayout", "use all", flexContainerIds)
             }
         }
 

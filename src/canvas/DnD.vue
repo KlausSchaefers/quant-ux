@@ -710,6 +710,7 @@ export default {
       // for now we just track if e have moved in our out of a layout cotainer
       // later we should also do the updates
       const parent = this.flexContainerIndex.findHoverLayoutContainer(pos ) // this._dragNDropOffset?.x, this._dragNDropOffset?.y is negative
+      //console.debug('updateLayoutContainerDND', parent)
       if (parent) {
           this._dragNDropLayoutContainerDelta.end = parent
       } else {

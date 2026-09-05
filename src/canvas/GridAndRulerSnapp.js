@@ -400,15 +400,15 @@ export default class GridAndRulerSnapp extends Core {
 
 	initLayoutContainerCache(model, sourceModel) {
 		const minZ = this.selectedModel.z || 0
-		this.layoutContainerIndex = new LayoutContainerIndex(model, sourceModel, new Set(['GridContainer']), this.selectedModel, minZ)
+		this.layoutContainerIndex = new LayoutContainerIndex(model, sourceModel, new Set(['GridContainer', 'FlexContainer']), this.selectedModel, minZ)
 	}
 
 	findHoverLayoutContainer(absPos) {
 		const found = this.layoutContainerIndex.findHoverLayoutContainer(absPos, this.boundingBoxOffsetX, this.boundingBoxOffsetY)
-		if (found && found.type!== 'GridContainer') {
-			this.canvas.unHoverDNDBox()
-			return
-		}
+		// if (found && found.type!== 'GridContainer') {
+		// 	this.canvas.unHoverDNDBox()
+		// 	return
+		// }
 		if (!found) {
 			this.canvas.unHoverDNDBox()
 		} else {

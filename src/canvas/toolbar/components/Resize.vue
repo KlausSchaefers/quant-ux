@@ -80,15 +80,15 @@ export default {
             isDirty: false,
             growHorizontal: false,
             growVertical: false,
+            grow:0,
             isContainerChild: false,
-
             parentWidget: null,
         }
     },
     components: {ToolbarDropDownButton},
     computed: {
         options () {
-            if (this.parentWidget?.style?.flexDirection === 'row') {
+            if (this.parentWidget?.style?.flexDirection === 'row' || this.parentWidget?.style?.flexDirection === 'rowReverse') {
                 return [
                     { value:'fixed', icon:"LockClosed", label:"Fixed Width"},
                     { value: 'grow', icon:"FlexGrowWidth", label: "Flexible With"}
@@ -101,8 +101,7 @@ export default {
 
         },
         flexAlign () {
-
-            if (this.growHorizontal || this.growVertical) {
+            if (!this.grow) {
                 return 'fixed'
             }
             return 'grow'
@@ -137,9 +136,11 @@ export default {
     },
     methods: {
         toggleFlex (align) {
-            const v = align === 'fixed'
-            this.growVertical = v
-            this.growHorizontal = v
+            if (align === 'fixed') {
+                this.grow = 0
+            } else {
+                this.grow = 1
+            }
             this.onChange()
         },
         toggleVertical() {
@@ -191,7 +192,8 @@ export default {
                 left: this.hasPinLeft,
                 down: this.hasPinDown,
                 fixedHorizontal: this.growHorizontal,
-                fixedVertical: this.growVertical
+                fixedVertical: this.growVertical,
+                grow: this.grow
             }
             this.isDirty = true
             this.emit('change', resize)
@@ -209,6 +211,7 @@ export default {
                 this.hasPinDown = resize.down
                 this.growHorizontal = resize.fixedHorizontal
                 this.growVertical = resize.fixedVertical
+                this.grow = resize.grow
             } else {
                 this.hasPinRight = false
                 this.hasPinUp = false
@@ -216,6 +219,7 @@ export default {
                 this.hasPinDown = false
                 this.growHorizontal = false
                 this.growVertical = false
+                this.grow = 0
             }
             this.lastWidgetID = v.id;
         },

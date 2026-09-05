@@ -357,8 +357,7 @@ export default {
         this._resizeLayoutContainerDelta = {}
         if (this.flexContainerIndex) {
           const parent = this.flexContainerIndex.findHoverLayoutContainer(this._resizeModel)  
-          this._resizeLayoutContainerDelta.start = parent
-          console.debug('initResize', parent)
+          this._resizeLayoutContainerDelta.start = parent          
         }
 
 
@@ -434,22 +433,13 @@ export default {
             this._createMultiPositionRenderJobs(childPositions)          
           }
         } else {
-          if (modelType === "multi" && this._distributeEnabled) {
-            /**
-             * Distribute
-             */
-            const dir = this.isHorinzontalDistribution()
-            const temp = this._distributedPositions(dir, this._resizeModel.children, pos);
-            const positions = temp.positions;
-            this._createMultiPositionRenderJobs(positions)
-            this.alignmentShowDistribution(temp.distances);
-          } else {
-            /**
-             * Responsive Layout
-             */
-            const [positions] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
-            this._createMultiPositionRenderJobs(positions)   
-          }
+          
+          /**
+           * Responsive Layout
+           */
+          const [positions] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
+          this._createMultiPositionRenderJobs(positions)   
+          
 
           /**
            * in case of group we also set the bounding box,
@@ -600,34 +590,14 @@ export default {
             }
 
           }
-        } else {
-          if (modelType === "multi" && this._distributeEnabled) {
-            /**
-             * Distribute
-             */
-            const dir = this.isHorinzontalDistribution();
-            const temp = this._distributedPositions(dir, this._resizeModel.children, pos);
-            let positions = temp.positions;
-
-            const children = this._resizeModel.children;
-            let hasCopies = false;
-            for(let i=0; i< children.length; i++){
-              const id = children[i];
-              const widget = this.model.widgets[id];
-              hasCopies = hasCopies || this.isMasterWidget(widget);
-            }
-            // FIXME: We could have here a nice methods in the controller
-            // to work on the unzoomed model and avoid rounding errors!
-            this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies, this._resizeLayoutContainerDelta);
-          } else {
+        } else {          
             const [positions,hasCopies] = this._resizeMultiChildren(pos, this._resizeModel, this._resizeModel.children)
             if (pos?.snapp?.type === 'All') {
               this.logger.warn("onResizeDnDEnd", "Snapp is All")
               this.getController().updateMultiWidgetPosition(positions, false, null, hasCopies, this._resizeLayoutContainerDelta);
             } else {
               this.getController().updateMultiWidgetSizeResponsive(pos, this._resizeModel, false, hasCopies, this._resizeLayoutContainerDelta);
-            }
-          }
+            }          
         }
 
         this.onResizeDnDCleanUp();

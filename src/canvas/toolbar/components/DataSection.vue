@@ -755,10 +755,12 @@ export default {
 			this._setSectionLabel("Flex Container");
 			this._renderLabelDropDown("Direction", model,"flexDirection",[
 				{ value:"row", icon:"FlexContainerRow", label : "Row"},
-				{ value: "column", icon:"FlexContainerCol", label : "Column"}
+				{ value:"rowReverse", icon:"FlexContainerRow", label : "Row reverse"},				
+				{ value: "column", icon:"FlexContainerCol", label : "Column"},
+				{ value: "columnReverse", icon:"FlexContainerCol", label : "Column Reverse"}
 			], true);
 
-			if (model.style.flexDirection === 'row') {
+			if (model.style.flexDirection === 'row' || model.style.flexDirection === 'rowReverse') {
 				this._renderLabelDropDown("Strech Children", model,"alignItems",[
 					{ value:"stretch", icon:"AlignHorizontal", label : "Stretch"},
 					{ value:"start", icon:"AlignTop", label : "Top"},

@@ -254,7 +254,8 @@ export default class ResponsiveLayout {
         const newParent = newNestedPositions[parent.id]
         const style = box.style || {}
         const zoom = this.config.zoom
-        const isColumn = style.flexDirection === 'column'
+        const isColumn = style.flexDirection === 'column' || style.flexDirection === 'columnReverse'
+        const isReverse = style.flexDirection === 'rowReverse' || style.flexDirection === 'columnReverse'
         // matches the CSS flexbox default (align-items: stretch); only an
         // explicit 'start'/'center'/'end' opts a container out of stretching
         const stretch = !style.alignItems || style.alignItems === 'stretch'
@@ -279,33 +280,44 @@ export default class ResponsiveLayout {
          * The tree keeps children in z/creation order, which does not
          * necessarily match their visual left-to-right (row) / top-to-bottom
          * (column) order. Flex needs the visual order, otherwise the gap
-         * ends up between the wrong pair of children.
+         * ends up between the wrong pair of children. For the *Reverse
+         * variants the main-start edge is the right/bottom edge, so the
+         * flex-order is the mirror of the visual order (descending).
          */
-        const children = box.children.slice().sort((a, b) => isColumn ? a.y - b.y : a.x - b.x)
+        const children = box.children.slice().sort((a, b) => {
+            const diff = isColumn ? a.y - b.y : a.x - b.x
+            return isReverse ? -diff : diff
+        })
         const gapSum = gap * Math.max(children.length - 1, 0)
 
         if (isColumn) {
 
             const fixedHeight = children
-                .filter(child => isFlexFixedVertical(child))
+                .filter(child => !isFlexGrow(child))
                 .reduce((sum, child) => sum + child.h, 0)
 
-            const growChildren = children.filter(child => !isFlexFixedVertical(child))
+            const growChildren = children.filter(child => isFlexGrow(child))
             const growHeight = growChildren.length > 0
                 ? Math.max(0, innerHeight - fixedHeight - gapSum) / growChildren.length
                 : 0
 
-            let y = innerY
+            let y = isReverse ? innerY + innerHeight : innerY
             children.forEach(child => {
-                const height = isFlexFixedVertical(child) ? child.h : growHeight
+                const height = isFlexGrow(child) ? growHeight : child.h
                 // cross axis (width): stretch fills innerWidth, but a fixed or
                 // own-sized child must not overflow it either - innerWidth is the max
                 const rawWidth = (stretch && !isFlexFixedHorizontal(child)) ? innerWidth : child.w
                 const width = Math.min(rawWidth, Math.max(0, innerWidth))
                 const x = getCrossAxisPosition(style.alignItems, innerX, innerWidth, width)
 
-                newNestedPositions[child.id] = createResult(x, y, width, height)
-                y += height + gap
+                if (isReverse) {
+                    y -= height
+                    newNestedPositions[child.id] = createResult(x, y, width, height)
+                    y -= gap
+                } else {
+                    newNestedPositions[child.id] = createResult(x, y, width, height)
+                    y += height + gap
+                }
 
                 this.resizeChildren(child, child, newNestedPositions, indent + '     ')
             })
@@ -313,25 +325,31 @@ export default class ResponsiveLayout {
         } else {
 
             const fixedWidth = children
-                .filter(child => isFlexFixedHorizontal(child))
+                .filter(child => !isFlexGrow(child))
                 .reduce((sum, child) => sum + child.w, 0)
 
-            const growChildren = children.filter(child => !isFlexFixedHorizontal(child))
+            const growChildren = children.filter(child => isFlexGrow(child))
             const growWidth = growChildren.length > 0
                 ? Math.max(0, innerWidth - fixedWidth - gapSum) / growChildren.length
                 : 0
 
-            let x = innerX
+            let x = isReverse ? innerX + innerWidth : innerX
             children.forEach(child => {
-                const width = isFlexFixedHorizontal(child) ? child.w : growWidth
+                const width = isFlexGrow(child) ? growWidth : child.w
                 // cross axis (height): stretch fills innerHeight, but a fixed or
                 // own-sized child must not overflow it either - innerHeight is the max
                 const rawHeight = (stretch && !isFlexFixedVertical(child)) ? innerHeight : child.h
                 const height = Math.min(rawHeight, Math.max(0, innerHeight))
                 const y = getCrossAxisPosition(style.alignItems, innerY, innerHeight, height)
 
-                newNestedPositions[child.id] = createResult(x, y, width, height)
-                x += width + gap
+                if (isReverse) {
+                    x -= width
+                    newNestedPositions[child.id] = createResult(x, y, width, height)
+                    x -= gap
+                } else {
+                    newNestedPositions[child.id] = createResult(x, y, width, height)
+                    x += width + gap
+                }
 
                 this.resizeChildren(child, child, newNestedPositions, indent + '     ')
             })
@@ -601,6 +619,15 @@ function isFlexFixedHorizontal(child) {
 
 function isFlexFixedVertical(child) {
     return !!(child.props && child.props.resize && child.props.resize.fixedVertical)
+}
+
+/**
+ * Main-axis grow/fixed for a flex child: a child only grows if
+ * props.resize.grow is explicitly > 0 - anything else (undefined, 0)
+ * keeps the child at its own main-axis size.
+ */
+function isFlexGrow(child) {
+    return !!(child.props && child.props.resize && child.props.resize.grow > 0)
 }
 
 /**

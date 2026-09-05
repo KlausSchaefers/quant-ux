@@ -40,7 +40,10 @@ export default class TreeIndex {
             this.buildScreen(screen, flatModel)
         }
         let end = new Date().getTime()
-        Logger.log(-1, 'TreeIndex.build() > took : ', (end - start))
+        if ((end - start) > 50) {
+            Logger.warn('TreeIndex.build() > SLOW took : ', (end - start))
+        }
+
         return this.parents
     }
 

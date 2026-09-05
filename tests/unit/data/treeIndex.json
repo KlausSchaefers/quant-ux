@@ -151,7 +151,10 @@
       "z" : 4,
       "props" : {
         "label" : "",
-        "paddingSnap" : true
+        "paddingSnap" : true,
+        "resize" : {
+          "grow" : 1
+        }
       },
       "has" : {
         "backgroundColor" : true,
@@ -209,7 +212,8 @@
           "left" : false,
           "down" : false,
           "fixedHorizontal" : false,
-          "fixedVertical" : false
+          "fixedVertical" : false,
+          "grow" : 1
         }
       },
       "has" : {
