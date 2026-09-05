@@ -348,8 +348,8 @@ export default {
 			 * Zoom. We create a copy because we want to pass the original object to
 			 * the controller
 			 */
-			var z = this.getZoomFactor();
-			var zoomedWidget = this.getZoomedBox(lang.clone(widget), z, z);
+			const z = this.getZoomFactor();
+			const zoomedWidget = this.getZoomedBox(lang.clone(widget), z, z);
 
 			/**
 			 * Call after setMode() because the might trigger a redraw and would
@@ -362,7 +362,7 @@ export default {
 			/**
 			 * add addNDrop div
 			 */
-			var div = this.createZoomedWidget(zoomedWidget);
+			const div = this.createZoomedWidget(zoomedWidget);
 			css.add(div, "MatcAddBox")
 
 			/**
@@ -374,9 +374,9 @@ export default {
 		},
 
 		onWidgetAdded(pos, model) {
-			this.logger.log(0, "onWidgetAdded", "enter");
+			this.logger.log(-1, "onWidgetAdded", "enter");
 
-			var newWidget = this.controller.addWidget(model, pos);
+			const newWidget = this.controller.addWidget(model, pos, false);
 			if (newWidget) {
 				requestAnimationFrame(() => {
 					this.onWidgetSelected(newWidget.id, true);

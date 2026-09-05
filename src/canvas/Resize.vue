@@ -788,6 +788,7 @@ export default {
 			delete this._selectCloneIds;
 			delete this._resizeCopyJobs;
       delete this._responsiveLayouter
+      delete this._resizeLayoutContainerDelta
 			this.cleanUpAlignment();
 			this.cleanUpReplicate();
 			this.cleanupDistribute();

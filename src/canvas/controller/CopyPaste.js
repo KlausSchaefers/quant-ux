@@ -66,8 +66,7 @@ export default class CopyPaste extends Group{
 		clonePos.sort((a,b) => a.z - b.z)
 		let z = this.getMaxZValue(this.model.widgets)
 		for (let i = 0; i < clonePos.length; i++) {
-			const cPos = clonePos[i];
-			console.debug(cPos)
+			const cPos = clonePos[i];		
 			if(this.model.widgets[cPos.cloneOff]){
 				const widget = this.model.widgets[cPos.cloneOff];
 

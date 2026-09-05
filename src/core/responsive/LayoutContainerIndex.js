@@ -85,7 +85,7 @@ export default class LayoutContainerIndex {
             if (found.children) {
                 // check that we are not in a child
                 for (let child of found.children) {
-                    if (this.isFullContained(child, box) && child.id !== absPos.id) {    
+                    if (this.isFullContained(child, box) && child.id !== absPos.id) {                     
                         return null
                     }
                 }
