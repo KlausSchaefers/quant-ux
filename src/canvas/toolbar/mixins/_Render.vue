@@ -309,12 +309,13 @@ export default {
 			this.addTooltip(this.editBtn, this.getNLS("tooltip.edit"));
 			this.addTooltip(this.moveBtn, this.getNLS("tooltip.move"));
 			this.addTooltip(this.commentBtn,this.getNLS("tooltip.comment"));
-			this.addTooltip(this.distributeBtn, this.getNLS("tooltip.distribute"));
+	
 			this.addTooltip(this.groupBTN,this.getNLS("tooltip.group"));
 			this.addTooltip(this.ungroupBTN, this.getNLS("tooltip.ungroup"));
 			this.addTooltip(this.replicateBtn, this.getNLS("tooltip.clone"));
 			if (this.gridResizeBtn) {
 				this.addTooltip(this.gridResizeBtn, this.getNLS("tooltip.resizeGrid"));
+				this.addTooltip(this.distributeBtn, this.getNLS("tooltip.distribute"));
 			}
 
 

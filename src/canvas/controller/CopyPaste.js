@@ -44,6 +44,9 @@ export default class CopyPaste extends Group{
 		};
 
 		this.addCommand(command);
+
+		this.updateScreenLayout({pos})
+
 		this.render();
 		this.commitModelChange()
 		return cloneIds;
@@ -380,6 +383,9 @@ export default class CopyPaste extends Group{
 			type : "PasteClipBoard",
 			clipBoard: clipBoard
 		};
+
+		this.updateScreenLayout({pos})
+
 		this.addCommand(command);
 		this.modelPasteClipBoard(clipBoard)
 		this.commitModelChange()
@@ -598,6 +604,7 @@ export default class CopyPaste extends Group{
 			this.modelWidgetPropertiesUpdate(target, style, "style");
 			this.modelWidgetPropertiesUpdate(target, props, "props");
 
+			
 			this.renderWidget(to);
 			this.commitModelChange()
 		} else {
@@ -687,6 +694,9 @@ export default class CopyPaste extends Group{
 
 
 		this.addCommand(command);
+
+		this.updateScreenLayout({pos})
+
 		this.render();
 		this.commitModelChange()
 		return newSelection;
@@ -776,6 +786,9 @@ export default class CopyPaste extends Group{
 		 * render
 		 */
 		this.onGroupSelected(newGroup.id);
+
+		this.updateScreenLayout({pos})
+
 		this.render();
 		this.commitModelChange()
 		return newGroup;
@@ -885,6 +898,9 @@ export default class CopyPaste extends Group{
 			 * update model
 			 */
 			this.modelAddWidget(newWidget);
+
+			this.updateScreenLayout({pos})
+			
 			this.render();
 			this.commitModelChange()
 			return newWidget;

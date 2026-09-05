@@ -69,9 +69,9 @@
 								
 								</div>
 
-								<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'gridResize'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
+								<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'gridResize'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
 										<QIcon icon="ResiseGrid" />					
-								</div>
+								</div> -->
 
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
 									<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'replicate'}]" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		

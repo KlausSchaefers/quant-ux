@@ -235,7 +235,6 @@ export default class Responsive extends Snapp {
      * none of the above resolves to a screen - layout ALL screens in the model
      */
     updateScreenLayout(params = {}) {
-        console.debug(params)
         const { screenId, pos, positions, widget } = params;
         let targetScreens = [];
         if (screenId) {

@@ -298,7 +298,10 @@ export default class ResponsiveLayout {
             let y = innerY
             children.forEach(child => {
                 const height = isFlexFixedVertical(child) ? child.h : growHeight
-                const width = (stretch && !isFlexFixedHorizontal(child)) ? innerWidth : child.w
+                // cross axis (width): stretch fills innerWidth, but a fixed or
+                // own-sized child must not overflow it either - innerWidth is the max
+                const rawWidth = (stretch && !isFlexFixedHorizontal(child)) ? innerWidth : child.w
+                const width = Math.min(rawWidth, Math.max(0, innerWidth))
                 const x = getCrossAxisPosition(style.alignItems, innerX, innerWidth, width)
 
                 newNestedPositions[child.id] = createResult(x, y, width, height)
@@ -321,7 +324,10 @@ export default class ResponsiveLayout {
             let x = innerX
             children.forEach(child => {
                 const width = isFlexFixedHorizontal(child) ? child.w : growWidth
-                const height = (stretch && !isFlexFixedVertical(child)) ? innerHeight : child.h
+                // cross axis (height): stretch fills innerHeight, but a fixed or
+                // own-sized child must not overflow it either - innerHeight is the max
+                const rawHeight = (stretch && !isFlexFixedVertical(child)) ? innerHeight : child.h
+                const height = Math.min(rawHeight, Math.max(0, innerHeight))
                 const y = getCrossAxisPosition(style.alignItems, innerY, innerHeight, height)
 
                 newNestedPositions[child.id] = createResult(x, y, width, height)
