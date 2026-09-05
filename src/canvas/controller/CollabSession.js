@@ -9,33 +9,36 @@ export default class CollabSession {
   }
 
   initWebsocket(model, canvas, controller, toolbar) {
-    Logger.log(3, "CollabSession.initWebsocket()", "enter");
+
+    setTimeout(() => {
     try {
-      let user = this.user
-      let websocket = Services.getWebSocketService(model.id, user.token, user)
-      if (websocket) {
-        websocket.onMessage(msg => this.dispatchWebSocketMessage(canvas, controller, toolbar, user, msg))
-        websocket.init(success => {
-          if (success) {
-            this.sendHello()
-          }
-          canvas.setMouseListener(pos => {
-            this.sendMouse(pos)
-          })
-          controller.setModelChangeListener(changeEvent => {
-            this.sendChange(changeEvent)
+        Logger.log(3, "CollabSession.initWebsocket()", "enter");
+        let user = this.user
+        let websocket = Services.getWebSocketService(model.id, user.token, user)
+        if (websocket) {
+          websocket.onMessage(msg => this.dispatchWebSocketMessage(canvas, controller, toolbar, user, msg))
+          websocket.init(success => {
+            if (success) {
+              this.sendHello()
+            }
+            canvas.setMouseListener(pos => {
+              this.sendMouse(pos)
+            })
+            controller.setModelChangeListener(changeEvent => {
+              this.sendChange(changeEvent)
+            })
+
+            // FIXME: all also the command stack??
           })
 
-          // FIXME: all also the command stack??
-        })
-
-        this.websocket = websocket
-      } else {
-        Logger.log(1, "CollabSession.initWebsocket()", "exit > No session created");
+          this.websocket = websocket
+        } else {
+          Logger.log(1, "CollabSession.initWebsocket()", "exit > No session created");
+        }
+      } catch (err) {
+        Logger.error('CollabSession.initWebsocket()', "Cannot init WebSocket", err)
       }
-    } catch (err) {
-      Logger.error('CollabSession.initWebsocket()', "Cannot init WebSocket", err)
-    }
+    }, 3000)
   }
 
   hasOtherUsers () {

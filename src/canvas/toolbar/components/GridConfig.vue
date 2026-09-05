@@ -34,7 +34,6 @@ export default {
 
 		setWidget (widget) {
 			this.widget = widget
-			console.debug('setWidget', widget.props)
 
 			if (this.widget) {
 				this.$refs.settings.setWidget(this.widget)

@@ -1,3 +1,4 @@
+import Logger from "../Logger"
 import * as Util from "./ExportUtil"
 import * as Quant2Flat from "./Quant2Flat"
 
@@ -18,30 +19,29 @@ import * as Quant2Flat from "./Quant2Flat"
  * Instead of building a nested tree, this just records the parent id of
  * each widget/group in a Map.
  */
-export class TreeIndex {
+export default class TreeIndex {
 
-    constructor(model, sourceModel) {
-        this.model = model
-        this.sourceModel = sourceModel
-        this.parents = new Map()
-        this.children = new Map()
-        this.build(model, sourceModel)
+    constructor(model) { 
+        this.build(model)
     }
 
-    build(model, sourceModel) {
+    update(model) {
+        this.build(model)
+    }
+
+    build(model) {
+        this.model = model
         this.parents = new Map()
         this.children = new Map()
+        let start = new Date().getTime()
         const flatModel = Quant2Flat.transform(model)
         for (let screenId in flatModel.screens) {
             const screen = flatModel.screens[screenId]
             this.buildScreen(screen, flatModel)
         }
-     
+        let end = new Date().getTime()
+        Logger.log(-1, 'TreeIndex.build() > took : ', (end - start))
         return this.parents
-    }
-
-    findLayoutContainer(absPos,  boundingBoxOffsetX=0, boundingBoxOffsetY=0) {
-        return this.layoutContainerIndex.findHoverLayoutContainer(absPos,  boundingBoxOffsetX, boundingBoxOffsetY)
     }
 
     buildScreen(screen, model) {
@@ -104,9 +104,12 @@ export class TreeIndex {
         return this.parents.get(id)
     }
     
-    getParentWidget(id) {
+    getParentWidget(id, step=0) {
         const parentID = this.parents.get(id)
         if (parentID) {
+            if (this.model.groups[parentID] && step < 100) {
+                return this.getParentWidget(parentID, step+1)
+            }
             return this.model.widgets[parentID]
         }
     }
@@ -131,6 +134,6 @@ export class TreeIndex {
      * group, e.g. index.getParent(index.getGroupWrapperId(groupId)).
      */
     getGroupWrapperId(groupId) {
-        return `gc${groupId}`
+        return `${groupId}`
     }
 }

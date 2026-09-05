@@ -932,15 +932,13 @@ export default {
             const updatedPositions = this.getController().updateMultiWidgetPosition(
               positions, false, pos, hasCopies, this._dragNDropLayoutContainerDelta
             );
-            console.warn('updateMultiWidgetPosition', updatedPositions)
             this.updateZoomedPositionList(updatedPositions)
           } else {
             const widget = this.model.widgets[id];
             if (widget) {
               const sourcePos = this.getController().updateWidgetPosition(
                   id, lang.clone(pos), false, this.isMasterWidget(widget), this._dragNDropLayoutContainerDelta
-              );
-              console.warn('updateMultiWidgetPosition', sourcePos)
+              );              
               if (sourcePos) {
                 pos = this.updateZoomedPosition(widget, sourcePos)
               } else {

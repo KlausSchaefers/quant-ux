@@ -122,7 +122,7 @@ export default class Responsive extends Snapp {
 
     updateLayoutContainers(layoutContainerChange, movedIds) {
         if (!layoutContainerChange || (!layoutContainerChange.start && !layoutContainerChange.end)) {
-            this.logger.log(-1, "updateLayoutContainers", "exit > NO CHANGE");
+            this.logger.log(4, "updateLayoutContainers", "exit > NO CHANGE");
             return false
         }
         this.logger.log(-1, "updateLayoutContainers", "enter > ", layoutContainerChange, movedIds);

@@ -1,4 +1,4 @@
-import { TreeIndex } from '../../src/core/responsive/TreeIndex'
+import TreeIndex from '../../src/core/responsive/TreeIndex'
 import app from './data/treeIndex.json'
 
 const screenId = 's10000_80355'

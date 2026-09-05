@@ -16,6 +16,7 @@ import QIcon from 'page/QIcon'
 
 export default {
     name: 'ToolbarSelector',
+	props: ["qOptions", "qValue"],
     mixins:[DojoWidget],
 	props: ['options', 'selected'],
     data: function () {
@@ -68,6 +69,12 @@ export default {
     mounted () {
 		if (this.options) {
 			this.setOptions(this.options)
+		}
+		if (this.qOptions) {
+			this.setOptions(this.qOptions)
+		}
+		if (this.qValue) {
+			this.setValue(this.qValue)
 		}
     }
 }

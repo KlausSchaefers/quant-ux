@@ -5,6 +5,7 @@ import Core from '../../core/Core'
 import CoreUtil from '../../core/CoreUtil'
 import Logger from '../../common/Logger'
 import PerformanceMonitor from '../../core/PerformanceMonitor'
+import TreeIndex from '../../core/responsive/TreeIndex'
 import * as CollabUtil from './CollabUtil'
 import CollabService from './CollabService'
 import ModelFixer from './ModelFixer'
@@ -98,7 +99,11 @@ export default class BaseController extends Core {
 			this._canvas.setModel(this.model)
 		}
 
+		
 		this.initChangeStack(m.id)
+
+		this.updateModelIndexes(this.model)
+		
 		/**
 		 * Load model from local db and check if we have
 		 * a newer version
@@ -107,6 +112,22 @@ export default class BaseController extends Core {
 			//this.checkModel(localModel)
 		//})
 	}
+
+	updateModelIndexes(model) {
+		// FIXME: Should we call on WebSocket stuff?
+		if (!this.treeIndex) {
+			this.treeIndex = new TreeIndex(model)
+		} else {
+			this.treeIndex.update(model)
+		}
+		if (this.toolbar) {
+			this.toolbar.setTreeIndex(this.treeIndex)
+		}
+	}
+
+
+
+
 
 	checkModel (localModel) {
 		this.logger.log(2,"checkModel", "enter");
@@ -431,6 +452,9 @@ export default class BaseController extends Core {
 				this.onModelSaved(res);
 			}
 			this._dirty = false;
+
+
+			this.updateModelIndexes(this.model)
 
 			/**
 			 * Clone currrent model as old model, so we can later again compute deltas

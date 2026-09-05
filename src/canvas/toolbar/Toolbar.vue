@@ -306,6 +306,10 @@ export default {
 			this.showCanvas()
 		},
 
+		setTreeIndex(treeIndex) {
+			this.treeIndex = treeIndex
+		},
+
 		setPublic (isPublic) {
 			this.logger.log(-1,"setPublic", "entry > '" + isPublic + "'");
 			this.isPublic = isPublic
@@ -2208,6 +2212,22 @@ export default {
 			}
 		},
 
+
+		getParentLayoutContainer(ids) {	
+			if (this.treeIndex) {
+				for (let id of ids) {
+					const parent = this.treeIndex.getParentWidget(id)
+					if (parent) {
+						const res = LayoutContainerUtil.isLayoutContainerWidget(parent)				
+						if (res) {
+							this.logger.log(-1, 'isInLayoutContainer', 'true')
+							return parent
+						}
+					}			
+				}
+			}
+			return null
+		},
 
 		/**********************************************************************
 		 * Undo  & Redo
