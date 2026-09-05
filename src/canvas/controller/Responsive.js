@@ -2,7 +2,7 @@ import Snapp from './Snapp'
 import lang from '../../dojo/_base/lang'
 import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
 import ModelGeom from '../../core/ModelGeom'
-
+import * as ResponsiveUtil from '../../core/responsive/ResponsiveUtil'
 
 
 export default class Responsive extends Snapp {
@@ -52,7 +52,7 @@ export default class Responsive extends Snapp {
             treeWidget.props = lang.clone(widget.props);
             treeWidget.style = lang.clone(widget.style);
 
-            const newPositions = this.getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
+            const newPositions = ResponsiveUtil.getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
 
             let errorCount = 0;
             for (let id in newPositions) {
@@ -175,106 +175,66 @@ export default class Responsive extends Snapp {
     // }
 
     layoutContainer(id, excludeIds = []) {
-        const widget = this.model.widgets[id];
-        if (!widget || (widget.type !== "FlexContainer" && widget.type !== "GridContainer")) {
-            this.logger.log(-1, "layoutContainer", "exit > no widget or not a layout container > " + id);
-            return
-        }
-
-        // create a resize model based on the widgets currently contained in the container
-        let childrenIDs = ModelGeom.getChildWidgetsIDsFast(this.model, widget)
-        if (excludeIds.length > 0) {
-            childrenIDs = childrenIDs.filter(cid => !excludeIds.includes(cid))
-        }
-        childrenIDs.push(widget.id) // add the container itself
-
-        const resizeModel = {
-            x: widget.x,
-            y: widget.y,
-            w: widget.w,
-            h: widget.h,
-            children: childrenIDs
-        }
-
-        // call responsiveLayout
-        const responsiveLayouter = new ResponsiveLayout(1)
-        responsiveLayouter.initSelection(this.model, resizeModel, resizeModel.children, true, true, false)
-
-        const newPositions = this.getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
-
-        let errorCount = 0;
-        for (let cid in newPositions) {
-            const pos = newPositions[cid];
-            const childWidget = this.model.widgets[cid];
-            if (childWidget) {
-                childWidget.modified = new Date().getTime()
-                if (!isNaN(pos.x) && !isNaN(pos.y) && !isNaN(pos.w) && !isNaN(pos.h)) {
-                    childWidget.x = pos.x;
-                    childWidget.y = pos.y;
-                    childWidget.w = pos.w
-                    childWidget.h = pos.h;
-                } else {
-                    errorCount++
-                }
-            } else {
-                console.warn('layoutContainer() > no widget', cid)
-            }
-        }
-
-        if (errorCount > 0) {
-            this.showError("Not all elements could be resized.")
-        }
+        return ResponsiveUtil.layoutContainer(this.model, id, excludeIds)
     }
 
     /**
-     * Layout one or more screens with ResponsiveLayout.
+     * Layout the FlexContainers affected by a change, without any notion of
+     * screens at all - a widget doesn't have to resolve to a hover screen
+     * (e.g. it can sit loose on the canvas) for its containing FlexContainer,
+     * if any, to still get relaid out.
      *
-     * params.screenId  - layout just this screen
-     * params.pos       - layout whatever screen is currently hovered by this pos
-     * params.positions - list of pos objects; layout every distinct screen hovered by any of them
-     * none of the above resolves to a screen - layout ALL screens in the model
+     * params.pos       - the changed area
+     * params.widget    - the changed widget, used as the area
+     * params.positions - list of pos objects; the union of all of them is used as the area
+     * params.screenId  - use this screen's own box as the area
+     * none of the above - no area restriction, layout every FlexContainer in the model
      */
     updateScreenLayout(params = {}) {
         const { screenId, pos, positions, widget } = params;
-        let targetScreens = [];
-        if (screenId) {
-            const screen = this.model.screens[screenId];
-            if (screen) {
-                targetScreens = [screen]
-            }
-        } else if (pos) {
-            const screen = this.getHoverScreen(pos);
-            if (screen) {
-                targetScreens = [screen]
-            }
-        } else if (widget) {
-            const screen = this.getHoverScreen(widget);
-            if (screen) {
-                targetScreens = [screen]
-            }
-        } else if (positions) {
-            const screensById = {};
-            positions.forEach(p => {
-                const screen = this.getHoverScreen(p);
-                if (screen) {
-                    screensById[screen.id] = screen
-                }
-            })
-            targetScreens = Object.values(screensById)
-        }
-        const screens = targetScreens.length > 0 ? targetScreens : Object.values(this.model.screens);
-        this.logger.log(-1, "updateScreenLayout", "enter", targetScreens, screens)
 
+        let boundingBox = null;
+        if (pos) {
+            boundingBox = pos
+        } else if (widget) {
+            boundingBox = widget
+        } else if (positions) {
+            boundingBox = this.getBoundingBoxByBoxes(positions)
+        } else if (screenId) {
+            boundingBox = this.model.screens[screenId]
+        }
+        /**
+         * FIXME: This does not work with z changes any more, because the
+         * z ir already lowe so it is not 
+         */
+        this.logger.log(-1, "updateScreenLayout", "bbox", boundingBox)
 
         /**
-         * TODO: If there is no taregt screen, there could be still a layout container
+         * We used to resolve a hover screen and only relayout FlexContainers
+         * on it, but that misses containers when the change happened on a
+         * widget that isn't inside any FlexContainer (or doesn't resolve to
+         * a screen at all, e.g. loose on the canvas). Instead, just look at
+         * every FlexContainer in the model directly and keep the ones that
+         * fully contain the changed area - one elsewhere can't be affected.
          */
+        let flexContainerIds = Object.values(this.model.widgets)
+            .filter(w => w.type === "FlexContainer")
+            .map(w => w.id)
+
+        if (boundingBox) {
+            const contained = flexContainerIds.filter(id => ModelGeom.isFullContained(this.model.widgets[id], boundingBox))
+            if (contained.length > 0) {
+                flexContainerIds = contained
+            } else {
+                this.logger.log(-1, "updateScreenLayout", "use all", flexContainerIds)
+            }
+        }
 
 
         let allPositions = {};
-        screens.forEach(screen => {
-            const screenPositions = this.layoutScreen(screen)
-            Object.assign(allPositions, screenPositions)
+        flexContainerIds.forEach(id => {
+            const positions = this.layoutContainer(id)
+            Object.assign(allPositions, positions)
         })
 
         this.onModelChanged(Object.keys(allPositions).map(id => {
@@ -282,66 +242,6 @@ export default class Responsive extends Snapp {
         }))
 
         return allPositions
-    }
-
-    layoutScreen(screen) {
-        if (!screen) {
-            this.logger.log(-1, "layoutScreen", "exit > no screen");
-            return {}
-        }
-        this.logger.log(-1, "layoutScreen", "enter", screen.name, screen)
-
-        const hasFlexContainer = screen.children.some(id => this.model.widgets[id]?.type === "FlexContainer")
-        if (!hasFlexContainer) {
-            this.logger.log(-1, "layoutScreen", "exit > no FlexContainer in screen > " + screen.id);
-            return {}
-        }
-
-        /**
-         * Carry the screen's own style along, so ResponsiveLayout.initSelection()
-         * treats this as "a screen" (isBoundingBoxScreen()) and keeps its x/y/w/h
-         * as-is, instead of shrinking it down to the bounding box of its children
-         * like it does for a plain container selection.
-         */
-        const resizeModel = {
-            x: screen.x,
-            y: screen.y,
-            w: screen.w,
-            h: screen.h,
-            style: screen.style || {},
-            children: screen.children
-        }
-
-        // call responsiveLayout
-        const responsiveLayouter = new ResponsiveLayout(1)
-        responsiveLayouter.initSelection(this.model, resizeModel, resizeModel.children, true, true, false)
-
-        const newPositions = this.getResponsiveResizePositions(resizeModel, resizeModel, resizeModel.children, responsiveLayouter)
-
-        let errorCount = 0;
-        for (let id in newPositions) {
-            const pos = newPositions[id];
-            const widget = this.model.widgets[id];
-            if (widget) {
-                widget.modified = new Date().getTime()
-                if (!isNaN(pos.x) && !isNaN(pos.y) && !isNaN(pos.w) && !isNaN(pos.h)) {
-                    widget.x = pos.x;
-                    widget.y = pos.y;
-                    widget.w = pos.w
-                    widget.h = pos.h;
-                } else {
-                    errorCount++
-                }
-            } else {
-                console.warn('layoutScreen() > no widget', id)
-            }
-        }
-
-        if (errorCount > 0) {
-            this.showError("Not all elements could be resized.")
-        }
-
-        return newPositions
     }
 
 }

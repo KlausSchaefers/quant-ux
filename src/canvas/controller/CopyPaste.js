@@ -253,7 +253,7 @@ export default class CopyPaste extends Group{
 				const dst = this.model.designtokens[id]
 				clipBoard.designtokens.push(dst)
 			})
-			this.logger.log(-1, "_setCligBoard", `Copied ${designtokenIdSet.size} design tokens`);
+			this.logger.log(1, "_setCligBoard", `Copied ${designtokenIdSet.size} design tokens`);
 		}
 
 		if (this.model.templates) {
@@ -272,7 +272,7 @@ export default class CopyPaste extends Group{
 				clipBoard.templates.push(template)
 			})
 
-			this.logger.log(-1, "_setCligBoard", `Copied ${templateIDSet.size} templates`);
+			this.logger.log(1, "_setCligBoard", `Copied ${templateIDSet.size} templates`);
 		}
 
 		/**

@@ -53,6 +53,7 @@ export function createController (model, data={}) {
         disableRedo() {},
         updatePropertiesView() {},
         cleanUp() {},
+        setTreeIndex() {},
     }
 
     return [controller, model, data]

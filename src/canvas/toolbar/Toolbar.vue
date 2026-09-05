@@ -2220,7 +2220,7 @@ export default {
 					if (parent) {
 						const res = LayoutContainerUtil.isLayoutContainerWidget(parent)				
 						if (res) {
-							this.logger.log(-1, 'isInLayoutContainer', 'true')
+							this.logger.log(1, 'isInLayoutContainer', 'true')
 							return parent
 						}
 					}			

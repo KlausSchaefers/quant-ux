@@ -575,7 +575,7 @@ export default {
     },
 
     _addLayoutDDNChildren(id) {
-        this.logger.log(-1, "_addLayoutDDNChildren", "exit > id : " + id);
+        this.logger.log(1, "_addLayoutDDNChildren", "exit > id : " + id);
         const childIds = LayoutContainerUtil.getLayoutContainerChildren(id, this.model)
         this._dragNDropChildren = childIds
     },

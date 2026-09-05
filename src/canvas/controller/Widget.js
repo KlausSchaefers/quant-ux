@@ -3,6 +3,7 @@ import lang from '../../dojo/_base/lang'
 import * as TextUtil from '../../core/TextUtil'
 import * as DistributionUtil from '../../core/DistributionUtil'
 import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
+import * as ResponsiveUtil from '../../core/responsive/ResponsiveUtil'
 
 
 export default class Widget extends Responsive {
@@ -385,7 +386,7 @@ export default class Widget extends Responsive {
 	 **********************************************************/
 
 	updateMultiWidgetSizeResponsive (pos, resizeModel, fromToolbar, hasCopies, layoutContainerChange){
-		this.logger.warn("updateMultiWidgetSizeResponsive", "NOT IMPLEMENTED YET", fromToolbar, hasCopies);
+		this.logger.log(2, "updateMultiWidgetSizeResponsive", "enter", fromToolbar, hasCopies);
 
 	
 		// 1) zoom & snapp pos
@@ -402,9 +403,9 @@ export default class Widget extends Responsive {
 		
 		this.startModelChange()
 
-		const newPositions = this.getResponsiveResizePositions(
-			unZoomedPos, 
-			unzoomedResizeModel, 
+		const newPositions = ResponsiveUtil.getResponsiveResizePositions(
+			unZoomedPos,
+			unzoomedResizeModel,
 			unzoomedResizeModel.children,
 			responsiveLayouter
 		);
@@ -447,26 +448,7 @@ export default class Widget extends Responsive {
 		//this.updateMultiWidgetPosition(positions, fromToolbar, boundingbox, hasCopies);
 	}
 
-	getResponsiveResizePositions (pos, oldPos, children, responsiveLayouter) {
-    
-          const responsivePositions = responsiveLayouter.resize(pos.w, pos.h)
-          const offsetX = pos.x - oldPos.x
-          const offsetY = pos.y - oldPos.y
 
-          const positions = {};
-          for(let i=0; i< children.length; i++){
-            const id = children[i];
-            const repositionWidget = responsivePositions.widgets[id]
-			//console.debug("getResponsiveResizePositions", "widget", id, repositionWidget.name, repositionWidget.x, repositionWidget.y, repositionWidget.w, repositionWidget.h);
-            positions[id] = {
-              x: repositionWidget.x + offsetX,
-              y: repositionWidget.y + offsetY,
-              w: repositionWidget.w,
-              h: repositionWidget.h
-            }         
-          }
-          return positions
-    }
 
 	getSnappedBoundingBox(pos, boundingbox) {
 		const snapp = pos.snapp;

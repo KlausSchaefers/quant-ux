@@ -224,8 +224,7 @@ export default {
             this.model = m;
         },
 
-        setParentLayoutContainer(v) {
-            console.debug(v)
+        setParentLayoutContainer(v) {            
             this.isContainerChild = v !== undefined && v !== null && v.type === 'FlexContainer'
             this.parentWidget = v
         }
