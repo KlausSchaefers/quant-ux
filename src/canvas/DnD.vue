@@ -831,8 +831,10 @@ export default {
          */
         const widget = this.model.widgets[id];
         const selectedMutli = this.getMultiSelection()
+
         if (widget) {
           const group = this.getParentGroup(id);
+
           // We only want to move the bounding box, if the moving widgets
           // as acutually part of the selection!
           if (selectedMutli && selectedMutli.indexOf(id) >= 0) {
@@ -850,7 +852,15 @@ export default {
             boundingBox.id = id;
             this.alignmentStart("boundingbox", boundingBox, "All", children);
           } else {
-            this.alignmentStart("widget", widget, "All");
+            if (LayoutContainerUtil.isLayoutContainer(id, this.model)) {
+              /**
+               * Since 5.0.25 we use the SNappEngine
+               */
+              this.alignmentStart("widget", widget, "All", this._dragNDropChildren);
+            } else {
+              this.alignmentStart("widget", widget, "All");
+            }
+           
           }
         } else {
           this.logger.error("startAligmentToolForWidget", "No widget with id", id);

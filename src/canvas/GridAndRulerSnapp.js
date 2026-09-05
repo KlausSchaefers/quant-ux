@@ -106,9 +106,11 @@ export default class GridAndRulerSnapp extends Core {
 		 */
 		this.initLayoutContainerCache(this.model, this.sourceModel)
 		
+		
 
 		this.logger.log(1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
 	}
+
 
 
 	correct(absPos, e, mouse) {
@@ -424,34 +426,36 @@ export default class GridAndRulerSnapp extends Core {
 		// only calc the grid, if the container has changed
 		if (this._lastLayoutContainer?.id !== layoutContainer.id) {
 			this.cleanUp()
-			const lines = GridUtil.getGridContainerLines(layoutContainer, this.activePoint, this.zoom)
-			for (let i in lines.x) {
-				const x = lines.x[i]
-				this.addXLine(x, {
-					id: layoutContainer.id,
-					pos: "x",
-					type: "GridContainer",
-					activePoint: this.activePoint,
-					gridIndex: i,
-					isStart: i % 2 === 0,
-					_v: x,
-					_paddingBox: layoutContainer
-				}, "GridContainer");
+			if (layoutContainer.type === 'GridContainer') {
+				const lines = GridUtil.getGridContainerLines(layoutContainer, this.activePoint, this.zoom)
+				for (let i in lines.x) {
+					const x = lines.x[i]
+					this.addXLine(x, {
+						id: layoutContainer.id,
+						pos: "x",
+						type: "GridContainer",
+						activePoint: this.activePoint,
+						gridIndex: i,
+						isStart: i % 2 === 0,
+						_v: x,
+						_paddingBox: layoutContainer
+					}, "GridContainer");
 
-			}
-			for (let i in lines.y) {
-				const y = lines.y[i]
-				this.addYLine(y, {
-					id: layoutContainer.id,
-					pos: "y",
-					type: "GridContainer",
-					activePoint: this.activePoint,
-					gridIndex: i,
-					isStart: i % 2 === 0,
-					_v: y,
-					_paddingBox: layoutContainer
-				}, "GridContainer");
+				}
+				for (let i in lines.y) {
+					const y = lines.y[i]
+					this.addYLine(y, {
+						id: layoutContainer.id,
+						pos: "y",
+						type: "GridContainer",
+						activePoint: this.activePoint,
+						gridIndex: i,
+						isStart: i % 2 === 0,
+						_v: y,
+						_paddingBox: layoutContainer
+					}, "GridContainer");
 
+				}
 			}
 			// fixme: here we could also set in the canvas the highlight to the backgroundDiv,
 			// to show only the boxes on hover...
@@ -1630,8 +1634,14 @@ export default class GridAndRulerSnapp extends Core {
 			if (!selectedIDs[id] && widget) {
 				const group = this.getParentGroup(id);
 				if (group) {
-					const box = this.getBoundingBox(group.children);
-					result.push(box);
+					// exclude currently selected/dragged members from the box,
+					// otherwise their stale (pre-drag) position leaks into the
+					// merged bounding box used as a snap target
+					const groupChildren = group.children.filter(childID => !selectedIDs[childID]);
+					if (groupChildren.length > 0) {
+						const box = this.getBoundingBox(groupChildren);
+						result.push(box);
+					}
 					// do not include other group members
 					for (var j = 0; j < group.children.length; j++) {
 						var childID = group.children[j];

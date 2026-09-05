@@ -23,6 +23,26 @@
 	transition-delay: 0.2s;
 	transition: opacity 0.1s;
 	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: $canvas_selection;
+
+	svg {
+		transition: all 0.2s;
+	}
+
+	&.matcrowReverse svg{
+		transform: rotate(180deg);
+	}
+
+	&.matccolumn svg{
+		transform: rotate(90deg);
+	}
+
+	&.matccolumnReverse svg{
+		transform: rotate(-90deg);
+	}
 }
 
 .MatcCreateBtnElementPreview .MatcWidgetTypeFlexContainerPlaceholder,

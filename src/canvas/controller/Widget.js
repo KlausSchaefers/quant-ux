@@ -4,7 +4,7 @@ import * as TextUtil from '../../core/TextUtil'
 import * as DistributionUtil from '../../core/DistributionUtil'
 import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
 import * as ResponsiveUtil from '../../core/responsive/ResponsiveUtil'
-
+import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
 
 export default class Widget extends Responsive {
 
@@ -386,7 +386,7 @@ export default class Widget extends Responsive {
 	 **********************************************************/
 
 	updateMultiWidgetSizeResponsive (pos, resizeModel, fromToolbar, hasCopies, layoutContainerChange){
-		this.logger.log(-2, "updateMultiWidgetSizeResponsive", "enter", fromToolbar, hasCopies);
+		this.logger.log(2, "updateMultiWidgetSizeResponsive", "enter", fromToolbar, hasCopies);
 
 	
 		// 1) zoom & snapp pos
@@ -776,7 +776,7 @@ export default class Widget extends Responsive {
 
 
 	updateWidgetPosition (id, pos, fromToolbar, hasCopies, layoutContainerChange){
-		this.logger.log(-1,"updateWidgetPosition", "enter > " + id );
+		this.logger.log(1,"updateWidgetPosition", "enter > " + id );
 
 		const widget = this.model.widgets[id];
 		if (!widget) {
@@ -805,7 +805,6 @@ export default class Widget extends Responsive {
 		 * Check and Update FlexStuff if needed
 		 */
 		const hasLayoutChange = this.updateLayoutContainers(layoutContainerChange, [id])
-		console.debug('updateWidgetPosition', layoutContainerChange, hasLayoutChange)
 		if (hasLayoutChange) {
 			pos = this.model.widgets[id]
 		}
@@ -956,7 +955,7 @@ export default class Widget extends Responsive {
 	**********************************************************************/
 
 	updateWidgetProperties (id, props, type, doNotRender, forceCompleteRender = false){
-		this.logger.log(-1,"updateWidgetProperties", "enter > " + type+ " > doNotRender: "+ doNotRender);
+		this.logger.log(1,"updateWidgetProperties", "enter > " + type+ " > doNotRender: "+ doNotRender);
 		this.startModelChange()
 
 		const widget = this.model.widgets[id];
@@ -978,8 +977,21 @@ export default class Widget extends Responsive {
 
 		if (inlineEdit) {
 			this.logger.log(-1,"updateWidgetProperties", "force rerender because of inline edit");
-			this.render();
+			forceCompleteRender = true
+			//this.render();
 		}
+
+		if (this.treeIndex) {
+			const parent = this.treeIndex.getParentWidget(id)
+			if (LayoutContainerUtil.isLayoutContainerWidget(parent)) {
+				// FIXME: Make it has and check if a flex prop was changed...
+				this.logger.log(-1,"updateWidgetProperties", "FlexChild");
+				this.updateScreenLayout({widget})
+				forceCompleteRender = true
+			}
+		}
+
+
 
 		if (forceCompleteRender) {
 			this.logger.log(-1,"updateWidgetProperties", "force rerender !");

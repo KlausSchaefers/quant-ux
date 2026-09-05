@@ -55,6 +55,46 @@ test('ResponsiveLayout.resizeFlex() - row: fixed child keeps its width, others g
     expect(newNestedPositions.c).toEqual({ x: 185, y: 10, w: 105, h: 80 })
 })
 
+test('ResponsiveLayout.resizeFlex() - row: borderWidth shrinks the inner box like padding', () => {
+
+    const rl = new ResponsiveLayout(1)
+
+    const a = widget('a', 0, 0, 50, 30, 0) // fixed width
+    const b = widget('b', 60, 0, 50, 30, 1)
+    const c = widget('c', 120, 0, 50, 30, 1)
+
+    const box = {
+        id: 'cntr',
+        type: 'FlexContainer',
+        name: 'FlexContainer',
+        style: {
+            flexDirection: 'row',
+            gap: 10,
+            paddingTop: 10,
+            paddingBottom: 10,
+            paddingLeft: 10,
+            paddingRight: 10,
+            borderTopWidth: 5,
+            borderBottomWidth: 5,
+            borderLeftWidth: 5,
+            borderRightWidth: 5
+        },
+        children: [a, b, c]
+    }
+
+    const newNestedPositions = {
+        cntr: { x: 0, y: 0, w: 300, h: 100 }
+    }
+
+    rl.resizeFlex(box, box, newNestedPositions, '')
+
+    // inner box: w 270 (300 minus 2x10 padding minus 2x5 border), h 70 (100 minus 2x10 padding minus 2x5 border)
+    // fixed child keeps w:50, the 2 grow children equally split the remaining 200 (270 - 50 - 2*10 gap) -> 100 each
+    expect(newNestedPositions.a).toEqual({ x: 15, y: 15, w: 50, h: 70 })
+    expect(newNestedPositions.b).toEqual({ x: 75, y: 15, w: 100, h: 70 })
+    expect(newNestedPositions.c).toEqual({ x: 185, y: 15, w: 100, h: 70 })
+})
+
 test('ResponsiveLayout.resizeFlex() - row: alignItems stretch grows the cross axis', () => {
 
     const rl = new ResponsiveLayout(1)

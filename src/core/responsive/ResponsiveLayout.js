@@ -270,11 +270,15 @@ export default class ResponsiveLayout {
         const paddingBottom = GridUtil.zoomedOrZero(style.paddingBottom, zoom) || 0
         const paddingLeft = GridUtil.zoomedOrZero(style.paddingLeft, zoom) || 0
         const paddingRight = GridUtil.zoomedOrZero(style.paddingRight, zoom) || 0
+        const borderTopWidth = GridUtil.zoomedOrZero(style.borderTopWidth, zoom) || 0
+        const borderBottomWidth = GridUtil.zoomedOrZero(style.borderBottomWidth, zoom) || 0
+        const borderLeftWidth = GridUtil.zoomedOrZero(style.borderLeftWidth, zoom) || 0
+        const borderRightWidth = GridUtil.zoomedOrZero(style.borderRightWidth, zoom) || 0
 
-        const innerX = newParent.x + paddingLeft
-        const innerY = newParent.y + paddingTop
-        const innerWidth = newParent.w - paddingLeft - paddingRight
-        const innerHeight = newParent.h - paddingTop - paddingBottom
+        const innerX = newParent.x + paddingLeft + borderLeftWidth
+        const innerY = newParent.y + paddingTop + borderTopWidth
+        const innerWidth = newParent.w - paddingLeft - paddingRight - borderLeftWidth - borderRightWidth
+        const innerHeight = newParent.h - paddingTop - paddingBottom - borderTopWidth - borderBottomWidth
 
         /**
          * The tree keeps children in z/creation order, which does not
