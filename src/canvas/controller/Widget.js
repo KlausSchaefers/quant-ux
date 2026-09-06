@@ -981,17 +981,14 @@ export default class Widget extends Responsive {
 			//this.render();
 		}
 
-		if (this.treeIndex) {
-			const parent = this.treeIndex.getParentWidget(id)
-			if (LayoutContainerUtil.isLayoutContainerWidget(parent)) {
-				// FIXME: Make it has and check if a flex prop was changed...
-				this.logger.log(-1,"updateWidgetProperties", "FlexChild");
-				this.updateScreenLayout({widget})
-				forceCompleteRender = true
-			}
+		
+		const parent = this.getTreeParent(id)
+		if (this.flexChildPropsHaveChanged(props) && LayoutContainerUtil.isLayoutContainerWidget(parent)) {
+			this.logger.log(-1,"updateWidgetProperties", "FlexChild");
+			this.updateScreenLayout({widget})
+			forceCompleteRender = true
 		}
-
-
+		
 
 		if (forceCompleteRender) {
 			this.logger.log(-1,"updateWidgetProperties", "force rerender !");

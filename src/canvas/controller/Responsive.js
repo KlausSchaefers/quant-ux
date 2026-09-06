@@ -116,6 +116,10 @@ export default class Responsive extends Snapp {
             widget.style.borderBottomWidth != oldWidget.style.borderBottomWidth
     }
 
+    flexChildPropsHaveChanged(props) {
+        return !!(props && props.resize && props.resize.grow !== undefined)
+    }
+
     arrayPropHasChanged(a, b) {
         return (a || []).join(',') !== (b || []).join(',')
     }

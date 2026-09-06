@@ -125,8 +125,11 @@ export default class BaseController extends Core {
 		}
 	}
 
-
-
+	getTreeParent(id){
+		if (this.treeIndex) {
+			return this.treeIndex.getParentWidget(id)
+		}
+	}
 
 
 	checkModel (localModel) {
