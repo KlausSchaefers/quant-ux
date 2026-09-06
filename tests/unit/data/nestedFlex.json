@@ -194,7 +194,7 @@
     },
     "w10004_3552" : {
       "type" : "Button",
-      "name" : "Child3",
+      "name" : "NestChild3",
       "x" : 1869,
       "y" : 1278,
       "w" : 70,
