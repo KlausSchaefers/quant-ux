@@ -1,7 +1,7 @@
 <template>
      <div class="MatcToolbarLayerList MatcToobarPropertiesSection MatcToolbar" v-show="isVisible" :style="'width:'+ layerListWidth +'px'">
 		<div class="MatcToolbarLayerListCntr" data-dojo-attach-point="cntr">
-			<div class="MatcToolbarLayerListHeader">
+			<div class="MatcToolbarLayerListHeader" v-if="showAiButton">
 				<AIModeButton @change="setLayerListMode"></AIModeButton> 
 			</div>
 		
@@ -61,6 +61,7 @@ export default {
 			isVisible: true,
 			hasOptions: true,
 			isDebug: false,
+			showAiButton: false,
 			layerListMode: 'layers',
 			layerListWidth: 256, // keep in sync with Toolbar
         }
@@ -978,6 +979,9 @@ export default {
   mounted () {
 	if (this.value) {
 		this.render(this.value)
+	}
+	if (location.href.indexOf('localhost') > 0) {
+		this.showAiButton = true
 	}
   }
 }

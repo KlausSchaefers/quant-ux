@@ -178,7 +178,7 @@ class NotificationService extends AbstractService{
                         Quant-UX helps you bring it all together in one seamless workflow.
                     </p>
                     <p>
-                        If you like Quant-UX and you're part of the GitHub community, pleaese give us a star ⭐️
+                        If you like Quant-UX and you're part of the GitHub community, please give us a star ⭐️
                         <a href="https://github.com/KlausSchaefers/quant-ux" target="github">Quant-UX on GitHub</a> 
                     </p>
                     
@@ -208,7 +208,7 @@ class NotificationService extends AbstractService{
                 img: 'Github.png',
                 more: `
                     If you like Quant-UX and you're part of the GitHub community, 
-                    pleaese give us a ⭐️ star ⭐️! Simply hop over to 
+                    please give us a ⭐️ star ⭐️! Simply hop over to 
                     our GitHub project page and hit that star button to show your support. 
                     Together, let's keep the momentum going! Give us a star right here:
                      <a href="https://github.com/KlausSchaefers/quant-ux" target="github">Quant-UX on GitHub</a> 
@@ -219,16 +219,23 @@ class NotificationService extends AbstractService{
                 matches () {
                     return true
                 },
-                id:"GridContainer2",
+                id:"GridContainer4",
                 img: 'GridContainer.png',
                 more: `
                     <p>
                     We have introduced a new component, the "Grid Container". Define precise row and column structures, with automatic 
                     snapping of child elements to the grid layout. Now available in the component library. [<a href="https://youtu.be/NHTZf63rk_Q" target="yt">Video</a>] 
                     </p>
-                     <p>     
+                    <p>     
                         <b>Update:</b> When moving or resizing the grid container, the children will now be updated as well.
                     </p>
+                    <p>     
+                        <b>Update:</b> You can now define individual sizes for the columns and rows! See in  
+                        action in this <a href=" https://www.youtube.com/watch?v=zhhTuQ_tp28" target="yt">Video</a>
+                    </p>
+                   
+
+                   
                 `,
                 title: 'The Grid Container is here!'
             },
@@ -255,7 +262,7 @@ class NotificationService extends AbstractService{
                     We have rewritten the complete <b>Undo-Redo</b> functionality to eliminate the last bugs. If you face issues, 
                     please let us know and contact us. 
                 `,
-                title: 'New Undo-Redo '
+                title: 'New Undo-Redo'
             },
             {
                 matches (user) {
@@ -338,7 +345,7 @@ class NotificationService extends AbstractService{
                     We're excited to announce that Quant-UX now supports audio player elements in your prototypes!
                     Whether you're designing a podcast app, a meditation experience, or anything that needs sound, 
                     you can now bring your ideas to life with built-in audio playback. Drag. Drop. Play. 
-                    It's that simple. See the it in <a href="https://youtu.be/Nm64WGlTwIc" target="_youtube">action</a>.
+                    It's that simple. See it in <a href="https://youtu.be/Nm64WGlTwIc" target="_youtube">action</a>.
                 `,
                 title: 'New Audio Player Widget'
             },
@@ -350,7 +357,7 @@ class NotificationService extends AbstractService{
                 img: 'PaddingConstraint.png',
                 more: `
                     Designing just got smoother. Now when you drag elements into a Rectangle (Shortcut R), 
-                    the paddings are automatically respected —no more manual nudging! 
+                    the paddings are automatically respected — no more manual nudging! 
                     Simply drop a Rectangle onto your canvas, set your desired paddings, 
                     and start dragging elements in. They'll snap into place perfectly, 
                     making alignment effortless and your layouts cleaner than ever. 
@@ -412,7 +419,29 @@ class NotificationService extends AbstractService{
                     </p>
                 `,
                 title: 'Blur Effect'
-            }      
+            },
+            {
+                matches () {
+                    return true
+                },
+                id:"Flex",
+                img: 'FlexContainer.png',
+                more: `
+                    <p>
+                        You can now use the AutoLayout to build layouts the same way you would with CSS flexbox on the web. 
+                        Drop it into your canvas, set direction, alignment, and gaps, and let child elements arrange 
+                        themselves automatically. Use it for responsive rows, columns, and dynamic content 
+                        that needs to resize gracefully.
+                    </p>
+                    <p>     
+                        <b>Beta:</b> This feature is still in Beta. If you spot any errors, please contact us!
+                    </p>
+                    <p>
+                        Check out the <a href="https://youtu.be/IXHtW_wSuRg" target="_youtube">Video</a>.
+                    </p>
+                `,
+                title: 'Auto Layout (Beta)'
+            }     
         ]
     }
 
