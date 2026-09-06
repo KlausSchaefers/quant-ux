@@ -206,6 +206,8 @@ export default class Responsive extends Snapp {
             .map(w => w.id)
 
         if (boundingBox) {
+            // TODO: we could do this even smarter and sort by Z and get only the last one.
+            // we could use and index for this....
             const contained = flexContainerIds.filter(id => ModelGeom.isFullContained(this.model.widgets[id], boundingBox))
             if (contained.length > 0) {
                 flexContainerIds = contained
