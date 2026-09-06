@@ -1,13 +1,12 @@
-import Snapp from './Snapp'
+import Responsive from './Responsive'
 import lang from '../../dojo/_base/lang'
 import * as TextUtil from '../../core/TextUtil'
 import * as DistributionUtil from '../../core/DistributionUtil'
 import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
-import ModelGeom from '../../core/ModelGeom'
+import * as ResponsiveUtil from '../../core/responsive/ResponsiveUtil'
+import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
 
-
-
-export default class Widget extends Snapp {
+export default class Widget extends Responsive {
 
 	enableInheritedWidget (widget){
 		this.logger.log(-1,"enableInheritedWidget", "enter > " +widget.id);
@@ -66,6 +65,9 @@ export default class Widget extends Snapp {
 		this.addCommand(command);
 
 		this.modelAddWidget(newWidget);
+
+		this.updateScreenLayout({pos})
+
 		this.render();
 		this.commitModelChange()
 		return newWidget;
@@ -98,12 +100,22 @@ export default class Widget extends Snapp {
 	alignWidgets (direction, source, target, ignoreGroups = false) {
 		this.logger.log(-1, "alignWidgets", "enter > " + direction + ' > ignore: ' + ignoreGroups, target, ignoreGroups);
 
+		
 		/**
 		 * Since 5.0.3 multi selections can have groups.
 		 * we just ignore
 		 */
-
 		source = source.filter(id => this.model.widgets[id])
+
+		const hasLayoutContainer = source.some(id => {
+			const type = this.model.widgets[id].type
+			return type === "GridContainer" || type === "FlexContainer"
+		})
+		if (hasLayoutContainer) {
+			this.showError("Grid and Flex Containers cannot be aligned.")
+			return
+		}
+
 		const positions = {};
 		const targetBBox = this.getBoundingBox(target);
 		const sourceBBox = this.getBoundingBox(source)
@@ -373,8 +385,8 @@ export default class Widget extends Snapp {
 	 * Responsive position change
 	 **********************************************************/
 
-	updateMultiWidgetSizeResponsive (pos, resizeModel, fromToolbar, hasCopies){
-		//this.logger.warn("updateMultiWidgetSizeResponsive", "NOT IMPLEMENTED YET", fromToolbar, hasCopies);
+	updateMultiWidgetSizeResponsive (pos, resizeModel, fromToolbar, hasCopies, layoutContainerChange){
+		this.logger.log(2, "updateMultiWidgetSizeResponsive", "enter", fromToolbar, hasCopies);
 
 	
 		// 1) zoom & snapp pos
@@ -391,9 +403,9 @@ export default class Widget extends Snapp {
 		
 		this.startModelChange()
 
-		const newPositions = this.getResponsiveResizePositions(
-			unZoomedPos, 
-			unzoomedResizeModel, 
+		const newPositions = ResponsiveUtil.getResponsiveResizePositions(
+			unZoomedPos,
+			unzoomedResizeModel,
 			unzoomedResizeModel.children,
 			responsiveLayouter
 		);
@@ -403,7 +415,7 @@ export default class Widget extends Snapp {
 			const pos = newPositions[id];
 			const widget = this.model.widgets[id];
 			// if we have a grid container, we force render
-			if (widget?.type === "GridContainer") {
+			if (widget?.type === "GridContainer" || widget?.type === "FlexContainer") {
 				forceRenderForGridContainers = true
 			}
 
@@ -418,7 +430,7 @@ export default class Widget extends Snapp {
 			}
 		}
 
-		//this.render();
+
 		if (fromToolbar || hasCopies || forceRenderForGridContainers) {
 			this.logger.log(-1,"updateMultiWidgetPosition", "exit > with render > forceRenderForGridContainers:", forceRenderForGridContainers);
 			this.render();
@@ -436,26 +448,7 @@ export default class Widget extends Snapp {
 		//this.updateMultiWidgetPosition(positions, fromToolbar, boundingbox, hasCopies);
 	}
 
-	getResponsiveResizePositions (pos, oldPos, children, responsiveLayouter) {
-    
-          const responsivePositions = responsiveLayouter.resize(pos.w, pos.h)
-          const offsetX = pos.x - oldPos.x
-          const offsetY = pos.y - oldPos.y
 
-          const positions = {};
-          for(let i=0; i< children.length; i++){
-            const id = children[i];
-            const repositionWidget = responsivePositions.widgets[id]
-			//console.debug("getResponsiveResizePositions", "widget", id, repositionWidget.name, repositionWidget.x, repositionWidget.y, repositionWidget.w, repositionWidget.h);
-            positions[id] = {
-              x: repositionWidget.x + offsetX,
-              y: repositionWidget.y + offsetY,
-              w: repositionWidget.w,
-              h: repositionWidget.h
-            }         
-          }
-          return positions
-    }
 
 	getSnappedBoundingBox(pos, boundingbox) {
 		const snapp = pos.snapp;
@@ -468,84 +461,13 @@ export default class Widget extends Snapp {
 	}
 
 
-	checkLayoutContainerChange(	oldWidget) {	
-		const widget = this.model.widgets[oldWidget.id];
-		if (widget && widget.type === "GridContainer" && this.layoutPropsHaveChanged(oldWidget, widget)) {
-			this.logger.log(-1, "checkLayoutContainerChange", "GridContainer changed, check for layout change");
-
-			// create a resize model
-			let childrenIDs = ModelGeom.getChildWidgetsIDs(this.model, widget)
-			childrenIDs.push(widget.id) // add the container itself
-
-			const resizeModel = {
-				x: widget.x,
-				y: widget.y,
-				w: widget.w,
-				h: widget.h,
-				children: childrenIDs
-			}
-
-			// create model with old widget
-			const oldModel = {	
-				widgets: {},
-				screens: this.model.screens,
-				groups: this.model.groups,
-			}
-			childrenIDs.forEach(id => {
-				oldModel.widgets[id] = lang.clone(this.model.widgets[id]);
-			})
-			oldModel.widgets[oldWidget.id] = oldWidget;
-
-
-			// call responsiveLayout
-			const responsiveLayouter = new ResponsiveLayout(1)
-			responsiveLayouter.initSelection(oldModel, resizeModel, resizeModel.children, true, true, false)
-			
-			// hackinto the treeModel and update all the props of the container
-			const treeWidget = responsiveLayouter.findWidget(widget.id)
-			if (!treeWidget) {
-				this.logger.error("checkLayoutContainerChange", "No treeWidget found for " + widget.id);
-			}
-			treeWidget.props = lang.clone(widget.props);
-			treeWidget.style = lang.clone(widget.style);
-
-			const newPositions = this.getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
-
-			let errorCount = 0;
-			for (let id in newPositions) {
-				const pos = newPositions[id];
-				const widget = this.model.widgets[id];	
-				// check here that this is a valid change, e.g. if columsn are redduced or so
-				if (widget) {
-					widget.modified = new Date().getTime()
-					if (!isNaN(pos.x) && !isNaN(pos.y) && !isNaN(pos.w) && !isNaN(pos.h)) {
-						widget.x = pos.x;
-						widget.y = pos.y;
-						widget.w = pos.w	
-						widget.h = pos.h;
-					} else {
-						errorCount++
-					}
-				} else {
-					console.warn('updateMultiWidgetSizeResponsive() > no widget', id)
-				}
-			}
-
-			if (errorCount > 0) {
-				this.showError("Not all elements could be resized.")
-			}
-
-			this.render();
-			return newPositions	
-		}
-	}
-
+	
 	/**********************************************************
 	 * Normal position change
 	 ******************************************************/
 
-	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies){
-		this.logger.log(-1,"updateMultiWidgetPosition", "enter > " + fromToolbar);
+	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies, layoutContainerChange){
+		this.logger.log(-1,"updateMultiWidgetPosition", "enter > " + fromToolbar, layoutContainerChange);
 	
 		this.startModelChange()
 		const command = {
@@ -644,13 +566,22 @@ export default class Widget extends Snapp {
 			this.modelWidgetUpdate(id, pos, false);
 		}
 
+
+		const hasLayoutChange = this.updateLayoutContainers(layoutContainerChange, Object.keys(positions))
+		if (hasLayoutChange) {
+			Object.keys(positions).forEach(id => {
+				positions[id] = this.model.widgets[id]
+			})
+		}
+
+
 		this.addCommand(command);
 
 		/**
 		 * We must render of the repositioning was called by the toolbar,
 		 * e.g. align. If it was from DND, not
 		 */
-		if (fromToolbar || hasCopies) {
+		if (fromToolbar || hasCopies || hasLayoutChange) {
 			this.logger.log(1,"updateMultiWidgetPosition", "exit > with render");
 			this.render();
 		} else {
@@ -684,9 +615,11 @@ export default class Widget extends Snapp {
 			children: []
 		};
 
+		const positions  = []
 		for (let i=0; i < selection.length; i++){
 			let id = selection[i];
-			let widget = this.model.widgets[id];
+			let widget = this.model.widgets[id];	
+			positions.push(widget)
 			if (widget) {
 				// create first the command,, whcih contain a group
 				let widgetRemoveCmd = this.createWidgetRemoveCommand(id);
@@ -706,6 +639,10 @@ export default class Widget extends Snapp {
 		})
 		
 		this.addCommand(command);
+
+		// layout everything
+		this.updateScreenLayout({positions})
+		
 		this.render();
 		this.commitModelChange()
 	}
@@ -838,8 +775,8 @@ export default class Widget extends Snapp {
 
 
 
-	updateWidgetPosition (id, pos, fromToolbar, hasCopies){
-		this.logger.log(-1,"updateWidgetPosition", "enter > " + id );
+	updateWidgetPosition (id, pos, fromToolbar, hasCopies, layoutContainerChange){
+		this.logger.log(1,"updateWidgetPosition", "enter > " + id );
 
 		const widget = this.model.widgets[id];
 		if (!widget) {
@@ -848,6 +785,9 @@ export default class Widget extends Snapp {
 		}
 
 		this.startModelChange()
+		/**
+		 * This also correct the positoin
+		 */
 		const command = this.createWidgetPositionCommand(id, pos,fromToolbar, true);
 		this.addCommand(command);
 
@@ -860,6 +800,14 @@ export default class Widget extends Snapp {
 		 * Update the model
 		 */
 		this.modelWidgetUpdate(id, pos);
+
+		/**
+		 * Check and Update FlexStuff if needed
+		 */
+		const hasLayoutChange = this.updateLayoutContainers(layoutContainerChange, [id])
+		if (hasLayoutChange) {
+			pos = this.model.widgets[id]
+		}
 
 		/**
 		 * show message
@@ -883,7 +831,7 @@ export default class Widget extends Snapp {
 		 * FIXME: If we call render directly after and DnD from Canvas We have huge bumps.
 		 * Somehow the GridRuler rounds the grid stupid
 		 */
-		if(fromToolbar || hasCopies){
+		if(fromToolbar || hasCopies || hasLayoutChange){
 			this.render();
 		} else {
 			this.onWidgetPositionChange()
@@ -894,6 +842,7 @@ export default class Widget extends Snapp {
 		return pos;
 	}
 
+	
 
 	createWidgetPositionCommand (id, pos,fromToolbar, correctPosition){
 
@@ -1006,7 +955,7 @@ export default class Widget extends Snapp {
 	**********************************************************************/
 
 	updateWidgetProperties (id, props, type, doNotRender, forceCompleteRender = false){
-		this.logger.log(-1,"updateWidgetProperties", "enter > " + type+ " > doNotRender: "+ doNotRender);
+		this.logger.log(1,"updateWidgetProperties", "enter > " + type+ " > doNotRender: "+ doNotRender);
 		this.startModelChange()
 
 		const widget = this.model.widgets[id];
@@ -1018,7 +967,7 @@ export default class Widget extends Snapp {
 		if(command){
 			this.addCommand(command);	
 			this.modelWidgetPropertiesUpdate(id, props, type, doNotRender);
-			this.checkLayoutContainerChange(oldWidget)
+			this.updateLayoutContainerChange(oldWidget)
 		}
 	
 		if(!doNotRender){
@@ -1028,8 +977,18 @@ export default class Widget extends Snapp {
 
 		if (inlineEdit) {
 			this.logger.log(-1,"updateWidgetProperties", "force rerender because of inline edit");
-			this.render();
+			forceCompleteRender = true
+			//this.render();
 		}
+
+		
+		const parent = this.getTreeParent(id)
+		if (this.flexChildPropsHaveChanged(props) && LayoutContainerUtil.isLayoutContainerWidget(parent)) {
+			this.logger.log(-1,"updateWidgetProperties", "FlexChild");
+			this.updateScreenLayout({widget})
+			forceCompleteRender = true
+		}
+		
 
 		if (forceCompleteRender) {
 			this.logger.log(-1,"updateWidgetProperties", "force rerender !");
@@ -1038,30 +997,6 @@ export default class Widget extends Snapp {
 
 		this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
 		this.commitModelChange()
-	}
-
-
-
-	layoutPropsHaveChanged(widget, oldWidget) {
-		return widget.props.columns != oldWidget.props.columns ||
-			widget.props.columnGap != oldWidget.props.columnGap ||
-			widget.style.paddingLeft != oldWidget.style.paddingLeft ||
-			widget.style.paddingRight != oldWidget.style.paddingRight ||
-			widget.style.borderLeftWidth != oldWidget.style.borderLeftWidth ||
-			widget.style.borderRightWidth != oldWidget.style.borderRightWidth ||
-			this.arrayPropHasChanged(widget.props.columnWidths, oldWidget.props.columnWidths) ||
-
-			widget.props.rows != oldWidget.props.rows ||
-			widget.props.rowGap != oldWidget.props.rowGap ||
-			widget.style.paddingTop != oldWidget.style.paddingTop ||
-			widget.style.paddingBottom != oldWidget.style.paddingBottom ||
-			widget.style.borderBottomWidth != oldWidget.style.borderBottomWidth ||
-			widget.style.borderTopWidth != oldWidget.style.borderTopWidth ||
-			this.arrayPropHasChanged(widget.props.rowHeights, oldWidget.props.rowHeights)
-	}
-
-	arrayPropHasChanged(a, b) {
-		return (a || []).join(',') !== (b || []).join(',')
 	}
 
 	createWidgetPropertiesCommand (id, props, type, inlineLabel){
@@ -1121,7 +1056,7 @@ export default class Widget extends Snapp {
 	 * Widget add
 	 **********************************************************************/
 	addWidget (model, pos, fromTool){
-		this.logger.log(0,"addWidget", "enter > " + fromTool);
+		this.logger.log(-1,"addWidget", "enter > " + fromTool);
 
 		this.startModelChange()
 		pos = this.getUnZoomedBox(pos, this._canvas.getZoomFactor());
@@ -1160,6 +1095,12 @@ export default class Widget extends Snapp {
 		 * Update model
 		 */
 		this.modelAddWidget(widget);
+
+		
+		/**
+		 * Fix the flex and so
+		 */
+		this.updateScreenLayout({pos})
 
 		this.render();
 		const screen = this.getHoverScreen(widget);
@@ -1268,6 +1209,9 @@ export default class Widget extends Snapp {
 			this.unSelect();
 			this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'remove'}])
 			this.modelRemoveWidgetAndLines(command.model, command.lines, command.refs, false, command.group);
+
+			// layout screen
+			this.updateScreenLayout({widget})
 			this.render();
 			this.commitModelChange()
 		}
@@ -1480,6 +1424,7 @@ export default class Widget extends Snapp {
 		};
 
 		const z = this.getMaxZValue(this.model.widgets) + 1;
+		const positions = []
 		for (let i=0; i< widgets.length; i++){
 			const widget = widgets[i];
 			widget.id = "w"+this.getUUID();
@@ -1490,11 +1435,14 @@ export default class Widget extends Snapp {
 				model : widget
 			};
 			command.children.push(child);
+			positions.push(child)
 			this.modelAddWidget(widget);
-			console.debug('addMultiWidgets', widget)
 		}
 
 		this.addCommand(command);
+
+		// render on multi enter
+		this.updateScreenLayout({positions})
 
 		this.render();
 		this.commitModelChange()
@@ -1559,12 +1507,14 @@ export default class Widget extends Snapp {
 		this.startModelChange()
 		const old = {};
 		const widgets = this.model.widgets;
-		for(var id in widgets){
-			var newZ = zValues[id];
-			var widget = widgets[id];
+		const positions = []
+		for(let id in widgets){
+			const newZ = zValues[id];
+			const widget = widgets[id];
 			if(widget.z != newZ){
 				old[id] = widget.z;
 			}
+			positions.push(widget)
 		}
 
 		const command = {
@@ -1576,6 +1526,10 @@ export default class Widget extends Snapp {
 
 		this.addCommand(command);
 		this.modelWidgetLayers(zValues);
+
+		// render on multi enter
+		this.updateScreenLayout({positions})
+
 		this.render();
 		this.commitModelChange()
 	}

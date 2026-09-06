@@ -669,7 +669,7 @@ export default {
 
 
 		onSelectionStarted (e){
-			this.logger.log(-2,"onSelectionStarted", "enter > ");
+			this.logger.log(2,"onSelectionStarted", "enter > ");
 
 			/**
 			 * In case something is added (screen, widht or comment) we do not
@@ -984,7 +984,7 @@ export default {
 
 
 		_getClipBoard (){
-			this.logger.log(-1,"_setCligBoard", "enter > ");
+			this.logger.log(1,"_setCligBoard", "enter > ");
 			return this.controller.getClipBoard()
 		},
 
@@ -1028,7 +1028,7 @@ export default {
 		},
 
 		onPasteFromModel(fromToolBar, pos, e) {
-			this.logger.log(-1,"onPasteFromModel", "enter > SAME APP  > "+  fromToolBar);
+			this.logger.log(1,"onPasteFromModel", "enter > SAME APP  > "+  fromToolBar);
 			if (!fromToolBar) {
 				/**
 				 * If paste was not triggered by toolbar, simply add.

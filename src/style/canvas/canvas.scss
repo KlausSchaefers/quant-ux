@@ -191,6 +191,11 @@
 	background:rgba(73,192,240,0.3);
 }
 
+.MatcCanvasModeedit.MatcCanvasDNDActive .MatcWidgetDND:hover{
+	border:1px solid transparent;
+	background:none;
+}
+
 .MatcCanvasModeedit .MatcWidgetDND.MatcWidgetDNDInherited:hover{
 	border:1px dashed $canvas_selection;
 }
@@ -1162,6 +1167,9 @@
 // 	background: #b9377e;
 // }
 
+.MatcRulerLineFlex {
+	background: $canvas_selection;
+}
 
 .MatcTest .MatcRulerLineGrid{
 	background-color: blue;

@@ -1,0 +1,233 @@
+import Snapp from './Snapp'
+import lang from '../../dojo/_base/lang'
+import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
+import ModelGeom from '../../core/ModelGeom'
+import * as ResponsiveUtil from '../../core/responsive/ResponsiveUtil'
+
+
+export default class Responsive extends Snapp {
+
+
+    updateLayoutContainerChange(oldWidget) {
+        const widget = this.model.widgets[oldWidget.id];
+        const isGridChange = widget && widget.type === "GridContainer" && this.gridPropsHaveChanged(oldWidget, widget)
+        const isFlexChange = widget && widget.type === "FlexContainer" && this.flexPropsHaveChanged(oldWidget, widget)
+
+        if (isGridChange || isFlexChange) {
+            this.logger.log(-1, "updateLayoutContainerChange", widget.type + " changed, check for layout change");
+
+            // create a resize model
+            let childrenIDs = ModelGeom.getChildWidgetsIDs(this.model, widget)
+            childrenIDs.push(widget.id) // add the container itself
+
+            const resizeModel = {
+                x: widget.x,
+                y: widget.y,
+                w: widget.w,
+                h: widget.h,
+                children: childrenIDs
+            }
+
+            // create model with old widget
+            const oldModel = {
+                widgets: {},
+                screens: this.model.screens,
+                groups: this.model.groups,
+            }
+            childrenIDs.forEach(id => {
+                oldModel.widgets[id] = lang.clone(this.model.widgets[id]);
+            })
+            oldModel.widgets[oldWidget.id] = oldWidget;
+
+
+            // call responsiveLayout
+            const responsiveLayouter = new ResponsiveLayout(1)
+            responsiveLayouter.initSelection(oldModel, resizeModel, resizeModel.children, true, true, false)
+
+            // hackinto the treeModel and update all the props of the container
+            const treeWidget = responsiveLayouter.findWidget(widget.id)
+            if (!treeWidget) {
+                this.logger.error("updateLayoutContainerChange", "No treeWidget found for " + widget.id);
+                return
+            }
+            treeWidget.props = lang.clone(widget.props);
+            treeWidget.style = lang.clone(widget.style);
+
+            const newPositions = ResponsiveUtil.getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
+
+            let errorCount = 0;
+            for (let id in newPositions) {
+                const pos = newPositions[id];
+                const widget = this.model.widgets[id];
+                // check here that this is a valid change, e.g. if columsn are redduced or so
+                if (widget) {
+                    widget.modified = new Date().getTime()
+                    if (!isNaN(pos.x) && !isNaN(pos.y) && !isNaN(pos.w) && !isNaN(pos.h)) {
+                        widget.x = pos.x;
+                        widget.y = pos.y;
+                        widget.w = pos.w
+                        widget.h = pos.h;
+                    } else {
+                        errorCount++
+                    }
+                } else {
+                    console.warn('updateMultiWidgetSizeResponsive() > no widget', id)
+                }
+            }
+
+            if (errorCount > 0) {
+                this.showError("Not all elements could be resized.")
+            }
+
+            this.render();
+            return newPositions
+        }
+    }
+
+    gridPropsHaveChanged(widget, oldWidget) {
+        return widget.props.columns != oldWidget.props.columns ||
+            widget.props.columnGap != oldWidget.props.columnGap ||
+            widget.style.paddingLeft != oldWidget.style.paddingLeft ||
+            widget.style.paddingRight != oldWidget.style.paddingRight ||
+            widget.style.borderLeftWidth != oldWidget.style.borderLeftWidth ||
+            widget.style.borderRightWidth != oldWidget.style.borderRightWidth ||
+            this.arrayPropHasChanged(widget.props.columnWidths, oldWidget.props.columnWidths) ||
+
+            widget.props.rows != oldWidget.props.rows ||
+            widget.props.rowGap != oldWidget.props.rowGap ||
+            widget.style.paddingTop != oldWidget.style.paddingTop ||
+            widget.style.paddingBottom != oldWidget.style.paddingBottom ||
+            widget.style.borderBottomWidth != oldWidget.style.borderBottomWidth ||
+            widget.style.borderTopWidth != oldWidget.style.borderTopWidth ||
+            this.arrayPropHasChanged(widget.props.rowHeights, oldWidget.props.rowHeights)
+    }
+
+    flexPropsHaveChanged(widget, oldWidget) {
+        return widget.style.flexDirection != oldWidget.style.flexDirection ||
+            widget.style.alignItems != oldWidget.style.alignItems ||
+            widget.style.gap != oldWidget.style.gap ||
+            widget.style.paddingLeft != oldWidget.style.paddingLeft ||
+            widget.style.paddingRight != oldWidget.style.paddingRight ||
+            widget.style.paddingTop != oldWidget.style.paddingTop ||
+            widget.style.paddingBottom != oldWidget.style.paddingBottom ||
+            widget.style.borderLeftWidth != oldWidget.style.borderLeftWidth ||
+            widget.style.borderRightWidth != oldWidget.style.borderRightWidth ||
+            widget.style.borderTopWidth != oldWidget.style.borderTopWidth ||
+            widget.style.borderBottomWidth != oldWidget.style.borderBottomWidth
+    }
+
+    flexChildPropsHaveChanged(props) {
+        return !!(props && props.resize && props.resize.grow !== undefined)
+    }
+
+    arrayPropHasChanged(a, b) {
+        return (a || []).join(',') !== (b || []).join(',')
+    }
+
+
+    updateLayoutContainers(layoutContainerChange, movedIds) {
+        if (!layoutContainerChange || (!layoutContainerChange.start && !layoutContainerChange.end)) {
+            this.logger.log(4, "updateLayoutContainers", "exit > NO CHANGE");
+            return false
+        }
+        this.logger.log(1, "updateLayoutContainers", "enter > ", layoutContainerChange, movedIds);
+
+        //const ids = movedIds || []
+        const startId = layoutContainerChange.start && layoutContainerChange.start.id
+        const endId = layoutContainerChange.end && layoutContainerChange.end.id
+
+        /**
+         * The widget could have been moved out of "start" into "end", so
+         * both containers lost/gained a child and need to be freshly laid out.
+         * If start and end are the same container, this just re-layouts it once,
+         * without touching the moved widget's containment, since it never left.
+         */
+        if (startId && startId === endId) {
+            this.layoutContainer(startId)
+        } else {
+            if (endId) {
+                this.layoutContainer(endId)
+            }
+            if (startId) {
+                this.layoutContainer(startId) // why did we pass here the ids? This fucks up the dnd
+            }
+        }
+
+        return true
+    }
+
+
+    layoutContainer(id, excludeIds = []) {
+        this.logger.log(1, "layoutContainer", "enter > " + id, excludeIds)
+        return ResponsiveUtil.layoutContainer(this.model, id, excludeIds)
+    }
+
+    /**
+     * Layout the FlexContainers affected by a change, without any notion of
+     * screens at all - a widget doesn't have to resolve to a hover screen
+     * (e.g. it can sit loose on the canvas) for its containing FlexContainer,
+     * if any, to still get relaid out.
+     *
+     * params.pos       - the changed area
+     * params.widget    - the changed widget, used as the area
+     * params.positions - list of pos objects; the union of all of them is used as the area
+     * params.screenId  - use this screen's own box as the area
+     * none of the above - no area restriction, layout every FlexContainer in the model
+     */
+    updateScreenLayout(params = {}) {
+        const { screenId, pos, positions, widget } = params;
+
+        let boundingBox = null;
+        if (pos) {
+            boundingBox = pos
+        } else if (widget) {
+            boundingBox = widget
+        } else if (positions) {
+            boundingBox = this.getBoundingBoxByBoxes(positions)
+        } else if (screenId) {
+            boundingBox = this.model.screens[screenId]
+        }
+        /**
+         * FIXME: This does not work with z changes any more, because the
+         * z ir already lowe so it is not 
+         */
+        this.logger.log(1, "updateScreenLayout", "bbox", boundingBox)
+
+        /**
+         * We used to resolve a hover screen and only relayout FlexContainers
+         * on it, but that misses containers when the change happened on a
+         * widget that isn't inside any FlexContainer (or doesn't resolve to
+         * a screen at all, e.g. loose on the canvas). Instead, just look at
+         * every FlexContainer in the model directly and keep the ones that
+         * fully contain the changed area - one elsewhere can't be affected.
+         */
+        let flexContainerIds = Object.values(this.model.widgets)
+            .filter(w => w.type === "FlexContainer")
+            .map(w => w.id)
+
+        if (boundingBox) {
+            // TODO: we could do this even smarter and sort by Z and get only the last one.
+            // we could use and index for this....
+            const contained = flexContainerIds.filter(id => ModelGeom.isFullContained(this.model.widgets[id], boundingBox))
+            if (contained.length > 0) {
+                flexContainerIds = contained
+            } else {
+                this.logger.log(1, "updateScreenLayout", "use all", flexContainerIds)
+            }
+        }
+
+
+        let allPositions = {};
+        flexContainerIds.forEach(id => {
+            const positions = this.layoutContainer(id)
+            Object.assign(allPositions, positions)
+        })
+
+        this.onModelChanged(Object.keys(allPositions).map(id => {
+            return { type: 'widget', action: "change", "prop": "position", id: id }
+        }))
+
+        return allPositions
+    }
+
+}

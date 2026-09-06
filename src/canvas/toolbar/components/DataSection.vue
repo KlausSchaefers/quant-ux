@@ -751,6 +751,36 @@ export default {
 			this._addChildWidget(gridConfig);
 		},
 
+		_showFlexContainer (model){
+			this._setSectionLabel("Flex Container");
+			this._renderLabelDropDown("Direction", model,"flexDirection",[
+				{ value:"row", icon:"FlexContainerRow", label : "Row"},
+				{ value:"rowReverse", icon:"FlexContainerRow", label : "Row reverse"},				
+				{ value: "column", icon:"FlexContainerCol", label : "Column"},
+				{ value: "columnReverse", icon:"FlexContainerCol", label : "Column Reverse"}
+			], true);
+
+			if (model.style.flexDirection === 'row' || model.style.flexDirection === 'rowReverse') {
+				this._renderLabelDropDown("Strech Children", model,"alignItems",[
+					{ value:"stretch", icon:"AlignHorizontal", label : "Stretch"},
+					{ value:"start", icon:"AlignTop", label : "Top"},
+					{ value:"center", icon:"AlignMiddle", label : "Middle"},
+					{ value:"end", icon:"AlignBottom", label : "Bottom"}
+				], true);
+			} else {
+				this._renderLabelDropDown("Strech Children", model,"alignItems",[
+					{ value:"stretch", icon:"AlignVertical", label : "Stretch"},
+					{ value:"start", icon:"AlignLeft", label : "Left"},
+					{ value:"center", icon:"AlignCenter", label : "Center"},
+					{ value:"end", icon:"AlignRight", label : "Right"}
+				], true);
+			}
+
+	
+
+			this._renderInputDropDown("Gap",model, [0, 4, 8, 16, 24, 32, 64], "gap", false);
+		},
+
 		_showLabel (model){
 			if (!model?.props?.animated) {
 				this._setSectionLabel("Label");

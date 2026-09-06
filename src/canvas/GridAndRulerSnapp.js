@@ -7,6 +7,8 @@ import * as GridUtil from 'core/GridUtil'
 import * as SnappUtil from 'core/SnappUtil'
 import ModelUtil from '../core/ModelUtil'
 import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
+import LayoutContainerIndex from '../core/responsive/LayoutContainerIndex'
+
 
 export default class GridAndRulerSnapp extends Core {
 
@@ -102,11 +104,13 @@ export default class GridAndRulerSnapp extends Core {
 		/**
 		 * Init grid containers for fastee lookups
 		 */
-		this.cacheLayoutContainers(this.model, this.sourceModel)
+		this.initLayoutContainerCache(this.model, this.sourceModel)
+		
 		
 
 		this.logger.log(1, "start", "exit > type :" + this.selectedType + ">  id :" + this.selectedID + " > activePoint : " + activePoint + " > hasMiddleX : " + this.hasMiddleX);
 	}
+
 
 
 	correct(absPos, e, mouse) {
@@ -246,6 +250,7 @@ export default class GridAndRulerSnapp extends Core {
 		/**
 		 * now compare all lines. For grid we just take to top left corner
 		 */
+
 		const corners = this.getCorners(absPos, this.grid.enabled, layoutContainer, left, top);
 		const lineX = SnappUtil.getFilteredLinesX(this._linesX, this.activePoint, layoutContainer, left)
 		const lineY = SnappUtil.getFilteredLinesY(this._linesY, this.activePoint, layoutContainer, top)
@@ -396,113 +401,25 @@ export default class GridAndRulerSnapp extends Core {
 		return absPos;
 	}
 
-	cacheLayoutContainers(model, sourceModel) {
-		this.layoutContainers = []
-
+	initLayoutContainerCache(model, sourceModel) {
 		const minZ = this.selectedModel.z || 0
-		// get all the grid containers
-		// we could make this even better by filtering for z-level...
-		for (let id in model.widgets) {
-			const w = model.widgets[id]
-			// we just take lowe layer containers
-			if (w.z < minZ) {
-				const s = sourceModel.widgets[id]
-				if (w !== undefined & s !== undefined && w.type === 'GridContainer') {
-					const g = lang.clone(w)
-					g.style = s.style
-					g.children = []
-					this.layoutContainers.push(g)
-				}
-			}
-		}
-		this.layoutContainers.sort((a,b) => a.z - b.z)
-
-		// do not include the seleciton as child
-		const excluded = {}
-		excluded[this.selectedModel?.id] = true
-		if (this.selectedModel.ids) {
-			for (let id of this.selectedModel.ids) {
-				excluded[id] = true
-			}
-		}
-
-		// compute the children in the layoutContainers, 
-		// so we the grid is not active when the element
-		// is over them
-		// Maybe use something like RTree (rbush)
-		this.layoutContainers.forEach(cntr => {
-			for (let id in model.widgets) {
-				const w = model.widgets[id]
-				// check here also for the selected widgets?
-				if (w.z >= cntr.z && w.id !== cntr.id && !excluded[w.id]) {
-					if (this.isFullContained(cntr, w)) {
-						cntr.children.push(w)
-					}
-				}
-			}
-		})
+		this.layoutContainerIndex = new LayoutContainerIndex(model, sourceModel, new Set(['GridContainer', 'FlexContainer']), this.selectedModel, minZ)
 	}
-
-	isFullContained	(outer, inner) {
-		// add here some offset?
-		return (
-			outer.x <= inner.x &&
-			outer.y <= inner.y &&
-			outer.x + outer.w >= inner.x + inner.w &&
-			outer.y + outer.h >= inner.y + inner.h
-		)
-	}
-
 
 	findHoverLayoutContainer(absPos) {
-	
-		const box = this.getOffSetCorrectedPosition(absPos)
-
-		let found = null
-		for (let i=0; i< this.layoutContainers.length; i++) {
-			const c = this.layoutContainers[i]
-			// we use the partial overlap
-			if (c.z < box.z && this._isBoxChild(box, c)) {
-				found = c
-			}
-		}
-		if (found) {
-			if (found.children) {
-				// check that we are not in a child
-				for (let child of found.children) {
-					if (this.isFullContained(child, box)) {
-						//console.debug('exit because of child')
-						this.canvas.unHoverDNDBox()
-						return null
-					}
-				}
-			}
-
-			this.canvas.hoverDNDBox(found.id)
-		} else {
+		const found = this.layoutContainerIndex.findHoverLayoutContainer(absPos, this.boundingBoxOffsetX, this.boundingBoxOffsetY)
+		// if (found && found.type!== 'GridContainer') {
+		// 	this.canvas.unHoverDNDBox()
+		// 	return
+		// }
+		if (!found) {
 			this.canvas.unHoverDNDBox()
+		} else {
+			this.canvas.hoverDNDBox(found.id)
 		}
 		return found
 	}
-
-	getOffSetCorrectedPosition(pos) {
-		const box = {
-			x: pos.x,
-			y: pos.y,
-			w: pos.w,
-			h: pos.h,
-			z: pos.z,
-			id: pos.id,
-			name: pos.name
-		}
-		if (this.boundingBoxOffsetX > 0) {
-			box.x -= this.boundingBoxOffsetX;
-		}	
-		if (this.boundingBoxOffsetY > 0) {
-			box.y -= this.boundingBoxOffsetY;
-		}
-		return box
-	}
+	
 
 	initLayoutContainerLines (layoutContainer) {
 		this._lastScreen = null
@@ -510,34 +427,70 @@ export default class GridAndRulerSnapp extends Core {
 		// only calc the grid, if the container has changed
 		if (this._lastLayoutContainer?.id !== layoutContainer.id) {
 			this.cleanUp()
-			const lines = GridUtil.getGridContainerLines(layoutContainer, this.activePoint, this.zoom)
-			for (let i in lines.x) {
-				const x = lines.x[i]
-				this.addXLine(x, {
-					id: layoutContainer.id,
-					pos: "x",
-					type: "GridContainer",
-					activePoint: this.activePoint,
-					gridIndex: i,
-					isStart: i % 2 === 0,
-					_v: x,
-					_paddingBox: layoutContainer
-				}, "GridContainer");
+			if (layoutContainer.type === 'GridContainer') {
+				const lines = GridUtil.getGridContainerLines(layoutContainer, this.activePoint, this.zoom)
+				for (let i in lines.x) {
+					const x = lines.x[i]
+					this.addXLine(x, {
+						id: layoutContainer.id,
+						pos: "x",
+						type: "GridContainer",
+						activePoint: this.activePoint,
+						gridIndex: i,
+						isStart: i % 2 === 0,
+						_v: x,
+						_paddingBox: layoutContainer
+					}, "GridContainer");
 
+				}
+				for (let i in lines.y) {
+					const y = lines.y[i]
+					this.addYLine(y, {
+						id: layoutContainer.id,
+						pos: "y",
+						type: "GridContainer",
+						activePoint: this.activePoint,
+						gridIndex: i,
+						isStart: i % 2 === 0,
+						_v: y,
+						_paddingBox: layoutContainer
+					}, "GridContainer");
+
+				}
 			}
-			for (let i in lines.y) {
-				const y = lines.y[i]
-				this.addYLine(y, {
-					id: layoutContainer.id,
-					pos: "y",
-					type: "GridContainer",
-					activePoint: this.activePoint,
-					gridIndex: i,
-					isStart: i % 2 === 0,
-					_v: y,
-					_paddingBox: layoutContainer
-				}, "GridContainer");
-
+			if (layoutContainer.type === 'FlexContainer' && this.activePoint === "All") {
+				const children = layoutContainer.rootChildren || []
+				const lines = GridUtil.getFlexContainerLines(layoutContainer, children, this.zoom)
+				for (let i in lines.x) {
+					const x = lines.x[i]
+					this.addXLine(x, {
+						id: layoutContainer.id,
+						pos: "x",
+						type: "FlexContainer",
+						activePoint: this.activePoint,
+						flexIndex: i,
+						isStart: i % 2 === 0,
+						_flex:true,
+						_v: x,
+						_sourceV: this.getUnZoomed(x, this.zoom),
+						_paddingBox: layoutContainer
+					}, "FlexContainer");
+				}
+				for (let i in lines.y) {
+					const y = lines.y[i]
+					this.addYLine(y, {
+						id: layoutContainer.id,
+						pos: "y",
+						type: "FlexContainer",
+						_flex:true,
+						activePoint: this.activePoint,
+						flexIndex: i,
+						isStart: i % 2 === 0,
+						_v: y,
+						_sourceV: this.getUnZoomed(y, this.zoom),
+						_paddingBox: layoutContainer
+					}, "FlexContainer");
+				}
 			}
 			// fixme: here we could also set in the canvas the highlight to the backgroundDiv,
 			// to show only the boxes on hover...
@@ -1716,8 +1669,14 @@ export default class GridAndRulerSnapp extends Core {
 			if (!selectedIDs[id] && widget) {
 				const group = this.getParentGroup(id);
 				if (group) {
-					const box = this.getBoundingBox(group.children);
-					result.push(box);
+					// exclude currently selected/dragged members from the box,
+					// otherwise their stale (pre-drag) position leaks into the
+					// merged bounding box used as a snap target
+					const groupChildren = group.children.filter(childID => !selectedIDs[childID]);
+					if (groupChildren.length > 0) {
+						const box = this.getBoundingBox(groupChildren);
+						result.push(box);
+					}
 					// do not include other group members
 					for (var j = 0; j < group.children.length; j++) {
 						var childID = group.children[j];
@@ -1899,6 +1858,8 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	getCorners(pos, isGrid, layoutContainer, left, top) {
+		const isGridContainer = (layoutContainer && layoutContainer.type === 'GridContainer')
+		const isFlexContainer = (layoutContainer && layoutContainer.type === 'FlexContainer')
 
 		const corners = {
 			x: [],
@@ -1935,7 +1896,10 @@ export default class GridAndRulerSnapp extends Core {
 					 * Since 5.0.20 we have layout container in such we 
 					 * take the movement direction into account
 					 */
-					if (layoutContainer !== null && layoutContainer !== undefined) {
+					if (isFlexContainer) {
+						corners.x.push(pos.x);
+						corners.y.push(pos.y);
+					} else if (isGridContainer) {
 						if (left) {
 							corners.x.push(pos.x);
 						} else {
@@ -2130,6 +2094,7 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	isPaddingBox(box) {
+
 		if(box?.props?.paddingSnap && box.style) {
 			const sourceBox = this.getSourceBox(box)
 			if (sourceBox) {
@@ -2151,8 +2116,7 @@ export default class GridAndRulerSnapp extends Core {
 		if (!this.copyReferenceID) {
 			ignore = this.getSnappIgnores(screen)
 		}
-
-		console.debug("initScreen", screen.id, "ignore", ignore)
+		
 		/**
 		 * now create the snapp lines for all other widgets in the screen,
 		 * unless they are in a group or otherwise ignored
@@ -2702,6 +2666,11 @@ export default class GridAndRulerSnapp extends Core {
 				}
 
 				const div = this._linesDivs[line.id]
+				if (line?.snapp?._flex) {
+					css.add(div, "MatcRulerLineFlex");
+				} else {
+					css.remove(div, "MatcRulerLineFlex");
+				}
 				if (line?.snapp?._paddingBox) {
 					css.add(div, "MatcRulerLinePadding");
 					if (line.x) {

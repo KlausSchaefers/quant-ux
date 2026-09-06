@@ -362,6 +362,9 @@ export default class Group extends Layer {
 		this.addCommand(command);
 
 		this.onModelChanged([]);
+
+		this.updateScreenLayout({pos})
+
 		this.render();
 		this.commitModelChange()
 	}
@@ -478,6 +481,12 @@ export default class Group extends Layer {
 			this.addCommand(command);
 
 			this.onModelChanged([]);
+
+			/**
+			 * Layout screen
+			 */
+			this.updateScreenLayout({pos})
+
 			this.render();
 			this.commitModelChange()
 		}
@@ -878,6 +887,11 @@ export default class Group extends Layer {
 			this.addCommand(command);
 			this.unSelect();
 			this.modelRemoveGroup(group, command.line);
+
+			/**
+			 * FIXME: Do we have to kick off a complete layout?
+			 */
+			this.updateScreenLayout()
 			this.render();
 			this.commitModelChange()
 		} else {
@@ -1000,11 +1014,13 @@ export default class Group extends Layer {
 			 * Get all the children before we execute the group removal
 			 */
 
+			const positions = []
 			for (let i=0; i < children.length; i++){
 				let id = children[i];
 				let child = this.createWidgetRemoveCommand(id);
 				command.children.push(child);
 				var widget = this.model.widgets[id];
+				positions.push(widget)
 				var lines = this.getLines(widget);
 				var refs = this.getReferences(widget);
 				this.modelRemoveWidgetAndLines(widget, lines, refs, true);
@@ -1012,6 +1028,9 @@ export default class Group extends Layer {
 			this.addCommand(command);
 			this.unSelect();
 			this.onModelChanged([]);
+
+			// Update flex
+			this.updateScreenLayout({positions})
 			this.render();
 			this.commitModelChange()
 		}

@@ -1,62 +1,76 @@
-
 <template>
-     <div class="MatcToolbarResize">
-        <div class="MatcToolbarResizePinCntr">
-            <div class="MatcToolbarResizePin MatcToolbarResizeElement">
-
-                <div @click="toggleUp" :class="['MatcToolbarResizePinUp', {'MatcToolbarResizeActive': hasPinUp}]">
-                    <div class="MatcToolbarResizePinLine" />
-                </div>
-                <div @click="toggleLeft" :class="['MatcToolbarResizePinLeft', {'MatcToolbarResizeActive': hasPinLeft}]">
-                    <div class="MatcToolbarResizePinLine" />
-                </div>
-                <div @click="toggleRight" :class="['MatcToolbarResizePinRight', {'MatcToolbarResizeActive': hasPinRight}]">
-                    <div class="MatcToolbarResizePinLine" />
-                </div>
-                <div @click="toggleDown" :class="['MatcToolbarResizePinDown', {'MatcToolbarResizeActive': hasPinDown}]">
-                    <div class="MatcToolbarResizePinLine" />
-                </div>
-                <div @click="toggleAll" :class="['MatcToolbarResizePinCenter']">
-                    <div class="MatcToolbarResizePinLine" />
-                </div>
-
+    <div class="MatcToolbarResize">
+        <template v-if="isContainerChild">
+            <div class="MatcToolbarResizeFlexOrGrid">                
+                <ToolbarDropDownButton :qOptions="options" :qReposition="true" :qValue="flexAlign" @change="toggleFlex" :qMaxLabelLength="20"/>
             </div>
-            <span class="MatcToolbarResizeLabel">Pin</span>
+        </template>
+        <div class="MatcToolbarResizeAbsolute" v-else>
+
+
+            <div class="MatcToolbarResizePinCntr">
+                <div class="MatcToolbarResizePin MatcToolbarResizeElement">
+
+                    <div @click="toggleUp" :class="['MatcToolbarResizePinUp', { 'MatcToolbarResizeActive': hasPinUp }]">
+                        <div class="MatcToolbarResizePinLine" />
+                    </div>
+                    <div @click="toggleLeft"
+                        :class="['MatcToolbarResizePinLeft', { 'MatcToolbarResizeActive': hasPinLeft }]">
+                        <div class="MatcToolbarResizePinLine" />
+                    </div>
+                    <div @click="toggleRight"
+                        :class="['MatcToolbarResizePinRight', { 'MatcToolbarResizeActive': hasPinRight }]">
+                        <div class="MatcToolbarResizePinLine" />
+                    </div>
+                    <div @click="toggleDown"
+                        :class="['MatcToolbarResizePinDown', { 'MatcToolbarResizeActive': hasPinDown }]">
+                        <div class="MatcToolbarResizePinLine" />
+                    </div>
+                    <div @click="toggleAll" :class="['MatcToolbarResizePinCenter']">
+                        <div class="MatcToolbarResizePinLine" />
+                    </div>
+
+                </div>
+                <span class="MatcToolbarResizeLabel">Pin</span>
+            </div>
+
+            <div class="MatcToolbarResizePinCntr">
+                <div class="MatcToolbarResizePin MatcToolbarResizeElement">
+
+                    <div @click="toggleHorizontal"
+                        :class="['MatcToolbarResizeGrowHorizontal', { 'MatcToolbarResizeActive': growHorizontal }]">
+                        <div class="MatcToolbarResizeGrowLine" />
+                    </div>
+                    <div @click="toggleVertical"
+                        :class="['MatcToolbarResizeGrowVertical', { 'MatcToolbarResizeActive': growVertical }]">
+                        <div class="MatcToolbarResizeGrowLine" />
+                    </div>
+
+
+                </div>
+                <span class="MatcToolbarResizeLabel">Fixed Size</span>
+            </div>
+
+
+            <div class="MatcToolbarResizePreviewCntr">
+                <div class="MatcToolbarResizePreview">
+                    <div :class="['MatcToolbarResizePreviewBox', { 'MatcToolbarResizePreviewBoxAnimated': isDirty }]"
+                        :style="previewStyle" />
+                </div>
+                <span class="MatcToolbarResizeLabel">Preview</span>
+            </div>
         </div>
 
-        <div class="MatcToolbarResizePinCntr">
-            <div class="MatcToolbarResizePin MatcToolbarResizeElement">
-
-                <div @click="toggleHorizontal" :class="['MatcToolbarResizeGrowHorizontal', {'MatcToolbarResizeActive': growHorizontal}]">
-                    <div class="MatcToolbarResizeGrowLine" />
-                </div>
-                <div  @click="toggleVertical" :class="['MatcToolbarResizeGrowVertical', {'MatcToolbarResizeActive': growVertical}]">
-                      <div class="MatcToolbarResizeGrowLine" />
-                </div>
-
-
-            </div>
-            <span class="MatcToolbarResizeLabel">Fixed Size</span>
-        </div>
-
-
-        <div class="MatcToolbarResizePreviewCntr">
-            <div class="MatcToolbarResizePreview">
-                 <div :class="['MatcToolbarResizePreviewBox', {'MatcToolbarResizePreviewBoxAnimated': isDirty}]" :style="previewStyle"/>
-            </div>
-            <span class="MatcToolbarResizeLabel">Preview</span>
-        </div>
-
-
-	</div>
+    </div>
 </template>
 
 <script>
 import DojoWidget from 'dojo/DojoWidget'
+import ToolbarDropDownButton from './ToolbarDropDownButton'
 
 export default {
     name: 'Responsove',
-    mixins:[DojoWidget],
+    mixins: [DojoWidget],
     data: function () {
         return {
             hasPinUp: false,
@@ -65,12 +79,35 @@ export default {
             hasPinDown: false,
             isDirty: false,
             growHorizontal: false,
-            growVertical: false
+            growVertical: false,
+            grow:0,
+            isContainerChild: false,
+            parentWidget: null,
         }
     },
-    components: {},
+    components: {ToolbarDropDownButton},
     computed: {
-        previewStyle () {
+        options () {
+            if (this.parentWidget?.style?.flexDirection === 'row' || this.parentWidget?.style?.flexDirection === 'rowReverse') {
+                return [
+                    { value:'fixed', icon:"LockClosed", label:"Fixed Width"},
+                    { value: 'grow', icon:"FlexGrowWidth", label: "Flexible With"}
+                ]
+            }
+            return [
+                { value:'fixed', icon:"LockClosed", label:"Fixed Height"},
+                { value: 'grow', icon:"FlexGrowHeight", label: "Flexible Height"}
+            ]
+
+        },
+        flexAlign () {
+            if (!this.grow) {
+                return 'fixed'
+            }
+            return 'grow'
+        },
+
+        previewStyle() {
             let height = '20px'
             let width = '20px';
             let top = 'calc(50% - 10px)'
@@ -79,50 +116,58 @@ export default {
             if (this.hasPinUp && this.hasPinDown) {
                 height = '80%';
                 top = "5px";
-            } else if (this.hasPinUp && ! this.hasPinDown){
+            } else if (this.hasPinUp && !this.hasPinDown) {
                 top = "5px";
-            } else if (!this.hasPinUp && this.hasPinDown){
+            } else if (!this.hasPinUp && this.hasPinDown) {
                 top = "calc(100% - 25px)";
             }
 
             if (this.hasPinLeft && this.hasPinRight) {
                 width = 'calc(100% - 10px)';
                 left = "5px";
-            } else if (this.hasPinLeft && ! this.hasPinRight){
+            } else if (this.hasPinLeft && !this.hasPinRight) {
                 left = "5px";
-            } else if (!this.hasPinLeft && this.hasPinRight){
+            } else if (!this.hasPinLeft && this.hasPinRight) {
                 left = "calc(100% - 25px)";
             }
-            let res =  `height: ${height}; width: ${width}; top: ${top}; left: ${left};`
+            let res = `height: ${height}; width: ${width}; top: ${top}; left: ${left};`
             return res
         }
     },
     methods: {
-        toggleVertical () {
+        toggleFlex (align) {
+            if (align === 'fixed') {
+                this.grow = 0
+            } else {
+                this.grow = 1
+            }
+            this.onChange()
+        },
+        toggleVertical() {
             this.growVertical = !this.growVertical
             this.onChange()
         },
-        toggleHorizontal () {
+        toggleHorizontal() {
             this.growHorizontal = !this.growHorizontal
             this.onChange()
         },
-        toggleUp () {
+        toggleUp() {
             this.hasPinUp = !this.hasPinUp
             this.onChange()
         },
-        toggleDown () {
+        toggleDown() {
             this.hasPinDown = !this.hasPinDown
             this.onChange()
         },
-        toggleLeft () {
+        toggleLeft() {
             this.hasPinLeft = !this.hasPinLeft
             this.onChange()
         },
-        toggleRight () {
+        toggleRight() {
             this.hasPinRight = !this.hasPinRight
             this.onChange()
         },
-        toggleAll () {
+        toggleAll() {
             let hasOnePin = this.hasPinRight && this.hasPinUp && this.hasPinLeft && this.hasPinDown
             this.hasPinRight = !hasOnePin
             this.hasPinUp = !hasOnePin
@@ -131,15 +176,15 @@ export default {
             this.onChange()
         },
 
-		blur  (){
+        blur() {
         },
 
-        onChange () {
+        onChange() {
             if (this.hasPinRight && this.hasPinLeft) {
                 this.growHorizontal = false;
             }
             if (this.hasPinUp && this.hasPinDown) {
-                  this.growVertical = false;
+                this.growVertical = false;
             }
             let resize = {
                 right: this.hasPinRight,
@@ -147,13 +192,14 @@ export default {
                 left: this.hasPinLeft,
                 down: this.hasPinDown,
                 fixedHorizontal: this.growHorizontal,
-                fixedVertical: this.growVertical
+                fixedVertical: this.growVertical,
+                grow: this.grow
             }
             this.isDirty = true
             this.emit('change', resize)
         },
 
-		setValue  (v){
+        setValue(v) {
             if (this.lastWidgetID != v.id) {
                 this.isDirty = false;
             }
@@ -165,6 +211,7 @@ export default {
                 this.hasPinDown = resize.down
                 this.growHorizontal = resize.fixedHorizontal
                 this.growVertical = resize.fixedVertical
+                this.grow = resize.grow
             } else {
                 this.hasPinRight = false
                 this.hasPinUp = false
@@ -172,15 +219,21 @@ export default {
                 this.hasPinDown = false
                 this.growHorizontal = false
                 this.growVertical = false
+                this.grow = 0
             }
             this.lastWidgetID = v.id;
-		},
+        },
 
-		setModel (m){
-			this.model = m;
-		}
+        setModel(m) {
+            this.model = m;
+        },
+
+        setParentLayoutContainer(v) {            
+            this.isContainerChild = v !== undefined && v !== null && v.type === 'FlexContainer'
+            this.parentWidget = v
+        }
     },
-    mounted () {
+    mounted() {
     }
 }
 </script>

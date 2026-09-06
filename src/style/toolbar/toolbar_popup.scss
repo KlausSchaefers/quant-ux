@@ -93,6 +93,10 @@
 	input, select {
 		border-radius: $toolbar_form_radius;
   		padding: 3px;
+
+		&.MatcToobarInputInlineEdit.MatcToobarInput {
+			border-color: transparent;
+		}
 	}
 
 

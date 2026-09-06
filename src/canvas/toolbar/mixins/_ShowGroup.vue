@@ -66,8 +66,12 @@ export default {
 				css.remove(this.responsiveGroupDiv, "MatcToolbarSectionHidden")
 			}
 
+			const children = this.getAllGroupChildren(model)
+			const parentLayoutContainer = this.getParentLayoutContainer(children)
+
 			css.remove(this.childDiv,"MatcToolbarSectionHidden" );
 			this.responsiveGroupWidget.setValue(model)
+			this.responsiveGroupWidget.setParentLayoutContainer(parentLayoutContainer)
 
 			/**
 			* Since 2.1.3 we have sub groups
@@ -82,7 +86,7 @@ export default {
 			}
 
 			let fixed = true;
-			const children = this.getAllGroupChildren(model)
+	
 			for(let i=0; i< children.length;i++){
 				const id = children[i];
 				const widget = this.model.widgets[id];

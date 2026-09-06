@@ -192,27 +192,37 @@ export default class {
 			sessionEvents.forEach(e => {
 				delete e.user
 				if (app.widgets[e.widget]) {
-		
+					
 					if (e.widget && e.state && widgetColumnNames[e.widget]) {
 						const col = widgetColumnNames[e.widget]
+
 
 						if (e.state.type == 'chat' && e.state.value) {			
 							const values = e.state.value.filter(m => m.role ==='user').map(m => m.content).join('; ')		
 							row[col] =  values
 
+						} else if (widgetTypes[e.widget] === 'ToggleButton') {
+									
+							row[col] = e?.state?.value					
 						} else if (widgetTypes[e.widget] === 'Rating') {
 							row[col] = (e.state.value * 1) + 1
 						} else {
 							let value = e.state.value
+
 							if (this.isObject(value)) {
-								value = Object.entries(value).map((e) => `${e[0]}: ${e[1]}`)
+								if (value.d || value.m || value.y) {
+									const d = new Date(value.y, value.m, value.d); 
+									value = d.toLocaleDateString()
+								} else {
+									value = Object.entries(value).map((e) => `${e[0]}: ${e[1]}`)
+								}							
 							}
+				
 							if (Array.isArray(value)) {
 								row[col] = value.join(', ')
 							} else {
 								row[col] = value					
-							}				
-							
+							}							
 						}
 					} else {
 						if (e.state && e.state.type == 'chat') {

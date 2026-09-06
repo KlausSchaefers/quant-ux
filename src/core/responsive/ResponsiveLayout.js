@@ -138,36 +138,6 @@ export default class ResponsiveLayout {
         return boundingBox.style
     }
 
-    // createGroupWrapper (element, group, model) {
-
-    //     let boundingBox = ExportUtil.getBoundingBoxByIds(group.children, model)
-    
-    //     const wrapper = {
-    //         id: `w${element.id}`,
-    //         name: group.name + 'Wrapper',
-    //         groupId: group.id,
-    //         isGroup: true,
-    //         type: "Box",
-    //         x: 0,
-    //         y: 0,
-    //         w: boundingBox.w,
-    //         h: boundingBox.h,
-    //         style: element.style ? element.style : {},
-    //         props: {
-    //             resize: element.props && element.props.resize ? element.props.resize : {
-    //                 right: false,
-    //                 up: false,
-    //                 left: false,
-    //                 down: false,
-    //                 fixedHorizontal: false,
-    //                 fixedVertical: false,
-    //             }
-    //         }
-    //     }
-    
-    //     return wrapper
-    // }
-
     resize(width, height) {
         Logger.log(1, 'ResponsiveLayout.resize() > width: ' + width + ' > height:',  height )
         const newNestedPositions = this.resizePositions(width, height)
@@ -184,7 +154,7 @@ export default class ResponsiveLayout {
             const height = scrn.h
             newNestedPositions[scrn.id] = createResult(0,0, width, height)
             const sclaleGrid = this.mapGrid(grid, scrn)
-            this.updateChildPositions(scrn, scrn, sclaleGrid, newNestedPositions, '')
+            this.updateGridChildPositions(scrn, scrn, sclaleGrid, newNestedPositions, '')
 
             return this.resizeModel(scrn.w, scrn.h, newNestedPositions)
         }
@@ -266,17 +236,127 @@ export default class ResponsiveLayout {
 
 
     resizeChildren(box, parent, newNestedPositions, indent='') {
-        Logger.log(2, indent + 'ResponsiveLayout.resizeChildren() > ' + box.name, box.layout.type )
+        Logger.log(2, indent + 'ResponsiveLayout.resizeChildren() > ' + box.name, box.type, box.layout.type )
         if (box.children.length === 0) {
             return 
         }
-      
-        if (box.layout.type === 'row') {
+
+        if (ExportUtil.isFlexContainerWidget(box)) {
+            this.resizeFlex(box, parent, newNestedPositions, indent)
+        } else {
             this.resizeChildenGrid(box, parent, newNestedPositions, indent)
         }
+    }
 
-        if (box.layout.type === 'grid' && box.grid) {
-            this.resizeChildenGrid(box, parent, newNestedPositions, indent)
+    resizeFlex(box, parent, newNestedPositions, indent) {
+        Logger.log(2, indent + 'ResponsiveLayout.resizeFlex() > ' + box.name)
+
+        const newParent = newNestedPositions[parent.id]
+        const style = box.style || {}
+        const zoom = this.config.zoom
+        const isColumn = style.flexDirection === 'column' || style.flexDirection === 'columnReverse'
+        const isReverse = style.flexDirection === 'rowReverse' || style.flexDirection === 'columnReverse'
+        // matches the CSS flexbox default (align-items: stretch); only an
+        // explicit 'start'/'center'/'end' opts a container out of stretching
+        const stretch = !style.alignItems || style.alignItems === 'stretch'
+
+        /**
+         * gap/padding are stored in the style as un-zoomed design values,
+         * whereas newParent and the children's w/h are already in zoomed
+         * pixels (see GridUtil.getGridContainerLinesX/Y for the same rule).
+         */
+        const gap = GridUtil.zoomedOrZero(style.gap, zoom) || 0
+        const paddingTop = GridUtil.zoomedOrZero(style.paddingTop, zoom) || 0
+        const paddingBottom = GridUtil.zoomedOrZero(style.paddingBottom, zoom) || 0
+        const paddingLeft = GridUtil.zoomedOrZero(style.paddingLeft, zoom) || 0
+        const paddingRight = GridUtil.zoomedOrZero(style.paddingRight, zoom) || 0
+        const borderTopWidth = GridUtil.zoomedOrZero(style.borderTopWidth, zoom) || 0
+        const borderBottomWidth = GridUtil.zoomedOrZero(style.borderBottomWidth, zoom) || 0
+        const borderLeftWidth = GridUtil.zoomedOrZero(style.borderLeftWidth, zoom) || 0
+        const borderRightWidth = GridUtil.zoomedOrZero(style.borderRightWidth, zoom) || 0
+
+        const innerX = newParent.x + paddingLeft + borderLeftWidth
+        const innerY = newParent.y + paddingTop + borderTopWidth
+        const innerWidth = newParent.w - paddingLeft - paddingRight - borderLeftWidth - borderRightWidth
+        const innerHeight = newParent.h - paddingTop - paddingBottom - borderTopWidth - borderBottomWidth
+
+        /**
+         * The tree keeps children in z/creation order, which does not
+         * necessarily match their visual left-to-right (row) / top-to-bottom
+         * (column) order. Flex needs the visual order, otherwise the gap
+         * ends up between the wrong pair of children. For the *Reverse
+         * variants the main-start edge is the right/bottom edge, so the
+         * flex-order is the mirror of the visual order (descending).
+         */
+        const children = box.children.slice().sort((a, b) => {
+            const diff = isColumn ? a.y - b.y : a.x - b.x
+            return isReverse ? -diff : diff
+        })
+        const gapSum = gap * Math.max(children.length - 1, 0)
+
+        if (isColumn) {
+
+            const fixedHeight = children
+                .filter(child => !isFlexGrow(child))
+                .reduce((sum, child) => sum + child.h, 0)
+
+            const growChildren = children.filter(child => isFlexGrow(child))
+            const growHeight = growChildren.length > 0
+                ? Math.max(0, innerHeight - fixedHeight - gapSum) / growChildren.length
+                : 0
+
+            let y = isReverse ? innerY + innerHeight : innerY
+            children.forEach(child => {
+                const height = isFlexGrow(child) ? growHeight : child.h
+                // cross axis (width): stretch fills innerWidth, but a fixed or
+                // own-sized child must not overflow it either - innerWidth is the max
+                const rawWidth = (stretch && !isFlexFixedHorizontal(child)) ? innerWidth : child.w
+                const width = Math.min(rawWidth, Math.max(0, innerWidth))
+                const x = getCrossAxisPosition(style.alignItems, innerX, innerWidth, width)
+
+                if (isReverse) {
+                    y -= height
+                    newNestedPositions[child.id] = createResult(x, y, width, height)
+                    y -= gap
+                } else {
+                    newNestedPositions[child.id] = createResult(x, y, width, height)
+                    y += height + gap
+                }
+
+                this.resizeChildren(child, child, newNestedPositions, indent + '     ')
+            })
+
+        } else {
+
+            const fixedWidth = children
+                .filter(child => !isFlexGrow(child))
+                .reduce((sum, child) => sum + child.w, 0)
+
+            const growChildren = children.filter(child => isFlexGrow(child))
+            const growWidth = growChildren.length > 0
+                ? Math.max(0, innerWidth - fixedWidth - gapSum) / growChildren.length
+                : 0
+
+            let x = isReverse ? innerX + innerWidth : innerX
+            children.forEach(child => {
+                const width = isFlexGrow(child) ? growWidth : child.w
+                // cross axis (height): stretch fills innerHeight, but a fixed or
+                // own-sized child must not overflow it either - innerHeight is the max
+                const rawHeight = (stretch && !isFlexFixedVertical(child)) ? innerHeight : child.h
+                const height = Math.min(rawHeight, Math.max(0, innerHeight))
+                const y = getCrossAxisPosition(style.alignItems, innerY, innerHeight, height)
+
+                if (isReverse) {
+                    x -= width
+                    newNestedPositions[child.id] = createResult(x, y, width, height)
+                    x -= gap
+                } else {
+                    newNestedPositions[child.id] = createResult(x, y, width, height)
+                    x += width + gap
+                }
+
+                this.resizeChildren(child, child, newNestedPositions, indent + '     ')
+            })
         }
     }
 
@@ -286,17 +366,17 @@ export default class ResponsiveLayout {
         const newParent = newNestedPositions[parent.id]
         const sclaleGrid = this.sclaleGrid(box, box.grid, newParent, indent + box.name)
         this._debugScaledGrids[box.id] = sclaleGrid
-        this.updateChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)      
+        this.updateGridChildPositions(box, newParent, sclaleGrid, newNestedPositions, indent)      
     }
 
-    updateChildPositions (box, newParent, sclaleGrid, newNestedPositions, indent) {
+    updateGridChildPositions (box, newParent, sclaleGrid, newNestedPositions, indent) {
         box.children.forEach(child => {
 
           
             const startX = sclaleGrid.cols[child.gridColumnStart]
             const endX = sclaleGrid.cols[child.gridColumnEnd]
             const width = endX - startX
-            //console.debug(indent, 'ResponsiveLayout.updateChildPositions() > ', child.name, newParent.x, '> ', sclaleGrid.cols.join(','), '>',  startX, endX, width, '=' ,child.gridColumnStart, child.gridColumnEnd)
+            //console.debug(indent, 'ResponsiveLayout.updateGridChildPositions() > ', child.name, newParent.x, '> ', sclaleGrid.cols.join(','), '>',  startX, endX, width, '=' ,child.gridColumnStart, child.gridColumnEnd)
     
             // TODO: we should check that the with and height on
             // fixed elements are really the same...
@@ -305,7 +385,7 @@ export default class ResponsiveLayout {
             const endY = sclaleGrid.rows[child.gridRowEnd]
             const height = endY - startY
 
-            //console.debug(indent, 'ResponsiveLayout.updateChildPositions() > ', child.name, startY, endY, startX, endX, width, height)
+            //console.debug(indent, 'ResponsiveLayout.updateGridChildPositions() > ', child.name, startY, endY, startX, endX, width, height)
 
             const newChildPos = createResult(
                 startX + newParent.x, 
@@ -313,7 +393,7 @@ export default class ResponsiveLayout {
                 width,
                 height
             )
-            //console.debug(indent, 'ResponsiveLayout.updateChildPositions() > ', child.name, newChildPos.x, newChildPos.w)
+            //console.debug(indent, 'ResponsiveLayout.updateGridChildPositions() > ', child.name, newChildPos.x, newChildPos.w)
 
     
             newNestedPositions[child.id] = newChildPos
@@ -530,6 +610,43 @@ export default class ResponsiveLayout {
         }
         //console.debug(indent,'  hor', parent.name, '-> ', child.name, child.id, child.w, parent.w, newParent.w, ' ==',newChildPos.w)
        
+    }
+}
+
+/**
+ * Unlike ExportUtil.isFixedVertical(), this has no type based fallback:
+ * for Flex layout a child is only fixed if it is explicitly marked as such.
+ */
+function isFlexFixedHorizontal(child) {
+    return !!(child.props && child.props.resize && child.props.resize.fixedHorizontal)
+}
+
+function isFlexFixedVertical(child) {
+    return !!(child.props && child.props.resize && child.props.resize.fixedVertical)
+}
+
+/**
+ * Main-axis grow/fixed for a flex child: a child only grows if
+ * props.resize.grow is explicitly > 0 - anything else (undefined, 0)
+ * keeps the child at its own main-axis size.
+ */
+function isFlexGrow(child) {
+    return !!(child.props && child.props.resize && child.props.resize.grow > 0)
+}
+
+/**
+ * Position of a child along the cross axis, given style.alignItems.
+ * 'stretch' behaves like 'start' here, since the child's cross-axis size
+ * has already been grown to fill innerSize by the caller.
+ */
+function getCrossAxisPosition(alignItems, innerStart, innerSize, childSize) {
+    switch (alignItems) {
+        case 'center':
+            return innerStart + (innerSize - childSize) / 2
+        case 'end':
+            return innerStart + innerSize - childSize
+        default:
+            return innerStart
     }
 }
 

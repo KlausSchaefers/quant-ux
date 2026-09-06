@@ -6,7 +6,7 @@
 }
 
 .MatcGridConfigSettings {
-    padding: 8px;
+    padding: 8px 16px;
 
     .MatcGridConfigRows {
         display: flex;
@@ -22,10 +22,11 @@
         .MatcGridConfigInput {
             width: 60px;
             flex-grow: 1;
+            text-align: right;
         }
 
         .MatcGridConfigUnit {
-            width: 60px;
+            width: 40px;
         }
     }
 

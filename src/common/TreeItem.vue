@@ -204,17 +204,21 @@ export default {
       }
     },
     onDragOver (e) {
+
       const source = TreeDND.get()
       if (source && source.dndType !== this.value.dndType) {
         this.isDragError = true
         this.isDragOver = false;
         return
       }
-      if (source.parentID !== this.value.parentID) {
-        this.isDragOver = false;
-        this.isDragError = true
-        return
-      }
+      /**
+       * This is causing group dnd to not work
+       */
+      // if (source.parentID !== this.value.parentID) {
+      //   this.isDragOver = false;
+      //   this.isDragError = true
+      //   return
+      // }
       e.preventDefault()
       this.isDragError = false
       this.isDragOver = true

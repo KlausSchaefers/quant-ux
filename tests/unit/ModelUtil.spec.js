@@ -333,3 +333,44 @@ test('Test ModelUtil.getViewModeStyle() > variant no overwrites', async () => {
     expect(hover.b).toBe(22)
 })
 
+test('Test ModelUtil.createScalledModelFast() > keeps FlexContainer layout style (gap, flexDirection, alignItems)', async () => {
+
+    const app = {
+        id: 'app1',
+        screenSize: { w: 100, h: 100 },
+        grid: {},
+        screens: {},
+        widgets: {
+            'w1': {
+                id: 'w1',
+                type: 'FlexContainer',
+                x: 0, y: 0, w: 100, h: 100, z: 0,
+                props: {},
+                style: {
+                    gap: 8,
+                    flexDirection: 'column',
+                    alignItems: 'stretch',
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                    paddingLeft: 10,
+                    paddingRight: 10
+                }
+            }
+        },
+        groups: {},
+        lines: {},
+        designtokens: {},
+        templates: {}
+    }
+
+    const zoomed = ModelUtil.createScalledModelFast(app, 0.5)
+    const style = zoomed.widgets.w1.style
+
+    // gap/flexDirection/alignItems must survive the zoom pass, otherwise
+    // ResponsiveLayout.resizeFlex() silently falls back to row/no-gap/no-stretch
+    // while dragging a resize handle in the canvas (see Resize.vue)
+    expect(style.gap).toBe(8)
+    expect(style.flexDirection).toBe('column')
+    expect(style.alignItems).toBe('stretch')
+})
+

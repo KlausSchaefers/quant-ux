@@ -137,7 +137,7 @@ export default class Snapp extends Screen {
 	}
 
 	snappAll (widget,screen, pos, snapp){
-		this.logger.log(-1,"snappAll", "enter > ", snapp, pos);
+		this.logger.log(1,"snappAll", "enter > ", snapp, pos);
 
 		if(snapp.x){
 			pos.x = widget.x;
@@ -245,6 +245,8 @@ export default class Snapp extends Screen {
 			let box = this.getBoxById(line.id);
 			let gridLines = GridUtil.getGridContainerLinesX(box, line.activePoint, 1)
 			return gridLines.x[line.gridIndex]
+		} else if ('FlexContainer' == line.type){
+			return line._sourceV
 		} else {
 			console.warn("getSnappXValue() >Unsupported snapp type for x", line.type);
 		}
@@ -282,6 +284,8 @@ export default class Snapp extends Screen {
 			let box = this.getBoxById(line.id);
 			let gridLines = GridUtil.getGridContainerLinesY(box, line.activePoint, 1)
 			return gridLines.y[line.gridIndex]
+		} else if ('FlexContainer' == line.type){
+			return line._sourceV
 		} else {
 			console.warn("getSnappYValue() > Unsupported snapp type for ", line.type);
 		}

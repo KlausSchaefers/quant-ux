@@ -69,9 +69,9 @@
 								
 								</div>
 
-								<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'gridResize'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
+								<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'gridResize'}]" data-dojo-attach-point="distributeBtn" @click="onToolbarGridResize">
 										<QIcon icon="ResiseGrid" />					
-								</div>
+								</div> -->
 
 								<div class="MatcToolbarSubSection" data-dojo-attach-point="templateDiv">
 									<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': selectedButton === 'replicate'}]" data-dojo-attach-point="replicateBtn" @click="onToolbarReplicate">																		
@@ -304,6 +304,10 @@ export default {
 			this.renderToolbar();
 			this.renderProperties()
 			this.showCanvas()
+		},
+
+		setTreeIndex(treeIndex) {
+			this.treeIndex = treeIndex
 		},
 
 		setPublic (isPublic) {
@@ -2208,6 +2212,22 @@ export default {
 			}
 		},
 
+
+		getParentLayoutContainer(ids) {	
+			if (this.treeIndex) {
+				for (let id of ids) {
+					const parent = this.treeIndex.getParentWidget(id)
+					if (parent) {
+						const res = LayoutContainerUtil.isLayoutContainerWidget(parent)				
+						if (res) {
+							this.logger.log(1, 'isInLayoutContainer', 'true')
+							return parent
+						}
+					}			
+				}
+			}
+			return null
+		},
 
 		/**********************************************************************
 		 * Undo  & Redo

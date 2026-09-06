@@ -12,12 +12,12 @@
 			<div class="MatcGridConfigRow" v-for="(col, i) in columnWidths" :key="'col-' + i">
 				<input
 					type="number"
-					class="MatcIgnoreOnKeyPress MatcToobarInput MatcGridConfigInput"
+					class="MatcIgnoreOnKeyPress MatcToobarInput MatcToobarInputInlineEdit MatcGridConfigInput"
 					:disabled="col.unit === 'auto'"
 					:value="col.value"
 					@change="onColumnValueChange(i, $event.target.value)" />
 				<select
-					class="MatcToobarInput MatcGridConfigUnit"
+					class="MatcToobarInput MatcToobarInputInlineEdit MatcGridConfigUnit"
 					:value="col.unit"
 					@change="onColumnUnitChange(i, $event.target.value)">
 					<option v-for="u in units" :key="u" :value="u">{{ u }}</option>
@@ -29,12 +29,12 @@
 			<div class="MatcGridConfigRow" v-for="(row, i) in rowHeights" :key="'row-' + i">
 				<input
 					type="number"
-					class="MatcIgnoreOnKeyPress MatcToobarInput MatcGridConfigInput"
+					class="MatcIgnoreOnKeyPress MatcToobarInput MatcGridConfigInput MatcToobarInputInlineEdit"
 					:disabled="row.unit === 'auto'"
 					:value="row.value"
 					@change="onRowValueChange(i, $event.target.value)" />
 				<select
-					class="MatcToobarInput MatcGridConfigUnit"
+					class="MatcToobarInput MatcToobarInputInlineEdit MatcGridConfigUnit"
 					:value="row.unit"
 					@change="onRowUnitChange(i, $event.target.value)">
 					<option v-for="u in units" :key="u" :value="u">{{ u }}</option>

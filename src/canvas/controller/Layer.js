@@ -11,7 +11,7 @@ export default class Layer extends Templates {
 
 
 	normalilizeZvalues () {
-		this.logger.log(-1,"normalilizeZvalues", "entry > Widgets: ");
+		this.logger.error("normalilizeZvalues", "entry > DEPRECTAED");
 		this.startModelChange()
 		let command = this.createNormalizeZValuesCommand()
 		this.modelWidgetLayers(command.n)
@@ -76,6 +76,11 @@ export default class Layer extends Templates {
 
 		this.addCommand(command);
 		this.modelChangeLayer(command.n, command.ng);
+
+	
+		const widget = this.model.widgets[to.widgetID]
+		this.updateScreenLayout({widget})
+
 		this.render();
 
 

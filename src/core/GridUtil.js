@@ -132,7 +132,42 @@ export function getGridContainerLinesX(model, activePoint, zoom=1, includeBorder
     return result
 }
 
-function zoomedOrZero(v, zoom) {
+/**
+ * Snapp lines for a FlexContainer: one line before and one after every
+ * child, along the flex direction (x lines for row, y lines for column),
+ * each offset by half the gap. That way the line sits in the middle of
+ * the gap between two children, which is where a dropped widget goes.
+ *
+ * The children are expected to be in the same (zoomed) coordinate space
+ * as the container, while style.gap is an un-zoomed design value, so it
+ * gets zoomed here - same convention as getGridContainerLinesX/Y().
+ */
+export function getFlexContainerLines(model, children, zoom = 1) {
+    const result = {
+        x: [],
+        y: []
+    }
+
+    const style = model.style || {}
+    const isColumn = style.flexDirection === 'column' || style.flexDirection === 'columnReverse'
+    const gap = zoomedOrZero(style.gap, zoom) || 0
+    const halfGap = Math.round(gap / 2)
+
+
+    children.forEach(child => {
+        if (isColumn) {
+            result.y.push(Math.round(child.y - halfGap))
+            result.y.push(Math.round(child.y + child.h + halfGap))
+        } else {
+            result.x.push(Math.round(child.x - halfGap))
+            result.x.push(Math.round(child.x + child.w + halfGap))
+        }
+    })
+
+    return result
+}
+
+export function zoomedOrZero(v, zoom) {
     if (!v) {
         return v
     }

@@ -59,7 +59,8 @@ export default {
 			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox", 'LockSlider',
 						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 
 						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea', 
-						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload', 'GeoLocation', 'ImageGrid', 'GridContainer', 'Chat', 'ChatTextBox'],
+						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload', 'GeoLocation', 'ImageGrid', 
+						'GridContainer', 'Chat', 'ChatTextBox','FlexContainer'],
 			
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
@@ -68,7 +69,7 @@ export default {
 						'ProgressBar', 'ScreenSegment', 'CountingStepper', "Tree", "VerticalNavigation", 'IconButton', 'Timeline', 'VisualPicker', 
 						'Script', 'IconToggleButton', 'ProgessSegments', 'ImagePaging', 'LabeledCheckBox', 'LabeledRadioBox', 'LabeledTextBox', 'NavBar', 
 						'NavMenu', 'LabeledTextArea', 'SortableList', 'RadioTable', 'DragNDropTarget', 'GeoLocation', 'ImageGrid', 'AudioPlayer', 
-						'AudioLogic', 'GridContainer', 'SVGIcon' ,'Chat', 'ChatTextBox'],
+						'AudioLogic', 'GridContainer', 'SVGIcon' ,'Chat', 'ChatTextBox', 'FlexContainer'],
 						
 			hasActiveData: ["DateDropDown"],
 			// validation == databining
@@ -108,7 +109,7 @@ export default {
 			hasRotate: ['Image', 'Icon'],
 			hasSVG: ['SVGPaths'],
 			hideAction: ['ScreenSegment'],
-			hideColor: ['GridContainer', 'SVGPaths']
+			hideColor: ['GridContainer', 'SVGPaths', 'FlexContainer']
       }
 	},
     components: {},
@@ -155,10 +156,6 @@ export default {
 		
 			this.template = this.$refs.templateBTN.domNode
 
-			//this.replicateBtn = this.createToolBarItem('<span class="mdi mdi-view-grid-plus-outline"></span>', lang.hitch(this,"onToolbarReplicate"), null, this.templateDiv);
-			// this.distributeBtn = this.createToolBarItem('<span class="mdi mdi-arrow-expand-horizontal"></span>', lang.hitch(this,"onToolbarDistribute"), null, this.groupDIV);		
-			// this.createThemeBtn = this.createToolBarItem('<span class="mdi mdi-ninja"></span>', lang.hitch(this,"onToolCreateTheme"), null, this.developerDiv);
-			
 
 			this.logger.log(3,"renderToolbar", "exit");
 		},
@@ -308,12 +305,13 @@ export default {
 			this.addTooltip(this.editBtn, this.getNLS("tooltip.edit"));
 			this.addTooltip(this.moveBtn, this.getNLS("tooltip.move"));
 			this.addTooltip(this.commentBtn,this.getNLS("tooltip.comment"));
-			this.addTooltip(this.distributeBtn, this.getNLS("tooltip.distribute"));
+	
 			this.addTooltip(this.groupBTN,this.getNLS("tooltip.group"));
 			this.addTooltip(this.ungroupBTN, this.getNLS("tooltip.ungroup"));
 			this.addTooltip(this.replicateBtn, this.getNLS("tooltip.clone"));
 			if (this.gridResizeBtn) {
 				this.addTooltip(this.gridResizeBtn, this.getNLS("tooltip.resizeGrid"));
+				this.addTooltip(this.distributeBtn, this.getNLS("tooltip.distribute"));
 			}
 
 

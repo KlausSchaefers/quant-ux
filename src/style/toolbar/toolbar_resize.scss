@@ -1,8 +1,19 @@
 .MatcToolbarResize{
-    margin: 4px 8px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
+
+
+    .MatcToolbarResizeAbsolute{
+        margin: 4px 8px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+
+    .MatcToolbarResizeFlexOrGrid{
+        width: 100%;
+        .MatcToolbarPopUpCntr {
+            width: 100%;
+        }
+    }
 }
 
 .MatcToolbarResizePinCntr {
@@ -187,6 +198,7 @@
 .MatcToolbarResizeActive .MatcToolbarResizeGrowLine {
     background: $primary_color;
 }
+
 
 
 .MatcLight .MatcToolbarResizeElement,

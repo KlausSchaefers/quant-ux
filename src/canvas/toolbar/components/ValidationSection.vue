@@ -92,7 +92,7 @@ export default {
 		},
 
 		_showVisualPicker(model) {
-			this._renderDataBinding(model, false);
+			this._renderDataBinding(model);
 		},
 
 		_showProgessSegments (model) {

@@ -4,6 +4,7 @@ import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import _Tooltip from 'common/_Tooltip'
 import ModelUtil from 'core/ModelUtil'
+import * as LayoutContainerUtil from '../../../core/LayoutContainerUtil'
 
 export default {
     name: '_Show',
@@ -117,6 +118,7 @@ export default {
 
 			const isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
 			const hideColor = this.hideColor.indexOf(model.type) >=0;
+			const parentLayoutContainer = this.getParentLayoutContainer([model.id])
 			if(isLogicWidget){
 				css.add(this.positionCheckBox.domNode, "hidden");
 				css.add(this.widgetSize.domNode, "hidden");
@@ -126,6 +128,8 @@ export default {
 				css.remove(this.widgetSize.domNode, "hidden");
 				css.remove(this.responsiveDiv, "hidden");
 			}
+
+
 
 			this.widgetSize.setModel(this.model);
 			this.widgetSize.setValue(model);
@@ -231,6 +235,7 @@ export default {
 				if (this.responsiveDiv) {
 					css.remove(this.responsiveDiv, "MatcToolbarSectionHidden")
 					this.responsiveWidget.setValue(model)
+					this.responsiveWidget.setParentLayoutContainer(parentLayoutContainer)
 				}
 
 				if (this.widgetAlignDiv){
@@ -380,6 +385,7 @@ export default {
 			this.boxBorder.blur();
 			this.widgetSize.blur();
 		},
+
 
 		/**
 		* Gets the normal style and mixes in the view mode style (overwrites),

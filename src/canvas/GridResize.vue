@@ -11,7 +11,7 @@ import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
 // import * as SVGUtil from '../svg/SVGUtil'
 
 export default {
-    name: 'SVG',
+    name: 'GridResize',
     mixins:[],
     data: function () {
         return {

@@ -382,11 +382,11 @@ class ModelUtil {
             zoomedWidget.style = {
                 locked: widget?.style.locked
             }
-         
+
             /**
              * We need paddings etc in the for resizing to calc the grid
              */
-            if (widget.type === 'GridContainer') {
+            if (widget.type === 'GridContainer' || widget.type === 'FlexContainer') {
                 zoomedWidget.style.paddingTop = widget.style.paddingTop
                 zoomedWidget.style.paddingBottom = widget.style.paddingBottom
                 zoomedWidget.style.paddingLeft = widget.style.paddingLeft
@@ -397,6 +397,19 @@ class ModelUtil {
                 zoomedWidget.style.borderLeftWidth = widget.style.borderLeftWidth
                 zoomedWidget.style.borderRightWidth = widget.style.borderRightWidth
             }
+
+            /**
+             * Flex layout config also lives in the style (unlike GridContainer,
+             * whose columnGap/rowGap live in props, which is copied by reference
+             * below). Without these, ResponsiveLayout.resizeFlex() sees no gap
+             * and always falls back to a row/no-stretch layout while dragging.
+             */
+            if (widget.type === 'FlexContainer') {
+                zoomedWidget.style.gap = widget.style.gap
+                zoomedWidget.style.flexDirection = widget.style.flexDirection
+                zoomedWidget.style.alignItems = widget.style.alignItems
+            }
+            
             zoomedWidget.props = widget.props // this is ok, because edits will go through the controller
             zoomedWidget.z = widget.z
             zoomedWidget.type = widget.type

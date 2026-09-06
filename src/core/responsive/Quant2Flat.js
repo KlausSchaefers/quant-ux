@@ -77,7 +77,7 @@ function createGroupCntr(group, model, createdGroups, order, screen) {
 		const boundingBox = Util.getBoundingBoxByIds(allGroupChildren, model)
 
 		const groupCntr = {
-			id: `gc${group.id}`,
+			id: `${group.id}`,
 			name: group.name,
 			groupId: group.id,
 			isGroup: true,
@@ -138,7 +138,7 @@ function getGroupResize(group, allGroupChildren, model) {
 	const responsiveResize = []
 	for (let id of allGroupChildren) {
 		const w = model.widgets[id]
-		if (w && w.props.resize) {
+		if (w?.props?.resize) {
 			const other = w.props.resize
 			responsiveResize.push(other)
 		}
