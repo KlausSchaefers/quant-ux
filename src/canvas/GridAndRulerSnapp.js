@@ -250,6 +250,7 @@ export default class GridAndRulerSnapp extends Core {
 		/**
 		 * now compare all lines. For grid we just take to top left corner
 		 */
+
 		const corners = this.getCorners(absPos, this.grid.enabled, layoutContainer, left, top);
 		const lineX = SnappUtil.getFilteredLinesX(this._linesX, this.activePoint, layoutContainer, left)
 		const lineY = SnappUtil.getFilteredLinesY(this._linesY, this.activePoint, layoutContainer, top)
@@ -455,6 +456,40 @@ export default class GridAndRulerSnapp extends Core {
 						_paddingBox: layoutContainer
 					}, "GridContainer");
 
+				}
+			}
+			if (layoutContainer.type === 'FlexContainer' && this.activePoint === "All") {
+				const children = layoutContainer.children || []
+				const lines = GridUtil.getFlexContainerLines(layoutContainer, children, this.zoom)
+				for (let i in lines.x) {
+					const x = lines.x[i]
+					this.addXLine(x, {
+						id: layoutContainer.id,
+						pos: "x",
+						type: "FlexContainer",
+						activePoint: this.activePoint,
+						flexIndex: i,
+						isStart: i % 2 === 0,
+						_flex:true,
+						_v: x,
+						_sourceV: this.getUnZoomed(x, this.zoom),
+						_paddingBox: layoutContainer
+					}, "FlexContainer");
+				}
+				for (let i in lines.y) {
+					const y = lines.y[i]
+					this.addYLine(y, {
+						id: layoutContainer.id,
+						pos: "y",
+						type: "FlexContainer",
+						_flex:true,
+						activePoint: this.activePoint,
+						flexIndex: i,
+						isStart: i % 2 === 0,
+						_v: y,
+						_sourceV: this.getUnZoomed(y, this.zoom),
+						_paddingBox: layoutContainer
+					}, "FlexContainer");
 				}
 			}
 			// fixme: here we could also set in the canvas the highlight to the backgroundDiv,
@@ -1823,6 +1858,8 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	getCorners(pos, isGrid, layoutContainer, left, top) {
+		const isGridContainer = (layoutContainer && layoutContainer.type === 'GridContainer')
+		const isFlexContainer = (layoutContainer && layoutContainer.type === 'FlexContainer')
 
 		const corners = {
 			x: [],
@@ -1859,7 +1896,10 @@ export default class GridAndRulerSnapp extends Core {
 					 * Since 5.0.20 we have layout container in such we 
 					 * take the movement direction into account
 					 */
-					if (layoutContainer !== null && layoutContainer !== undefined) {
+					if (isFlexContainer) {
+						corners.x.push(pos.x);
+						corners.y.push(pos.y);
+					} else if (isGridContainer) {
 						if (left) {
 							corners.x.push(pos.x);
 						} else {
@@ -2626,6 +2666,11 @@ export default class GridAndRulerSnapp extends Core {
 				}
 
 				const div = this._linesDivs[line.id]
+				if (line?.snapp?._flex) {
+					css.add(div, "MatcRulerLineFlex");
+				} else {
+					css.remove(div, "MatcRulerLineFlex");
+				}
 				if (line?.snapp?._paddingBox) {
 					css.add(div, "MatcRulerLinePadding");
 					if (line.x) {

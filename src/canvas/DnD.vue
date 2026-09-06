@@ -5,6 +5,8 @@ import domGeom from "dojo/domGeom";
 import css from "dojo/css";
 import CoreUtil from 'core/CoreUtil'
 import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
+import * as ResponsiveUtil from 'core/responsive/ResponsiveUtil'
+import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
 
 export default {
   name: "DnD",
@@ -521,7 +523,7 @@ export default {
       const widget = this.model.widgets[id];
 
       if (this.flexContainerIndex) {
-        const parent = this.flexContainerIndex.findHoverLayoutContainer(widget)  
+        const parent = this.flexContainerIndex.findHoverLayoutContainer(widget)
         this._dragNDropLayoutContainerDelta.start = parent
       }
 
@@ -574,11 +576,6 @@ export default {
       }     
     },
 
-    _addLayoutDDNChildren(id) {
-        this.logger.log(1, "_addLayoutDDNChildren", "exit > id : " + id);
-        const childIds = LayoutContainerUtil.getLayoutContainerChildren(id, this.model)
-        this._dragNDropChildren = childIds
-    },
 
     _addDnDChildren(id, ids, pos) {
       //console.debug('addChildren', ids, id, ids?.indexOf(id) === -1)
@@ -604,7 +601,7 @@ export default {
 
         // Since 5.0.24 we move layout container children
         if (LayoutContainerUtil.isLayoutContainer(id, this.model)) {
-           this._addLayoutDDNChildren(id, ids, pos)
+           this._addLayoutDNDChildren(id, ids, pos)
         }
 
         return
@@ -638,9 +635,16 @@ export default {
 
       // Since 5.0.24 we move layout container children
       if (LayoutContainerUtil.isLayoutContainer(id, this.model)) {
-        this._addLayoutDDNChildren(id, ids, pos)
+        this._addLayoutDNDChildren(id, ids, pos)
       }
     },
+
+    _addLayoutDNDChildren(id) {
+        this.logger.log(1, "_addLayoutDNDChildren", "exit > id : " + id);
+        const childIds = LayoutContainerUtil.getLayoutContainerChildren(id, this.model)
+        this._dragNDropChildren = childIds
+    },
+
 
     onWidgetDNDKeyDown (e, isUp= false) {
       this.logger.log(-1, "onWidgetDNDKeyDown", "enter", isUp)
@@ -707,15 +711,167 @@ export default {
       if (!this.flexContainerIndex) {
         return
       }
-      // for now we just track if e have moved in our out of a layout cotainer
-      // later we should also do the updates
-      const parent = this.flexContainerIndex.findHoverLayoutContainer(pos ) // this._dragNDropOffset?.x, this._dragNDropOffset?.y is negative
-      //console.debug('updateLayoutContainerDND', parent)
+      const offsetX = this._dragNDropOffset?.x ? this._dragNDropOffset.x * -1 : 0
+      const offsetY = this._dragNDropOffset?.y ? this._dragNDropOffset.y * -1 : 0
+      /**
+       * The pos from _DragNDrop is just {x,y,w,h}. The index needs the z
+       * (it only accepts containers below the dragged widget) and the id
+       * (so the widget is not mistaken for one of the container's children)
+       */
+      const widget = this.model.widgets[id]
+      const absPos = {
+        x: pos.x,
+        y: pos.y,
+        w: pos.w,
+        h: pos.h,
+        z: widget.z,
+        id: widget.id,
+        name: widget.name
+      }
+      const parent = this.flexContainerIndex.findContainedLayoutContainer(absPos, offsetX, offsetY) 
+      let lastEnd = null
       if (parent) {
           this._dragNDropLayoutContainerDelta.end = parent
       } else {
         // restore old pos
+        lastEnd = this._dragNDropLayoutContainerDelta.end
         this._dragNDropLayoutContainerDelta.end = null
+      }
+
+      /**
+       * Live-preview the reflow of the container(s) affected by the drag:
+       * the container the widget came from (children should close the gap)
+       * and the container currently hovered (children should make room).
+       *
+       * The widgets that move with this drag were already collected by
+       * _addDnDChildren() / _addLayoutDDNChildren() into _dragNDropChildren.
+       */
+      //console.debug(this._dragNDropLayoutContainerDelta, lastEnd)
+      // const draggedIds = this.getAllDNDChildren(id)
+      // this.resizeDragNDropLayoutContainer(this._dragNDropLayoutContainerDelta.start, draggedIds, absPos)
+      // this.resizeDragNDropLayoutContainer(this._dragNDropLayoutContainerDelta.end, draggedIds, absPos)
+      // this.resizeDragNDropLayoutContainer(lastEnd, draggedIds, absPos)
+    },
+
+    getAllDNDChildren(id) {
+      return this._dragNDropChildren && this._dragNDropChildren.length > 0
+        ? this._dragNDropChildren
+        : [id]
+    },
+    
+
+    /**
+     * Relayouts one FlexContainer for the live DnD preview.
+     *
+     * The children come from LayoutContainerUtil.getLayoutContainerChildren()
+     * - the same helper _addLayoutDDNChildren() uses, and it returns the
+     * container itself as the first entry - plus the dragged widget(s), but
+     * only those whose live box is really fully contained in the container.
+     *
+     * ResponsiveLayout.initSelection() only reads `widgets` and `groups`
+     * off the model it gets, so we build a throwaway model holding just
+     * those. The widgets are cloned, so nothing here can pollute the real
+     * model, and the dragged one(s) are placed at their live, in-flight
+     * position - this.model still holds their stale pre-drag position,
+     * which only gets committed on drop.
+     */
+    resizeDragNDropLayoutContainer (container, draggedIds, absPos) {
+      if (!container) {
+        return
+      }
+      const containerWidget = this.model.widgets[container.id]
+      if (!containerWidget) {
+        return
+      }
+
+
+
+      // this could be cached in DND start
+      let childrenIDs = LayoutContainerUtil.getLayoutContainerChildren(container.id, this.model)
+
+      /**
+       * getLayoutContainerChildren() decides by the position in this.model,
+       * which is still the stale pre-drag one for the dragged widget(s).
+       * So we drop them here and add them back only if their *live* box is
+       * really fully contained in the container. Otherwise a widget dragged
+       * out of a container would still occupy a slot in it.
+       */
+      childrenIDs = childrenIDs.filter(cId => cId === container.id || draggedIds.indexOf(cId) < 0)
+  
+      if (LayoutContainerUtil.isFullContained(container, absPos)) {
+        draggedIds.forEach(dId => {
+            if (!dId || dId === container.id || childrenIDs.indexOf(dId) > -1) {
+              return
+            }
+            childrenIDs.push(dId)        
+        })
+      }
+
+      childrenIDs.push(container.id)
+ 
+     //console.debug('resizeDragNDropLayoutContainer', draggedIds, container.name, childrenIDs)
+
+
+      const widgets = {}
+      childrenIDs.forEach(cId => {
+        const modelWidget = this.model.widgets[cId]
+        if (modelWidget) {
+          const clone = structuredClone(modelWidget)
+          const liveDragPos = this._dragNDropBoxPositions[cId]
+          if (liveDragPos) {
+            clone.x = liveDragPos.x
+            clone.y = liveDragPos.y
+            clone.w = liveDragPos.w
+            clone.h = liveDragPos.h
+          }
+          widgets[cId] = clone
+        }
+      })
+
+      const model = {
+        id: this.model.id,
+        widgets: widgets,
+        groups: this.model.groups
+      }
+
+      console.debug(model)
+
+      const resizeModel = {
+        x: containerWidget.x,
+        y: containerWidget.y,
+        w: containerWidget.w,
+        h: containerWidget.h,
+        // the container has real, fixed bounds. The style marks it as such,
+        // otherwise initSelection() shrinks/grows the layout box to the
+        // bounding box of the children (see isBoundingBoxScreen())
+        style: containerWidget.style || {},
+        children: childrenIDs
+      }
+
+      const responsiveLayouter = new ResponsiveLayout(1)
+      responsiveLayouter.initSelection(model, resizeModel, resizeModel.children, true, true, false)
+      const newPositions = ResponsiveUtil.getResponsiveResizePositions(
+        containerWidget, containerWidget, childrenIDs, responsiveLayouter
+      )
+
+      for (let cId in newPositions) {
+        // never move the container itself, and leave the dragged widget(s)
+        // to the normal DnD rendering - they follow the mouse cursor
+        if (cId === container.id || draggedIds.indexOf(cId) > -1) {
+          continue
+        }
+        const newPos = newPositions[cId]
+        const div = this.widgetDivs[cId]
+        if (div) {
+          const job = {
+            div: div,
+            pos: newPos,
+            id: cId
+          }
+          this.addDragNDropRenderJob(job)
+          this._dragNDropBoxPositions[cId] = newPos
+          this._updateWidgetBackground(cId, newPos)
+        }
       }
     },
 
@@ -854,7 +1010,8 @@ export default {
           } else {
             if (LayoutContainerUtil.isLayoutContainer(id, this.model)) {
               /**
-               * Since 5.0.25 we use the SNappEngine
+               * Since 5.0.25 we use the SnappEngine and want the layout children to
+               * be exlucded
                */
               this.alignmentStart("widget", widget, "All", this._dragNDropChildren);
             } else {

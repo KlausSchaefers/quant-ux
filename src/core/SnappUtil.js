@@ -84,7 +84,8 @@ export function isSimilar(a, b) {
 }
 
 export function getFilteredLinesX(lines, activePoint, layoutContainer, start) {
-    if (activePoint !== 'All' || layoutContainer === null || layoutContainer === undefined) {
+    const isGridContainer = (layoutContainer && layoutContainer.type === 'GridContainer')
+    if (activePoint !== 'All' || !isGridContainer) {
         return lines
     }
     const filtered = {}
@@ -101,7 +102,8 @@ export function getFilteredLinesX(lines, activePoint, layoutContainer, start) {
 }
 
 export function getFilteredLinesY(lines, activePoint, layoutContainer, start) {
-    if (activePoint !== 'All' || layoutContainer === null || layoutContainer === undefined) {
+    const isGridContainer = (layoutContainer && layoutContainer.type === 'GridContainer')
+    if (activePoint !== 'All' || !isGridContainer) {
         return lines
     }
     const filtered = {}

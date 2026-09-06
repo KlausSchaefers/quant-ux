@@ -101,9 +101,9 @@ export default class LayoutContainerIndex {
         // find the highest container. can we just search by zlevel and take the first one
         let found = null
         for (let i = 0; i < this.layoutContainers.length; i++) {
-            const c = this.layoutContainers[i] 
-            console.debug(this.isFullContained(box, c))
-            if (c.z < box.z && this.isFullContained(box, c)) {
+            const c = this.layoutContainers[i]
+            // the box must be *in* the container, so the container is the outer box
+            if (c.z < box.z && this.isFullContained(c, box)) {
                 found = c
             }
         }
@@ -111,11 +111,11 @@ export default class LayoutContainerIndex {
             if (found.children) {
                 // check that we are not in a child
                 for (let child of found.children) {
-                    if (this.isFullContained(child, box)) {
+                    if (this.isFullContained(child, box) && child.id !== absPos.id) {
                         return null
                     }
                 }
-            }            
+            }
         }
         
         return found
