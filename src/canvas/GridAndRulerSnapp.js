@@ -459,7 +459,7 @@ export default class GridAndRulerSnapp extends Core {
 				}
 			}
 			if (layoutContainer.type === 'FlexContainer' && this.activePoint === "All") {
-				const children = layoutContainer.children || []
+				const children = layoutContainer.rootChildren || []
 				const lines = GridUtil.getFlexContainerLines(layoutContainer, children, this.zoom)
 				for (let i in lines.x) {
 					const x = lines.x[i]

@@ -90,8 +90,9 @@ export default {
     onChange(e){
         this.setValue(!this.value);
         this.emit("change", this.value );
+        this.emit("stateChange", this.getState());
         this.emitClick(e);
-         topic.publish(this.topic, {id: this.model.id, formGroup: this.getFormGroup(this.model)});
+        topic.publish(this.topic, {id: this.model.id, formGroup: this.getFormGroup(this.model)});
     },
 
     getLabelNode () {
@@ -165,7 +166,7 @@ export default {
     getState () {
       return {
         type: 'value',
-        value: ''
+        value: this.value
       };
     },
 

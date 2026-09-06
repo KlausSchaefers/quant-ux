@@ -138,7 +138,7 @@ function getGroupResize(group, allGroupChildren, model) {
 	const responsiveResize = []
 	for (let id of allGroupChildren) {
 		const w = model.widgets[id]
-		if (w && w.props.resize) {
+		if (w?.props?.resize) {
 			const other = w.props.resize
 			responsiveResize.push(other)
 		}
