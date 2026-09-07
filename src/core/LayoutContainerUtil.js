@@ -71,7 +71,7 @@ export function isLayoutContainer(id, model) {
 }
 
 export function isLayoutContainerWidget(widget) {
-  if (widget && (LayoutContainerTypes.has(widget.type))) {
+  if (widget && (LayoutContainerTypes.has(widget?.type))) {
     return true; 
   }
   return false;

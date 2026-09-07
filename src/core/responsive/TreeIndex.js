@@ -110,7 +110,7 @@ export default class TreeIndex {
     getParentWidget(id, step=0) {
         const parentID = this.parents.get(id)
         if (parentID) {
-            if (this.model.groups[parentID] && step < 100) {
+            if (this.model.groups && this.model.groups[parentID] && step < 100) {
                 return this.getParentWidget(parentID, step+1)
             }
             return this.model.widgets[parentID]

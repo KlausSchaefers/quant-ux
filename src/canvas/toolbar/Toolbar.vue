@@ -2214,6 +2214,9 @@ export default {
 
 
 		getParentLayoutContainer(ids) {	
+			if (!ids) {
+				return []
+			}
 			if (this.treeIndex) {
 				for (let id of ids) {
 					const parent = this.treeIndex.getParentWidget(id)
