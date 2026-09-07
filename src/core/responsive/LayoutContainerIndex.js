@@ -53,7 +53,7 @@ export default class LayoutContainerIndex {
                     }
                 }
             }
-            cntr.rootChildren = this.getRootChildren(cntr.children)
+            //cntr.rootChildren = this.getRootChildren(cntr.children)
         })
     }
 

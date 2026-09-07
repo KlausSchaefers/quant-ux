@@ -1,6 +1,7 @@
 import Screen from './Screen'
 import ModelUtil from '../../core/ModelUtil'
 import * as GridUtil from '../../core/GridUtil'
+import { snapp } from '../../core/SnappUtil';
 
 export default class Snapp extends Screen {
 
@@ -246,6 +247,23 @@ export default class Snapp extends Screen {
 			let gridLines = GridUtil.getGridContainerLinesX(box, line.activePoint, 1)
 			return gridLines.x[line.gridIndex]
 		} else if ('FlexContainer' == line.type){
+			const cntr = this.model.widgets[line.id]
+			if (!cntr) {
+				this.logger.error("getSnappYValue", "No container");
+				return line._sourceV
+			}
+			const start = cntr.x
+			const end = (cntr.x + cntr.w) - pos.w
+			const left = pos?.snapp?.left
+			if(!left) {		
+				if (line._sourceV + pos.w >= end) {			
+					return end - 1
+				}				
+				return line._sourceV + pos.w
+			}
+			if (line._sourceV <= start) {
+				return start
+			}
 			return line._sourceV
 		} else {
 			console.warn("getSnappXValue() >Unsupported snapp type for x", line.type);
@@ -285,6 +303,25 @@ export default class Snapp extends Screen {
 			let gridLines = GridUtil.getGridContainerLinesY(box, line.activePoint, 1)
 			return gridLines.y[line.gridIndex]
 		} else if ('FlexContainer' == line.type){
+			const cntr = this.model.widgets[line.id]
+			if (!cntr) {
+				this.logger.error("getSnappYValue", "No container");
+				return line._sourceV
+			}
+			const start = cntr.y
+			const end = (cntr.y + cntr.h) - pos.h
+			const top = pos?.snapp?.top
+			if(!top) {
+				// we should clamp this somehow, but stil		
+				if (line._sourceV + pos.h >= end)  {			
+					return end - 1
+				}				
+				return line._sourceV + pos.h
+			}
+			// this might put us out in case of large gaps
+			if (line._sourceV <= start) {
+				return start
+			}
 			return line._sourceV
 		} else {
 			console.warn("getSnappYValue() > Unsupported snapp type for ", line.type);

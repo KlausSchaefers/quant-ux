@@ -459,10 +459,12 @@ export default class GridAndRulerSnapp extends Core {
 				}
 			}
 			if (layoutContainer.type === 'FlexContainer' && this.activePoint === "All") {
-				const children = layoutContainer.rootChildren || []
+				const children = this.layoutContainerIndex.getRootChildren(layoutContainer.children)
 				const lines = GridUtil.getFlexContainerLines(layoutContainer, children, this.zoom)
+			
 				for (let i in lines.x) {
-					const x = lines.x[i]
+					const x = lines.x[i]	
+					const sourceX = this.getUnZoomed(x, this.zoom)				
 					this.addXLine(x, {
 						id: layoutContainer.id,
 						pos: "x",
@@ -472,12 +474,14 @@ export default class GridAndRulerSnapp extends Core {
 						isStart: i % 2 === 0,
 						_flex:true,
 						_v: x,
-						_sourceV: this.getUnZoomed(x, this.zoom),
+						_sourceV: sourceX,
 						_paddingBox: layoutContainer
 					}, "FlexContainer");
 				}
+	
 				for (let i in lines.y) {
 					const y = lines.y[i]
+					const sourceY = this.getUnZoomed(y, this.zoom)
 					this.addYLine(y, {
 						id: layoutContainer.id,
 						pos: "y",
@@ -487,9 +491,10 @@ export default class GridAndRulerSnapp extends Core {
 						flexIndex: i,
 						isStart: i % 2 === 0,
 						_v: y,
-						_sourceV: this.getUnZoomed(y, this.zoom),
+						_sourceV: sourceY,
 						_paddingBox: layoutContainer
 					}, "FlexContainer");
+				
 				}
 			}
 			// fixme: here we could also set in the canvas the highlight to the backgroundDiv,
@@ -1897,8 +1902,17 @@ export default class GridAndRulerSnapp extends Core {
 					 * take the movement direction into account
 					 */
 					if (isFlexContainer) {
-						corners.x.push(pos.x);
-						corners.y.push(pos.y);
+						if (left) {
+							corners.x.push(pos.x);
+						} else {
+							corners.x.push(pos.x + pos.w)
+						}
+					
+						if (top) {
+							corners.y.push(pos.y);
+						} else {
+							corners.y.push(pos.y + pos.h);
+						}
 					} else if (isGridContainer) {
 						if (left) {
 							corners.x.push(pos.x);
