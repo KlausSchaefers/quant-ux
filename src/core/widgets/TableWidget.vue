@@ -435,6 +435,13 @@ export default {
 
     getCVSData() {
       const data = lang.clone(this.parseData(this.model.props.data))
+      if (!data || data.length === 0) {
+        console.error('TableWidget.getCVSData() > Empty data', data)
+        return  {
+          columns: [],
+          rows: []
+        }
+      }
       const table = {
         columns: data[0].map(c => {
           return {
