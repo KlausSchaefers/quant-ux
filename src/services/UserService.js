@@ -78,9 +78,11 @@ class UserService extends AbstractService{
                     if (this.isValidUser(user)) {
                         this.user = user
                         this.setToken(this.getToken())
+                        //this.refreshToken()
                     } else {
                         this.user = this.GUEST
                     }
+                                    
                 } catch (error) {
                     this.logger.error('getUser', 'could not parse', s)
                     this.user = this.GUEST
@@ -164,15 +166,27 @@ class UserService extends AbstractService{
                 if (this.ttlTimeout) {
                     clearTimeout(this.ttlTimeout)
                 }
-                let waitTime = u.exp - new Date().getTime() - (5 * 60 * 1000)
+                let waitTime = u.exp - new Date().getTime() - (12 * 60 * 60 * 1000)
                 this.ttlTimeout = setTimeout(() => {
-                    location.href = `#/logout.html`
+                    this.refreshToken()
                 }, waitTime)
                 this.logger.log(2, 'setTTL', 'User valid until', new Date(u.exp))
-                this.logger.log(2, 'setTTL', 'Auto loggout  in ' + (waitTime / 1000) + ' sec')
+                this.logger.log(-1, 'setTTL', 'Auto loggout  in ' + Math.round((waitTime / (1000 * 3600))) + ' hours')
             } else {
                 this.logger.log(-1, 'setTTL', 'exit > NO token')
             }
+        }
+    }
+
+    async refreshToken() {
+        this.logger.log(-1, 'refreshToken', 'enter')
+        const res = await this._post('/rest/user/token/refresh.json')
+        if (res.errors || res.error) {
+            this.logger.error('refreshToken', 'could not get refresh', res)
+        }
+        if (res.token && this.user) {
+            this.user.token = res.token
+            this.setUser(this.user)
         }
     }
 
