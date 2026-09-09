@@ -241,6 +241,7 @@
     border-top: 1px solid $toolbar_border;
     background: none;
     color: $toolbar_color_passive;
+
   }
 
   .VommondCheckBoxLabel,
@@ -590,6 +591,11 @@ div.MatcToolbarViewConfigCntrSpace {
 
 .MatcDesignTokenList .MatcDesignTokenListSection {
   border-top: 1px solid $toolbar_border;
+
+  label {
+    background: none;
+    color: $toolbar_color_passive;
+  }
 }
 
 .MatcToolbarLayerList:hover .MatcTreeToggleChildrenIcon {

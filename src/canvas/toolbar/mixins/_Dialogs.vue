@@ -28,6 +28,7 @@ import AnimationComposer from 'canvas/toolbar/dialogs/AnimationComposer'
 import ExportDialog from 'canvas/toolbar/dialogs/ExportDialog'
 import CustomFonts from 'canvas/toolbar/dialogs/CustomFonts'
 import AISettings from 'canvas/toolbar/dialogs/AISettings'
+import CreateComponentDialog from 'canvas/toolbar/dialogs/CreateComponentDialog'
 
 import * as ScrollUtil from '../../../util/ScrollUtil'
 
@@ -444,11 +445,11 @@ export default {
 
 		showThemeCreateDialog(e) {
 
-			var db = new DomBuilder();
-			var div = db.div("MatcDialogXL MatcPadding").build();
-			var txt = db.textarea("form-control MatcContentWidgetEditor").build(div);
+			const db = new DomBuilder();
+			const div = db.div("MatcDialogXL MatcPadding").build();
+			const txt = db.textarea("form-control MatcContentWidgetEditor").build(div);
 
-			let category = this.model.lastCategory ? this.model.lastCategory : 'XXX'
+			const category = this.model.lastCategory ? this.model.lastCategory : 'XXX'
 
 			if (this._selectedGroup) {
 
@@ -760,55 +761,37 @@ export default {
 		showTemplateCreateDialog (name) {
 			this.logger.log(0, "showTemplateCreateDialog", "entry");
 
-			var db = new DomBuilder();
+			const db = new DomBuilder();
+			const popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
 
-			db = new DomBuilder();
-			var popup = db.div("MatcDialog MatcHeaderDialog MatcPadding").build();
+			const create = this.$new(CreateComponentDialog)
+			create.placeAt(popup)
+			setTimeout(() => { create.focus() }, 400);
 
-			var cntr = db.div().build(popup);
-
-			db.h3("MatcDialogHeader", "Create Component").build(cntr);
-
-			var inputName = db.input("form-control input-lg MatcIgnoreOnKeyPress", name, "Name of the template").build(cntr);
-
-			var dialog = new Dialog();
-			dialog.own(on(dialog, "close", lang.hitch(this, "closeDialog")));
-
-			var bar = db.div("MatcButtonBar MatcMarginTopXL").build(popup);
-			var write = db.div("MatcButton MatcButtonPrimary", "Create").build(bar);
-			var cancel = db.a("MatcLinkButton ", "Cancel").build(bar);
-
-			dialog.own(on(cancel, touch.press, lang.hitch(dialog, "close")));
-			dialog.own(on(inputName, 'keyup', e => {
-				var k = e.keyCode ? e.keyCode : e.which;
-				if (k === 13) {
-					this._createTemplate(inputName, dialog)
-				}
+			const dialog = new Dialog();
+		
+			dialog.own(on(create, "cancel", () => dialog.close()));
+			dialog.own(on(create, 'save',   (name, description, autoUpdate) => {
+				console.debug('showTemplateCreateDialog', autoUpdate)
+				dialog.close()
+				this._createTemplate(name, description, autoUpdate)
 			}))
-			dialog.own(on(write, touch.press, lang.hitch(this, "_createTemplate", inputName, dialog)));
-			dialog.popup(popup, this.template);
-
-
-			setTimeout(function () { inputName.focus() }, 400);
-			this.canvas.setState("simulate");
-
+			dialog.popup(popup, this.template);		
 		},
 
-		_createTemplate (input, dialog) {
-
-			dialog.hide(this.template);
+		_createTemplate (name, description, autoUpdate) {
 			this.closeDialog();
 
 			if (this._selectedWidget) {
-				this.controller.addTemplateWidget(this._selectedWidget, input.value);
+				this.controller.addTemplateWidget(this._selectedWidget, name, description, autoUpdate);
 			}
 
-			if (this._selectedScreen) {
-				this.controller.addeTemplateScreen(this._selectedScreen, input.value);
-			}
+			// if (this._selectedScreen) {
+			// 	this.controller.addeTemplateScreen(this._selectedScreen, name, description, autoUpdate);
+			// }
 
 			if (this._selectedGroup) {
-				this.controller.addNestedTemplateGroup(this._selectedGroup, input.value);
+				this.controller.addNestedTemplateGroup(this._selectedGroup, name, description, autoUpdate);
 			}
 		},
 

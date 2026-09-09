@@ -15,7 +15,7 @@ class PerformanceMonitor {
 
     end (key, logLevel = 2) {
         if (!this.data[key]) {
-            Logger.warn('PerformanceMonitor.end() > no key', key)
+            Logger.log(1, 'PerformanceMonitor.end() > no key', key)
             return
         }
         const start = this.data[key]

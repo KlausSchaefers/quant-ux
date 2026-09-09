@@ -441,7 +441,19 @@ class NotificationService extends AbstractService{
                     </p>
                 `,
                 title: 'Auto Layout (Beta)'
-            }     
+            },{
+                matches (user) {              
+                    return true
+                },
+                id:"TemplateAutoUpdate",
+                img: 'TemplateAutoUpdate.png',
+                more: `
+                    <p>
+                        If the auto-update option was selected during creation, root components will now propagate their changes to all instances.
+                    </p>
+                `,
+                title: 'Component Auto Updates'                
+            }
         ]
     }
 

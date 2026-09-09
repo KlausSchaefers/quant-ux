@@ -837,7 +837,8 @@ export default class Widget extends Responsive {
 			this.onWidgetPositionChange()
 		}
 
-		this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:'position', action:'change'}])
+		const prop = pos?.snapp?.type === 'All' ? 'position' : 'resize'
+		this.checkTemplateAutoUpdate([{id: id, type:'widget', prop:prop, action:'change'}])
 		this.commitModelChange()		
 		return pos;
 	}
@@ -995,7 +996,7 @@ export default class Widget extends Responsive {
 			this.render()
 		}
 
-		this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:'props'}])
+		this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:type}])
 		this.commitModelChange()
 	}
 

@@ -10,8 +10,36 @@ export default class Templates extends Command{
 	/**********************************************************************
 	 * Auto template update
 	 **********************************************************************/
-	checkTemplateAutoUpdate () {
+	checkTemplateAutoUpdate (changes) {
 		this.logger.log(3,"checkTemplateAutoUpdate", "enter > ");
+
+		if (!changes) {
+			return
+		}
+
+		changes.filter(c => c.type === 'widget'  && (c.prop === 'style' || c.prop === 'resize')).forEach(c => {
+			const widget = this.model.widgets[c.id]	
+			console.debug(widget)
+			if (widget && widget.isRootTemplate && widget.template){
+				const template = this.model?.templates[widget.template]
+				if (template && template.autoUpdate) {
+					this.logger.log(-1,"checkTemplateAutoUpdate", "enter > " + widget.id, template);
+					this.updateTemplateStyle(c.id)
+				}
+			}			
+		})
+
+		// changes.filter(c => c.type === 'widget'  && c.prop === 'style' ).forEach(c => {
+		// 	const widget = this.model.widgets[c.id]	
+		// 	if (widget && widget.template){
+		// 		const template = this.model?.templates[widget.template]
+		// 		if (template && template.autoUpdate) {
+		// 			this.logger.log(-1,"checkTemplateAutoUpdate", "enter > " + widget.id, template);
+		// 			this.updateTemplateStyle(c.id)
+		// 		}
+		// 	}			
+		// })
+
 	}
 
 
@@ -806,10 +834,10 @@ export default class Templates extends Command{
 
 
 
-	addTemplateWidget (widget, name, description){
-		this.logger.log(0,"addTemplateWidget", "enter > " + name);
+	addTemplateWidget (widget, name, description, autoUpdate){
+		this.logger.log(-1,"addTemplateWidget", "enter > " + name, autoUpdate);
 		this.startModelChange()
-		const template = this._createWidgetTemplate(widget, true, name, description);
+		const template = this._createWidgetTemplate(widget, true, name, description, autoUpdate);
 
 		const command = {
 			timestamp : new Date().getTime(),
@@ -825,24 +853,28 @@ export default class Templates extends Command{
 		this.showSuccess("The template "  + name + " was created. You can find it in the Create menu");
 	}
 
-	_createOrCopyWidgetTemplate (widget, visible, name) {
+	_createOrCopyWidgetTemplate (widget, visible, name, description, autoUpdate) {
 		if (widget.template) {
 			let parentTemplate = this.model.templates[widget.template]
 			if (parentTemplate) {
-				let template = this._createTemplateVariant(widget, parentTemplate, visible, name)
+				let template = this._createTemplateVariant(widget, parentTemplate, visible, name, description, autoUpdat)
 				return template
+			} else {
+				this.logger.error("addTemplateWidget", "No template found although defined");
 			}
 		}
-		return this._createWidgetTemplate(widget, visible, name)
+		return this._createWidgetTemplate(widget, visible, name, description, autoUpdate)
 	}
 
 
-	_createTemplateVariant (widget, parentTemplate, visible, name) {
+	_createTemplateVariant (widget, parentTemplate, visible, name, description, autoUpdate) {
 		let template = {}//lang.clone(parentTemplate)
 		template.id = "tw" + this.getUUID();
 		template.visible = visible;
 		template.variant = true
 		template.name = name;
+		template.autoUpdate = autoUpdate
+		template.description = description
 		template.modified = new Date().getTime()
 		template.created = new Date().getTime()
 		template.w = widget.w;
@@ -899,9 +931,9 @@ export default class Templates extends Command{
 
 	
 
-	_createWidgetTemplate (widget, visible, name){
+	_createWidgetTemplate (widget, visible, name, description='', autoUpdate=false){
 
-		var template = {};
+		const template = {};
 		template.id = "tw" + this.getUUID();
 		template.style = lang.clone(widget.style);
 
@@ -932,8 +964,11 @@ export default class Templates extends Command{
 		template.type = widget.type;
 		template.visible = visible;
 		template.name = name;
+		template.description = description
 		template.modified = new Date().getTime()
-		template.created = new Date().getTime()
+		template.created = new Date().getTime()	
+		template.autoUpdate = autoUpdate
+		
 		return template;
 	}
 
@@ -945,7 +980,7 @@ export default class Templates extends Command{
 
 	
 
-	addNestedTemplateGroup (group, name){
+	addNestedTemplateGroup (group, name, description, autoUpdate){
 		this.logger.log(-1,"addNestedTemplateGroup", "enter > " + name);
 		// keep this method, because of legacy commands!
 
@@ -975,6 +1010,8 @@ export default class Templates extends Command{
 		template.groups = []
 		template.w = boundingBox.w
 		template.h = boundingBox.h
+		template.autoUpdate = autoUpdate
+		template.description = description
 
 		command.group = template;
 
@@ -987,7 +1024,7 @@ export default class Templates extends Command{
 	
 			// some if the widgets might be already templates. In the case
 			// we create just a copy
-			const t = this._createOrCopyWidgetTemplate(widget, false, widget.name , "");
+			const t = this._createOrCopyWidgetTemplate(widget, false, widget.name , "", autoUpdate);
 			t.x = widget.x - boundingBox.x;
 			t.y = widget.y - boundingBox.y;
 			t.z = index

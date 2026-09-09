@@ -40,6 +40,10 @@
 	.MatcQIcon {
 		justify-content: flex-start;
 	}
+
+	label.MatcHint{
+		font-size: 12px;
+	}
 }
 
 .MatcDesignTokenButtonPopup .MatcDesignTokenButtonPreviews {
@@ -110,7 +114,12 @@
 	margin-bottom: 16px;
     border-bottom: 1px solid transparent;
 
+	&.MatcDesignTokenListSectionCollapsed{
+		margin-bottom: 0px;
+	}
 }
+
+
 
 .MatcDesignTokenList .MatcDesignTokenListSectionContent {
 	padding: 0px 8px;
@@ -126,13 +135,29 @@
 }
 
 .MatcDesignTokenList .MatcDesignTokenListSection label {
-	color: #777;
     text-align: left;
 	padding: 3px 16px;
-    background: #242a30;
 	display: block;
 	font-weight: 400;
     font-size: 12px;
+}
+
+.MatcDesignTokenList .MatcDesignTokenListSectionLabel {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	cursor: pointer;
+	user-select: none;
+}
+
+.MatcDesignTokenListSectionChevron {
+	font-size: 16px;
+	transition-duration: 0.15s;
+	transition-property: transform;
+}
+
+.MatcDesignTokenListSectionCollapsed .MatcDesignTokenListSectionChevron {
+	transform: rotate(-90deg);
 }
 
 

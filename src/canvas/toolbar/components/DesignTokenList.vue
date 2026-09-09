@@ -4,49 +4,47 @@
         <div>
 
 
-              <div class=" MatcDesignTokenListSection" v-show="colorTokens.length > 0">
-                  <label>Color Styles</label>
-                  <div class="MatcDesignTokenListSectionContent">
+              <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.color }" v-show="colorTokens.length > 0">
+                  <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('color')">Color Tokens</label>
+                  <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.color">
                     <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in colorTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
 
-              <div class=" MatcDesignTokenListSection" v-show="textTokens.length > 0">
-                  <label>Text Styles</label>
-                  <div class="MatcDesignTokenListSectionContent">
+              <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.text }" v-show="textTokens.length > 0">
+                  <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('text')">Text Tokens</label>
+                  <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.text">
                     <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in textTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
 
-              <div class=" MatcDesignTokenListSection" v-show="strokeTokens.length > 0">
-                  <label>Border Styles</label>
-                  <div class="MatcDesignTokenListSectionContent">
+              <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.stroke }" v-show="strokeTokens.length > 0">
+                  <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('stroke')">Border Tokens</label>
+                  <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.stroke">
                     <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in strokeTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
-              <div class=" MatcDesignTokenListSection" v-show="tooltipTokens.length > 0">
-                  <label>Tooltip Styles</label>
-                  <div class="MatcDesignTokenListSectionContent">
+              <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.tooltip }" v-show="tooltipTokens.length > 0">
+                  <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('tooltip')">Tooltip Tokens</label>
+                  <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.tooltip">
                     <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in tooltipTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
-
-
-              <div class=" MatcDesignTokenListSection" v-show="shadowTokens.length > 0">
-                  <label>Shadow Styles</label>
-                  <div class="MatcDesignTokenListSectionContent">
+              <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.boxShadow }" v-show="shadowTokens.length > 0">
+                  <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('boxShadow')">Shadow Tokens</label>
+                  <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.boxShadow">
                     <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in shadowTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                   </div>
               </div>
 
 
-              <div class=" MatcDesignTokenListSection" v-show="paddingTokens.length > 0">
-                <label>Padding Styles</label>
-                <div class="MatcDesignTokenListSectionContent">
+              <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.padding }" v-show="paddingTokens.length > 0">
+                <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('padding')">Padding Tokens</label>
+                <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.padding">
                   <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete"/>
                 </div>
             </div>
@@ -132,6 +130,14 @@ export default {
             tooltip: 'mdi mdi-cursor-default-click-outline'
           },
           visible: true,
+          collapsed: {
+            color: false,
+            text: false,
+            stroke: false,
+            tooltip: false,
+            boxShadow: false,
+            padding: false
+          },
           designtokens: null,
           reposition: true,
 					arrowPosition: "right",
@@ -280,7 +286,7 @@ export default {
 			},
 
       toggleSection (s) {
-        this.visible[s] = !this.visible[s]
+        this.collapsed[s] = !this.collapsed[s]
       },
 
       onChangeColor (c) {
