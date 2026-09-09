@@ -94,6 +94,7 @@
 		border-radius: $toolbar_form_radius;
   		padding: 3px;
 
+		&.MatcToobarInputInlineEdit,
 		&.MatcToobarInputInlineEdit.MatcToobarInput {
 			border-color: transparent;
 		}

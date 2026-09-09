@@ -1771,5 +1771,14 @@ export const icons = {
         <path d="M6 7a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-4a4 4 0 0 1 -4 -4l0 -10" />
         <path d="M12 3v7" />
         <path d="M6 10h12" />
+    `,
+    'TextFontSize': `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M3 7v-2h13v2" />
+        <path d="M10 5v14" />
+        <path d="M12 19h-4" />
+        <path d="M15 13v-1h6v1" />
+        <path d="M18 12v7" />
+        <path d="M17 19h2" />
     `
 }

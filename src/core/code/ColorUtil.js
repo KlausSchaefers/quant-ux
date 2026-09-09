@@ -23,10 +23,11 @@ export function fromHex (/*String*/ color ) {
 
 export function fromArray (/** array */ a) {
   var result = {}
-  let rgb = ["b", "g", "r"]
+  let rgb = ["r", "g", "b"]
   rgb.forEach((x, i) => {
     result[x] = a[i] * 1
   })
+  result.a = a[3] * 1
   if(isNaN(result.a)){
       result.a = 1;
   }

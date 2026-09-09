@@ -74,7 +74,11 @@
 
 .MatcDesignTokenPreView .MatcToolbarItemLabel {
 	flex-grow: 1;
+	min-width: 0;
 	line-height: 1;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 
@@ -161,9 +165,17 @@
 }
 
 
+
 .MatcDesignTokenList .MatcDesignTokenPreView{
 	padding: 4px 8px;
 	border-radius: 4px;
+}
+
+.MatcDesignTokenFontSizeSample {
+	display: inline-block;
+	width: 24px;
+	text-align: center;
+	line-height: 1;
 }
 
 .MatcDesignTokenListPopup{
@@ -321,7 +333,7 @@ label.MatcDesignTokenListPopupSection{
 
 .MatcDesignTokenListPopup .MatcButton,
 .MatcDesignTokenListPopup .MatcLinkButton{
-	font-size: 16px;
+	font-size: 14px;
 	padding: 3px 10px;
 }
 

@@ -15,6 +15,11 @@
     input, select {
         border: 1px solid $popup_form_border;
         background: none;
+
+        &.MatcToobarInputInlineEdit{
+          border-color: transparent;
+        }
+
         &:hover{
             border-color: $popup_form_border_hover;
             background: $popup_form_background_hover;
@@ -23,6 +28,8 @@
             border-color: $popup_form_border_focus;
             background: $popup_form_background_focus;
         }
+
+      
     }
 
   .MatcToolbarItem {
@@ -76,6 +83,7 @@
   }
 
   .MatcLinkButton {
+    background: $popup_button_link_background;
     color: $popup_button_link_color;
     &:hover {
       background: $popup_button_link_background_hover;

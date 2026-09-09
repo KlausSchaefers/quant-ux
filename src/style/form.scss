@@ -91,11 +91,10 @@ input:focus {
 	padding: $button_padding;
 	display: inline-block;
 	cursor: pointer;
-	color: $button_background;
+	color: $button_link_color;
+	background: $button_link_background;
 	font-size: $button_font_size;
-	text-decoration: underline;
 	border-radius: $button_radius;
-	background: none;
 	border:none;
 	
 	align-items: center;
@@ -107,9 +106,8 @@ input:focus {
 
 
 	&:hover {
-		color: $button_background_hover;
-		background: rgba(0, 0, 0, 0.05);
-		text-decoration: underline;
+		color: $button_link_color_hover;
+		background: $button_link_background_hover;
 	}
 }
 

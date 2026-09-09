@@ -21,11 +21,20 @@
       <span :class="icons[designtoken.type]" />
     </span>
 
+    <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'fontSize'">
+      <QIcon icon="TextFontSize" />
+    </span>
+
     <span class="MatcToolbarItemLabel" :style="textStyle">{{ designtoken.name }}</span>
 
     <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true && action === 'edit'" ref="editBtn">
       <QIcon icon="Settings"></QIcon>
     </span>
+
+    <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onRefactor" v-if="refactor === true" ref="refactorBtn">
+      <QIcon icon="EditPencil"></QIcon>
+    </span>
+
 
     <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onDelete" v-if="edit === true && action === 'delete'" ref="editBtn">
       <QIcon icon="Delete"></QIcon>
@@ -39,7 +48,7 @@ import QIcon from 'page/QIcon'
 
 export default {
   name: 'DesignTokenPreview',
-  props: ['designtoken', 'edit'],
+  props: ['designtoken', 'edit', 'refactor'],
   mixins: [],
   data: function () {
     return {
@@ -119,7 +128,10 @@ export default {
     },
     onEdit(e) {
       this.$emit('edit', this.designtoken, this.$el, e)
-    }
+    },
+    onRefactor(e) {
+      this.$emit('refactor', this.designtoken, this.$el, e)
+    },
   },
   mounted() {
   }
