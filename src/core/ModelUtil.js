@@ -197,20 +197,18 @@ class ModelUtil {
         }
         if (box && box.designtokens) {
             let designtokens = box.designtokens
+            let tokens = model.designtokens
             for (let state in designtokens) {
                 if (!box[state]) {
                     box[state] = {}
                 }
+                let boxState = box[state]
                 let stateTokens = designtokens[state]
                 for (let cssProp in stateTokens) {
                     let designTokenId = stateTokens[cssProp]
-                    let designToken = model.designtokens[designTokenId]
+                    let designToken = tokens[designTokenId]
                     if (designToken) {
-                        if (designToken.isComplex) {
-                            box[state][cssProp] = designToken.value[cssProp]
-                        } else {
-                            box[state][cssProp] = designToken.value
-                        }
+                        boxState[cssProp] = designToken.isComplex ? designToken.value[cssProp] : designToken.value
                     } else {
                         console.warn('ModelUtil.inlineBoxDesignToken() > NO token with id or no value:' + designTokenId, designToken)
                         // console.warn(JSON.stringify(model.designtokens, null, 2))

@@ -1,0 +1,289 @@
+{
+  "_id" : "6a9dbb8d8ed0013e1765e22b",
+  "version" : 4,
+  "name" : "SurveyBug",
+  "description" : "",
+  "screenSize" : {
+    "w" : 375,
+    "h" : 812
+  },
+  "type" : "smartphone",
+  "screens" : {
+    "s10000_80355" : {
+      "x" : 1506,
+      "y" : 1118,
+      "h" : 812,
+      "w" : 375,
+      "name" : "Screen",
+      "type" : "Screen",
+      "style" : {
+        "background" : "#ffffff"
+      },
+      "min" : {
+        "w" : 375,
+        "h" : 812
+      },
+      "has" : {
+        "image" : true
+      },
+      "props" : {
+        "start" : true
+      },
+      "children" : [ "w10452_82509", "w10455_53201" ],
+      "id" : "s10000_80355",
+      "modified" : 1789233856483
+    }
+  },
+  "widgets" : {
+    "w10452_82509" : {
+      "type" : "Button",
+      "name" : "Box 1",
+      "x" : 1777,
+      "y" : 1170,
+      "w" : 44,
+      "h" : 45,
+      "z" : 6,
+      "props" : {
+        "label" : "",
+        "paddingSnap" : true
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "label" : true,
+        "padding" : true,
+        "onclick" : true
+      },
+      "actions" : { },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "left",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.4,
+        "color" : "#ffffff",
+        "borderTopRightRadius" : 0,
+        "borderTopLeftRadius" : 0,
+        "borderBottomRightRadius" : 0,
+        "borderBottomLeftRadius" : 0,
+        "borderTopWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderTopColor" : "#000000",
+        "borderBottomColor" : "#000000",
+        "borderRightColor" : "#000000",
+        "borderLeftColor" : "#000000",
+        "background" : "#d93030",
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "textShadow" : null
+      },
+      "id" : "w10452_82509",
+      "created" : 1789412953585,
+      "modified" : 1789412993247,
+      "designtokens" : {
+        "style" : { }
+      }
+    },
+    "w10455_53201" : {
+      "id" : "w10455_53201",
+      "type" : "Button",
+      "name" : "Danger Button",
+      "x" : 1777,
+      "y" : 1243,
+      "w" : 96,
+      "h" : 32,
+      "z" : 7,
+      "props" : {
+        "label" : "Click Me"
+      },
+      "has" : {
+        "backgroundColor" : true,
+        "border" : true,
+        "onclick" : true,
+        "label" : true,
+        "padding" : true
+      },
+      "style" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.5,
+        "verticalAlign" : "middle",
+        "background" : "#35f435",
+        "color" : "#FFFFFF",
+        "borderTopWidth" : 1,
+        "borderBottomWidth" : 1,
+        "borderRightWidth" : 1,
+        "borderLeftWidth" : 1,
+        "borderTopRightRadius" : 4,
+        "borderTopLeftRadius" : 4,
+        "borderBottomRightRadius" : 4,
+        "borderBottomLeftRadius" : 4,
+        "paddingTop" : 0,
+        "paddingBottom" : 0,
+        "paddingLeft" : 0,
+        "paddingRight" : 0,
+        "borderTopColor" : "#f43535",
+        "borderBottomColor" : "#f43535",
+        "borderRightColor" : "#f43535",
+        "borderLeftColor" : "#f43535",
+        "borderTopStyle" : "solid",
+        "borderBottomStyle" : "solid",
+        "borderRightStyle" : "solid",
+        "borderLeftStyle" : "solid"
+      },
+      "hover" : {
+        "background" : "#f60404",
+        "color" : "#FFFFFF",
+        "borderTopColor" : "#f60404",
+        "borderBottomColor" : "#f60404",
+        "borderRightColor" : "#f60404",
+        "borderLeftColor" : "#f60404"
+      },
+      "created" : 1789413131365,
+      "modified" : 1789413134930,
+      "designtokens" : {
+        "style" : {
+          "background" : "dt10464_78250",
+          "fontSize" : "dt10436_54392",
+          "fontWeight" : "dt10436_54392",
+          "fontFamily" : "dt10436_54392",
+          "textAlign" : "dt10436_54392",
+          "letterSpacing" : "dt10436_54392",
+          "lineHeight" : "dt10436_54392",
+          "fontStyle" : "dt10436_54392",
+          "verticalAlign" : "dt10436_54392",
+          "textDecoration" : "dt10436_54392",
+          "textShadow" : "dt10436_54392"
+        }
+      }
+    }
+  },
+  "lines" : { },
+  "groups" : { },
+  "templates" : { },
+  "designtokens" : {
+    "dt10406_91111" : {
+      "id" : "dt10406_91111",
+      "modified" : 1788975467436,
+      "isComplex" : false,
+      "name" : "Border",
+      "type" : "color",
+      "value" : "#FFFFFF"
+    },
+    "dt10434_6928" : {
+      "id" : "dt10434_6928",
+      "modified" : 1788979877824,
+      "isComplex" : false,
+      "name" : "Black",
+      "type" : "color",
+      "value" : "#000000"
+    },
+    "dt10436_54392" : {
+      "id" : "dt10436_54392",
+      "modified" : 1788981263643,
+      "isComplex" : true,
+      "name" : "Headerline",
+      "type" : "text",
+      "value" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.5,
+        "verticalAlign" : "middle"
+      }
+    },
+    "dt10457_64728" : {
+      "name" : "New Token",
+      "type" : "text",
+      "value" : {
+        "fontSize" : 14,
+        "fontFamily" : "Comic Sans MS, cursive, sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.5,
+        "verticalAlign" : "middle"
+      },
+      "isComplex" : true,
+      "id" : "dt10457_64728",
+      "modified" : 1789413148377
+    },
+    "dt10463_72645" : {
+      "name" : "New Token",
+      "type" : "color",
+      "isComplex" : false,
+      "value" : "#000000",
+      "id" : "dt10463_72645",
+      "modified" : 1789413549316
+    },
+    "dt10464_78250" : {
+      "name" : "Green",
+      "type" : "color",
+      "isComplex" : false,
+      "value" : "#04e37e",
+      "id" : "dt10464_78250",
+      "modified" : 1789413574083
+    },
+    "dt10465_95845" : {
+      "name" : "Klaus",
+      "type" : "text",
+      "value" : {
+        "fontSize" : 14,
+        "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+        "textAlign" : "center",
+        "letterSpacing" : 0,
+        "lineHeight" : 1.5,
+        "verticalAlign" : "middle"
+      },
+      "isComplex" : true,
+      "id" : "dt10465_95845",
+      "modified" : 1789413579946
+    },
+    "dt10467_41578" : {
+      "name" : "New Token",
+      "type" : "stroke",
+      "value" : {
+        "borderTopWidth" : 0,
+        "borderRightWidth" : 0,
+        "borderLeftWidth" : 0,
+        "borderBottomWidth" : 0,
+        "borderTopColor" : "#000000",
+        "borderBottomColor" : "#000000",
+        "borderRightColor" : "#000000",
+        "borderLeftColor" : "#000000"
+      },
+      "isComplex" : true,
+      "id" : "dt10467_41578",
+      "modified" : 1789413816102
+    }
+  },
+  "lastUUID" : 10468,
+  "lastUpdate" : 1789416793592,
+  "created" : 1788722061856,
+  "startScreen" : "",
+  "grid" : {
+    "w" : 8,
+    "h" : 8,
+    "style" : "line",
+    "color" : "#cecece",
+    "visible" : false,
+    "enabled" : false
+  },
+  "domain" : "Quant-UX.com",
+  "screenCount" : 1,
+  "widgetCount" : 2,
+  "lastCategory" : "WireFrame",
+  "lastS3Backup" : 1789413538898,
+  "sessionCount" : 5,
+  "isPublic" : false,
+  "parent" : "6a9af3f08ed0013e1765940a",
+  "id" : "6a9dbb8d8ed0013e1765e22b",
+  "isDirty" : true,
+  "lastBackup" : 1789413538898
+}
