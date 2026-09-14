@@ -107,7 +107,7 @@ class ModelUtil {
     scaleToSelectionWidthOrHeight(box, pos, type = '') {
         const difW = Math.abs(box.w - pos.w)
         const difH = Math.abs(box.h - pos.h)
-        // Or should we just make for north and south the heigth scalling
+        // Or should we just make for north and south the height scaling
         if (difW > difH) {
             const scale = pos.w / box.w
             const h =  Math.round(box.h * scale)

@@ -672,7 +672,7 @@ export default {
 			this.logger.log(2,"onSelectionStarted", "enter > ");
 
 			/**
-			 * In case something is added (screen, widht or comment) we do not
+			 * In case something is added (screen, width or comment) we do not
 			 * want to render selections
 			 */
 			if (this.state != 3 && this.controller){
