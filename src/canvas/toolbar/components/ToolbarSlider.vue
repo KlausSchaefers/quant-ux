@@ -14,6 +14,7 @@ import HSlider from 'common/HSlider2'
 export default {
 	name: 'ToolbarSlider',
 	mixins: [DojoWidget],
+	props: ['qValue', 'qMax'],
 	data: function () {
 		return {
 			value: null,
@@ -134,6 +135,13 @@ export default {
 		}
 	},
 	mounted() {
+		if (this.qMax) {
+			this.max = this.qMax
+		}
+		if (this.qValue) {
+			this.render()
+			this.setValue(this.qValue)
+		}
 	}
 }
 </script>

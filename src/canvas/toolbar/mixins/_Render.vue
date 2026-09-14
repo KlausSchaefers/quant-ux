@@ -370,6 +370,11 @@ export default {
 			this.designTokenList.placeAt(content)
 			this.own(on(this.designTokenList, "change", lang.hitch(this, "changeDesignToken")));
 			this.own(on(this.designTokenList, "delete", lang.hitch(this, "deleteDesignToken")));
+			this.own(on(this.designTokenList, "error", errorMessage => {
+				if (this.canvas) {
+					this.canvas.showError(errorMessage)
+				}		
+			}));
 			this.designTokenList.setFontFamilies(this._getFontFamilies());
 
 			this.properties.appendChild(parent);

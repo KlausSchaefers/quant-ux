@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcDesignTokenPreView" v-if="designtoken" @click.right.stop="showMenu">
+  <div class="MatcDesignTokenPreView" v-if="designtoken" @click.right.stop="showMenu" @dblclick.stop="onStartRename" >
     <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'color'">
       <span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"
         :style="{ 'background': getBackgroundColor(designtoken.value), 'background': getBackgroundColor2(designtoken.value) }" />
@@ -9,6 +9,9 @@
       <span :class="icons[designtoken.type]" :style="{ 'color': designtoken.value.borderTopColor }" />
     </span>
     <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'text'">
+      <QIcon icon="Text"></QIcon>
+    </span>
+    <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'fontFamily'">
       <QIcon icon="Text"></QIcon>
     </span>
     <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'padding'">
@@ -25,7 +28,14 @@
       <QIcon icon="TextFontSize" />
     </span>
 
-    <span class="MatcToolbarItemLabel" :style="textStyle">{{ designtoken.name }}</span>
+    <input class="MatcToolbarItemLabel MatcDesignTokenNameInput MatcIgnoreOnKeyPress" :style="textStyle" v-if="changeNameMode"
+      ref="nameInput"
+      v-model="name"
+      @blur="onRenameDone"
+      @keydown.stop=""
+      @keyup.enter.stop="onRenameDone"
+      @click.stop />
+    <span class="MatcToolbarItemLabel" :style="textStyle" v-else>{{ designtoken.name }}</span>
 
     <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true && action === 'edit'" ref="editBtn">
       <QIcon icon="Settings"></QIcon>
@@ -63,7 +73,9 @@ export default {
         boxShadow: 'mdi mdi mdi-box-shadow', //'mdi mdi-box-shadow',
       },
       visible: true,
-      designtokens: null
+      designtokens: null,
+      changeNameMode: false,
+      name: ''
     }
   },
   computed: {
@@ -131,6 +143,30 @@ export default {
     },
     onRefactor(e) {
       this.$emit('refactor', this.designtoken, this.$el, e)
+    },
+    onStartRename() {
+      if (this.edit !== true) {
+        this.$emit('error', "You can only rename design tokens")
+        return
+      }
+      this.name = this.designtoken.name
+      this.changeNameMode = true
+      this.$nextTick(() => {
+        const input = this.$refs.nameInput
+        if (input) {
+          input.focus()
+          input.select()
+        }
+      })
+    },
+    onRenameDone() {
+      if (!this.changeNameMode) {
+        return
+      }
+      this.changeNameMode = false
+      if (this.name && this.name !== this.designtoken.name) {
+        this.$emit('rename', this.name, this.designtoken.id)
+      }
     },
   },
   mounted() {

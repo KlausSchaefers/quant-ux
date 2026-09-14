@@ -81,6 +81,15 @@
 	text-overflow: ellipsis;
 }
 
+.MatcDesignTokenPreView input.MatcToolbarItemLabel {
+	border: none;
+	outline: none;
+	background: transparent;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+}
+
 
 .MatcDesignTokenPreView .MatcToolbarColorIndicator,
 .MatcDesignTokenButtonPopup .MatcToolbarItemIcon {
@@ -138,13 +147,6 @@
 
 }
 
-.MatcDesignTokenList .MatcDesignTokenListSection label {
-    text-align: left;
-	padding: 3px 16px;
-	display: block;
-	font-weight: 400;
-    font-size: 12px;
-}
 
 .MatcDesignTokenList .MatcDesignTokenListSectionLabel {
 	display: flex;
@@ -152,7 +154,25 @@
 	justify-content: space-between;
 	cursor: pointer;
 	user-select: none;
+
+	.MatcQIcon{
+		opacity: 0.5;
+		width: 18px;
+        height: 18px;
+
+		&:hover{
+			opacity: 1;
+		}
+	}
 }
+
+.MatcDesignTokenList .MatcDesignTokenListSection label {
+    text-align: left;
+	padding: 3px 16px;
+	font-weight: 400;
+    font-size: 12px;
+}
+
 
 .MatcDesignTokenListSectionChevron {
 	font-size: 16px;
@@ -284,6 +304,22 @@
 .MatcDesignTokenListPopupSection {
 	border-bottom: 1px solid transparent;
 	padding: 8px 16px;
+
+
+	.MatcToolbarSliderPopup {
+		padding: 0;
+		width: 100%;
+		justify-content: space-between;
+
+		.MatcToolbarSliderCntr{
+			.MatcToolbarSlider{
+				width: 300px;
+				.MatcToolbarSliderCntr {
+					width: 240px;
+				}
+			}
+		}
+	}
 }
 
 .MatcDesignTokenListPopupSection:last-child {

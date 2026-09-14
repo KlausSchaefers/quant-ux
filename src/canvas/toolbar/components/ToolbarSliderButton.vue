@@ -1,4 +1,3 @@
-
 <template>
 	<div class="MatcToolbarPopUpCntr">
 		<div type="button" ref="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton">
@@ -6,11 +5,12 @@
 			<label data-dojo-attach-point="label" class="MatcToolbarItemLabel"></label>
 			<span class="caret" ref="caret"></span>
 		</div>
-		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcToolbarSliderPopup" role="menu" data-dojo-attach-point="popup">
-			
-				<div ref="sliderCntr" class="MatcToolbarSliderCntr">
-				</div>
-			
+		<div class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcToolbarSliderPopup" role="menu"
+			data-dojo-attach-point="popup">
+
+			<div ref="sliderCntr" class="MatcToolbarSliderCntr">
+			</div>
+
 		</div>
 	</div>
 </template>
@@ -102,7 +102,7 @@ export default {
 		onSliderChange() {
 			const value = this.slider.getValue();
 			this.setValue(value);
-		
+
 			// give the user time to see the change
 			setTimeout(() => {
 				this.emit("change", value);
