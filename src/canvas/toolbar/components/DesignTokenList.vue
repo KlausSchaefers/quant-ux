@@ -3,16 +3,16 @@
     <div>
 
 
-      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.color }"
-        v-show="colorTokens.length > 0 || commonStyles.colors.length > 0">
+      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.color }">
         <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('color')">
-          Color Tokens
-        </label>
+            Color Tokens
+            <QIcon icon="Plus" @click.stop="onCreateToken('color')"></QIcon>
+          </label>
         <template v-if="!collapsed.color">
           <div class="MatcDesignTokenListSectionContent" >
             <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton"
-              v-for="designtoken in colorTokens" :key="designtoken.id" 
-              :edit="true" 
+              v-for="designtoken in colorTokens" :key="designtoken.id" :ref="'token_' + designtoken.id"
+              :edit="true"
               @edit="onEdit"  
               @delete="onDelete" 
               @rename="onNameChange" 
@@ -21,75 +21,86 @@
 
           <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.commonColor">
             <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton"
-              v-for="designtoken in commonStyles.colors" :key="designtoken.id" :edit="false" :refactor="true" @refactor="onRefactor" @rename="onNameChange" 
+              v-for="designtoken in commonStyles.colors" :key="designtoken.id" :ref="'token_' + designtoken.id" :edit="false" :refactor="true" @refactor="onRefactor" @rename="onNameChange"
               @error="onError"/>
           </div>
         </template>
       </div>
 
 
-      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.text }"
-        v-show="textTokens.length > 0 || commonStyles.fontFamilies.length > 0 || commonStyles.fontSizes.length > 0">
-        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('text')">Text Tokens</label>
+      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.text }">
+        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('text')">
+            Text Tokens
+           <QIcon icon="Plus" @click.stop="onCreateToken('text')"></QIcon>  
+        </label>
          <template v-if="!collapsed.text">
         <div class="MatcDesignTokenListSectionContent" >
           <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton" v-for="designtoken in textTokens"
-            :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange" 
+            :key="designtoken.id" :ref="'token_' + designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange"
               @error="onError"/>
         </div>
 
         <div class="MatcDesignTokenListSectionContent" >
           <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton"
-            v-for="designtoken in commonStyles.fontFamilies" :key="designtoken.id" :edit="false" :refactor="true" @refactor="onRefactor" @rename="onNameChange" 
+            v-for="designtoken in commonStyles.fontFamilies" :key="designtoken.id" :ref="'token_' + designtoken.id" :edit="false" :refactor="true" @refactor="onRefactor" @rename="onNameChange"
               @error="onError"/>
         </div>
 
         <div class="MatcDesignTokenListSectionContent" >
           <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton"
-            v-for="designtoken in commonStyles.fontSizes" :key="designtoken.id" :edit="false" :refactor="true" @refactor="onRefactor" @rename="onNameChange" 
+            v-for="designtoken in commonStyles.fontSizes" :key="designtoken.id" :ref="'token_' + designtoken.id" :edit="false" :refactor="true" @refactor="onRefactor" @rename="onNameChange"
               @error="onError" />
         </div>
          </template>
       </div>
 
 
-      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.stroke }"
-        v-show="strokeTokens.length > 0">
-        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('stroke')">Border Tokens</label>
+      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.stroke }">
+        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('stroke')">
+          Border Tokens
+          <QIcon icon="Plus" @click.stop="onCreateToken('stroke')"></QIcon>  
+        </label>
         <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.stroke">
           <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton"
-            v-for="designtoken in strokeTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange" 
+            v-for="designtoken in strokeTokens" :key="designtoken.id" :ref="'token_' + designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange"
               @error="onError"/>
         </div>
       </div>
 
       <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.tooltip }"
         v-show="tooltipTokens.length > 0">
-        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('tooltip')">Tooltip Tokens</label>
+        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('tooltip')">
+          Tooltip Tokens
+          <QIcon icon="Plus" @click.stop="onCreateToken('tooltip')"></QIcon>  
+        </label>
         <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.tooltip">
           <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton"
-            v-for="designtoken in tooltipTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange" 
+            v-for="designtoken in tooltipTokens" :key="designtoken.id" :ref="'token_' + designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange"
               @error="onError"/>
         </div>
       </div>
 
-      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.boxShadow }"
-        v-show="shadowTokens.length > 0">
-        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('boxShadow')">Shadow Tokens</label>
+      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.boxShadow }">
+        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('boxShadow')">
+            Shadow Tokens
+            <QIcon icon="Plus" @click.stop="onCreateToken('boxShadow')"></QIcon>  
+          </label>
         <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.boxShadow">
           <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton"
-            v-for="designtoken in shadowTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange" 
+            v-for="designtoken in shadowTokens" :key="designtoken.id" :ref="'token_' + designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange"
               @error="onError" />
         </div>
       </div>
 
 
-      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.padding }"
-        v-show="paddingTokens.length > 0">
-        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('padding')">Padding Tokens</label>
+      <div class=" MatcDesignTokenListSection" :class="{ MatcDesignTokenListSectionCollapsed: collapsed.padding }">
+        <label class="MatcDesignTokenListSectionLabel" @click="toggleSection('padding')">
+            Padding Tokens
+            <QIcon icon="Plus" @click.stop="onCreateToken('padding')"></QIcon>    
+        </label>
         <div class="MatcDesignTokenListSectionContent" v-show="!collapsed.padding">
           <DesignTokenPreview :designtoken="designtoken" class="MatcToolbarIconButton"
-            v-for="designtoken in paddingTokens" :key="designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange" 
+            v-for="designtoken in paddingTokens" :key="designtoken.id" :ref="'token_' + designtoken.id" :edit="true" @edit="onEdit" @delete="onDelete" @rename="onNameChange"
               @error="onError"/>
         </div>
       </div>
@@ -164,10 +175,16 @@
         
 
         <div class="MatcDesignTokenListPopupSection">
-          <div class="MatcButtonBar">
-            <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onSave" v-if="!isRefactor">Save</a>
-            <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onSaveRefactor" v-if="isRefactor">Refactor</a>
-            <a class="MatcLinkButton  MatcButtonXS" @click="onCancel">Cancel</a>
+          <div class="MatcButtonBar MatcButtonBarCols MatcMarginTop">
+            <div class="MatcButtonBarCol">
+              <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onSave" v-if="!isRefactor">Save</a>
+              <a class="MatcButton MatcButtonPrimary MatcButtonXS" @click="onSaveRefactor" v-if="isRefactor">Refactor</a>
+              <a class="MatcLinkButton  MatcButtonXS" @click="onCancel">Cancel</a>
+            </div>
+
+            
+              <QIcon icon="DeleteTrash" @click="onDeleteSelected" class="MatcPointer"></QIcon>
+            
           </div>
         </div>
       </div>
@@ -197,7 +214,7 @@ import DomBuilder from "common/DomBuilder";
 
 import ToolbarSlider from './ToolbarSlider'
 import DesignTokenUtil from '../../../core/DesignTokenUtil'
-//import QIcon from 'page/QIcon'
+import QIcon from 'page/QIcon'
 
 export default {
   name: 'DesignTokenList',
@@ -244,7 +261,7 @@ export default {
     'GradientPicker': GradientPicker,
     'TooltipSettings': TooltipSettings,
     'ToolbarSlider': ToolbarSlider,
-   // 'QIcon': QIcon
+    'QIcon': QIcon
   },
   computed: {
 
@@ -333,10 +350,20 @@ export default {
     },
 
     commonStyles() {
-      return []// DesignTokenUtil.getCommonStyles(this.model)
+      //DesignTokenUtil.getCommonStyles(this.model)
+      return {
+        colors: [],
+        fontFamilies: [],
+        fontSizes: []
+      }
     }
   },
   methods: {
+    onDeleteSelected(e) {
+      if (this.selectedDesignToken) {
+        this.onDelete(this.selectedDesignToken, e.target)
+      }
+    },
     onDelete(token, node) {
       const div = this.db.div("MatcDeleteDialog").build();
       this.db.h3("title is-4", 'Delete Design Token').build(div);
@@ -383,9 +410,78 @@ export default {
       this.collapsed[s] = !this.collapsed[s]
     },
 
-   
+    onCreateToken(type){
+      this.logger.log(-2, 'onCreateToken', 'enter', type)
+      const dt = {name: 'New Token'}
+      if (type === 'color') {
+        dt.type = "color"
+        dt.isComplex = false
+        dt.value = "#000000"
+      }
 
+      if (type === 'boxShadow') {
+        dt.type = "boxShadow",
+        dt.value = {
+          "v" : 0,
+          "h" : 0,
+          "b" : 24,
+          "s" : 0,
+          "c" : "rgba(0, 0, 0, 0.25)"
+        }
+      }
+
+      if (type === 'text') {
+        dt.type = "text",
+        dt.value = {
+          "fontSize" : 14,
+          "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
+          "textAlign" : "center",
+          "letterSpacing" : 0,
+          "lineHeight" : 1.5,
+          "verticalAlign" : "middle"
+        }
+        dt.isComplex = true
+      }
+
+      if (type === 'padding') {
+        dt.type = "padding",
+        dt.value = {
+          "paddingTop" : 0,
+          "paddingBottom" : 0,
+          "paddingLeft" : 0,
+          "paddingRight" : 0
+        }
+        dt.isComplex = true
+      }
+
+      if (type === 'stroke') {
+        dt.type = "stroke",
+        dt.value = {
+          "borderTopWidth" : 0,
+          "borderRightWidth" : 0,
+          "borderLeftWidth" : 0,
+          "borderBottomWidth" : 0,
+          "borderTopColor" : "#000000",
+          "borderBottomColor" : "#000000",
+          "borderRightColor" : "#000000",
+          "borderLeftColor" : "#000000"
+        }
+        dt.isComplex = true
+      }
+
+      this.emit('new', dt)
+    },
    
+    renameToken(id) {
+      setTimeout(() => {
+        const ref = this.$refs['token_' + id]
+        const preview = Array.isArray(ref) ? ref[0] : ref
+        console.debug(preview)
+        if (preview) {
+          preview.onStartRename()
+        }
+      }, 200)
+    },
 
     onNameChange(value, id) {
       this.logger.log(-2, 'onNameChange', 'enter', value, id)

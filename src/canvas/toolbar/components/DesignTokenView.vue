@@ -1,6 +1,6 @@
 
 <template>
-  <div class="MatcToolbarItem"  @mousedown.stop="" >
+  <div class="MatcToolbarItem"  @mousedown.stop="" @click.stop="onClick" >
       <DesignTokenPreview :designtoken="designtoken"/>
 	</div>
 </template>
@@ -10,7 +10,7 @@ import DesignTokenPreview from './DesignTokenPreview'
 
 export default {
     name: 'DesignTokenView',
-    props: ['designtoken'],
+    props: ['designtoken', 'model'],
     mixins:[DojoWidget],
     data: function () {
         return {
@@ -20,8 +20,7 @@ export default {
             padding: 'mdi mdi-select-all',
             stroke: 'mdi mdi-border-color',
             boxShadow: 'mdi mdi-box-shadow',
-          },
-          model: null
+          }
         }
     },
     computed: {
@@ -30,6 +29,9 @@ export default {
       'DesignTokenPreview': DesignTokenPreview
     },
     methods: {
+      onClick () {
+        this.emit('change', this.designtoken)
+      },
       unlink () {
         this.emit('unlink', this.designtoken)
       },

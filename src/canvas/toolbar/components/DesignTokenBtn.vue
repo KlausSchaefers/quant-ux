@@ -2,7 +2,7 @@
 <template>
     <div class="MatcDesignTokenButton"  @mousedown.stop="" >
 
-      <QIcon v-show="isVisible" icon="DotMenu"></QIcon>
+      <QIcon v-show="isVisible" icon="Plus"></QIcon>
 
  
     	  <ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
@@ -26,7 +26,7 @@
         <!-- add here list and filter -->
         <ul class="MatcDesignTokenButtonPreviews" v-if="!isTemplate">
           <li v-for="designtoken in filteredTokens" :key="designtoken.id" @mousedown="onSelectToken(designtoken)" >
-            <DesignTokenPreview :designtoken="designtoken"/>
+            <DesignTokenPreview :designtoken="designtoken" />
           </li>
         </ul>
 

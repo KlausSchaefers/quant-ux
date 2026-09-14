@@ -15,7 +15,6 @@ export default {
 
 			addDesignToken (e) {
 				this.stopEvent(e)
-				console.debug('addDesignToken')
 			},
 
 			toolCopyPasteStyleStart (){

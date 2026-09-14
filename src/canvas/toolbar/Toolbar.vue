@@ -1210,6 +1210,7 @@ export default {
 		deleteDesignToken (designToken) {
 			this.logger.log(-1,"deleteDesignToken", "entry");
 			this.controller.deleteDesignToken(designToken.id);
+			this.designTokenList.setModel(this.model)
 		},
 
 		/**********************************************************************

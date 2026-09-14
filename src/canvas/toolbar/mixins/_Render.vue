@@ -375,6 +375,13 @@ export default {
 					this.canvas.showError(errorMessage)
 				}		
 			}));
+			this.own(on(this.designTokenList, "new", dt => {
+				if (this.controller) {
+					const id = this.controller.newDesignToken(dt);
+					this.designTokenList.setModel(this.model)
+					this.designTokenList.renameToken(id)
+				}		
+			}));
 			this.designTokenList.setFontFamilies(this._getFontFamilies());
 
 			this.properties.appendChild(parent);

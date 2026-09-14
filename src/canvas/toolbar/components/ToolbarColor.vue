@@ -1,6 +1,6 @@
 <template>
 	<div class="MatcDesignTokenMixin MatcToolbarPopUpCntr">
-		<DesignTokenView v-if="hasDesignToken" :designtoken="currentDesignToken" />
+		<DesignTokenView v-if="hasDesignToken" :designtoken="currentDesignToken" @change="onDTChange"/>
 		<div v-show="!hasDesignToken">
 			<div type="button" ref="button"
 				:class="['MatcToolbarColorButton MatcToolbarItem MatcToolbarIconButton MatcToolbarColor', 
@@ -90,6 +90,11 @@ export default {
 		}
 	},
 	methods: {
+
+		onDTChange (dt) {
+			console.debug('onDTChange', dt)
+			//this.showDropDown()
+		},
 
 		reOpenDropDown() {
 			if (this.hasDesignToken) {

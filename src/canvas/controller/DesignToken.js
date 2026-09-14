@@ -7,31 +7,53 @@ export default class DesignToken extends Widget{
 		super()
 	}
 
+	newDesignToken(token) {
+		this.logger.log(-1,"newDesignToken", "enter > ", token);
+		this.startModelChange()
+
+		token.id = 'dt' + this.getUUID()
+		token.modified = new Date().getTime()	
+
+		if (!this.model.designtokens) {
+			this.model.designtokens = {}
+		}
+		this.model.designtokens[token.id] = token
+
+
+		this.onModelChanged([{type:"designtoken", action:'add', id: null}]);
+		
+		this.commitModelChange()
+
+		return token.id
+	}
+
 	addDesignToken (id, tokenType, cssProps, cssState, name, modelType) {
 		this.logger.log(-1,"addDesignToken", "enter > " + id, tokenType, cssProps);
+
 		this.startModelChange()
-	
+
 		const token = this.modelAddDesignToken(id, tokenType, cssProps,cssState, name, modelType)
 		if (!token) {
+			console.error('No token')
 			return
 		}
 
-		/**
-		 * make command
-		 */
-		const command = {
-			timestamp : new Date().getTime(),
-			type : "AddDesignToken",
-			modelId: id,
-			tokenName: name,
-			tokenId: token.id,
-			modelType: modelType,
-			cssProps: cssProps,
-			cssState: cssState,
-			tokenType: tokenType
-		};
+		// /**
+		//  * make command
+		//  */
+		// const command = {
+		// 	timestamp : new Date().getTime(),
+		// 	type : "AddDesignToken",
+		// 	modelId: id,
+		// 	tokenName: name,
+		// 	tokenId: token.id,
+		// 	modelType: modelType,
+		// 	cssProps: cssProps,
+		// 	cssState: cssState,
+		// 	tokenType: tokenType
+		// };
 
-		this.addCommand(command);
+		// this.addCommand(command);
 		this.render();
 		this.commitModelChange()
 
