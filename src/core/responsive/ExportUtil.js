@@ -895,11 +895,10 @@ export function createContaineredModel(inModel) {
 
 function inlineModelDesignTokens (model) {
     /**
-     * This is quite costly. Can we do this smarter? Maybe we could do it in the
-     * RenderFactory (beawre of hover etc). Then we would have to just add here
-     * for all the reference design token the modified?
+     * Models without any design tokens are the common case, so skip walking
+     * every widget/screen entirely when there is nothing to inline.
      */
-    if (model.designtokens) {
+    if (model.designtokens && Object.keys(model.designtokens).length > 0) {
         for (let widgetID in model.widgets) {
             let widget = model.widgets[widgetID]
             inlineBoxDesignToken(widget, model)
@@ -930,20 +929,18 @@ function inlineBoxDesignToken (box, model) {
     }
     if (box && box.designtokens) {
         let designtokens = box.designtokens
+        let tokens = model.designtokens
         for (let state in designtokens) {
             if (!box[state]) {
                 box[state] = {}
             }
+            let boxState = box[state]
             let stateTokens = designtokens[state]
             for (let cssProp in stateTokens) {
                 let designTokenId = stateTokens[cssProp]
-                let designToken = model.designtokens[designTokenId]
+                let designToken = tokens[designTokenId]
                 if (designToken) {
-                    if (designToken.isComplex) {
-                        box[state][cssProp] = designToken.value[cssProp]
-                    } else {
-                        box[state][cssProp] = designToken.value
-                    }
+                    boxState[cssProp] = designToken.isComplex ? designToken.value[cssProp] : designToken.value
                 } else {
                     console.warn('ModelUtil.inlineBoxDesignToken() > NO token with id or no value:' + designTokenId, designToken)
                 }

@@ -162,11 +162,10 @@ class ModelUtil {
 
     inlineModelDesignTokens(model) {
         /**
-         * This is quite costly. Can we do this smarter? Maybe we could do it in the
-         * RenderFactory (beawre of hover etc). Then we would have to just add here
-         * for all the reference design token the modified?
+         * Models without any design tokens are the common case, so skip walking
+         * every widget/screen entirely when there is nothing to inline.
          */
-        if (model.designtokens) {
+        if (model.designtokens && Object.keys(model.designtokens).length > 0) {
             for (let widgetID in model.widgets) {
                 let widget = model.widgets[widgetID]
                 this.inlineBoxDesignToken(widget, model)
