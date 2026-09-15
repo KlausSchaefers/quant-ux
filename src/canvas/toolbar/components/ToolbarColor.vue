@@ -1,6 +1,10 @@
 <template>
 	<div class="MatcDesignTokenMixin MatcToolbarPopUpCntr">
-		<DesignTokenView v-if="hasDesignToken" :designtoken="currentDesignToken" @change="onDTChange"/>
+		<DesignTokenView v-if="hasDesignToken" 
+			:designtoken="currentDesignToken" 
+			@change="onDTChange" 
+			tokenType="color"
+			:designTokenList="getDesignTokens()"/>
 		<div v-show="!hasDesignToken">
 			<div type="button" ref="button"
 				:class="['MatcToolbarColorButton MatcToolbarItem MatcToolbarIconButton MatcToolbarColor', 
@@ -90,6 +94,14 @@ export default {
 		}
 	},
 	methods: {
+
+		getDesignTokens () {
+			if (this.model) {
+				console.debug("getDesignTokens")
+				return structuredClone(this.model.designtokens)
+			}
+			return {}
+		},
 
 		onDTChange (dt) {
 			console.debug('onDTChange', dt)

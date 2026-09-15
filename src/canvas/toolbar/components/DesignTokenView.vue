@@ -1,19 +1,41 @@
 
 <template>
-  <div class="MatcToolbarItem"  @mousedown.stop="" @click.stop="onClick" >
+  <div class="MatcToolbarItem MatcToolbarIconButton"  @mousedown.stop="" @click.stop="onClick" >
       <DesignTokenPreview :designtoken="designtoken"/>
+      
+      <ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
+
+       
+        <li @mousedown.stop="onUnLink" class="MatcDesignTokenButtonHeader">
+            <QIcon icon="Delete"/>
+            <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
+        </li>
+  
+
+        <!-- add here list and filter -->
+        <ul class="MatcDesignTokenButtonPreviews">
+          <li v-for="designtoken in filteredTokens" :key="designtoken.id" @mousedown="onSelectToken(designtoken)" >
+            <DesignTokenPreview :designtoken="designtoken" />
+          </li>
+        </ul>
+
+			</ul>
 	</div>
 </template>
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import DesignTokenPreview from './DesignTokenPreview'
+import _DropDown from './_DropDown'
+import QIcon from 'page/QIcon.vue'
 
 export default {
     name: 'DesignTokenView',
-    props: ['designtoken', 'model'],
-    mixins:[DojoWidget],
+    props: ['designtoken', 'model', 'designTokenList', 'tokenType'],
+    mixins:[DojoWidget, _DropDown],
     data: function () {
         return {
+          reposition: true,
+          arrowPosition: "right",
           icons: {
             color: 'mdi mdi-water',
             text: 'mdi mdi-format-size',
@@ -24,12 +46,27 @@ export default {
         }
     },
     computed: {
+       filteredTokens () {
+        let result = []
+        if (this.designTokenList) {
+          Object.values(this.designTokenList).forEach(t => {
+            if (t.type === this.tokenType) {
+              result.push(t)
+            }
+          })
+        }
+        return result
+      }
     },
     components: {
-      'DesignTokenPreview': DesignTokenPreview
+      'DesignTokenPreview': DesignTokenPreview,
+      'QIcon': QIcon
     },
     methods: {
-      onClick () {
+      onSelectToken() {
+
+      },
+      onClick () {   
         this.emit('change', this.designtoken)
       },
       unlink () {
