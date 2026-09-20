@@ -132,7 +132,7 @@ export default class Responsive extends Snapp {
         }
         this.logger.log(1, "updateLayoutContainers", "enter > ", layoutContainerChange, movedIds);
 
-        //const ids = movedIds || []
+        const ids = movedIds || []
         const startId = layoutContainerChange.start && layoutContainerChange.start.id
         const endId = layoutContainerChange.end && layoutContainerChange.end.id
 
@@ -143,13 +143,13 @@ export default class Responsive extends Snapp {
          * without touching the moved widget's containment, since it never left.
          */
         if (startId && startId === endId) {
-            this.layoutContainer(startId)
+            this.layoutContainer(startId, [], ids)
         } else {
             if (endId) {
-                this.layoutContainer(endId)
+                this.layoutContainer(endId, [], [])
             }
             if (startId) {
-                this.layoutContainer(startId) // why did we pass here the ids? This fucks up the dnd
+                this.layoutContainer(startId, [], ids) // why did we pass here the ids as excludeIds? This fucks up the dnd
             }
         }
 
@@ -157,9 +157,9 @@ export default class Responsive extends Snapp {
     }
 
 
-    layoutContainer(id, excludeIds = []) {
-        this.logger.log(1, "layoutContainer", "enter > " + id, excludeIds)
-        return ResponsiveUtil.layoutContainer(this.model, id, excludeIds)
+    layoutContainer(id, excludeIds = [], movedIds = []) {
+        this.logger.log(1, "layoutContainer", "enter > " + id, excludeIds, movedIds)
+        return ResponsiveUtil.layoutContainer(this.model, id, excludeIds, movedIds)
     }
 
     /**

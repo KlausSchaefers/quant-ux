@@ -262,7 +262,7 @@ export default class Snapp extends Screen {
 				return line._sourceV + pos.w
 			}
 			if (line._sourceV <= start) {
-				return start
+				return start - 0.1
 			}
 			return line._sourceV
 		} else {

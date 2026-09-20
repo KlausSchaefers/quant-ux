@@ -44,15 +44,83 @@ export default class ResponsiveLayout {
     }
 
     findElementsById (e, id, result = []) {
-    
+
         if (e.children) {
             e.children.forEach(c => {
                 if (c.id === id) {
                   result.push(c)
-                }                
+                }
                 this.findElementsById(c, id, result)
             })
         }
+        return result
+    }
+
+    /**
+     * Flat2Tree.getParentWidget() nests purely by geometric containment: if a
+     * sibling widget visually encloses another (e.g. after DnD snapping lines
+     * up both edges by coincidence), the smaller one gets nested under that
+     * sibling instead of staying a direct child of the actual FlexContainer.
+     *
+     * Here we already know the true container (from the DnD/snap hit-test),
+     * so force the widget back to being a direct child of it. Safe to do
+     * *after* initSelection()/initApp() for FlexContainer: resizeFlex() only
+     * reads box.children at call time and doesn't depend on the grid/row
+     * metadata Flat2Tree.layoutTree() computes.
+     */
+    reparentToDirectChild (widgetId, containerId) {
+        const containerNode = this.findWidget(containerId)
+        const widgetNode = this.findWidget(widgetId)
+        if (!containerNode || !widgetNode || widgetNode.parent === containerNode) {
+            return
+        }
+
+        const oldParent = widgetNode.parent
+        if (oldParent && oldParent.children) {
+            const i = oldParent.children.indexOf(widgetNode)
+            if (i !== -1) {
+                oldParent.children.splice(i, 1)
+            }
+        }
+
+        containerNode.children.push(widgetNode)
+        widgetNode.parent = containerNode
+        widgetNode.x = widgetNode._x - containerNode._x
+        widgetNode.y = widgetNode._y - containerNode._y
+    }
+
+    /**
+     * Debug helper: prints the tree model as an indented outline and
+     * returns the string. Optional startId prints only that subtree.
+     */
+    printTree (startId = null) {
+        if (!this.treeModel) {
+            console.warn('ResponsiveLayout.printTree() > no treeModel, call initApp() or initSelection() first')
+            return ''
+        }
+        const lines = []
+        const print = (node, indent) => {
+            const size = `${node.x},${node.y} ${node.w}x${node.h}`
+            const type = node.type ? ` [${node.type}]` : ''
+            lines.push(`${indent}${node.name || ''} (${node.id})${type} ${size}`)
+            if (node.children) {
+                node.children.forEach(c => print(c, indent + '  '))
+            }
+        }
+
+        if (startId) {
+            const node = this.findWidget(startId)
+            if (node) {
+                print(node, '')
+            }
+        } else {
+            const screens = Array.isArray(this.treeModel.screens)
+                ? this.treeModel.screens
+                : Object.values(this.treeModel.screens)
+            screens.forEach(s => print(s, ''))
+        }
+
+        const result = lines.join('\n')
         return result
     }
 

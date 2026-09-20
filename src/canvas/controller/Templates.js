@@ -19,7 +19,7 @@ export default class Templates extends Command{
 
 		changes.filter(c => c.type === 'widget'  && (c.prop === 'style' || c.prop === 'resize')).forEach(c => {
 			const widget = this.model.widgets[c.id]	
-			console.debug(widget)
+
 			if (widget && widget.isRootTemplate && widget.template){
 				const template = this.model?.templates[widget.template]
 				if (template && template.autoUpdate) {

@@ -992,7 +992,6 @@ export function inlineTemplateStyles (model) {
                 widget.active = active
             }
 
-            console.debug(widget)
         }
 
     }

@@ -536,12 +536,12 @@ export default class Command extends BaseController{
 		 * In some rare cases teh position might be < 0. We fix it, and store 
 		 * the entire command stack!
 		 */
-		if (ModelFixer.fixCommandStack(s) ) {
-			if (this.modelService) {
-				this.commandService.saveCommands(s.appID, s)
-			}
+		// if (ModelFixer.fixCommandStack(s) ) {
+		// 	if (this.modelService) {
+		// 		this.commandService.saveCommands(s.appID, s)
+		// 	}
 			
-		}
+		// }
 		this.commandStack = s;
 		if(this.toolbar){
 			if(this.commandStack.pos > 0){

@@ -27,13 +27,15 @@ export function getResponsiveResizePositions (pos, oldPos, children, responsiveL
  * on the widgets currently contained in it (by geometry, via
  * ModelGeom.getChildWidgetsIDsFast).
  */
-export function layoutContainer (model, id, excludeIds = []) {
+export function layoutContainer (model, id, excludeIds = [], movedIds = []) {
+    
     const widget = model.widgets[id];
     if (!widget || (widget.type !== "FlexContainer" && widget.type !== "GridContainer")) {
         return
     }
 
     // create a resize model based on the widgets currently contained in the container
+    
     let childrenIDs = ModelGeom.getChildWidgetsIDsFast(model, widget)
     if (excludeIds.length > 0) {
         childrenIDs = childrenIDs.filter(cid => !excludeIds.includes(cid))
@@ -52,14 +54,100 @@ export function layoutContainer (model, id, excludeIds = []) {
     const responsiveLayouter = new ResponsiveLayout(1)
     responsiveLayouter.initSelection(model, resizeModel, resizeModel.children, true, true, false)
 
+    // This does not work well. Smaller elements or so might still be contained.
+    // so maybe exlucde them first. Then add them explicityly as a child in 
+    // the container. But if we have nested groups that would be and issue.
+    // this is waht this code should have done...
+
+
+    /**
+     * We already know these widgets belong directly under this container
+     * (that's why layoutContainer() was called for it/them). The geometric
+     * tree-build above can mistakenly nest one under a sibling that visually
+     * encloses it (e.g. after DnD snapping) - correct that here, before we
+     * read positions back out.
+     *
+     * movedIds can be a whole dragged group (e.g. a Box moved together with
+     * its own children). We must only reparent the *root* ones - a moved
+     * widget that is itself geometrically contained by another moved widget
+     * is a legitimate nested child of that widget (its containment didn't
+     * change, the whole group moved together) and must stay nested, or we'd
+     * rip real children out from under their real parent.
+     */
+    if (widget.type === "FlexContainer") {
+        const rootMovedIds = movedIds.filter(movedId => {
+            const movedWidget = model.widgets[movedId]
+            if (!movedWidget) {
+                return false
+            }
+            return !movedIds.some(otherId => {
+                if (otherId === movedId) {
+                    return false
+                }
+                const otherWidget = model.widgets[otherId]
+                return otherWidget && ModelGeom.isFullContained(otherWidget, movedWidget)
+            })
+        })
+
+        /**
+         * The reverse case: a moved widget now geometrically encloses a
+         * non-moved sibling (e.g. black dragged in front of gray). Flat2Tree
+         * nests the sibling under the moved widget. Real children of a moved
+         * widget always travel with it, so are in movedIds - any other child
+         * is an accidental one and belongs back in the container.
+         */
+        const accidentalIds = []
+        rootMovedIds.forEach(movedId => {
+            const node = responsiveLayouter.findWidget(movedId)
+            if (node && node.children) {
+                node.children.forEach(c => {
+                    if (childrenIDs.includes(c.id) && !movedIds.includes(c.id)) {
+                        accidentalIds.push(c.id)
+                    }
+                })
+            }
+        })
+
+        
+
+        console.debug(responsiveLayouter.printTree())
+
+        /**
+         * Design groups are wrapped in their own tree node (Quant2Flat), which
+         * is the actual flex child. A widget inside a group must never be
+         * pulled out of its wrapper - that leaves an empty wrapper plus the
+         * widget as two flex children (two grow children then split the space
+         * and both come out too small). Reparent the outermost wrapper instead.
+         */
+        const getFlexChildId = (widgetId) => {
+            let node = responsiveLayouter.findWidget(widgetId)
+            while (node && node.parent && node.parent.id !== id && model.groups && model.groups[node.parent.id]) {
+                node = node.parent
+            }
+            return node ? node.id : widgetId
+        }
+
+        const reparented = {}
+        accidentalIds.forEach(movedId => {
+            if (movedId !== id && childrenIDs.includes(movedId)) {
+                const flexChildId = getFlexChildId(movedId)
+                if (!reparented[flexChildId]) {
+                    reparented[flexChildId] = true
+                    console.debug('reparent', flexChildId)
+                    responsiveLayouter.reparentToDirectChild(flexChildId, id)
+                }
+            }
+        })
+    }
+
     const newPositions = getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
 
     for (let cid in newPositions) {
         const pos = newPositions[cid];
         const childWidget = model.widgets[cid];
-        if (childWidget) {
-            childWidget.modified = new Date().getTime()
+        if (childWidget) {            
             if (!isNaN(pos.x) && !isNaN(pos.y) && !isNaN(pos.w) && !isNaN(pos.h)) {
+                childWidget.modified = new Date().getTime()
                 childWidget.x = pos.x;
                 childWidget.y = pos.y;
                 childWidget.w = pos.w
