@@ -19,9 +19,9 @@
 					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem', {'MatcToolbarItemSelected': mode === 'addComment'} ]" data-dojo-attach-point="commentBtn"  @click="onNewComment">
 						<QIcon icon="Comment" />
 					</div>
-					<div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="simuUserBtn"  @click="onSimUser" v-show="!hasAIEvents">
+					<!-- <div :class="['MatcToolbarItem MatcToolbarPrimaryItem']" data-dojo-attach-point="simuUserBtn"  @click="onSimUser" v-show="!hasAIEvents">
 						<QIcon icon="AI" />
-					</div>	
+					</div>	 -->
 					<div class="MatcToolbarItem" v-if="hasAIEvents"  data-dojo-attach-point="removeAIEventsButton" >
 						<div class="MatcToobarPrimaryButton" @click="removeAIEvents" >
 							{{$t('toolbar.removeAIEvents')}}

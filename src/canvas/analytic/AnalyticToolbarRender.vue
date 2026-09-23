@@ -91,7 +91,10 @@ export default {
             this.showClickHeatMap()
 
             this.addTooltip(this.commentBtn,this.getNLS("tooltip.comment"));
-            this.addTooltip(this.simuUserBtn,this.getNLS("tooltip.simuser"));
+            if (this.simuUserBtn) {
+                this.addTooltip(this.simuUserBtn,this.getNLS("tooltip.simuser"));
+            }
+          
             if (this.removeAIEventsButton) {
                 this.addTooltip(this.removeAIEventsButton,this.getNLS("tooltip.removeSimuser"));
             }
