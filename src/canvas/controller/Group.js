@@ -208,7 +208,7 @@ export default class Group extends Layer {
 	 **********************************************************************/
 
 	updateMultiProperties (ids, props, type){
-		this.logger.log(1,"updateMultiProperties", "enter > " + type, props);
+		this.logger.log(-1,"updateMultiProperties", "enter > " + type, props);
 
 		this.startModelChange()
 		/**
@@ -241,6 +241,8 @@ export default class Group extends Layer {
 				 * Check if this widget has already the style. If not we exclude it.
 				 * Otherwise we have Labels with background color and so on...
 				 */
+
+				this.removeOverwrittenDesignTokens(widget, props, type)
 				let isIncluded = true;
 				for(let key in props){
 					if(ignoreStyles.indexOf(key) < 0 ){

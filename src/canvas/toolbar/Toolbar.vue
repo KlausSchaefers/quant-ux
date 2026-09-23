@@ -1185,9 +1185,13 @@ export default {
 			const state = this._getViewStyleModelKey();
 			if(this._selectedWidget){
 				this.controller.linkDesignToken(this._selectedWidget.id, designToken.id,state, cssProps, 'widget');
-			}
+			} 
 			if(this._selectedScreen){
 				this.controller.linkDesignToken(this._selectedScreen.id, designToken.id, state, cssProps,'screen');
+			} 
+			
+			if (this._selectedMulti){
+				this.controller.linkDesignTokenMulti(this._selectedMulti, designToken.id, state, cssProps, 'widget' )
 			}
 		},
 

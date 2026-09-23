@@ -44,12 +44,22 @@
 	display: flex;
 	flex-direction: column;
 	gap:4px;
+	height: 320px;
+	overflow: auto;
 
 	div {
 		display: flex;
 		align-items: center;
 		gap: 8px;
 		cursor: pointer;
+
+		.MatcToolbarItemLabel {
+			opacity: 0.8;
+		}
+	}
+
+	div:hover .MatcToolbarItemLabel {
+		opacity: 1;
 	}
 }
 

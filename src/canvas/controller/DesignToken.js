@@ -265,6 +265,30 @@ export default class DesignToken extends Widget{
 	}
 
 
+	/**
+	 * Links the design token to all given ids in one model change
+	 */
+	linkDesignTokenMulti (ids, tokenId, cssState, cssProps, modelType) {
+		this.logger.log(-1,"linkDesignTokenMulti", "enter > ", ids, tokenId);
+
+		this.startModelChange()
+		ids.forEach(id => {
+			this.modelLinkDesignToken(id, tokenId, cssState, cssProps, modelType)
+			this.addCommand({
+				timestamp : new Date().getTime(),
+				type : "LinkDesignToken",
+				modelId: id,
+				tokenId: tokenId,
+				modelType: modelType,
+				cssState: cssState,
+				cssProps: cssProps
+			});
+		})
+		this.render();
+		this.commitModelChange()
+		this.logger.log(-1,"linkDesignTokenMulti", "exit");
+	}
+
 	modelLinkDesignToken (id, tokenId, cssState, cssProps, modelType) {
 
 		if(!this.model.designtokens) {
