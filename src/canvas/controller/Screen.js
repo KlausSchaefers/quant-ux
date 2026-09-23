@@ -827,6 +827,9 @@ export default class Screen extends CopyPaste {
 		this.logger.log(0,"updateScreenProperties", "enter > " + props);
 		this.startModelChange()
 		const screen = this.model.screens[id];
+
+		this.removeOverwrittenDesignTokens(screen, props, type)
+
 		const delta = this.getDelta(screen[type], props);
 		const command = {
 			timestamp : new Date().getTime(),

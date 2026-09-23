@@ -10,10 +10,11 @@
 				]">
 				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
 				<span v-if="label" class="MatcToolbarItemLabel">{{ label }}</span>
-				<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInputInlineEdit" @mousedown.stop=""
-					@click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput" />
-
-					<span v-if="hasDesignToken">*</span>
+				<template v-if="hex">
+					<span v-if="hasDesignToken" class="MatcToobarInputInlineEdit">{{currentDesignToken?.name}}</span>
+					<input v-else class="MatcIgnoreOnKeyPress  MatcToobarInputInlineEdit" @mousedown.stop=""
+						@click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput" />
+				</template>
 			</div>
 		</div>
 		<div class="MatcToolbarPopUpBackDrop" v-if="isDialog && isOpen" @click="hideDropDown"></div>

@@ -7,6 +7,28 @@ export default class DesignToken extends Widget{
 		super()
 	}
 
+	/**
+	 * If the user sets a color or background directly, the linked design token is overwritten and removed
+	 */
+	removeOverwrittenDesignTokens (widget, props, type) {
+		const tokens = widget?.designtokens?.[type]
+		if (!tokens || !props) {
+			return
+		}
+		['color', 'background'].forEach(key => {
+			if (props[key] !== undefined && tokens[key] !== undefined) {
+				delete tokens[key]
+			}
+		})
+		// clean up empty containers
+		if (Object.keys(tokens).length === 0) {
+			delete widget.designtokens[type]
+		}
+		if (Object.keys(widget.designtokens).length === 0) {
+			delete widget.designtokens
+		}
+	}
+
 	newDesignToken(token) {
 		this.logger.log(-1,"newDesignToken", "enter > ", token);
 		this.startModelChange()

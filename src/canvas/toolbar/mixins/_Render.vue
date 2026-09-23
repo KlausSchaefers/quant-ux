@@ -1032,7 +1032,7 @@ export default {
 
 
 
-			this.color = this.$new(ToolbarColor, {hasPicker:true, chevron:false, hex:true, hasGradient:true, showGradient:false});
+			this.color = this.$new(ToolbarColorDT, {hasPicker:true, chevron:false, hex:true, hasGradient:true, hasDesignTokens: true, showGradient:false});
 			this.color.keepOpenOnTypeSelection = "widget";
 			this.color.reposition = true;
 			this.color.updateLabel = true;
@@ -1150,7 +1150,7 @@ export default {
 			/**
 			* back ground color is for every one :-D
 			*/
-			this.screenBackgroundColor = this.$new(ToolbarColor, {hasGradient:true, hasPicker:true, chevron:false, hex:true});
+			this.screenBackgroundColor = this.$new(ToolbarColorDT, {hasGradient:true, hasPicker:true, hasDesignTokens:true, chevron:false, hex:true});
 			this.screenBackgroundColor.updateLabel  = true;
 			this.screenBackgroundColor.keepOpenOnTypeSelection = "screen";
 			this.screenBackgroundColor.setCssProps(cssProps)

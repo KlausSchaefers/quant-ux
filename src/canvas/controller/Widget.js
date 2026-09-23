@@ -962,10 +962,7 @@ export default class Widget extends Responsive {
 		const widget = this.model.widgets[id];
 
 
-		if (type !== 'props') {
-			// check if we need to update the design system and remove the props
-			console.debug('updateWidgetProperties', widget, props, type)
-		}
+		this.removeOverwrittenDesignTokens(widget, props, type)
 
 
 
@@ -1007,6 +1004,8 @@ export default class Widget extends Responsive {
 		this.checkTemplateAutoUpdate([{id: id, type:'widget', action:'change', prop:type}])
 		this.commitModelChange()
 	}
+
+
 
 	createWidgetPropertiesCommand (id, props, type, inlineLabel){
 		const widget = this.model.widgets[id];
