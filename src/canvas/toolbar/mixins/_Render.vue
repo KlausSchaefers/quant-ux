@@ -794,6 +794,10 @@ export default {
 
 			this.paddingWidget = this.$new(BoxPadding);
 			this.own(on(this.paddingWidget, "change", lang.hitch(this, "setWidgetMultiStyle")));
+			this.own(on(this.paddingWidget, "unlinkDesignToken", lang.hitch(this, "unlinkDesignToken")));
+			this.own(on(this.paddingWidget, "linkDesignToken", lang.hitch(this, "linkDesignToken")));
+
+
 			this.paddingWidget.setCssProps(cssProps);
 			this.paddingWidget.placeAt(content);
 
@@ -926,6 +930,9 @@ export default {
 			this.boxShadow.setCssProps(['boxShadow'])
 			this.own(on(this.boxShadow, "change", lang.hitch(this, "setWidgetStyle", "boxShadow")));
 			this.own(on(this.boxShadow, "changing", lang.hitch(this, "setTempWidgetStyle", "boxShadow")));
+			this.own(on(this.boxShadow, "unlinkDesignToken", lang.hitch(this, "unlinkDesignToken")));
+			this.own(on(this.boxShadow, "linkDesignToken", lang.hitch(this, "linkDesignToken")));
+
 			this._placeAt(this.boxShadow,row);
 
 
@@ -1070,6 +1077,9 @@ export default {
 			this.own(on(this.textProperties, "change", lang.hitch(this, "setWidgetStyle")));
 			this.own(on(this.textProperties, "changing", lang.hitch(this, "setTempWidgetStyle")));
 			this.own(on(this.textProperties, "toggle", lang.hitch(this, "toggleStyle")));
+
+			this.own(on(this.textProperties, "unlinkDesignToken", lang.hitch(this, "unlinkDesignToken")));
+			this.own(on(this.textProperties, "linkDesignToken", lang.hitch(this, "linkDesignToken")));
 
 			this.properties.appendChild(parent);
 			this.textDiv = parent;

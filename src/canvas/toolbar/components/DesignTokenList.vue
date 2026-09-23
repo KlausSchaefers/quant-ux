@@ -435,10 +435,10 @@ export default {
         dt.value = {
           "fontSize" : 14,
           "fontFamily" : "Helvetica Neue,Helvetica,Arial,sans-serif",
-          "textAlign" : "center",
+          "textAlign" : "left",
           "letterSpacing" : 0,
-          "lineHeight" : 1.5,
-          "verticalAlign" : "middle"
+          "lineHeight" : 1.4,
+          "verticalAlign" : "top"
         }
         dt.isComplex = true
       }
@@ -446,10 +446,10 @@ export default {
       if (type === 'padding') {
         dt.type = "padding",
         dt.value = {
-          "paddingTop" : 0,
-          "paddingBottom" : 0,
-          "paddingLeft" : 0,
-          "paddingRight" : 0
+          "paddingTop" : 8,
+          "paddingBottom" : 8,
+          "paddingLeft" : 8,
+          "paddingRight" : 8
         }
         dt.isComplex = true
       }
@@ -457,10 +457,10 @@ export default {
       if (type === 'stroke') {
         dt.type = "stroke",
         dt.value = {
-          "borderTopWidth" : 0,
-          "borderRightWidth" : 0,
-          "borderLeftWidth" : 0,
-          "borderBottomWidth" : 0,
+          "borderTopWidth" : 1,
+          "borderRightWidth" : 1,
+          "borderLeftWidth" : 1,
+          "borderBottomWidth" : 1,
           "borderTopColor" : "#000000",
           "borderBottomColor" : "#000000",
           "borderRightColor" : "#000000",

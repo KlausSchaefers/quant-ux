@@ -1,7 +1,14 @@
 
 <template>
 	  <div class="MatcDesignTokenMixin">
-      <DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken"/>
+      <DesignTokenView 
+          v-show="hasDesignToken" 
+          :designtoken="currentDesignToken"
+          @change="onDTChange" 
+          @remove="onDTRemove"
+          tokenType="boxShadow"
+          :designTokenList="getDesignTokens()"
+        />
       <div class="MatcBoxShadow2" v-show="!hasDesignToken">
         <div type="button" ref="button" class="MatcToolbarItem MatcToolbarDropDownButton MatcToolbarIconButton">
             <QIcon :icon="icon"/>
@@ -9,7 +16,13 @@
         </div>
       </div>
 
-        <div class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" role="menu" data-dojo-attach-point="popup" @click.stop="" @mousedown.stop="" >
+        <div 
+          class="MatcToolbarPopUp MatcBoxShadowPopup MatcToolbarDropDownButtonPopup" 
+          role="menu" 
+          data-dojo-attach-point="popup" 
+          @click.stop="" 
+          @mousedown.stop="" 
+          >
           <ShadowSettings ref="settings" @changing="onTempChange" @resize="onResize"/>
            <div class="MatcToolbarPopupFooter" @click="onRemove">
             <QIcon icon="Delete"/>

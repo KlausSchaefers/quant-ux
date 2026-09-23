@@ -3,9 +3,12 @@
   <div class="MatcToolbarItem MatcToolbarIconButton"  @mousedown.stop="" @click.stop="onClick" >
       <DesignTokenPreview :designtoken="designtoken"/>
       
-      <ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
+      <ul 
+        class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" 
+        role="menu" 
+        ref="popup"
+      >
 
-       
         <li @mousedown.stop="onUnLink" class="MatcDesignTokenButtonHeader">
             <QIcon icon="Delete"/>
             <label class="MatcToolbarPopUpLabel">Remove Design Token</label>
@@ -35,6 +38,7 @@ export default {
     data: function () {
         return {
           reposition: true,
+          overRideAttachWithRef: true,
           arrowPosition: "right",
           icons: {
             color: 'mdi mdi-water',

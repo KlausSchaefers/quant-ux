@@ -2,7 +2,14 @@
 <template>
 	<div class="MatcDesignTokenMixin">
 		  <div class="MatcToolbarSectionContent" v-show="hasDesignToken">
-				<DesignTokenView class="MatcToolbarItem"  :designtoken="currentDesignToken"/>
+				<DesignTokenView 
+					class="MatcToolbarItem"  
+					:designtoken="currentDesignToken"
+					@change="onDTChange" 
+					@remove="onDTRemove"
+					tokenType="text"
+					:designTokenList="getDesignTokens()"
+					/>
 		  </div>
 		  <div v-show="!hasDesignToken" class="MatcTextProperties">
 			  <div class="MatcToolbarSectionContent" ref="row1" />

@@ -62,21 +62,38 @@ export default {
 
     initDomNodes() {
       this.domNode = this.$el;
-      if (this.domNode) {
-        if (this.domNode.querySelectorAll) {
-          let attachPoints = this.domNode.querySelectorAll("[data-dojo-attach-point]");
-          attachPoints.forEach(element => {
-            let name = element.getAttribute("data-dojo-attach-point");
-            if (!this[name]) {
-              this[name] = element;
-            }
-          });
-        } else {
-          console.warn('initDomNodes', this)
+      if (this.domNode ) {
+        if (!this.overRideAttachWithRef) {
+          if (this.domNode.querySelectorAll) {
+            /**
+             * This is quite buggy for nested widgets, 
+             * as it might return several attach points.
+             */
+            let attachPoints = this.domNode.querySelectorAll("[data-dojo-attach-point]");
+            attachPoints.forEach(element => {
+              let name = element.getAttribute("data-dojo-attach-point");
+              if (!this[name]) {
+                this[name] = element;
+              } else {
+                //console.error('initDomNodes() > double', name, element)
+              }
+            });
+          } else {
+            console.warn('initDomNodes', this)
+          }
         }
+       
       } else {
         console.warn('no domnode for', this.name)
       }
+
+      if (this.overRideAttachWithRef && this.$refs) {
+          for (let key in this.$refs) {
+            //console.debug('initDomNodes', key, this.$refs[key])
+            this[key] = this.$refs[key]
+          }
+      }
+
     },
 
     /**
