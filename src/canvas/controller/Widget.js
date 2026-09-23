@@ -938,10 +938,9 @@ export default class Widget extends Responsive {
 	}
 
 	cleanUpGroup (widget){
-
-		var currentGroup = this.getParentGroup(widget.id);
+		let currentGroup = this.getParentGroup(widget.id);
 		if(currentGroup){
-			var i = currentGroup.children.indexOf(widget.id);
+			let i = currentGroup.children.indexOf(widget.id);
 			if(i != -1) {
 				this.logger.log(2,"cleanUpGroup", "remove " + widget.id  +" from " + currentGroup.id);
 				currentGroup.children.splice(i, 1);
@@ -959,7 +958,16 @@ export default class Widget extends Responsive {
 		this.logger.log(1,"updateWidgetProperties", "enter > " + type+ " > doNotRender: "+ doNotRender);
 		this.startModelChange()
 
+
 		const widget = this.model.widgets[id];
+
+
+		if (type !== 'props') {
+			// check if we need to update the design system and remove the props
+			console.debug('updateWidgetProperties', widget, props, type)
+		}
+
+
 
 		const oldWidget = lang.clone(widget);
 

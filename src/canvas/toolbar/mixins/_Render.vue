@@ -13,6 +13,7 @@ import ScrollContainer from 'common/ScrollContainer'
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 
 import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
+import ToolbarColorDT from 'canvas/toolbar/components/ToolbarColorDT'
 import ToolbarImage from 'canvas/toolbar/components/ToolbarImage'
 
 import BoxShadow from 'canvas/toolbar/components/BoxShadow2'
@@ -829,7 +830,7 @@ export default {
 
 
 			// background color
-			this.backgroundColor = this.$new(ToolbarColor, {hasGradient : true, hasPicker:true, chevron:false, hex:true});
+			this.backgroundColor = this.$new(ToolbarColorDT, {hasGradient : true, hasPicker:true, hasDesignTokens: true, chevron:false, hex:true});
 			this.backgroundColor.updateLabel = true;
 			this.backgroundColor.keepOpenOnTypeSelection = "widget";
 			this.backgroundColor.setModel(this.model);
@@ -837,7 +838,7 @@ export default {
 			this._placeAt(this.backgroundColor, content);
 			this.own(on(this.backgroundColor, "change", lang.hitch(this, "setWidgetStyle", "background")));
 			this.own(on(this.backgroundColor, "changing", lang.hitch(this, "setTempWidgetStyle", "background")));
-
+			this.own(on(this.backgroundColor, "linkDesignToken", lang.hitch(this, "linkDesignToken")));
 
 			this.addTooltip(this.backgroundColor.domNode, "Background Color");
 			this.colorWidgets.push(this.backgroundColor);
@@ -1039,6 +1040,7 @@ export default {
 			this.color.setCssProps(cssProps)
 			this.own(on(this.color, "change", lang.hitch(this, "setWidgetStyle", "color")));
 			this.own(on(this.color, "changing", lang.hitch(this, "setTempWidgetStyle", "color")));
+			this.own(on(this.color, "linkDesignToken", lang.hitch(this, "linkDesignToken")));
 			this._placeAt(this.color, content);
 			this.addTooltip(this.color.domNode, "Font Color");
 			/**
@@ -1155,8 +1157,10 @@ export default {
 			this.screenBackgroundColor.setModel(this.model);
 			this.own(on(this.screenBackgroundColor, "change", lang.hitch(this, "setScreenStyle", "background")));
 			this.own(on(this.screenBackgroundColor, "changing", lang.hitch(this, "setTempScreenStyle", "background")));
+			this.own(on(this.screenBackgroundColor, "linkDesignToken", lang.hitch(this, "linkDesignToken")));
 			this._placeAt(this.screenBackgroundColor, content);
 
+			
 
 			this.properties.appendChild(parent);
 			this.screenBackDiv = parent;

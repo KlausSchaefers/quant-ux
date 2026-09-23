@@ -71,10 +71,15 @@ export default {
             designtokens = template.designtokens
           }
         }
+
         this.$set(this.box, 'designtokens', designtokens)
+        this.onBoxChange()
         this.$forceUpdate()
       }
     },
+    onBoxChange() {
+      // child classes can implement
+    }
   },
 };
 </script>

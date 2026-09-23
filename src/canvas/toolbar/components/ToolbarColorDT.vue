@@ -1,7 +1,6 @@
 <template>
 	<div class="MatcDesignTokenMixin MatcToolbarPopUpCntr">
-		<DesignTokenView v-if="hasDesignToken" :designtoken="currentDesignToken" @change="onDTChange"/>
-		<div v-show="!hasDesignToken">
+		<div>
 			<div type="button" ref="button"
 				:class="['MatcToolbarColorButton MatcToolbarItem MatcToolbarIconButton MatcToolbarColor', 
 				{ '': hex }, 
@@ -13,6 +12,8 @@
 				<span v-if="label" class="MatcToolbarItemLabel">{{ label }}</span>
 				<input v-if="hex" class="MatcIgnoreOnKeyPress  MatcToobarInputInlineEdit" @mousedown.stop=""
 					@click.stop="focusHex" :value="colorAsHex" @change="setColorHasHex" ref="hexInput" />
+
+					<span v-if="hasDesignToken">*</span>
 			</div>
 		</div>
 		<div class="MatcToolbarPopUpBackDrop" v-if="isDialog && isOpen" @click="hideDropDown"></div>
@@ -84,11 +85,6 @@ export default {
 	},
 	methods: {
 
-		onDTChange (dt) {
-			console.debug('onDTChange', dt)
-			//this.showDropDown()
-		},
-
 		getColorDesignTokens() {
 			const result = []
 			if (this.model && this.model.designtokens) {
@@ -102,51 +98,56 @@ export default {
 			return result
 		},
 
-		renderDesignTokenBoxes(tokens, parent, columns, callback) {
+		renderDesignTokenBoxes(tokens, parent, callback) {
 			const boxes = {};
-			const table = document.createElement("table");
-			const tbody = document.createElement("tbody");
-			table.appendChild(tbody);
+			const list = document.createElement("div");
+			list.className = 'MatcToolbarColorTokenList'
 
-			let tr = null;
 			for (let i = 0; i < tokens.length; i++) {
-				if (i % columns == 0 || tr == null) {
-					tr = document.createElement("tr");
-					tbody.appendChild(tr);
-				}
 				const token = tokens[i];
-				const td = document.createElement("td");
-				td.title = token.name;
-				css.add(td, "MatcColorBox MatcColorBox" + (i % columns));
+				const row = document.createElement("div");
+				row.title = token.name;
+	
+
+				const box = document.createElement("div");
+				css.add(box, "MatcColorBox");
 				const span = document.createElement("span");
 				if (this.isGradient(token.value)) {
 					this._setGradientCSS(span, token.value)
 				} else {
 					span.style.backgroundColor = token.value;
 				}
+				box.appendChild(span);
+
+				const label = document.createElement("span");
+				label.textContent = token.name;
+				label.className = "MatcToolbarItemLabel";
+
 				boxes[token.id] = span;
-				this.tempOwn(on(span, touch.press, lang.hitch(this, callback, token)));
-				td.appendChild(span);
-				tr.appendChild(td);
+				this.tempOwn(on(row, touch.press, lang.hitch(this, callback, token)));
+
+				row.appendChild(box);
+				row.appendChild(label);
+				list.appendChild(row);
 			}
-			parent.appendChild(table);
+			parent.appendChild(list);
 			return boxes;
 		},
 
 		onDesignTokenSelected(token, e) {
+			this.logger.log(-1, 'onDesignTokenSelected', 'Set design token', token, this.cssProps)
 			this.stopEvent(e);
-			this.onDesignTokenChange(token)
+			this.emit('linkDesignToken', token, this.cssProps)
+			// this.setColor
 		},
 
-		onDesignTokenChange(token) {
-			console.debug('ToolbarColor.onDesignTokenChange', token)
-		},
+	
 
 		reOpenDropDown() {
-			if (this.hasDesignToken) {
-				this.logger.log(-1, 'reOpenDropDown', 'Exit because of design token')
-				return
-			}
+			// if (this.hasDesignToken) {
+			// 	this.logger.log(-1, 'reOpenDropDown', 'Exit because of design token')
+			// 	return
+			// }
 			let now = new Date().getTime()
 			if (!this.ignoreReOpen || (now - this.ignoreReOpen) > 500) {
 				this.showDropDown()
@@ -294,7 +295,7 @@ export default {
 			 */
 			if (this.colorDiv) {
 				this.colorDiv.innerHTML = "";
-				this.renderDesignTokenBoxes(this.getColorDesignTokens(), this.colorDiv, this.columns, "onDesignTokenSelected");
+				this.renderDesignTokenBoxes(this.getColorDesignTokens(), this.colorDiv, "onDesignTokenSelected");
 			}
 	
 
@@ -521,11 +522,14 @@ export default {
 			} else {
 				console.warn("setValue() > Widget disposed");
 			}
+	
 
 			/**
 			 * Gradients will open the right tab...
 			 */
-			if (this.hasGradient && this.isGradient(v)) {
+			if (this.currentDesignToken) {
+				this.onSelectTab(1, false)
+			} else if(this.hasGradient && this.isGradient(v)) {
 				this.onSelectTab(2, false)
 			} else {
 				this.onSelectTab(0)
@@ -536,17 +540,24 @@ export default {
 			 * that we update the colors
 			 */
 			this.value = v;
+
+
 			if (this.isOpen && !this.isGradient(v)) {
 				this.onVisible();
 			}
 		},
+
+
 
 		setLabelColor(v) {
 			if (v === 'None' || v === 'transparent' || !v) {
 				v = '';
 			}
 			if (this.icon && this.icon.style) {
-				if (this.isGradient(v)) {
+				if (this.currentDesignToken) {
+					this.logger.log(-1, "setLabelColor", "design_token: " + this.currentDesignToken.name, this.currentDesignToken.value)
+					this.icon.style.background = this.currentDesignToken.value
+				} else if (this.isGradient(v)) {
 					const gradient = ColorUtil.getGradientCSS(v)
 
 					this.icon.style.background = "linear-gradient" + gradient

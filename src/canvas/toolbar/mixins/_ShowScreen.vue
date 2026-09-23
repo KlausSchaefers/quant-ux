@@ -104,9 +104,9 @@ export default {
 					}
 					this.screenImageRepeat.setValue(style.backgroundImageRepeat)
 
-
-					this.screenBackgroundColor.setValue(style.background);
 					this.screenBackgroundColor.setBox(model)
+					this.screenBackgroundColor.setValue(style.background);
+			
 					this.screenOverlayCheckBox.setValue(style.overlay);
 
 					/**

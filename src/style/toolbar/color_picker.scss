@@ -40,6 +40,19 @@
 	width: 110px;
 }
 
+.MatcToolbarColorTokenList{
+	display: flex;
+	flex-direction: column;
+	gap:4px;
+
+	div {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		cursor: pointer;
+	}
+}
+
 .MatcToolbarColorContainer{
 	min-height: 300px;
 	width: 470px;

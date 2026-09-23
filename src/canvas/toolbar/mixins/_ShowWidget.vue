@@ -171,9 +171,9 @@ export default {
 
 			if(model?.has?.backgroundColor ){
 				css.remove(this.backgroundColorDiv, "MatcToolbarSectionHidden");
-				this.backgroundColor.setValue(style.background);
-				this.backgroundColor.setModel(this.model)
 				this.backgroundColor.setBox(model);
+				this.backgroundColor.setValue(style.background);
+				this.backgroundColor.setModel(this.model)	
 				this.backgroundColor.setWidgetViewMode(widgetViewMode)
 			}
 
@@ -189,16 +189,15 @@ export default {
 			if(model?.has?.label){
 				css.remove(this.textDiv, "MatcToolbarSectionHidden");
 				css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
-
-				this.textProperties.hasVerticalAlign(this.hasValign.indexOf(model.type) >= 0)
-				this.textProperties.setModel(this.model)
 				this.textProperties.setBox(model)
+				this.textProperties.hasVerticalAlign(this.hasValign.indexOf(model.type) >= 0)
+				this.textProperties.setModel(this.model)			
 				this.textProperties.setWidgetViewMode(widgetViewMode)
 				this.textProperties.setValue(style)
 
-				this.color.setValue(style.color)
-				this.color.setModel(this.model)
 				this.color.setBox(model)
+				this.color.setValue(style.color)
+				this.color.setModel(this.model)			
 				this.color.setWidgetViewMode(widgetViewMode)
 
 	
@@ -209,9 +208,9 @@ export default {
 				if (!isLogicWidget && !hideColor) {
 					css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
 					if (this.hasColor.indexOf(model.type) >=0) {
-						this.color.setValue(style.color)
-						this.color.setModel(this.model)
 						this.color.setBox(model)
+						this.color.setValue(style.color)
+						this.color.setModel(this.model)				
 						this.color.setWidgetViewMode(widgetViewMode)
 					}
 				}
@@ -225,9 +224,9 @@ export default {
 
 			if (this.hasPadding.indexOf(model.type) >=0) {
 				css.remove(this.boxDiv, "MatcToolbarSectionHidden");
-				this.paddingWidget.setValue(style);
-				this.paddingWidget.setModel(this.model)
 				this.paddingWidget.setBox(model)
+				this.paddingWidget.setValue(style);
+				this.paddingWidget.setModel(this.model)				
 				this.paddingWidget.setWidgetViewMode(widgetViewMode)
 			}
 
@@ -270,8 +269,9 @@ export default {
 			if (model?.has?.border){
 
 				css.remove(this.borderDiv, "MatcToolbarSectionHidden");
-				this.boxBorder.setValue(style);
 				this.boxBorder.setBox(model)
+				this.boxBorder.setValue(style);
+			
 				this.boxBorder.setWidgetViewMode(widgetViewMode)
 
 				if (this.radiusBox){
@@ -280,8 +280,8 @@ export default {
 				}
 
 				if (this.boxBorder2){
-					this.boxBorder2.setValue(style);
 					this.boxBorder2.setBox(model)
+					this.boxBorder2.setValue(style);					
 					this.boxBorder2.setWidgetViewMode(widgetViewMode)
 				}
 

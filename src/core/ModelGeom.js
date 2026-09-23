@@ -3,6 +3,8 @@
  * A class that should in the long run contain all the geometric functions
  * that are somehow scattered around, Core.js and Util.vue
  */
+const FLEX_CONTAINER_MARGIN = 0.1
+
 class ModelGeom {
 
 
@@ -203,12 +205,14 @@ class ModelGeom {
             return this.getChildWidgetsIDs(model, cntr)
         }
 
+        // snapping can nudge a child a fraction of a pixel over the edge of a flex container
+        const margin = cntr.type === 'FlexContainer' ? FLEX_CONTAINER_MARGIN : 0
         const result = []
         for (let i = 0; i < screen.children.length; i++) {
             const id = screen.children[i]
             const w = model.widgets[id]
             if (w && w.z >= cntr.z && w.id !== cntr.id) {
-                if (this.isFullContained(cntr, w)) {
+                if (this.isFullContained(cntr, w, margin)) {
                     result.push(w.id)
                 }
             }
@@ -216,13 +220,12 @@ class ModelGeom {
         return result
     }
 
-    isFullContained	(outer, inner) {
-		// add here some offset?
+    isFullContained	(outer, inner, margin = 0) {
 		return (
-			outer.x <= inner.x &&
-			outer.y <= inner.y &&
-			outer.x + outer.w >= inner.x + inner.w &&
-			outer.y + outer.h >= inner.y + inner.h
+			outer.x - margin <= inner.x &&
+			outer.y - margin <= inner.y &&
+			outer.x + outer.w + margin >= inner.x + inner.w &&
+			outer.y + outer.h + margin >= inner.y + inner.h
 		)
 	}
 }

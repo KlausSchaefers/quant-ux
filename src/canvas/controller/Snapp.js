@@ -18,6 +18,7 @@ export default class Snapp extends Screen {
 		if(!fromToolbar){
 			pos = this.getUnZoomedBox(pos, z);
 		}
+		
 
 		if(pos.snapp){
 			/**
@@ -189,7 +190,8 @@ export default class Snapp extends Screen {
 		}
 	}
 
-	getSnappXValue (line, screen, pos){
+	getSnappXValue (line, screen, pos, flexMargin=0.1){
+
 		if("Grid" == line.type){
 
 			if (line.line === -1) {
@@ -257,12 +259,12 @@ export default class Snapp extends Screen {
 			const left = pos?.snapp?.left
 			if(!left) {		
 				if (line._sourceV + pos.w >= end) {			
-					return end - 1
+					return end + flexMargin
 				}				
 				return line._sourceV + pos.w
 			}
 			if (line._sourceV <= start) {
-				return start - 0.1
+				return start - flexMargin // hack to out it a little in front
 			}
 			return line._sourceV
 		} else {
@@ -271,7 +273,7 @@ export default class Snapp extends Screen {
 		return 0;
 	}
 
-	getSnappYValue (line, screen, pos){
+	getSnappYValue (line, screen, pos, flexMargin = 0.1){
 		if ("Grid" == line.type) {
 			if (line.line === -1) {
 				this.logger.log(-1, "snappAll", " getSnappYValue > bottom");
@@ -314,13 +316,13 @@ export default class Snapp extends Screen {
 			if(!top) {
 				// we should clamp this somehow, but stil		
 				if (line._sourceV + pos.h >= end)  {			
-					return end - 1
+					return end + flexMargin
 				}				
 				return line._sourceV + pos.h
 			}
 			// this might put us out in case of large gaps
 			if (line._sourceV <= start) {
-				return start
+				return start - flexMargin
 			}
 			return line._sourceV
 		} else {

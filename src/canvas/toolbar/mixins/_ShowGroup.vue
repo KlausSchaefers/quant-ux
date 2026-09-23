@@ -271,9 +271,9 @@ export default {
 
 				if(hasColor){
 					css.remove(this.textColorDiv, "MatcToolbarSectionHidden")
-					this.color.setValue(style.color)
-					this.color.setModel(this.model)
 					this.color.setBox(null)
+					this.color.setValue(style.color)
+					this.color.setModel(this.model)	
 				}
 
 				if(hasPadding){
