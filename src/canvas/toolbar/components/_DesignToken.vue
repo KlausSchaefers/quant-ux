@@ -34,6 +34,24 @@ export default {
   },
   methods: {
 
+    onDTRemove(token) {
+	    console.debug('onDTRemove', token)
+			this.emit('unlinkDesignToken', token, this.cssProps)
+    },
+
+    onDTChange (token) {
+			console.debug('onDTChange', token)
+			this.emit('linkDesignToken', token, this.cssProps)
+		},
+
+    getDesignTokens () {
+			if (this.model) {
+				return structuredClone(this.model.designtokens)
+			}
+			return {}
+		},
+
+
     findDesignToken (token, cssProps = []) {
         for (let i = 0; i < cssProps.length; i++) {
             let prop = cssProps[i]

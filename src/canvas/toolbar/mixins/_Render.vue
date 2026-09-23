@@ -12,7 +12,6 @@ import DomBuilder from 'common/DomBuilder'
 import ScrollContainer from 'common/ScrollContainer'
 import ToolbarSelector from 'canvas/toolbar/components/ToolbarSelector'
 
-import ToolbarColor from 'canvas/toolbar/components/ToolbarColor'
 import ToolbarColorDT from 'canvas/toolbar/components/ToolbarColorDT'
 import ToolbarImage from 'canvas/toolbar/components/ToolbarImage'
 
@@ -986,6 +985,9 @@ export default {
 			this.boxBorder2.setCssProps(cssProps)
 			this.own(on(this.boxBorder2, "change", lang.hitch(this, "setWidgetMultiStyle")));
 			this.own(on(this.boxBorder2, "changing", lang.hitch(this, "setTempMultiWidgetStyle")));
+			this.own(on(this.boxBorder2, "linkDesignToken", lang.hitch(this, "linkDesignToken")));
+			this.own(on(this.boxBorder2, "unlinkDesignToken", lang.hitch(this, "unlinkDesignToken")));
+
 			this._placeAt(this.boxBorder2, content);
 
 			this.properties.appendChild(parent);

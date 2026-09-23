@@ -63,14 +63,14 @@ export default {
       'QIcon': QIcon
     },
     methods: {
-      onSelectToken() {
-
+      onSelectToken(token) {
+       this.emit('change', token)
       },
       onClick () {   
-        this.emit('change', this.designtoken)
+ 
       },
-      unlink () {
-        this.emit('unlink', this.designtoken)
+      onUnLink () {
+        this.emit('remove', this.designtoken)  
       },
       setModel (m) {
         this.model = m

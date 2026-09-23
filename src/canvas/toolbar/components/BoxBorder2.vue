@@ -1,7 +1,14 @@
 
 <template>
 	<div class="MatcDesignTokenMixin">
-		<DesignTokenView v-show="hasDesignToken" :designtoken="currentDesignToken" />
+		<DesignTokenView 
+			v-show="hasDesignToken" 
+			:designtoken="currentDesignToken" 	
+			@change="onDTChange" 
+			@remove="onDTRemove"
+			tokenType="stroke"
+			:designTokenList="getDesignTokens()
+		"/>
 		<div class="MatcBoxBorder2" v-show="!hasDesignToken" ref="cntr"></div>
 	</div>
 </template>

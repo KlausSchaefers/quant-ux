@@ -1204,6 +1204,9 @@ export default {
 			if(this._selectedScreen){
 				this.controller.unlinkDesignToken(this._selectedScreen.id, designToken.id, state, 'screen');
 			}
+			if (this._selectedMulti){
+				this.canvas.showError("Not supported")
+			}
 		},
 
 		changeDesignToken (designToken) {
