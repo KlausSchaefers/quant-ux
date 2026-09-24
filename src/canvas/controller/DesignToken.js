@@ -1,5 +1,6 @@
 
 import Widget from './Widget'
+import DesignTokenUtil from '../../core/DesignTokenUtil'
 
 export default class DesignToken extends Widget{
 
@@ -15,7 +16,7 @@ export default class DesignToken extends Widget{
 		if (!tokens || !props) {
 			return
 		}
-		const overwritableKeys = new Set(['color', 'background'])
+		const overwritableKeys = DesignTokenUtil.getDesignTokenKeys()
 		for (let key in props) {
 			if (overwritableKeys.has(key) && tokens[key] !== undefined) {
 				delete tokens[key]

@@ -697,6 +697,8 @@ export default {
 			this.own(on(this.dataWidget, "stypeChanging", lang.hitch(this, "setTempWidgetStyle")));
 			this.own(on(this.dataWidget, "stypeMutlitChange", lang.hitch(this, "setWidgetMultiStyle")));
 
+			this.own(on(this.dataWidget, "linkDesignToken", lang.hitch(this, "linkDesignToken")));
+
 			this.properties.appendChild(parent);
 			this.dataDiv = parent;
 		},

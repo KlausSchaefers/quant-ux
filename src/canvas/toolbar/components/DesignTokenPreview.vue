@@ -1,12 +1,12 @@
 
 <template>
-  <div class="MatcDesignTokenPreView" v-if="designtoken" @click.right.stop="showMenu" @dblclick.stop="onStartRename" >
+  <div class="MatcDesignTokenPreView" v-if="designtoken" @click.right.stop="showMenu" @dblclick.stop="onStartRename" @click.stop="onClick" >
     <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'color'">
       <span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"
         :style="{ 'background': getBackgroundColor(designtoken.value), 'background': getBackgroundColor2(designtoken.value) }" />
     </span>
     <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'stroke'">
-      <span :class="icons[designtoken.type]" :style="{ 'color': designtoken.value.borderTopColor }" />
+        <QIcon icon="DesignTokenBorder" :style="{ 'color': designtoken.value.borderTopColor }" />
     </span>
     <span class="MatcToolbarItemIcon" v-if="designtoken.type === 'text'">
       <QIcon icon="Text"></QIcon>
@@ -35,15 +35,17 @@
       @keydown.stop=""
       @keyup.enter.stop="onRenameDone"
       @click.stop />
-    <span class="MatcToolbarItemLabel" :style="textStyle" v-else>{{ designtoken.name }}</span>
+    <span class="MatcToolbarItemLabel" v-else>{{ designtoken.name }}</span>
 
-    <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true && action === 'edit'" ref="editBtn">
+
+
+    <!-- <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onEdit" v-if="edit === true && action === 'edit'" ref="editBtn">
       <QIcon icon="Settings"></QIcon>
     </span>
 
     <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onRefactor" v-if="refactor === true" ref="refactorBtn">
       <QIcon icon="EditPencil"></QIcon>
-    </span>
+    </span> -->
 
 
     <span class="MatcToolbarItemIcon MatcDesignTokenEdit" @click="onDelete" v-if="edit === true && action === 'delete'" ref="editBtn">
@@ -68,7 +70,7 @@ export default {
         color: 'mdi mdi-water',
         text: 'mdi mdi-format-text-variant',
         padding: 'mdi mdi-select-all',
-        stroke: 'mdi mdi-border-all-variant',
+        stroke: 'BorderToken',
         tooltip: 'mdi mdi-cursor-default-click-outline',
         boxShadow: 'mdi mdi mdi-box-shadow', //'mdi mdi-box-shadow',
       },
@@ -134,6 +136,13 @@ export default {
         v = "-webkit-linear-gradient" + gradient
       }
       return v
+    },
+    onClick(e) {
+      if (this.edit) {
+        this.$emit('edit', this.designtoken, this.$el, e)
+      } else {
+        //console.debug('onClick', 'ignore')
+      }
     },
     onDelete (e) {
       this.$emit('delete', this.designtoken, this.$el, e)

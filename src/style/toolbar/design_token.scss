@@ -128,12 +128,17 @@
 }
 
 .MatcDesignTokenList .MatcDesignTokenListSection{
-	margin-bottom: 16px;
+	margin-bottom: 8px;
     border-bottom: 1px solid transparent;
 
 	&.MatcDesignTokenListSectionCollapsed{
 		margin-bottom: 0px;
 	}
+}
+
+.MatcDesignTokenList .MatcDesignTokenPreView {
+	cursor: pointer;
+	height: 34px;
 }
 
 

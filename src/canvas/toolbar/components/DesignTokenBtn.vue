@@ -2,7 +2,7 @@
 <template>
     <div class="MatcDesignTokenButton"  @mousedown.stop="" >
 
-      <QIcon v-show="isVisible" icon="Plus"></QIcon>
+      <QIcon v-show="isVisible" :icon="icon"></QIcon>
 
  
     	  <ul class="MatcToolbarPopUp MatcToolbarDropDownButtonPopup MatcDesignTokenButtonPopup" role="menu" data-dojo-attach-point="popup">
@@ -69,6 +69,12 @@ export default {
         }
     },
     computed: {
+      icon () {
+        if (this.currentDesignToken) {
+          return 'EditPencil'
+        }
+        return 'Plus'
+      },
       filteredTokens () {
         let result = []
         if (this.model && this.model.designtokens) {

@@ -18,6 +18,7 @@ import ScrollContainer from 'common/ScrollContainer'
 import _Tooltip from 'common/_Tooltip'
 import Util from 'core/Util'
 import ToolbarColor from './ToolbarColor'
+import ToolbarColorDT from './ToolbarColorDT'
 import InputDropDownButton from './InputDropDownButton'
 import ToolbarDropDownButton from './ToolbarDropDownButton'
 import ToolbarSlider from './ToolbarSlider'
@@ -41,6 +42,8 @@ import NavidationEditor from './NavigationTable'
 import IconTable from './IconTable'
 import {iconDOM} from 'page/QIconUtil'
 import ChatSettings from './ChatSettings'
+
+import DesignTokenUtil from '../../../core/DesignTokenUtil.js'
 
 export default {
     name: 'DataSection',
@@ -2590,37 +2593,6 @@ export default {
 
 		},
 
-		_renderColor (lbl, icon, value, property, callback, updateColor, hasGradient = false){
-
-			if(!callback){
-				callback ="onStyleChanged";
-			}
-
-			var row = this.db.div("MatcToobarRow").build(this.cntr);
-
-			var color = this.$new(ToolbarColor, {hasPicker:true, hasGradient: hasGradient});
-			color.placeAt(row);
-			if(updateColor){
-				color.updateColor = true;
-			} else {
-				color.updateLabel = true;
-			}
-
-			color.setLabel(lbl);
-			color.setModel(this.model);
-			color.setValue(value);
-			color.setBox(this.widget)
-			color.setCssProps([property])
-			css.add(color.domNode, " ");
-			this.tempOwn(on(color, "change", lang.hitch(this, callback, property)));
-			this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", property)));
-
-			//this.db.span("MatcToolbarItemLabel", lbl).build(row);
-
-			this._addChildWidget(color);
-
-			return color;
-		},
 
 
 		_renderInput (model, property, tt, placeholder=""){
@@ -2697,51 +2669,105 @@ export default {
 		},
 
 		_renderBoxColor (lbl, model, propertyBack, propertyColor, propertyBorder){
-
+	
 			let row = this.db.div("MatcToobarRow").build(this.cntr);
 
-			var color = this.$new(ToolbarColor, {hasPicker:true});
+			let color = this._createColorWidget(propertyBack, false)
 			color.placeAt(row);
 			color.updateColor = true;
 			color.setLabel(lbl + ' Fill');
-			color.setCssProps([propertyBack])
 			color.setModel(this.model);
+			color.setCssProps([propertyBack])			
+	
+			color.setBox(this.widget)
 			color.setValue(model.style[propertyBack]);
 			css.add(color.domNode ,"");
 			this.tempOwn(on(color, "change", lang.hitch(this, "onStyleChanged", propertyBack)));
 			this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", propertyBack)));
+			this.tempOwn(on(color, "linkDesignToken", lang.hitch(this, "onLinkDesignToken")));
+			//this.tempOwn(on(color, "linkDesignToken", lang.hitch(this, "onLinkDesignToken")));
 			this._addChildWidget(color);
 
 			if(propertyColor){
 				row = this.db.div("MatcToobarRow  ").build(this.cntr);
-				color = this.$new(ToolbarColor, {hasPicker:true});
+				color = this._createColorWidget(propertyColor, false)
 				color.placeAt(row);
 				color.setCssProps([propertyColor])
+				color.setBox(this.widget)
 				color.setLabel(lbl + ' Text');
 				color.setModel(this.model);
 				color.setValue(model.style[propertyColor]);
 				css.add(color.domNode ,"");
 				this.tempOwn(on(color, "change", lang.hitch(this, "onStyleChanged", propertyColor)));
 				this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", propertyColor)));
+				this.tempOwn(on(color, "linkDesignToken", lang.hitch(this, "onLinkDesignToken")));
 				this._addChildWidget(color);
 			}
 
 			if(propertyBorder){
 				row = this.db.div("MatcToobarRow ").build(this.cntr);
-				color = this.$new(ToolbarColor, {hasPicker:true});
+				color = this._createColorWidget(propertyBorder, false)
 				color.placeAt(row);
 				color.setCssProps([propertyBorder])
+				color.setBox(this.widget)
 				color.setLabel(lbl + ' Border');
 				color.setModel(this.model);
 				color.setValue(model.style[propertyBorder]);
 				css.add(color.domNode ,"");
 				this.tempOwn(on(color, "change", lang.hitch(this, "onStyleChanged", propertyBorder)));
 				this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", propertyBorder)));
+				this.tempOwn(on(color, "linkDesignToken", lang.hitch(this, "onLinkDesignToken")));
 				this._addChildWidget(color);
 			}
 			return color;
 		},
 
+
+		_renderColor (lbl, icon, value, property, callback, updateColor, hasGradient = false){
+	
+			if(!callback){
+				callback ="onStyleChanged";
+			}
+
+			const row = this.db.div("MatcToobarRow").build(this.cntr);
+
+			let color = this._createColorWidget(property, hasGradient)
+			color.placeAt(row);
+			if(updateColor){
+				color.updateColor = true;
+			} else {
+				color.updateLabel = true;
+			}
+
+			color.setLabel(lbl);
+			color.setModel(this.model);
+			color.setCssProps([property])
+			color.setBox(this.widget)
+			color.setValue(value);
+
+			css.add(color.domNode, " ");
+			this.tempOwn(on(color, "change", lang.hitch(this, callback, property)));
+			this.tempOwn(on(color, "changing", lang.hitch(this, "onTempStyleChanged", property)));
+			this.tempOwn(on(color, "linkDesignToken", lang.hitch(this, "onLinkDesignToken")));
+			//this.db.span("MatcToolbarItemLabel", lbl).build(row);
+
+			this._addChildWidget(color);
+
+			return color;
+		},
+
+		_createColorWidget(property, hasGradient) {
+			if (DesignTokenUtil.isColorProperty(property)) {
+				return this.$new(ToolbarColorDT, {hasPicker:true, hasGradient: hasGradient, hasDesignTokens:true});
+			} else {
+				return this.$new(ToolbarColor, {hasPicker:true, hasGradient: hasGradient});
+			}
+		},
+
+		onLinkDesignToken(token, cssProps) {
+			this.logger.log(-2, "onLinkDesignToken", "enter > ", token);
+			this.emit("linkDesignToken", token, cssProps);
+		},
 
 		onProperyChanged (key, value){
 			this.logger.log(2, "onProperyChanged", "enter > "+ key + " > " + value);

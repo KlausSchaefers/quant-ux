@@ -4,6 +4,7 @@ import Logger from './Logger'
 class ModelUtil {
 
     constructor() {
+        /** FIXME: Not needed? */
         this.designTokenCssProps = [
             'color',
             'fontSize',

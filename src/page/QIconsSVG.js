@@ -1780,5 +1780,9 @@ export const icons = {
         <path d="M15 13v-1h6v1" />
         <path d="M18 12v7" />
         <path d="M17 19h2" />
+    `,
+    'DesignTokenBorder' : `
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -14" />
     `
 }

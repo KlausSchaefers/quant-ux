@@ -1,6 +1,34 @@
-import * as ColorUtil from 'core/code/ColorUtil'
+import * as ColorUtil from './code/ColorUtil'
 
 class DesignTokenUtil {
+
+    constructor() {
+        this.designTokenKeys = new Set([
+            'color', 'background', 'colorForeGround', 'colorButton',
+            // colors found by scanning src/themes/wireframe/*.json
+            'activeBorderColor', 'activeColor', 'barColor', 'borderBottomColor', 'borderBoxColor',
+            'borderColor', 'borderLeftColor', 'borderRightColor', 'borderTopColor',
+            'checkBoxBorderColor', 'checkBoxHookColor', 'cicleActiveBorderColor', 'cicleActiveTextColor',
+            'cicleBorderColor', 'foregroundColor', 'handleColor', 'headerColor', 'iconColor',
+            'lineBorderColor', 'messageAssistantColor', 'messageButtonColor', 'messageUserColor',
+            'passiveColor', 'popColor', 'popupBorderColor', 'popupColor', 'selectColor', 'selectedColor',
+            'selectedInRangeColor', 'selectedOptionColor', 'tableHeaderColor',
+            // backgrounds found by scanning src/themes/wireframe/*.json
+            'activeBackground', 'backgroundButton', 'checkBoxBackground', 'cicleActiveBackground',
+            'cicleBackground', 'headerBackground', 'lineBackground', 'messageAssistantBackground',
+            'messageButtonBackground', 'messageUserBackground', 'popBackground', 'popupBackground',
+            'selectedBackground', 'selectedInRangeBackground', 'selectedOptionBackground',
+            'tableHeaderBackground'
+        ])
+    }
+
+    getDesignTokenKeys() {
+        return this.designTokenKeys
+    }
+
+    isColorProperty(prop) {
+        return this.designTokenKeys.has(prop)
+    }
 
     /**
     * Scans all widgets and screens (across all view states) for the
