@@ -1,5 +1,5 @@
 <template>
-	<div class="MatcDesignTokenMixin MatcToolbarPopUpCntr">
+	<div class="MatcDesignTokenMixin MatcToolbarPopUpCntr" >
 		<div>
 			<div type="button" ref="button"
 				:class="['MatcToolbarColorButton MatcToolbarItem MatcToolbarIconButton MatcToolbarColor', 
@@ -8,7 +8,7 @@
 				{ 'MatcToolbarColorHexError': hexError }
 	
 				]">
-				<span data-dojo-attach-point="icon" class="MatcToolbarColorIndicator"></span>
+				<span ref="icon" class="MatcToolbarColorIndicator"></span>
 				<span v-if="label" class="MatcToolbarItemLabel">{{ label }}</span>
 				<template v-if="hex">
 					<span v-if="hasDesignToken" class="MatcToobarInputInlineEdit">{{currentDesignToken?.name}}</span>
@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="MatcToolbarPopUpBackDrop" v-if="isDialog && isOpen" @click="hideDropDown"></div>
-		<div :class="['MatcToolbarPopUp MatcToolbarDropDownButtonPopup',{ 'MatcToolbarGradientHidden': !showGradient && hasGradient } ]" role="menu" data-dojo-attach-point="popup">
+		<div :class="['MatcToolbarPopUp MatcToolbarDropDownButtonPopup',{ 'MatcToolbarGradientHidden': !showGradient && hasGradient } ]" role="menu" ref="popup" @click.stop="">
 		</div>
 	</div>
 </template>
@@ -66,7 +66,8 @@ export default {
 			dropdown: false,
 			label: null,
 			hasPicker: true,
-			hasDesignTokens: false
+			hasDesignTokens: false,
+			overRideAttachWithRef: true
 		}
 	},
 	components: {
@@ -194,12 +195,13 @@ export default {
 		},
 
 		init() {
-			this._renderColorWidgets(this.popup)
+			console.debug('init', this.popup)
+			this._renderColorWidgets(this.$refs.popup)
 			this.renderRemovePopupFooter("No Color", lang.hitch(this, "setTransparent"), 'ColorTrans');
 		},
 
 		_renderColorWidgets(popup) {
-
+			console.debug('xxx', popup)
 			this.tabs = null
 
 
@@ -554,25 +556,25 @@ export default {
 			if (v === 'None' || v === 'transparent' || !v) {
 				v = '';
 			}
-			if (this.icon && this.icon.style) {
+			const icon = this.$refs.icon
+			if (icon && icon.style) {
 				if (this.currentDesignToken) {
 					this.logger.log(-1, "setLabelColor", "design_token: " + this.currentDesignToken.name, this.currentDesignToken.value)
-					this.icon.style.background = this.currentDesignToken.value
+					icon.style.background = this.currentDesignToken.value
 				} else if (this.isGradient(v)) {
 					const gradient = ColorUtil.getGradientCSS(v)
-
-					this.icon.style.background = "linear-gradient" + gradient
-					this.icon.style.background = "-webkit-linear-gradient" + gradient;
+					icon.style.background = "linear-gradient" + gradient
+					icon.style.background = "-webkit-linear-gradient" + gradient;
 				} else {
-					this.icon.style.background = v;
+					icon.style.background = v;
 				}
 			}
 		},
 
 		setBoxes(boxes) {
 			if (!this.isGradient(this.value)) {
-				for (var color in boxes) {
-					var span = boxes[color];
+				for (let color in boxes) {
+					const span = boxes[color];
 					if (this.value == color) {
 						span.style.borderColor = "red";
 					} else {
@@ -605,20 +607,20 @@ export default {
 				return g !== null && boxes[g.css] === undefined
 			})
 
-			var table = document.createElement("table");
-			var tbody = document.createElement("tbody");
+			const table = document.createElement("table");
+			const tbody = document.createElement("tbody");
 			table.appendChild(tbody);
 			let tr = null
 			for (let i = 0; i < Math.min(customGradients.length, 10); i++) {
-				var gradient = customGradients[i].gradient;
+				const gradient = customGradients[i].gradient;
 				if (i % columns == 0 || tr == null) {
 					tr = document.createElement("tr");
 					tbody.appendChild(tr);
 				}
-				var td = document.createElement("td");
+				const td = document.createElement("td");
 				css.add(td, "MatcGradientBox MatcColorBox MatcColorBox" + i % columns);
-				var span = document.createElement("span");
-				var cssGradientKey = this._setGradientCSS(span, gradient)
+				const span = document.createElement("span");
+				const cssGradientKey = this._setGradientCSS(span, gradient)
 				boxes[cssGradientKey] = span;
 				this.tempOwn(on(span, touch.press, lang.hitch(this, callback, gradient)));
 				td.appendChild(span);

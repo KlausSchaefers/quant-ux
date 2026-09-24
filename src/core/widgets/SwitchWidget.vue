@@ -30,7 +30,7 @@ export default {
   components: {},
   methods: {
     postCreate () {
-      this._borderNodes = [this.cntr, this.backgroundDiv];
+      this._borderNodes = [this.cntr];
       this._backgroundNodes = [this.backgroundDiv];
       this._shadowNodes = [this.handle];
     },
