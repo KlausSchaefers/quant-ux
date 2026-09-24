@@ -15,11 +15,12 @@ export default class DesignToken extends Widget{
 		if (!tokens || !props) {
 			return
 		}
-		['color', 'background'].forEach(key => {
-			if (props[key] !== undefined && tokens[key] !== undefined) {
+		const overwritableKeys = new Set(['color', 'background'])
+		for (let key in props) {
+			if (overwritableKeys.has(key) && tokens[key] !== undefined) {
 				delete tokens[key]
 			}
-		})
+		}
 		// clean up empty containers
 		if (Object.keys(tokens).length === 0) {
 			delete widget.designtokens[type]

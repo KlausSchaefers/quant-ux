@@ -69,7 +69,7 @@ test('init() - rootChildren skips the nested child (nestedFlex)', () => {
 
     // NestChild3 sits in Child2, so it is contained, but not a direct child
     expect(names(cntr.children)).toEqual(['Child1', 'Child2', 'NestChild3'])
-    expect(names(cntr.rootChildren)).toEqual(['Child1', 'Child2'])
+    expect(names(index.getRootChildren(cntr.children))).toEqual(['Child1', 'Child2'])
 })
 
 test('init() - rootChildren equals children when nothing is nested', () => {
@@ -77,7 +77,7 @@ test('init() - rootChildren equals children when nothing is nested', () => {
     const cntr = index.layoutContainers[0]
 
     expect(names(cntr.children)).toEqual(['A', 'B'])
-    expect(names(cntr.rootChildren)).toEqual(['A', 'B'])
+    expect(names(index.getRootChildren(cntr.children))).toEqual(['A', 'B'])
 })
 
 test('init() - deeply nested children are all dropped, only the top one stays', () => {
@@ -91,7 +91,7 @@ test('init() - deeply nested children are all dropped, only the top one stays', 
 
     expect(names(cntr.children)).toEqual(['A', 'B', 'Deep', 'Deeper'])
     // Deeper sits in Deep, which sits in A - only A is direct
-    expect(names(cntr.rootChildren)).toEqual(['A', 'B'])
+    expect(names(index.getRootChildren(cntr.children))).toEqual(['A', 'B'])
 })
 
 test('init() - a widget nested in a child container is no rootChild', () => {
@@ -105,8 +105,8 @@ test('init() - a widget nested in a child container is no rootChild', () => {
     const inner = index.layoutContainers.find(c => c.id === 'childA')
 
     expect(names(outer.children)).toEqual(['A', 'B', 'Nested'])
-    expect(names(outer.rootChildren)).toEqual(['A', 'B'])
+    expect(names(index.getRootChildren(outer.children))).toEqual(['A', 'B'])
 
     // for the inner container the nested widget IS a direct child
-    expect(names(inner.rootChildren)).toEqual(['Nested'])
+    expect(names(index.getRootChildren(inner.children))).toEqual(['Nested'])
 })
