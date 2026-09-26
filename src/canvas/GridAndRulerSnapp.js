@@ -2204,7 +2204,7 @@ export default class GridAndRulerSnapp extends Core {
 
 		// Since 5.0.24 we ignore layout containers and its children
 		if (LayoutContainerUtil.isLayoutContainer(this.selectedModel.id, this.model)) {
-			const children = LayoutContainerUtil.getLayoutContainerChildren(this.selectedModel.id, this.model);
+			const children = LayoutContainerUtil.getLayoutContainerChildren(this.selectedModel.id, this.model, this.treeIndex);
 			for (let i = 0; i < children.length; i++) {
 				ignore[children[i]] = true;
 			}

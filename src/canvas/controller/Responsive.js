@@ -130,7 +130,7 @@ export default class Responsive extends Snapp {
             this.logger.log(4, "updateLayoutContainers", "exit > NO CHANGE");
             return false
         }
-        this.logger.log(1, "updateLayoutContainers", "enter > ", layoutContainerChange, movedIds);
+        this.logger.log(-1, "updateLayoutContainers", "enter > ", layoutContainerChange, movedIds);
 
         const ids = movedIds || []
         const startId = layoutContainerChange.start && layoutContainerChange.start.id
@@ -142,14 +142,15 @@ export default class Responsive extends Snapp {
          * If start and end are the same container, this just re-layouts it once,
          * without touching the moved widget's containment, since it never left.
          */
+        this.updateModelIndexes(this.model)        
         if (startId && startId === endId) {
-            this.layoutContainer(startId, [], ids)
+            this.layoutContainer(startId, [], ids, true)
         } else {
             if (endId) {
-                this.layoutContainer(endId, [], [])
+                this.layoutContainer(endId, [], ids, true)
             }
             if (startId) {
-                this.layoutContainer(startId, [], ids) // why did we pass here the ids as excludeIds? This fucks up the dnd
+                this.layoutContainer(startId, [], []) // why did we pass here the ids as excludeIds? This fucks up the dnd
             }
         }
 
@@ -157,9 +158,9 @@ export default class Responsive extends Snapp {
     }
 
 
-    layoutContainer(id, excludeIds = [], movedIds = []) {
-        this.logger.log(1, "layoutContainer", "enter > " + id, excludeIds, movedIds)
-        return ResponsiveUtil.layoutContainer(this.model, id, excludeIds, movedIds)
+    layoutContainer(id, excludeIds = [], movedIds = [], isEnd=false) {
+        this.logger.log(1, "layoutContainer", "enter > " + id, excludeIds, movedIds, isEnd, this.treeIndex)
+        return ResponsiveUtil.layoutContainer(this.model, id, excludeIds, movedIds, isEnd, this.treeIndex)
     }
 
     /**
@@ -174,8 +175,10 @@ export default class Responsive extends Snapp {
      * params.screenId  - use this screen's own box as the area
      * none of the above - no area restriction, layout every FlexContainer in the model
      */
-    updateScreenLayout(params = {}) {
+    updateScreenLayout(params = {}, isCopyPaste = false) {
         const { screenId, pos, positions, widget } = params;
+      
+        this.updateModelIndexes(this.model)
 
         let boundingBox = null;
         if (pos) {
@@ -208,7 +211,10 @@ export default class Responsive extends Snapp {
         if (boundingBox) {
             // TODO: we could do this even smarter and sort by Z and get only the last one.
             // we could use and index for this....
-            const contained = flexContainerIds.filter(id => ModelGeom.isFullContained(this.model.widgets[id], boundingBox))
+            const contained = flexContainerIds.filter(id => {   
+                const flexWidget = this.model.widgets[id]
+                return ModelGeom.isFullContained(flexWidget, boundingBox)
+            })
             if (contained.length > 0) {
                 flexContainerIds = contained
             } else {

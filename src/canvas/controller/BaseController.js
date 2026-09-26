@@ -123,6 +123,9 @@ export default class BaseController extends Core {
 		if (this.toolbar) {
 			this.toolbar.setTreeIndex(this.treeIndex)
 		}
+		if (this.canvas) {
+			this.canvas.setTreeIndex(this.treeIndex)
+		}
 	}
 
 	getTreeParent(id){
@@ -457,6 +460,7 @@ export default class BaseController extends Core {
 			this._dirty = false;
 
 
+			// Is this really needed?
 			this.updateModelIndexes(this.model)
 
 			/**

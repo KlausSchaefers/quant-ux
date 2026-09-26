@@ -314,6 +314,7 @@ export default class CopyPaste extends Group{
 		 * create new ids
 		 */
 		let idMapping = {}
+		const positions = []
 		clipBoard.widgets.forEach(widget => {
 			let id = "w" + this.getUUID()
 			idMapping[widget.id] = id
@@ -322,10 +323,13 @@ export default class CopyPaste extends Group{
 			widget.y += pos.y
 			delete widget.isRootTemplate
 			delete widget.isNewTemplateChild
+
+			positions.push(widget)
 		})
 		clipBoard.screens.forEach(screen => {
 			let id = "s" + this.getUUID()
 			idMapping[screen.id] = id
+			
 			screen.id = id
 			screen.name = this.getSceenName(screen.name)
 			screen.x += pos.x
@@ -384,14 +388,17 @@ export default class CopyPaste extends Group{
 			clipBoard: clipBoard
 		};
 
-		this.updateScreenLayout({pos})
+	
 
 		this.addCommand(command);
-		this.modelPasteClipBoard(clipBoard)
+		this.modelPasteClipBoard(clipBoard)		
+		this.updateScreenLayout({positions}, true)
+
 		this.commitModelChange()
 	}
 
 	modelPasteClipBoard (clipBoard) {
+
 		let hasScreen = clipBoard.screens.length > 0
 		clipBoard.widgets.forEach(widget => {
 			this.model.widgets[widget.id] = widget
@@ -653,6 +660,7 @@ export default class CopyPaste extends Group{
 		 */
 		let zMax = this.getMaxZValue(this.model.widgets)
 		let allChildren = this.sortChildren(selection)
+		const positions = []
 		allChildren.forEach((widget, i) => {
 			var id = widget.id
 
@@ -678,7 +686,7 @@ export default class CopyPaste extends Group{
 			/**
 			 * create the command
 			 */
-			var child = {
+			const child = {
 				timestamp : new Date().getTime(),
 				type : "CopyWidget",
 				model : newWidget
@@ -689,13 +697,14 @@ export default class CopyPaste extends Group{
 			 * update model
 			 */
 			this.modelAddWidget(newWidget);
+			positions.push(newWidget);
 
 		})
 
 
 		this.addCommand(command);
 
-		this.updateScreenLayout({pos})
+		this.updateScreenLayout({positions}, true)
 
 		this.render();
 		this.commitModelChange()

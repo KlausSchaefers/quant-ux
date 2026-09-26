@@ -12,7 +12,7 @@ import SimpleGrid from 'canvas/SimpleGrid'
 import RenderFlow from 'canvas/RenderFlow'
 import Wiring from 'canvas/Wiring'
 import ModelUtil from 'core/ModelUtil'
-//import { TreeIndex } from '../core/responsive/TreeIndex'
+import TreeIndex from '../core/responsive/TreeIndex'
 import LayoutContainerIndex from '../core/responsive/LayoutContainerIndex'
 
 export default {
@@ -405,7 +405,12 @@ export default {
 		
 				if (this.model && this.sourceModel) {
 					const start = new Date().getTime()
-					//this.treeIndex = new TreeIndex(this.model)
+					if (!this.treeIndex) {
+						this.treeIndex = new TreeIndex(this.model)
+					} else {
+						this.treeIndex.update(this.model)
+					}
+			
 					this.flexContainerIndex = new LayoutContainerIndex(this.model, this.sourceModel, new Set(['FlexContainer']))
 					const end = new Date().getTime()
 					if (end - start > 100) {
@@ -1129,6 +1134,7 @@ export default {
 					
 					this._alignmentTool = useSnappingEngine ? new SnappingEngine() : new GridAndRulerSnapp();
 					this._alignmentTool.ignoreGroup = this._dragNDropIgnoreGroup;
+					this._alignmentTool.treeIndex = this.treeIndex
 					this._alignmentTool.showDndDistance = this.showDistance;
 					this._alignmentTool.snapGridOnlyToTopLeft = this.settings.snapGridOnlyToTopLeft
 					this._alignmentTool.showDimensions = showDimensions;

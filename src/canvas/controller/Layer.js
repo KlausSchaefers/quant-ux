@@ -109,7 +109,7 @@ export default class Layer extends Templates {
 		if (from.type === 'widget' && from.source) {
 			const widget = this.model.widgets[from.source]
 			if(widget && LayoutContainerUtil.isLayoutContainerWidget(widget)) {
-				selectedElements = LayoutContainerUtil.getLayoutContainerChildren(widget.id, this.model)
+				selectedElements = LayoutContainerUtil.getLayoutContainerChildren(widget.id, this.model, this.treeIndex)
 			}
 		}
 

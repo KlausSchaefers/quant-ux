@@ -1,6 +1,19 @@
+import Logger from "./Logger"
+
 export const LayoutContainerTypes = new Set(['FlexContainer', 'GridContainer'])
 
-export function getLayoutContainerChildren(id, model, includeContainer =true) {
+export function getLayoutContainerChildren(id, model, treeIndex, includeContainer =true) {
+
+  if (treeIndex) {
+    const treeChildren =  treeIndex.getAllChildren(id)
+    if (includeContainer) {
+      treeChildren.push(id)
+    }
+    return treeChildren
+  }
+  Logger.warn('LayoutContainerUtil.getLayoutContainerChildren() called without tree')
+  console.trace()
+
   const children = []
   if (includeContainer) {
     children.push(id)

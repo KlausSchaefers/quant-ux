@@ -478,6 +478,7 @@ export default {
     onWidgetDndStart (id, div, pos, e) {
       this.logger.log(1, "onWidgetDndStart", "entry > " + id);
 
+
       // FIXME: First thing we should do, is to check if the selection has changed.
 
       const ids = this.getSelectedIds();
@@ -485,6 +486,7 @@ export default {
         this.setDnDMinTime(0);
       }
 
+    
       this._dragNDropBoxPositions = {};
       this._dragNDropLayoutContainerDelta = {}
       this._dragNDropBoxWidgetStart = pos;
@@ -641,7 +643,7 @@ export default {
 
     _addLayoutDNDChildren(id) {
         this.logger.log(1, "_addLayoutDNDChildren", "exit > id : " + id);
-        const childIds = LayoutContainerUtil.getLayoutContainerChildren(id, this.model)
+        const childIds = LayoutContainerUtil.getLayoutContainerChildren(id, this.model, this.treeIndex)
         this._dragNDropChildren = childIds
     },
 
@@ -787,7 +789,7 @@ export default {
 
 
       // this could be cached in DND start
-      let childrenIDs = LayoutContainerUtil.getLayoutContainerChildren(container.id, this.model)
+      let childrenIDs = LayoutContainerUtil.getLayoutContainerChildren(container.id, this.model, this.treeIndex)
 
       /**
        * getLayoutContainerChildren() decides by the position in this.model,

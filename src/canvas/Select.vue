@@ -654,7 +654,7 @@ import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
 				// virtual groups. because getSelectedIds() is called alos in select,
 				// we introduced the extendLayoutContainer param.
 				if (extendLayoutContainer && LayoutContainerUtil.isLayoutContainerWidget(this._selectWidget)) {
-					const children = LayoutContainerUtil.getLayoutContainerChildren(this._selectWidget.id, this.model)
+					const children = LayoutContainerUtil.getLayoutContainerChildren(this._selectWidget.id, this.model, this.treeIndex)
 					return children
 				}
 				return [this._selectWidget.id];
@@ -784,7 +784,7 @@ import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
 				// as virtual groups.
 				if (LayoutContainerUtil.isLayoutContainer(id, this.model)){
 					this.logger.log(-1, "onRemoveSelected", "Remove layout container")
-					const children = LayoutContainerUtil.getLayoutContainerChildren(id, this.model)
+					const children = LayoutContainerUtil.getLayoutContainerChildren(id, this.model, this.treeIndex)
 					this.controller.removeMultiWidget(children);
 				} else {
 					this.controller.removeWidget(id);

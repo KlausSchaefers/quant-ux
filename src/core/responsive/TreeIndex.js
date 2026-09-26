@@ -131,6 +131,32 @@ export default class TreeIndex {
     }
 
     /**
+     * Returns all descendants of a widget/group/screen id (children, their
+     * children, and so on) as an array, in depth-first order. Returns an
+     * empty array if there are none. With excludeGroups, group ids are left
+     * out of the result, but their members are still included.
+     */
+    getAllChildren(id, excludeGroups = true) {
+        const result = new Set()
+        this.collectChildren(id, result)
+        result.delete(id)
+        const children = [...result]
+        if (excludeGroups && this.model.groups) {
+            return children.filter((childId) => !this.model.groups[childId])
+        }
+        return children
+    }
+
+    collectChildren(id, result) {
+        for (const childId of this.getChildren(id)) {
+            if (!result.has(childId)) {
+                result.add(childId)
+                this.collectChildren(childId, result)
+            }
+        }
+    }
+
+    /**
      * Groups do not get their own entry in the model. Instead
      * Quant2Flat.transform() creates a virtual widget with this id to
      * represent the group in the tree. Use it to look up the parent of a

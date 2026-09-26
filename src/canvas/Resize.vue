@@ -384,7 +384,7 @@ export default {
           // and make them a group, so the children a resized.
           if (LayoutContainerUtil.isLayoutContainer(id, this.model)) {
             this._resizeModelType = "group"
-            const childIds = LayoutContainerUtil.getLayoutContainerChildren(id, this.model)
+            const childIds = LayoutContainerUtil.getLayoutContainerChildren(id, this.model, this.treeIndex)
             this._resizeModel = this.getBoundingBox(childIds);
             this._resizeModel.children = childIds   
             this._resizeModel.isLayoutContainer = true

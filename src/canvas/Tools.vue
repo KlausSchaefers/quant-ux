@@ -933,7 +933,7 @@ export default {
 
 			// Since 5.0.24 we handle LayoutContainers as virtual multi selects
 			if (LayoutContainerUtil.isLayoutContainerWidget(selectedWidget)) {		
-				selectedMulti = LayoutContainerUtil.getLayoutContainerChildren(selectedWidget.id, this.model)
+				selectedMulti = LayoutContainerUtil.getLayoutContainerChildren(selectedWidget.id, this.model, this.treeIndex)
 				selectedWidget = null
 			}
 			

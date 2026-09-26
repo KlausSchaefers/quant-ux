@@ -1,8 +1,10 @@
 //import * as ExportUtil from './ExportUtil'
 import ResponsiveLayout from './ResponsiveLayout'
 import ModelGeom from '../ModelGeom'
+import Logger from '../Logger'
 
 export function getResponsiveResizePositions (pos, oldPos, children, responsiveLayouter) {
+    
 
     const responsivePositions = responsiveLayouter.resize(pos.w, pos.h)
     const offsetX = pos.x - oldPos.x
@@ -27,20 +29,21 @@ export function getResponsiveResizePositions (pos, oldPos, children, responsiveL
  * on the widgets currently contained in it (by geometry, via
  * ModelGeom.getChildWidgetsIDsFast).
  */
-export function layoutContainer (model, id, excludeIds = [], movedIds = []) {
-    
+export function layoutContainer (model, id, excludeIds = [], movedIds = [], isEnd = false, treeIndex) {
+    Logger.log(-1, "ResponsiveUtil.layoutContainer() >> isEnd: " + isEnd, movedIds)
     const widget = model.widgets[id];
     if (!widget || (widget.type !== "FlexContainer" && widget.type !== "GridContainer")) {
         return
     }
 
-    // create a resize model based on the widgets currently contained in the container
     
-    let childrenIDs = ModelGeom.getChildWidgetsIDsFast(model, widget)
+    // create a resize model based on the widgets currently contained in the container
+    let childrenIDs = treeIndex.getAllChildren(id, true)
     if (excludeIds.length > 0) {
         childrenIDs = childrenIDs.filter(cid => !excludeIds.includes(cid))
     }
     childrenIDs.push(widget.id) // add the container itself
+
 
     const resizeModel = {
         x: widget.x,
@@ -59,10 +62,8 @@ export function layoutContainer (model, id, excludeIds = [], movedIds = []) {
     responsiveLayouter.initSelection(model, resizeModel, resizeModel.children, true, true, false)
 
 
-
-
-    if (widget.type === "FlexContainer") {
-        //reparentChildren(movedIds, model, responsiveLayouter, childrenIDs, id)
+    if (widget.type === "FlexContainer" && movedIds.length > 0) {
+        reparentChildren(movedIds, model, responsiveLayouter, childrenIDs, id)
     }
 
     const newPositions = getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
@@ -101,6 +102,7 @@ export function layoutContainer (model, id, excludeIds = [], movedIds = []) {
  * rip real children out from under their real parent.
  */
 function reparentChildren(movedIds, model, responsiveLayouter, childrenIDs, id) {
+    Logger.log(-1, "ResponsiveUtil.reparentChildren() ", movedIds)
     // This does not work well. Smaller elements or so might still be contained.
     // so maybe exlucde them first. Then add them explicityly as a child in 
     // the container. But if we have nested groups that would be and issue.
@@ -141,7 +143,7 @@ function reparentChildren(movedIds, model, responsiveLayouter, childrenIDs, id) 
 
 
 
-    console.debug(responsiveLayouter.printTree())
+    //console.debug(responsiveLayouter.printTree())
 
     /**
      * Design groups are wrapped in their own tree node (Quant2Flat), which

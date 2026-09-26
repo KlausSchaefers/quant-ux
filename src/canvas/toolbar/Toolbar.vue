@@ -1501,7 +1501,7 @@ export default {
 					// Since 5.0.24 we handle layout containers
 					// as virtual groups.
 					if (LayoutContainerUtil.isLayoutContainerWidget(this._selectedWidget)) {
-						const children = LayoutContainerUtil.getLayoutContainerChildren(this._selectedWidget.id, this.model)
+						const children = LayoutContainerUtil.getLayoutContainerChildren(this._selectedWidget.id, this.model, this.treeIndex)
 						this.controller.alignWidgets(value, children, [parentScreen.id]), false;
 					} else {
 						this.controller.alignWidgets(value, [this._selectedWidget.id], [parentScreen.id]);
@@ -1679,7 +1679,7 @@ export default {
 						} else if (LayoutContainerUtil.isLayoutContainerWidget(widget)) {
 							// Since 5.0.24 we handle layout containers
 							// as virtual groups.
-							selection = LayoutContainerUtil.getLayoutContainerChildren(widget.id, this.model)
+							selection = LayoutContainerUtil.getLayoutContainerChildren(widget.id, this.model, this.treeIndex)
 						}
 					}
 					
