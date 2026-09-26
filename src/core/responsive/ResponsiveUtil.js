@@ -66,6 +66,9 @@ export function layoutContainer (model, id, excludeIds = [], movedIds = [], isEn
         reparentChildren(movedIds, model, responsiveLayouter, childrenIDs, id)
     }
 
+    // console.debug(responsiveLayouter.printTree())
+    // console.trace()
+
     const newPositions = getResponsiveResizePositions(widget, widget, childrenIDs, responsiveLayouter)
 
     for (let cid in newPositions) {

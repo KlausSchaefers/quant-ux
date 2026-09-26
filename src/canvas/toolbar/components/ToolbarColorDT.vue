@@ -195,13 +195,12 @@ export default {
 		},
 
 		init() {
-			console.debug('init', this.popup)
 			this._renderColorWidgets(this.$refs.popup)
 			this.renderRemovePopupFooter("No Color", lang.hitch(this, "setTransparent"), 'ColorTrans');
 		},
 
 		_renderColorWidgets(popup) {
-			console.debug('xxx', popup)
+		
 			this.tabs = null
 
 

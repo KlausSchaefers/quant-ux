@@ -77,9 +77,10 @@ export default class GridAndRulerSnapp extends Core {
 		this.selectedModel = selectedModel;
 		this.selectedID = selectedModel.id;
 		this.selectedType = selectedType;
+		this.selectedModelIsFlex = selectedModel.type === 'FlexContainer'
 		this.widgetDivs = canvas.widgetDivs;
 
-
+	
 		this.activePoint = activePoint;
 		this.gridHeight = (grid.h * zoom);
 		this.gridWidth = (grid.w * zoom);
@@ -143,6 +144,7 @@ export default class GridAndRulerSnapp extends Core {
 		absPos.z = this.selectedModel.z
 		absPos.type = this.selectedType;
 		absPos.source = this.selectedID;
+		absPos.isFlex = this.selectedModelIsFlex
 
 		/**
 		 * 1) Since 5.0.21 we check if we are in a LayoutContainer
@@ -398,6 +400,8 @@ export default class GridAndRulerSnapp extends Core {
 
 		this._lastTop = top;
 		this._lastLeft = left;
+
+
 		return absPos;
 	}
 
@@ -407,7 +411,7 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	findHoverLayoutContainer(absPos) {
-		const found = this.layoutContainerIndex.findHoverLayoutContainer(absPos, this.boundingBoxOffsetX, this.boundingBoxOffsetY)
+		const found = this.layoutContainerIndex.findContainedLayoutContainer(absPos, this.boundingBoxOffsetX, this.boundingBoxOffsetY)
 		// if (found && found.type!== 'GridContainer') {
 		// 	this.canvas.unHoverDNDBox()
 		// 	return

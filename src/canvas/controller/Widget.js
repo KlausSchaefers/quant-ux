@@ -468,6 +468,8 @@ export default class Widget extends Responsive {
 
 	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies, layoutContainerChange){
 		this.logger.log(1,"updateMultiWidgetPosition", "enter > " + fromToolbar, layoutContainerChange);
+
+	
 	
 		this.startModelChange()
 		const command = {
@@ -479,7 +481,8 @@ export default class Widget extends Responsive {
 
 		let correctPosition = true;
 
-		if (boundingbox && boundingbox.snapp && boundingbox.type=="boundingbox"){
+		/**Not sure why I would have this check? Maybe from teh otehr alignment method */
+		if (boundingbox && boundingbox.snapp && (boundingbox.type === "boundingbox" || boundingbox?.isFlex)){
 
 			/**
 			 * So we got the position of the bounding box.
@@ -526,7 +529,7 @@ export default class Widget extends Responsive {
 				 * Unzoomed
 				 */
 				boundingbox = this.getUnZoomedBox(lang.clone(boundingbox), this._canvas.getZoomFactor());
-			
+				console.debug("updateMultiPle", boundingbox)
 				/**
 				 * Get hover screen
 				 */

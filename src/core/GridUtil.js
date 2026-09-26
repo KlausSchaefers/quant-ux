@@ -154,13 +154,18 @@ export function getFlexContainerLines(model, children, zoom = 1) {
     const halfGap = Math.round(gap / 2)
 
 
+    // clamp the lines to the outer dimensions of the container, with a small tolerance
+    const tolerance = 2
+    const clampX = v => Math.min(Math.max(v, model.x - tolerance), model.x + model.w + tolerance)
+    const clampY = v => Math.min(Math.max(v, model.y - tolerance), model.y + model.h + tolerance)
+
     children.forEach(child => {
         if (isColumn) {
-            result.y.push(Math.round(child.y - halfGap))
-            result.y.push(Math.round(child.y + child.h + halfGap))
+            result.y.push(clampY(Math.round(child.y - halfGap)))
+            result.y.push(clampY(Math.round(child.y + child.h + halfGap)))
         } else {
-            result.x.push(Math.round(child.x - halfGap))
-            result.x.push(Math.round(child.x + child.w + halfGap))
+            result.x.push(clampX(Math.round(child.x - halfGap)))
+            result.x.push(clampX(Math.round(child.x + child.w + halfGap)))
         }
     })
 

@@ -130,7 +130,7 @@ export default class Responsive extends Snapp {
             this.logger.log(4, "updateLayoutContainers", "exit > NO CHANGE");
             return false
         }
-        this.logger.log(-1, "updateLayoutContainers", "enter > ", layoutContainerChange, movedIds);
+        this.logger.log(1, "updateLayoutContainers", "enter > ", layoutContainerChange, movedIds);
 
         const ids = movedIds || []
         const startId = layoutContainerChange.start && layoutContainerChange.start.id

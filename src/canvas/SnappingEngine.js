@@ -99,6 +99,7 @@ export default class SnappingEngine extends GridAndRulerSnapp {
         absPos.z      = this.selectedModel.z
         absPos.type   = this.selectedType
         absPos.source = this.selectedID
+        absPos.isFlex = this.selectedModelIsFlex
 
         // --- 2. LayoutContainer detection (GridContainer snap) ---------------
         //   When the dragged widget is over a GridContainer we switch to grid
@@ -243,6 +244,7 @@ export default class SnappingEngine extends GridAndRulerSnapp {
         topic.publish('matc/box/move', absPos)
         this._lastTop  = top
         this._lastLeft = left
+
         return absPos
     }
 
