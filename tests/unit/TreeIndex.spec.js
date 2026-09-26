@@ -149,3 +149,18 @@ test('TreeIndex.js - no canvas entry if all widgets are in a screen', () => {
 
     expect(index.getChildren(CANVAS_ID)).toEqual([])
 })
+
+test('TreeIndex.js - getMaxZLevel() is the highest z level of the whole model', () => {
+    const index = new TreeIndex(app)
+
+    const expected = Math.max(...Object.values(app.widgets).map((w) => w.z || 0))
+    expect(index.getMaxZLevel()).toBe(expected)
+})
+
+test('TreeIndex.js - getMaxZLevel() includes widgets on the canvas', () => {
+    const model = JSON.parse(JSON.stringify(app))
+    model.widgets['w_orphan_1'] = { ...model.widgets['w10027_85369'], id: 'w_orphan_1', z: 9999 }
+    const index = new TreeIndex(model)
+
+    expect(index.getMaxZLevel()).toBe(9999)
+})

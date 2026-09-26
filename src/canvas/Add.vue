@@ -82,7 +82,7 @@ export default {
 
 
 		addImportedApp(params) {
-			this.logger.log(-1, "addThemedScreenAndWidgets", "enter", params);
+			this.logger.log(1, "addThemedScreenAndWidgets", "enter", params);
 			this._createAddCommand("addImportedApp", params);
 			this._addScreensAndWidgets(params, params.obj, 'MatcImportBox');
 		},
@@ -176,8 +176,9 @@ export default {
 			/**
 			 * check what kind of template this is.
 			 */
-			var widget = this.factory.createTemplatedModel(params);
+			const widget = this.factory.createTemplatedModel(params);
 			ModelUtil.inlineBoxDesignToken(widget, this.model)
+
 			/**
 			 * Render drag and drop!
 			 */
@@ -222,6 +223,7 @@ export default {
 				const child = children[i];
 				let widget = this.factory.createTemplatedModel(child);
 				widget = this.getZoomedBox(widget, z, z);
+				this._addSetZToMax(widget, i)
 				const widgetDIV = this.createZoomedWidget(widget);
 				div.appendChild(widgetDIV);
 			}
@@ -351,6 +353,8 @@ export default {
 			const z = this.getZoomFactor();
 			const zoomedWidget = this.getZoomedBox(lang.clone(widget), z, z);
 
+			this._addSetZToMax(zoomedWidget)
+
 			/**
 			 * Call after setMode() because the might trigger a redraw and would
 			 * remove the GridRuler
@@ -372,6 +376,13 @@ export default {
 			this.setState(3);
 			this.logger.log(2, "_addWidget", "exit");
 		},
+
+		_addSetZToMax(widget, offset=0) {
+			const max = this.treeIndex?.getMaxZLevel()
+			widget.z = max + 1 + offset		
+		},
+
+
 
 		onWidgetAdded(pos, model) {
 			this.logger.log(-1, "onWidgetAdded", "enter");

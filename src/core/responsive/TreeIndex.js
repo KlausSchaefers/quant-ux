@@ -38,6 +38,7 @@ export default class TreeIndex {
         this.model = model
         this.parents = new Map()
         this.children = new Map()
+        this.maxZ = this.buildMaxZValue(model.widgets)
         let start = new Date().getTime()
         const flatModel = Quant2Flat.transform(model)
         for (let screenId in flatModel.screens) {
@@ -51,6 +52,21 @@ export default class TreeIndex {
         }
 
         return this.parents
+    }
+
+    buildMaxZValue(widgets) {
+        let max = -10000;
+        let l = 0;
+        for (let id in widgets) {
+            const w = widgets[id];
+            max = Math.max(w.z, max);
+            l++;
+        }
+        if (l > 0) {
+            return max;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -136,6 +152,10 @@ export default class TreeIndex {
             }
             return this.model.widgets[parentID]
         }
+    }
+
+    getMaxZLevel() {
+        return this.maxZ
     }
 
 

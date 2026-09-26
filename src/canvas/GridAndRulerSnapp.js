@@ -411,11 +411,13 @@ export default class GridAndRulerSnapp extends Core {
 	}
 
 	findHoverLayoutContainer(absPos) {
+
 		const found = this.layoutContainerIndex.findContainedLayoutContainer(absPos, this.boundingBoxOffsetX, this.boundingBoxOffsetY)
 		// if (found && found.type!== 'GridContainer') {
 		// 	this.canvas.unHoverDNDBox()
 		// 	return
 		// }
+		//console.debug('findHoverLayoutContainer', absPos, found)
 		if (!found) {
 			this.canvas.unHoverDNDBox()
 		} else {
