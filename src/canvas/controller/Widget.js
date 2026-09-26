@@ -79,7 +79,7 @@ export default class Widget extends Responsive {
 
 
 	distributeWidgets (type, selectedIDs){
-		this.logger.log(-1,"distributeWidgets", "enter > " +type, selectedIDs);
+		this.logger.log(1,"distributeWidgets", "enter > " +type, selectedIDs);
 
 		selectedIDs = selectedIDs.filter(id => this.model.widgets[id])
 		const bbx = this.getBoundingBox(selectedIDs);
@@ -467,7 +467,7 @@ export default class Widget extends Responsive {
 	 ******************************************************/
 
 	updateMultiWidgetPosition (positions, fromToolbar, boundingbox, hasCopies, layoutContainerChange){
-		this.logger.log(-1,"updateMultiWidgetPosition", "enter > " + fromToolbar, layoutContainerChange);
+		this.logger.log(1,"updateMultiWidgetPosition", "enter > " + fromToolbar, layoutContainerChange);
 	
 		this.startModelChange()
 		const command = {

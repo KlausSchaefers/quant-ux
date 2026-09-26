@@ -11,6 +11,7 @@ import ModelUtil from 'core/ModelUtil'
 import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
 import * as ResponsiveUtil from 'core/responsive/ResponsiveUtil'
 import * as LayoutContainerUtil from 'core/LayoutContainerUtil'
+import { tr } from 'date-fns/locale'
 
 export default {
     name: 'Resize',
@@ -43,7 +44,7 @@ export default {
             break;
           //}
         }
-        this.showResizeHandles(boundingBox,groupID, null, type, true);
+        this.showResizeHandles(boundingBox, groupID, null, type, true);
       },
 
 
@@ -55,9 +56,26 @@ export default {
 
 
       showResizeHandles (box, id, parent, modelType, drawLines) {
-       
+
         if (!this.resizeEnabled){
           return;
+        }
+
+        let isGrow = false
+        if (this.treeIndex) {
+          const parentID = this.treeIndex.getParent(id)
+          const parent = this.model.widgets[parentID]
+          if (parent && parent.type === 'FlexContainer') {
+            // if the box is a bounding box, this does not work, because it does
+            // not contain the resize props
+            let widget = this.model.widgets[id]
+            if (!widget) {
+              widget = this.model?.groups[id]
+            }
+            if (widget?.props?.resize?.grow >= 1) {
+              isGrow = true
+            }
+          }
         }
 
         if(!this.handlers){
@@ -79,7 +97,7 @@ export default {
           } else {
             const locked = box.style && box.style.locked;
             const noResize = box.has && box.has.noresize;
-            if(!noResize && !locked){
+            if(!noResize && !locked && !isGrow){
               this._renderResizeHandler('RightUp', l, parent, id, modelType);
               this._renderResizeHandler('LeftUp', l, parent, id, modelType);
               this._renderResizeHandler('RightDown', l, parent, id, modelType);

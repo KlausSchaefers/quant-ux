@@ -3,6 +3,11 @@ import * as Util from "./ExportUtil"
 import * as Quant2Flat from "./Quant2Flat"
 
 /**
+ * Id of the virtual screen that holds widgets which are not in any screen.
+ */
+export const CANVAS_ID = 'canvas'
+
+/**
  * Builds a flat Map<ChildId, ParentId> for a model, i.e. for every widget
  * we determine its parent, either another widget, a group or the screen
  * it lives on. It also keeps the reverse Map<ParentId, ChildId[]> of direct
@@ -39,12 +44,28 @@ export default class TreeIndex {
             const screen = flatModel.screens[screenId]
             this.buildScreen(screen, flatModel)
         }
+        this.buildCanvas(flatModel)
         let end = new Date().getTime()
         if ((end - start) > 50) {
             Logger.warn('TreeIndex.build() > SLOW took : ', (end - start))
         }
 
         return this.parents
+    }
+
+    /**
+     * Widgets that are not contained in any screen are mapped to a virtual
+     * screen with the id CANVAS_ID.
+     */
+    buildCanvas(model) {
+        const inScreen = new Set()
+        for (let screenId in model.screens) {
+            model.screens[screenId].children.forEach((id) => inScreen.add(id))
+        }
+        const children = Object.keys(model.widgets || {}).filter((id) => !inScreen.has(id))
+        if (children.length > 0) {
+            this.buildScreen({ id: CANVAS_ID, children }, model)
+        }
     }
 
     buildScreen(screen, model) {
@@ -118,6 +139,21 @@ export default class TreeIndex {
     }
 
 
+    /**
+     * Returns the id of the closest ancestor that is not a group, skipping
+     * over any groups in between. Returns undefined if there is none.
+     */
+    getNonGroupParent(id) {
+        const groups = this.model.groups
+        const visited = new Set([id])
+        let parentID = this.parents.get(id)
+        while (parentID && groups && groups[parentID] && !visited.has(parentID)) {
+            visited.add(parentID)
+            parentID = this.parents.get(parentID)
+        }
+        return parentID
+    }
+
     hasParent(id) {
         return this.parents.has(id)
     }
@@ -133,8 +169,9 @@ export default class TreeIndex {
     /**
      * Returns all descendants of a widget/group/screen id (children, their
      * children, and so on) as an array, in depth-first order. Returns an
-     * empty array if there are none. With excludeGroups, group ids are left
-     * out of the result, but their members are still included.
+     * empty array if there are none. By default (excludeGroups) group ids are
+     * left out of the result, but their members are still included. Pass
+     * false to include the groups.
      */
     getAllChildren(id, excludeGroups = true) {
         const result = new Set()

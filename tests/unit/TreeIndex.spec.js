@@ -1,4 +1,4 @@
-import TreeIndex from '../../src/core/responsive/TreeIndex'
+import TreeIndex, { CANVAS_ID } from '../../src/core/responsive/TreeIndex'
 import app from './data/treeIndex.json'
 
 const screenId = 's10000_80355'
@@ -81,4 +81,71 @@ test('TreeIndex.js - getChildren() returns only the direct children', () => {
 
     // unknown ids just return an empty array
     expect(index.getChildren('unknown-widget-id')).toEqual([])
+})
+
+test('TreeIndex.js - getAllChildren() returns nested children as a list', () => {
+    const index = new TreeIndex(app)
+
+    // Grid Container > Grid2 > Grid3, and Grid1, depth-first
+    expect(index.getAllChildren('w10018_23332')).toEqual(['w10026_33032', 'w10029_24370', 'w10027_85369'])
+
+    // leaves and unknown ids have no children
+    expect(index.getAllChildren('w10029_24370')).toEqual([])
+    expect(index.getAllChildren('unknown-widget-id')).toEqual([])
+
+    // no duplicates, and the result is a plain array
+    const all = index.getAllChildren(screenId, false)
+    expect(Array.isArray(all)).toBe(true)
+    expect(new Set(all).size).toBe(all.length)
+    expect(all.length).toBe(index.parents.size)
+})
+
+test('TreeIndex.js - getAllChildren() excludes groups by default but keeps their members', () => {
+    const index = new TreeIndex(app)
+    const groupWrapperId = index.getGroupWrapperId(groupId)
+    const subGroupWrapperId = index.getGroupWrapperId(subGroupId)
+
+    // default: groups are left out, their members are kept
+    const withoutGroups = index.getAllChildren(groupWrapperId)
+    expect(withoutGroups).not.toContain(subGroupWrapperId)
+    expect(withoutGroups).toEqual(['w10022_47770', 'w10023_83102', 'w10024_62496'])
+
+    const withGroups = index.getAllChildren(groupWrapperId, false)
+    expect(withGroups).toContain(subGroupWrapperId)
+    expect(withGroups).toContain('w10024_62496')
+})
+
+test('TreeIndex.js - getNonGroupParent() skips groups', () => {
+    const index = new TreeIndex(app)
+
+    // Level1 (copy) sits in SubGroup, which sits in Group, which sits on the screen
+    expect(index.getNonGroupParent('w10022_47770')).toBe(screenId)
+
+    // normal parents are returned as they are
+    expect(index.getNonGroupParent('w10020_45906')).toBe('w10019_53053')
+
+    // unknown ids have no parent
+    expect(index.getNonGroupParent('unknown-widget-id')).toBeUndefined()
+})
+
+test('TreeIndex.js - widgets outside of any screen are mapped to the virtual canvas', () => {
+    const model = JSON.parse(JSON.stringify(app))
+    const template = model.widgets['w10027_85369']
+    model.widgets['w_orphan_1'] = { ...template, id: 'w_orphan_1', x: 5000, y: 5000, w: 300, h: 300, type: 'Box' }
+    model.widgets['w_orphan_2'] = { ...template, id: 'w_orphan_2', x: 5010, y: 5010, w: 50, h: 50 }
+    const index = new TreeIndex(model)
+
+    expect(index.getParent('w_orphan_1')).toBe(CANVAS_ID)
+    expect(index.getParent('w_orphan_2')).toBe('w_orphan_1')
+    expect(index.getChildren(CANVAS_ID)).toEqual(['w_orphan_1'])
+    expect(index.getAllChildren(CANVAS_ID)).toEqual(['w_orphan_1', 'w_orphan_2'])
+
+    // the screens are untouched
+    expect(index.getParent('w10018_23332')).toBe(screenId)
+})
+
+test('TreeIndex.js - no canvas entry if all widgets are in a screen', () => {
+    const index = new TreeIndex(app)
+
+    expect(index.getChildren(CANVAS_ID)).toEqual([])
 })
