@@ -109,6 +109,10 @@ export default {
 			this.controller = c;
 		},
 
+		setTreeIndex (tree) {
+			this.treeIndex = tree
+		},
+
 		setCanvas (c){
 			this.canvas = c;
 		},
@@ -411,14 +415,17 @@ export default {
 			const masterNodes = {}
 			const layoutContainer = {}
 			const sorted = this.getSortedScreenChildren(model, screen)
+		
 
 			// Since 5.0.24 we build a tree for the layout container
 			// we loop in inverse order to sort out child groups
 			// TODO: This fucks up groups and DND in the tree. But it would be nice...
-			for(let i = sorted.length; i>=0; i--){
+			for(let i = sorted.length-1; i>=0; i--){
 				const widget = sorted[i];
-				if (LayoutContainerUtil.isLayoutContainerWidget(widget)) {
+	
+				if (LayoutContainerUtil.isLayoutContainerWidget(widget)) {	
 					const children = this.getLayoutContainerChildren(widget, sorted)
+			
 					for (let id of children){
 						// If the widget is under a group (cheap check for children), we will place
 						// the TOP MOST group (it might be nested itself, e.g. Group2 > Group1 > widget)
@@ -485,10 +492,20 @@ export default {
 
 		getLayoutContainerChildren(cntr, sorted) {
 			const children = []
-		
+			if (this.treeIndex) {
+				const treeChildren = new Set(this.treeIndex.getAllChildren(cntr.id))
+				for (let w of sorted) {
+					if (treeChildren && treeChildren.has(w.id)) {
+							children.push(w.id)
+					}
+				}
+				return children;
+			}
+			// fall back
+			this.logger.warn('getLayoutContainerChildren', 'No tree index passed')
 			for (let w of sorted) {
 				// check here also for the selected widgets?
-				if (w.z >= cntr.z && w.id !== cntr.id) {
+				 if (w.z >= cntr.z && w.id !== cntr.id) {
 					if (LayoutContainerUtil.isFullContained(cntr, w)) {
 						children.push(w.id)
 					}

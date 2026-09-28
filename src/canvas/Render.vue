@@ -400,27 +400,37 @@ export default {
 			if (this._treeModelTimer) {
 				clearTimeout(this._treeModelTimer)
 			}
-			this._treeModelTimer = setTimeout(() => {
-				this._treeModelTimer = null
-		
-				if (this.model && this.sourceModel) {
-					const start = new Date().getTime()
-					if (!this.treeIndex) {
-						this.treeIndex = new TreeIndex(this.model)
-					} else {
-						this.treeIndex.update(this.model)
-					}
-			
-					this.flexContainerIndex = new LayoutContainerIndex(this.model, this.sourceModel, new Set(['FlexContainer']))
-					const end = new Date().getTime()
-					if (end - start > 100) {
-						this.logger.log(-1, 'updateIndexes', 'exit >  took :', (end - start))
-					}
+			if (this._treeModelTimerRejects) {
+				this._treeModelTimerRejects.forEach(rejectPending => rejectPending(new Error('updateIndexes() superseded by a newer call')))
+				this._treeModelTimerRejects = []
+			}
+			return new Promise((resolve, reject) => {
+				this._treeModelTimerRejects = this._treeModelTimerRejects || []
+				this._treeModelTimerRejects.push(reject)
+				this._treeModelTimer = setTimeout(() => {
+					this._treeModelTimer = null
+					this._treeModelTimerRejects = []
 
-				} else {
-					this.logger.warn('updateIndexes', 'no model')
-				}
-			}, 1)
+					if (this.model && this.sourceModel) {
+						const start = new Date().getTime()
+						if (!this.treeIndex) {
+							this.treeIndex = new TreeIndex(this.model)
+						} else {
+							this.treeIndex.update(this.model)
+						}
+
+						this.flexContainerIndex = new LayoutContainerIndex(this.model, this.sourceModel, new Set(['FlexContainer']))
+						const end = new Date().getTime()
+						if (end - start > 100) {
+							this.logger.log(-1, 'updateIndexes', 'exit >  took :', (end - start))
+						}
+
+					} else {
+						this.logger.warn('updateIndexes', 'no model')
+					}
+					resolve()
+				}, 1)
+			})
 		},
 
 		updateSourceModel (sourceModel, changes) {
@@ -477,8 +487,10 @@ export default {
 			this.renderFactory.setZoomedModel(sourceModel);
 			this.renderFactory.updatePositions(sourceModel)
 
-			this.renderLayerList(sourceModel);
-			this.updateIndexes()
+			this.updateIndexes().then(() => {
+				this.renderLayerList(sourceModel);
+			}).catch(() => {})
+
 		},
 
 
@@ -505,11 +517,6 @@ export default {
 
 				this.renderComments();
 
-				/**
-				 * Also update layer list. The renderFlow might call
-				 * select which extends the group with additonal children!
-				 */
-				this.renderLayerList(sourceModel);
 
 				/**
 				 * Make sure we continue the add mode
@@ -519,7 +526,15 @@ export default {
 				/**
 				 * Update the tree model last
 				 */
-				this.updateIndexes()
+				this.updateIndexes().then(() => {
+					this.renderLayerList(sourceModel);
+				}).catch(() => {})
+
+				/**
+				 * Also update layer list. The renderFlow might call
+				 * select which extends the group with additonal children!
+				 */
+				//this.renderLayerList(sourceModel);
 			} catch(e){
 				this.logger.error("render", "ups", e);
 				this.logger.sendError(e);

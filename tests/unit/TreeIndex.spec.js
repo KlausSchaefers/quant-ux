@@ -1,5 +1,6 @@
 import TreeIndex, { CANVAS_ID } from '../../src/core/responsive/TreeIndex'
 import app from './data/treeIndex.json'
+import treeIndexChildBug from './data/treeIndexChildBug.json'
 
 const screenId = 's10000_80355'
 const groupId = 'g10025_99127' // "Group"
@@ -155,6 +156,15 @@ test('TreeIndex.js - getMaxZLevel() is the highest z level of the whole model', 
 
     const expected = Math.max(...Object.values(app.widgets).map((w) => w.z || 0))
     expect(index.getMaxZLevel()).toBe(expected)
+})
+
+test('TreeIndex.js - TreeIndexChildBug', () => {
+    const index = new TreeIndex(treeIndexChildBug)
+    index.print()
+
+    console.log('aaa parent:', index.getParent('aaa'))
+    console.log('bbb parent:', index.getParent('bbb'))
+    console.log('ccc parent:', index.getParent('ccc'))
 })
 
 test('TreeIndex.js - getMaxZLevel() includes widgets on the canvas', () => {

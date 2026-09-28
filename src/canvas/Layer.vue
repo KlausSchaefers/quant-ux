@@ -86,8 +86,10 @@ export default {
 		},
 
 		renderLayerList (model){
+	
 			if (this.layerList){
 				requestAnimationFrame(() => {
+					this.layerList.setTreeIndex(this.treeIndex)
 					this.layerList.render(model);
 				})
 			}

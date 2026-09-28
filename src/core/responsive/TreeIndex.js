@@ -222,4 +222,42 @@ export default class TreeIndex {
     getGroupWrapperId(groupId) {
         return `${groupId}`
     }
+
+    /**
+     * Prints the whole tree, starting at the screens and the virtual canvas,
+     * down through all their (nested) children. Mostly useful for debugging.
+     */
+    print() {
+        const roots = new Set(this.children.keys())
+        for (const id of this.parents.keys()) {
+            roots.delete(id)
+        }
+        for (const rootId of roots) {
+            this.printNode(rootId, 0)
+        }
+    }
+
+    printNode(id, depth) {
+        console.log(`${'  '.repeat(depth)}${this.getLabel(id)}`)
+        this.getChildren(id).forEach((childId) => this.printNode(childId, depth + 1))
+    }
+
+    getLabel(id) {
+        const widget = this.model.widgets && this.model.widgets[id]
+        if (widget) {
+            return `${id} [${widget.type}${widget.name ? ': ' + widget.name : ''}]`
+        }
+        const screen = this.model.screens && this.model.screens[id]
+        if (screen) {
+            return `${id} [Screen: ${screen.name}]`
+        }
+        const group = this.model.groups && this.model.groups[id]
+        if (group) {
+            return `${id} [Group: ${group.name}]`
+        }
+        if (id === CANVAS_ID) {
+            return `${id} [Canvas]`
+        }
+        return id
+    }
 }

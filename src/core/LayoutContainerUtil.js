@@ -7,11 +7,13 @@ export function getLayoutContainerChildren(id, model, treeIndex, includeContaine
   if (treeIndex) {
     const treeChildren =  treeIndex.getAllChildren(id)
     treeChildren.push(id) 
-    if (treeChildren.length > 1 ) {
-      return treeChildren
-    }
+    return treeChildren
+    // Why did I add this?
+    // if (treeChildren.length > 1 ) {
+    //   return treeChildren
+    // }
   }
-  Logger.warn('LayoutContainerUtil.getLayoutContainerChildren() called without tree, or not indexed!')
+  Logger.warn('LayoutContainerUtil.getLayoutContainerChildren() called without tree, or not indexed!', id)
   console.trace()
 
   const children = []
