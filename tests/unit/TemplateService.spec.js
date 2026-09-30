@@ -1,4 +1,4 @@
-import * as TemplateService from '../TemplateService'
+import * as TemplateService from '../../src/core/templates/TemplateService'
 
 /**
  * Unit tests for the pure template logic. The canvas behaviour is pinned in
