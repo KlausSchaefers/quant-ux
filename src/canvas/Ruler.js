@@ -14,6 +14,10 @@ export default class Ruler extends Core{
 	}
 
 	start ( canvas,selectedType, selectedModel, activePoint, grid = {enabled:false}, zoom = 1, ignoreIds = []){
+		if (!selectedModel) {
+			this.logger.log(1,"start", "selectedModel is not there");
+			return;
+		}
 		this.model = canvas.model;
 		this.grid = grid
 		this.zoom = zoom

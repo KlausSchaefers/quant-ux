@@ -265,14 +265,18 @@
         if (e && e.type === 'ScreenLoaded') {
           const screenID = this.getEventScreenId(e);
           const sourceScreen = this.sourceModel.screens[screenID];
-          let x = Math.round(sourceScreen.x + sourceScreen.w / 2);
-          let y = Math.round(sourceScreen.y + sourceScreen.h / 2);
-          line.push({ x: x, y: y, d: "right", duration:duration, type: e.type, session: e.session});
-          if (match && match.startPosition <=  sessionLength-1 && match.endPosition >= sessionLength-1) {
-              const point = line[line.length - 1];
-              point.match = true
-              matchLines.push(point);
-            }
+          if (sourceScreen) {
+            let x = Math.round(sourceScreen.x + sourceScreen.w / 2);
+            let y = Math.round(sourceScreen.y + sourceScreen.h / 2);
+            line.push({ x: x, y: y, d: "right", duration:duration, type: e.type, session: e.session});
+            if (match && match.startPosition <=  sessionLength-1 && match.endPosition >= sessionLength-1) {
+                const point = line[line.length - 1];
+                point.match = true
+                matchLines.push(point);
+              }
+          } else {
+            console.warn("_renderUserGraph()", "Screen is not there", screenID);
+          }
         }
   
         this.analyticCircles[sessionID] = []
@@ -425,11 +429,15 @@
         if (e && e.type === 'ScreenLoaded') {
           const screenID = this.getEventScreenId(e);
           const screen = this.sourceModel.screens[screenID];
-          const to = {
-            x: Math.round(screen.x + screen.w / 2),
-            y: Math.round(screen.y + screen.h / 2)
+          if (screen) {
+            const to = {
+              x: Math.round(screen.x + screen.w / 2),
+              y: Math.round(screen.y + screen.h / 2)
+            }
+            from = this._addToGraph(from, to, graph, duration);
+          } else {
+            console.warn("_getSessionGraph()", "Screen is not there", screenID);
           }
-          from = this._addToGraph(from, to, graph, duration);
         }
   
   

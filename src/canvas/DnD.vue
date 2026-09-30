@@ -188,7 +188,9 @@ export default {
 
         const screenIDs = this._canvasSelection.screens.map(s => s.id)
         const screen = this.model.screens[id];
-        this.alignmentStart("screen", screen, "All", screenIDs);
+        if (screen) {
+          this.alignmentStart("screen", screen, "All", screenIDs);
+        }
       }
 
   		this._canvasSelection.screens.forEach(scrn => {
