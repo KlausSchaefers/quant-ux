@@ -630,7 +630,7 @@ export default {
 				for(let i = 0; i < row.length; i++){
 				
 				
-					if (model.has.fill) {
+					if (model.has?.fill) {
 
 						const key = "background" + i;
 						this._renderColor('' + this.getNiceNumber(i+1) + " Fill-Color",'<span class="Color"></span>',model.style[key], key, "onStyleChanged" , true, true);
