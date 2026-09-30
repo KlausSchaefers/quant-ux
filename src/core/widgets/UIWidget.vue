@@ -1297,15 +1297,21 @@ export default {
 
     _set_verticalAlign: function(parent, style) {
       if (this._labelNodes) {
+        // Every rule in widgets.scss is compound ("-top-left", "-middle-
+        // center", ...) - there is no bare ".MatcInlineEditVAlign-middle".
+        // A widget that reaches here with verticalAlign set but no
+        // textAlign (any node HTML2QUX didn't happen to capture a
+        // text-align for - a <span>, a future/unlisted tag, anything) used
+        // to get a class that matches nothing in the stylesheet, so the
+        // centering silently did not render at all. Default to 'left' here
+        // instead of relying on every producer of `style` to always set
+        // both together.
+        var textAlign = style.textAlign || "left";
         for (var i = 0; i < this._labelNodes.length; i++) {
           var label = this._labelNodes[i];
           // reset class.. this is a little hacky! We should not do this too often!
           label.className = "MatcInlineEditable";
-          if (style.textAlign) {
-            css.add(label, "MatcInlineEditVAlign-" + style.verticalAlign + "-" + style.textAlign);
-          } else {
-            css.add(label, "MatcInlineEditVAlign-" + style.verticalAlign);
-          }
+          css.add(label, "MatcInlineEditVAlign-" + style.verticalAlign + "-" + textAlign);
         }
       }
     },

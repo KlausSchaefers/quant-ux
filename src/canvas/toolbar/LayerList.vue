@@ -7,7 +7,7 @@
 		
 
 		
-			<div class="MatcToolbarLayerListScreenCntr" v-if="layerListMode == 'layers'">
+			<div class="MatcToolbarLayerListScreenCntr" v-show="layerListMode === 'layers'">
 				<div class="MatcLayerListScreens">
 
 						<div class=" MatcToolbarSectionContent" >
@@ -24,10 +24,13 @@
 				</div>
 			</div>
 			
-			<AIChat v-else 
+			<AIChat v-show="layerListMode === 'ai'"
 				@settings="onSettings"
 				ref="aiChat" 
+				@agentScreenChunk="onAgentScreenChunk"
+				@agentUnlockScreens="onAgentUnlockScreens"
 				@agentResult="onAgentResult"/>
+			<div ref="aiChatIframe" class="MatcAiChatIFrame"></div>
 			
 		</div>
 	
@@ -72,8 +75,28 @@ export default {
 			'AIChat': AIChat
 		},
     methods: {
+		onAgentScreenChunk (chunkResult) {
+			this.logger.log(-1, 'onAgentScreenChunk', 'enter', chunkResult)
+			if (this.controller && this.canvas) {
+				const viewPort = this.canvas.getViewPort()
+				const pos = this.controller.addAiResult(chunkResult, viewPort)
+				this.canvas.moveToBox(pos, true)
+			}
+		},
+		onAgentUnlockScreens (data) {
+			this.logger.log(-1, 'onAgentUnlockScreens', 'enter', data)
+			if (this.controller && data && data.sessionID) {
+				this.controller.unlockSessionScreens(data.sessionID)
+			}
+		},
 		onAgentResult (result) {
 			this.logger.log(-1, 'onAgentResult', 'enter', result)
+			if (result.isStreamed) {
+				if (this.controller && result.sessionID) {
+					this.controller.unlockSessionScreens(result.sessionID)
+				}
+				return
+			}
 			if (this.controller && this.canvas) {
 				const viewPort = this.canvas.getViewPort()
 				const pos = this.controller.addAiResult(result, viewPort)

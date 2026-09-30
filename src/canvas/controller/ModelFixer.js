@@ -221,16 +221,14 @@ class ModelFixer {
 		for (let screenID in model.screens) {
 			let screen = model.screens[screenID]
 			if (screen) {
-				if (screen.x < 0) {
-					screen.x = 0
-					errors.push({ id: screenID, msg: "x less 0" })
-					this.logger.log(0, "validateAndFixModel", "screen.x less 0 : " + screenID)
-				}
-				if (screen.y < 0) {
-					screen.y = 0
-					errors.push({ id: screenID, msg: "y less  0" })
-					this.logger.log(0, "validateAndFixModel", "screen.y less 0 : " + screenID)
-				}
+				// Negative x/y used to be treated as corruption and clamped to 0,
+				// but AIController.getCenteredPastePosition() deliberately places
+				// AI-generated content at negative model coordinates when the
+				// viewport itself is panned into negative territory. Clamping only
+				// the screen here (not its widgets, which carry their own
+				// independent x/y and are often not negative) silently tore the
+				// screen frame away from its content on the next autosave -
+				// negative coordinates are a valid position, not an error.
 
 				if (screen.w < 0) {
 					errors.push({ id: screenID, msg: "w less  0" })
@@ -273,16 +271,8 @@ class ModelFixer {
 		for (let widgetID in model.widgets) {
 			let widget = model.widgets[widgetID]
 			if (widget) {
-				if (widget.x < 0) {
-					widget.x = 0
-					errors.push({ id: widgetID, msg: "x less 0" })
-					this.logger.log(0, "validateAndFixModel", "widget.x less 0 : " + widgetID)
-				}
-				if (widget.y < 0) {
-					widget.y = 0
-					errors.push({ id: widgetID, msg: "y less  0" })
-					this.logger.log(0, "validateAndFixModel", "widget.y less 0 : " + widgetID)
-				}
+				// See the matching note above the screen loop: negative x/y is a
+				// valid position now, not corruption to clamp away.
 
 				if (widget.h < 0) {
 					errors.push({ id: widget, msg: "h less  0" })

@@ -1,5 +1,6 @@
 import Layer from './Layer'
 import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
+import * as TemplateService from '../../core/templates/TemplateService'
 
 export default class Group extends Layer {
 
@@ -396,67 +397,33 @@ export default class Group extends Layer {
 			};
 
 			/**
-			 * 2) Group the main group
+			 * 2) Build the whole instance: the group, its sub groups (since 4.0.60)
+			 * and the child widgets, ordered by z and positioned relative to pos.
 			 */
-			group = this.factory.createTemplatedModel(groupTemplate);
-			group.id = "tg"+this.getUUID();
-			group.groups = []
-			//group.templateChildren = []
-
-			this.setRootTemplateIfNeeded(group, groupTemplate)
-
 			const targetScreen = this.getHoverScreen(pos);
-			if (targetScreen) {
-				group.name = this.getGroupName(targetScreen.id, group.name)
-			}
+			const instance = TemplateService.instantiateGroupTemplate({
+				groupTemplate: groupTemplate,
+				templates: this.model.templates,
+				pos: pos,
+				maxZ: this.getMaxZValue(this.model.widgets),
+				getUUID: () => this.getUUID(),
+				nameFor: targetScreen ? (name => this.getGroupName(targetScreen.id, name)) : undefined,
+				needsRootTemplate: template => this.hasNoRootTemplate(template),
+				sortWidgets: templates => this.getOrderedWidgets(templates)
+			})
+			group = instance.group
 
 			/**
-			 * 3) Since 4.0.60 we also create sub groups
+			 * 3) add the child widgets
 			 */
-			const [subgroups, template2Group] = this._addSubGroupByTemplate(groupTemplate, group, targetScreen)
-	
-			/**
-			 * order templates by z
-			 */
-			let children = [];
-			for(let i=0; i < group.children.length; i++){
-				const id = group.children[i];
-				const child = this.model.templates[id];
-				children.push(child);
-			}
-			children = this.getOrderedWidgets(children);
-			group.children=[];
-		
-			/**
-			 * 4) create child widgets
-			 */
-			const z = this.getMaxZValue(this.model.widgets);
-			for (let i=0; i< children.length; i++){
-				const widgetTemplate = children[i];
-				const widget = this.factory.createTemplatedModel(widgetTemplate);
-				this.setRootTemplateIfNeeded(widget, widgetTemplate)
-				widget.id = "w"+this.getUUID();
-				widget.x +=  pos.x;
-				widget.y +=  pos.y;
-				widget.z = z + 1 + i;
-				if (targetScreen) {
-					widget.name = this.getGroupName(targetScreen.id, widgetTemplate.name)
-				}
-
+			instance.widgets.forEach(widget => {
 				const child = this._createAddWidgetCommand(widget);
 				command.children.push(child);
-
-				if (template2Group[widget.template]) {
-					template2Group[widget.template].children.push(widget.id)
-				} else {
-					group.children.push(widget.id);
-				}
-				//group.templateChildren.push(widget.id)
 				this.modelAddWidget(widget, true);
-			}
+			})
 
 			/**
-			 * 5) add main group
+			 * 4) add main group
 			 */
 			let child = {
 				timestamp : new Date().getTime(),
@@ -465,11 +432,11 @@ export default class Group extends Layer {
 			};
 			command.children.push(child);
 			this.modelAddGroup(group, true);
-	
+
 			/**
-			 * 6) Add sub groups
+			 * 5) Add sub groups
 			 */
-			Object.values(subgroups).forEach(subgroup => {
+			instance.subgroups.forEach(subgroup => {
 				let child = {
 					timestamp : new Date().getTime(),
 					type : "AddGroup",
@@ -492,42 +459,6 @@ export default class Group extends Layer {
 			this.render();
 			this.commitModelChange()
 		}
-	}
-
-	_addSubGroupByTemplate (groupTemplate, group, targetScreen) {
-		const subgroups = {}
-		const template2Group = {}
-		if (groupTemplate.groups) {
-			// create sub groups if needed
-			groupTemplate.groups.forEach(subGroupTemplate => {
-
-				const subgroup = this.factory.createTemplatedGroup(subGroupTemplate);
-				subgroup.children = []
-				subgroup.groups = []
-				subgroup.parent = subGroupTemplate.parent
-				subgroup.id = "tg"+this.getUUID(); 
-				this.setRootTemplateIfNeeded(subgroup, subGroupTemplate)
-				if (targetScreen) {
-					subgroup.name = this.getGroupName(targetScreen.id, subGroupTemplate.name)
-				}
-
-				subGroupTemplate.children.forEach(childTemplateId => {
-					template2Group[childTemplateId] = subgroup
-				})
-				subgroups[subGroupTemplate.id] = subgroup
-			})
-
-			// sort hierachical to parents
-			Object.values(subgroups).forEach(subgroup => {
-				if (subgroup.parent && subgroups[subgroup.parent]) {
-					subgroups[subgroup.parent].groups.push(subgroup.id)
-				} else {
-					group.groups.push(subgroup.id)
-				}
-				delete subgroup.parent
-			})
-		}
-		return [subgroups, template2Group]
 	}
 
 

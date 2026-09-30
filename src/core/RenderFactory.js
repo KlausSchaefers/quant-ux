@@ -1558,11 +1558,11 @@ export default class RenderFactory extends Core {
 		if (label) {
 			// reset class.. this is a little hacky! We should not do this too often!
 			label.className = "MatcInlineEditable";
-			if (style.textAlign) {
-				css.add(label, "MatcInlineEditVAlign-" + style.verticalAlign + "-" + style.textAlign);
-			} else {
-				css.add(label, "MatcInlineEditVAlign-" + style.verticalAlign);
-			}
+			// Every rule in widgets.scss is compound ("-top-left", "-middle-
+			// center", ...) - default to 'left' when textAlign is missing,
+			// see the matching note in UIWidget.vue._set_verticalAlign().
+			var textAlign = style.textAlign || "left";
+			css.add(label, "MatcInlineEditVAlign-" + style.verticalAlign + "-" + textAlign);
 		}
 	}
 

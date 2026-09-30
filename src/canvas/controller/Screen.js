@@ -1407,7 +1407,13 @@ export default class Screen extends CopyPaste {
 		for(let groupID in groups){
 			let group = groups[groupID];
 
-			if(group.children.length > 1 || group.groups.length > 0){
+			// Only a truly empty group (no children left after remapping, no
+			// subgroups) is dropped. A group with exactly 1 child used to be
+			// treated as "empty" too and silently discarded here - the AI
+			// agent's component instances can legitimately be a group with a
+			// single widget, and lost the group (and with it the template
+			// link/isRootTemplate bookkeeping on the group) when pasted.
+			if(group.children.length > 0 || group.groups.length > 0){
 				let newID = group.id;
 				tempGroup[newID] = group;
 				let tempChildren = [];

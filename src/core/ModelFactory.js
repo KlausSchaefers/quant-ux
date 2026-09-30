@@ -1,4 +1,4 @@
-import lang from '../dojo/_base/lang'
+import * as TemplateService from './templates/TemplateService'
 
 export default class ModelFactory {
 
@@ -32,31 +32,12 @@ export default class ModelFactory {
 	}
 
 	createTemplatedWidget(t) {
-		const model = {
-			id: t.id,
-			name: t.name,
-			w: t.w,
-			h: t.h,
-			x: t.x,
-			y: t.y,
-			z: t.z,
-			template: t.id,
-			type: t.type,
-			props: lang.clone(t.props),
-			has: lang.clone(t.has),
-			style: {} // do not copy style! this will always be rendered from the template style!
-		};
-		return model;
+		// do not copy style! this will always be rendered from the template style!
+		return TemplateService.createTemplatedWidget(t);
 	}
 
 	createTemplatedGroup(t) {
-		const model = {
-			id: t.id,
-			name: t.name,
-			template: t.id,
-			children: lang.clone(t.children)
-		};
-		return model;
+		return TemplateService.createTemplatedGroup(t);
 	}
 
 	createAppModel(name, des, type) {

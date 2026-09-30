@@ -2,6 +2,7 @@
 import lang from '../../dojo/_base/lang'
 import ModelUtil from '../../core/ModelUtil'
 import ModelGeom from '../../core/ModelGeom'
+import * as TemplateService from '../../core/templates/TemplateService'
 import Command from './Command';
 
 export default class Templates extends Command{
@@ -853,58 +854,18 @@ export default class Templates extends Command{
 		this.showSuccess("The template "  + name + " was created. You can find it in the Create menu");
 	}
 
-	_createOrCopyWidgetTemplate (widget, visible, name, description, autoUpdate) {
-		if (widget.template) {
-			let parentTemplate = this.model.templates[widget.template]
-			if (parentTemplate) {
-				let template = this._createTemplateVariant(widget, parentTemplate, visible, name, description, autoUpdat)
-				return template
-			} else {
-				this.logger.error("addTemplateWidget", "No template found although defined");
-			}
-		}
-		return this._createWidgetTemplate(widget, visible, name, description, autoUpdate)
+	_createOrCopyWidgetTemplate (widget, visible, name) {
+		return TemplateService.createOrCopyWidgetTemplate(
+			widget, visible, name, this.model.templates, () => this.getUUID()
+		)
 	}
 
 
-	_createTemplateVariant (widget, parentTemplate, visible, name, description, autoUpdate) {
-		let template = {}//lang.clone(parentTemplate)
-		template.id = "tw" + this.getUUID();
-		template.visible = visible;
-		template.variant = true
-		template.name = name;
-		template.autoUpdate = autoUpdate
-		template.description = description
-		template.modified = new Date().getTime()
-		template.created = new Date().getTime()
-		template.w = widget.w;
-		template.h = widget.h;
-		template.z = widget.z;
-		template.x = 0;
-		template.y = 0;
-		template.templateType = "Widget";
-		template.type = widget.type;
-		template.has = lang.clone(widget.has);
-		template.props = lang.clone(widget.props);
-		template.variantOf = parentTemplate.variantOf ? parentTemplate.variantOf : parentTemplate.id
+	_createTemplateVariant (widget, parentTemplate, visible, name) {
 		// here we could compute the difference between parent and widget?
-		template.style = lang.clone(widget.style);
-		if (widget.hover) {
-			template.hover = lang.clone(widget.hover);
-		}
-		if (widget.error) {
-			template.error = lang.clone(widget.error);
-		}
-		if (widget.active) {
-			template.active = lang.clone(widget.active);
-		}
-		if (widget.focus) {
-			template.focus = lang.clone(widget.focus);
-		}
-		if (widget.designtokens) {
-			template.designtokens = lang.clone(widget.designtokens);
-		}
-		return template
+		return TemplateService.createTemplateVariant(
+			widget, parentTemplate, visible, name, () => this.getUUID()
+		)
 	}
 
 	_createTemplateCopy (widget, parentTemplate, visible, name) {
@@ -931,45 +892,8 @@ export default class Templates extends Command{
 
 	
 
-	_createWidgetTemplate (widget, visible, name, description='', autoUpdate=false){
-
-		const template = {};
-		template.id = "tw" + this.getUUID();
-		template.style = lang.clone(widget.style);
-
-		if (widget.hover) {
-			template.hover = lang.clone(widget.hover);
-		}
-		if (widget.error) {
-			template.error = lang.clone(widget.error);
-		}
-		if (widget.active) {
-			template.active = lang.clone(widget.active);
-		}
-		if (widget.focus) {
-			template.focus = lang.clone(widget.focus);
-		}
-		if (widget.designtokens) {
-			template.designtokens = lang.clone(widget.designtokens);
-		}
-
-		template.has = lang.clone(widget.has);
-		template.props = lang.clone(widget.props);
-		template.w = widget.w;
-		template.h = widget.h;
-		template.z = widget.z;
-		template.x = 0;
-		template.y = 0;
-		template.templateType = "Widget";
-		template.type = widget.type;
-		template.visible = visible;
-		template.name = name;
-		template.description = description
-		template.modified = new Date().getTime()
-		template.created = new Date().getTime()	
-		template.autoUpdate = autoUpdate
-		
-		return template;
+	_createWidgetTemplate (widget, visible, name){
+		return TemplateService.createWidgetTemplate(widget, visible, name, () => this.getUUID())
 	}
 
 	addTemplateScreen (screen, name){
@@ -998,45 +922,22 @@ export default class Templates extends Command{
 		const sortChildren = this.sortChildren(allChildren)
 
 		/**
-		 * make one group template!
+		 * make one group template, and one template for each child. Some of the
+		 * widgets might be templates already, in that case a variant is created.
 		 */
-		const template = {};
-		template.id = "tg" + this.getUUID();
-		template.type = "Group";
-		template.templateType = "Group";
-		template.visible = true;
-		template.name = name;
-		template.children = [];
-		template.groups = []
-		template.w = boundingBox.w
-		template.h = boundingBox.h
-		template.autoUpdate = autoUpdate
-		template.description = description
-
-		command.group = template;
-
-
-		/**
-		 * make templates for all children
-		 */
-		const template2Widget = {}
-		sortChildren.forEach((widget, index) => {
-	
-			// some if the widgets might be already templates. In the case
-			// we create just a copy
-			const t = this._createOrCopyWidgetTemplate(widget, false, widget.name , "", autoUpdate);
-			t.x = widget.x - boundingBox.x;
-			t.y = widget.y - boundingBox.y;
-			t.z = index
-
-			template.children.push(t.id);
-			command.models.push(t);
-			command.widgets.push(widget.id);
-			template2Widget[widget.id] = t.id
+		const {groupTemplate, widgetTemplates, widgetIds} = TemplateService.createGroupTemplate({
+			group: group,
+			widgets: sortChildren,
+			boundingBox: boundingBox,
+			groups: this.model.groups,
+			templates: this.model.templates,
+			name: name,
+			getUUID: () => this.getUUID()
 		})
-	
 
-		this._createSubGroupTemplates(template, group, template.id, name, template2Widget)
+		command.group = groupTemplate;
+		command.models = widgetTemplates;
+		command.widgets = widgetIds;
 
 		this.addCommand(command);
 		this.modelAddTemplate(command.models,command.widgets,command.group, command.groupID);
@@ -1046,112 +947,22 @@ export default class Templates extends Command{
 	}
 
 	_createSubGroupTemplates (template, group, parentID, name, template2Widget) {
-		if (group.groups) {
-			group.groups.forEach(subID => {
-				const subgroup = this.model.groups[subID]
-				if (subgroup) {
-					const childTemplate = {
-						id : 'tsg' + this.getUUID(),
-						name: subgroup.name,
-						templateType: "Group",
-						groupID: subgroup.id, // FIXME: This is an ugly typo
-						parent: parentID,
-						children: []
-					}
-
-					if (subgroup.children) {
-						subgroup.children.forEach(widgetID => {
-							if (template2Widget[widgetID]) {
-								childTemplate.children.push(template2Widget[widgetID])
-							} else {
-								console.warn('_createSubGroupTemplates() Cannot map widget id', widgetID)
-							}
-						})
-					}
-
-					// for templates we store all child groups in the template, and do not
-					// create different templates as we would do for the normal groups. 
-					// This makes the preview and create rendering easy.
-					template.groups.push(childTemplate)
-
-					this._createSubGroupTemplates(template, subgroup, childTemplate.id, name, template2Widget)
-					
-				}
-			})
-		}
+		// for templates we store all child groups in the template, and do not
+		// create different templates as we would do for the normal groups.
+		// This makes the preview and create rendering easy.
+		TemplateService.createSubGroupTemplates(
+			template, group, parentID, this.model.groups, template2Widget, () => this.getUUID()
+		)
 	}
 
 	modelAddTemplate (childTemplates, widgetIDs, template, groupID){
 
-		if (!this.model.templates){
-			this.model.templates = {};
-		}
-
-		for (let i=0; i < childTemplates.length; i++) {
-			const t = childTemplates[i];
-			const widgetID = widgetIDs[i];
-
-			// 1) add the widget template
-			this.model.templates[t.id] = t;
-			
-			// 2) make the widget a template
-			const widget = this.model.widgets[widgetID];
-			if (widget){
-				widget.template = t.id;
-				widget.isRootTemplate = true
-				widget.modified = new Date().getTime()
-				widget.style = {};
-				if (widget.hover) {
-					widget.hover = {}
-				}
-				if (widget.error) {
-					widget.error = {}
-				}
-				if (widget.focus) {
-					widget.focus = {}
-				}
-				if (widget.active) {
-					widget.active = {}
-				}
-				if (widget.designtokens) {
-					delete widget.designtokens
-				}
-			} else {
-				console.warn("modelAddTemplate() > No Widget with ", widgetID);
-			}
-		}
-
 		// in early version group was no there. this might have caused an issue.
-		if (template) {
-			this.model.templates[template.id] = template;
-
-			/** 
-			 * Since 4.0.60 we have sub groups!!
-			 */
-			if (template.groups) {
-				template.groups.forEach(childGroupTemplate => {
-					let childGroup = this.model.groups[childGroupTemplate.groupID]
-					if (childGroup) {
-						childGroup.template = childGroupTemplate.id
-						childGroup.isRootTemplate = true
-					} else {
-						console.warn("modelAddTemplate() > No childgroup with ", childGroupTemplate.groupID);
-					} 
-				})
-			}
-		}
-
-
-		if (groupID) {
-			this.model.groups[groupID].template = template.id;
-			this.model.groups[groupID].isRootTemplate = true
-			//this.model.groups[groupID].templateChildren = widgetIDs
-		}
-
+		TemplateService.applyTemplatesToModel(this.model, childTemplates, widgetIDs, template, groupID)
 
 		this.onModelChanged([{type: 'template', action: 'add'}]);
 		this.showSuccess("The Component was created. You can find it in the 'Create' menu");
-		
+
 	}
 
 	undoCreateTemplate (command){

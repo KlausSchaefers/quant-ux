@@ -632,20 +632,13 @@ div.MatcToolbarViewConfigCntrSpace {
   }
 }
 
-.MatcAiChatMessageAssistant {
-  background: $chat_message_background_assistant;
-  color: $chat_message_color_assistant;
-}
-
-.MatcAiChatMessageUser {
-  background: $chat_message_background_user;
-  color: $chat_message_color_user;
-}
-
-.MatcAiChatMessageError{
-    color: $color_danger;
-    background: $color_danger_light;
-}
+// Chat message coloring lives in ai_chat.scss, which is the component's
+// dedicated stylesheet. It used to be duplicated here too (targeting the
+// same .MatcAiChatMessageAssistant/User/Error class names with different
+// colors), and this copy — re-emitted a second time under .MatcLight via
+// toolbar_theme_light.scss — was winning the cascade whenever the app's
+// light theme was active, overriding ai_chat.scss with the wrong
+// background/text colors. Removed rather than kept in sync in two places.
 
 .MatcAiEditorActionPopupMenu,
 .MatcZoomableTextAreaActionPopupMenu {
@@ -703,5 +696,24 @@ div.MatcToolbarViewConfigCntrSpace {
 .MatcAiChatSelection{
   span {
      background: $toolbar_form_background_hover;
+  }
+}
+
+.MatcAiChatTrace {
+  border-color: $ai_trace_border;
+  background: $ai_trace_background;
+  color: $ai_trace_color;
+}
+
+.MatcWindows .MatcAiChatBody {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $toolbar_scrollbar_thumb;
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: $toolbar_scrollbar_thumb_hover;
   }
 }
