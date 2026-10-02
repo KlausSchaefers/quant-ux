@@ -109,7 +109,7 @@ export default {
 			hasRotate: ['Image', 'Icon'],
 			hasSVG: ['SVGPaths'],
 			hideAction: ['ScreenSegment'],
-			hideColor: ['GridContainer', 'SVGPaths', 'FlexContainer']
+			hideColor: ['GridContainer', 'SVGPaths', 'FlexContainer', 'Image']
       }
 	},
     components: {},

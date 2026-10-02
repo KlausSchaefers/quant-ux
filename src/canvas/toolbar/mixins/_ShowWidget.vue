@@ -116,7 +116,7 @@ export default {
 			this.showDesignTokenBtns(model, 'widget')
 
 			const isLogicWidget = this.hasLogic2.indexOf(model.type) >=0;
-			const hideColor = this.hideColor.indexOf(model.type) >=0;
+			const hideColor = this.hideColor.indexOf(model.type) >=0;	
 			const parentLayoutContainer = this.getParentLayoutContainer([model.id])
 			if(isLogicWidget){
 				css.add(this.positionCheckBox.domNode, "hidden");
