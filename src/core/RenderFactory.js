@@ -1194,6 +1194,13 @@ export default class RenderFactory extends Core {
 		// do nothing implement in Simulator.createBox()
 	}
 
+	_set_externalImageURL(parent, style, model) {
+		if (!style.backgroundImage && style.externalImageURL) {
+			const url = style.externalImageURL
+			parent.style.backgroundImage = `url(${url})`;
+			parent.style.backgroundSize = "100%";
+		}
+	}
 
 
 	_set_icon(parent, style, model) {
@@ -1756,11 +1763,15 @@ export default class RenderFactory extends Core {
 
 			parent.style.border = "none";
 		} else {
+
 			/**
 			 * Images get a placeholder x... mixture of canvas and css border
 			 * to make crisp image... We make to background image 2x larger
 			 * so the browser can smooth a little too
 			 */
+			if (style.externalImageURL) {
+				return
+			}
 			if (model.type == "Image") {
 				if (model.has.iconPlaceholder) {
 					this.renderImageIcon(model, parent)

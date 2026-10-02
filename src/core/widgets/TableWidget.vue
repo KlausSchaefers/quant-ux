@@ -492,14 +492,20 @@ export default {
 
 
     getDataBindingTable (table) {
+        // 1) only arrays and objects are tabular. Anything else (string, number...)
+        // falls back to the csv data
+        let value = this.value
+        if (!Array.isArray(value)) {
+          if (value && typeof value === 'object') {
+            // 2) for obejct we just take the values
+            value = Object.values(value)
+          } else {
+            return table
+          }
+        }
+
         // remove csv data, header come still from cvs!
         table.rows = []
-
-        // 2) for obejct we just take the values
-        let value = this.value
-        if (lang.isObject(value)) {
-          value = Object.values(value)
-        }
 
         // 3) now we loop. We need to know if children are
         // objects or arrays

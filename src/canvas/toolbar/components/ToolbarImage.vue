@@ -2,9 +2,9 @@
 <template>
 	<div class=" MatcToolbarPopUpCntr MatcToolbarImage ">
 		<div type="button" ref="button" class="MatcToolbarItem MatcToolbarIconButton">
-			<QIcon icon="Image" v-if="!multiSelection"/>
+			<QIcon :icon="icon" v-if="!multiSelection"/>
 			<QIcon icon="ImageList" v-else/>
-			<span class="MatcToolbarItemLabel">{{ btnLabel }}</span>
+			<span class="MatcToolbarItemLabel">{{ btnLabel }}</span> 
 		</div>
 		<div class="MatcToolbarPopUp" role="menu" data-dojo-attach-point="popup">
 			<div class="MatcImageUpload" data-dojo-attach-point="upload">
@@ -36,6 +36,7 @@ export default {
 	data: function () {
 		return {
 			value: false,
+			url: null,
 			reposition: true,
 			arrowPosition: "right",
 			mode: "private",
@@ -48,6 +49,15 @@ export default {
 		'QIcon': QIcon
 	},
 	computed: {
+		icon() {
+			if (this.url) {
+				return 'ImageExternal'
+			}
+			if (this.value) {
+				return 'Image'
+			}
+			return 'ImageAdd'
+		},
 		btnLabel() {
 			if (this.selection && this.selection.length > 0) {
 				return this.selection.length + ' Images'
@@ -58,10 +68,13 @@ export default {
 				}
 				return 'Image'
 			}
+			if (this.url) {
+				return "External"
+			}
 			if (this.multiSelection) {
 				return 'No Images'
 			}
-			return 'No  Image'
+			return 'No Image'
 		}
 	},
 	methods: {
@@ -97,8 +110,9 @@ export default {
 			this.model = m;
 		},
 
-		setValue(v) {
+		setValue(v, url=null) {
 			this.value = v;
+			this.url = url
 		},
 
 		onVisible() {

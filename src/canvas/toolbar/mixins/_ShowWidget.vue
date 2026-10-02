@@ -4,7 +4,6 @@ import css from 'dojo/css'
 import lang from 'dojo/_base/lang'
 import _Tooltip from 'common/_Tooltip'
 import ModelUtil from 'core/ModelUtil'
-import * as LayoutContainerUtil from '../../../core/LayoutContainerUtil'
 
 export default {
     name: '_Show',
@@ -157,7 +156,7 @@ export default {
 
 			if (model?.has?.backgroundImage){
 				css.remove(this.imageWidgetDiv, "MatcToolbarSectionHidden")
-				this.backgroundImage.setValue(style.backgroundImage);
+				this.backgroundImage.setValue(style.backgroundImage, style.externalImageURL);
 				this.backgroundImage.setModel(this.model);
 				this.backgroundImagePosition.setValue(model);
 				this.imageFilter.setValue(style.filter)

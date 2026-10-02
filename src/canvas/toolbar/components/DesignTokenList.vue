@@ -199,12 +199,9 @@ import BoxPadding from 'canvas/toolbar/components/BoxPadding'
 import TooltipSettings from './TooltipSettings'
 import css from 'dojo/css'
 import topic from 'dojo/topic'
-import Dialog from "common/Dialog";
-import on from "dojo/on";
 import DomBuilder from "common/DomBuilder";
 
 import ToolbarSlider from './ToolbarSlider'
-import DesignTokenUtil from '../../../core/DesignTokenUtil'
 import QIcon from 'page/QIcon'
 
 export default {
@@ -356,20 +353,21 @@ export default {
       }
     },
     onDelete(token, node) {
-      const div = this.db.div("MatcDeleteDialog").build();
-      this.db.h3("title is-4", 'Delete Design Token').build(div);
-      this.db.p('MatcMarginBottomXL', `Do you want to delete the '${token.name}' token?`).build(div)
-      const bar = this.db.div("MatcButtonBar").build(div);
-      const write = this.db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
-      const cancel = this.db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
+      this.deleteToken(token)
+      this.hideDropDown()
+      // const div = this.db.div("MatcDeleteDialog").build();
+      // this.db.h3("title is-4", 'Delete Design Token').build(div);
+      // this.db.p('MatcMarginBottomXL', `Do you want to delete the '${token.name}' token?`).build(div)
+      // const bar = this.db.div("MatcButtonBar").build(div);
+      // const write = this.db.a("MatcButton MatcButtonDanger", this.getNLS("btn.delete")).build(bar);
+      // const cancel = this.db.a("MatcLinkButton", this.getNLS("btn.cancel")).build(bar);
 
-      const d = new Dialog();
-      d.own(on(write, "click", () => this.deleteToken(d, token)));
-      d.own(on(cancel, "click", () => d.close()));
-      d.popup(div, node);
+      // const d = new Dialog();
+      // d.own(on(write, "click", () => this.deleteToken(d, token)));
+      // d.own(on(cancel, "click", () => d.close()));
+      // d.popup(div, node);
     },
-    deleteToken(d, token) {
-      d.close()
+    deleteToken(token) {
       this.emit('delete', token)
       setTimeout(() => {
         this.$forceUpdate()
