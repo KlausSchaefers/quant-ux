@@ -14,6 +14,7 @@ import Wiring from 'canvas/Wiring'
 import ModelUtil from 'core/ModelUtil'
 import TreeIndex from '../core/responsive/TreeIndex'
 import LayoutContainerIndex from '../core/responsive/LayoutContainerIndex'
+import AIConfig from '../ai/AIConfig'
 
 export default {
     name: 'Render',
@@ -292,6 +293,50 @@ export default {
 				this.setContainerPos();
 
 			}
+		},
+
+		/**
+		 * Zooms and pans so the box (in model coordinates) is in view: centered
+		 * horizontally, with a small margin at the top. Never zooms in past
+		 * 100%, so a small mobile screen is not blown up. A screen too tall
+		 * to fit readably (a long mobile screen) is fitted by its width and
+		 * shown from the top instead of being shrunk to a thumbnail.
+		 */
+		zoomToBox (box, animate = false) {
+			if (!this.model || !box || !(box.w > 0) || !(box.h > 0)) {
+				return
+			}
+			const view = this.domPos || win.getBox()
+			const focus = AIConfig.focus
+			const fitWidth = (view.w * focus.fitRatio) / box.w
+			const fitBoth = Math.min(fitWidth, (view.h * focus.fitRatio) / box.h)
+			// below this the whole screen would be too small to read
+			const minReadable = Math.min(focus.minReadableZoom, fitWidth)
+			const zoom = Math.max(focus.minZoom, Math.min(focus.maxZoom, Math.max(fitBoth, minReadable)))
+			const rounded = Math.round(zoom * 100) / 100
+
+			if (rounded !== this.zoom) {
+				this.zoom = rounded
+				if (this.zoomSessionHandler) {
+					this.zoomSessionHandler.setZoom(rounded)
+				}
+				this.onZoomChange()
+			}
+
+			const topMargin = focus.topMargin
+			const fitsVertically = box.h * this.zoom <= view.h - topMargin * 2
+			this.canvasPos.x = Math.round(view.w / 2 - (box.x + box.w / 2) * this.zoom)
+			this.canvasPos.y = fitsVertically
+				? Math.round(view.h / 2 - (box.y + box.h / 2) * this.zoom)
+				: Math.round(topMargin - box.y * this.zoom)
+
+			if (animate) {
+				css.add(this.container, "MatcCanvasContainerAnimatePos")
+				setTimeout(() => {
+					css.remove(this.container, "MatcCanvasContainerAnimatePos")
+				}, 1000)
+			}
+			this.setContainerPos()
 		},
 
 		/**********************************************************************

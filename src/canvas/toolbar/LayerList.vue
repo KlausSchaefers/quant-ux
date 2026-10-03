@@ -79,8 +79,24 @@ export default {
 			this.logger.log(-1, 'onAgentScreenChunk', 'enter', chunkResult)
 			if (this.controller && this.canvas) {
 				const viewPort = this.canvas.getViewPort()
-				const pos = this.controller.addAiResult(chunkResult, viewPort)
-				this.canvas.moveToBox(pos, true)
+				const box = this.controller.addAiResult(chunkResult, viewPort)
+				/**
+				 * Focus only the first screen of a run: the user's attention
+				 * moves to where the app is being built, and the later screens
+				 * then appear next to it without yanking the canvas around
+				 * while the user is already looking at the first one.
+				 */
+				const change = chunkResult.changes && chunkResult.changes[0]
+				const sessionID = change && change.sessionID
+				if (!this.focusedAgentSessions) {
+					this.focusedAgentSessions = new Set()
+				}
+				if (!sessionID || !this.focusedAgentSessions.has(sessionID)) {
+					if (sessionID) {
+						this.focusedAgentSessions.add(sessionID)
+					}
+					this.canvas.zoomToBox(box, true)
+				}
 			}
 		},
 		onAgentUnlockScreens (data) {
@@ -99,8 +115,11 @@ export default {
 			}
 			if (this.controller && this.canvas) {
 				const viewPort = this.canvas.getViewPort()
-				const pos = this.controller.addAiResult(result, viewPort)
-				this.canvas.moveToBox(pos, true)
+				const box = this.controller.addAiResult(result, viewPort)
+				// an update or delete adds no screen: keep the user where they are
+				if (result.changes && result.changes.some(c => c.type === 'addScreen')) {
+					this.canvas.zoomToBox(box, true)
+				}
 			}
 		},
 		onSettings (e) {

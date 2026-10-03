@@ -215,8 +215,16 @@
 		height: 100%;
 	}
 
+	/*
+	 * Block, not inline: an inline svg sits on the text baseline of the
+	 * inherited font, so an icon smaller than the line (e.g. a 12x10 check
+	 * under a 16px font) was pushed down and clipped by the overflow above.
+	 * The svg is always exactly as big as the box (SVGIcon.resize()), so
+	 * nothing else changes.
+	 */
 	.MatcWidgetTypeSVGIconSVG {
 		color: #333;
+		display: block;
 	}
 
 

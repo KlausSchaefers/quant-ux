@@ -21,6 +21,7 @@ export default class AIController extends SVGController {
         this.startModelChange()
         const pos = this.getPastePosition(result, viewport)
         const zoom = this.getZoomFactor();
+        const addedScreens = []
 
         result.changes.forEach(change => {
             if (change.type === 'addScreen' && change.value) {
@@ -35,6 +36,7 @@ export default class AIController extends SVGController {
                 const screenPos = this.getZoomedBox({ x: pos.x, y: pos.y }, zoom, zoom)
                 const appFragment = this._setAddPosition(change.value, screenPos)
                 this.modelAddScreenAndWidgets(appFragment);
+                addedScreens.push(...Object.values(appFragment.screens || {}))
             } else if (change.type === 'updateScreen' && change.value) {
                 this._applyUpdateScreen(change)
             } else if (change.type === 'deleteWidget') {
@@ -44,9 +46,20 @@ export default class AIController extends SVGController {
 
         this.render();
         this.commitModelChange()
+
+        /**
+         * Where the screens actually landed, so the canvas can focus them.
+         * This used to return the paste offset, which only matches the screen
+         * position for a screen planned at x=0: a streamed chunk that is not
+         * the first one of the plan was focused one screen width off.
+         */
+        if (addedScreens.length > 0) {
+            const box = this.getBoundingBoxByBoxes(addedScreens)
+            return { x: box.x, y: box.y, w: box.w, h: box.h }
+        }
         pos.w = this.model.screenSize.w
         pos.h = this.model.screenSize.h
-        return this.getZoomedBox(pos, zoom, zoom)
+        return pos
     }
 
     /**
@@ -65,11 +78,8 @@ export default class AIController extends SVGController {
             return
         }
 
-        // Mirror the addScreen branch: EditTool.updateScreen can legitimately
-        // reference shared components (AgentMemory keeps componentTemplates
-        // for the whole chat session, not just the create_app turn that first
-        // built them) and instantiate them via ComponentInstantiator, so the
-        // fragment can carry its own templates/designtokens too.
+        // Mirror the addScreen branch: the fragment can carry its own
+        // designtokens (and templates) too.
         if (fragment.designtokens && this.model) {
             this.model.designtokens = this.model.designtokens || {}
             Object.assign(this.model.designtokens, fragment.designtokens)
@@ -100,12 +110,31 @@ export default class AIController extends SVGController {
             delete this.model.lines[line.id]
         })
 
-        // rebuild the fragment so its screen keeps the target id and position
-        const appFragment = lang.clone(fragment)
+        // rebuild the fragment so its screen keeps the target id and position.
+        // _createScreenAndWidgets() gives every widget and group a fresh id
+        // from the model's own UUID counter, like a normal paste: the ids
+        // HTML2QUX hands out are only unique within one parse, so they could
+        // clash with what is already on the canvas.
+        const appFragment = this._createScreenAndWidgets(lang.clone(fragment))
         if (appFragment.screens) {
             const fragScreen = Object.values(appFragment.screens)[0]
             if (fragScreen) {
+                // The fragment comes from HTML2QUX with its screen at 0,0.
+                // Move its widgets along with the screen, otherwise they land
+                // at the canvas origin instead of inside the updated screen.
+                const dx = pos.x - (fragScreen.x || 0)
+                const dy = pos.y - (fragScreen.y || 0)
+                Object.values(appFragment.widgets || {}).forEach(widget => {
+                    widget.x += dx
+                    widget.y += dy
+                })
                 fragScreen.id = screenID
+                // an update keeps the name the user knows the screen by,
+                // HTML2QUX names every parsed screen just "Screen"
+                fragScreen.name = oldScreen.name
+                // and stays the start screen only if it was one before
+                fragScreen.props = fragScreen.props || {}
+                fragScreen.props.start = !!(oldScreen.props && oldScreen.props.start)
                 fragScreen.x = pos.x
                 fragScreen.y = pos.y
                 appFragment.screens = {}
