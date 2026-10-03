@@ -187,63 +187,6 @@
 
 
 /****************************************************
- * ... Slide Left Button
- ****************************************************/
-
-
-.VommondSlideLeftButton {
-	position: relative;
-	height: 24px;
-	width: 24px;
-	display: inline-block;
-	font-size: 12px;
-}
-
-.VommondSlideLeftButtonLabel {
-	text-align: center;
-}
-
-
-.VommondSlideLeftButton .mdi {
-	cursor: pointer;
-	color: #777;
-	font-size: 16px;
-	transition-duration: 0.2s;
-	transition-property: all;
-}
-
-.VommondSlideLeftButtonLabel:hover .mdi,
-.VommondSlideLeftPopupOpenItem:hover .mdi {
-	color: #333;
-}
-
-.VommondSlideLeftPopup {
-	position: absolute;
-	top: 0px;
-	right: 100%;
-	width: 0px;
-	overflow: hidden;
-	transition-duration: 0.2s;
-	transition-property: all;
-	text-align: right;
-}
-
-.VommondSlideLeftPopupCntr {
-	width: 120px;
-}
-
-
-.VommondSlideLeftPopupOpen .VommondSlideLeftPopup {
-	width: 120px;
-}
-
-.VommondSlideLeftPopupOpenItem {
-	display: inline-block;
-	padding: 0px 5px;
-}
-
-
-/****************************************************
  * Input List
  ****************************************************/
 
