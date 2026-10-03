@@ -851,52 +851,6 @@
     position: absolute;
 }
 
-
- /****************************************************
- * FunnelGram
- ****************************************************/
-.MatcFunnelGram{
-	display: inline-block;
-	width:100%;
-}
-
-.MatcFunnelGramCntr{
-
-}
-
-
-.MatcFunnelGramTable{
-	width: 100%;
-}
-
-.MatcFunnelGramTable tr{
-	margin-bottom: 20px;
-}
-
-.MatcFunnelGramBar{
-	color:#fff;
-	height: 30px;
- 	border-radius: 3px;
- 	text-align: right;
- 	padding: 3px;
- 	padding-right: 10px;
-
-}
-
-.MatcFunnelGramTableLabel{
-    height: 30px;
-    padding-bottom: 20px;
-    padding-right: 10px;
-    padding-top: 20px;
-    text-align: right;
-    width: 300px;
-    border-right:1px solid #333;
-}
-
-.MatcFunnelGramTableBar{
-	padding-left: 10px;
-}
-
  /****************************************************
  * Histogram
  ****************************************************/
