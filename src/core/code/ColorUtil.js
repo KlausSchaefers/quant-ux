@@ -1,24 +1,40 @@
+/**
+ * {r, g, b, a} of an rgb() / rgba() color, in the comma form of the computed
+ * style ("rgba(0, 0, 0, 0.5)") or the space form of authored CSS
+ * ("rgb(0 0 0 / 50%)"). Undefined for anything else.
+ */
 export function fromRgb (/*String*/ color){
-  var m = color.toLowerCase().match(/^rgba?\(([\s\\.,0-9]+)\)/);
-  return m && fromArray(m[1].split(/\s*,\s*/));	// Color
+  const m = String(color).trim().match(/^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)\s*(?:[,/]\s*([\d.]+)(%?)\s*)?\)$/i)
+  if (!m) {
+    return undefined
+  }
+  let a = m[4] === undefined ? 1 : parseFloat(m[4])
+  if (m[5]) {
+    a = a / 100
+  }
+  return { r: parseFloat(m[1]), g: parseFloat(m[2]), b: parseFloat(m[3]), a: a }
 }
 
+/**
+ * {r, g, b, a} of a #rgb, #rgba, #rrggbb or #rrggbbaa color. Undefined for
+ * anything else, a named color included.
+ */
 export function fromHex (/*String*/ color ) {
-  let result = {};
-  let bits = (color.length == 4) ? 4 : 8;
-  let mask = (1 << bits) - 1;
-  color = Number("0x" + color.substr(1));
-  if(isNaN(color)){
-    return
+  const m = String(color).trim().match(/^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i)
+  if (!m) {
+    return undefined
   }
-  let rgb = ["b", "g", "r"]
-  rgb.forEach(x => {
-      var c = color & mask;
-      color >>= bits;
-      result[x] = bits == 4 ? 17 * c : c;
-  })
-  result.a = 1;
-  return result
+  let digits = m[1]
+  if (digits.length <= 4) {
+    digits = digits.split('').map(d => d + d).join('')
+  }
+  const channel = i => parseInt(digits.substr(i * 2, 2), 16)
+  return {
+    r: channel(0),
+    g: channel(1),
+    b: channel(2),
+    a: digits.length === 8 ? Math.round(channel(3) / 255 * 1000) / 1000 : 1
+  }
 }
 
 export function fromArray (/** array */ a) {

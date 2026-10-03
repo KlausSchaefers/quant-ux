@@ -50,17 +50,14 @@ import DesignTokenList from 'canvas/toolbar/components/DesignTokenList'
 import Services from 'services/Services'
 import {iconDOM} from 'page/QIconUtil'
 import ModelUtil from '../../../core/ModelUtil'
+import * as WidgetCapabilities from '../../../core/WidgetCapabilities'
 
 export default {
     name: '_Render',
     mixins:[_Tooltip, DojoWidget],
     data: function () {
         return {
-			hasPadding : ["Button", "DateDropDown", "DropDown", "TypeAheadTextBox", "MobileDropDown", "Label", "TextBox", 'LockSlider',
-						"TextArea", "Password", "SegmentButton", "SegmentPicker", "ToggleButton", "Table", 'Tree', 
-						'VerticalNavigation', 'Paging', 'LabeledTextBox', 'NavBar', 'NavMenu', 'LabeledTextArea', 
-						'SortableList', 'RadioTable', 'DragNDropTarget', 'Upload', 'GeoLocation', 'ImageGrid', 
-						'GridContainer', 'Chat', 'ChatTextBox','FlexContainer'],
+			hasPadding : WidgetCapabilities.hasPadding.slice(),
 			
 			hasData : ["ToggleButton", "DateDropDown", "SegmentButton", "SegmentPicker", "DropDown", "MobileDropDown", "TextBox", "TextArea", "Password",
 						"CheckBox", "RadioBox", "RadioBox2", "HSlider", "Spinner", "Switch", "DragNDrop", "Date", "DateDropDown", "Icon", "Table", "Rating",
@@ -94,18 +91,12 @@ export default {
 
 			hasCheckedViewMode : ["CheckBox", "RadioBox", "RadioBox2"],
 
-			hasActiveViewMode : ["SegmentButton", "ToggleButton","VolumeSlider", "Tree", "VerticalNavigation", 
-								'Paging', 'Upload', 'IconToggleButton', 'NavBar', 'DragNDrop', 'AudioPlayer'],
+			hasActiveViewMode : WidgetCapabilities.hasActiveViewMode.slice(),
 			
-			hasHoverViewMode: ["Box", "Button", "Label", "ToggleButton", "DragNDrop", "Upload", "WebLink", "Tree", "Camera",
-								"VerticalNavigation", "Stepper", "Paging", "VisualPicker", 'IconToggleButton', 'IconButton', 
-								'DragNDropTarget', 'LabeledTextBox', 'NavBar', 'TextBox', 'LabeledTextBox', 'NavMenu', 
-								"DropDown", 'LabeledTextArea', 'SortableList', 'RadioTable', 'Icon', 
-								'SVGIcon', 'ImageGrid', 'AudioPlayer', 'Chat', 'ChatTextBox'],
+			hasHoverViewMode: WidgetCapabilities.hasHoverViewMode.slice(),
 								
 			hasPopupViewMode: ["DropDown", "DateDropDown", "MobileDropDown", 'NavMenu'],
-			hasValign: ["Box", "Button", "Label", "Upload", "WebLink", "IconButton", "Paging", 
-						"ToggleButton", "SegmentButton", "SegmentPicker", "DragNDrop", "DragNDropTarget"],
+			hasValign: WidgetCapabilities.hasValign.slice(),
 			hasRotate: ['Image', 'Icon'],
 			hasSVG: ['SVGPaths'],
 			hideAction: ['ScreenSegment'],

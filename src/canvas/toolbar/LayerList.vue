@@ -120,7 +120,22 @@ export default {
 				if (result.changes && result.changes.some(c => c.type === 'addScreen')) {
 					this.canvas.zoomToBox(box, true)
 				}
+				// An edit keeps the selection for the next request ("now make it
+				// red"), unless it replaced or deleted a selected widget.
+				if (this.hasStaleSelection(this.controller.model)) {
+					this.controller.unSelect()
+				}
 			}
+		},
+		hasStaleSelection (model) {
+			if (!model || !this.selection) {
+				return false
+			}
+			return this.selection.some(id => {
+				// an SVG path node, "<pathId>@<widgetId>"
+				const widgetID = id.indexOf('@') > 0 ? id.slice(id.lastIndexOf('@') + 1) : id
+				return !model.widgets[widgetID] && !model.screens[id] && !(model.groups && model.groups[id])
+			})
 		},
 		onSettings (e) {
 			if (this.toolbar) {
