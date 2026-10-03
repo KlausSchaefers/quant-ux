@@ -358,18 +358,6 @@ label.MatcDesignTokenListPopupSection{
 	padding: 0px;
 }
 
-
-// .MatcDesignTokenListPopup .MatcToolbarInputDropDownButton input{
-// 	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-//   border: 0px solid #555;
-//   font-size: 12px;
-//   line-height: 1em;
-//   padding: 0px;
-//   vertical-align: middle;
-//   width:30px;
-//   height: auto;
-// }
-
 /* keep in sync with MatcToolbarPopUpIcon */
 
 .MatcDesignTokenListPopup .mdi {
@@ -381,47 +369,6 @@ label.MatcDesignTokenListPopupSection{
 	font-size: 14px;
 	padding: 3px 10px;
 }
-
-/****************************************************
- * Dialog (FIXME:_ Removce
- ****************************************************/
-
-.MatcDesignTokenDialog {
-	width: 960px;
-
-}
-
-.MatcDesignTokenDialogCntr {
-	display: flex;
-}
-
-.MatcDesignTokenDialogEdit {
-	flex-grow: 1;
-	border:1px solid red;
-}
-
-
-.MatcDesignTokenDialog .MatcDesignTokenDialogList {
-	width: 200px;
-	height: 500px;
-}
-
-.MatcDesignTokenDialog .MatcDesignTokenDialogList a{
-	font-size: 14px;
-  font-weight: 700;
-	text-decoration: none;
-	display: block;
-	margin-bottom: 10px;
-	color:#555;
-}
-
-.MatcDesignTokenDialog .MatcDesignTokenDialogList a:hover,
-.MatcDesignTokenDialog .MatcDesignTokenDialogList a.selected {
-	color: $primary_color;
-}
-
-
-
 
 .MatcDesignTokenListPopupSection .MatcDesignTokenMixin {
 	display: block;
