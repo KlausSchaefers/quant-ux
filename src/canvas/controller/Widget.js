@@ -5,6 +5,7 @@ import * as DistributionUtil from '../../core/DistributionUtil'
 import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
 import * as ResponsiveUtil from '../../core/responsive/ResponsiveUtil'
 import * as LayoutContainerUtil from '../../core/LayoutContainerUtil'
+import ModelGeom from '../../core/ModelGeom'
 
 export default class Widget extends Responsive {
 
@@ -410,6 +411,22 @@ export default class Widget extends Responsive {
 			responsiveLayouter
 		);
 
+		/**
+		 * The outermost resized widgets were sized by hand, like in Figma they
+		 * get a fixed size. The ones in them are positioned by their container.
+		 */
+		const resizedIDs = Object.keys(newPositions)
+		resizedIDs.forEach(id => {
+			const widget = this.model.widgets[id]
+			const isInner = resizedIDs.some(otherID => {
+				const other = this.model.widgets[otherID]
+				return otherID !== id && other && widget && ModelGeom.isFullContained(other, widget)
+			})
+			if (widget && !isInner) {
+				this.fixFlexSizingOnResize(widget, newPositions[id])
+			}
+		})
+
 		let forceRenderForGridContainers = false
 		for (let id in newPositions) {
 			const pos = newPositions[id];
@@ -566,6 +583,7 @@ export default class Widget extends Responsive {
 			const pos = positions[id];
 			const child = this.createWidgetPositionCommand(id, pos, fromToolbar, correctPosition);
 			command.children.push(child);
+			this.fixFlexSizingOnResize(this.model.widgets[id], pos)
 			this.modelWidgetUpdate(id, pos, false);
 		}
 
@@ -722,7 +740,8 @@ export default class Widget extends Responsive {
 		const widget = this.model.widgets[id];
 		if (widget) {
 			this.startModelChange()
-			let width = TextUtil.getTextWidth(label, widget)
+			// in auto layout the layout sizes the text (see Responsive.relayoutFlexContainers())
+			let width = this.isSizedByFlexLayout(widget) ? widget.w : TextUtil.getTextWidth(label, widget)
 			this.logger.log(-1,"updateWidgetLabel", "enter > " + label + ' => ' + width + 'px');
 			const command = {
 				timestamp : new Date().getTime(),
@@ -798,6 +817,11 @@ export default class Widget extends Responsive {
 		 * get the old screen
 		 */
 		const oldScreen = this.getHoverScreen(widget);
+
+		/**
+		 * A size set by hand is fixed, like in Figma
+		 */
+		this.fixFlexSizingOnResize(widget, pos)
 
 		/**
 		 * Update the model

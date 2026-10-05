@@ -491,6 +491,11 @@ export default {
 						// the subgroup -> parent group relation set up above.
 						if (parentGroups[id] && parentGroups[id].children){
 							const group = this.getTopMostGroup(parentGroups[id], parentGroups)
+							// a group of the container and its children (e.g. from an AI import)
+							// cannot be inside the container it contains: it stays a group
+							if (this.isInGroup(widget.id, group, model)) {
+								continue
+							}
 							parentGroups[group.id] = widget
 						} else {
 							// else we place the GridContainer as the parent
@@ -580,10 +585,22 @@ export default {
 		 */
 		getTopMostGroup (group, parentGroups) {
 			let current = group
-			while (parentGroups[current.id] && parentGroups[current.id].children) {
+			const seen = new Set([current.id])
+			while (parentGroups[current.id] && parentGroups[current.id].children && !seen.has(parentGroups[current.id].id)) {
 				current = parentGroups[current.id]
+				seen.add(current.id)
 			}
 			return current
+		},
+
+		/**
+		 * Whether the widget is a member of the group or of one of its sub groups.
+		 */
+		isInGroup (widgetID, group, model) {
+			if (!group || !group.children || !model.groups || !model.groups[group.id]) {
+				return false
+			}
+			return ModelUtil.getAllGroupChildren(model.groups[group.id], model).indexOf(widgetID) >= 0
 		},
 
 		getSortedScreenChildren (model, screen) {
@@ -610,11 +627,12 @@ export default {
 			return masterNodes[masterScreen.id]
 		},
 
-		getOrCreateGroup (group, screenId, groupNodes, parentGroups, tree, widget) {
+		getOrCreateGroup (group, screenId, groupNodes, parentGroups, tree, widget, visiting = new Set()) {
 			/**
 			 * Check if we have to create a group node, or can recycle one
 			 */
 			if (!groupNodes[group.id]){
+				visiting.add(group.id)
 
 				let type = 'group'
 				if (LayoutContainerUtil.isLayoutContainerWidget(group)) {
@@ -625,13 +643,14 @@ export default {
 				/**
 				 * Check if we have to create parent groups
 				 */
-				if (parentGroups[group.id]) {
+				// a parent chain that comes back to this group is a cycle: the group goes to the screen
+				if (parentGroups[group.id] && !visiting.has(parentGroups[group.id].id)) {
 					let parentGroup = parentGroups[group.id]
 
 					let newGroupNode = this.createNode(group, widget.id, screenId, parentGroup.id, type);
 					groupNodes[group.id] = newGroupNode;
 
-					let parentNode = this.getOrCreateGroup(parentGroup, screenId, groupNodes, parentGroups, tree, widget)
+					let parentNode = this.getOrCreateGroup(parentGroup, screenId, groupNodes, parentGroups, tree, widget, visiting)
 					parentNode.children.push(newGroupNode)
 					newGroupNode.parentID = parentGroup.id
 				} else {
@@ -985,15 +1004,16 @@ export default {
 			return Array.from(result)
 		},
 
-		_getGroupChildren(node, result) {
-			if (node.children) {
+		_getGroupChildren(node, result, seen = new Set()) {
+			if (node.children && !seen.has(node.id)) {
+				seen.add(node.id)
 				node.children.forEach(child => {
-		
+
 					if (child.type === 'widget') {
 						result.add(child.widgetID)
 					}
 					if (child.type === 'group') {
-						this._getGroupChildren(child, result)
+						this._getGroupChildren(child, result, seen)
 					}
 				})
 			}
@@ -1001,7 +1021,10 @@ export default {
 
 		expandIfNeeded (id) {
 			let node = this.nodes[id]
-			while (node && node.groupID) {
+			// the parents of a broken tree can point at each other, stop there
+			const seen = new Set([id])
+			while (node && node.groupID && !seen.has(node.groupID)) {
+				seen.add(node.groupID)
 				this.openNodes[node.groupID] = true
 				node = this.nodes[node.groupID]
 				if (node) {

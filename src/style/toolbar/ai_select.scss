@@ -1,0 +1,138 @@
+@import '../variables.scss';
+
+// ---------------------------------------------------------------------------
+// Icon select (provider & model dropdown)
+// ---------------------------------------------------------------------------
+
+.MatcAiSelect {
+  position: relative;
+  width: 100%;
+}
+
+.MatcAiSelectButton {
+  width: 100%;
+  height: $form_height;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: $form_padding;
+  text-align: left;
+  background: #fff;
+  border: 1px solid $form_border;
+  border-radius: $form_radius;
+  cursor: pointer;
+  transition: border-color 0.15s;
+
+  &:hover {
+    border-color: $form_border_hover;
+  }
+
+  &:focus-visible,
+  .MatcAiSelectOpen & {
+    outline: none;
+    border-color: $primary_color;
+    box-shadow: 0 0 0 3px $primary_color_trans;
+  }
+}
+
+.MatcAiSelectIcon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: block;
+
+  svg {
+    display: block;
+  }
+}
+
+.MatcAiSelectText {
+  flex-grow: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.MatcAiSelectLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: $text_color;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.MatcAiSelectHint {
+  font-size: 12px;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.MatcAiSelectPlaceholder {
+  opacity: 0.6;
+}
+
+.MatcAiSelectCaret {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  margin: 0 4px 4px;
+  border-bottom: 1.5px solid;
+  border-left: 1.5px solid;
+  color: #999;
+  transform: rotate(-45deg);
+  transition: transform 0.15s, margin 0.15s;
+
+  .MatcAiSelectOpen & {
+    transform: rotate(135deg);
+    margin-bottom: -4px;
+  }
+}
+
+// fixed, placed by AIIconSelect.placePopup(), so the dialog cannot clip it
+.MatcAiSelectPopup {
+  position: fixed;
+  z-index: 99999999;
+  margin: 0;
+  list-style: none;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: $form_radius;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.18);
+  animation: MatcAiChatFadeIn 0.12s ease-out;
+}
+
+.MatcAiSelectOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  cursor: pointer;
+
+  &.MatcAiSelectOptionActive {
+    background: $primary_color_trans;
+  }
+}
+
+.MatcAiSelectBadge {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: $primary_color_trans;
+  color: $primary_color;
+}
+
+.MatcAiSelectCheck {
+  flex-shrink: 0;
+  width: 6px;
+  height: 11px;
+  margin: 0 6px 3px;
+  border-right: 2px solid $primary_color;
+  border-bottom: 2px solid $primary_color;
+  transform: rotate(45deg);
+}

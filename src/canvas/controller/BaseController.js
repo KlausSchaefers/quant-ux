@@ -309,6 +309,7 @@ export default class BaseController extends Core {
 		this._modelChanges = []
 		this._modelRenderJobs = {}
 		this._modelHasChanged = false
+		this._flexLaidOut = null
 	}
 
 	commitModelChange (updateChangeStack=true) {
@@ -316,6 +317,15 @@ export default class BaseController extends Core {
 
 		//this.updateAutoGroups();
 		// ungroup should not be possible for autoGroups
+
+		/**
+		 * The FlexContainers react to every change of their content (see
+		 * Responsive.relayoutFlexContainers()). Not for an undo or redo
+		 * (updateChangeStack false), it restores the laid out state.
+		 */
+		if (updateChangeStack && this._modelHasChanged && this.relayoutFlexContainers) {
+			this.relayoutFlexContainers()
+		}
 
 		const inheritedModel = this.getInheritedModel(this.model)
 

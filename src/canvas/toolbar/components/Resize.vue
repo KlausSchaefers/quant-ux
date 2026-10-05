@@ -1,11 +1,18 @@
 <template>
     <div class="MatcToolbarResize">
-        <template v-if="isContainerChild">
-            <div class="MatcToolbarResizeFlexOrGrid">                
-                <ToolbarDropDownButton :qOptions="options" :qReposition="true" :qValue="flexAlign" @change="toggleFlex" :qMaxLabelLength="20"/>
-            </div>
-        </template>
-        <div class="MatcToolbarResizeAbsolute" v-else>
+        <div class="MatcToolbarResizeFlexOrGrid" v-if="showSizing">
+            <template v-if="!isGroup">
+                <ToolbarDropDownButton :qOptions="widthOptions" :qReposition="true" :qValue="sizingWidth" @change="setSizingWidth" :qMaxLabelLength="20"/>
+                <ToolbarDropDownButton :qOptions="heightOptions" :qReposition="true" :qValue="sizingHeight" @change="setSizingHeight" :qMaxLabelLength="20"/>
+                <div class="MatcToolbarResizeLimits" v-if="showLimits">
+                    <InputDropDownButton v-for="limit in limitKeys" :key="limit.key"
+                        :qOptions="limitOptions" :qReposition="true" :qValue="String(limits[limit.key] || 0)"
+                        :qPostfix="' (' + limit.label + ')'" @change="setLimit(limit.key, $event)"/>
+                </div>
+            </template>
+            <CheckBox v-if="isContainerChild" :value="absolute" label="Ignore auto layout" @change="setAbsolute" class="MatcToolbarItem"/>
+        </div>
+        <div class="MatcToolbarResizeAbsolute" v-if="!isContainerChild">
 
 
             <div class="MatcToolbarResizePinCntr">
@@ -67,6 +74,10 @@
 <script>
 import DojoWidget from 'dojo/DojoWidget'
 import ToolbarDropDownButton from './ToolbarDropDownButton'
+import InputDropDownButton from './InputDropDownButton'
+import CheckBox from 'common/CheckBox'
+import * as FlexMath from 'core/responsive/FlexMath'
+import { TEXT_TYPES } from 'core/responsive/FlexLayout'
 
 export default {
     name: 'Responsove',
@@ -83,28 +94,63 @@ export default {
             grow:0,
             isContainerChild: false,
             parentWidget: null,
+            widget: null,
+            layoutWidth: null,
+            layoutHeight: null,
+            absolute: false,
+            // min and max sizes, 0 is none
+            limits: {},
+            limitKeys: [
+                { key: 'minWidth', label: 'Min Width' },
+                { key: 'maxWidth', label: 'Max Width' },
+                { key: 'minHeight', label: 'Min Height' },
+                { key: 'maxHeight', label: 'Max Height' }
+            ],
+            limitOptions: [0, 40, 80, 120, 200, 320, 480, 640]
         }
     },
-    components: {ToolbarDropDownButton},
+    components: {ToolbarDropDownButton, InputDropDownButton, CheckBox},
     computed: {
-        options () {
-            if (this.parentWidget?.style?.flexDirection === 'row' || this.parentWidget?.style?.flexDirection === 'rowReverse') {
-                return [
-                    { value:'fixed', icon:"LockClosed", label:"Fixed Width"},
-                    { value: 'grow', icon:"FlexGrowWidth", label: "Flexible With"}
-                ]
+        /**
+         * Like in Figma, a widget has a sizing per axis: fixed, hug its
+         * content (a text, a FlexContainer) or fill the free space of the
+         * FlexContainer it is in.
+         */
+        canHug () {
+            const w = this.widget
+            if (!w) {
+                return false
             }
-            return [
-                { value:'fixed', icon:"LockClosed", label:"Fixed Height"},
-                { value: 'grow', icon:"FlexGrowHeight", label: "Flexible Height"}
-            ]
-
+            return w.type === 'FlexContainer' || (TEXT_TYPES.has(w.type) && !!(w.props && w.props.label))
         },
-        flexAlign () {
-            if (!this.grow) {
-                return 'fixed'
-            }
-            return 'grow'
+        // a group is as big as its members, it has no sizing
+        isGroup () {
+            return !!this.widget && !this.widget.type
+        },
+        /**
+         * Min and max sizes matter where the size is not fixed: a fill or
+         * hug size.
+         */
+        showLimits () {
+            return this.sizingWidth !== 'fixed' || this.sizingHeight !== 'fixed'
+        },
+        showSizing () {
+            return this.isContainerChild || this.canHug
+        },
+        parentConfig () {
+            return this.isContainerChild ? FlexMath.getContainerConfig(this.parentWidget.style) : null
+        },
+        widthOptions () {
+            return this.getSizingOptions('Width', 'FlexGrowWidth')
+        },
+        heightOptions () {
+            return this.getSizingOptions('Height', 'FlexGrowHeight')
+        },
+        sizingWidth () {
+            return FlexMath.getSizing(this.getSizingModel(), 'h', this.parentConfig, this.canHug)
+        },
+        sizingHeight () {
+            return FlexMath.getSizing(this.getSizingModel(), 'v', this.parentConfig, this.canHug)
         },
 
         previewStyle() {
@@ -135,12 +181,49 @@ export default {
         }
     },
     methods: {
-        toggleFlex (align) {
-            if (align === 'fixed') {
-                this.grow = 0
-            } else {
-                this.grow = 1
+        getSizingOptions (axis, fillIcon) {
+            const options = [{ value: 'fixed', icon: 'LockClosed', label: 'Fixed ' + axis }]
+            if (this.canHug) {
+                options.push({ value: 'hug', icon: 'Minimize', label: 'Hug ' + axis })
             }
+            if (this.isContainerChild) {
+                options.push({ value: 'fill', icon: fillIcon, label: 'Fill ' + axis })
+            }
+            return options
+        },
+        /**
+         * The widget with the sizing as it is set right now in this
+         * component, for FlexMath.getSizing(), which also resolves the
+         * sizing of a widget from before the sizings existed.
+         */
+        getSizingModel () {
+            return {
+                props: {
+                    resize: {
+                        layoutWidth: this.layoutWidth,
+                        layoutHeight: this.layoutHeight,
+                        grow: this.grow,
+                        fixedHorizontal: this.growHorizontal,
+                        fixedVertical: this.growVertical
+                    }
+                }
+            }
+        },
+        setSizingWidth (value) {
+            this.layoutWidth = value
+            this.onChange()
+        },
+        setSizingHeight (value) {
+            this.layoutHeight = value
+            this.onChange()
+        },
+        setLimit (key, value) {
+            const n = parseInt(value, 10)
+            this.limits = Object.assign({}, this.limits, { [key]: Number.isFinite(n) && n > 0 ? n : 0 })
+            this.onChange()
+        },
+        setAbsolute (value) {
+            this.absolute = value
             this.onChange()
         },
         toggleVertical() {
@@ -193,16 +276,44 @@ export default {
                 down: this.hasPinDown,
                 fixedHorizontal: this.growHorizontal,
                 fixedVertical: this.growVertical,
-                grow: this.grow
+                grow: this.getGrow(),
+                absolute: this.absolute
             }
+            if (this.layoutWidth) {
+                resize.layoutWidth = this.layoutWidth
+            }
+            if (this.layoutHeight) {
+                resize.layoutHeight = this.layoutHeight
+            }
+            this.limitKeys.forEach(limit => {
+                if (this.limits[limit.key] > 0) {
+                    resize[limit.key] = this.limits[limit.key]
+                }
+            })
             this.isDirty = true
             this.emit('change', resize)
+        },
+
+        /**
+         * The first version had only grow on the main axis. It stays in sync
+         * with the fill sizing, for what still reads it.
+         */
+        getGrow () {
+            if (!this.parentConfig) {
+                return this.grow
+            }
+            const main = this.parentConfig.isColumn ? this.layoutHeight : this.layoutWidth
+            if (!main) {
+                return this.grow
+            }
+            return main === 'fill' ? 1 : 0
         },
 
         setValue(v) {
             if (this.lastWidgetID != v.id) {
                 this.isDirty = false;
             }
+            this.widget = v
             if (v.props && v.props.resize) {
                 let resize = v.props.resize
                 this.hasPinRight = resize.right
@@ -212,6 +323,15 @@ export default {
                 this.growHorizontal = resize.fixedHorizontal
                 this.growVertical = resize.fixedVertical
                 this.grow = resize.grow
+                this.layoutWidth = resize.layoutWidth || null
+                this.layoutHeight = resize.layoutHeight || null
+                this.absolute = !!resize.absolute
+                this.limits = {
+                    minWidth: resize.minWidth || 0,
+                    maxWidth: resize.maxWidth || 0,
+                    minHeight: resize.minHeight || 0,
+                    maxHeight: resize.maxHeight || 0
+                }
             } else {
                 this.hasPinRight = false
                 this.hasPinUp = false
@@ -220,6 +340,10 @@ export default {
                 this.growHorizontal = false
                 this.growVertical = false
                 this.grow = 0
+                this.layoutWidth = null
+                this.layoutHeight = null
+                this.absolute = false
+                this.limits = {}
             }
             this.lastWidgetID = v.id;
         },

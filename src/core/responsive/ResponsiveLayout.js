@@ -5,6 +5,12 @@ import * as Quant2Flat from './Quant2Flat'
 import * as ExportUtil from './ExportUtil'
 import * as GridUtil from '../GridUtil'
 import Config from './Config'
+import * as FlexMath from './FlexMath'
+import { TEXT_TYPES } from './FlexLayout'
+
+// the style keys of a FlexContainer that are in design pixels
+const flexZoomedKeys = ['gap', 'rowGap', 'paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight',
+    'borderTopWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderRightWidth']
 
 export default class ResponsiveLayout {
 
@@ -316,115 +322,123 @@ export default class ResponsiveLayout {
         }
     }
 
+    /**
+     * A text that hugs its content is measured with this function, see
+     * FlexLayout (options.measureText). Without one it keeps its size.
+     *
+     * @param {function} measureText (widget, width) => {w, h}|null, in design
+     *   pixels, width is the outer width of the widget or null for one line
+     */
+    setMeasureText(measureText) {
+        this.measureText = measureText
+    }
+
+    /**
+     * Lays out the children of a FlexContainer with the same math the canvas
+     * uses (FlexMath). A FlexContainer that hugs takes the size of its
+     * children, a text that hugs the size of its text (see setMeasureText()).
+     */
     resizeFlex(box, parent, newNestedPositions, indent) {
         Logger.log(2, indent + 'ResponsiveLayout.resizeFlex() > ' + box.name)
 
         const newParent = newNestedPositions[parent.id]
-        const style = box.style || {}
-        const zoom = this.config.zoom
-        const isColumn = style.flexDirection === 'column' || style.flexDirection === 'columnReverse'
-        const isReverse = style.flexDirection === 'rowReverse' || style.flexDirection === 'columnReverse'
-        // matches the CSS flexbox default (align-items: stretch); only an
-        // explicit 'start'/'center'/'end' opts a container out of stretching
-        const stretch = !style.alignItems || style.alignItems === 'stretch'
+        const config = this.getFlexConfig(box)
+        const items = FlexMath.sortItems(config, box.children
+            .filter(child => !isFlexAbsolute(child))
+            .map(child => this.getFlexItem(child, config)))
+        const boxes = FlexMath.layoutItems(config, newParent, items)
 
-        /**
-         * gap/padding are stored in the style as un-zoomed design values,
-         * whereas newParent and the children's w/h are already in zoomed
-         * pixels (see GridUtil.getGridContainerLinesX/Y for the same rule).
-         */
-        const gap = GridUtil.zoomedOrZero(style.gap, zoom) || 0
-        const paddingTop = GridUtil.zoomedOrZero(style.paddingTop, zoom) || 0
-        const paddingBottom = GridUtil.zoomedOrZero(style.paddingBottom, zoom) || 0
-        const paddingLeft = GridUtil.zoomedOrZero(style.paddingLeft, zoom) || 0
-        const paddingRight = GridUtil.zoomedOrZero(style.paddingRight, zoom) || 0
-        const borderTopWidth = GridUtil.zoomedOrZero(style.borderTopWidth, zoom) || 0
-        const borderBottomWidth = GridUtil.zoomedOrZero(style.borderBottomWidth, zoom) || 0
-        const borderLeftWidth = GridUtil.zoomedOrZero(style.borderLeftWidth, zoom) || 0
-        const borderRightWidth = GridUtil.zoomedOrZero(style.borderRightWidth, zoom) || 0
-
-        const innerX = newParent.x + paddingLeft + borderLeftWidth
-        const innerY = newParent.y + paddingTop + borderTopWidth
-        const innerWidth = newParent.w - paddingLeft - paddingRight - borderLeftWidth - borderRightWidth
-        const innerHeight = newParent.h - paddingTop - paddingBottom - borderTopWidth - borderBottomWidth
-
-        /**
-         * The tree keeps children in z/creation order, which does not
-         * necessarily match their visual left-to-right (row) / top-to-bottom
-         * (column) order. Flex needs the visual order, otherwise the gap
-         * ends up between the wrong pair of children. For the *Reverse
-         * variants the main-start edge is the right/bottom edge, so the
-         * flex-order is the mirror of the visual order (descending).
-         */
-        const children = box.children.slice().sort((a, b) => {
-            const diff = isColumn ? a.y - b.y : a.x - b.x
-            return isReverse ? -diff : diff
+        box.children.forEach(child => {
+            const pos = boxes[child.id]
+            if (pos) {
+                newNestedPositions[child.id] = createResult(pos.x, pos.y, pos.w, pos.h)
+            } else {
+                // not part of the layout, it keeps its place in the container
+                newNestedPositions[child.id] = createResult(newParent.x + child.x, newParent.y + child.y, child.w, child.h)
+            }
+            this.resizeChildren(child, child, newNestedPositions, indent + '     ')
         })
-        const gapSum = gap * Math.max(children.length - 1, 0)
+    }
 
-        if (isColumn) {
+    /**
+     * gap/padding are stored in the style as un-zoomed design values,
+     * whereas newParent and the children's w/h are already in zoomed
+     * pixels (see GridUtil.getGridContainerLinesX/Y for the same rule).
+     */
+    getFlexConfig(box) {
+        const style = Object.assign({}, box.style)
+        const zoom = this.config.zoom
+        flexZoomedKeys.forEach(key => {
+            if (style[key] !== undefined && style[key] !== null) {
+                style[key] = GridUtil.zoomedOrZero(style[key], zoom) || 0
+            }
+        })
+        return FlexMath.getContainerConfig(style)
+    }
 
-            const fixedHeight = children
-                .filter(child => !isFlexGrow(child))
-                .reduce((sum, child) => sum + child.h, 0)
+    getFlexItem(child, config) {
+        // a group (wrapper) is as big as its members
+        const isGroup = !!child.isGroup
+        const canHug = !isGroup && (ExportUtil.isFlexContainerWidget(child) || isFlexText(child))
+        const zoom = this.config.zoom
+        const limits = FlexMath.getLimits(child)
+        const zoomed = v => (v > 0 ? v * zoom : undefined)
+        return {
+            id: child.id,
+            x: child.x,
+            y: child.y,
+            w: child.w,
+            h: child.h,
+            minW: zoomed(limits.minW),
+            maxW: zoomed(limits.maxW),
+            minH: zoomed(limits.minH),
+            maxH: zoomed(limits.maxH),
+            sizingH: isGroup ? FlexMath.SIZING.FIXED : FlexMath.getSizing(child, 'h', config, canHug),
+            sizingV: isGroup ? FlexMath.SIZING.FIXED : FlexMath.getSizing(child, 'v', config, canHug),
+            hugW: () => this.getFlexHugSize(child).w,
+            hugH: (width) => this.getFlexHugSize(child, width).h
+        }
+    }
 
-            const growChildren = children.filter(child => isFlexGrow(child))
-            const growHeight = growChildren.length > 0
-                ? Math.max(0, innerHeight - fixedHeight - gapSum) / growChildren.length
-                : 0
+    getFlexHugSize(child, width) {
+        if (isFlexText(child)) {
+            return this.getTextHugSize(child, width)
+        }
+        if (!ExportUtil.isFlexContainerWidget(child) || !child.children) {
+            return { w: child.w, h: child.h }
+        }
+        const config = this.getFlexConfig(child)
+        const items = FlexMath.sortItems(config, child.children
+            .filter(c => !isFlexAbsolute(c))
+            .map(c => this.getFlexItem(c, config)))
+        return FlexMath.getContentSize(config, items, width)
+    }
 
-            let y = isReverse ? innerY + innerHeight : innerY
-            children.forEach(child => {
-                const height = isFlexGrow(child) ? growHeight : child.h
-                // cross axis (width): stretch fills innerWidth, but a fixed or
-                // own-sized child must not overflow it either - innerWidth is the max
-                const rawWidth = (stretch && !isFlexFixedHorizontal(child)) ? innerWidth : child.w
-                const width = Math.min(rawWidth, Math.max(0, innerWidth))
-                const x = getCrossAxisPosition(style.alignItems, innerX, innerWidth, width)
-
-                if (isReverse) {
-                    y -= height
-                    newNestedPositions[child.id] = createResult(x, y, width, height)
-                    y -= gap
-                } else {
-                    newNestedPositions[child.id] = createResult(x, y, width, height)
-                    y += height + gap
-                }
-
-                this.resizeChildren(child, child, newNestedPositions, indent + '     ')
-            })
-
-        } else {
-
-            const fixedWidth = children
-                .filter(child => !isFlexGrow(child))
-                .reduce((sum, child) => sum + child.w, 0)
-
-            const growChildren = children.filter(child => isFlexGrow(child))
-            const growWidth = growChildren.length > 0
-                ? Math.max(0, innerWidth - fixedWidth - gapSum) / growChildren.length
-                : 0
-
-            let x = isReverse ? innerX + innerWidth : innerX
-            children.forEach(child => {
-                const width = isFlexGrow(child) ? growWidth : child.w
-                // cross axis (height): stretch fills innerHeight, but a fixed or
-                // own-sized child must not overflow it either - innerHeight is the max
-                const rawHeight = (stretch && !isFlexFixedVertical(child)) ? innerHeight : child.h
-                const height = Math.min(rawHeight, Math.max(0, innerHeight))
-                const y = getCrossAxisPosition(style.alignItems, innerY, innerHeight, height)
-
-                if (isReverse) {
-                    x -= width
-                    newNestedPositions[child.id] = createResult(x, y, width, height)
-                    x -= gap
-                } else {
-                    newNestedPositions[child.id] = createResult(x, y, width, height)
-                    x += width + gap
-                }
-
-                this.resizeChildren(child, child, newNestedPositions, indent + '     ')
-            })
+    /**
+     * The measure function works in design pixels, the tree in zoomed ones.
+     */
+    getTextHugSize(child, width) {
+        if (!this.measureText) {
+            return { w: child.w, h: child.h }
+        }
+        const zoom = this.config.zoom
+        const style = child.style || {}
+        const n = v => (typeof v === 'number' && Number.isFinite(v) ? v : 0)
+        const padX = n(style.paddingLeft) + n(style.paddingRight) + n(style.borderLeftWidth) + n(style.borderRightWidth)
+        const padY = n(style.paddingTop) + n(style.paddingBottom) + n(style.borderTopWidth) + n(style.borderBottomWidth)
+        let text = null
+        try {
+            const unzoomedWidth = width !== undefined && width !== null ? width / zoom : null
+            text = this.measureText(child, unzoomedWidth)
+        } catch (e) {
+            text = null
+        }
+        if (!text || !(text.w > 0) || !(text.h > 0)) {
+            return { w: child.w, h: child.h }
+        }
+        return {
+            w: Math.ceil((text.w + padX) * zoom),
+            h: Math.ceil((text.h + padY) * zoom)
         }
     }
 
@@ -685,37 +699,16 @@ export default class ResponsiveLayout {
  * Unlike ExportUtil.isFixedVertical(), this has no type based fallback:
  * for Flex layout a child is only fixed if it is explicitly marked as such.
  */
-function isFlexFixedHorizontal(child) {
-    return !!(child.props && child.props.resize && child.props.resize.fixedHorizontal)
-}
-
-function isFlexFixedVertical(child) {
-    return !!(child.props && child.props.resize && child.props.resize.fixedVertical)
-}
-
 /**
- * Main-axis grow/fixed for a flex child: a child only grows if
- * props.resize.grow is explicitly > 0 - anything else (undefined, 0)
- * keeps the child at its own main-axis size.
+ * A child that does not take part in the flex layout (Figma's "ignore auto
+ * layout"), it keeps its place in the container.
  */
-function isFlexGrow(child) {
-    return !!(child.props && child.props.resize && child.props.resize.grow > 0)
+function isFlexText(child) {
+    return !child.isGroup && TEXT_TYPES.has(child.type) && !!(child.props && child.props.label)
 }
 
-/**
- * Position of a child along the cross axis, given style.alignItems.
- * 'stretch' behaves like 'start' here, since the child's cross-axis size
- * has already been grown to fill innerSize by the caller.
- */
-function getCrossAxisPosition(alignItems, innerStart, innerSize, childSize) {
-    switch (alignItems) {
-        case 'center':
-            return innerStart + (innerSize - childSize) / 2
-        case 'end':
-            return innerStart + innerSize - childSize
-        default:
-            return innerStart
-    }
+function isFlexAbsolute(child) {
+    return !!(child.props && child.props.resize && child.props.resize.absolute)
 }
 
 function getFlexFixed(list) {

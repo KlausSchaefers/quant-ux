@@ -36,6 +36,8 @@ export default class AIController extends SVGController {
                 const screenPos = this.getZoomedBox({ x: pos.x, y: pos.y }, zoom, zoom)
                 const appFragment = this._setAddPosition(change.value, screenPos)
                 this.modelAddScreenAndWidgets(appFragment);
+                // the imported FlexContainers are laid out with the canvas text sizes right away
+                this.onModelChanged(widgetChanges(Object.keys(appFragment.widgets || {})))
                 addedScreens.push(...Object.values(appFragment.screens || {}))
             } else if (change.type === 'updateScreen' && change.value) {
                 if (change.region) {
@@ -91,7 +93,7 @@ export default class AIController extends SVGController {
         const fragScreen = Object.values(fragment.screens || {})[0] || {}
         const dx = screen.x - (fragScreen.x || 0)
         const dy = screen.y - (fragScreen.y || 0)
-        this._replaceWidgets(screen, this.getModelChildren(screen), fragment, dx, dy)
+        const newIDs = this._replaceWidgets(screen, this.getModelChildren(screen), fragment, dx, dy)
 
         if (fragScreen.style && fragScreen.style.background !== undefined) {
             screen.style = screen.style || {}
@@ -100,7 +102,8 @@ export default class AIController extends SVGController {
         if (fragScreen.h > 0) {
             screen.h = fragScreen.h
         }
-        this.onModelChanged([])
+        // with the ids, so the FlexContainers among them are laid out
+        this.onModelChanged(widgetChanges(newIDs))
     }
 
     /**
@@ -138,14 +141,16 @@ export default class AIController extends SVGController {
             this._shiftBelowRegion(screen, region, new Set(oldWidgets.map(w => w.id)), delta)
         }
 
-        this._replaceWidgets(screen, oldWidgets, fragment, dx, dy)
+        const newIDs = this._replaceWidgets(screen, oldWidgets, fragment, dx, dy)
 
         if (delta !== 0) {
             const floor = Math.min(screen.h, this.model.screenSize.h)
             const contentBottom = this.getModelChildren(screen).reduce((max, w) => Math.max(max, w.y + w.h), screen.y)
             screen.h = Math.max(floor, screen.h + delta, contentBottom - screen.y)
         }
-        this.onModelChanged([])
+        // the new and the removed widgets: the FlexContainer they are in
+        // takes the new content and closes the gap of the removed one
+        this.onModelChanged(widgetChanges(newIDs.concat(oldWidgets.map(w => w.id))))
     }
 
     /**
@@ -243,6 +248,7 @@ export default class AIController extends SVGController {
         })
 
         this._addFragmentGroups(fragment, idMap, outerGroupID)
+        return fragWidgets.map(fw => idMap[fw.id])
     }
 
     /**
@@ -394,7 +400,10 @@ export default class AIController extends SVGController {
             }
             target.modified = new Date().getTime()
         })
-        this.onModelChanged([])
+        // a new text or size is laid out by the FlexContainer the widget is in
+        this.onModelChanged(widgetChanges((change.changes || [])
+            .filter(c => c.target !== 'screen')
+            .map(c => c.id)))
     }
 
     /**
@@ -410,7 +419,7 @@ export default class AIController extends SVGController {
                 this.modelRemoveWidgetAndLines(widget, lines, refs, true)
             }
         })
-        this.onModelChanged([])
+        this.onModelChanged(widgetChanges(ids))
     }
 
     /**
@@ -548,4 +557,12 @@ export default class AIController extends SVGController {
             a.y + a.h + margin > b.y
         )
     }
+}
+
+/**
+ * The change entries for onModelChanged(): with the ids, relayoutFlexContainers()
+ * knows which FlexContainers to lay out.
+ */
+function widgetChanges(ids) {
+    return (ids || []).filter(Boolean).map(id => ({ type: 'widget', action: 'change', id: id }))
 }

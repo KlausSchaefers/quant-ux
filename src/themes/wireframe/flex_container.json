@@ -25,7 +25,8 @@
         "style": {
             "flexDirection": "row",
             "gap": 8,
-            "alignItems": "top",
+            "alignItems": "start",
+            "justifyContent": "start",
             "borderRadius": 0,
             "borderWidth": 1,
             "borderStyle": "solid",

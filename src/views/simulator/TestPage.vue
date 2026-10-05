@@ -64,6 +64,8 @@ import Analytics from 'dash/Analytics'
 import DataFrame from 'common/DataFrame'
 import * as ScrollUtil from '../../util/ScrollUtil'
 import ResponsiveLayout from 'core/responsive/ResponsiveLayout'
+import FlexTextMeasure from 'core/responsive/FlexTextMeasure'
+import RenderFactory from 'core/RenderFactory'
 import Splash from './Splash'
 import TestTask from './TestTask'
 
@@ -388,8 +390,16 @@ export default {
 			// recordings
 			const layout = new ResponsiveLayout(1)
 			layout.initApp(this.model, true)
+			// a text that hugs its content in a FlexContainer is measured, like on the canvas
+			const textMeasure = new FlexTextMeasure(this.model, RenderFactory)
+			layout.setMeasureText((widget, width) => textMeasure.measure(widget, width))
 			// should this be the same height or scalled????
-			const resizedModel = layout.resize(cntrPos.w,this.model.screenSize.h )
+			let resizedModel
+			try {
+				resizedModel = layout.resize(cntrPos.w,this.model.screenSize.h )
+			} finally {
+				textMeasure.cleanUp()
+			}
 
 			cntrPos.h = Math.min(resizedModel.screenSize.h, cntrPos.h)	
 

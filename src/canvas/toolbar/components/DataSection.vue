@@ -754,24 +754,44 @@ export default {
 			this._addChildWidget(gridConfig);
 		},
 
+		/**
+		 * The auto layout of a FlexContainer, like in Figma: the direction, the
+		 * distribution of the items on the main axis (justifyContent, "space
+		 * between" is Figma's auto spacing), their alignment on the cross axis,
+		 * wrap and the gap. Whether the container hugs its content or has a
+		 * fixed size is set in the constraints (Resize.vue).
+		 */
 		_showFlexContainer (model){
-			this._setSectionLabel("Flex Container");
+			this._setSectionLabel("Auto Layout");
 			this._renderLabelDropDown("Direction", model,"flexDirection",[
 				{ value:"row", icon:"FlexContainerRow", label : "Row"},
-				{ value:"rowReverse", icon:"FlexContainerRow", label : "Row reverse"},				
+				{ value:"rowReverse", icon:"FlexContainerRow", label : "Row reverse"},
 				{ value: "column", icon:"FlexContainerCol", label : "Column"},
 				{ value: "columnReverse", icon:"FlexContainerCol", label : "Column Reverse"}
 			], true);
 
-			if (model.style.flexDirection === 'row' || model.style.flexDirection === 'rowReverse') {
-				this._renderLabelDropDown("Strech Children", model,"alignItems",[
+			const isRow = !model.style.flexDirection || model.style.flexDirection === 'row' || model.style.flexDirection === 'rowReverse'
+			if (isRow) {
+				this._renderLabelDropDown("Distribute", model,"justifyContent",[
+					{ value:"start", icon:"AlignLeft", label : "Left"},
+					{ value:"center", icon:"AlignCenter", label : "Center"},
+					{ value:"end", icon:"AlignRight", label : "Right"},
+					{ value:"spaceBetween", icon:"Distribute", label : "Space between"}
+				], true);
+				this._renderLabelDropDown("Align", model,"alignItems",[
 					{ value:"stretch", icon:"AlignHorizontal", label : "Stretch"},
 					{ value:"start", icon:"AlignTop", label : "Top"},
 					{ value:"center", icon:"AlignMiddle", label : "Middle"},
 					{ value:"end", icon:"AlignBottom", label : "Bottom"}
 				], true);
 			} else {
-				this._renderLabelDropDown("Strech Children", model,"alignItems",[
+				this._renderLabelDropDown("Distribute", model,"justifyContent",[
+					{ value:"start", icon:"AlignTop", label : "Top"},
+					{ value:"center", icon:"AlignMiddle", label : "Middle"},
+					{ value:"end", icon:"AlignBottom", label : "Bottom"},
+					{ value:"spaceBetween", icon:"Distribute", label : "Space between"}
+				], true);
+				this._renderLabelDropDown("Align", model,"alignItems",[
 					{ value:"stretch", icon:"AlignVertical", label : "Stretch"},
 					{ value:"start", icon:"AlignLeft", label : "Left"},
 					{ value:"center", icon:"AlignCenter", label : "Center"},
@@ -779,9 +799,11 @@ export default {
 				], true);
 			}
 
-	
-
 			this._renderInputDropDown("Gap",model, [0, 4, 8, 16, 24, 32, 64], "gap", false);
+			this._renderCheck("Wrap", model.style.flexWrap, "flexWrap", "The items continue in a new line when they do not fit.", "onStyleChanged");
+			if (model.style.flexWrap) {
+				this._renderInputDropDown("Line Gap",model, [0, 4, 8, 16, 24, 32, 64], "rowGap", false);
+			}
 		},
 
 		_showLabel (model){
