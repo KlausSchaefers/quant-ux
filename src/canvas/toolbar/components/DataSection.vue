@@ -754,13 +754,6 @@ export default {
 			this._addChildWidget(gridConfig);
 		},
 
-		/**
-		 * The auto layout of a FlexContainer, like in Figma: the direction, the
-		 * distribution of the items on the main axis (justifyContent, "space
-		 * between" is Figma's auto spacing), their alignment on the cross axis,
-		 * wrap and the gap. Whether the container hugs its content or has a
-		 * fixed size is set in the constraints (Resize.vue).
-		 */
 		_showFlexContainer (model){
 			this._setSectionLabel("Auto Layout");
 			this._renderLabelDropDown("Direction", model,"flexDirection",[
@@ -800,10 +793,7 @@ export default {
 			}
 
 			this._renderInputDropDown("Gap",model, [0, 4, 8, 16, 24, 32, 64], "gap", false);
-			this._renderCheck("Wrap", model.style.flexWrap, "flexWrap", "The items continue in a new line when they do not fit.", "onStyleChanged");
-			if (model.style.flexWrap) {
-				this._renderInputDropDown("Line Gap",model, [0, 4, 8, 16, 24, 32, 64], "rowGap", false);
-			}
+
 		},
 
 		_showLabel (model){

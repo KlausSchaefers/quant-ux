@@ -2,25 +2,18 @@ import Snapp from './Snapp'
 import lang from '../../dojo/_base/lang'
 import ResponsiveLayout from '../../core/responsive/ResponsiveLayout'
 import ModelGeom from '../../core/ModelGeom'
-import TreeIndex from '../../core/responsive/TreeIndex'
-import FlexLayout, { FlexTree, keepParents, getOutermostGroup } from '../../core/responsive/FlexLayout'
-import FlexTextMeasure from '../../core/responsive/FlexTextMeasure'
-import * as FlexMath from '../../core/responsive/FlexMath'
 import * as ResponsiveUtil from '../../core/responsive/ResponsiveUtil'
 
 
 export default class Responsive extends Snapp {
 
-    /**
-     * A GridContainer whose grid settings changed lays out its children
-     * again. A FlexContainer does not need this: every change of a widget is
-     * laid out in relayoutFlexContainers() when the change is committed.
-     */
+
     updateLayoutContainerChange(oldWidget) {
         const widget = this.model.widgets[oldWidget.id];
         const isGridChange = widget && widget.type === "GridContainer" && this.gridPropsHaveChanged(oldWidget, widget)
+        const isFlexChange = widget && widget.type === "FlexContainer" && this.flexPropsHaveChanged(oldWidget, widget)
 
-        if (isGridChange) {
+        if (isGridChange || isFlexChange) {
             this.logger.log(-1, "updateLayoutContainerChange", widget.type + " changed, check for layout change");
 
             // create a resize model
@@ -109,8 +102,23 @@ export default class Responsive extends Snapp {
             this.arrayPropHasChanged(widget.props.rowHeights, oldWidget.props.rowHeights)
     }
 
+    flexPropsHaveChanged(widget, oldWidget) {
+        return widget.style.flexDirection != oldWidget.style.flexDirection ||
+            widget.style.justifyContent != oldWidget.style.justifyContent ||
+            widget.style.alignItems != oldWidget.style.alignItems ||
+            widget.style.gap != oldWidget.style.gap ||
+            widget.style.paddingLeft != oldWidget.style.paddingLeft ||
+            widget.style.paddingRight != oldWidget.style.paddingRight ||
+            widget.style.paddingTop != oldWidget.style.paddingTop ||
+            widget.style.paddingBottom != oldWidget.style.paddingBottom ||
+            widget.style.borderLeftWidth != oldWidget.style.borderLeftWidth ||
+            widget.style.borderRightWidth != oldWidget.style.borderRightWidth ||
+            widget.style.borderTopWidth != oldWidget.style.borderTopWidth ||
+            widget.style.borderBottomWidth != oldWidget.style.borderBottomWidth
+    }
+
     flexChildPropsHaveChanged(props) {
-        return !!(props && props.resize)
+        return !!(props && props.resize && props.resize.grow !== undefined)
     }
 
     arrayPropHasChanged(a, b) {
@@ -118,12 +126,6 @@ export default class Responsive extends Snapp {
     }
 
 
-    /**
-     * A drag and drop moved widgets out of the container "start" and / or
-     * into the container "end": both are laid out again. The moved widgets
-     * belong to "end", even when the geometry says otherwise (e.g. the
-     * dropped widget encloses a sibling after snapping).
-     */
     updateLayoutContainers(layoutContainerChange, movedIds) {
         if (!layoutContainerChange || (!layoutContainerChange.start && !layoutContainerChange.end)) {
             this.logger.log(4, "updateLayoutContainers", "exit > NO CHANGE");
@@ -135,92 +137,38 @@ export default class Responsive extends Snapp {
         const startId = layoutContainerChange.start && layoutContainerChange.start.id
         const endId = layoutContainerChange.end && layoutContainerChange.end.id
 
+        /**
+         * The widget could have been moved out of "start" into "end", so
+         * both containers lost/gained a child and need to be freshly laid out.
+         * If start and end are the same container, this just re-layouts it once,
+         * without touching the moved widget's containment, since it never left.
+         */
         this.updateModelIndexes(this.model)
-
-        const flexIds = []
-        const laidOut = new Set()
-        ;[endId, startId].filter(Boolean).forEach(id => {
-            const container = this.model.widgets[id]
-            if (!container || laidOut.has(id)) {
-                return
+        if (startId && startId === endId) {
+            this.layoutContainer(startId, [], ids, true)
+        } else {
+            if (endId) {
+                this.layoutContainer(endId, [], ids, true)
             }
-            laidOut.add(id)
-            if (container.type === 'FlexContainer') {
-                flexIds.push(id)
-            } else {
-                // a GridContainer: the moved widgets only belong to the one they were dropped in
-                const isEnd = id === endId
-                ResponsiveUtil.layoutContainer(this.model, id, [], isEnd ? ids : [], isEnd, this.treeIndex)
+            if (startId) {
+                this.layoutContainer(startId, [], []) // why did we pass here the ids as excludeIds? This fucks up the dnd
             }
-        })
-
-        if (flexIds.length > 0) {
-            const tree = new FlexTree(this.treeIndex)
-            if (endId && flexIds.indexOf(endId) >= 0) {
-                this.reparentMovedWidgets(tree, endId, ids)
-            }
-            this.runFlexLayout(tree, flexIds, true)
         }
 
         return true
     }
 
-    /**
-     * The moved widgets become direct children of the container. Only the
-     * outermost ones: a widget moved together with the box it is in stays in
-     * that box. A widget in a group brings its group along, the group is the
-     * item of the container. And a sibling that the moved widget happens to
-     * enclose now is not its child, it stays in the container.
-     */
-    reparentMovedWidgets(tree, containerId, movedIds) {
-        const moved = new Set(movedIds)
-        const roots = movedIds.filter(id => {
-            const widget = this.model.widgets[id]
-            if (!widget || id === containerId) {
-                return false
-            }
-            return !movedIds.some(otherId => {
-                const other = this.model.widgets[otherId]
-                return otherId !== id && other && ModelGeom.isFullContained(other, widget)
-            })
-        })
-
-        roots.forEach(id => {
-            const node = getOutermostGroup(this.model, id) || id
-            if (node !== containerId && !tree.isAncestor(node, containerId)) {
-                tree.setParent(node, containerId)
-            }
-            tree.getChildren(node).slice().forEach(childId => {
-                const isMember = getOutermostGroup(this.model, childId) === node
-                if (this.model.widgets[childId] && !moved.has(childId) && !isMember) {
-                    tree.setParent(childId, containerId)
-                }
-            })
-        })
-    }
 
     layoutContainer(id, excludeIds = [], movedIds = [], isEnd=false) {
         this.logger.log(1, "layoutContainer", "enter > " + id, excludeIds, movedIds, isEnd, this.treeIndex)
-        const widget = this.model.widgets[id]
-        if (widget && widget.type === 'FlexContainer') {
-            this.updateModelIndexes(this.model)
-            const tree = new FlexTree(this.treeIndex)
-            excludeIds.forEach(childId => {
-                if (tree.getParent(childId) === id) {
-                    tree.setParent(childId, tree.getParent(id))
-                }
-            })
-            if (movedIds.length > 0) {
-                this.reparentMovedWidgets(tree, id, movedIds)
-            }
-            return this.runFlexLayout(tree, [id], true)
-        }
         return ResponsiveUtil.layoutContainer(this.model, id, excludeIds, movedIds, isEnd, this.treeIndex)
     }
 
     /**
-     * Layout the FlexContainers affected by a change of an area: the ones that
-     * overlap it, and the ones these are in when they hug their content.
+     * Layout the FlexContainers affected by a change, without any notion of
+     * screens at all - a widget doesn't have to resolve to a hover screen
+     * (e.g. it can sit loose on the canvas) for its containing FlexContainer,
+     * if any, to still get relaid out.
      *
      * params.pos       - the changed area
      * params.widget    - the changed widget, used as the area
@@ -231,29 +179,56 @@ export default class Responsive extends Snapp {
     updateScreenLayout(params = {}) {
         const { screenId, pos, positions, widget } = params;
 
+        this.updateModelIndexes(this.model)
+
         let boundingBox = null;
         if (pos) {
             boundingBox = pos
         } else if (widget) {
             boundingBox = widget
-        } else if (positions && positions.length > 0) {
+        } else if (positions) {
             boundingBox = this.getBoundingBoxByBoxes(positions)
         } else if (screenId) {
             boundingBox = this.model.screens[screenId]
         }
+        /**
+         * FIXME: This does not work with z changes any more, because the
+         * z ir already lowe so it is not
+         */
         this.logger.log(1, "updateScreenLayout", "bbox", boundingBox)
 
-        const flexContainerIds = Object.values(this.model.widgets)
+        /**
+         * We used to resolve a hover screen and only relayout FlexContainers
+         * on it, but that misses containers when the change happened on a
+         * widget that isn't inside any FlexContainer (or doesn't resolve to
+         * a screen at all, e.g. loose on the canvas). Instead, just look at
+         * every FlexContainer in the model directly and keep the ones that
+         * fully contain the changed area - one elsewhere can't be affected.
+         */
+        let flexContainerIds = Object.values(this.model.widgets)
             .filter(w => w.type === "FlexContainer")
-            .filter(w => !boundingBox || overlaps(w, boundingBox))
             .map(w => w.id)
 
-        if (flexContainerIds.length === 0) {
-            return {}
+        if (boundingBox) {
+            // TODO: we could do this even smarter and sort by Z and get only the last one.
+            // we could use and index for this....
+            const contained = flexContainerIds.filter(id => {
+                const flexWidget = this.model.widgets[id]
+                return ModelGeom.isFullContained(flexWidget, boundingBox)
+            })
+            if (contained.length > 0) {
+                flexContainerIds = contained
+            } else {
+                this.logger.log(1, "updateScreenLayout", "use all", flexContainerIds)
+            }
         }
 
-        this.updateModelIndexes(this.model)
-        const allPositions = this.runFlexLayout(new FlexTree(this.treeIndex), flexContainerIds, true)
+
+        let allPositions = {};
+        flexContainerIds.forEach(id => {
+            const positions = this.layoutContainer(id)
+            Object.assign(allPositions, positions)
+        })
 
         this.onModelChanged(Object.keys(allPositions).map(id => {
             return { type: 'widget', action: "change", "prop": "position", id: id }
@@ -262,211 +237,4 @@ export default class Responsive extends Snapp {
         return allPositions
     }
 
-    /**
-     * Called by commitModelChange() for every change: lays out the
-     * FlexContainers the changed widgets are in (and the containers these
-     * are in, as long as they hug their content), like Figma's auto layout
-     * reacts to every change of its content: a longer text, a bigger font, a
-     * resized, added or removed child, a new gap or padding.
-     *
-     * Runs inside the model change, so the undo of the change also restores
-     * the layout.
-     */
-    relayoutFlexContainers() {
-        if (!this.model || !this.model.widgets) {
-            this._flexLaidOut = null
-            return
-        }
-        const changedIds = new Set()
-        const removedIds = []
-        ;(this._modelChanges || []).forEach(change => {
-            if (change && change.type === 'widget' && change.id) {
-                if (this.model.widgets[change.id]) {
-                    changedIds.add(change.id)
-                } else {
-                    removedIds.push(change.id)
-                }
-            }
-        })
-        const hugIds = Array.from(changedIds).filter(id => isHugging(this.model.widgets[id]))
-        const touchesFlex = this.touchesFlexContainer(changedIds, removedIds)
-        if (!touchesFlex && hugIds.length === 0) {
-            this._flexLaidOut = null
-            return
-        }
-
-        try {
-            const tree = new FlexTree(new TreeIndex(this.model))
-            keepParents(tree, this.model, this.oldModel, Array.from(changedIds))
-
-            const layout = new FlexLayout(this.model, tree)
-            const containerIds = layout.findContainers(Array.from(changedIds))
-            removedIds.forEach(id => {
-                const old = this.oldModel && this.oldModel.widgets && this.oldModel.widgets[id]
-                const container = old && findFlexContainerAt(this.model, old)
-                if (container) {
-                    containerIds.push(...layout.findContainers([container.id]))
-                }
-            })
-
-            const done = this._flexLaidOut || new Set()
-            const todo = containerIds.filter(id => !done.has(id))
-            if (todo.length > 0 || hugIds.length > 0) {
-                this.runFlexLayout(tree, todo, false, hugIds)
-            }
-        } catch (e) {
-            this.logger.error("relayoutFlexContainers", "Could not layout", e);
-            this.logger.sendError(e)
-        }
-        this._flexLaidOut = null
-    }
-
-    /**
-     * Cheap check before the tree is built: does a changed widget (where it is
-     * now or where it was before) overlap a FlexContainer, or is it one?
-     * Most changes on the canvas have nothing to do with one.
-     */
-    touchesFlexContainer(changedIds, removedIds) {
-        const containers = Object.values(this.model.widgets).filter(w => w.type === 'FlexContainer')
-        if (containers.length === 0) {
-            return false
-        }
-        const oldWidgets = (this.oldModel && this.oldModel.widgets) || {}
-        const boxes = []
-        changedIds.forEach(id => {
-            boxes.push(this.model.widgets[id])
-            if (oldWidgets[id]) {
-                boxes.push(oldWidgets[id])
-            }
-        })
-        removedIds.forEach(id => {
-            if (oldWidgets[id]) {
-                boxes.push(oldWidgets[id])
-            }
-        })
-        return boxes.some(box => box.type === 'FlexContainer' || containers.some(c => overlaps(c, box)))
-    }
-
-    /**
-     * Lays out the containers with FlexLayout and writes the new boxes into
-     * the model.
-     *
-     * @param {boolean} [remember] the containers are laid out already for
-     *   this change, relayoutFlexContainers() skips them
-     * @param {Array<string>} [hugIds] texts that hug their content, they take
-     *   their size first (see FlexLayout.hugWidgets())
-     * @returns {Object<string, {x, y, w, h}>} the changed boxes
-     */
-    runFlexLayout(tree, containerIds, remember = false, hugIds = []) {
-        const renderFactory = this._canvas && this._canvas.renderFactory
-        const measure = new FlexTextMeasure(this.model, renderFactory ? renderFactory.constructor : null)
-        let positions = {}
-        try {
-            const layout = new FlexLayout(this.model, tree, {
-                measureText: (widget, width) => measure.measure(widget, width)
-            })
-            layout.hugWidgets(hugIds)
-            const containers = layout.findContainers(containerIds)
-            positions = layout.run(containers)
-            if (remember) {
-                this._flexLaidOut = this._flexLaidOut || new Set()
-                containers.forEach(id => this._flexLaidOut.add(id))
-            }
-        } finally {
-            measure.cleanUp()
-        }
-
-        const now = new Date().getTime()
-        const ids = Object.keys(positions)
-        ids.forEach(id => {
-            const widget = this.model.widgets[id]
-            const pos = positions[id]
-            if (widget && !isNaN(pos.x) && !isNaN(pos.y) && !isNaN(pos.w) && !isNaN(pos.h)) {
-                widget.x = pos.x
-                widget.y = pos.y
-                widget.w = pos.w
-                widget.h = pos.h
-                widget.modified = now
-            }
-        })
-        if (ids.length > 0 && this._modelRenderJobs) {
-            // the sizes changed as well, a position update is not enough
-            delete this._modelRenderJobs['position']
-            if (this._modelRenderJobs['all'] === undefined) {
-                this._modelRenderJobs['all'] = false
-            }
-        }
-        return positions
-    }
-
-    /**
-     * Whether the width of a widget comes from the auto layout: it hugs or
-     * fills, or it is an item of a FlexContainer. A new text must not set
-     * its width then (updateWidgetLabel() does it for a free text), or it
-     * sticks out of its container before the layout runs.
-     */
-    isSizedByFlexLayout(widget) {
-        const resize = widget && widget.props && widget.props.resize
-        if (resize && (resize.layoutWidth === 'hug' || resize.layoutWidth === 'fill')) {
-            return true
-        }
-        const parent = widget && this.getTreeParent(widget.id)
-        return !!(parent && parent.type === 'FlexContainer')
-    }
-
-    /**
-     * Like in Figma, a widget the user resizes by hand gets the fixed sizing
-     * on that axis, otherwise the layout would take the size right back.
-     */
-    fixFlexSizingOnResize(widget, pos) {
-        if (!widget || !pos) {
-            return
-        }
-        const resizedW = pos.w !== undefined && Math.round(pos.w) !== Math.round(widget.w)
-        const resizedH = pos.h !== undefined && Math.round(pos.h) !== Math.round(widget.h)
-        if (!resizedW && !resizedH) {
-            return
-        }
-        // the sizing in effect, also the one from before the sizings existed (grow, stretch)
-        const parent = this.getTreeParent(widget.id)
-        const parentConfig = parent && parent.type === 'FlexContainer' ? FlexMath.getContainerConfig(parent.style) : null
-        const changed = {}
-        if (resizedW && FlexMath.getSizing(widget, 'h', parentConfig) !== FlexMath.SIZING.FIXED) {
-            changed.layoutWidth = FlexMath.SIZING.FIXED
-        }
-        if (resizedH && FlexMath.getSizing(widget, 'v', parentConfig) !== FlexMath.SIZING.FIXED) {
-            changed.layoutHeight = FlexMath.SIZING.FIXED
-        }
-        if (Object.keys(changed).length > 0) {
-            widget.props = widget.props || {}
-            widget.props.resize = Object.assign({}, widget.props.resize, changed)
-        }
-    }
-
-}
-
-function isHugging(widget) {
-    const resize = widget && widget.props && widget.props.resize
-    return !!(resize && (resize.layoutWidth === 'hug' || resize.layoutHeight === 'hug'))
-}
-
-function overlaps(a, b) {
-    return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h
-}
-
-/**
- * The topmost FlexContainer that contains the box, e.g. the one a removed
- * widget was in.
- */
-function findFlexContainerAt(model, box, tolerance = 1) {
-    let result = null
-    Object.values(model.widgets).forEach(w => {
-        if (w.type === 'FlexContainer' && w.id !== box.id &&
-            box.x >= w.x - tolerance && box.y >= w.y - tolerance &&
-            box.x + box.w <= w.x + w.w + tolerance && box.y + box.h <= w.y + w.h + tolerance &&
-            (!result || (w.z || 0) > (result.z || 0))) {
-            result = w
-        }
-    })
-    return result
 }

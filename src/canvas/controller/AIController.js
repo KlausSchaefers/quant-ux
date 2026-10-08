@@ -19,6 +19,8 @@ export default class AIController extends SVGController {
         this.logger.log(-1, "addAiResult", "enter > viewport : ", viewport);
 
         this.startModelChange()
+        this.updateModelIndexes(this.model)
+        const previousParents = this.treeIndex.parents
         const pos = this.getPastePosition(result, viewport)
         const zoom = this.getZoomFactor();
         const addedScreens = []
@@ -36,7 +38,7 @@ export default class AIController extends SVGController {
                 const screenPos = this.getZoomedBox({ x: pos.x, y: pos.y }, zoom, zoom)
                 const appFragment = this._setAddPosition(change.value, screenPos)
                 this.modelAddScreenAndWidgets(appFragment);
-                // the imported FlexContainers are laid out with the canvas text sizes right away
+                // Include imported containers in the layout of this AI transaction.
                 this.onModelChanged(widgetChanges(Object.keys(appFragment.widgets || {})))
                 addedScreens.push(...Object.values(appFragment.screens || {}))
             } else if (change.type === 'updateScreen' && change.value) {
@@ -52,6 +54,7 @@ export default class AIController extends SVGController {
             }
         })
 
+        this._layoutChangedContainers(previousParents)
         this.render();
         this.commitModelChange()
 
@@ -68,6 +71,36 @@ export default class AIController extends SVGController {
         pos.w = this.model.screenSize.w
         pos.h = this.model.screenSize.h
         return pos
+    }
+
+    /** Reuse the canvas layout, including the old parent of moved/deleted items. */
+    _layoutChangedContainers(previousParents) {
+        const changed = (this._modelChanges || []).filter(c => c.type === 'widget' && c.id)
+        if (!changed.length) return
+        this.updateModelIndexes(this.model)
+        const parents = this.treeIndex.parents
+        const containers = new Set()
+        ;[previousParents, parents].forEach(index => {
+            const seen = new Set()
+            changed.forEach(change => {
+                let id = change.id
+                while (id && !seen.has(id)) {
+                    seen.add(id)
+                    const widget = this.model.widgets[id]
+                    if (widget && widget.type === 'FlexContainer') containers.add(id)
+                    id = index.get(id)
+                }
+            })
+        })
+        // An outer container already lays out its nested containers.
+        containers.forEach(id => {
+            let parent = parents.get(id)
+            while (parent) {
+                if (containers.has(parent)) return
+                parent = parents.get(parent)
+            }
+            this.layoutContainer(id)
+        })
     }
 
     /**
@@ -230,6 +263,14 @@ export default class AIController extends SVGController {
             const widget = lang.clone(fw)
             delete widget._sourceId
             widget.id = id
+            // Preserve explicit parents when replacing a fragment with new ids.
+            if (widget.parentId) {
+                if (idMap[widget.parentId]) {
+                    widget.parentId = idMap[widget.parentId]
+                } else {
+                    delete widget.parentId
+                }
+            }
             widget.x = Math.round(fw.x + dx)
             widget.y = Math.round(fw.y + dy)
             widget.z = z++
@@ -560,8 +601,7 @@ export default class AIController extends SVGController {
 }
 
 /**
- * The change entries for onModelChanged(): with the ids, relayoutFlexContainers()
- * knows which FlexContainers to lay out.
+ * Widget ids affected by an AI transaction, used to find its layout containers.
  */
 function widgetChanges(ids) {
     return (ids || []).filter(Boolean).map(id => ({ type: 'widget', action: 'change', id: id }))

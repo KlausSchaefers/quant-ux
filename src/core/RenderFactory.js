@@ -1194,7 +1194,7 @@ export default class RenderFactory extends Core {
 		// do nothing implement in Simulator.createBox()
 	}
 
-	_set_externalImageURL(parent, style, model) {
+	_set_externalImageURL(parent, style) {
 		if (!style.backgroundImage && style.externalImageURL) {
 			const url = style.externalImageURL
 			parent.style.backgroundImage = `url(${url})`;
