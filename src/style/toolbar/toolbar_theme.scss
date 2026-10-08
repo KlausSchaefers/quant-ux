@@ -705,6 +705,12 @@ div.MatcToolbarViewConfigCntrSpace {
   color: $ai_trace_color;
 }
 
+.MatcAiChatTraceStep {
+   &:not(:last-child)::before {
+      background: $ai_trace_line
+    }
+}
+
 .MatcWindows .MatcAiChatBody {
   &::-webkit-scrollbar {
     width: 8px;

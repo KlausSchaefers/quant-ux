@@ -195,9 +195,10 @@ $font-size-s: 16px;
 $font-size-xs: 14px;
 $font-size-xxs: 12px;
 
-$ai_trace_border: rgba(255, 255, 255, 0.07);
-$ai_trace_background: rgba(255, 255, 255, 0.03);
+$ai_trace_border: rgba(255, 255, 255, 0.0);
+$ai_trace_background: rgba(255, 255, 255, 0.0);
 $ai_trace_color: $toolbar_color_passive;
+$ai_trace_line: rgba(255, 255, 255, 0.15);
 
 $toolbar_scrollbar_thumb: rgba(255, 255, 255, 0.12);
 $toolbar_scrollbar_thumb_hover: rgba(255, 255, 255, 0.2);

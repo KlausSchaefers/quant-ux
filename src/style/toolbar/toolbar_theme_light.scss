@@ -32,7 +32,7 @@
     $popup_outer_border_color: transparent;
     $popup_background: #fff;
     $popup_radius: 4px;
-    $popup_shadow: 0 3px 25px rgba(0,0,0,.35);
+    $popup_shadow: 0 4px 24px rgba(0,0,0,.35);
     $popup_line: rgba(0, 0, 0, 0.08);
     $popup_child_border: none;
     $popup_form_border: rgba(0, 0, 0, 0.25);
@@ -54,8 +54,9 @@
     $toolbar_checkbox_hover_border: $toolbar_form_border_hover;
 
     $ai_trace_border: rgba(0, 0, 0, 0.0);
-    $ai_trace_background: $toolbar_form_background_hover;
+    $ai_trace_background: rgba(0, 0, 0, 0.0);
     $ai_trace_color: $toolbar_color;
+    $ai_trace_line: $gray_1;
 
 
     $toolbar_scrollbar_thumb: rgba(0, 0, 0, 0.12);

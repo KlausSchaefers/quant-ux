@@ -406,6 +406,7 @@ class ModelUtil {
                 zoomedWidget.style.gap = widget.style.gap
                 zoomedWidget.style.flexDirection = widget.style.flexDirection
                 zoomedWidget.style.alignItems = widget.style.alignItems
+                zoomedWidget.style.justifyContent = widget.style.justifyContent
             }
             
             zoomedWidget.props = widget.props // this is ok, because edits will go through the controller

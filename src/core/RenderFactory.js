@@ -290,10 +290,14 @@ export default class RenderFactory extends Core {
 				this._set_icon(null, widget.style, m);
 			}
 			if (widget && "Image" == widget.type) {
-				if (!widget?.style?.backgroundImage) {				
+				if (!widget?.style?.backgroundImage) {	
+					
+					if (widget?.style?.externalImageURL) {
+						return
+					}		
 					if (widget.has.iconPlaceholder) {
 						const div = this.getWidgetNodeByID(widget.id);
-						this.renderImageIcon(pos, div)
+						this.renderImageIcon({...pos, style: widget.style}, div)
 					}
 					if (widget.style.backgroundPosition) {
 						let m = lang.clone(widget);
@@ -1194,13 +1198,7 @@ export default class RenderFactory extends Core {
 		// do nothing implement in Simulator.createBox()
 	}
 
-	_set_externalImageURL(parent, style) {
-		if (!style.backgroundImage && style.externalImageURL) {
-			const url = style.externalImageURL
-			parent.style.backgroundImage = `url(${url})`;
-			parent.style.backgroundSize = "100%";
-		}
-	}
+
 
 
 	_set_icon(parent, style, model) {
@@ -1785,13 +1783,30 @@ export default class RenderFactory extends Core {
 
 	}
 
+	_set_externalImageURL(parent, style, model) {
+		if (!style.backgroundImage && style.externalImageURL) {
+			let node = this._borderNodes[model.id];
+			if (node) {
+				parent = node;
+			}
+			let imgCntr = this._imageNodes[model.id]
+			if (imgCntr) {
+				parent = imgCntr
+			}
+			console.debug('_set_externalImageURL', node)
+			const url = style.externalImageURL
+			parent.style.backgroundImage = `url(${url})`;
+			parent.style.backgroundSize = "100%";
+		}
+	}
+
 	renderImageIcon(model, parent) {
 		const icon = document.createElement("div");
 		css.add(parent, 'MatcImageIconPlaceholder');
 		css.add(icon, 'mdi mdi-image-outline');
 		parent.innerText = ""
 		parent.appendChild(icon)
-		if (model.style.iconPlaceholderBackground) {
+		if (model.style?.iconPlaceholderBackground) {
 			parent.style.background = model.style.iconPlaceholderBackground
 		}
 		parent.style.backgroundImage = ""
