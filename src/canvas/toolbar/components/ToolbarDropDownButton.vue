@@ -80,7 +80,7 @@ export default {
 			/**
 			 * I think here was a global bug...
 			 */
-			var selectedValue = this.render(list, this.ul);
+			const selectedValue = this.render(list, this.ul);
 			this._options = list;
 			if (selectedValue) {
 				this.setValue(selectedValue);
@@ -88,10 +88,10 @@ export default {
 		},
 
 		render(list, ul) {
-			var selectedValue = null
-			for (var i = 0; i < list.length; i++) {
-				var o = list[i];
-				var li = document.createElement("li");
+			const selectedValue = null
+			for (let i = 0; i < list.length; i++) {
+				const o = list[i];
+				const li = document.createElement("li");
 
 				if ((o.label || o.icon || o.css || o.value != null)) {
 					this.hasObjects = true;
@@ -100,13 +100,13 @@ export default {
 						li.appendChild(icon);
 					}
 					if (o.label) {
-						var lbl = document.createElement("label");
+						const lbl = document.createElement("label");
 						css.add(lbl, "MatcToolbarPopUpLabel");
 						lbl.innerHTML = o.label;
 						li.appendChild(lbl);
 
 						if (o.children) {
-							var marker = document.createElement("span");
+							const marker = document.createElement("span");
 							css.add(marker, " MatcToolbarPopupChildMarker");
 							lbl.appendChild(marker);
 						}
@@ -128,7 +128,7 @@ export default {
 					} else if (o.dialog) {
 						this.tempOwn(on(li, touch.press, lang.hitch(this, "showInputDialog", o, li)));
 					} else if (o.children) {
-						var childUL = document.createElement("ul");
+						const childUL = document.createElement("ul");
 						css.add(childUL, "MatcToolbarPopupChildren MatcToolbarPopUp");
 
 						this.render(o.children, childUL);

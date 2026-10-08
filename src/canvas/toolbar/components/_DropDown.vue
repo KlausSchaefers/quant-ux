@@ -52,15 +52,13 @@ export default {
 		/***************************************************
 		 * Template methods!
 		 ***************************************************/
-		init (){
-
+		init () {
 		},
 
-		onVisible (){
-
+		onVisible () {
 		},
 
-		onHide (){
+		onHide () {
 
 		},
 
@@ -118,7 +116,7 @@ export default {
 		/***************************************************
 		 * Hide and show methods
 		 ***************************************************/
-		showDropDown (e, forceUpdatePosition =false){
+		showDropDown (e, forceUpdatePosition = false){
 			this._ignoreHide = false;
 
 			/**
@@ -181,13 +179,18 @@ export default {
 
 		teleportToBody (forceUpdatePosition = false) {
 			try {
+				// Measure only once the popup is in the body. Inside the narrow
+				// parent its shrink-to-fit size is wrong.
+				const parent = this.popup.parentNode
+				win.body().appendChild(this.popup);
 				if (this._reposition(forceUpdatePosition)) {
 					this._popupAtBody = true;
-					this.domNode.removeChild(this.popup);
-					win.body().appendChild(this.popup);
+				} else if (parent) {
+					parent.appendChild(this.popup);
+					this._popupAtBody = false;
 				}
 			} catch(e){
-					console.error(e);
+				console.error(e);
 			}
 		},
 
@@ -205,27 +208,30 @@ export default {
 		},
 
 		_reposition (forceUpdatePosition = false) {
-			var pos = domGeom.position(this.getPopupRootNode());
+			const pos = domGeom.position(this.getPopupRootNode());
 			if (pos.x === 0) {
 				console.debug('_DropDown.teleportToBody() > Position is bad, try agound')
 				this.hideDropDown()
 				return false
 			}
 
-			if (!this.popupPos || forceUpdatePosition){
-				this.popupPos = domGeom.position(this.popup);
-			}
-			this.popupPos.h -=8
+			// Reset the position, otherwise a previous left/top value shrinks the
+			// available width, the popup wraps and the measured size is wrong.
+			this.popup.style.left = "0px"
+			this.popup.style.right = "auto"
+			this.popup.style.top = "0px"
+			this.popup.style.bottom = "auto"
+			this.popupPos = domGeom.position(this.popup);
+			this.popupPos.h -= 8
 
-			var h = win.getBox().h;
+			const h = win.getBox().h;
 			if(pos.y > h * 0.667){
 				this.popup.style.top = pos.y - (this.popupPos.h - pos.h) + "px"
-			} else if (pos.y > h* 0.33){
+			} else if (pos.y > h * 0.33){
 				this.popup.style.top = pos.y - (this.popupPos.h / 2) + "px"
 			} else {
 				this.popup.style.top = pos.y + "px"
 			}
-
 
 			this.popup.style.bottom = "auto";
 			if (this.repositionPosition === 'right') {
@@ -245,17 +251,20 @@ export default {
 				if (!this.arrow) {
 					this.arrow = document.createElement("div");
 					css.add(this.arrow, "MatcToolbarPopUpArrowCntr");
-					var triangle = document.createElement("div");
+					const triangle = document.createElement("div");
 					css.add(triangle, "MatcToolbarPopUpArrow");
 					this.arrow.appendChild(triangle);
 					this.popup.appendChild(this.arrow);
 				}
 
 				if (this.reposition) {
-					var pos = domGeom.position(this.getPopupRootNode());
-					var popupPos = domGeom.position(this.popup);
-					var y = Math.round(pos.y - popupPos.y +((pos.h-this.arrowSize)/2));
-					this.arrow.style.top = Math.min(y, (popupPos.h-8) * this.arrowSize) + "px";
+					const pos = domGeom.position(this.getPopupRootNode());
+					const popupPos = domGeom.position(this.popup);
+					const center = Math.round(pos.y - popupPos.y +((pos.h - this.arrowSize) / 2));
+					const top = this.arrowSize * 2
+					const bottom = popupPos.h - this.arrowSize * 2
+					// clamp between top and and bottom
+					this.arrow.style.top = Math.min(bottom, Math.max(center, top)) + "px";
 				}
 			}
 		},
