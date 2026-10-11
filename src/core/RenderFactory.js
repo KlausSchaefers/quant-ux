@@ -1793,10 +1793,11 @@ export default class RenderFactory extends Core {
 			if (imgCntr) {
 				parent = imgCntr
 			}
-			console.debug('_set_externalImageURL', node)
 			const url = style.externalImageURL
 			parent.style.backgroundImage = `url(${url})`;
-			parent.style.backgroundSize = "100%";
+			parent.style.backgroundSize = "cover";
+			parent.style.backgroundPosition = "center";
+			parent.style.backgroundRepeat = "no-repeat";
 		}
 	}
 

@@ -24,7 +24,12 @@ function mergeDeep(target, source) {
       const targetValue = target[key];
       const sourceValue = source[key];
       if (sourceValue && sourceValue._isInc && sourceValue.inc) {
-        target[key] = targetValue + sourceValue.inc
+        /**
+         * Make sure we do a numeric add, otherwise strings get concatenated (e.g. lastUUID)
+         */
+        const base = Number(targetValue)
+        const inc = Number(sourceValue.inc)
+        target[key] = (isNaN(base) || isNaN(inc)) ? targetValue + sourceValue.inc : base + inc
       } else if (isObject(sourceValue) && sourceValue.added && sourceValue.removed && Array.isArray(targetValue)) {
         target[key] = applyArrayDelta(targetValue, sourceValue)
       } else if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {

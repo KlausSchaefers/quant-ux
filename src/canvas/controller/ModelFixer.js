@@ -178,11 +178,20 @@ class ModelFixer {
 					max = Math.max(max, i)
 				}
 			}
+			const oldUUID = m.lastUUID
+			if (typeof oldUUID !== 'number') {
+				/**
+				 * String values would be concatenated on ++ / +, so force a number
+				 */
+				m.lastUUID = Number(oldUUID) || 0
+				errors.push({ msg: "lastUUID was not a number!" })
+				this.logger.error("fixModelCount", "fix > lastUUID not a number: " + typeof oldUUID + " > " + oldUUID)
+			}
 			if (m.lastUUID > 10000000) {
-				m.lastUUID = 1000000
+				m.lastUUID = (isNaN(max) ? 10000 : max) + 1
 				errors.push({ msg: "lastUUID to to big!" })
-				this.logger.error("fixModelCount", "fix > too big lastUUID: " + m.lastUUID)
-				this.logger.sendError(new Error("Controller.fixModelCount() > Last UUID messed up" +  m.lastUUID))
+				this.logger.error("fixModelCount", "fix > too big lastUUID: " + oldUUID)
+				this.logger.sendError(new Error("Controller.fixModelCount() > Last UUID messed up: " + typeof oldUUID + " > " + oldUUID))
 			} else {
 				this.logger.log(4, "fixModelCount", "exit > " + max + " ?= " + m.lastUUID + " == " + (max > m.lastUUID))
 				if (max > m.lastUUID) {

@@ -305,6 +305,7 @@ function mergeTemplates (model, importModel) {
 }
 
 function updateUUID (prefix, element, model) {
+  model.lastUUID = Number(model.lastUUID) || 10000
   var uuid = model.lastUUID++ +  "_" + Math.round(Math.random() * 100000);
   element.importSourceId = element.id
   element.id = prefix + uuid
