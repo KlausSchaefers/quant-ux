@@ -28,8 +28,8 @@
 			</div>
 			<div class=" " @click="toggleLinked()">
 				<template v-if="mode == 'all'">
-					<QIcon icon="LinkOff" v-if="isLinked"></QIcon>
-					<QIcon icon="Link" v-else></QIcon>
+					<QIcon icon="Link" v-if="isLinked"></QIcon>
+					<QIcon icon="LinkOff" v-else></QIcon>
 				</template>
 			</div>
 	
