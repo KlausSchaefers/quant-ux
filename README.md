@@ -169,6 +169,11 @@ You can deploy an instance of Quant UX with one click on RepoCloud.
  
 [![Deploy](https://d16t0pc4846x52.cloudfront.net/deploylobe.svg)](https://repocloud.io/details/?app_id=302)
 
+### ZopDay
+You can deploy an instance of Quant UX with one click on ZopDay, either on ZopCloud or into an AWS or GCP account you already own. The button opens the deploy screen for the front-end image; the backend, websocket and MongoDB services are added alongside it, or deployed together as a Helm chart into your own Kubernetes cluster.
+ 
+[![Deploy on ZopDay](https://zop.dev/deploytozopday-inkhard.svg)](https://zop.dev/zopday/app/deploy?image=klausenschaefersinho/quant-ux:latest&port=8082)
+
 
 ## Kubernets
 
